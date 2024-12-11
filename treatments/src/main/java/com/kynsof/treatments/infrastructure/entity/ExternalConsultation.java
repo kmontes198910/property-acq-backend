@@ -113,7 +113,7 @@ public class ExternalConsultation {
         this.referenceNumber = dto.getReferenceNumber() != null ? dto.getReferenceNumber() : GeneratorRandomNumber.generateRandomSecurity();
         this.optometryExams = dto.getOptometryExams() != null ? dto.getOptometryExams().stream().map(oe -> {
             OptometryExam optometryExam = new OptometryExam();
-            optometryExam.setId(UUID.randomUUID());
+            optometryExam.setId(oe.getId() != null ? oe.getId() : UUID.randomUUID()); // Usa el ID existente o genera uno nuevo
             optometryExam.setSphereOd(oe.getSphereOd());
             optometryExam.setCylinderOd(oe.getCylinderOd());
             optometryExam.setAxisOd(oe.getAxisOd());
@@ -129,7 +129,12 @@ public class ExternalConsultation {
             optometryExam.setDv(oe.getDv());
             optometryExam.setFilter(oe.getFilter());
             optometryExam.setCurrent(oe.isCurrent());
-            optometryExam.setExternalConsultation(this);
+            optometryExam.setAvccAdd(oe.getAvccAdd());
+            optometryExam.setSphereAdd(oe.getSphereAdd());
+            optometryExam.setCylinderAdd(oe.getCylinderAdd());
+            optometryExam.setAvscAdd(oe.getAvscAdd());
+            optometryExam.setAxisAdd(oe.getAxisAdd());
+            optometryExam.setExternalConsultation(this); // Asocia con la consulta externa actual
             return optometryExam;
         }).toList() : new ArrayList<>();
     }
