@@ -32,6 +32,8 @@ public class OptometryExamResponse implements IResponse {
     private String cylinderAdd;
     private String avscAdd;
     private String axisAdd;
+    private boolean isCurrent;
+
 
     public OptometryExamResponse(OptometryExamDto dto) {
         this.id = dto.getId();
@@ -54,5 +56,6 @@ public class OptometryExamResponse implements IResponse {
         this.cylinderAdd = dto.getCylinderAdd();
         this.avscAdd = dto.getAvscAdd();
         this.axisAdd = dto.getAxisAdd();
+        this.isCurrent = dto.isCurrent();
     }
 }

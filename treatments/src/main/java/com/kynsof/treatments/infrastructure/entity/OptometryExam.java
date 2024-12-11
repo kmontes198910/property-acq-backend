@@ -91,23 +91,6 @@ public class OptometryExam {
     @UpdateTimestamp
     private LocalDateTime updatedAt;
 
-    public OptometryExam(OptometryExamDto dto) {
-        this.sphereOd = dto.getSphereOd();
-        this.cylinderOd = dto.getCylinderOd();
-        this.axisOd = dto.getAxisOd();
-        this.avscOd = dto.getAvscOd();
-        this.avccOd = dto.getAvccOd();
-        this.sphereOi = dto.getSphereOi();
-        this.cylinderOi = dto.getCylinderOi();
-        this.axisOi = dto.getAxisOi();
-        this.avscOi = dto.getAvscOi();
-        this.avccOi = dto.getAvccOi();
-        this.addPower = dto.getAddPower();
-        this.dp = dto.getDp();
-        this.dv = dto.getDv();
-        this.filter = dto.getFilter();
-    }
-
     // Método para convertir a DTO (si es necesario)
     public OptometryExamDto toAggregate() {
         return new OptometryExamDto(
