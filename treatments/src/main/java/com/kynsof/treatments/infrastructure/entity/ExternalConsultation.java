@@ -149,6 +149,7 @@ public class ExternalConsultation {
 
         List<OptometryExamDto> optometryExamDtoList = this.getOptometryExams().stream()
                 .map(optometryExam -> new OptometryExamDto(
+                        optometryExam.getId(),
                         optometryExam.getSphereOd(),
                         optometryExam.getCylinderOd(),
                         optometryExam.getAxisOd(),
