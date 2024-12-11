@@ -1,5 +1,6 @@
-package com.kynsof.treatments.application.command.externalConsultation.updateAll;
+package com.kynsof.treatments.application.command.externalConsultation.update;
 
+import com.kynsof.treatments.application.command.externalConsultation.create.OptometryExamRequest;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -16,4 +17,5 @@ public class UpdateExternalConsultationAllRequest {
     private UpdateExamOrderAllRequest examOrder;
     private List<UpdateDiagnosisAllRequest> diagnosis;
     private List<UpdateTreatmentAllRequest> treatments;
+    private List<OptometryExamRequest> optometryExams;
 }

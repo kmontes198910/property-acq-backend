@@ -1,4 +1,4 @@
-package com.kynsof.treatments.application.command.externalConsultation.updateAll;
+package com.kynsof.treatments.application.command.externalConsultation.update;
 
 import com.kynsof.share.core.domain.RulesChecker;
 import com.kynsof.share.core.domain.bus.command.ICommandHandler;
@@ -10,6 +10,7 @@ import com.kynsof.treatments.domain.rules.externalconsultation.ExternalConsultat
 import com.kynsof.treatments.domain.service.*;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -58,6 +59,29 @@ public class UpdateExternalConsultationAllCommandHandler implements ICommandHand
                     treatmentRequest.getMedicineUnit()
             );
         }).toList();
+        List<OptometryExamDto> optometryExamDtoList = command.getOptometryExams() != null ? command.getOptometryExams().stream()
+                .map(optometryExamRequest -> new OptometryExamDto(
+                        optometryExamRequest.getSphereOd(),
+                        optometryExamRequest.getCylinderOd(),
+                        optometryExamRequest.getAxisOd(),
+                        optometryExamRequest.getAvscOd(),
+                        optometryExamRequest.getAvccOd(),
+                        optometryExamRequest.getSphereOi(),
+                        optometryExamRequest.getCylinderOi(),
+                        optometryExamRequest.getAxisOi(),
+                        optometryExamRequest.getAvscOi(),
+                        optometryExamRequest.getAvccOi(),
+                        optometryExamRequest.getAddPower(),
+                        optometryExamRequest.getDp(),
+                        optometryExamRequest.getDv(),
+                        optometryExamRequest.getFilter(),
+                        optometryExamRequest.isCurrent(),
+                        optometryExamRequest.getAvccAdd(),
+                        optometryExamRequest.getSphereAdd(),
+                        optometryExamRequest.getCylinderAdd(),
+                        optometryExamRequest.getAvscAdd(),
+                        optometryExamRequest.getAxisAdd()
+                )).toList() : new ArrayList<>();
 
         List<ExamDto> examDtoList = command.getExamOrder().getExams().stream()
                 .map(examRequest -> new ExamDto(
@@ -83,6 +107,7 @@ public class UpdateExternalConsultationAllCommandHandler implements ICommandHand
         externalConsultationDto.setTreatments(treatmentDtoList);
         externalConsultationDto.setDiagnoses(diagnosisDtoList);
         externalConsultationDto.setExamOrder(examOrderDto);
+        externalConsultationDto.setOptometryExams(optometryExamDtoList);
 
         UpdateIfNotNull.updateIfNotNull(externalConsultationDto::setConsultationReason, command.getConsultationReason());
         UpdateIfNotNull.updateIfNotNull(externalConsultationDto::setMedicalHistory, command.getMedicalHistory());

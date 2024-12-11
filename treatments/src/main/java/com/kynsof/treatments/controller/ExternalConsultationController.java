@@ -8,9 +8,9 @@ import com.kynsof.treatments.application.command.externalConsultation.create.Cre
 import com.kynsof.treatments.application.command.externalConsultation.create.CreateExternalConsultationRequest;
 import com.kynsof.treatments.application.command.externalConsultation.delete.PatientExternalConsultationMessage;
 import com.kynsof.treatments.application.command.externalConsultation.delete.PatientsExternalConsultationCommand;
-import com.kynsof.treatments.application.command.externalConsultation.updateAll.UpdateExternalConsultationAllCommand;
-import com.kynsof.treatments.application.command.externalConsultation.updateAll.UpdateExternalConsultationAllMessage;
-import com.kynsof.treatments.application.command.externalConsultation.updateAll.UpdateExternalConsultationAllRequest;
+import com.kynsof.treatments.application.command.externalConsultation.update.UpdateExternalConsultationAllCommand;
+import com.kynsof.treatments.application.command.externalConsultation.update.UpdateExternalConsultationAllMessage;
+import com.kynsof.treatments.application.command.externalConsultation.update.UpdateExternalConsultationAllRequest;
 import com.kynsof.treatments.application.query.externalConsultation.getById.FindByIdExternalConsultationQuery;
 import com.kynsof.treatments.application.query.externalConsultation.getall.ExternalConsultationResponse;
 import com.kynsof.treatments.application.query.externalConsultation.getall.GetAllExternalConsultationQuery;

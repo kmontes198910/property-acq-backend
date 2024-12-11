@@ -1,7 +1,8 @@
-package com.kynsof.treatments.application.command.externalConsultation.updateAll;
+package com.kynsof.treatments.application.command.externalConsultation.update;
 
 import com.kynsof.share.core.domain.bus.command.ICommand;
 import com.kynsof.share.core.domain.bus.command.ICommandMessage;
+import com.kynsof.treatments.application.command.externalConsultation.create.OptometryExamRequest;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -21,11 +22,12 @@ public class UpdateExternalConsultationAllCommand implements ICommand {
     private final UpdateExamOrderAllRequest examOrder;
     private final List<UpdateDiagnosisAllRequest> diagnosis;
     private final List<UpdateTreatmentAllRequest> treatments;
+    private final List<OptometryExamRequest> optometryExams;
 
     public UpdateExternalConsultationAllCommand(UUID id, String consultationReason,
                                                 String medicalHistory, String physicalExam, String observations,
-                                                UpdateExamOrderAllRequest examOrder,List<UpdateDiagnosisAllRequest> diagnosis,
-                                                List<UpdateTreatmentAllRequest> treatments, String medicalSpeciality) {
+                                                UpdateExamOrderAllRequest examOrder, List<UpdateDiagnosisAllRequest> diagnosis,
+                                                List<UpdateTreatmentAllRequest> treatments, String medicalSpeciality, List<OptometryExamRequest> optometryExams) {
 
         this.id = id;
         this.consultationReason = consultationReason;
@@ -36,11 +38,13 @@ public class UpdateExternalConsultationAllCommand implements ICommand {
         this.treatments = treatments;
         this.examOrder = examOrder;
         this.medicalSpeciality = medicalSpeciality;
+        this.optometryExams = optometryExams;
     }
 
     public static UpdateExternalConsultationAllCommand fromRequest(UUID id,UpdateExternalConsultationAllRequest request) {
         return new UpdateExternalConsultationAllCommand(id, request.getConsultationReason(), request.getMedicalHistory(), request.getPhysicalExam(),
-                request.getObservations(), request.getExamOrder(), request.getDiagnosis(), request.getTreatments(), request.getMedicalSpeciality());
+                request.getObservations(), request.getExamOrder(), request.getDiagnosis(), request.getTreatments(), request.getMedicalSpeciality(),
+                request.getOptometryExams());
     }
 
     @Override
