@@ -15,10 +15,13 @@ public class MedicinesResponse implements IResponse {
 
     private UUID id;
     private String name;
+    private String presentation;
+
 
     public MedicinesResponse(MedicinesDto medicinesDto) {
         this.id = medicinesDto.getId();
         this.name = medicinesDto.getName();
+        this.presentation = medicinesDto.getPresentation();
     }
 
 }
