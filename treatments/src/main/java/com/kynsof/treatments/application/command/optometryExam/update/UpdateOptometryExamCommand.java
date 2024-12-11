@@ -26,10 +26,13 @@ public class UpdateOptometryExamCommand implements ICommand {
     private final String dv;
     private final String filter;
     private final Boolean isCurrent;
+    private final String avccAdd;
+    private final String sphereAdd;
+    private final String cylinderAdd;
 
     public UpdateOptometryExamCommand(UUID id, String sphereOd, String cylinderOd, String axisOd, String avscOd,
                                       String avccOd, String sphereOi, String cylinderOi, String axisOi, String avscOi,
-                                      String avccOi, String addPower, String dp, String dv, String filter, Boolean isCurrent) {
+                                      String avccOi, String addPower, String dp, String dv, String filter, Boolean isCurrent, String avccAdd, String sphereAdd, String cylinderAdd) {
         this.id = id;
         this.sphereOd = sphereOd;
         this.cylinderOd = cylinderOd;
@@ -46,6 +49,9 @@ public class UpdateOptometryExamCommand implements ICommand {
         this.dv = dv;
         this.filter = filter;
         this.isCurrent = isCurrent;
+        this.avccAdd = avccAdd;
+        this.sphereAdd = sphereAdd;
+        this.cylinderAdd = cylinderAdd;
     }
 
     public static UpdateOptometryExamCommand fromRequest(UpdateOptometryExamRequest request, UUID id) {
@@ -65,8 +71,10 @@ public class UpdateOptometryExamCommand implements ICommand {
                 request.getDp(),
                 request.getDv(),
                 request.getFilter(),
-                request.isCurrent()
-        );
+                request.isCurrent(),
+                request.getAvccAdd(),
+                request.getSphereAdd(),
+                request.getCylinderAdd() );
     }
 
     @Override

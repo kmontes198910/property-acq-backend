@@ -32,6 +32,15 @@ public class OptometryExam {
     @Column(name = "cylinder_od")
     private String cylinderOd;
 
+    @Column(name = "cylinder_add")
+    private String cylinderAdd;
+
+    @Column(name = "sphere_add")
+    private String sphereAdd;
+
+    @Column(name = "avcc_add")
+    private String avccAdd;
+
     @Column(name = "axis_od")
     private String axisOd;
 
@@ -112,7 +121,10 @@ public class OptometryExam {
                 this.dp,
                 this.dv,
                 this.filter,
-                this.isCurrent
+                this.isCurrent,
+                this.avccAdd,
+                this.sphereAdd,
+                this.cylinderAdd
         );
     }
 }

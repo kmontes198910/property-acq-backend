@@ -92,7 +92,10 @@ public class CreateExternalConsultationCommandHandler implements ICommandHandler
                         optometryExamRequest.getDp(),
                         optometryExamRequest.getDv(),
                         optometryExamRequest.getFilter(),
-                        optometryExamRequest.isCurrent()
+                        optometryExamRequest.isCurrent(),
+                        optometryExamRequest.getAvccAdd(),
+                        optometryExamRequest.getSphereAdd(),
+                        optometryExamRequest.getCylinderAdd()
                 )).toList() : new ArrayList<>();
 
         UUID id = externalConsultationService.createAll(new ExternalConsultationDto(

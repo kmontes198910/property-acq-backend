@@ -104,7 +104,10 @@ public class OptometryExamServiceImpl implements IOptometryExamService {
                 exam.getDp(),
                 exam.getDv(),
                 exam.getFilter(),
-                exam.isCurrent()
+                exam.isCurrent(),
+                exam.getAvccAdd(),
+                exam.getSphereAdd(),
+                exam.getCylinderAdd()
         );
     }
 
@@ -126,6 +129,9 @@ public class OptometryExamServiceImpl implements IOptometryExamService {
         exam.setDv(dto.getDv());
         exam.setFilter(dto.getFilter());
         exam.setCurrent(dto.isCurrent());
+        exam.setAvccAdd(dto.getAvccAdd());
+        exam.setSphereAdd(dto.getSphereAdd());
+        exam.setCylinderAdd(dto.getCylinderAdd());
         return exam;
     }
 }

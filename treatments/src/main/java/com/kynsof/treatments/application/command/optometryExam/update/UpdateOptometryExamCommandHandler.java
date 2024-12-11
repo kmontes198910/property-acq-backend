@@ -32,6 +32,9 @@ public class UpdateOptometryExamCommandHandler implements ICommandHandler<Update
         existingExam.setDv(command.getDv());
         existingExam.setFilter(command.getFilter());
         existingExam.setCurrent(command.getIsCurrent());
+        existingExam.setAvccAdd(command.getAvccAdd());
+        existingExam.setSphereAdd(command.getSphereAdd());
+        existingExam.setCylinderAdd(command.getCylinderAdd());
         service.update(existingExam);
     }
 }

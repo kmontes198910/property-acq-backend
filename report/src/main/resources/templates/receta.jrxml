@@ -348,7 +348,7 @@ FROM public.externalconsultation
 					<text><![CDATA[CANTIDAD]]></text>
 				</staticText>
 				<staticText>
-					<reportElement mode="Opaque" x="440" y="0" width="240" height="30" backcolor="#D9F0FA" uuid="c032ada9-6d5b-499b-9619-302c79d1ec18">
+					<reportElement mode="Opaque" x="440" y="0" width="360" height="30" backcolor="#D9F0FA" uuid="c032ada9-6d5b-499b-9619-302c79d1ec18">
 						<property name="com.jaspersoft.studio.unit.leftIndent" value="px"/>
 					</reportElement>
 					<box leftPadding="1"/>
@@ -357,17 +357,6 @@ FROM public.externalconsultation
 						<paragraph leftIndent="2"/>
 					</textElement>
 					<text><![CDATA[INDICACIONES]]></text>
-				</staticText>
-				<staticText>
-					<reportElement mode="Opaque" x="680" y="0" width="120" height="30" backcolor="#D9F0FA" uuid="6502f191-37f6-4c25-99d1-6ebaaadde721">
-						<property name="com.jaspersoft.studio.unit.leftIndent" value="px"/>
-					</reportElement>
-					<box leftPadding="1"/>
-					<textElement textAlignment="Left" verticalAlignment="Middle">
-						<font size="12" isBold="true"/>
-						<paragraph leftIndent="2"/>
-					</textElement>
-					<text><![CDATA[TTO CONTINUO]]></text>
 				</staticText>
 			</frame>
 		</band>
@@ -402,7 +391,7 @@ FROM public.externalconsultation
 				<textFieldExpression><![CDATA[$F{quantity}]]></textFieldExpression>
 			</textField>
 			<textField textAdjust="StretchHeight" isBlankWhenNull="true">
-				<reportElement x="440" y="0" width="240" height="30" uuid="e985886e-90ac-4752-9cc7-ab502ef8e566">
+				<reportElement x="440" y="0" width="360" height="30" uuid="e985886e-90ac-4752-9cc7-ab502ef8e566">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="5ff8fe0e-6d81-4741-be3d-7daf3a8e4e18"/>
 					<property name="com.jaspersoft.studio.unit.leftIndent" value="px"/>
 				</reportElement>
@@ -422,16 +411,6 @@ FROM public.externalconsultation
 					<paragraph leftIndent="2"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{presentation}]]></textFieldExpression>
-			</textField>
-			<textField textAdjust="StretchHeight" isBlankWhenNull="true">
-				<reportElement x="680" y="0" width="120" height="30" uuid="6a78cb19-44c8-4b30-a224-97f66e9217ac">
-					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="5ff8fe0e-6d81-4741-be3d-7daf3a8e4e18"/>
-					<property name="com.jaspersoft.studio.unit.leftIndent" value="px"/>
-				</reportElement>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="12"/>
-					<paragraph leftIndent="2"/>
-				</textElement>
 			</textField>
 		</band>
 	</detail>

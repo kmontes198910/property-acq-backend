@@ -24,4 +24,7 @@ public class CreateOptometryExamRequest {
     private String dv;
     private String filter;
     private boolean isCurrent;
+    private String avccAdd;
+    private String sphereAdd;
+    private String cylinderAdd;
 }

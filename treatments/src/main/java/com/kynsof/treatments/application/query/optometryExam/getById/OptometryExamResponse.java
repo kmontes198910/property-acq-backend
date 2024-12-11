@@ -27,6 +27,9 @@ public class OptometryExamResponse implements IResponse {
     private String dp;
     private String dv;
     private String filter;
+    private String avccAdd;
+    private String sphereAdd;
+    private String cylinderAdd;
 
     public OptometryExamResponse(OptometryExamDto dto) {
         this.id = dto.getId();
@@ -44,5 +47,8 @@ public class OptometryExamResponse implements IResponse {
         this.dp = dto.getDp();
         this.dv = dto.getDv();
         this.filter = dto.getFilter();
+        this.avccAdd = dto.getAvccAdd();
+        this.sphereAdd = dto.getSphereAdd();
+        this.cylinderAdd = dto.getCylinderAdd();
     }
 }

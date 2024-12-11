@@ -163,7 +163,10 @@ public class ExternalConsultation {
                         optometryExam.getDp(),
                         optometryExam.getDv(),
                         optometryExam.getFilter(),
-                        optometryExam.isCurrent()
+                        optometryExam.isCurrent(),
+                        optometryExam.getAvccAdd(),
+                        optometryExam.getSphereAdd(),
+                        optometryExam.getCylinderAdd()
                 )).toList();
 
         return new ExternalConsultationDto(this.id, this.patient.toAggregate(), this.doctor.toAggregate(),
