@@ -305,7 +305,7 @@ FROM public.externalconsultation
 						<font size="13" isBold="true"/>
 						<paragraph leftIndent="2"/>
 					</textElement>
-					<textFieldExpression><![CDATA["Registro: " + $F{registernumber}]]></textFieldExpression>
+					<textFieldExpression><![CDATA["Cédula: " + $F{registernumber}]]></textFieldExpression>
 				</textField>
 			</frame>
 		</band>
