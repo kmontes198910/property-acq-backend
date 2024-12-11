@@ -36,6 +36,7 @@ public class Medicines {
     public Medicines(MedicinesDto medicine) {
         this.id = medicine.getId();
         this.name = medicine.getName();
+        this.presentation = medicine.getPresentation();
     }
 
     public MedicinesDto toAggregate() {
