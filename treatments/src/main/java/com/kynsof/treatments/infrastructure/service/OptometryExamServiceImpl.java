@@ -59,6 +59,12 @@ public class OptometryExamServiceImpl implements IOptometryExamService {
     }
 
     @Override
+    public OptometryExamDto getLastCurrentExamByPatient(UUID patientId) {
+        return repositoryQuery.findTopByExternalConsultationPatientIdAndIsCurrentTrueOrderByCreatedAtDesc(patientId)
+                .map(this::mapToDto)
+                .orElse(null);
+    }
+    @Override
     public PaginatedResponse search(Pageable pageable, List<FilterCriteria> filterCriteria) {
         filterCriteria.forEach(filter -> {
             if ("status".equals(filter.getKey()) && filter.getValue() instanceof String) {
@@ -134,6 +140,9 @@ public class OptometryExamServiceImpl implements IOptometryExamService {
         exam.setAvccAdd(dto.getAvccAdd());
         exam.setSphereAdd(dto.getSphereAdd());
         exam.setCylinderAdd(dto.getCylinderAdd());
+        exam.setAvscAdd(dto.getAvscAdd());
+        exam.setAxisAdd(dto.getAxisAdd());
+        exam.setCurrent(dto.isCurrent());
         return exam;
     }
 }

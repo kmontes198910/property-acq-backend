@@ -7,8 +7,11 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
+import java.util.Optional;
 import java.util.UUID;
 
 public interface OptometryExamenReadDataJPARepository extends JpaRepository<OptometryExam, UUID>, JpaSpecificationExecutor<OptometryExam> {
     Page<OptometryExam> findAll(Specification specification, Pageable pageable);
+
+    Optional<OptometryExam> findTopByExternalConsultationPatientIdAndIsCurrentTrueOrderByCreatedAtDesc(UUID patientId);
 }

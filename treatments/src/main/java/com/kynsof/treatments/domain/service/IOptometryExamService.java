@@ -16,4 +16,5 @@ public interface IOptometryExamService {
     void delete(UUID id);
 
     PaginatedResponse search(Pageable pageable, List<FilterCriteria> filter);
+    OptometryExamDto getLastCurrentExamByPatient(UUID patientId);
 }

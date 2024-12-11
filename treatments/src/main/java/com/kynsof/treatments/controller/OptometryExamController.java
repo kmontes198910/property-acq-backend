@@ -14,6 +14,7 @@ import com.kynsof.treatments.application.command.optometryExam.update.UpdateOpto
 import com.kynsof.treatments.application.command.optometryExam.update.UpdateOptometryExamRequest;
 import com.kynsof.treatments.application.query.optometryExam.getById.FindByIdOptometryExamQuery;
 import com.kynsof.treatments.application.query.optometryExam.getById.OptometryExamResponse;
+import com.kynsof.treatments.application.query.optometryExam.getByPatientId.FindByPatientIdOptometryExamQuery;
 import com.kynsof.treatments.application.query.optometryExam.search.GetSearchOptometryExamQuery;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
@@ -46,6 +47,15 @@ public class OptometryExamController {
 
         return ResponseEntity.ok(response);
     }
+
+    @GetMapping(path = "/patient/{id}")
+    public ResponseEntity<?> getByPatientId(@PathVariable UUID id) {
+        FindByPatientIdOptometryExamQuery query = new FindByPatientIdOptometryExamQuery(id);
+        OptometryExamResponse response = mediator.send(query);
+
+        return ResponseEntity.ok(response);
+    }
+
 
     @PostMapping("/search")
     public ResponseEntity<PaginatedResponse> search(@RequestBody SearchRequest request) {
