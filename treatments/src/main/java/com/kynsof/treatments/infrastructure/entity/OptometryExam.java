@@ -59,8 +59,13 @@ public class OptometryExam {
     @Column(name = "axis_oi")
     private String axisOi;
 
+    @Column(name = "axis_a")
+    private String axisAdd;
+
     @Column(name = "avsc_oi")
     private String avscOi;
+    @Column(name = "avsc_add")
+    private String avscAdd;
 
     @Column(name = "avcc_oi")
     private String avccOi;
@@ -124,7 +129,9 @@ public class OptometryExam {
                 this.isCurrent,
                 this.avccAdd,
                 this.sphereAdd,
-                this.cylinderAdd
+                this.cylinderAdd,
+                this.avscAdd,
+                this.axisAdd
         );
     }
 }

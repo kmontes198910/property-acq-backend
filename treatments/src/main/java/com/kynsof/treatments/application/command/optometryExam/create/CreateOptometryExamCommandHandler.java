@@ -24,7 +24,7 @@ public class CreateOptometryExamCommandHandler implements ICommandHandler<Create
                 command.getAvccOd(), command.getSphereOi(), command.getCylinderOi(), command.getAxisOi(),
                 command.getAvscOi(), command.getAvccOi(), command.getAddPower(), command.getDp(),
                 command.getDv(), command.getFilter(), command.isCurrent(),command.getAvccAdd(),
-                command.getSphereAdd(), command.getCylinderAdd()
+                command.getSphereAdd(), command.getCylinderAdd(), command.getAvscAdd(), command.getAxisAdd()
         );
 
         examDto.setId(id);

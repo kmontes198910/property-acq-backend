@@ -31,11 +31,13 @@ public class CreateOptometryExamCommand implements ICommand {
     private final String avccAdd;
     private final String sphereAdd;
     private final String cylinderAdd;
+    private final String avscAdd;
+    private final String axisAdd;
 
     public CreateOptometryExamCommand(UUID externalConsultationId, String sphereOd, String cylinderOd, String axisOd, String avscOd,
                                       String avccOd, String sphereOi, String cylinderOi, String axisOi, String avscOi,
                                       String avccOi, String addPower, String dp, String dv, String filter,
-                                      boolean isCurrent, String avccAdd, String sphereAdd, String cylinderAdd) {
+                                      boolean isCurrent, String avccAdd, String sphereAdd, String cylinderAdd, String avscAdd, String axisAdd) {
         this.externalConsultationId = externalConsultationId;
         this.sphereOd = sphereOd;
         this.cylinderOd = cylinderOd;
@@ -55,6 +57,8 @@ public class CreateOptometryExamCommand implements ICommand {
         this.avccAdd = avccAdd;
         this.sphereAdd = sphereAdd;
         this.cylinderAdd = cylinderAdd;
+        this.avscAdd = avscAdd;
+        this.axisAdd = axisAdd;
     }
 
     public static CreateOptometryExamCommand fromRequest(CreateOptometryExamRequest request) {
@@ -64,7 +68,7 @@ public class CreateOptometryExamCommand implements ICommand {
                 request.getAvccOd(), request.getSphereOi(), request.getCylinderOi(), request.getAxisOi(),
                 request.getAvscOi(), request.getAvccOi(), request.getAddPower(), request.getDp(),
                 request.getDv(), request.getFilter(), request.isCurrent(),request.getCylinderAdd()
-                , request.getSphereAdd(), request.getCylinderAdd() );
+                , request.getSphereAdd(), request.getCylinderAdd(),request.getAvscAdd() , request.getAxisAdd() );
     }
 
     @Override

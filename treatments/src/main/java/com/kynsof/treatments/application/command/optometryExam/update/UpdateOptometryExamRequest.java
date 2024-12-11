@@ -24,4 +24,6 @@ public class UpdateOptometryExamRequest {
     private String avccAdd;
     private String sphereAdd;
     private String cylinderAdd;
+    private String avscAdd;
+    private String axisAdd;
 }

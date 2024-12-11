@@ -30,6 +30,8 @@ public class OptometryExamResponse implements IResponse {
     private String avccAdd;
     private String sphereAdd;
     private String cylinderAdd;
+    private String avscAdd;
+    private String axisAdd;
 
     public OptometryExamResponse(OptometryExamDto dto) {
         this.id = dto.getId();
@@ -50,5 +52,7 @@ public class OptometryExamResponse implements IResponse {
         this.avccAdd = dto.getAvccAdd();
         this.sphereAdd = dto.getSphereAdd();
         this.cylinderAdd = dto.getCylinderAdd();
+        this.avscAdd = dto.getAvscAdd();
+        this.axisAdd = dto.getAxisAdd();
     }
 }

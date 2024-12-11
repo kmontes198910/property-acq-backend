@@ -31,11 +31,14 @@ public class OptometryExamDto {
     private String avccAdd;
     private String sphereAdd;
     private String cylinderAdd;
+    private String avscAdd;
+    private String axisAdd;
 
     public OptometryExamDto(String sphereOd, String cylinderOd, String axisOd, String avscOd, String avccOd,
                             String sphereOi, String cylinderOi, String axisOi, String avscOi, String avccOi,
                             String addPower, String dp, String dv, String filter, boolean isCurrent,
-                            String avccAdd, String sphereAdd, String cylinderAdd) {
+                            String avccAdd, String sphereAdd, String cylinderAdd,
+                            String avscAdd, String axisAdd) {
         this.sphereOd = sphereOd;
         this.cylinderOd = cylinderOd;
         this.axisOd = axisOd;
@@ -54,5 +57,7 @@ public class OptometryExamDto {
         this.avccAdd = avccAdd;
         this.sphereAdd = sphereAdd;
         this.cylinderAdd = cylinderAdd;
+        this.avscAdd = avscAdd;
+        this.axisAdd = axisAdd;
     }
 }

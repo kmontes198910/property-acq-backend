@@ -107,7 +107,9 @@ public class OptometryExamServiceImpl implements IOptometryExamService {
                 exam.isCurrent(),
                 exam.getAvccAdd(),
                 exam.getSphereAdd(),
-                exam.getCylinderAdd()
+                exam.getCylinderAdd(),
+                exam.getAvscAdd(),
+                exam.getAxisAdd()
         );
     }
 
