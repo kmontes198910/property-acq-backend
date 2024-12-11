@@ -61,7 +61,10 @@ public class OptometryExamServiceImpl implements IOptometryExamService {
     @Override
     public OptometryExamDto getLastCurrentExamByPatient(UUID patientId) {
         return repositoryQuery.findTopByExternalConsultationPatientIdAndIsCurrentTrueOrderByCreatedAtDesc(patientId)
-                .map(this::mapToDto)
+                .map(exam -> {
+                    exam.setCurrent(false); // Cambia el campo isCurrent a false
+                    return mapToDto(exam); // Convierte la entidad a DTO
+                })
                 .orElse(null);
     }
     @Override
