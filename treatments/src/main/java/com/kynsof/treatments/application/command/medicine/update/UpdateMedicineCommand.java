@@ -13,16 +13,19 @@ public class UpdateMedicineCommand implements ICommand {
 
     private UUID id;
     private String name;
+    private final String presentation;
 
-    public UpdateMedicineCommand(String name, UUID id) {
+    public UpdateMedicineCommand(String name, UUID id, String presentation) {
         this.id = id;
         this.name = name;
+        this.presentation = presentation;
     }
 
     public static UpdateMedicineCommand fromRequest(UpdateMedicineRequest request, UUID id) {
         return new UpdateMedicineCommand(
                 request.getName(),
-                id
+                id,
+                request.getPresentation()
         );
     }
 

@@ -23,6 +23,7 @@ public class UpdateMedicineCommandHandler implements ICommandHandler<UpdateMedic
         MedicinesDto update = this.serviceImpl.findById(command.getId());
 
         UpdateIfNotNull.updateIfStringNotNull(update::setName, command.getName());
+        UpdateIfNotNull.updateIfStringNotNull(update::setPresentation, command.getPresentation());
 
         this.serviceImpl.update(update);
     }
