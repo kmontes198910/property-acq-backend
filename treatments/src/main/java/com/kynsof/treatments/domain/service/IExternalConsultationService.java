@@ -26,4 +26,5 @@ public interface IExternalConsultationService {
     PaginatedResponse search(Pageable pageable, List<FilterCriteria> filter);
 
     Long countConsultationsByBusinessAndDateRange(UUID businessId, Date startDate, Date endDate);
+    List<Long> getConsultationsCountByMonth(UUID businessId,int year);
 }

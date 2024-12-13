@@ -21,9 +21,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
-import java.util.Date;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -107,5 +105,22 @@ public class ExternalConsultationServiceImpl implements IExternalConsultationSer
     @Override
     public Long countConsultationsByBusinessAndDateRange(UUID businessId, Date startDate, Date endDate) {
         return this.repositoryQuery.countConsultationsByBusinessAndDateRange(businessId, startDate, endDate);
+    }
+
+    @Override
+    public List<Long> getConsultationsCountByMonth(UUID businessId,int year) {
+        List<Object[]> results = repositoryQuery.countConsultationsByMonth(businessId,year);
+
+        // Crear una lista con 12 meses inicializados en 0
+        List<Long> monthlyCounts = new ArrayList<>(Collections.nCopies(12, 0L));
+
+        // Llenar la lista con los valores obtenidos
+        results.forEach(result -> {
+            int month = (int) result[0] - 1; // Los meses en Java van de 0 a 11
+            long count = (long) result[1];
+            monthlyCounts.set(month, count);
+        });
+
+        return monthlyCounts;
     }
 }
