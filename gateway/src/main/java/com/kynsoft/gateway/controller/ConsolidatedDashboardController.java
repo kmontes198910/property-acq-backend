@@ -79,7 +79,7 @@ public class ConsolidatedDashboardController {
 
         Mono<Map<String, Object>> consultationsByMonth = webClient
                 .get()
-                .uri("http://treatments-service:9906/api/dashboard/external-consultation-count-by-month?businessId=" + businessId + "&year=" + currentYear)
+                .uri("http://treatments-service:9909/api/dashboard/external-consultation-count-by-month?businessId=" + businessId + "&year=" + currentYear)
                 .retrieve()
                 .bodyToMono(new ParameterizedTypeReference<Map<String, Object>>() {})
                 .onErrorResume(e -> Mono.just(Map.of("error", "Error fetching consultations: " + e.getMessage())));
