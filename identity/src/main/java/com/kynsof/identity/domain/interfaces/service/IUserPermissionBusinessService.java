@@ -7,6 +7,7 @@ import com.kynsof.share.core.domain.response.PaginatedResponse;
 import org.springframework.data.domain.Pageable;
 
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 public interface IUserPermissionBusinessService {
@@ -18,11 +19,9 @@ public interface IUserPermissionBusinessService {
 
     PaginatedResponse search(Pageable pageable, List<FilterCriteria> filterCriteria);
 
-    List<UserPermissionBusinessDto> findByUserAndBusiness(UUID userSystemId, UUID businessId);
-
     List<PermissionDto> getPermissionsForUserAndBusiness(UUID userId, UUID businessId);
 
     Long countByUserAndBusiness(UUID userId, UUID businessId);
 
-    Long countByUserAndBusinessNotDeleted(UUID userId, UUID businessId);
+    List<Map<String, Object>> countActiveUsersByTypeForBusiness(UUID businessId);
 }

@@ -1,8 +1,8 @@
 package com.kynsof.treatments.controller;
 
 import com.kynsof.share.core.infrastructure.bus.IMediator;
-import com.kynsof.treatments.application.query.reports.contConsultByYears.ContConsultByYearsQuery;
-import com.kynsof.treatments.application.query.reports.contConsultByYears.ContConsultByYearsResponse;
+import com.kynsof.treatments.application.query.dashboard.contConsultByYears.ContConsultByYearsQuery;
+import com.kynsof.treatments.application.query.dashboard.contConsultByYears.ContConsultByYearsResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,11 +13,11 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/dashboard")
-public class ReportsController {
+public class DashboardController {
 
     private final IMediator mediator;
 
-    public ReportsController(IMediator mediator){
+    public DashboardController(IMediator mediator){
 
         this.mediator = mediator;
     }
@@ -29,7 +29,7 @@ public class ReportsController {
      * @param year El año para el que se desean los datos.
      * @return Lista de conteos por mes (indexados de 0 a 11 para enero a diciembre).
      */
-    @GetMapping("/count-by-month")
+    @GetMapping("/external-consultation-count-by-month")
     public ResponseEntity<?> getConsultationsCountByMonth(
             @RequestParam UUID businessId,
             @RequestParam int year) {

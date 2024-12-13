@@ -41,11 +41,6 @@ public class Receipt {
     @JoinColumn(name = "fk_pk_schedule")
     private Schedule schedule;
 
-//    @JsonIgnore
-//    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-//    @JoinColumn(name = "fk_pk_service")
-//    private Services service;
-
     @Enumerated(EnumType.STRING)
     private EStatusReceipt status;
 

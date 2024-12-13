@@ -8,6 +8,7 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 import java.util.Set;
@@ -17,20 +18,19 @@ public interface UserPermissionBusinessReadDataJPARepository extends JpaReposito
 
     Page<UserPermissionBusiness> findAll(Specification specification, Pageable pageable);
 
-    @Query("SELECT upb FROM UserPermissionBusiness upb WHERE upb.user.id = :userId AND upb.business.id = :businessId")
-    List<UserPermissionBusiness> findByUserAndBusiness(UUID userId, UUID businessId);
-
     @Query("SELECT COUNT(upb) FROM UserPermissionBusiness upb WHERE upb.user.id = :userId AND upb.business.id = :businessId")
     Long countByUserAndBusiness(UUID userId, UUID businessId);
-
-    @Query("SELECT COUNT(upb) FROM UserPermissionBusiness upb WHERE upb.user.id = :userId AND upb.business.id = :businessId")
-    Long countByUserAndBusinessAndNotDeleted(UUID userId, UUID businessId);
 
     @Query("SELECT p FROM UserPermissionBusiness upb JOIN upb.permission p WHERE upb.user.id = :userId AND upb.business.id = :businessId")
     Set<Permission> findPermissionsByUserIdAndBusinessId(UUID userId, UUID businessId);
 
     List<UserPermissionBusiness> findUserPermissionBusinessByUserId(UUID userId);
 
-    @Query("SELECT upb FROM UserPermissionBusiness upb GROUP BY upb.id, upb.business.id, upb.createdAt, upb.permission.id, upb.updatedAt, upb.user.id")
-    List<UserPermissionBusiness> findAllGroupedByPermissionAndBusiness();
+    @Query("SELECT upb.user.userType, COUNT(DISTINCT upb.user.id) " +
+            "FROM UserPermissionBusiness upb " +
+            "WHERE upb.business.id = :businessId " +
+            "AND upb.user.status = 'ACTIVE' " + // Solo usuarios activos
+            "GROUP BY upb.user.userType " +
+            "ORDER BY upb.user.userType")
+    List<Object[]> countActiveUsersByTypeForBusiness(@Param("businessId") UUID businessId);
 }

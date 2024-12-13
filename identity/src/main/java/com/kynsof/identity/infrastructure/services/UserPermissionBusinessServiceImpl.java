@@ -87,15 +87,6 @@ public class UserPermissionBusinessServiceImpl implements IUserPermissionBusines
         return getPaginatedResponse(data);
     }
 
-    @Override
-    public List<UserPermissionBusinessDto> findByUserAndBusiness(UUID userSystemId, UUID businessI) {
-        List<UserPermissionBusiness> data = this.queryRepository.findByUserAndBusiness(userSystemId, businessI);
-        List<UserPermissionBusinessDto> permissionBusinessDtos = new ArrayList<>();
-        for (UserPermissionBusiness o : data) {
-            permissionBusinessDtos.add(o.toAggregate());
-        }
-        return permissionBusinessDtos;
-    }
 
     private PaginatedResponse getPaginatedResponse(Page<UserPermissionBusiness> data) {
         List<UserRoleBusinessResponse> patients = new ArrayList<>();
@@ -122,8 +113,18 @@ public class UserPermissionBusinessServiceImpl implements IUserPermissionBusines
     }
 
     @Override
-    public Long countByUserAndBusinessNotDeleted(UUID userId, UUID businessId) {
-        return this.queryRepository.countByUserAndBusinessAndNotDeleted(userId, businessId);
-    }
+    public List<Map<String, Object>> countActiveUsersByTypeForBusiness(UUID businessId) {
+        // Llamada al repositorio
+        List<Object[]> results = this.queryRepository.countActiveUsersByTypeForBusiness(businessId);
 
+        // Convertir resultados a una lista de mapas
+        return results.stream()
+                .map(result -> {
+                    Map<String, Object> entry = new HashMap<>();
+                    entry.put("userType", result[0]); // Tipo de usuario
+                    entry.put("count", result[1]);   // Conteo de usuarios
+                    return entry;
+                })
+                .collect(Collectors.toList());
+    }
 }

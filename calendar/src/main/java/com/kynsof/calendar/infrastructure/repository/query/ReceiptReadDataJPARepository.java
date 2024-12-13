@@ -9,6 +9,7 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -18,6 +19,10 @@ public interface ReceiptReadDataJPARepository extends JpaRepository<Receipt, UUI
 
     Optional<Receipt> findByRequestId(String requestId);
 
-    @Query("SELECT b FROM Receipt b WHERE b.user.id = :user AND b.schedule.id <> :schedule")
-    Optional<Receipt> findReceiptByUserIdAndScheduleId(@Param("user") UUID user, @Param("schedule") UUID schedule);
+    @Query("SELECT r.status, COUNT(r) " +
+            "FROM Receipt r " +
+            "WHERE r.schedule.business.id = :businessId " +
+            "GROUP BY r.status " +
+            "ORDER BY r.status")
+    List<Object[]> countAppointmentsByStatusForBusiness(@Param("businessId") UUID businessId);
 }

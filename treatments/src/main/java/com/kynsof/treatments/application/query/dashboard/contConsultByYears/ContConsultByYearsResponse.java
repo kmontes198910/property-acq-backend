@@ -1,4 +1,4 @@
-package com.kynsof.treatments.application.query.reports.contConsultByYears;
+package com.kynsof.treatments.application.query.dashboard.contConsultByYears;
 
 import com.kynsof.share.core.domain.bus.query.IResponse;
 import lombok.AllArgsConstructor;
@@ -11,5 +11,5 @@ import java.util.List;
 @Getter
 @Setter
 public class ContConsultByYearsResponse implements IResponse {
-    private List<Long> values;
+    private List<Long> result;
 }

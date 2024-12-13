@@ -1,4 +1,4 @@
-package com.kynsof.treatments.application.query.reports.contConsultByYears;
+package com.kynsof.treatments.application.query.dashboard.contConsultByYears;
 
 import com.kynsof.share.core.domain.bus.query.IQueryHandler;
 import com.kynsof.treatments.domain.service.IExternalConsultationService;

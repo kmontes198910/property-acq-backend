@@ -22,10 +22,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class ReceiptService implements IReceiptService {
@@ -35,8 +33,6 @@ public class ReceiptService implements IReceiptService {
     private final ReceiptWriteDataJPARepository receiptRepositoryCommand;
 
     private final ScheduleServiceImpl scheduleServiceImpl;
-
-
 
     public ReceiptService(ReceiptReadDataJPARepository receiptRepositoryQuery,
                           ReceiptWriteDataJPARepository receiptRepositoryCommand, ScheduleServiceImpl scheduleServiceImpl) {
@@ -167,13 +163,29 @@ public class ReceiptService implements IReceiptService {
     }
 
     @Override
-    public ReceiptDto findReceiptByUserIdAndScheduleId(UUID user, UUID schedule) {
-        Optional<Receipt> object = this.receiptRepositoryQuery.findReceiptByUserIdAndScheduleId(user, schedule);
-        if (object.isPresent()) {
-            return object.get().toAggregate();
-        }
-        return null;
-        //throw new BusinessNotFoundException(new GlobalBusinessException(DomainErrorMessage.RESOURCE_NOT_FOUND, new ErrorField("id", "Receipt not found.")));
+    public List<Map<String, Object>> getAppointmentsByStatus(UUID businessId) {
+        List<Object[]> results = receiptRepositoryQuery.countAppointmentsByStatusForBusiness(businessId);
+
+        // Map para almacenar los resultados con valores predeterminados
+        Map<EStatusReceipt, Long> statusCounts = Arrays.stream(EStatusReceipt.values())
+                .collect(Collectors.toMap(status -> status, status -> 0L));
+
+        // Rellenar el mapa con los resultados de la consulta
+        results.forEach(result -> {
+            EStatusReceipt status = (EStatusReceipt) result[0];
+            Long count = (Long) result[1];
+            statusCounts.put(status, count);
+        });
+
+        // Convertir el mapa a una lista de mapas
+        return statusCounts.entrySet().stream()
+                .map(entry -> {
+                    Map<String, Object> map = new HashMap<>();
+                    map.put("status", entry.getKey().name());
+                    map.put("count", entry.getValue());
+                    return map;
+                })
+                .collect(Collectors.toList());
     }
 
 }
