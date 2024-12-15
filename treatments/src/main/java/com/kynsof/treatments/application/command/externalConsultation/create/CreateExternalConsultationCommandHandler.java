@@ -55,53 +55,59 @@ public class CreateExternalConsultationCommandHandler implements ICommandHandler
                     treatmentRequest.getMedicineUnit()
             );
         }).toList();
-
-        List<ExamDto> examDtoList = command.getExamOrder().getExams().stream()
-                .map(examRequest -> new ExamDto(
-                        UUID.randomUUID(),
-                        examRequest.getName(),
-                        examRequest.getDescription(),
-                        examRequest.getType(),
-                        "",
-                        new Date(),
-                        examRequest.getCode()
-                ))
-                .collect(Collectors.toList());
-        ExamOrderDto examOrderDto = new ExamOrderDto(
-                UUID.randomUUID(),
-                command.getExamOrder().getReason(),
-                Status.ACTIVE.toString(),
-                new Date(),
-                patientDto,
-                examDtoList
-        );
-
-        List<OptometryExamDto> optometryExamDtoList = command.getOptometryExams() != null ? command.getOptometryExams().stream()
-                .map(optometryExamRequest -> {
-                    OptometryExamDto dto = new OptometryExamDto();
-                    dto.setId(UUID.randomUUID());
-                    dto.setSphereOd(optometryExamRequest.getSphereOd());
-                    dto.setCylinderOd(optometryExamRequest.getCylinderOd());
-                    dto.setAxisOd(optometryExamRequest.getAxisOd());
-                    dto.setAvscOd(optometryExamRequest.getAvscOd());
-                    dto.setAvccOd(optometryExamRequest.getAvccOd());
-                    dto.setSphereOi(optometryExamRequest.getSphereOi());
-                    dto.setCylinderOi(optometryExamRequest.getCylinderOi());
-                    dto.setAxisOi(optometryExamRequest.getAxisOi());
-                    dto.setAvscOi(optometryExamRequest.getAvscOi());
-                    dto.setAvccOi(optometryExamRequest.getAvccOi());
-                    dto.setAddPower(optometryExamRequest.getAddPower());
-                    dto.setDp(optometryExamRequest.getDp());
-                    dto.setDv(optometryExamRequest.getDv());
-                    dto.setFilter(optometryExamRequest.getFilter());
-                    dto.setCurrent(optometryExamRequest.isCurrent());
-                    dto.setAvccAdd(optometryExamRequest.getAvccAdd());
-                    dto.setSphereAdd(optometryExamRequest.getSphereAdd());
-                    dto.setCylinderAdd(optometryExamRequest.getCylinderAdd());
-                    dto.setAvscAdd(optometryExamRequest.getAvscAdd());
-                    dto.setAxisAdd(optometryExamRequest.getAxisAdd());
-                    return dto;
-                }).toList() : new ArrayList<>();
+        ExamOrderDto examOrderDto = null;
+        if (!command.getExamOrder().getExams().isEmpty()) {
+            List<ExamDto> examDtoList  = command.getExamOrder().getExams().stream()
+                    .map(examRequest -> new ExamDto(
+                            UUID.randomUUID(),
+                            examRequest.getName(),
+                            examRequest.getDescription(),
+                            examRequest.getType(),
+                            "",
+                            new Date(),
+                            examRequest.getCode()
+                    ))
+                    .collect(Collectors.toList());
+             examOrderDto = new ExamOrderDto(
+                    UUID.randomUUID(),
+                    command.getExamOrder().getReason(),
+                    Status.ACTIVE.toString(),
+                    new Date(),
+                    patientDto,
+                    examDtoList
+            );
+        }
+        List<OptometryExamDto> optometryExamDtoList = new ArrayList<>();
+        if (!command.getOptometryExams().isEmpty()) {
+            int[] counter = {1}; // Usar un array para manejar el contador dentro del stream
+            optometryExamDtoList = command.getOptometryExams().stream()
+                    .map(optometryExamRequest -> {
+                        OptometryExamDto dto = new OptometryExamDto();
+                        dto.setId(UUID.randomUUID());
+                        dto.setSphereOd(optometryExamRequest.getSphereOd());
+                        dto.setCylinderOd(optometryExamRequest.getCylinderOd());
+                        dto.setAxisOd(optometryExamRequest.getAxisOd());
+                        dto.setAvscOd(optometryExamRequest.getAvscOd());
+                        dto.setAvccOd(optometryExamRequest.getAvccOd());
+                        dto.setSphereOi(optometryExamRequest.getSphereOi());
+                        dto.setCylinderOi(optometryExamRequest.getCylinderOi());
+                        dto.setAxisOi(optometryExamRequest.getAxisOi());
+                        dto.setAvscOi(optometryExamRequest.getAvscOi());
+                        dto.setAvccOi(optometryExamRequest.getAvccOi());
+                        dto.setAddPower(optometryExamRequest.getAddPower());
+                        dto.setDp(optometryExamRequest.getDp());
+                        dto.setDv(optometryExamRequest.getDv());
+                        dto.setFilter(optometryExamRequest.getFilter());
+                        dto.setCurrent(optometryExamRequest.isCurrent());
+                        dto.setAvccAdd(optometryExamRequest.getAvccAdd());
+                        dto.setSphereAdd(optometryExamRequest.getSphereAdd());
+                        dto.setCylinderAdd(optometryExamRequest.getCylinderAdd());
+                        dto.setAvscAdd(optometryExamRequest.getAvscAdd());
+                        dto.setAxisAdd(optometryExamRequest.getAxisAdd());
+                        dto.setOrderNumber(counter[0]++); // Asignar el valor del contador y luego incrementarlo
+                        return dto;
+                    }).toList();
+        }
 
         UUID id = externalConsultationService.createAll(new ExternalConsultationDto(
                 UUID.randomUUID(),

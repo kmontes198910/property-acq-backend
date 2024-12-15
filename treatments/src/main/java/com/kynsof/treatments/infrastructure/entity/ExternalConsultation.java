@@ -124,7 +124,7 @@ public class ExternalConsultation {
             optometryExam.setAxisOi(oe.getAxisOi());
             optometryExam.setAvscOi(oe.getAvscOi());
             optometryExam.setAvccOi(oe.getAvccOi());
-            optometryExam.setAddPower(oe.getAddPower());
+            //optometryExam.setAddPower(oe.getAddPower());
             optometryExam.setDp(oe.getDp());
             optometryExam.setDv(oe.getDv());
             optometryExam.setFilter(oe.getFilter());
@@ -134,6 +134,7 @@ public class ExternalConsultation {
             optometryExam.setCylinderAdd(oe.getCylinderAdd());
             optometryExam.setAvscAdd(oe.getAvscAdd());
             optometryExam.setAxisAdd(oe.getAxisAdd());
+         //   optometryExam.setOrderNumber(oe.getOrderNumber());
             optometryExam.setExternalConsultation(this); // Asocia con la consulta externa actual
             return optometryExam;
         }).toList() : new ArrayList<>();
@@ -165,7 +166,7 @@ public class ExternalConsultation {
                         optometryExam.getAxisOi(),
                         optometryExam.getAvscOi(),
                         optometryExam.getAvccOi(),
-                        optometryExam.getAddPower(),
+                     "",
                         optometryExam.getDp(),
                         optometryExam.getDv(),
                         optometryExam.getFilter(),
@@ -174,7 +175,8 @@ public class ExternalConsultation {
                         optometryExam.getSphereAdd(),
                         optometryExam.getCylinderAdd(),
                         optometryExam.getAvscAdd(),
-                        optometryExam.getAxisAdd()
+                        optometryExam.getAxisAdd(),
+                        optometryExam.getOrderNumber()
                 )).toList();
 
         return new ExternalConsultationDto(this.id, this.patient.toAggregate(), this.doctor.toAggregate(),

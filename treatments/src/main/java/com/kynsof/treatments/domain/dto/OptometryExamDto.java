@@ -33,4 +33,6 @@ public class OptometryExamDto {
     private String cylinderAdd;
     private String avscAdd;
     private String axisAdd;
+    private Integer orderNumber;
+
 }

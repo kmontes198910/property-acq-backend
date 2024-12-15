@@ -26,9 +26,9 @@ public class OptometryExam {
     @JoinColumn(name = "external_consultation_id")
     private ExternalConsultation externalConsultation;
 
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "optometry_exam_orderNumber_seq")
-    @SequenceGenerator(name = "optometry_exam_orderNumber_seq", sequenceName = "optometry_exam_orderNumber_seq", allocationSize = 1)
-    private Long orderNumber;
+    @Column(name = "optometry_exam_number", updatable = false, insertable = false)
+    private int orderNumber;
+
 
     @Column(name = "sphere_od")
     private String sphereOd;
@@ -74,9 +74,6 @@ public class OptometryExam {
     @Column(name = "avcc_oi")
     private String avccOi;
 
-    @Column(name = "add_power")
-    private String addPower;
-
     @Column(name = "dp")
     private String dp;
 
@@ -94,7 +91,6 @@ public class OptometryExam {
 
     @UpdateTimestamp
     private LocalDateTime updatedAt;
-
     // Método para convertir a DTO (si es necesario)
     public OptometryExamDto toAggregate() {
         return new OptometryExamDto(
@@ -109,7 +105,7 @@ public class OptometryExam {
                 this.axisOi,
                 this.avscOi,
                 this.avccOi,
-                this.addPower,
+                "",
                 this.dp,
                 this.dv,
                 this.filter,
@@ -118,7 +114,8 @@ public class OptometryExam {
                 this.sphereAdd,
                 this.cylinderAdd,
                 this.avscAdd,
-                this.axisAdd
+                this.axisAdd,
+                this.getOrderNumber()
         );
     }
 }
