@@ -1,5 +1,6 @@
 package com.kynsof.treatments.application.command.externalConsultation.create;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -20,6 +21,7 @@ public class OptometryExamRequest {
     private String dp;
     private String dv;
     private String filter;
+    @JsonProperty("isCurrent")
     private boolean isCurrent;
     private String avccAdd;
     private String sphereAdd;
