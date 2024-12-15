@@ -26,6 +26,10 @@ public class OptometryExam {
     @JoinColumn(name = "external_consultation_id")
     private ExternalConsultation externalConsultation;
 
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "optometry_exam_orderNumber_seq")
+    @SequenceGenerator(name = "optometry_exam_orderNumber_seq", sequenceName = "optometry_exam_orderNumber_seq", allocationSize = 1)
+    private Long orderNumber;
+
     @Column(name = "sphere_od")
     private String sphereOd;
 
