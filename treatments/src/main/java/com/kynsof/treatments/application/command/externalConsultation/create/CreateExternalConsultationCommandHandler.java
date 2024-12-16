@@ -78,7 +78,7 @@ public class CreateExternalConsultationCommandHandler implements ICommandHandler
             );
         }
         List<OptometryExamDto> optometryExamDtoList = new ArrayList<>();
-        if (!command.getOptometryExams().isEmpty()) {
+        if (command.getOptometryExams() != null && !command.getOptometryExams().isEmpty()) {
             int[] counter = {1}; // Usar un array para manejar el contador dentro del stream
             optometryExamDtoList = command.getOptometryExams().stream()
                     .map(optometryExamRequest -> {
