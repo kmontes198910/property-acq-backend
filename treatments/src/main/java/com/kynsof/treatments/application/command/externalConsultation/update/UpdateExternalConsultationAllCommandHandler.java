@@ -47,10 +47,12 @@ public class UpdateExternalConsultationAllCommandHandler implements ICommandHand
 
 
         if (!command.getDiagnosis().isEmpty()) {
-            List<UUID> diagnosesToDelete = externalConsultationDto.getDiagnoses().stream()
-                    .map(DiagnosisDto::getId)
-                    .collect(Collectors.toList());
-            this.diagnosisService.deleteByIds(diagnosesToDelete);
+            if (!externalConsultationDto.getDiagnoses().isEmpty()) {
+                List<UUID> diagnosesToDelete = externalConsultationDto.getDiagnoses().stream()
+                        .map(DiagnosisDto::getId)
+                        .collect(Collectors.toList());
+                this.diagnosisService.deleteByIds(diagnosesToDelete);
+            }
             List<DiagnosisDto> diagnosisDtoList = command.getDiagnosis().stream().map(diagnosisRequest
                     -> new DiagnosisDto(UUID.randomUUID(), diagnosisRequest.getIcdCode(), diagnosisRequest.getDescription())).toList();
             externalConsultationDto.setDiagnoses(diagnosisDtoList);
@@ -112,7 +114,7 @@ public class UpdateExternalConsultationAllCommandHandler implements ICommandHand
         }
 
         if (!command.getExamOrder().getExams().isEmpty()) {
-            if (externalConsultationDto.getExamOrder() != null &&!externalConsultationDto.getExamOrder().getExams().isEmpty()) {
+            if (externalConsultationDto.getExamOrder() != null && !externalConsultationDto.getExamOrder().getExams().isEmpty()) {
                 List<UUID> examsToDelete = externalConsultationDto.getExamOrder().getExams().stream()
                         .map(ExamDto::getId)
                         .collect(Collectors.toList());
