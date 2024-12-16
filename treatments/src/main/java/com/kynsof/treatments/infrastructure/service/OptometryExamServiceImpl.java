@@ -67,6 +67,12 @@ public class OptometryExamServiceImpl implements IOptometryExamService {
                 })
                 .orElse(null);
     }
+
+    @Override
+    public void deleteByIds(List<UUID> optometryExamIdsToDelete) {
+        repositoryCommand.deleteAllById(optometryExamIdsToDelete);
+    }
+
     @Override
     public PaginatedResponse search(Pageable pageable, List<FilterCriteria> filterCriteria) {
         filterCriteria.forEach(filter -> {

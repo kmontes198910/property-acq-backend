@@ -24,17 +24,19 @@ public class UpdateExternalConsultationAllCommandHandler implements ICommandHand
     private final ITreatmentService treatmentService;
     private final IDiagnosisService diagnosisService;
     private final IExamService examService;
+    private final IOptometryExamService optometryExamService;
 
     public UpdateExternalConsultationAllCommandHandler(IExternalConsultationService externalConsultationService,
-            IMedicinesService medicinesService,
-            ITreatmentService treatmentService,
-            IDiagnosisService diagnosisService,
-            IExamService examService) {
+                                                       IMedicinesService medicinesService,
+                                                       ITreatmentService treatmentService,
+                                                       IDiagnosisService diagnosisService,
+                                                       IExamService examService, IOptometryExamService optometryExamService) {
         this.externalConsultationService = externalConsultationService;
         this.medicinesService = medicinesService;
         this.treatmentService = treatmentService;
         this.diagnosisService = diagnosisService;
         this.examService = examService;
+        this.optometryExamService = optometryExamService;
     }
 
     @Override
@@ -134,9 +136,12 @@ public class UpdateExternalConsultationAllCommandHandler implements ICommandHand
                 .map(ExamDto::getId)
                 .collect(Collectors.toList());
 
+        List<UUID> optometryExamsToDelete = externalConsultationDto.getOptometryExams().stream().map(OptometryExamDto::getId).toList();
+
         this.deleteTreatments(treatmentsToDelete);
         this.deleteDiagnosis(diagnosesToDelete);
         this.deleteExams(examsToDelete);
+        this.deleteOptometryExams(optometryExamsToDelete);
     }
 
     private void deleteTreatments(List<UUID> treatmentIdsToDelete) {
@@ -149,5 +154,8 @@ public class UpdateExternalConsultationAllCommandHandler implements ICommandHand
 
     private void deleteExams(List<UUID> examIdsToDelete) {
         this.examService.deleteByIds(examIdsToDelete);
+    }
+    private void deleteOptometryExams(List<UUID> optometryExamIdsToDelete) {
+        this.optometryExamService.deleteByIds(optometryExamIdsToDelete);
     }
 }
