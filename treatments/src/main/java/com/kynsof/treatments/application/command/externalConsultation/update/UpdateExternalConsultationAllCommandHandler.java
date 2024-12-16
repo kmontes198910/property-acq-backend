@@ -56,11 +56,13 @@ public class UpdateExternalConsultationAllCommandHandler implements ICommandHand
             externalConsultationDto.setDiagnoses(diagnosisDtoList);
         }
 
-        if (command.getTreatments() != null) {
-            List<UUID> treatmentsToDelete = externalConsultationDto.getTreatments().stream()
-                    .map(TreatmentDto::getId)
-                    .collect(Collectors.toList());
-            this.treatmentService.deleteByIds(treatmentsToDelete);
+        if (command.getTreatments() != null && !command.getTreatments().isEmpty()) {
+            if (!externalConsultationDto.getTreatments().isEmpty()) {
+                List<UUID> treatmentsToDelete = externalConsultationDto.getTreatments().stream()
+                        .map(TreatmentDto::getId)
+                        .collect(Collectors.toList());
+                this.treatmentService.deleteByIds(treatmentsToDelete);
+            }
             List<TreatmentDto> treatmentDtoList = command.getTreatments().stream().map(treatmentRequest -> {
                 MedicinesDto medicinesDto = medicinesService.findById(treatmentRequest.getMedication());
                 return new TreatmentDto(
@@ -74,9 +76,12 @@ public class UpdateExternalConsultationAllCommandHandler implements ICommandHand
             externalConsultationDto.setTreatments(treatmentDtoList);
         }
 
-        if (command.getOptometryExams() != null) {
-            List<UUID> optometryExamsToDelete = externalConsultationDto.getOptometryExams().stream().map(OptometryExamDto::getId).toList();
-            this.optometryExamService.deleteByIds(optometryExamsToDelete);
+        if (command.getOptometryExams() != null && !command.getOptometryExams().isEmpty()) {
+            if (!externalConsultationDto.getOptometryExams().isEmpty()) {
+                List<UUID> optometryExamsToDelete = externalConsultationDto.getOptometryExams().stream().map(OptometryExamDto::getId).toList();
+                this.optometryExamService.deleteByIds(optometryExamsToDelete);
+            }
+
             List<OptometryExamDto> optometryExamDtoList = command.getOptometryExams().stream()
                     .map(optometryExamRequest -> {
                         OptometryExamDto dto = new OptometryExamDto();
@@ -107,10 +112,12 @@ public class UpdateExternalConsultationAllCommandHandler implements ICommandHand
         }
 
         if (!command.getExamOrder().getExams().isEmpty()) {
-            List<UUID> examsToDelete = externalConsultationDto.getExamOrder().getExams().stream()
-                    .map(ExamDto::getId)
-                    .collect(Collectors.toList());
-            this.examService.deleteByIds(examsToDelete);
+            if (externalConsultationDto.getExamOrder() != null &&!externalConsultationDto.getExamOrder().getExams().isEmpty()) {
+                List<UUID> examsToDelete = externalConsultationDto.getExamOrder().getExams().stream()
+                        .map(ExamDto::getId)
+                        .collect(Collectors.toList());
+                this.examService.deleteByIds(examsToDelete);
+            }
 
             List<ExamDto> examDtoList = command.getExamOrder().getExams().stream()
                     .map(examRequest -> new ExamDto(
@@ -125,7 +132,7 @@ public class UpdateExternalConsultationAllCommandHandler implements ICommandHand
                     .collect(Collectors.toList());
 
             ExamOrderDto examOrderDto = new ExamOrderDto(
-                    externalConsultationDto.getExamOrder().getId(),
+                    UUID.randomUUID(),
                     command.getExamOrder().getReason(),
                     Status.ACTIVE.toString(),
                     new Date(),
