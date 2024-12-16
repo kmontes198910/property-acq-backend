@@ -25,9 +25,7 @@ public class ExamOrder {
     @GeneratedValue(generator = "UUID")
     private UUID id;
 
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "exam_order_number1_seq")
-    @SequenceGenerator(name = "exam_order_number1_seq", sequenceName = "examorder_ordernumber1_seq", allocationSize = 1)
-    @Column(nullable = false, unique = true, updatable = false)
+    @Column(nullable = false, unique = true, updatable = false, insertable = false)
     private Integer orderNumber;
 
     private String reason;
@@ -77,9 +75,6 @@ public class ExamOrder {
 
     @PrePersist
     protected void onCreate() {
-        if (orderNumber == null) {
-            orderNumber = 0; // Valor temporal para evitar errores
-        }
         orderDate = new Date();
     }
 
