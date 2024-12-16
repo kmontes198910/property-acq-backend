@@ -113,7 +113,7 @@ public class UpdateExternalConsultationAllCommandHandler implements ICommandHand
             externalConsultationDto.setOptometryExams(optometryExamDtoList);
         }
 
-        if (!command.getExamOrder().getExams().isEmpty()) {
+        if (command.getExamOrder().getExams() != null && !command.getExamOrder().getExams().isEmpty()) {
             if (externalConsultationDto.getExamOrder() != null && !externalConsultationDto.getExamOrder().getExams().isEmpty()) {
                 List<UUID> examsToDelete = externalConsultationDto.getExamOrder().getExams().stream()
                         .map(ExamDto::getId)
