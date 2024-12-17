@@ -28,4 +28,5 @@ public interface IPatientsService {
     PatientDto findByIdentification(String identification);
 
     Long countByIdentificationAndNotId(String identification, UUID id);
+    Long countPatient();
 }

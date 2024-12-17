@@ -31,3 +31,19 @@ spec:
       imagePullSecrets:
         - name: dokcer-hub
       restartPolicy: Always
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: patients-service
+  namespace: medinec
+spec:
+  selector:
+    app: patients
+  ports:
+    - protocol: TCP
+      port: 80           # Puerto externo expuesto por el servicio
+      targetPort: 9909   # Puerto donde está escuchando el contenedor
+  type: ClusterIP        # Tipo de servicio (puedes cambiar a NodePort o LoadBalancer si es necesario)

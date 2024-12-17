@@ -20,4 +20,7 @@ public interface PatientsReadDataJPARepository extends JpaRepository<Patients, U
     @Query("SELECT COUNT(p) FROM Patients p WHERE p.identification = :identification AND p.id <> :id")
     Long countByIdentificationAndNotId(@Param("identification") String identification, @Param("id") UUID id);
 
+    @Query("SELECT COUNT(p) FROM Patients p")
+    Long countPatient();
+
 }

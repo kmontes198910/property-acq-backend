@@ -53,7 +53,6 @@ public class PatientsServiceImpl implements IPatientsService {
     @Override
     public UUID createDependent(DependentPatientDto patients) {
         Patients entity = this.repositoryCommand.save(new Patients(patients));
-        //this.dependentPatientsEventService.create(patients);
         return entity.getId();
     }
 
@@ -195,6 +194,11 @@ public class PatientsServiceImpl implements IPatientsService {
     @Override
     public Long countByIdentificationAndNotId(String identification, UUID id) {
         return this.repositoryQuery.countByIdentificationAndNotId(identification, id);
+    }
+
+    @Override
+    public Long countPatient() {
+        return this.repositoryQuery.countPatient();
     }
 
 }
