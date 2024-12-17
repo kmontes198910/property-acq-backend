@@ -10,6 +10,7 @@ import java.util.UUID;
 @Getter
 @Setter
 public class UpdateDiagnosisRequest {
-    private UUID externalConsultation;
-    private List<DiagnosisRequest> diagnosis;
+    private String icdCode; // Código CIE-10
+    private String description;
+    private  UUID idExternalConsultation;
 }

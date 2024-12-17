@@ -10,28 +10,23 @@ import org.springframework.stereotype.Component;
 import java.util.UUID;
 
 @Component
-public class CreateAllDiagnosisCommandHandler implements ICommandHandler<CreateAllDiagnosisCommand> {
+public class CreateDiagnosisCommandHandler implements ICommandHandler<CreateDiagnosisCommand> {
 
     private final IDiagnosisService serviceImpl;
     private final IExternalConsultationService externalConsultationService;
 
-    public CreateAllDiagnosisCommandHandler(IDiagnosisService serviceImpl, IExternalConsultationService externalConsultationService) {
+    public CreateDiagnosisCommandHandler(IDiagnosisService serviceImpl, IExternalConsultationService externalConsultationService) {
         this.serviceImpl = serviceImpl;
         this.externalConsultationService = externalConsultationService;
     }
 
     @Override
-    public void handle(CreateAllDiagnosisCommand command) {
+    public void handle(CreateDiagnosisCommand command) {
         ExternalConsultationDto externalConsultationDto = this.externalConsultationService.findById(command.getIdExternalConsultation());
-//        for (DiagnosisRequest object : command.getPayload()) {
-//            DiagnosisDto create = new DiagnosisDto(
-//
-//            );
-//
-//        }
-        serviceImpl.create(command.getPayload().stream().map(diagnosisRequest -> new DiagnosisDto(  UUID.randomUUID(),
-                diagnosisRequest.getIcdCode(),
-                diagnosisRequest.getDescription(),
-                externalConsultationDto)).toList());
+        UUID id = UUID.randomUUID();
+        DiagnosisDto dto = new DiagnosisDto(id, command.getIcdCode(), command.getDescription(), externalConsultationDto);
+        serviceImpl.create(dto);
+        command.setId(id);
+
     }
 }

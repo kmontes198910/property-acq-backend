@@ -11,7 +11,7 @@ import java.util.UUID;
 
 public interface IDiagnosisService {
 
-    void create(List<DiagnosisDto> diagnosisDtoList);
+    void create(DiagnosisDto diagnosisDtoList);
 
     void update(DiagnosisDto diagnosis);
 

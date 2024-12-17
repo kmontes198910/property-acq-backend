@@ -4,9 +4,9 @@ import com.kynsof.share.core.domain.request.PageableUtil;
 import com.kynsof.share.core.domain.request.SearchRequest;
 import com.kynsof.share.core.domain.response.PaginatedResponse;
 import com.kynsof.share.core.infrastructure.bus.IMediator;
-import com.kynsof.treatments.application.command.diagnosis.create.CreateAllDiagnosisCommand;
-import com.kynsof.treatments.application.command.diagnosis.create.CreateAllDiagnosisMessage;
-import com.kynsof.treatments.application.command.diagnosis.create.Payload;
+import com.kynsof.treatments.application.command.diagnosis.create.CreateDiagnosisCommand;
+import com.kynsof.treatments.application.command.diagnosis.create.CreateDiagnosisMessage;
+import com.kynsof.treatments.application.command.diagnosis.create.DiagnosisRequest;
 import com.kynsof.treatments.application.command.diagnosis.delete.DiagnosisDeleteCommand;
 import com.kynsof.treatments.application.command.diagnosis.delete.DiagnosisDeleteMessage;
 import com.kynsof.treatments.application.command.diagnosis.update.UpdateDiagnosisCommand;
@@ -35,9 +35,9 @@ public class DiagnosisController {
     }
 
     @PostMapping("")
-    public ResponseEntity<?> create(@RequestBody Payload request) {
-        CreateAllDiagnosisCommand createCommand = new CreateAllDiagnosisCommand(request);
-        CreateAllDiagnosisMessage response = mediator.send(createCommand);
+    public ResponseEntity<?> create(@RequestBody DiagnosisRequest request) {
+        CreateDiagnosisCommand createCommand = CreateDiagnosisCommand.fromRequest(request);
+        CreateDiagnosisMessage response = mediator.send(createCommand);
 
         return ResponseEntity.ok(response);
     }
@@ -61,10 +61,10 @@ public class DiagnosisController {
         return ResponseEntity.ok(response);
     }
 
-    @PatchMapping("")
-    public ResponseEntity<?> update(@RequestBody UpdateDiagnosisRequest request) {
+    @PatchMapping(path = "/{id}")
+    public ResponseEntity<?> update(@PathVariable UUID id,@RequestBody UpdateDiagnosisRequest request) {
 
-        UpdateDiagnosisCommand command = UpdateDiagnosisCommand.fromRequest(request);
+        UpdateDiagnosisCommand command = UpdateDiagnosisCommand.fromRequest(id,request);
         UpdateDiagnosisMessage response = mediator.send(command);
         return ResponseEntity.ok(response);
     }

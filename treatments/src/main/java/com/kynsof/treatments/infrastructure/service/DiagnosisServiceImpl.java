@@ -37,11 +37,8 @@ public class DiagnosisServiceImpl implements IDiagnosisService {
     }
 
     @Override
-    public void create(List<DiagnosisDto> diagnosisDtoList) {
-        List<Diagnosis> diagnoses = diagnosisDtoList.stream()
-                .map(Diagnosis::new)
-                .collect(Collectors.toList());
-        repositoryCommand.saveAll(diagnoses);
+    public void create(DiagnosisDto diagnosisDtoList) {
+      repositoryCommand.save(new Diagnosis(diagnosisDtoList));
     }
 
     @Override
