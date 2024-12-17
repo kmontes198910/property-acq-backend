@@ -2,7 +2,6 @@ package com.kynsof.treatments.application.command.externalConsultation.update;
 
 import com.kynsof.share.core.domain.bus.command.ICommand;
 import com.kynsof.share.core.domain.bus.command.ICommandMessage;
-import com.kynsof.treatments.application.command.externalConsultation.create.OptometryExamRequest;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -22,12 +21,12 @@ public class UpdateExternalConsultationAllCommand implements ICommand {
     private final UpdateExamOrderAllRequest examOrder;
     private final List<UpdateDiagnosisAllRequest> diagnosis;
     private final List<UpdateTreatmentAllRequest> treatments;
-    private final List<OptometryExamRequest> optometryExams;
+    private final List<UpdateOptometryExamRequest> optometryExams;
 
     public UpdateExternalConsultationAllCommand(UUID id, String consultationReason,
                                                 String medicalHistory, String physicalExam, String observations,
                                                 UpdateExamOrderAllRequest examOrder, List<UpdateDiagnosisAllRequest> diagnosis,
-                                                List<UpdateTreatmentAllRequest> treatments, String medicalSpeciality, List<OptometryExamRequest> optometryExams) {
+                                                List<UpdateTreatmentAllRequest> treatments, String medicalSpeciality, List<UpdateOptometryExamRequest> optometryExams) {
 
         this.id = id;
         this.consultationReason = consultationReason;

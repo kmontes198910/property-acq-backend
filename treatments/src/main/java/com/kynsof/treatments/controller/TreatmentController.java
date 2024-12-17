@@ -4,9 +4,9 @@ import com.kynsof.share.core.domain.request.PageableUtil;
 import com.kynsof.share.core.domain.request.SearchRequest;
 import com.kynsof.share.core.domain.response.PaginatedResponse;
 import com.kynsof.share.core.infrastructure.bus.IMediator;
-import com.kynsof.treatments.application.command.treatment.create.CreateAllTreatmentCommand;
-import com.kynsof.treatments.application.command.treatment.create.CreateAllTreatmentMessage;
-import com.kynsof.treatments.application.command.treatment.create.PayloadTreatment;
+import com.kynsof.treatments.application.command.treatment.create.CreateTreatmentCommand;
+import com.kynsof.treatments.application.command.treatment.create.CreateTreatmentMessage;
+import com.kynsof.treatments.application.command.treatment.create.CreateTreatmentRequest;
 import com.kynsof.treatments.application.command.treatment.delete.TreatmentDeleteCommand;
 import com.kynsof.treatments.application.command.treatment.delete.TreatmentDeleteMessage;
 import com.kynsof.treatments.application.command.treatment.update.UpdateTreatmentCommand;
@@ -35,10 +35,9 @@ public class TreatmentController {
     }
 
     @PostMapping("")
-    public ResponseEntity<?> create(@RequestBody PayloadTreatment request) {
-        CreateAllTreatmentCommand createCommand = new CreateAllTreatmentCommand(request);
-        CreateAllTreatmentMessage response = mediator.send(createCommand);
-
+    public ResponseEntity<?> create(@RequestBody CreateTreatmentRequest request) {
+        CreateTreatmentCommand createCommand =  CreateTreatmentCommand.fromRequest(request);
+        CreateTreatmentMessage response = mediator.send(createCommand);
         return ResponseEntity.ok(response);
     }
 
@@ -69,9 +68,9 @@ public class TreatmentController {
         return ResponseEntity.ok(data);
     }
 
-    @PatchMapping("")
-    public ResponseEntity<?> update( @RequestBody UpdateTreatmentRequest request) {
-        UpdateTreatmentCommand command = UpdateTreatmentCommand.fromRequest(request);
+    @PatchMapping(path = "/{id}")
+    public ResponseEntity<?> update( @PathVariable UUID id, @RequestBody UpdateTreatmentRequest request) {
+        UpdateTreatmentCommand command = UpdateTreatmentCommand.fromRequest(id, request);
         UpdateTreatmentMessage response = mediator.send(command);
         return ResponseEntity.ok(response);
     }

@@ -91,6 +91,16 @@ public class ConsolidatedDashboardController {
                     return Mono.just(Map.of("error", "Error fetching consultations: " + e.getMessage()));
                 });
 
+        Mono<Map<String, Object>> consultationsBySpeciality = webClient
+                .get()
+                .uri("http://treatments-service:9909/api/dashboard/top10-specialities?businessId=" + businessId + "&year=" + currentYear)
+                .retrieve()
+                .bodyToMono(new ParameterizedTypeReference<Map<String, Object>>() {})
+                .onErrorResume(e -> {
+                    System.err.println("Error fetching consultations: " + e.getMessage());
+                    return Mono.just(Map.of("error", "Error fetching consultations: " + e.getMessage()));
+                });
+
         // Llamada al servicio identity-service para usuarios
         Mono<Map<String, Object>> userCountByType = webClient
                 .get()
@@ -113,13 +123,14 @@ public class ConsolidatedDashboardController {
                 });
 
         // Consolidar todas las respuestas
-        return Mono.zip(appointmentsByStatus, consultationsByMonth, userCountByType, patientCount)
+        return Mono.zip(appointmentsByStatus, consultationsByMonth, userCountByType, patientCount,consultationsBySpeciality)
                 .map(tuple -> {
                     Map<String, Object> consolidatedResponse = new HashMap<>();
                     consolidatedResponse.put("appointmentsByStatus", tuple.getT1());
                     consolidatedResponse.put("consultationsByMonth", tuple.getT2());
                     consolidatedResponse.put("userCountByType", tuple.getT3());
                     consolidatedResponse.put("patientCount", tuple.getT4());
+                    consolidatedResponse.put("consultationsBySpeciality", tuple.getT5());
                     return consolidatedResponse;
                 });
     }

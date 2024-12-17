@@ -5,7 +5,6 @@ import com.kynsof.share.core.domain.bus.command.ICommandHandler;
 import com.kynsof.share.core.domain.rules.ValidateObjectNotNullRule;
 import com.kynsof.share.utils.UpdateIfNotNull;
 import com.kynsof.treatments.domain.dto.*;
-import com.kynsof.treatments.domain.dto.enumDto.Status;
 import com.kynsof.treatments.domain.rules.externalconsultation.ExternalConsultationCreateAtNotEqualsRule;
 import com.kynsof.treatments.domain.service.*;
 import org.springframework.stereotype.Component;
@@ -29,7 +28,8 @@ public class UpdateExternalConsultationAllCommandHandler implements ICommandHand
                                                        IMedicinesService medicinesService,
                                                        ITreatmentService treatmentService,
                                                        IDiagnosisService diagnosisService,
-                                                       IExamService examService, IOptometryExamService optometryExamService) {
+                                                       IExamService examService,
+                                                       IOptometryExamService optometryExamService) {
         this.externalConsultationService = externalConsultationService;
         this.medicinesService = medicinesService;
         this.treatmentService = treatmentService;
@@ -40,114 +40,148 @@ public class UpdateExternalConsultationAllCommandHandler implements ICommandHand
 
     @Override
     public void handle(UpdateExternalConsultationAllCommand command) {
+        // Validación de campos principales
         RulesChecker.checkRule(new ValidateObjectNotNullRule<>(command.getId(), "id", "External Consultation ID cannot be null."));
         ExternalConsultationDto externalConsultationDto = externalConsultationService.findById(command.getId());
 
         RulesChecker.checkRule(new ExternalConsultationCreateAtNotEqualsRule(externalConsultationDto.getConsultationTime()));
 
+        // Manejo de Diagnosis por UUID
+        if (command.getDiagnosis() != null) {
+            List<UUID> incomingIds = command.getDiagnosis().stream()
+                    .filter(d -> d.getId() != null)
+                    .map(UpdateDiagnosisAllRequest::getId)
+                    .toList();
 
-        if (!command.getDiagnosis().isEmpty()) {
-            if (!externalConsultationDto.getDiagnoses().isEmpty()) {
-                List<UUID> diagnosesToDelete = externalConsultationDto.getDiagnoses().stream()
-                        .map(DiagnosisDto::getId)
-                        .collect(Collectors.toList());
-                this.diagnosisService.deleteByIds(diagnosesToDelete);
-            }
-            List<DiagnosisDto> diagnosisDtoList = command.getDiagnosis().stream().map(diagnosisRequest
-                    -> new DiagnosisDto(UUID.randomUUID(), diagnosisRequest.getIcdCode(), diagnosisRequest.getDescription())).toList();
-            externalConsultationDto.setDiagnoses(diagnosisDtoList);
-        }
-
-        if (command.getTreatments() != null && !command.getTreatments().isEmpty()) {
-            if (!externalConsultationDto.getTreatments().isEmpty()) {
-                List<UUID> treatmentsToDelete = externalConsultationDto.getTreatments().stream()
-                        .map(TreatmentDto::getId)
-                        .collect(Collectors.toList());
-                this.treatmentService.deleteByIds(treatmentsToDelete);
-            }
-            List<TreatmentDto> treatmentDtoList = command.getTreatments().stream().map(treatmentRequest -> {
-                MedicinesDto medicinesDto = medicinesService.findById(treatmentRequest.getMedication());
-                return new TreatmentDto(
-                        UUID.randomUUID(),
-                        treatmentRequest.getDescription(),
-                        medicinesDto,
-                        treatmentRequest.getQuantity(),
-                        treatmentRequest.getMedicineUnit()
-                );
-            }).toList();
-            externalConsultationDto.setTreatments(treatmentDtoList);
-        }
-
-        if (command.getOptometryExams() != null && !command.getOptometryExams().isEmpty()) {
-            if (!externalConsultationDto.getOptometryExams().isEmpty()) {
-                List<UUID> optometryExamsToDelete = externalConsultationDto.getOptometryExams().stream().map(OptometryExamDto::getId).toList();
-                this.optometryExamService.deleteByIds(optometryExamsToDelete);
-            }
-
-            List<OptometryExamDto> optometryExamDtoList = command.getOptometryExams().stream()
-                    .map(optometryExamRequest -> {
-                        OptometryExamDto dto = new OptometryExamDto();
-                        dto.setId(UUID.randomUUID());
-                        dto.setSphereOd(optometryExamRequest.getSphereOd());
-                        dto.setCylinderOd(optometryExamRequest.getCylinderOd());
-                        dto.setAxisOd(optometryExamRequest.getAxisOd());
-                        dto.setAvscOd(optometryExamRequest.getAvscOd());
-                        dto.setAvccOd(optometryExamRequest.getAvccOd());
-                        dto.setSphereOi(optometryExamRequest.getSphereOi());
-                        dto.setCylinderOi(optometryExamRequest.getCylinderOi());
-                        dto.setAxisOi(optometryExamRequest.getAxisOi());
-                        dto.setAvscOi(optometryExamRequest.getAvscOi());
-                        dto.setAvccOi(optometryExamRequest.getAvccOi());
-                        dto.setAddPower(optometryExamRequest.getAddPower());
-                        dto.setDp(optometryExamRequest.getDp());
-                        dto.setDv(optometryExamRequest.getDv());
-                        dto.setFilter(optometryExamRequest.getFilter());
-                        dto.setCurrent(optometryExamRequest.isCurrent());
-                        dto.setAvccAdd(optometryExamRequest.getAvccAdd());
-                        dto.setSphereAdd(optometryExamRequest.getSphereAdd());
-                        dto.setCylinderAdd(optometryExamRequest.getCylinderAdd());
-                        dto.setAvscAdd(optometryExamRequest.getAvscAdd());
-                        dto.setAxisAdd(optometryExamRequest.getAxisAdd());
-                        return dto;
-                    }).toList();
-            externalConsultationDto.setOptometryExams(optometryExamDtoList);
-        }
-
-        if (command.getExamOrder() != null && !command.getExamOrder().getExams().isEmpty()) {
-            if (externalConsultationDto.getExamOrder() != null && !externalConsultationDto.getExamOrder().getExams().isEmpty()) {
-                List<UUID> examsToDelete = externalConsultationDto.getExamOrder().getExams().stream()
-                        .map(ExamDto::getId)
-                        .collect(Collectors.toList());
-                this.examService.deleteByIds(examsToDelete);
-            }
-
-            List<ExamDto> examDtoList = command.getExamOrder().getExams().stream()
-                    .map(examRequest -> new ExamDto(
-                            UUID.randomUUID(),
-                            examRequest.getName(),
-                            examRequest.getDescription(),
-                            examRequest.getType(),
-                            "",
-                            new Date(),
-                            examRequest.getCode()
-                    ))
+            List<DiagnosisDto> updatedDiagnoses = externalConsultationDto.getDiagnoses().stream()
+                    .filter(d -> incomingIds.contains(d.getId())) // Mantener los existentes
                     .collect(Collectors.toList());
 
-            ExamOrderDto examOrderDto = new ExamOrderDto(
-                    UUID.randomUUID(),
-                    command.getExamOrder().getReason(),
-                    Status.ACTIVE.toString(),
-                    new Date(),
-                    externalConsultationDto.getPatient(),
-                    examDtoList
-            );
-            externalConsultationDto.setExamOrder(examOrderDto);
+            List<DiagnosisDto> newDiagnoses = command.getDiagnosis().stream()
+                    .filter(d -> d.getId() == null) // Agregar nuevos
+                    .map(d -> new DiagnosisDto(UUID.randomUUID(), d.getIcdCode(), d.getDescription()))
+                    .toList();
+
+            updatedDiagnoses.addAll(newDiagnoses); // Combina los existentes con los nuevos
+            externalConsultationDto.setDiagnoses(updatedDiagnoses);
         }
 
+        // Manejo de Treatments por UUID
+        if (command.getTreatments() != null) {
+            List<UUID> incomingIds = command.getTreatments().stream()
+                    .filter(t -> t.getId() != null)
+                    .map(UpdateTreatmentAllRequest::getMedication)
+                    .toList();
+
+            List<TreatmentDto> updatedTreatments = externalConsultationDto.getTreatments().stream()
+                    .filter(t -> incomingIds.contains(t.getId()))
+                    .collect(Collectors.toList());
+
+            List<TreatmentDto> newTreatments = command.getTreatments().stream()
+                    .filter(t -> t.getId() == null)
+                    .map(t -> {
+                        MedicinesDto medicinesDto = medicinesService.findById(t.getMedication());
+                        return new TreatmentDto(
+                                UUID.randomUUID(),
+                                t.getDescription(),
+                                medicinesDto,
+                                t.getQuantity(),
+                                t.getMedicineUnit());
+                    }).toList();
+
+            updatedTreatments.addAll(newTreatments);
+            externalConsultationDto.setTreatments(updatedTreatments);
+        }
+
+        // Manejo de Optometry Exams por UUID
+        if (command.getOptometryExams() != null) {
+            List<UUID> incomingIds = command.getOptometryExams().stream()
+                    .filter(o -> o.getId() != null)
+                    .map(UpdateOptometryExamRequest::getId)
+                    .toList();
+
+            List<OptometryExamDto> updatedOptometryExams = externalConsultationDto.getOptometryExams().stream()
+                    .filter(o -> incomingIds.contains(o.getId()))
+                    .collect(Collectors.toList());
+
+            List<OptometryExamDto> newOptometryExams = command.getOptometryExams().stream()
+                    .filter(o -> o.getId() == null)
+                    .map(o -> {
+                        OptometryExamDto dto = new OptometryExamDto();
+                        dto.setId(UUID.randomUUID());
+                        dto.setSphereOd(o.getSphereOd());
+                        dto.setCylinderOd(o.getCylinderOd());
+                        dto.setAxisOd(o.getAxisOd());
+                        dto.setAvscOd(o.getAvscOd());
+                        dto.setAvccOd(o.getAvccOd());
+                        dto.setSphereOi(o.getSphereOi());
+                        dto.setCylinderOi(o.getCylinderOi());
+                        dto.setAxisOi(o.getAxisOi());
+                        dto.setAvscOi(o.getAvscOi());
+                        dto.setAvccOi(o.getAvccOi());
+                        dto.setAddPower(o.getAddPower());
+                        dto.setDp(o.getDp());
+                        dto.setDv(o.getDv());
+                        dto.setFilter(o.getFilter());
+                        dto.setCurrent(o.isCurrent());
+                        dto.setAvccAdd(o.getAvccAdd());
+                        dto.setSphereAdd(o.getSphereAdd());
+                        dto.setCylinderAdd(o.getCylinderAdd());
+                        dto.setAvscAdd(o.getAvscAdd());
+                        dto.setAxisAdd(o.getAxisAdd());
+                        return dto;
+                    }).toList();
+
+            updatedOptometryExams.addAll(newOptometryExams);
+            externalConsultationDto.setOptometryExams(updatedOptometryExams);
+        }
+
+        // Manejo de ExamOrder y Exams por UUID
+        if (command.getExamOrder() != null) {
+            ExamOrderDto currentExamOrder = externalConsultationDto.getExamOrder();
+
+            List<UUID> incomingExamIds = command.getExamOrder().getExams().stream()
+                    .map(e -> e.getId())
+                    .filter(id -> id != null)
+                    .toList();
+//
+//            List<ExamDto> updatedExams = (currentExamOrder != null ? currentExamOrder.getExams() : List.of()).stream()
+//                    .filter(e -> incomingExamIds.contains(e.getId()))
+//                    .collect(Collectors.toList());
+
+            List<ExamDto> newExams = command.getExamOrder().getExams().stream()
+                    .filter(e -> e.getId() == null)
+                    .map(e -> new ExamDto(
+                            UUID.randomUUID(),
+                            e.getName(),
+                            e.getDescription(),
+                            e.getType(),
+                            "",
+                            new Date(),
+                            e.getCode()))
+                    .toList();
+
+//            updatedExams.addAll(newExams);
+//
+//            ExamOrderDto updatedExamOrder = new ExamOrderDto(
+//                    currentExamOrder != null ? currentExamOrder.getId() : UUID.randomUUID(),
+//                    command.getExamOrder().getReason(),
+//                    Status.ACTIVE.toString(),
+//                    new Date(),
+//                    externalConsultationDto.getPatient(),
+//                    updatedExams
+//            );
+//            externalConsultationDto.setExamOrder(updatedExamOrder);
+        }
+
+        // Actualización de campos simples
         UpdateIfNotNull.updateIfNotNull(externalConsultationDto::setConsultationReason, command.getConsultationReason());
         UpdateIfNotNull.updateIfNotNull(externalConsultationDto::setMedicalHistory, command.getMedicalHistory());
         UpdateIfNotNull.updateIfNotNull(externalConsultationDto::setPhysicalExam, command.getPhysicalExam());
         UpdateIfNotNull.updateIfNotNull(externalConsultationDto::setObservations, command.getObservations());
+        UpdateIfNotNull.updateIfNotNull(externalConsultationDto::setMedicalSpeciality, command.getMedicalSpeciality());
+
+        // Persistencia de la actualización
         UUID id = externalConsultationService.update(externalConsultationDto);
         command.setId(id);
     }

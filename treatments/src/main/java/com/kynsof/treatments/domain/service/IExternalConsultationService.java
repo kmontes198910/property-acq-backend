@@ -7,6 +7,7 @@ import org.springframework.data.domain.Pageable;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 public interface IExternalConsultationService {
@@ -27,4 +28,6 @@ public interface IExternalConsultationService {
 
     Long countConsultationsByBusinessAndDateRange(UUID businessId, Date startDate, Date endDate);
     List<Long> getConsultationsCountByMonth(UUID businessId,int year);
+
+    List<Map<String, Object>> getTop10SpecialitiesByConsultationCount(UUID businessId, int year);
 }

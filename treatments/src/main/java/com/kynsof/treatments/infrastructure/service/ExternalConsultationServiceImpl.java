@@ -16,6 +16,7 @@ import com.kynsof.treatments.infrastructure.entity.specifications.ExternalConsul
 import com.kynsof.treatments.infrastructure.repositories.command.ExternalConsultationWriteDataJPARepository;
 import com.kynsof.treatments.infrastructure.repositories.query.ExternalConsultationReadDataJPARepository;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -122,5 +123,19 @@ public class ExternalConsultationServiceImpl implements IExternalConsultationSer
         });
 
         return monthlyCounts;
+    }
+
+    @Override
+    public List<Map<String, Object>> getTop10SpecialitiesByConsultationCount(UUID businessId, int year) {
+        Pageable top10 = PageRequest.of(0, 10); // Limita a 10 registros
+        List<Object[]> result = repositoryQuery.findTop10SpecialitiesByServiceAndBusinessIdAndYear(businessId, year, top10);
+
+        // Transformar el resultado a una lista de mapas clave-valor
+        return result.stream()
+                .map(row -> Map.of(
+                        "speciality", row[0],   // Especialidad
+                        "count", row[1]         // Cantidad de consultas
+                ))
+                .collect(Collectors.toList());
     }
 }

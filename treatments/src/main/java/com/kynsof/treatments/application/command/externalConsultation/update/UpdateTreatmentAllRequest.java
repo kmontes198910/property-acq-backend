@@ -8,6 +8,7 @@ import java.util.UUID;
 @Getter
 @Setter
 public class UpdateTreatmentAllRequest {
+    private UUID id; // Nuevo campo
     private String description;
     private UUID medication;
     private int quantity;

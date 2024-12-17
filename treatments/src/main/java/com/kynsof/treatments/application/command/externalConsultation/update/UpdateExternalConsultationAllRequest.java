@@ -17,5 +17,5 @@ public class UpdateExternalConsultationAllRequest {
     private UpdateExamOrderAllRequest examOrder;
     private List<UpdateDiagnosisAllRequest> diagnosis;
     private List<UpdateTreatmentAllRequest> treatments;
-    private List<OptometryExamRequest> optometryExams;
+    private List<UpdateOptometryExamRequest> optometryExams;
 }

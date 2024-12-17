@@ -28,4 +28,15 @@ public interface ExternalConsultationReadDataJPARepository extends JpaRepository
             "ORDER BY MONTH(ec.consultationTime)")
     List<Object[]> countConsultationsByMonth(@Param("businessId") UUID businessId, @Param("year") int year);
 
+    @Query("SELECT ec.service.name, COUNT(ec) " +
+            "FROM ExternalConsultation ec " +
+            "WHERE ec.business.id = :businessId " +
+            "AND EXTRACT(YEAR FROM ec.consultationTime) = :year " +
+            "GROUP BY ec.service.name " +
+            "ORDER BY COUNT(ec) DESC")
+    List<Object[]> findTop10SpecialitiesByServiceAndBusinessIdAndYear(
+            @Param("businessId") UUID businessId,
+            @Param("year") int year,
+            Pageable pageable);
+
 }

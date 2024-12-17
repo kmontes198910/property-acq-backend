@@ -5,9 +5,10 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class CreateAllTreatmentRequest {
+public class CreateTreatmentRequest {
     private String description;
     private String medication;
     private int quantity;
     private String medicineUnit;
+    private String externalConsultId;
 }
