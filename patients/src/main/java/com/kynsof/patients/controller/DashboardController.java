@@ -5,6 +5,7 @@ import com.kynsof.patients.application.query.dashboard.countPatient.CountPatient
 import com.kynsof.share.core.infrastructure.bus.IMediator;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -22,7 +23,7 @@ public class DashboardController {
     }
 
 
-
+    @GetMapping("/countPatient")
     public ResponseEntity<?> countPatient() {
         try {
             CountPatientQuery query = new CountPatientQuery();
