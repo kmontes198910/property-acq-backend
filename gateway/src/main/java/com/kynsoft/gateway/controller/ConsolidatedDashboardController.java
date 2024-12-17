@@ -9,6 +9,7 @@ import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -91,16 +92,15 @@ public class ConsolidatedDashboardController {
                     return Mono.just(Map.of("error", "Error fetching consultations: " + e.getMessage()));
                 });
 
-        Mono<Map<String, Object>> consultationsBySpeciality = webClient
+        Mono<List<Map<String, Object>>> consultationsBySpeciality = webClient
                 .get()
                 .uri("http://treatments-service:9909/api/dashboard/top10-specialities?businessId=" + businessId + "&year=" + currentYear)
                 .retrieve()
-                .bodyToMono(new ParameterizedTypeReference<Map<String, Object>>() {})
+                .bodyToMono(new ParameterizedTypeReference<List<Map<String, Object>>>() {})
                 .onErrorResume(e -> {
                     System.err.println("Error fetching consultations: " + e.getMessage());
-                    return Mono.just(Map.of("error", "Error fetching consultations: " + e.getMessage()));
+                    return Mono.just(List.of(Map.of("error", "Error fetching consultations: " + e.getMessage())));
                 });
-
         // Llamada al servicio identity-service para usuarios
         Mono<Map<String, Object>> userCountByType = webClient
                 .get()
