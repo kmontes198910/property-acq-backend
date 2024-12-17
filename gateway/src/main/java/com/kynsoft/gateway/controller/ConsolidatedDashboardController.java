@@ -104,7 +104,7 @@ public class ConsolidatedDashboardController {
 
         Mono<Map<String, Object>> patientCount = webClient
                 .get()
-                .uri("http://patient-service:80/api/dashboard/countPatient")
+                .uri("http://patients-service:80/api/dashboard/countPatient")
                 .retrieve()
                 .bodyToMono(new ParameterizedTypeReference<Map<String, Object>>() {})
                 .onErrorResume(e -> {
