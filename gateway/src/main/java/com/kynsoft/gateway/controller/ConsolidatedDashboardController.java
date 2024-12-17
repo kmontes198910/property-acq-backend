@@ -143,7 +143,7 @@ public class ConsolidatedDashboardController {
                     consolidatedResponse.put("userCountByType", tuple.getT3());
                     consolidatedResponse.put("patientCount", tuple.getT4());
                     consolidatedResponse.put("top10Specialities", tuple.getT5());
-                    consolidatedResponse.put("top10Diagnoses", tuple.getT5());
+                    consolidatedResponse.put("top10Diagnoses", tuple.getT6());
                     return consolidatedResponse;
                 });
     }
