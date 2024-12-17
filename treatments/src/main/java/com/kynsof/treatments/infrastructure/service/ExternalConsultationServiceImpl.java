@@ -130,12 +130,27 @@ public class ExternalConsultationServiceImpl implements IExternalConsultationSer
         Pageable top10 = PageRequest.of(0, 10); // Limita a 10 registros
         List<Object[]> result = repositoryQuery.findTop10SpecialitiesByServiceAndBusinessIdAndYear(businessId, year, top10);
 
-        // Transformar el resultado a una lista de mapas clave-valor
         return result.stream()
                 .map(row -> Map.of(
-                        "speciality", row[0],   // Especialidad
-                        "count", row[1]         // Cantidad de consultas
+                        "speciality", row[0],
+                        "count", row[1]
                 ))
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<Map<String, Object>> getTop10Diagnoses(UUID businessId, int year) {
+        Pageable top10 = PageRequest.of(0, 10); // Solo los 10 primeros resultados
+
+        List<Object[]> results = repositoryQuery.findTop10DiagnosesByBusinessAndYear(businessId, year, top10);
+
+        // Mapear los resultados a una lista de mapas para devolverlos al controlador
+        return results.stream()
+                .map(result -> Map.of(
+                        "icdCode", result[0],
+                        "description", result[1],
+                        "count", result[2]
+                ))
+                .toList();
     }
 }

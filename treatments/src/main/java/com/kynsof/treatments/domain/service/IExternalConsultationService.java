@@ -30,4 +30,6 @@ public interface IExternalConsultationService {
     List<Long> getConsultationsCountByMonth(UUID businessId,int year);
 
     List<Map<String, Object>> getTop10SpecialitiesByConsultationCount(UUID businessId, int year);
+
+    List<Map<String, Object>> getTop10Diagnoses(UUID businessId, int year);
 }

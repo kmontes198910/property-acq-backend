@@ -92,7 +92,7 @@ public class ConsolidatedDashboardController {
                     return Mono.just(Map.of("error", "Error fetching consultations: " + e.getMessage()));
                 });
 
-        Mono<List<Map<String, Object>>> consultationsBySpeciality = webClient
+        Mono<List<Map<String, Object>>> top10Specialities = webClient
                 .get()
                 .uri("http://treatments-service:9909/api/dashboard/top10-specialities?businessId=" + businessId + "&year=" + currentYear)
                 .retrieve()
@@ -101,6 +101,18 @@ public class ConsolidatedDashboardController {
                     System.err.println("Error fetching consultations: " + e.getMessage());
                     return Mono.just(List.of(Map.of("error", "Error fetching consultations: " + e.getMessage())));
                 });
+
+        Mono<List<Map<String, Object>>> top10Diagnoses = webClient
+                .get()
+                .uri("http://treatments-service:9909/api/dashboard/top10-diagnoses?businessId=" + businessId + "&year=" + currentYear)
+                .retrieve()
+                .bodyToMono(new ParameterizedTypeReference<List<Map<String, Object>>>() {})
+                .onErrorResume(e -> {
+                    System.err.println("Error fetching consultations: " + e.getMessage());
+                    return Mono.just(List.of(Map.of("error", "Error fetching consultations: " + e.getMessage())));
+                });
+
+
         // Llamada al servicio identity-service para usuarios
         Mono<Map<String, Object>> userCountByType = webClient
                 .get()
@@ -123,14 +135,15 @@ public class ConsolidatedDashboardController {
                 });
 
         // Consolidar todas las respuestas
-        return Mono.zip(appointmentsByStatus, consultationsByMonth, userCountByType, patientCount,consultationsBySpeciality)
+        return Mono.zip(appointmentsByStatus, consultationsByMonth, userCountByType, patientCount,top10Specialities,top10Diagnoses)
                 .map(tuple -> {
                     Map<String, Object> consolidatedResponse = new HashMap<>();
                     consolidatedResponse.put("appointmentsByStatus", tuple.getT1());
                     consolidatedResponse.put("consultationsByMonth", tuple.getT2());
                     consolidatedResponse.put("userCountByType", tuple.getT3());
                     consolidatedResponse.put("patientCount", tuple.getT4());
-                    consolidatedResponse.put("consultationsBySpeciality", tuple.getT5());
+                    consolidatedResponse.put("top10Specialities", tuple.getT5());
+                    consolidatedResponse.put("top10Diagnoses", tuple.getT5());
                     return consolidatedResponse;
                 });
     }

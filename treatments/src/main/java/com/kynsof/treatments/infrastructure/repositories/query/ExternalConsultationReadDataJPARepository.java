@@ -39,4 +39,16 @@ public interface ExternalConsultationReadDataJPARepository extends JpaRepository
             @Param("year") int year,
             Pageable pageable);
 
+    @Query("SELECT d.icdCode, d.description, COUNT(d) " +
+            "FROM ExternalConsultation ec " +
+            "JOIN ec.diagnoses d " +
+            "WHERE ec.business.id = :businessId " +
+            "AND EXTRACT(YEAR FROM ec.consultationTime) = :year " +
+            "GROUP BY d.icdCode, d.description " +
+            "ORDER BY COUNT(d) DESC")
+    List<Object[]> findTop10DiagnosesByBusinessAndYear(
+            @Param("businessId") UUID businessId,
+            @Param("year") int year,
+            Pageable pageable);
+
 }

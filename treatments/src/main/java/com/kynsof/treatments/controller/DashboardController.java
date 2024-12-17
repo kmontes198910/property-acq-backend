@@ -53,4 +53,13 @@ public class DashboardController {
         List<Map<String, Object>> topSpecialities = externalConsultationService.getTop10SpecialitiesByConsultationCount(businessId, year);
         return ResponseEntity.ok(topSpecialities);
     }
+
+    @GetMapping("/top10-diagnoses")
+    public ResponseEntity<?> getTop10Diagnoses(
+            @RequestParam UUID businessId,
+            @RequestParam int year) {
+
+        List<Map<String, Object>> topDiagnoses = externalConsultationService.getTop10Diagnoses(businessId, year);
+        return ResponseEntity.ok(topDiagnoses);
+    }
 }
