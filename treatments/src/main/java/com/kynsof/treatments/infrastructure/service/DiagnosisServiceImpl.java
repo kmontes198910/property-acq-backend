@@ -15,6 +15,7 @@ import com.kynsof.treatments.infrastructure.entity.Diagnosis;
 import com.kynsof.treatments.infrastructure.entity.ExternalConsultation;
 import com.kynsof.treatments.infrastructure.repositories.command.DiagnosisWriteDataJPARepository;
 import com.kynsof.treatments.infrastructure.repositories.query.DiagnosisReadDataJPARepository;
+import jakarta.transaction.Transactional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -48,20 +49,17 @@ public class DiagnosisServiceImpl implements IDiagnosisService {
         repositoryCommand.save(update);
     }
 
-    @Override
-    public void delete(DiagnosisDto treatment) {
-        try {
-            repositoryCommand.deleteById(treatment.getId());
-        } catch (Exception e) {
-            throw new BusinessNotFoundException(new GlobalBusinessException(
-                    DomainErrorMessage.NOT_DELETE,
-                    new ErrorField("id", "Element cannot be deleted as it has a related element.")));
-        }
-    }
 
     @Override
-    public void deleteByIds(List<UUID> ids) {
-        repositoryCommand.deleteAllByIdInBatch(ids);
+    @Transactional
+    public void delete(DiagnosisDto diagnosisDto) {
+        // Busca el diagnóstico por ID
+        Diagnosis diagnosis = repositoryCommand.findById(diagnosisDto.getId())
+                .orElseThrow(() -> new IllegalArgumentException("Diagnosis not found with id: " + diagnosisDto.getId()));
+
+        // Elimina la entidad
+        repositoryCommand.deleteByCustomIdNative(diagnosis.getId());
+        repositoryCommand.flush(); // Asegura que los cambios se apliquen a la base de datos inmediatamente
     }
 
     @Override

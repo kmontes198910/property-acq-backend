@@ -15,24 +15,9 @@ import java.util.UUID;
 public class UpdateExternalConsultationAllCommandHandler implements ICommandHandler<UpdateExternalConsultationAllCommand> {
 
     private final IExternalConsultationService externalConsultationService;
-    private final IMedicinesService medicinesService;
-    private final ITreatmentService treatmentService;
-    private final IDiagnosisService diagnosisService;
-    private final IExamService examService;
-    private final IOptometryExamService optometryExamService;
 
-    public UpdateExternalConsultationAllCommandHandler(IExternalConsultationService externalConsultationService,
-                                                       IMedicinesService medicinesService,
-                                                       ITreatmentService treatmentService,
-                                                       IDiagnosisService diagnosisService,
-                                                       IExamService examService,
-                                                       IOptometryExamService optometryExamService) {
+    public UpdateExternalConsultationAllCommandHandler(IExternalConsultationService externalConsultationService) {
         this.externalConsultationService = externalConsultationService;
-        this.medicinesService = medicinesService;
-        this.treatmentService = treatmentService;
-        this.diagnosisService = diagnosisService;
-        this.examService = examService;
-        this.optometryExamService = optometryExamService;
     }
 
     @Override

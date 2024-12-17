@@ -16,7 +16,7 @@ public interface IDiagnosisService {
     void update(DiagnosisDto diagnosis);
 
     void delete(DiagnosisDto treatment);
-    void deleteByIds(List<UUID> ids);
+
 
     DiagnosisDto findById(UUID id);
 
