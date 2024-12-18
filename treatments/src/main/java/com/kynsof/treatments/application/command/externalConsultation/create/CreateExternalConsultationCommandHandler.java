@@ -54,7 +54,7 @@ public class CreateExternalConsultationCommandHandler implements ICommandHandler
             );
         }).toList();
 
-        List<ExamDto> examDtoList = command.getExams().stream().map(examRequest -> new ExamDto(
+        List<ExamDto> examDtoList =command.getExams() != null ? command.getExams().stream().map(examRequest -> new ExamDto(
                 UUID.randomUUID(),
                 examRequest.getName(),
                 examRequest.getDescription(),
@@ -62,7 +62,7 @@ public class CreateExternalConsultationCommandHandler implements ICommandHandler
                 "",
                 new Date(),
                 examRequest.getCode()
-        )).toList();
+        )).toList(): new ArrayList<>();
 
         List<OptometryExamDto> optometryExamDtoList = new ArrayList<>();
         if (command.getOptometryExams() != null && !command.getOptometryExams().isEmpty()) {
