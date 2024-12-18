@@ -101,6 +101,12 @@ public class ExternalConsultation {
             return diagnosis;
         }).toList() : new ArrayList<>();
 
+        this.exams = dto.getExams() != null ? dto.getExams().stream().map(examDto -> {
+            Exam exam = new Exam(examDto);
+            exam.setExternalConsultation(this);
+            return exam;
+        }).toList() : new ArrayList<>();
+
         this.business = new Business(dto.getBusiness());
         this.service = new Services(dto.getService());
         this.referenceNumber = dto.getReferenceNumber() != null ? dto.getReferenceNumber() : GeneratorRandomNumber.generateRandomSecurity();

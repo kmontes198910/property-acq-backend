@@ -27,6 +27,9 @@ public class Exam {
     @JoinColumn(name = "external_consultation_id")
     private ExternalConsultation externalConsultation;
 
+    @Column(name = "exam_number", updatable = false, insertable = false)
+    private int examNumber;
+
     private String name;
     private String description;
     @Enumerated(EnumType.STRING)
