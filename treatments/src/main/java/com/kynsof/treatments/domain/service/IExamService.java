@@ -16,7 +16,6 @@ public interface IExamService {
 
     void delete(ExamDto examDto);
 
-    void deleteByIds(List<UUID> ids);
 
     ExamDto findById(UUID id);
 

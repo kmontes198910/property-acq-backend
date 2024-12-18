@@ -11,7 +11,7 @@ import java.util.UUID;
 @Getter
 @Setter
 @AllArgsConstructor
-public class ExamDeleteCommand implements ICommand {
+public class DeleteExamCommand implements ICommand {
 
     private UUID id;
 

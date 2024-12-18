@@ -60,10 +60,11 @@ public class Exam {
         this.result = examDto.getResult();
         this.datePerformed = examDto.getDatePerformed() != null ? examDto.getDatePerformed() : null;
         this.code = examDto.getCode();
+        this.externalConsultation = examDto.getExternalConsultation() != null ? new ExternalConsultation(examDto.getExternalConsultation()) : null;
     }
 
     public ExamDto toAggregate() {
-        return new ExamDto(id, name, description, type, result, datePerformed, code);
+        return new ExamDto(id, name, description, type, code);
     }
 
 }

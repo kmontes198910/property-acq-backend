@@ -21,14 +21,23 @@ public class ExamDto {
     private String result;
     private Date datePerformed;
     private String code;
+    private ExternalConsultationDto externalConsultation;
 
-    public ExamDto(UUID id, String name, String description, MedicalExamCategory type, String result) {
+    public ExamDto(UUID id, String name, String description, MedicalExamCategory type, String code, ExternalConsultationDto externalConsultation) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.type = type;
-        this.result = result;
+        this.code = code;
+        this.externalConsultation = externalConsultation;
+    }
 
+    public ExamDto(UUID id, String name, String description, MedicalExamCategory type, String code) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
+        this.type = type;
+        this.code = code;
     }
 
 }

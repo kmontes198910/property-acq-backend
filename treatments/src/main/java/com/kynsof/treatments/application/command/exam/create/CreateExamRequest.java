@@ -4,13 +4,14 @@ import com.kynsof.treatments.domain.dto.enumDto.MedicalExamCategory;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.UUID;
+
 @Setter
 @Getter
 public class CreateExamRequest {
     private String name;
     private String description;
     private MedicalExamCategory type;
-    private String result;
-    private Double price;
     private String code;
+    private UUID externalConsultationId;
 }

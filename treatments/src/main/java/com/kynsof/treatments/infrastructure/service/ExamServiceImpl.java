@@ -14,7 +14,7 @@ import com.kynsof.treatments.infrastructure.entity.Exam;
 import com.kynsof.treatments.infrastructure.entity.Procedure;
 import com.kynsof.treatments.infrastructure.repositories.command.ExamWriteDataJPARepository;
 import com.kynsof.treatments.infrastructure.repositories.query.ExamReadDataJPARepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import jakarta.transaction.Transactional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -28,11 +28,14 @@ import java.util.UUID;
 @Service
 public class ExamServiceImpl implements IExamService {
 
-    @Autowired
-    private ExamReadDataJPARepository repositoryQuery;
+    private final ExamReadDataJPARepository repositoryQuery;
 
-    @Autowired
-    private ExamWriteDataJPARepository repositoryCommand;
+    private final ExamWriteDataJPARepository repositoryCommand;
+
+    public ExamServiceImpl(ExamReadDataJPARepository repositoryQuery, ExamWriteDataJPARepository repositoryCommand) {
+        this.repositoryQuery = repositoryQuery;
+        this.repositoryCommand = repositoryCommand;
+    }
 
     @Override
     public UUID create(ExamDto examDto) {
@@ -47,17 +50,13 @@ public class ExamServiceImpl implements IExamService {
     }
 
     @Override
+    @Transactional
     public void delete(ExamDto examDto) {
-        try {
-            this.repositoryCommand.deleteById(examDto.getId());
-        } catch (Exception e) {
-            throw new BusinessNotFoundException(new GlobalBusinessException(DomainErrorMessage.NOT_DELETE, new ErrorField("id", "Element cannot be deleted has a related element.")));
-        }
-    }
+        Exam diagnosis = repositoryCommand.findById(examDto.getId())
+                .orElseThrow(() -> new IllegalArgumentException("Exam not found with id: " + examDto.getId()));
 
-    @Override
-    public void deleteByIds(List<UUID> ids) {
-        repositoryCommand.deleteAllByIdInBatch(ids);
+        repositoryCommand.deleteByCustomIdNative(diagnosis.getId());
+        repositoryCommand.flush();
     }
 
     @Override

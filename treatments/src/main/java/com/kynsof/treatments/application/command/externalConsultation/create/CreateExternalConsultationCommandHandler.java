@@ -59,8 +59,6 @@ public class CreateExternalConsultationCommandHandler implements ICommandHandler
                 examRequest.getName(),
                 examRequest.getDescription(),
                 examRequest.getType(),
-                "",
-                new Date(),
                 examRequest.getCode()
         )).toList(): new ArrayList<>();
 

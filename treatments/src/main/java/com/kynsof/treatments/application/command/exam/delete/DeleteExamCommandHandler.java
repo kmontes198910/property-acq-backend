@@ -6,7 +6,7 @@ import com.kynsof.treatments.domain.service.IExamService;
 import org.springframework.stereotype.Component;
 
 @Component
-public class DeleteExamCommandHandler implements ICommandHandler<ExamDeleteCommand> {
+public class DeleteExamCommandHandler implements ICommandHandler<DeleteExamCommand> {
 
     private final IExamService serviceImpl;
 
@@ -15,7 +15,7 @@ public class DeleteExamCommandHandler implements ICommandHandler<ExamDeleteComma
     }
 
     @Override
-    public void handle(ExamDeleteCommand command) {
+    public void handle(DeleteExamCommand command) {
         ExamDto delete = this.serviceImpl.findById(command.getId());
 
         serviceImpl.delete(delete);

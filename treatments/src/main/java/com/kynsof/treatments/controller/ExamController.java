@@ -7,7 +7,7 @@ import com.kynsof.share.core.infrastructure.bus.IMediator;
 import com.kynsof.treatments.application.command.exam.create.CreateExamCommand;
 import com.kynsof.treatments.application.command.exam.create.CreateExamMessage;
 import com.kynsof.treatments.application.command.exam.create.CreateExamRequest;
-import com.kynsof.treatments.application.command.exam.delete.ExamDeleteCommand;
+import com.kynsof.treatments.application.command.exam.delete.DeleteExamCommand;
 import com.kynsof.treatments.application.command.exam.delete.ExamDeleteMessage;
 import com.kynsof.treatments.application.command.exam.update.UpdateExamCommand;
 import com.kynsof.treatments.application.command.exam.update.UpdateExamMessage;
@@ -69,7 +69,7 @@ public class ExamController {
     @DeleteMapping(path = "/{id}")
     public ResponseEntity<?> delete(@PathVariable UUID id) {
 
-        ExamDeleteCommand query = new ExamDeleteCommand(id);
+        DeleteExamCommand query = new DeleteExamCommand(id);
         ExamDeleteMessage response = mediator.send(query);
         return ResponseEntity.ok(response);
     }
