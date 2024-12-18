@@ -1,4 +1,4 @@
-package com.kynsof.treatments.application.command.examOrder.create;
+package com.kynsof.treatments.application.command.externalConsultation.create;
 
 import com.kynsof.treatments.domain.dto.enumDto.MedicalExamCategory;
 import lombok.Getter;

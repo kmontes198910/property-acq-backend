@@ -55,15 +55,13 @@ public class ExternalConsultation {
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "externalConsultation")
     private List<OptometryExam> optometryExams;
 
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "externalConsultation")
+    private List<Exam> exams;
+
     @ManyToOne
     @JoinColumn(name = "business_id")
     private Business business;
-
     private String observations;
-
-    @OneToOne(mappedBy = "externalConsultation", cascade = CascadeType.ALL)
-    private ExamOrder examOrder;
-
     @ManyToOne
     @JoinColumn(name = "service_id", nullable = true)
     private Services service;
@@ -103,11 +101,6 @@ public class ExternalConsultation {
             return diagnosis;
         }).toList() : new ArrayList<>();
 
-        ExamOrder examOrder = dto.getExamOrder() != null ? new ExamOrder(dto.getExamOrder()) : null;
-        if (examOrder != null) {
-            examOrder.setExternalConsultation(this);
-        }
-        this.examOrder = examOrder;
         this.business = new Business(dto.getBusiness());
         this.service = new Services(dto.getService());
         this.referenceNumber = dto.getReferenceNumber() != null ? dto.getReferenceNumber() : GeneratorRandomNumber.generateRandomSecurity();
@@ -124,7 +117,6 @@ public class ExternalConsultation {
             optometryExam.setAxisOi(oe.getAxisOi());
             optometryExam.setAvscOi(oe.getAvscOi());
             optometryExam.setAvccOi(oe.getAvccOi());
-            //optometryExam.setAddPower(oe.getAddPower());
             optometryExam.setDp(oe.getDp());
             optometryExam.setDv(oe.getDv());
             optometryExam.setFilter(oe.getFilter());
@@ -134,8 +126,7 @@ public class ExternalConsultation {
             optometryExam.setCylinderAdd(oe.getCylinderAdd());
             optometryExam.setAvscAdd(oe.getAvscAdd());
             optometryExam.setAxisAdd(oe.getAxisAdd());
-         //   optometryExam.setOrderNumber(oe.getOrderNumber());
-            optometryExam.setExternalConsultation(this); // Asocia con la consulta externa actual
+            optometryExam.setExternalConsultation(this);
             return optometryExam;
         }).toList() : new ArrayList<>();
     }
@@ -151,7 +142,7 @@ public class ExternalConsultation {
                         treatment.getIcdCode(), treatment.getDescription()))
                 .toList();
 
-        ExamOrderDto exam = this.examOrder != null ? this.examOrder.toAggregateSimple() : null;
+        List<ExamDto> exams = this.exams.stream().map(Exam::toAggregate).toList();
 
         List<OptometryExamDto> optometryExamDtoList = this.getOptometryExams().stream()
                 .map(optometryExam -> new OptometryExamDto(
@@ -181,7 +172,7 @@ public class ExternalConsultation {
 
         return new ExternalConsultationDto(this.id, this.patient.toAggregate(), this.doctor.toAggregate(),
                 this.consultationTime, this.consultationReason, this.medicalHistory, this.physicalExam, diagnosisDtoList,
-                treatmentList, this.observations, exam, business.toAggregate(),
+                treatmentList, this.observations, exams, business.toAggregate(),
                 medicalSpeciality, this.referenceNumber, this.service.toAggregate(),optometryExamDtoList);
     }
 

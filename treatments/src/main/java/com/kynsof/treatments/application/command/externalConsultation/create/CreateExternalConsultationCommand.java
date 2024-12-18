@@ -20,7 +20,7 @@ public class CreateExternalConsultationCommand implements ICommand {
     private String medicalHistory;
     private String physicalExam;
     private String observations;
-    private CreateExamOrderRequest examOrder;
+    private List<ExamRequest> exams;
     private final List<DiagnosisRequest> diagnosis;
     private final List<TreatmentRequest> treatments;
     private final List<OptometryExamRequest> optometryExams;
@@ -28,7 +28,7 @@ public class CreateExternalConsultationCommand implements ICommand {
 
     public CreateExternalConsultationCommand(UUID patientId, UUID doctorId, String consultationReason,
                                              String medicalHistory, String physicalExam, String observations,
-                                             CreateExamOrderRequest examOrder, List<DiagnosisRequest> diagnosis,
+                                             List<ExamRequest> exams, List<DiagnosisRequest> diagnosis,
                                              List<TreatmentRequest> treatments, UUID businessId, List<OptometryExamRequest> optometryExams, String medicalSpeciality) {
 
         this.patientId = patientId;
@@ -38,7 +38,7 @@ public class CreateExternalConsultationCommand implements ICommand {
         this.medicalHistory = medicalHistory;
         this.physicalExam = physicalExam;
         this.observations = observations;
-        this.examOrder = examOrder;
+        this.exams = exams;
         this.diagnosis = diagnosis;
         this.treatments = treatments;
         this.optometryExams = optometryExams;
@@ -48,7 +48,7 @@ public class CreateExternalConsultationCommand implements ICommand {
     public static CreateExternalConsultationCommand fromRequest(CreateExternalConsultationRequest request) {
         return new CreateExternalConsultationCommand(request.getPatient(), request.getDoctor(),
                 request.getConsultationReason(), request.getMedicalHistory(), request.getPhysicalExam(),
-                request.getObservations(), request.getExamOrder(),request.getDiagnosis() ,request.getTreatments(), 
+                request.getObservations(), request.getExams(),request.getDiagnosis() ,request.getTreatments(),
                 request.getBusiness(),
                 request.getOptometryExams(),
                 request.getMedicalSpeciality() );

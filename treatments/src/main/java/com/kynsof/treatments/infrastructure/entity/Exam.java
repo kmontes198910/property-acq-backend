@@ -23,6 +23,10 @@ public class Exam {
     @GeneratedValue(generator = "UUID")
     private UUID id;
 
+    @ManyToOne
+    @JoinColumn(name = "external_consultation_id")
+    private ExternalConsultation externalConsultation;
+
     private String name;
     private String description;
     @Enumerated(EnumType.STRING)
@@ -30,10 +34,6 @@ public class Exam {
     private String result;
     @Temporal(TemporalType.TIMESTAMP)
     private Date datePerformed;
-
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "exam_order_id")
-    private ExamOrder examOrder;
 
     private String code;
 

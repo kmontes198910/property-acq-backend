@@ -2,7 +2,6 @@ package com.kynsof.treatments.application.command.externalConsultation.create;
 
 import com.kynsof.share.core.domain.bus.command.ICommandHandler;
 import com.kynsof.treatments.domain.dto.*;
-import com.kynsof.treatments.domain.dto.enumDto.Status;
 import com.kynsof.treatments.domain.service.*;
 import org.springframework.stereotype.Component;
 
@@ -10,7 +9,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 @Component
 public class CreateExternalConsultationCommandHandler implements ICommandHandler<CreateExternalConsultationCommand> {
@@ -55,28 +53,17 @@ public class CreateExternalConsultationCommandHandler implements ICommandHandler
                     treatmentRequest.getMedicineUnit()
             );
         }).toList();
-        ExamOrderDto examOrderDto = null;
-        if (!command.getExamOrder().getExams().isEmpty()) {
-            List<ExamDto> examDtoList  = command.getExamOrder().getExams().stream()
-                    .map(examRequest -> new ExamDto(
-                            UUID.randomUUID(),
-                            examRequest.getName(),
-                            examRequest.getDescription(),
-                            examRequest.getType(),
-                            "",
-                            new Date(),
-                            examRequest.getCode()
-                    ))
-                    .collect(Collectors.toList());
-             examOrderDto = new ExamOrderDto(
-                    UUID.randomUUID(),
-                    command.getExamOrder().getReason(),
-                    Status.ACTIVE.toString(),
-                    new Date(),
-                    patientDto,
-                    examDtoList
-            );
-        }
+
+        List<ExamDto> examDtoList = command.getExams().stream().map(examRequest -> new ExamDto(
+                UUID.randomUUID(),
+                examRequest.getName(),
+                examRequest.getDescription(),
+                examRequest.getType(),
+                "",
+                new Date(),
+                examRequest.getCode()
+        )).toList();
+
         List<OptometryExamDto> optometryExamDtoList = new ArrayList<>();
         if (command.getOptometryExams() != null && !command.getOptometryExams().isEmpty()) {
             int[] counter = {1}; // Usar un array para manejar el contador dentro del stream
@@ -120,7 +107,7 @@ public class CreateExternalConsultationCommandHandler implements ICommandHandler
                 diagnosisDtoList,
                 treatmentDtoList,
                 command.getObservations(),
-                examOrderDto,
+                examDtoList,
                 businessDto,
                 serviceDto.getName(),
                 "",

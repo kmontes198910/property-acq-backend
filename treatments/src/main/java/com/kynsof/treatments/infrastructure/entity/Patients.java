@@ -37,9 +37,6 @@ public class Patients {
     private List<ExternalConsultation> externalConsultations;
 
     @OneToMany(mappedBy = "patient", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<ExamOrder> examOrders;
-
-    @OneToMany(mappedBy = "patient", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<PatientVaccine> patientVaccines;
     public Patients(PatientDto patients) {
         this.id = patients.getId();

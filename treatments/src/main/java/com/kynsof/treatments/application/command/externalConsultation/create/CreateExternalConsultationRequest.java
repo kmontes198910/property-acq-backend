@@ -17,7 +17,7 @@ public class CreateExternalConsultationRequest {
     private String medicalHistory;
     private String physicalExam;
     private String observations;
-    private CreateExamOrderRequest examOrder;
+    private List<ExamRequest> exams;
     private List<DiagnosisRequest> diagnosis;
     private List<TreatmentRequest> treatments;
     private List<OptometryExamRequest> optometryExams;

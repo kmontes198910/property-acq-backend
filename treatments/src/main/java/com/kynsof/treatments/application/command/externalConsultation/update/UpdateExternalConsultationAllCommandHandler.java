@@ -6,7 +6,7 @@ import com.kynsof.share.core.domain.rules.ValidateObjectNotNullRule;
 import com.kynsof.share.utils.UpdateIfNotNull;
 import com.kynsof.treatments.domain.dto.ExternalConsultationDto;
 import com.kynsof.treatments.domain.rules.externalconsultation.ExternalConsultationCreateAtNotEqualsRule;
-import com.kynsof.treatments.domain.service.*;
+import com.kynsof.treatments.domain.service.IExternalConsultationService;
 import org.springframework.stereotype.Component;
 
 import java.util.UUID;

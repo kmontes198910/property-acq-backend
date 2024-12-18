@@ -23,7 +23,7 @@ public class ExternalConsultationDto {
     private List<DiagnosisDto> diagnoses;
     private List<TreatmentDto> treatments;
     private String observations;
-    private ExamOrderDto examOrder;
+    private List<ExamDto> exams;
     private BusinessDto business;
     private String medicalSpeciality;
     private String referenceNumber;
@@ -32,7 +32,7 @@ public class ExternalConsultationDto {
 
     public ExternalConsultationDto(UUID id, PatientDto patient, DoctorDto doctor, Date consultationTime,
                                    String consultationReason, String medicalHistory, String physicalExam,
-                                   String observations, ExamOrderDto examOrder, String medicalSpeciality,
+                                   String observations, List exams, String medicalSpeciality,
                                    ServiceDto service, List<OptometryExamDto> optometryExams) {
         this.id = id;
         this.patient = patient;
@@ -42,7 +42,7 @@ public class ExternalConsultationDto {
         this.medicalHistory = medicalHistory;
         this.physicalExam = physicalExam;
         this.observations = observations;
-        this.examOrder = examOrder;
+        this.exams = exams;
         this.medicalSpeciality = medicalSpeciality;
         this.service = service;
         this.optometryExams = optometryExams;

@@ -3,7 +3,7 @@ package com.kynsof.treatments.application.query.externalConsultation.getall;
 import com.kynsof.share.core.domain.bus.query.IResponse;
 import com.kynsof.share.utils.ConfigureTimeZone;
 import com.kynsof.treatments.application.query.business.search.BusinessResponse;
-import com.kynsof.treatments.application.query.examOrder.getall.ExamOrderResponse;
+import com.kynsof.treatments.application.query.exam.getbyid.ExamResponse;
 import com.kynsof.treatments.application.query.optometryExam.getById.OptometryExamResponse;
 import com.kynsof.treatments.application.query.services.replicate.ServicesResponse;
 import com.kynsof.treatments.domain.dto.DoctorDto;
@@ -36,7 +36,7 @@ public class ExternalConsultationResponse implements IResponse {
     private List<TreatmentExternalConsultationResponse> treatments;
     private List<OptometryExamResponse> optometryExams;
     private String observations;
-    private ExamOrderResponse examOrder;
+    private List<ExamResponse> exams;
     private BusinessResponse business;
     private boolean isEdit;
     private ServicesResponse speciality;
@@ -58,7 +58,8 @@ public class ExternalConsultationResponse implements IResponse {
         this.treatments = dto.getTreatments().stream()
                 .map(TreatmentExternalConsultationResponse::new)
                 .collect(Collectors.toList());
-        this.examOrder = dto.getExamOrder() != null ? new ExamOrderResponse(dto.getExamOrder()) : null;
+        //this.examOrder = dto.getExamOrder() != null ? new ExamOrderResponse(dto.getExamOrder()) : null;
+        this.exams = dto.getExams().stream().map(ExamResponse::new).collect(Collectors.toList());
         this.business = dto.getBusiness() != null ? new BusinessResponse(dto.getBusiness()) : null;
         this.isEdit = !ConfigureTimeZone.validateEqualsDate(ConfigureTimeZone.convertDateToLocalDateTime(consultationTime));
         speciality = dto.getService() != null ? new ServicesResponse(dto.getService()) : null;

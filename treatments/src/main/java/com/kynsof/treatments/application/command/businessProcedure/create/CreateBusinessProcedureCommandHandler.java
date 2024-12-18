@@ -10,7 +10,8 @@ import com.kynsof.treatments.domain.service.IBusinessService;
 import com.kynsof.treatments.domain.service.IProcedureService;
 import org.springframework.stereotype.Component;
 
-import java.util.*;
+import java.util.List;
+import java.util.UUID;
 
 @Component
 public class CreateBusinessProcedureCommandHandler implements ICommandHandler<CreateBusinessProcedureCommand> {
