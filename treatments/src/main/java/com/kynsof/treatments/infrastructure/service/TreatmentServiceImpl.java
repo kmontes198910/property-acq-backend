@@ -17,6 +17,7 @@ import com.kynsof.treatments.infrastructure.entity.Procedure;
 import com.kynsof.treatments.infrastructure.entity.Treatment;
 import com.kynsof.treatments.infrastructure.repositories.command.TreatmentWriteDataJPARepository;
 import com.kynsof.treatments.infrastructure.repositories.query.TreatmentReadDataJPARepository;
+import jakarta.transaction.Transactional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -52,13 +53,14 @@ public class TreatmentServiceImpl implements ITreatmentService {
     }
 
     @Override
+    @Transactional
     public void delete(TreatmentDto treatment) {
-        try {
-            this.repositoryCommand.deleteById(treatment.getId());
-        } catch (Exception e) {
-            throw new BusinessNotFoundException(new GlobalBusinessException(DomainErrorMessage.NOT_DELETE, new ErrorField("id", "Element cannot be deleted has a related element.")));
+            Treatment diagnosis = repositoryCommand.findById(treatment.getId())
+                    .orElseThrow(() -> new IllegalArgumentException("Treatment not found with id: " + treatment.getId()));
+
+            repositoryCommand.deleteByCustomIdNative(diagnosis.getId());
+            repositoryCommand.flush();
         }
-    }
 
     @Override
     public void deleteByIds(List<UUID> ids) {

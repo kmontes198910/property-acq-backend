@@ -53,13 +53,11 @@ public class DiagnosisServiceImpl implements IDiagnosisService {
     @Override
     @Transactional
     public void delete(DiagnosisDto diagnosisDto) {
-        // Busca el diagnóstico por ID
         Diagnosis diagnosis = repositoryCommand.findById(diagnosisDto.getId())
                 .orElseThrow(() -> new IllegalArgumentException("Diagnosis not found with id: " + diagnosisDto.getId()));
 
-        // Elimina la entidad
         repositoryCommand.deleteByCustomIdNative(diagnosis.getId());
-        repositoryCommand.flush(); // Asegura que los cambios se apliquen a la base de datos inmediatamente
+        repositoryCommand.flush();
     }
 
     @Override
