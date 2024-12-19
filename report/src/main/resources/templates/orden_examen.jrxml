@@ -23,7 +23,6 @@
 		</group>
 	</subDataset>
 	<parameter name="id_consulta" class="java.lang.String"/>
-	<parameter name="fecha_prox_cita" class="java.lang.String"/>
 	<queryString language="SQL">
 		<![CDATA[SELECT
     TO_CHAR(externalconsultation.consultationtime, 'DD/MM/YYYY') AS consultationtime,
@@ -46,15 +45,19 @@ END AS gender,
     UPPER(business.name) as clinica,
     business.logo,
     COALESCE(services.name, ' ') as medicalspeciality,
-    exam.code as examen_codigo, exam.name as examen_nombre, exam.description as examen_descripcion, exam.result, exam.type, exam.dateperformed as examen_date_performed,
-    exam_order.orderdate, exam_order.reason,  exam_order.orderdate,
-    LPAD( exam_order.ordernumber::TEXT, 6, '0') as ordernumber
+    exam.code as examen_codigo, exam.name as examen_nombre, exam.description as examen_descripcion, exam.result,  exam.dateperformed as examen_date_performed,
+    CASE WHEN exam.type = 'LAB_TESTS' THEN 'Examen de Laboratorio'
+         WHEN exam.type = 'CARDIAC_NEURO' THEN 'Examen cardíaco/neurológico'
+         WHEN exam.type = 'ENDOSCOPIC' THEN 'Examen endoscópico'
+         WHEN exam.type = 'ORGAN_SPECIFIC' THEN 'Examen específico de órgano'
+         WHEN exam.type = 'ALLERGY_SENSITIVITY' THEN 'Examen de alergia y sensibilidad'
+         WHEN exam.type = 'OPHTHALMOLOGY' THEN 'Examen oftalmológico'
+    ELSE 'EXAMEN' END AS type
 
 FROM public.externalconsultation
+         inner JOIN exam ON exam.external_consultation_id = externalconsultation.id
          LEFT JOIN patients ON patients.id = externalconsultation.patient_id
          LEFT JOIN doctor ON doctor.id = externalconsultation.doctor_id
-         LEFT JOIN exam_order ON exam_order.external_consultation_id = externalconsultation.id
-         LEFT JOIN exam ON exam.exam_order_id = exam_order.id
          LEFT JOIN business ON business.id = externalconsultation.business_id
          LEFT JOIN services ON services.id = externalconsultation.service_id
  WHERE externalconsultation.id  =  $P{id_consulta}::uuid]]>
@@ -156,27 +159,16 @@ FROM public.externalconsultation
 		<property name="com.jaspersoft.studio.field.label" value="result"/>
 		<property name="com.jaspersoft.studio.field.tree.path" value="exam"/>
 	</field>
-	<field name="type" class="java.lang.String">
-		<property name="com.jaspersoft.studio.field.name" value="type"/>
-		<property name="com.jaspersoft.studio.field.label" value="type"/>
-		<property name="com.jaspersoft.studio.field.tree.path" value="exam"/>
-	</field>
 	<field name="examen_date_performed" class="java.sql.Timestamp">
 		<property name="com.jaspersoft.studio.field.name" value="examen_date_performed"/>
 		<property name="com.jaspersoft.studio.field.label" value="examen_date_performed"/>
 		<property name="com.jaspersoft.studio.field.tree.path" value="exam"/>
 	</field>
-	<field name="orderdate" class="java.sql.Timestamp">
-		<property name="com.jaspersoft.studio.field.name" value="orderdate"/>
-		<property name="com.jaspersoft.studio.field.label" value="orderdate"/>
-		<property name="com.jaspersoft.studio.field.tree.path" value="examorder"/>
+	<field name="type" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="type"/>
+		<property name="com.jaspersoft.studio.field.label" value="type"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="exam"/>
 	</field>
-	<field name="reason" class="java.lang.String">
-		<property name="com.jaspersoft.studio.field.name" value="reason"/>
-		<property name="com.jaspersoft.studio.field.label" value="reason"/>
-		<property name="com.jaspersoft.studio.field.tree.path" value="examorder"/>
-	</field>
-	<field name="ordernumber" class="java.lang.String"/>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
@@ -238,7 +230,6 @@ FROM public.externalconsultation
 					<textElement textAlignment="Center" verticalAlignment="Middle">
 						<font size="14" isBold="true"/>
 					</textElement>
-					<textFieldExpression><![CDATA["No. " +$F{ordernumber}]]></textFieldExpression>
 				</textField>
 			</frame>
 			<frame>
@@ -378,7 +369,8 @@ FROM public.externalconsultation
 		</band>
 	</columnHeader>
 	<detail>
-		<band height="39">
+		<band height="60">
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
 			<frame>
 				<reportElement stretchType="ContainerHeight" mode="Opaque" x="0" y="0" width="570" height="25" backcolor="#DEE0E0" uuid="b3ce9441-c377-48c4-a836-8cdb61b728e2">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
@@ -421,9 +413,9 @@ FROM public.externalconsultation
 		</band>
 	</detail>
 	<summary>
-		<band height="90">
+		<band height="30">
 			<frame>
-				<reportElement x="0" y="0" width="570" height="90" uuid="e5ccc16f-9c41-47e9-9db3-ddd9421dfc62">
+				<reportElement x="0" y="0" width="570" height="30" uuid="e5ccc16f-9c41-47e9-9db3-ddd9421dfc62">
 					<property name="com.jaspersoft.studio.unit.y" value="px"/>
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
@@ -434,7 +426,7 @@ FROM public.externalconsultation
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<staticText>
-					<reportElement stretchType="ContainerHeight" x="380" y="0" width="190" height="90" uuid="1571bcf2-70ca-4f28-b4b8-c9d1120d27bf">
+					<reportElement stretchType="ContainerHeight" x="380" y="0" width="190" height="30" uuid="1571bcf2-70ca-4f28-b4b8-c9d1120d27bf">
 						<property name="com.jaspersoft.studio.unit.leftIndent" value="px"/>
 						<property name="com.jaspersoft.studio.unit.height" value="px"/>
 					</reportElement>

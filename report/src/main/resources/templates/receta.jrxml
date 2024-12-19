@@ -391,7 +391,7 @@ FROM public.externalconsultation
 		</band>
 	</columnHeader>
 	<detail>
-		<band height="25" splitType="Stretch">
+		<band height="60" splitType="Stretch">
 			<property name="com.jaspersoft.studio.unit.height" value="px"/>
 			<frame>
 				<reportElement stretchType="ContainerHeight" mode="Opaque" x="0" y="0" width="580" height="25" backcolor="#DEE0E0" uuid="1beeade1-078c-4692-be38-a6985f4272c0">
@@ -480,9 +480,11 @@ FROM public.externalconsultation
 		</band>
 	</detail>
 	<summary>
-		<band height="123">
+		<band height="50">
 			<frame>
-				<reportElement x="0" y="12" width="580" height="111" uuid="e5ccc16f-9c41-47e9-9db3-ddd9421dfc62"/>
+				<reportElement x="0" y="0" width="580" height="50" uuid="e5ccc16f-9c41-47e9-9db3-ddd9421dfc62">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
 				<box>
 					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -490,7 +492,7 @@ FROM public.externalconsultation
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textField>
-					<reportElement positionType="FixRelativeToBottom" x="1" y="91" width="409" height="20" uuid="f6137dce-abb4-4f15-b125-35f8c9024c70">
+					<reportElement positionType="FixRelativeToBottom" x="0" y="30" width="409" height="20" uuid="f6137dce-abb4-4f15-b125-35f8c9024c70">
 						<property name="com.jaspersoft.studio.unit.leftIndent" value="px"/>
 					</reportElement>
 					<box>
@@ -503,10 +505,10 @@ FROM public.externalconsultation
 						<font size="10" isBold="true"/>
 						<paragraph leftIndent="4"/>
 					</textElement>
-					<textFieldExpression><![CDATA["Separe su próxima cita para: " +$P{fecha_prox_cita}]]></textFieldExpression>
+					<textFieldExpression><![CDATA["Separe su próxima cita para: "]]></textFieldExpression>
 				</textField>
 				<staticText>
-					<reportElement stretchType="ContainerHeight" x="410" y="0" width="170" height="111" uuid="1571bcf2-70ca-4f28-b4b8-c9d1120d27bf">
+					<reportElement stretchType="ContainerHeight" x="410" y="0" width="170" height="50" uuid="1571bcf2-70ca-4f28-b4b8-c9d1120d27bf">
 						<property name="com.jaspersoft.studio.unit.leftIndent" value="px"/>
 					</reportElement>
 					<box>
