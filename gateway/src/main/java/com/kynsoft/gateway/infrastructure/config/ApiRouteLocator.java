@@ -11,16 +11,13 @@ import reactor.core.publisher.Flux;
 public class ApiRouteLocator implements RouteLocator {
 
     private final UpdateRouteContext updateRouteContext;
-
     private final RouteLocatorBuilder routeLocatorBuilder;
-
 
     @Override
     public Flux<Route> getRoutes() {
         RouteLocatorBuilder.Builder routesBuilder = routeLocatorBuilder.routes();
 
         for (RouteDTO route : updateRouteContext.getDefinitionsContext().getDefinitions()) {
-
             if (!route.getName().equalsIgnoreCase("config-service")) {
                 routesBuilder.route(route.getName(),
                         r -> r.path(route.getPath())
@@ -35,5 +32,4 @@ public class ApiRouteLocator implements RouteLocator {
 
         return routesBuilder.build().getRoutes();
     }
-
 }
