@@ -9,13 +9,13 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 @RequiredArgsConstructor
 public class RoutesConfig {
-    
+
 	private final UpdateRouteContext updateRouteContext;
 
-	
+
     @Bean
     public RouteLocator routeLocator(RouteLocatorBuilder routeLocatorBuilder) {
       return new ApiRouteLocator(updateRouteContext, routeLocatorBuilder);
     }
-   
+
 }
