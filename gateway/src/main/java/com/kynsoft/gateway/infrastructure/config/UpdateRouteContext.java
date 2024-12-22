@@ -1,6 +1,7 @@
 package com.kynsoft.gateway.infrastructure.config;
 
 import com.kynsoft.gateway.domain.dto.RouteDTO;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.cloud.client.discovery.DiscoveryClient;
@@ -18,6 +19,7 @@ public class UpdateRouteContext implements ApplicationListener<RefreshRoutesEven
 
     private final DiscoveryClient discoveryClient;
 
+    @Getter
     private final RouteDefinitionsContext definitionsContext;
 
 
@@ -28,7 +30,7 @@ public class UpdateRouteContext implements ApplicationListener<RefreshRoutesEven
         definitionsContext.clear();
 
         for (String serviceId : services) {
-            if (!serviceId.toUpperCase().equals("UNKNOWN")) {
+            if (!serviceId.equalsIgnoreCase("UNKNOWN")) {
                 List<ServiceInstance> instances = discoveryClient.getInstances(serviceId);
                 for (ServiceInstance instance : instances) {
 //                    String path = instance.getUri().toString();
@@ -57,10 +59,6 @@ public class UpdateRouteContext implements ApplicationListener<RefreshRoutesEven
     @Override
     public int getOrder() {
         return -1;
-    }
-
-    public RouteDefinitionsContext getDefinitionsContext() {
-        return definitionsContext;
     }
 
 }
