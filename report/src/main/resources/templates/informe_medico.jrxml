@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Created with Jaspersoft Studio version 6.21.2.final using JasperReports Library version 6.21.2-8434a0bd7c3bbc37cbf916f2968d35e4b165821a  -->
+<!-- Created with Jaspersoft Studio version 6.19.1.final using JasperReports Library version 6.19.1-867c00bf88cd4d784d404379d6c05e1b419e8a4c  -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="informe_medico" pageWidth="612" pageHeight="792" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="b2fc13d9-aa35-4929-bf1e-cf4c3ddcdaaf">
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
-	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="kynsoft"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="Treatment"/>
 	<parameter name="id_consulta" class="java.lang.String"/>
-	<parameter name="Texto" class="java.lang.String"/>
-	<parameter name="especialidad" class="java.lang.String"/>
+	<parameter name="texto" class="java.lang.String"/>
 	<queryString language="SQL">
 		<![CDATA[SELECT
     TO_CHAR(current_date, 'DD/MM/YYYY') AS fecha_actual,
@@ -120,7 +119,7 @@
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="SansSerif" size="19" isBold="true"/>
+					<font fontName="SansSerif" size="14" isBold="true"/>
 				</textElement>
 				<text><![CDATA[INFORME MÉDICO]]></text>
 			</staticText>
@@ -153,32 +152,32 @@
 				<textFieldExpression><![CDATA[$F{fecha_actual}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement x="0" y="100" width="200" height="20" uuid="3f859cb5-ca81-4de0-b829-76b0d13b306d">
+				<reportElement x="0" y="100" width="300" height="40" uuid="3f859cb5-ca81-4de0-b829-76b0d13b306d">
 					<property name="com.jaspersoft.studio.unit.leftIndent" value="px"/>
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 					<property name="com.jaspersoft.studio.unit.y" value="px"/>
 				</reportElement>
 				<textElement textAlignment="Left" verticalAlignment="Top">
-					<font size="12" isBold="true"/>
+					<font size="8" isBold="true"/>
 					<paragraph leftIndent="2"/>
 				</textElement>
 				<textFieldExpression><![CDATA["Nombre: "+$F{fullname}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement mode="Transparent" x="0" y="80" width="200" height="20" backcolor="#E1F1FC" uuid="8d0b7aae-ac6d-4d44-b925-55cdbcc48494">
+				<reportElement mode="Transparent" x="0" y="80" width="300" height="20" backcolor="#E1F1FC" uuid="8d0b7aae-ac6d-4d44-b925-55cdbcc48494">
 					<property name="com.jaspersoft.studio.unit.leftIndent" value="px"/>
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 					<property name="com.jaspersoft.studio.unit.y" value="px"/>
 				</reportElement>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
-					<font size="12" isBold="true"/>
+					<font size="8" isBold="true"/>
 					<paragraph leftIndent="2"/>
 				</textElement>
-				<textFieldExpression><![CDATA["DNI: "+$F{identification}]]></textFieldExpression>
+				<textFieldExpression><![CDATA["Identificación: "+ $F{identification}]]></textFieldExpression>
 			</textField>
 			<textField textAdjust="ScaleFont" isBlankWhenNull="true">
-				<reportElement mode="Transparent" x="300" y="100" width="270" height="20" backcolor="#FFFFFF" uuid="b14669f9-ca3a-4d15-b70f-32264dc1772e">
+				<reportElement mode="Transparent" x="390" y="100" width="180" height="20" backcolor="#FFFFFF" uuid="b14669f9-ca3a-4d15-b70f-32264dc1772e">
 					<property name="com.jaspersoft.studio.unit.leftIndent" value="px"/>
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 					<property name="com.jaspersoft.studio.unit.y" value="px"/>
@@ -186,26 +185,26 @@
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 				</reportElement>
 				<textElement textAlignment="Left" verticalAlignment="Middle" markup="none">
-					<font size="12" isBold="true"/>
+					<font size="8" isBold="true"/>
 					<paragraph leftIndent="2"/>
 				</textElement>
 				<textFieldExpression><![CDATA["Especialidad: " + $F{medicalspeciality}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement mode="Transparent" x="200" y="80" width="100" height="20" backcolor="#E1F1FC" uuid="8eb82daf-b2fc-4267-bedb-ced8f7650ab5">
+				<reportElement mode="Transparent" x="300" y="80" width="100" height="20" backcolor="#E1F1FC" uuid="8eb82daf-b2fc-4267-bedb-ced8f7650ab5">
 					<property name="com.jaspersoft.studio.unit.leftIndent" value="px"/>
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 					<property name="com.jaspersoft.studio.unit.y" value="px"/>
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 				</reportElement>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
-					<font size="12" isBold="true"/>
+					<font size="8" isBold="true"/>
 					<paragraph leftIndent="2"/>
 				</textElement>
 				<textFieldExpression><![CDATA["Género: " + $F{gender}]]></textFieldExpression>
 			</textField>
 			<textField textAdjust="ScaleFont" isBlankWhenNull="true">
-				<reportElement mode="Transparent" x="300" y="120" width="270" height="20" backcolor="#FFFFFF" uuid="ae3f64c7-5c8b-40d9-af10-763a9f415c36">
+				<reportElement mode="Transparent" x="390" y="120" width="180" height="20" backcolor="#FFFFFF" uuid="ae3f64c7-5c8b-40d9-af10-763a9f415c36">
 					<property name="com.jaspersoft.studio.unit.leftIndent" value="px"/>
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 					<property name="com.jaspersoft.studio.unit.y" value="px"/>
@@ -213,13 +212,13 @@
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 				</reportElement>
 				<textElement textAlignment="Left" verticalAlignment="Middle" markup="none">
-					<font size="12" isBold="true"/>
+					<font size="8" isBold="true"/>
 					<paragraph leftIndent="2"/>
 				</textElement>
 				<textFieldExpression><![CDATA["Registro: " + $F{registernumber}]]></textFieldExpression>
 			</textField>
 			<textField textAdjust="ScaleFont" isBlankWhenNull="true">
-				<reportElement mode="Transparent" x="300" y="80" width="270" height="20" backcolor="#FFFFFF" uuid="a2931583-8571-4491-b866-b967163f1834">
+				<reportElement mode="Transparent" x="390" y="80" width="180" height="20" backcolor="#FFFFFF" uuid="a2931583-8571-4491-b866-b967163f1834">
 					<property name="com.jaspersoft.studio.unit.leftIndent" value="px"/>
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 					<property name="com.jaspersoft.studio.unit.y" value="px"/>
@@ -227,13 +226,13 @@
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 				</reportElement>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
-					<font size="12" isBold="true"/>
+					<font size="8" isBold="true"/>
 					<paragraph leftIndent="2"/>
 				</textElement>
 				<textFieldExpression><![CDATA["Médico: " + $F{fullname_dr}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement x="200" y="100" width="100" height="20" uuid="fb989f05-d370-404c-a180-0c6162246418">
+				<reportElement x="300" y="100" width="100" height="20" uuid="fb989f05-d370-404c-a180-0c6162246418">
 					<property name="com.jaspersoft.studio.unit.leftIndent" value="px"/>
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 					<property name="com.jaspersoft.studio.unit.y" value="px"/>
@@ -241,7 +240,7 @@
 					<property name="com.jaspersoft.studio.unit.x" value="px"/>
 				</reportElement>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
-					<font size="12" isBold="true"/>
+					<font size="8" isBold="true"/>
 					<paragraph leftIndent="2"/>
 				</textElement>
 				<textFieldExpression><![CDATA["Edad: " + $F{edad}]]></textFieldExpression>
@@ -292,7 +291,7 @@
 					<textElement>
 						<font size="12"/>
 					</textElement>
-					<textFieldExpression><![CDATA[$P{Texto}]]></textFieldExpression>
+					<textFieldExpression><![CDATA[$P{texto}]]></textFieldExpression>
 				</textField>
 			</frame>
 		</band>
