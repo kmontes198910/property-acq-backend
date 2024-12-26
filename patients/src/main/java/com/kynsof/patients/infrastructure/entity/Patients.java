@@ -66,11 +66,8 @@ public class Patients implements Serializable {
     @OneToMany(mappedBy = "prime", fetch = FetchType.LAZY)
     private List<Patients> dependents = new ArrayList<>();
 
-    @ManyToMany
-    @JoinTable(name = "patient_insurance", joinColumns = @JoinColumn(name = "patient_id"),
-            inverseJoinColumns = @JoinColumn(name = "insurance_id")
-    )
-    private List<Insurance> insurances;
+    @OneToMany(mappedBy = "patient", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<PatientInsurance> patientInsurances = new ArrayList<>();
 
     @CreationTimestamp
     @Column(updatable = false)

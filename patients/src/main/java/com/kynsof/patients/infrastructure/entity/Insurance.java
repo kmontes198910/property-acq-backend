@@ -1,10 +1,7 @@
 package com.kynsof.patients.infrastructure.entity;
 
 import com.kynsof.patients.domain.dto.InsuranceDto;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToMany;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -12,6 +9,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -27,13 +25,12 @@ public class Insurance {
 
     private String description;
 
-    @ManyToMany(mappedBy = "insurances")
-    private List<Patients> patients;
+    @OneToMany(mappedBy = "insurance", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<PatientInsurance> patientInsurances = new ArrayList<>();
 
     @CreationTimestamp
     @Column(updatable = false)
     private LocalDateTime createdAt;
-
 
     @UpdateTimestamp
     private LocalDateTime updatedAt;
