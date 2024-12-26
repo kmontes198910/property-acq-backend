@@ -1,5 +1,6 @@
 package com.kynsof.patients.infrastructure.entity;
 
+import com.kynsof.patients.domain.dto.PatientInsuranceDto;
 import com.kynsof.patients.domain.dto.enumTye.Status;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -21,11 +22,11 @@ public class PatientInsurance {
     @GeneratedValue
     private UUID id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "patient_id", nullable = false)
     private Patients patient;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "insurance_id", nullable = false)
     private Insurance insurance;
 
@@ -43,5 +44,18 @@ public class PatientInsurance {
     public PatientInsurance(Patients patient, Insurance insurance) {
         this.patient = patient;
         this.insurance = insurance;
+    }
+
+    public PatientInsuranceDto toAggregate() {
+        PatientInsuranceDto patientInsuranceDto = new PatientInsuranceDto();
+        patientInsuranceDto.setId(this.id);
+        patientInsuranceDto.setPatientId(this.patient.getId());
+        patientInsuranceDto.setInsuranceId(this.insurance.getId());
+        patientInsuranceDto.setStatus(this.status);
+        patientInsuranceDto.setCreated(this.createdAt);
+        patientInsuranceDto.setPatient(this.patient.toAggregate());
+        patientInsuranceDto.setInsurance(this.insurance.toAggregate());
+        return patientInsuranceDto;
+
     }
 }
