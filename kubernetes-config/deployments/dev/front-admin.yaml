@@ -1,0 +1,51 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: front-admin
+  namespace: medinec-dev
+  labels:
+    workload.user.cattle.io/workloadselector: apps.deployment-medinec-front-admin
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      workload.user.cattle.io/workloadselector: apps.deployment-medinec-front-admin
+  strategy:
+    rollingUpdate:
+      maxSurge: 50%
+      maxUnavailable: 50%
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: front-admin
+        workload.user.cattle.io/workloadselector: apps.deployment-medinec-front-admin
+    spec:
+      containers:
+        - name: front-admin
+          image: kmontes2020/medinec-admin-client-dev:v1
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 3000
+              name: http
+              protocol: TCP
+          env:
+            - name: AUTH_ORIGIN
+              value: https://medinec-admin.kynsoft.net
+            - name: AUTH_SECRET
+              value: 5299f11c-95d4-47f9-a970-bd74aabd91f3
+            - name: VITE_APP_CLIENT_ID
+              value: 91be4d3d-dd35-45f1-a7fa-85aaf43e743d
+            - name: VITE_APP_CLIENT_SECRET
+              value: 2042012a-884b-4ce0-b68d-2efe4ad14378
+            - name: VITE_APP_BASE_URL
+              value: http://gateway-service:8080
+            - name: NUXT_PUBLIC_SOCKET_URL
+              value: https://socket-medinec.kynsoft.net/ws
+          securityContext:
+            allowPrivilegeEscalation: false
+            privileged: false
+            readOnlyRootFilesystem: false
+            runAsNonRoot: false
+      imagePullSecrets:
+        - name: docker-hub
