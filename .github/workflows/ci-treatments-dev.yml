@@ -68,4 +68,4 @@ jobs:
 
       - name: Redeploy
         run: |
-          kubectl -n ${{ vars.K8S_NAMESPACE }} patch deployment ${{  env.SERVICE_NAME }} -p "{\"spec\": {\"template\": {\"metadata\": { \"labels\": {  \"redeploy\": \"$(date +%s)\"}}}}}"
+          kubectl -n ${{ vars.K8S_NAMESPACE_DEV }} patch deployment ${{  env.SERVICE_NAME }} -p "{\"spec\": {\"template\": {\"metadata\": { \"labels\": {  \"redeploy\": \"$(date +%s)\"}}}}}"
