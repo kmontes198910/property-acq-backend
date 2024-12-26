@@ -19,7 +19,6 @@ import java.util.concurrent.TimeUnit;
 @ComponentScan(basePackages = "com.kynsof.share")
 @EnableFeignClients(basePackages = {})
 public class ShareAutoConfiguration {
-
     @Value("${rc.microservice.feign.connect-timeout:300000}")
     private Long feignConnectTimeout;
     @Value("${rc.microservice.feign.read-timeout:300000}")
