@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: shift
-  namespace: medinec
+  namespace: medinec-dev
 spec:
   replicas: 1
   selector:
@@ -20,7 +20,7 @@ spec:
     spec:
       containers:
         - name: shift
-          image: kmontes2020/medinec-shift:v1
+          image: kmontes2020/medinec-shift-dev:v1
           imagePullPolicy: Always
           ports:
             - containerPort: 9908

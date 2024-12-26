@@ -2,21 +2,20 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: report
-  namespace: medinec
+  namespace: medinec-dev
 spec:
   replicas: 1
   selector:
     matchLabels:
-      workload.user.cattle.io/workloadselector: apps.deployment-medinec-report
+      app: report
   strategy:
     rollingUpdate:
-      maxSurge: 25%
-      maxUnavailable: 25%
+      maxSurge: 1
+      maxUnavailable: 0
   template:
     metadata:
       labels:
         app: report
-        workload.user.cattle.io/workloadselector: apps.deployment-medinec-report
     spec:
       containers:
         - name: report
@@ -29,6 +28,12 @@ spec:
           envFrom:
             - secretRef:
                 name: report-secret
+          resources:
+            requests:
+              memory: "512Mi"
+              cpu: "500m"
+            limits:
+              memory: "2Gi"
+              cpu: "1"
       imagePullSecrets:
-        - name: dokcer-hub
-      restartPolicy: Always
+        - name: docker-hub

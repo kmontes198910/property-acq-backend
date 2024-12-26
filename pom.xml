@@ -19,7 +19,6 @@
         <module>registry</module>
         <module>calendar</module>
         <module>treatments</module>
-        <module>store</module>
         <module>share</module>
         <module>identity</module>
         <module>cloudBridges</module>

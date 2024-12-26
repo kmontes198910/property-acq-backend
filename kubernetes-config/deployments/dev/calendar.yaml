@@ -2,28 +2,25 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: calendar
-  namespace: medinec
-  annotations:
-    deployment.kubernetes.io/revision: "453"
+  namespace: medinec-dev
 spec:
   replicas: 1
   selector:
     matchLabels:
-      workload.user.cattle.io/workloadselector: apps.deployment-medinec-calendar # Mantén el selector actual
+      workload.user.cattle.io/workloadselector: apps.deployment-medinec-calendar
   strategy:
     rollingUpdate:
       maxSurge: 25%
       maxUnavailable: 25%
-    type: RollingUpdate
   template:
     metadata:
       labels:
         app: calendar
-        workload.user.cattle.io/workloadselector: apps.deployment-medinec-calendar # Mantén la etiqueta actual
+        workload.user.cattle.io/workloadselector: apps.deployment-medinec-calendar
     spec:
       containers:
         - name: calendar
-          image: kmontes2020/medinec-calendar:v1
+          image: kmontes2020/medinec-calendar-dev:v1
           imagePullPolicy: Always
           ports:
             - containerPort: 9908
@@ -35,18 +32,3 @@ spec:
       imagePullSecrets:
         - name: dokcer-hub
       restartPolicy: Always
-
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: calendar-service
-  namespace: medinec
-spec:
-  ports:
-    - protocol: TCP
-      port: 9909         # Expuesto externamente
-      targetPort: 9909 # Puerto del contenedor
-  selector:
-    workload.user.cattle.io/workloadselector: apps.deployment-medinec-calendar # Selector consistente con el Deployment
-  type: ClusterIP

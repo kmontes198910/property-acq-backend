@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: socket
-  namespace: medinec
+  namespace: medinec-dev
 spec:
   replicas: 1
   selector:
@@ -20,7 +20,7 @@ spec:
     spec:
       containers:
         - name: socket
-          image: kmontes2020/medinec-socket:v1
+          image: kmontes2020/medinec-socket-dev:v1
           imagePullPolicy: Always
           ports:
             - containerPort: 7171

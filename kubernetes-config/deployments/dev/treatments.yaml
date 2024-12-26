@@ -2,10 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: treatments
-  namespace: medinec
-  annotations:
-    kubectl.kubernetes.io/last-applied-configuration: |
-      {"apiVersion":"apps/v1","kind":"Deployment","metadata":{"name":"treatments","namespace":"medinec"}}
+  namespace: medinec-dev
 spec:
   replicas: 1
   selector:
@@ -15,7 +12,6 @@ spec:
     rollingUpdate:
       maxSurge: 25%
       maxUnavailable: 25%
-    type: RollingUpdate
   template:
     metadata:
       labels:
@@ -23,7 +19,7 @@ spec:
     spec:
       containers:
         - name: treatments
-          image: kmontes2020/medinec-treatments:v1
+          image: kmontes2020/medinec-treatments-dev:v1
           imagePullPolicy: Always
           ports:
             - containerPort: 9906
@@ -34,18 +30,3 @@ spec:
       imagePullSecrets:
         - name: dokcer-hub
       restartPolicy: Always
-
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: treatments-service
-  namespace: medinec
-spec:
-  ports:
-    - protocol: TCP
-      port: 9909         # Puerto expuesto para el servicio
-      targetPort: 9909 # Puerto interno del contenedor
-  selector:
-    workload.user.cattle.io/workloadselector: apps.deployment-medinec-treatments
-  type: ClusterIP

@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: identity
-  namespace: medinec
+  namespace: medinec-dev
 spec:
   replicas: 1
   selector:
@@ -20,7 +20,7 @@ spec:
     spec:
       containers:
         - name: identity
-          image: kmontes2020/medinec-identity:v1
+          image: kmontes2020/medinec-identity-dev:v1
           imagePullPolicy: Always
           ports:
             - containerPort: 9905

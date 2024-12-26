@@ -1,13 +1,13 @@
 apiVersion: v1
 kind: Namespace
 metadata:
-  name: mongo-db
+  name: mongo-db-dev
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: mongodb-data
-  namespace: mongo-db
+  namespace: mongo-db-dev
 spec:
   accessModes:
     - ReadWriteOnce
@@ -19,7 +19,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: mongodb
-  namespace: mongo-db
+  namespace: mongo-db-dev
   labels:
     app: mongodb
 spec:
@@ -54,7 +54,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: mongodb-service
-  namespace: mongo-db
+  namespace: mongo-db-dev
 spec:
   ports:
     - port: 27017

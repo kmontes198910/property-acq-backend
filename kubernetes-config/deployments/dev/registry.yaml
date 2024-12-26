@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: registry
-  namespace: medinec
+  namespace: medinec-dev
 spec:
   replicas: 1
   selector:
@@ -19,7 +19,7 @@ spec:
         workload.user.cattle.io/workloadselector: apps.deployment-medinec-registry
     spec:
       containers:
-        - image: kmontes2020/medinec-registry:v1
+        - image: kmontes2020/medinec-registry-dev:v1
           imagePullPolicy: Always
           name: medinec-registry
           ports:
