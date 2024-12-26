@@ -1,17 +1,17 @@
-name: ci-identity
+name: ci-cloudBridges-dev
 
 env:
-  SERVICE_NAME: 'identity'
-  SERVICE_PATH: 'identity'
+  SERVICE_NAME: 'cloudbridges'
+  SERVICE_PATH: 'cloudBridges'
 
 on:
   workflow_dispatch:
   push:
     branches:
-      - 'prod'
+      - 'dev'
     paths:
-      - .github/workflows/ci-identity.yml
-      - 'identity/**'
+      - ci-cloudBridges-dev.yml
+      - 'cloudBridges/**'
       - 'share/**'
 jobs:
   build-push:
@@ -40,8 +40,7 @@ jobs:
             "PACKAGE_TOKEN=${{secrets.PACKAGE_TOKEN}}"
           context: "{{defaultContext}}:${{ env.SERVICE_PATH }}"
           push: true
-          tags: kmontes2020/medinec-identity:v1
-
+          tags: kmontes2020/medinec-cloud-bridges:v1
   deploy:
     needs: build-push
     runs-on: ubuntu-latest

@@ -1,8 +1,8 @@
-name: ci-patients
+name: ci-socket-prod
 
 env:
-  SERVICE_NAME: 'patients'
-  SERVICE_PATH: 'patients'
+  SERVICE_NAME: 'socket'
+  SERVICE_PATH: 'socketService'
 
 on:
   workflow_dispatch:
@@ -10,9 +10,8 @@ on:
     branches:
       - 'prod'
     paths:
-      - .github/workflows/ci-patients.yml
-      - 'patients/**'
-      - 'share/**'
+      - .github/workflows/ci-socket-prod.yml
+      - 'socketService/**'
 jobs:
   build-push:
     runs-on: ubuntu-latest
@@ -40,7 +39,7 @@ jobs:
             "PACKAGE_TOKEN=${{secrets.PACKAGE_TOKEN}}"
           context: "{{defaultContext}}:${{ env.SERVICE_PATH }}"
           push: true
-          tags: kmontes2020/medinec-patients:v1
+          tags: kmontes2020/medinec-socket:v1
 
   deploy:
     needs: build-push

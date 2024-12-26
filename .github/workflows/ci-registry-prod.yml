@@ -1,17 +1,17 @@
-name: ci-socket
+name: ci-registry-prod
 
 env:
-  SERVICE_NAME: 'socket'
-  SERVICE_PATH: 'socketService'
+  SERVICE_NAME: 'registry'
+  SERVICE_PATH: 'registry'
 
 on:
   workflow_dispatch:
   push:
     branches:
-      - 'dev'
+      - 'prod'
     paths:
-      - ci-socket.yml
-      - 'socketService/**'
+      - .github/workflows/ci-registry-prod.yml
+      - 'registry/**'
 jobs:
   build-push:
     runs-on: ubuntu-latest
@@ -39,7 +39,7 @@ jobs:
             "PACKAGE_TOKEN=${{secrets.PACKAGE_TOKEN}}"
           context: "{{defaultContext}}:${{ env.SERVICE_PATH }}"
           push: true
-          tags: kmontes2020/medinec-socket:v1
+          tags: kmontes2020/medinec-registry:v1
 
   deploy:
     needs: build-push

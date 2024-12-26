@@ -1,8 +1,8 @@
-name: ci-patients
+name: ci-treatments-dev
 
 env:
-  SERVICE_NAME: 'patients'
-  SERVICE_PATH: 'patients'
+  SERVICE_NAME: 'treatments'
+  SERVICE_PATH: 'treatments'
 
 on:
   workflow_dispatch:
@@ -10,8 +10,8 @@ on:
     branches:
       - 'dev'
     paths:
-      - ci-patients.yml
-      - 'patients/**'
+      - ci-treatments-dev.yml
+      - 'treatments/**'
       - 'share/**'
 jobs:
   build-push:
@@ -40,7 +40,7 @@ jobs:
             "PACKAGE_TOKEN=${{secrets.PACKAGE_TOKEN}}"
           context: "{{defaultContext}}:${{ env.SERVICE_PATH }}"
           push: true
-          tags: kmontes2020/medinec-patients:v1
+          tags: kmontes2020/medinec-treatments:v1
 
   deploy:
     needs: build-push

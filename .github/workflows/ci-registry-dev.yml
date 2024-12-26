@@ -1,8 +1,8 @@
-name: ci-calendar
+name: ci-registry-dev
 
 env:
-  SERVICE_NAME: 'calendar'
-  SERVICE_PATH: 'calendar'
+  SERVICE_NAME: 'registry'
+  SERVICE_PATH: 'registry'
 
 on:
   workflow_dispatch:
@@ -10,14 +10,13 @@ on:
     branches:
       - 'dev'
     paths:
-      - ci-calendar.yml
-      - 'calendar/**'
-      - 'share/**'
+      - ci-registry-dev.yml
+      - 'registry/**'
 jobs:
   build-push:
     runs-on: ubuntu-latest
     steps:
-      -
+      - 
         name: Checkout
         uses: actions/checkout@v4
       -
@@ -40,7 +39,7 @@ jobs:
             "PACKAGE_TOKEN=${{secrets.PACKAGE_TOKEN}}"
           context: "{{defaultContext}}:${{ env.SERVICE_PATH }}"
           push: true
-          tags: kmontes2020/medinec-calendar:v1
+          tags: kmontes2020/medinec-registry:v1
 
   deploy:
     needs: build-push

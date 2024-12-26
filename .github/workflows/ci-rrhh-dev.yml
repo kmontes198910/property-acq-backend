@@ -1,8 +1,8 @@
-name: ci-identity
+name: ci-rrhh-dev
 
 env:
-  SERVICE_NAME: 'identity'
-  SERVICE_PATH: 'identity'
+  SERVICE_NAME: 'rrhh'
+  SERVICE_PATH: 'rrhh'
 
 on:
   workflow_dispatch:
@@ -10,8 +10,8 @@ on:
     branches:
       - 'dev'
     paths:
-      - ci-identity.yml
-      - 'identity/**'
+      - ci-rrhh-dev.yml
+      - 'rrhh/**'
       - 'share/**'
 jobs:
   build-push:
@@ -40,8 +40,7 @@ jobs:
             "PACKAGE_TOKEN=${{secrets.PACKAGE_TOKEN}}"
           context: "{{defaultContext}}:${{ env.SERVICE_PATH }}"
           push: true
-          tags: kmontes2020/medinec-identity:v1
-
+          tags: kmontes2020/medinec-rrhh:v1
   deploy:
     needs: build-push
     runs-on: ubuntu-latest

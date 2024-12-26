@@ -1,17 +1,17 @@
-name: ci-treatments
+name: ci-report-prod
 
 env:
-  SERVICE_NAME: 'treatments'
-  SERVICE_PATH: 'treatments'
+  SERVICE_NAME: 'report'
+  SERVICE_PATH: 'report'
 
 on:
   workflow_dispatch:
   push:
     branches:
-      - 'dev'
+      - 'prod'
     paths:
-      - ci-treatments.yml
-      - 'treatments/**'
+      - .github/workflows/ci-report-prod.yml
+      - 'report/**'
       - 'share/**'
 jobs:
   build-push:
@@ -40,8 +40,7 @@ jobs:
             "PACKAGE_TOKEN=${{secrets.PACKAGE_TOKEN}}"
           context: "{{defaultContext}}:${{ env.SERVICE_PATH }}"
           push: true
-          tags: kmontes2020/medinec-treatments:v1
-
+          tags: kmontes2020/medinec-report:v1
   deploy:
     needs: build-push
     runs-on: ubuntu-latest
@@ -51,7 +50,6 @@ jobs:
 
       - name: Install OpenVPN
         run: |
-          sudo apt update
           sudo apt install -y openvpn openvpn-systemd-resolved
 
       - name: Connect to OpenVPN

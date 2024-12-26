@@ -10,7 +10,7 @@ on:
     branches:
       - 'prod'
     paths:
-      - .github/workflows/ci-cloudBridges.yml
+      - .github/workflows/ci-cloudBridges-prod.yml
       - 'cloudBridges/**'
       - 'share/**'
 jobs:

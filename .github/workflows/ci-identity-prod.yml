@@ -1,17 +1,18 @@
-name: ci-registry
+name: ci-identity-prod
 
 env:
-  SERVICE_NAME: 'registry'
-  SERVICE_PATH: 'registry'
+  SERVICE_NAME: 'identity'
+  SERVICE_PATH: 'identity'
 
 on:
   workflow_dispatch:
   push:
     branches:
-      - 'dev'
+      - 'prod'
     paths:
-      - ci-registry.yml
-      - 'registry/**'
+      - .github/workflows/ci-identity-prod.yml
+      - 'identity/**'
+      - 'share/**'
 jobs:
   build-push:
     runs-on: ubuntu-latest
@@ -39,7 +40,7 @@ jobs:
             "PACKAGE_TOKEN=${{secrets.PACKAGE_TOKEN}}"
           context: "{{defaultContext}}:${{ env.SERVICE_PATH }}"
           push: true
-          tags: kmontes2020/medinec-registry:v1
+          tags: kmontes2020/medinec-identity:v1
 
   deploy:
     needs: build-push

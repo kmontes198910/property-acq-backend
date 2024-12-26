@@ -1,4 +1,4 @@
-name: ci-share
+name: ci-share-prod
 
 on:
   workflow_dispatch:
@@ -6,7 +6,7 @@ on:
     branches:
       - 'prod'
     paths:
-      - .github/workflows/share.yml
+      - .github/workflows/share-prod.yml
       - 'share/**'
 
 jobs:
