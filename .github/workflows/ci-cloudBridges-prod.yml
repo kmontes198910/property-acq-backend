@@ -1,4 +1,4 @@
-name: ci-cloudBridges
+name: ci-cloudBridges-prod
 
 env:
   SERVICE_NAME: 'cloudbridges'
