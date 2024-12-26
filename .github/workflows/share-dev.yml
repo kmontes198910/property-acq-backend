@@ -1,4 +1,4 @@
-name: ci-share
+name: ci-share-dev
 
 on:
   workflow_dispatch:
@@ -6,7 +6,7 @@ on:
     branches:
       - 'dev'
     paths:
-      - share.yml
+      - share-dev.yml
       - 'share/**'
 
 jobs:

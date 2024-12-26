@@ -1,22 +1,23 @@
-name: ci-socket
+name: ci-calendar-dev
 
 env:
-  SERVICE_NAME: 'socket'
-  SERVICE_PATH: 'socketService'
+  SERVICE_NAME: 'calendar'
+  SERVICE_PATH: 'calendar'
 
 on:
   workflow_dispatch:
   push:
     branches:
-      - 'prod'
+      - 'dev'
     paths:
-      - .github/workflows/ci-socket.yml
-      - 'socketService/**'
+      - ci-calendar-dev.yml
+      - 'calendar/**'
+      - 'share/**'
 jobs:
   build-push:
     runs-on: ubuntu-latest
     steps:
-      - 
+      -
         name: Checkout
         uses: actions/checkout@v4
       -
@@ -39,7 +40,7 @@ jobs:
             "PACKAGE_TOKEN=${{secrets.PACKAGE_TOKEN}}"
           context: "{{defaultContext}}:${{ env.SERVICE_PATH }}"
           push: true
-          tags: kmontes2020/medinec-socket:v1
+          tags: kmontes2020/medinec-calendar:v1
 
   deploy:
     needs: build-push
