@@ -4,9 +4,12 @@ import com.kynsof.patients.application.query.patients.getall.PatientsResponse;
 import com.kynsof.patients.domain.dto.DependentPatientDto;
 import com.kynsof.patients.domain.dto.PatientByIdDto;
 import com.kynsof.patients.domain.dto.PatientDto;
+import com.kynsof.patients.domain.dto.enumTye.Status;
 import com.kynsof.patients.domain.service.IPatientsService;
 import com.kynsof.patients.infrastructure.entity.Insurance;
+import com.kynsof.patients.infrastructure.entity.PatientInsurance;
 import com.kynsof.patients.infrastructure.entity.Patients;
+import com.kynsof.patients.infrastructure.repository.command.PatientInsuranceWriteDataJPARepository;
 import com.kynsof.patients.infrastructure.repository.command.PatientsWriteDataJPARepository;
 import com.kynsof.patients.infrastructure.repository.query.InsuranceReadDataJPARepository;
 import com.kynsof.patients.infrastructure.repository.query.PatientsReadDataJPARepository;
@@ -21,6 +24,7 @@ import jakarta.persistence.EntityNotFoundException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -36,11 +40,13 @@ public class PatientsServiceImpl implements IPatientsService {
     private final PatientsReadDataJPARepository repositoryQuery;
 
     private final InsuranceReadDataJPARepository insuranceReadDataJPARepository;
+    private final PatientInsuranceWriteDataJPARepository patientInsuranceWriteDataJPARepository;
 
-    public PatientsServiceImpl(PatientsReadDataJPARepository repositoryQuery, PatientsWriteDataJPARepository repositoryCommand, InsuranceReadDataJPARepository insuranceReadDataJPARepository) {
+    public PatientsServiceImpl(PatientsReadDataJPARepository repositoryQuery, PatientsWriteDataJPARepository repositoryCommand, InsuranceReadDataJPARepository insuranceReadDataJPARepository, PatientInsuranceWriteDataJPARepository patientInsuranceWriteDataJPARepository) {
         this.repositoryQuery = repositoryQuery;
         this.repositoryCommand = repositoryCommand;
         this.insuranceReadDataJPARepository = insuranceReadDataJPARepository;
+        this.patientInsuranceWriteDataJPARepository = patientInsuranceWriteDataJPARepository;
     }
 
     @Override
@@ -61,10 +67,25 @@ public class PatientsServiceImpl implements IPatientsService {
         if (patientDto == null || patientDto.getId() == null) {
             throw new IllegalArgumentException("Patient DTO or ID cannot be null");
         }
-        Patients update = new Patients(patientDto);
-        update.setUpdatedAt(LocalDateTime.now());
-        this.repositoryCommand.save(update);
-        return patientDto.getId();
+
+        Patients existingPatient = repositoryQuery.findById(patientDto.getId())
+                .orElseThrow(() -> new EntityNotFoundException("Patient not found with ID: " + patientDto.getId()));
+
+        // Actualizar solo los campos necesarios
+        existingPatient.setFirstName(patientDto.getName());
+        existingPatient.setLastName(patientDto.getLastName());
+        existingPatient.setIdentification(patientDto.getIdentification());
+        existingPatient.setGender(patientDto.getGender());
+        existingPatient.setPhoto(patientDto.getPhoto());
+        existingPatient.setHasDisability(patientDto.getHasDisability());
+        existingPatient.setIsPregnant(patientDto.getIsPregnant());
+        existingPatient.setDisabilityType(patientDto.getDisabilityType());
+        existingPatient.setUpdatedAt(LocalDateTime.now());
+
+        // Persistir los cambios
+        repositoryCommand.save(existingPatient);
+
+        return existingPatient.getId();
     }
 
     @Override
@@ -156,6 +177,7 @@ public class PatientsServiceImpl implements IPatientsService {
                 data.getTotalElements(), data.getSize(), data.getNumber());
     }
 
+    @Transactional
     @Override
     public void createInsurance(UUID patientId, List<UUID> insuranceIds) {
         Optional<Patients> patientOpt = repositoryQuery.findById(patientId);
@@ -168,9 +190,14 @@ public class PatientsServiceImpl implements IPatientsService {
         if (insurances.size() != insuranceIds.size()) {
             throw new RuntimeException("Una o más aseguradoras no encontradas");
         }
-        patient.setInsurances(insurances);
-        repositoryCommand.save(patient);
 
+        insurances.forEach(insurance -> {
+            PatientInsurance patientInsurance = new PatientInsurance();
+            patientInsurance.setPatient(patient);
+            patientInsurance.setInsurance(insurance);
+            patientInsurance.setStatus(Status.ACTIVE);
+            patientInsuranceWriteDataJPARepository.save(patientInsurance);
+        });
     }
 
     @Override
