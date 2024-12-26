@@ -10,7 +10,7 @@ on:
     branches:
       - 'dev'
     paths:
-      - .github/workflows/ci-config.yml
+      - ci-config.yml
       - 'config/**'
 jobs:
   build-push:

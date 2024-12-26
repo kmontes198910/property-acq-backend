@@ -1,8 +1,8 @@
-name: ci-cloudBridges
+name: ci-registry
 
 env:
-  SERVICE_NAME: 'cloudbridges'
-  SERVICE_PATH: 'cloudBridges'
+  SERVICE_NAME: 'registry'
+  SERVICE_PATH: 'registry'
 
 on:
   workflow_dispatch:
@@ -10,9 +10,8 @@ on:
     branches:
       - 'dev'
     paths:
-      - .github/workflows/ci-cloudBridges.yml
-      - 'cloudBridges/**'
-      - 'share/**'
+      - ci-registry.yml
+      - 'registry/**'
 jobs:
   build-push:
     runs-on: ubuntu-latest
@@ -40,7 +39,8 @@ jobs:
             "PACKAGE_TOKEN=${{secrets.PACKAGE_TOKEN}}"
           context: "{{defaultContext}}:${{ env.SERVICE_PATH }}"
           push: true
-          tags: kmontes2020/medinec-cloud-bridges:v1
+          tags: kmontes2020/medinec-registry:v1
+
   deploy:
     needs: build-push
     runs-on: ubuntu-latest

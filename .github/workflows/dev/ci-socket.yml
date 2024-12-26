@@ -1,8 +1,8 @@
-name: ci-identity
+name: ci-socket
 
 env:
-  SERVICE_NAME: 'identity'
-  SERVICE_PATH: 'identity'
+  SERVICE_NAME: 'socket'
+  SERVICE_PATH: 'socketService'
 
 on:
   workflow_dispatch:
@@ -10,9 +10,8 @@ on:
     branches:
       - 'dev'
     paths:
-      - .github/workflows/ci-identity.yml
-      - 'identity/**'
-      - 'share/**'
+      - ci-socket.yml
+      - 'socketService/**'
 jobs:
   build-push:
     runs-on: ubuntu-latest
@@ -40,7 +39,7 @@ jobs:
             "PACKAGE_TOKEN=${{secrets.PACKAGE_TOKEN}}"
           context: "{{defaultContext}}:${{ env.SERVICE_PATH }}"
           push: true
-          tags: kmontes2020/medinec-identity:v1
+          tags: kmontes2020/medinec-socket:v1
 
   deploy:
     needs: build-push

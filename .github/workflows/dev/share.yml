@@ -6,7 +6,7 @@ on:
     branches:
       - 'dev'
     paths:
-      - .github/workflows/share.yml
+      - share.yml
       - 'share/**'
 
 jobs:

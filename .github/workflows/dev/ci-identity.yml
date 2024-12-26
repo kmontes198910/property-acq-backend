@@ -1,8 +1,8 @@
-name: ci-treatments
+name: ci-identity
 
 env:
-  SERVICE_NAME: 'treatments'
-  SERVICE_PATH: 'treatments'
+  SERVICE_NAME: 'identity'
+  SERVICE_PATH: 'identity'
 
 on:
   workflow_dispatch:
@@ -10,8 +10,8 @@ on:
     branches:
       - 'dev'
     paths:
-      - .github/workflows/ci-treatments.yml
-      - 'treatments/**'
+      - ci-identity.yml
+      - 'identity/**'
       - 'share/**'
 jobs:
   build-push:
@@ -40,7 +40,7 @@ jobs:
             "PACKAGE_TOKEN=${{secrets.PACKAGE_TOKEN}}"
           context: "{{defaultContext}}:${{ env.SERVICE_PATH }}"
           push: true
-          tags: kmontes2020/medinec-treatments:v1
+          tags: kmontes2020/medinec-identity:v1
 
   deploy:
     needs: build-push

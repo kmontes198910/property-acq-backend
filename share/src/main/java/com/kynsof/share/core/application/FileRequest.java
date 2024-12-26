@@ -10,7 +10,6 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class FileRequest {
-
     private String fileName;
     private byte [] file;
 }
