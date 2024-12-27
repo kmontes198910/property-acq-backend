@@ -26,7 +26,7 @@ public class KafkaConsumerConfig {
     private String groupId;
 
     @Bean
-    @Profile("dev")
+    @Profile("prod")
     public DefaultKafkaConsumerFactory<String, String> devConsumerFactory() {
         Map<String, Object> configProps = createBaseProps();
         addSaslConfig(configProps, "user1", "AkC7B1ooWO");
