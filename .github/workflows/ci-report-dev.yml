@@ -1,7 +1,7 @@
 name: ci-report-dev
 
 env:
-  SERVICE_NAME: 'report-dev'
+  SERVICE_NAME: 'report'
   SERVICE_PATH: 'report'
 
 on:

@@ -1,7 +1,7 @@
 name: ci-cloudBridges-dev
 
 env:
-  SERVICE_NAME: 'cloudbridges-dev'
+  SERVICE_NAME: 'cloudbridges'
   SERVICE_PATH: 'cloudBridges'
 
 on:

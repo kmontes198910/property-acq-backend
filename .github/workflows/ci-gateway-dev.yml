@@ -1,7 +1,7 @@
 name: ci-gateway-dev
 
 env:
-  SERVICE_NAME: 'gateway-dev'
+  SERVICE_NAME: 'gateway'
   SERVICE_PATH: 'gateway'
 
 on:
