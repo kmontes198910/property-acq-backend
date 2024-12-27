@@ -4,9 +4,13 @@ package com.kynsof.patients.controller;
 import com.kynsof.patients.application.command.patientInsurance.create.CreatePatientInsuranceCommand;
 import com.kynsof.patients.application.command.patientInsurance.create.CreatePatientInsuranceMessage;
 import com.kynsof.patients.application.command.patientInsurance.create.CreatePatientInsuranceRequest;
+import com.kynsof.patients.application.command.patientInsurance.delete.DeletePatientInsuranceCommand;
+import com.kynsof.patients.application.command.patientInsurance.delete.DeletePatientInsuranceMessage;
 import com.kynsof.patients.application.command.patientInsurance.update.UpdatePatientInsuranceCommand;
 import com.kynsof.patients.application.command.patientInsurance.update.UpdatePatientInsuranceMessage;
 import com.kynsof.patients.application.command.patientInsurance.update.UpdatePatientInsuranceRequest;
+import com.kynsof.patients.application.command.patients.delete.DeletePatientsCommand;
+import com.kynsof.patients.application.command.patients.delete.PatientDeleteMessage;
 import com.kynsof.patients.application.query.patients.search.GetSearchPatientsQuery;
 import com.kynsof.patients.application.query.patientsInsurance.getById.FindPatientsInsuranceByIdQuery;
 import com.kynsof.patients.application.query.patientsInsurance.getById.PatientsInsuranceByIdResponse;
@@ -67,4 +71,12 @@ public class PatientInsuranceController {
         return ResponseEntity.ok(data);
     }
 
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> delete(@PathVariable("id") UUID id) {
+
+        DeletePatientInsuranceCommand command = new DeletePatientInsuranceCommand(id);
+        DeletePatientInsuranceMessage response = mediator.send(command);
+
+        return ResponseEntity.ok(response);
+    }
 }
