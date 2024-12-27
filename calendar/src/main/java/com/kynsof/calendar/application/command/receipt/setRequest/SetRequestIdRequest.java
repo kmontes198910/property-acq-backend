@@ -14,5 +14,6 @@ public class SetRequestIdRequest {
     private EStatusReceipt status;
     private String requestId;
     private String processUrl;
+    private String reference;
 
 }

@@ -30,6 +30,8 @@ public class SetRequestIdCommandHandler implements ICommandHandler<SetRequestIdC
        ReceiptDto receiptDto = service.findById(command.getReceiptId());
        receiptDto.setRequestId(command.getRequestId());
        receiptDto.setStatus(command.getStatus());
+       receiptDto.setProcessUrl(command.getProcessUrl());
+       receiptDto.setReference(command.getReference());
        service.update(receiptDto);
     }
 }
