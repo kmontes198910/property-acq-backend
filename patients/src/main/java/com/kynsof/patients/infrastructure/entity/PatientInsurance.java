@@ -55,6 +55,7 @@ public class PatientInsurance {
         patientInsuranceDto.setCreated(this.createdAt);
         patientInsuranceDto.setPatient(this.patient.toAggregate());
         patientInsuranceDto.setInsurance(this.insurance.toAggregate());
+        patientInsuranceDto.setUpdateAt(updatedAt);
         return patientInsuranceDto;
 
     }
