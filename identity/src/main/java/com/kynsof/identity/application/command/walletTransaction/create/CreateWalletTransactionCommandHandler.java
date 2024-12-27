@@ -7,8 +7,7 @@ import com.kynsof.identity.domain.dto.enumType.TransactionType;
 import com.kynsof.identity.domain.interfaces.service.IUserSystemService;
 import com.kynsof.identity.domain.interfaces.service.IWalletService;
 import com.kynsof.identity.domain.interfaces.service.IWalletTransactionService;
-import com.kynsof.share.core.application.payment.domain.placeToPlay.response.TransactionsState;
-import com.kynsof.share.core.application.payment.domain.service.IPaymentServiceClient;
+//import com.kynsof.share.core.application.payment.domain.placeToPlay.response.TransactionsState;
 import com.kynsof.share.core.domain.bus.command.ICommandHandler;
 import com.kynsof.share.core.domain.exception.BusinessException;
 import com.kynsof.share.core.domain.exception.DomainErrorMessage;
@@ -23,22 +22,26 @@ public class CreateWalletTransactionCommandHandler implements ICommandHandler<Cr
     private final IUserSystemService customerService;
     private final IWalletTransactionService walletTransactionService;
     private final IWalletService walletService;
-    private final IPaymentServiceClient paymentServiceClient;
+   // private final IPaymentServiceClient paymentServiceClient;
 
 
-    public CreateWalletTransactionCommandHandler(IUserSystemService service, IWalletTransactionService walletTransactionService, IWalletService walletService, IPaymentServiceClient paymentServiceClient) {
+    public CreateWalletTransactionCommandHandler(IUserSystemService service,
+                                                 IWalletTransactionService walletTransactionService,
+                                                 IWalletService walletService//,
+                                                // IPaymentServiceClient paymentServiceClient
+    ) {
         this.customerService = service;
         this.walletTransactionService = walletTransactionService;
         this.walletService = walletService;
-        this.paymentServiceClient = paymentServiceClient;
+      //  this.paymentServiceClient = paymentServiceClient;
     }
 
     @Override
     public void handle(CreateWalletTransactionCommand command) {
-        TransactionsState transactionsState = paymentServiceClient.getTransactionsState(Integer.parseInt(command.getRequestId()));
-        if(transactionsState == null || !transactionsState.getValue().getStatus().getStatus().equals("APPROVED")) {
-            throw new BusinessException(DomainErrorMessage.PAYMENT_NOT_FOUND, DomainErrorMessage.PAYMENT_NOT_FOUND.toString());
-        }
+//        TransactionsState transactionsState = paymentServiceClient.getTransactionsState(Integer.parseInt(command.getRequestId()));
+//        if(transactionsState == null || !transactionsState.getValue().getStatus().getStatus().equals("APPROVED")) {
+//            throw new BusinessException(DomainErrorMessage.PAYMENT_NOT_FOUND, DomainErrorMessage.PAYMENT_NOT_FOUND.toString());
+//        }
         UserSystemDto customerDto = customerService.findById(command.getCustomerId());
 
         WalletDto walletDto = walletService.findByCustomerId(customerDto.getId());
