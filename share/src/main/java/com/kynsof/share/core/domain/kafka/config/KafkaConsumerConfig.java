@@ -42,7 +42,7 @@ public class KafkaConsumerConfig {
 //    }
 
     @Bean
-    @Profile("!dev")
+    @Profile("!prod")
     public DefaultKafkaConsumerFactory<String, String> defaultConsumerFactory() {
         Map<String, Object> configProps = createBaseProps();
         return new DefaultKafkaConsumerFactory<>(configProps);
