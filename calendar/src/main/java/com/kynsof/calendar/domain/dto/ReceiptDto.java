@@ -31,6 +31,7 @@ public class ReceiptDto implements Serializable {
     private String userAgentCreate;
     private String userAgentPayment;
     private String consultId;
+    private String processUrl;
 
     public ReceiptDto(UUID id, Double price, Boolean express, String reasons, PatientDto user, ScheduleDto schedule,
                       ServiceDto service, EStatusReceipt status, String requestId, String authorizationCode,

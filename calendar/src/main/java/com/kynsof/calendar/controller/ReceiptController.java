@@ -16,6 +16,9 @@ import com.kynsof.calendar.application.command.receipt.delete.ReceiptDeleteMessa
 import com.kynsof.calendar.application.command.receipt.reschedule.RescheduleReceiptCommand;
 import com.kynsof.calendar.application.command.receipt.reschedule.RescheduleReceiptMessage;
 import com.kynsof.calendar.application.command.receipt.reschedule.RescheduleReceiptRequest;
+import com.kynsof.calendar.application.command.receipt.setRequest.SetRequestIdCommand;
+import com.kynsof.calendar.application.command.receipt.setRequest.SetRequestIdMessage;
+import com.kynsof.calendar.application.command.receipt.setRequest.SetRequestIdRequest;
 import com.kynsof.calendar.application.command.receipt.updateConsultId.UpdateConsultIdCommand;
 import com.kynsof.calendar.application.command.receipt.updateConsultId.UpdateConsultIdMessage;
 import com.kynsof.calendar.application.command.receipt.updateConsultId.UpdateConsultIdRequest;
@@ -164,6 +167,19 @@ public class ReceiptController {
         return ResponseEntity.ok(response);
     }
 
+    @PostMapping("set-request/{receiptId}")
+    public ResponseEntity<?> setRequest(@PathVariable UUID receiptId,
+                                                                       @RequestBody SetRequestIdRequest confirmPaymentReceiptRequest,
+                                                                       ServerHttpRequest request,
+                                                                       @RequestHeader(value = "User-Agent", required = false,
+                                                                               defaultValue = "Unknown") String userAgent) {
 
+        String ipAddress = Objects.requireNonNull(request.getRemoteAddress()).getAddress().getHostAddress();
+        SetRequestIdCommand createCommand = SetRequestIdCommand.fromRequest(receiptId,
+                confirmPaymentReceiptRequest);
+        SetRequestIdMessage response = mediator.send(createCommand);
+
+        return ResponseEntity.ok(response);
+    }
 
 }
