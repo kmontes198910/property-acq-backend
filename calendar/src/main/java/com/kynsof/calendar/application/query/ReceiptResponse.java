@@ -25,6 +25,8 @@ public class ReceiptResponse implements IResponse {
     private ServicesResponse service;
     private EStatusReceipt status;
     private String consultId;
+    private String processUrl;
+
 
     public ReceiptResponse(ReceiptDto object) {
         this.id = object.getId();
@@ -37,6 +39,7 @@ public class ReceiptResponse implements IResponse {
         this.service = new ServicesResponse(object.getService());
         this.status = object.getStatus();
         this.consultId = object.getConsultId();
+        this.processUrl = object.getProcessUrl();
     }
 
 }
