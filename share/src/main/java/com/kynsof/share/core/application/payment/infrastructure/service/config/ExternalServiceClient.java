@@ -2,7 +2,6 @@ package com.kynsof.share.core.application.payment.infrastructure.service.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kynsof.share.core.application.payment.domain.placeToPlay.PaymentServiceStatusResponse;
-import org.apache.hc.client5.http.classic.methods.HttpGet;
 import org.apache.hc.client5.http.classic.methods.HttpPost;
 import org.apache.hc.client5.http.impl.classic.CloseableHttpClient;
 import org.apache.hc.client5.http.impl.classic.CloseableHttpResponse;
@@ -12,14 +11,12 @@ import org.apache.hc.core5.http.io.entity.EntityUtils;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
-import java.time.LocalDateTime;
 import java.util.Map;
-
 @Service
 public class ExternalServiceClient {
 
     private final PaymentServiceConfig paymentServiceConfig;
-    private final ObjectMapper objectMapper; // Para convertir JSON a Map
+    private final ObjectMapper objectMapper;
 
     public ExternalServiceClient(PaymentServiceConfig paymentServiceConfig, ObjectMapper objectMapper) {
         this.paymentServiceConfig = paymentServiceConfig;
@@ -28,15 +25,20 @@ public class ExternalServiceClient {
 
     public PaymentServiceStatusResponse callExternalService(String requestId, String clientRegistrationId) throws IOException {
         // Construcción del endpoint
-        String baseUrl = String.format("%s:%d",
-                paymentServiceConfig.getPaymentServiceBaseUrl(),
-                paymentServiceConfig.getPaymentServicePort());
+        String baseUrl = paymentServiceConfig.getPaymentServiceBaseUrl();
+        if (!baseUrl.startsWith("http://") && !baseUrl.startsWith("https://")) {
+            baseUrl = "http://" + baseUrl; // Agrega "http://" como esquema predeterminado
+        }
         String endpoint = String.format(
-                "%s/placetopay/%s/information/%s",
+                "%s:%d/placetopay/%s/information/%s",
                 baseUrl,
+                paymentServiceConfig.getPaymentServicePort(),
                 paymentServiceConfig.getPaymentServiceClientId(),
                 requestId
         );
+
+        // Depuración
+        System.out.println("Generated URL: " + endpoint);
 
         // Crear cliente HTTP
         try (CloseableHttpClient httpClient = HttpClients.createDefault()) {
@@ -66,7 +68,6 @@ public class ExternalServiceClient {
         responseDto.setStatus((String) status.get("status"));
         responseDto.setReason((String) status.get("reason"));
         responseDto.setMessage((String) status.get("message"));
-       // responseDto.setDate(status.get("date"));
 
         return responseDto;
     }
