@@ -13,7 +13,6 @@ public class ConfigureTimeZone {
         
         return localDateTime;
     }
-
     public static LocalDateTime convertDateToLocalDateTime(Date date) {
         Instant instant = date.toInstant();
         ZonedDateTime zonedDateTime = instant.atZone(ZoneId.of(ZONE_ID));
