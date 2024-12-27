@@ -6,7 +6,6 @@ WORKDIR /build
 
 # Copia el archivo de configuración de Maven
 COPY rc-settings.xml settings.xml
-
 # Configura el token para el acceso a repositorios privados en settings.xml
 ARG PACKAGE_TOKEN
 RUN sed -i "s|GIT_TOKEN|$PACKAGE_TOKEN|g" settings.xml
