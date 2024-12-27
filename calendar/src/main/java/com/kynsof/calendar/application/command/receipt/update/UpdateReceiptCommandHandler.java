@@ -6,8 +6,6 @@ import com.kynsof.calendar.domain.dto.enumType.EStatusReceipt;
 import com.kynsof.calendar.domain.service.IReceiptService;
 import com.kynsof.calendar.domain.service.IScheduleService;
 import com.kynsof.calendar.infrastructure.entity.Receipt;
-import com.kynsof.share.core.application.payment.domain.placeToPlay.response.TransactionsState;
-import com.kynsof.share.core.application.payment.domain.service.IPaymentServiceClient;
 import com.kynsof.share.core.domain.bus.command.ICommandHandler;
 import org.springframework.stereotype.Component;
 
@@ -18,12 +16,14 @@ public class UpdateReceiptCommandHandler implements ICommandHandler<UpdateReceip
 
     private final IReceiptService receiptService;
     private final IScheduleService serviceSchedule;
-    private final IPaymentServiceClient paymentServiceClient;
+  //  private final IPaymentServiceClient paymentServiceClient;
 
-    public UpdateReceiptCommandHandler(IReceiptService service, IScheduleService scheduleService, IPaymentServiceClient paymentServiceClient) {
+    public UpdateReceiptCommandHandler(IReceiptService service, IScheduleService scheduleService
+        //    , IPaymentServiceClient paymentServiceClient
+    ) {
         this.receiptService = service;
         this.serviceSchedule = scheduleService;
-        this.paymentServiceClient = paymentServiceClient;
+      //  this.paymentServiceClient = paymentServiceClient;
     }
 
     @Override
@@ -38,8 +38,8 @@ public class UpdateReceiptCommandHandler implements ICommandHandler<UpdateReceip
             if (!dto.getStatus().toString().equals(command.getStatus())
                     && command.getStatus().equals(EStatusReceipt.PAYMENT.toString())){
                 dto.setStatus(EStatusReceipt.PAYMENT);
-                TransactionsState transactionsState = paymentServiceClient.getTransactionsState(Integer.parseInt(command.getRequestId()));
-                dto.setAuthorizationCode(transactionsState.getValue().getAuthorization());
+//                TransactionsState transactionsState = paymentServiceClient.getTransactionsState(Integer.parseInt(command.getRequestId()));
+//                dto.setAuthorizationCode(transactionsState.getValue().getAuthorization());
               //  _schedule.setStatus(EStatusSchedule.ATTENDED);
                // serviceSchedule.update(_schedule);
                 //TODO
