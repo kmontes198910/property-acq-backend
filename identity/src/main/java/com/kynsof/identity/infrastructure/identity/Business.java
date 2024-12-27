@@ -33,6 +33,9 @@ public class Business {
     @Enumerated(EnumType.STRING)
     private EBusinessStatus status;
     private double balance;
+    private String phone;
+    private String email;
+
     @OneToMany(mappedBy = "business")
     private Set<UserPermissionBusiness> userPermissionBusinesses = new HashSet<>();
     @ManyToOne(fetch = FetchType.EAGER)
@@ -57,6 +60,8 @@ public class Business {
         this.geographicLocation = business.getGeographicLocationDto() != null ? new GeographicLocation(business.getGeographicLocationDto()) : null;
         this.address = business.getAddress();
         this.balance = business.getBalance();
+        this.phone = business.getPhone();
+        this.email = business.getEmail();
     }
 
     public BusinessDto toAggregate () {
@@ -70,7 +75,9 @@ public class Business {
                 ruc, 
                 status, 
                 geographicLocation != null ? geographicLocation.toAggregate() : null,
-                address
+                address,
+                phone,
+                email
         );
         businessDto.setBalance(balance);
         businessDto.setCreateAt(createdAt);

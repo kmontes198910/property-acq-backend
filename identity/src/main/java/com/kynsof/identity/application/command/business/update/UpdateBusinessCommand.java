@@ -22,9 +22,11 @@ public class UpdateBusinessCommand implements ICommand {
     private EBusinessStatus status;
     private UUID geographicLocation;
     private String address;
+    private final String phone;
+    private final String email;
 
     public UpdateBusinessCommand(UUID id, String name, String latitude, String longitude, String description,
-                                 String logo, String ruc, EBusinessStatus status, UUID geographicLocation, String address) {
+                                 String logo, String ruc, EBusinessStatus status, UUID geographicLocation, String address, String phone, String email) {
         this.id = id;
         this.name = name;
         this.latitude = latitude;
@@ -35,21 +37,25 @@ public class UpdateBusinessCommand implements ICommand {
         this.status = status;
         this.geographicLocation = geographicLocation;
         this.address = address;
+        this.phone = phone;
+        this.email = email;
     }
 
     public static UpdateBusinessCommand fromRequest(UpdateBusinessRequest request, UUID id) {
         return new UpdateBusinessCommand(
                 id,
-                request.getName(), 
+                request.getName(),
                 request.getLatitude(),
-                request.getLongitude(), 
-                request.getDescription(), 
+                request.getLongitude(),
+                request.getDescription(),
                 request.getImage(),
-                request.getRuc(), 
-                request.getStatus(), 
+                request.getRuc(),
+                request.getStatus(),
                 request.getGeographicLocation(),
-                request.getAddress()
-                );
+                request.getAddress(),
+                request.getPhone(),
+                request.getEmail()
+        );
     }
 
     @Override

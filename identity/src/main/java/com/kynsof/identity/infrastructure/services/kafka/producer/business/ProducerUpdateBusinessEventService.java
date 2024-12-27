@@ -24,7 +24,7 @@ public class ProducerUpdateBusinessEventService {
 
         try {
             UpdateBusinessKafka event = new UpdateBusinessKafka(entity.getId(), entity.getName(), entity.getLatitude(), entity.getLongitude(), entity.getAddress(),
-                    entity.getLogo());
+                    entity.getLogo(), entity.getPhone(), entity.getEmail());
 
             ObjectMapper objectMapper = new ObjectMapper();
             String json = objectMapper.writeValueAsString(new CreateEvent<>(event, EventType.UPDATED));

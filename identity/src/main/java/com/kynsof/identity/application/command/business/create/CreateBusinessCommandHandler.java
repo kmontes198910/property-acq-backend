@@ -51,7 +51,9 @@ public class CreateBusinessCommandHandler implements ICommandHandler<CreateBusin
                 command.getRuc(),
                 EBusinessStatus.ACTIVE,
                 location,
-                command.getAddress()
+                command.getAddress(),
+                command.getPhone(),
+                command.getEmail()
         );
 
         create.setCreateAt(ConfigureTimeZone.getTimeZone());

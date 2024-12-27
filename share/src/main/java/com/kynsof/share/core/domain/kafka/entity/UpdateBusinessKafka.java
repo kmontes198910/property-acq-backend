@@ -17,6 +17,8 @@ public class UpdateBusinessKafka implements Serializable {
     private String longitude;
     private String address;
     private String logo;
+    private String phone;
+    private String email;
 
     public UpdateBusinessKafka() {
     }
