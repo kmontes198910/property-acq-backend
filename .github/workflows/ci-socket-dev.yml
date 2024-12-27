@@ -1,7 +1,7 @@
 name: ci-socket-dev
 
 env:
-  SERVICE_NAME: 'socket-dev'
+  SERVICE_NAME: 'socket'
   SERVICE_PATH: 'socketService'
 
 on:

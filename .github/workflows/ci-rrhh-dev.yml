@@ -1,7 +1,7 @@
 name: ci-rrhh-dev
 
 env:
-  SERVICE_NAME: 'rrhh-dev'
+  SERVICE_NAME: 'rrhh'
   SERVICE_PATH: 'rrhh'
 
 on:

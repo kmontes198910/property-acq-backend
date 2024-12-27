@@ -1,7 +1,7 @@
 name: ci-calendar-dev
 
 env:
-  SERVICE_NAME: 'calendar-de'
+  SERVICE_NAME: 'calendar'
   SERVICE_PATH: 'calendar'
 
 on:
