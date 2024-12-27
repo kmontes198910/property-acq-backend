@@ -23,6 +23,7 @@ public class PatientInsuranceDto {
     private LocalDateTime created;
     private PatientDto patient;
     private InsuranceDto insurance;
+    private LocalDateTime updateAt;
 
     public PatientInsuranceDto( UUID patientId, UUID insuranceId, Status status) {
         this.patientId = patientId;

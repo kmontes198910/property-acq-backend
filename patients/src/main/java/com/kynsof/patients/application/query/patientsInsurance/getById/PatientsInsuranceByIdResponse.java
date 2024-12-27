@@ -27,6 +27,7 @@ public class PatientsInsuranceByIdResponse implements IResponse {
     private InsuranceResponse insurance;
     private Status status;
     private LocalDateTime created;
+    private LocalDateTime updateAt;
 
     public PatientsInsuranceByIdResponse(PatientInsuranceDto dto) {
         this.id = dto.getId();
@@ -34,6 +35,7 @@ public class PatientsInsuranceByIdResponse implements IResponse {
         this.insurance = new InsuranceResponse(dto.getInsurance());
         this.status = dto.getStatus();
         this.created = dto.getCreated();
+        this.updateAt = dto.getUpdateAt();
     }
 
 }
