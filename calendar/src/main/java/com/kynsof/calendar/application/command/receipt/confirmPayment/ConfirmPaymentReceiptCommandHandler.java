@@ -25,21 +25,21 @@ public class ConfirmPaymentReceiptCommandHandler implements ICommandHandler<Conf
 
     @Override
     public void handle(ConfirmPaymentReceiptCommand command) {
-        TransactionsState transactionsState = paymentServiceClient.getTransactionsState(Integer.parseInt(command.getRequestId()));
-        if(transactionsState == null || !transactionsState.getValue().getStatus().getStatus().equals("APPROVED")) {
-            throw new BusinessException(DomainErrorMessage.PAYMENT_NOT_FOUND, DomainErrorMessage.PAYMENT_NOT_FOUND.toString());
-        }
+//        TransactionsState transactionsState = paymentServiceClient.getTransactionsState(Integer.parseInt(command.getRequestId()));
+//        if(transactionsState == null || !transactionsState.getValue().getStatus().getStatus().equals("APPROVED")) {
+//            throw new BusinessException(DomainErrorMessage.PAYMENT_NOT_FOUND, DomainErrorMessage.PAYMENT_NOT_FOUND.toString());
+//        }
         ReceiptDto _receipt = this.service.findById(command.getReceiptId());
-        _receipt.setAuthorizationCode(transactionsState.getValue().getAuthorization());
+        _receipt.setAuthorizationCode(command.getAuthorizationCode());
         _receipt.setRequestId(command.getRequestId());
-        _receipt.setReference(transactionsState.getValue().getReference());
+        _receipt.setReference(command.getReference());
         _receipt.setSessionId(command.getSessionId());
         _receipt.setIpAddressPayment(command.getIpAddress());
         _receipt.setUserAgentPayment(command.getUserAgent());
         _receipt.setStatus(command.getStatus());
 
 
-        if (transactionsState.getValue().getStatus().getStatus().equals(EStatusReceipt.CANCEL.toString())) {
+        if (command.getStatus().equals(EStatusReceipt.CANCEL)) {
             //TO DO
             //Liverar el stock
             //Enviar Correo de cancelado
@@ -49,7 +49,7 @@ public class ConfirmPaymentReceiptCommandHandler implements ICommandHandler<Conf
             //  cleanStock(_schedule);
 
         }
-        if (transactionsState.getValue().getStatus().getStatus().equals(EStatusReceipt.REJECTED.toString())) {
+        if (command.getStatus().equals(EStatusReceipt.REJECTED)) {
             _receipt.getSchedule().setStock(_receipt.getSchedule().getStock() + 1);
             //TO DO
             //Validar el estado del pago, si el estado es pendiente de pago o pago hacer el proceso de confirmado ,sino cambiar el estado
