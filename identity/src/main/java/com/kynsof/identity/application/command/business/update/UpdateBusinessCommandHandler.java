@@ -20,21 +20,15 @@ import org.springframework.stereotype.Component;
 public class UpdateBusinessCommandHandler implements ICommandHandler<UpdateBusinessCommand> {
 
     private final IBusinessService service;
+    private final IGeographicLocationService geographicLocationService;
+    private final ProducerUpdateBusinessEventService updateBusinessEventService;
 
-    @Autowired
-    private ProducerSaveFileEventService saveFileEventService;
 
-    @Autowired
-    private IGeographicLocationService geographicLocationService;
-
-    @Autowired
-    private ProducerUpdateBusinessEventService updateBusinessEventService;
-
-    @Autowired
-    private ProducerDeleteFileEventService deleteFileEventService;
-
-    public UpdateBusinessCommandHandler(IBusinessService service) {
+    public UpdateBusinessCommandHandler(IBusinessService service, IGeographicLocationService geographicLocationService,
+                                        ProducerUpdateBusinessEventService updateBusinessEventService) {
         this.service = service;
+        this.geographicLocationService = geographicLocationService;
+        this.updateBusinessEventService = updateBusinessEventService;
     }
 
     @Override
@@ -44,13 +38,8 @@ public class UpdateBusinessCommandHandler implements ICommandHandler<UpdateBusin
 
         GeographicLocationDto location = this.geographicLocationService.findById(command.getGeographicLocation());
         BusinessDto updateBusiness = this.service.getById(command.getId());
-
-        //Guardo el id del logo actual, para si cambia, mandar a elimianrlo al S3.
-        String idLogoDelete = updateBusiness.getLogo();
         UpdateIfNotNull.updateIfNotNull(updateBusiness::setRuc, command.getRuc());
-       // RulesChecker.checkRule(new BusinessRucCheckingNumberOfCharactersRule(command.getRuc()));
         RulesChecker.checkRule(new BusinessRucMustBeUniqueRule(this.service, command.getRuc(), command.getId()));
-
         UpdateIfNotNull.updateIfNotNull(updateBusiness::setDescription, command.getDescription());
         UpdateIfNotNull.updateIfNotNull(updateBusiness::setStatus, command.getStatus());
 
@@ -62,16 +51,12 @@ public class UpdateBusinessCommandHandler implements ICommandHandler<UpdateBusin
         UpdateIfNotNull.updateIfNotNull(updateBusiness::setAddress, command.getAddress());
 
         updateBusiness.setGeographicLocationDto(location);
-        /**
-         * Verifica que logoId venga en null, si esta en null, es porque no se
-         * cambio.
-         */
-//        String logoId = command.getLogo() != null ? UUID.randomUUID().toString() : null;
+
+
         UpdateIfNotNull.updateIfNotNull(updateBusiness::setLogo, command.getLogo());
-
+        updateBusiness.setPhone(command.getPhone());
+        updateBusiness.setEmail(command.getEmail());
         service.update(updateBusiness);
-
-        //Lanza el evento de integracion
         updateBusinessEventService.update(updateBusiness);
     }
 

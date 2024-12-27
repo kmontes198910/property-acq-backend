@@ -12,10 +12,11 @@ public class CreateBusinessRequest {
     private String latitude;
     private String longitude;
     private String description;
-   // private  byte [] image;
     private  String image;
     private String ruc;
     private String address;;
     private UUID geographicLocation;
+    private String phone;
+    private String email;
 
 }

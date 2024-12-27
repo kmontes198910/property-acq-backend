@@ -25,12 +25,15 @@ public class BusinessDto {
     private LocalDateTime updateAt;
     private LocalDateTime deleteAt;
     private double balance;
+    private String phone;
+    private String email;
 
     private GeographicLocationDto geographicLocationDto;
     private List<ModuleDto> moduleDtoList;
 
     public BusinessDto(UUID id, String name, String latitude, String longitude, String description, String logo,
-                       String ruc, EBusinessStatus status, GeographicLocationDto geographicLocationDto, String address) {
+                       String ruc, EBusinessStatus status, GeographicLocationDto geographicLocationDto, String address,
+                       String phone, String email) {
         this.id = id;
         this.name = name;
         this.latitude = latitude;
@@ -41,8 +44,8 @@ public class BusinessDto {
         this.status = status;
         this.geographicLocationDto = geographicLocationDto;
         this.address = address;
+        this.phone = phone;
+        this.email = email;
     }
 
-    public BusinessDto(UUID id, String name, String latitude, String longitude, String description, String string) {
-    }
 }
