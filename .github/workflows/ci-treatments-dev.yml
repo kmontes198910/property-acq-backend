@@ -1,7 +1,7 @@
 name: ci-treatments-dev
 
 env:
-  SERVICE_NAME: 'treatments'
+  SERVICE_NAME: 'treatments-dev'
   SERVICE_PATH: 'treatments'
 
 on:

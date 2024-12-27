@@ -1,7 +1,7 @@
 name: ci-identity-dev
 
 env:
-  SERVICE_NAME: 'identity'
+  SERVICE_NAME: 'identity-dev'
   SERVICE_PATH: 'identity'
 
 on:

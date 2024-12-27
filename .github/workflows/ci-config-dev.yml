@@ -1,7 +1,7 @@
 name: ci-config-dev
 
 env:
-  SERVICE_NAME: 'config'
+  SERVICE_NAME: 'config-dev'
   SERVICE_PATH: 'config'
 
 on:
