@@ -52,7 +52,9 @@ public class PatientInsuranceServiceImpl implements IPatientInsuranceService {
     public UUID create(PatientInsuranceDto dto) {
         Patients patients = patientsReadDataJPARepository.findById(dto.getPatientId()).orElseThrow();
         Insurance insurance = insuranceReadDataJPARepository.findById(dto.getInsuranceId()).orElseThrow();
-        PatientInsurance allergy =this.repositoryCommand.save(new PatientInsurance(patients, insurance));
+        PatientInsurance patientInsurance = new PatientInsurance(patients, insurance);
+        patientInsurance.setStatus(Status.ACTIVE);
+        PatientInsurance allergy =this.repositoryCommand.save(patientInsurance);
         return allergy.getId();
     }
 
