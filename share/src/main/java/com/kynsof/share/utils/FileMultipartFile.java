@@ -17,7 +17,6 @@ public class FileMultipartFile implements MultipartFile {
     private final String originalFilename;
 
     private final String contentType;
-
     private final byte[] content;
 
     public FileMultipartFile(String name, InputStream contentStream) throws IOException {
