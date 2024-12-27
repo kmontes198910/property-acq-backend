@@ -1,7 +1,7 @@
 name: ci-registry-dev
 
 env:
-  SERVICE_NAME: 'registry'
+  SERVICE_NAME: 'registry-dev'
   SERVICE_PATH: 'registry'
 
 on:
