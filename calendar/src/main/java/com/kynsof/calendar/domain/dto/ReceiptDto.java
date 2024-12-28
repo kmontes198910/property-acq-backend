@@ -25,7 +25,6 @@ public class ReceiptDto implements Serializable {
     private String requestId;
     private String authorizationCode;
     private String reference;
-    private String sessionId;
     private String ipAddressCreate;
     private String ipAddressPayment;
     private String userAgentCreate;
@@ -35,7 +34,7 @@ public class ReceiptDto implements Serializable {
 
     public ReceiptDto(UUID id, Double price, Boolean express, String reasons, PatientDto user, ScheduleDto schedule,
                       ServiceDto service, EStatusReceipt status, String requestId, String authorizationCode,
-                      String reference, String sessionId) {
+                      String reference) {
         this.id = id;
         this.price = price;
         this.express = express;
@@ -47,7 +46,6 @@ public class ReceiptDto implements Serializable {
         this.requestId = requestId;
         this.authorizationCode = authorizationCode;
         this.reference = reference;
-        this.sessionId = sessionId;
     }
 
     public ReceiptDto(UUID id, Double price, Boolean express, String reasons, PatientDto user, ScheduleDto schedule,

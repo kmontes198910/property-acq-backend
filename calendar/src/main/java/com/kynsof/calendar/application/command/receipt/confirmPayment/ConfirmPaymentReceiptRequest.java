@@ -12,11 +12,8 @@ import java.util.UUID;
 @AllArgsConstructor
 public class ConfirmPaymentReceiptRequest {
     private UUID userId;
-    private UUID scheduleId;
-    private UUID serviceId;
     private EStatusReceipt status;
     private String requestId;
     private String authorizationCode;
-    private String sessionId;
     private String reference;
 }
