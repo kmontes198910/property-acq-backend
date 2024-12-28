@@ -41,6 +41,7 @@ public class ConfirmPaymentReceiptCommandHandler implements ICommandHandler<Conf
             _receipt.setAuthorizationCode(paymentStatus.getAuthorization());
             _receipt.setRequestId(command.getRequestId());
             _receipt.setReference(paymentStatus.getReference());
+            _receipt.setStatus(command.getStatus());
 
             if (command.getStatus().equals(EStatusReceipt.CANCEL)) {
                 _receipt.getSchedule().setStock(_receipt.getSchedule().getStock() + 1);
