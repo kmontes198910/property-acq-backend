@@ -49,7 +49,6 @@ public class Receipt {
     private String requestId;
     private String authorizationCode;
     private String reference;
-    private String sessionId;
     private String ipAddressCreate;
     private String ipAddressPayment;
     private String userAgentCreate;
@@ -81,7 +80,7 @@ public class Receipt {
         this.requestId = receipt.getRequestId();
         this.authorizationCode = receipt.getAuthorizationCode();
         this.reference = receipt.getReference();
-        this.sessionId = receipt.getSessionId();
+
         this.ipAddressCreate = receipt.getIpAddressCreate();
         this.ipAddressPayment = receipt.getIpAddressPayment();
         this.userAgentCreate = receipt.getUserAgentCreate();
@@ -92,7 +91,7 @@ public class Receipt {
 
     public ReceiptDto toAggregate() {
         return new ReceiptDto(id, price, express, reasons, user.toAggregate(), schedule.toAggregate(),
-                schedule.getService().toAggregate(), status, requestId, authorizationCode, reference, sessionId, ipAddressCreate,
+                schedule.getService().toAggregate(), status, requestId, authorizationCode, reference, ipAddressCreate,
                 ipAddressPayment, userAgentCreate, userAgentPayment,consultId,processUrl);
     }
 

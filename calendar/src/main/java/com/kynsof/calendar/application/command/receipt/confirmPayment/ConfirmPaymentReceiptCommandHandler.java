@@ -33,11 +33,10 @@ public class ConfirmPaymentReceiptCommandHandler implements ICommandHandler<Conf
             // Llamar al servicio externo para obtener el estado del pago
             paymentStatus = paymentServiceClient.callExternalService(command.getRequestId(), "279e33bd-471c-42ec-b0ac-ada8d82c6270");
 
-//            if (paymentStatus == null || !paymentStatus.getStatus().equals("APPROVED")) {
-//                throw new BusinessException(DomainErrorMessage.PAYMENT_NOT_FOUND, "Payment not approved or not found.");
-//            }
+            if (paymentStatus == null || !paymentStatus.getStatus().equalsIgnoreCase(command.getStatus().toString())) {
+                throw new BusinessException(DomainErrorMessage.PAYMENT_NOT_FOUND, "Payment not approved or not found.");
+            }
 
-            // Actualizar el recibo con la información de pago
             ReceiptDto _receipt = this.service.findById(command.getReceiptId());
             _receipt.setAuthorizationCode(paymentStatus.getAuthorization());
             _receipt.setRequestId(command.getRequestId());
@@ -57,11 +56,10 @@ public class ConfirmPaymentReceiptCommandHandler implements ICommandHandler<Conf
             service.update(_receipt);
 
         } catch (IOException e) {
-            // Manejo de errores durante la llamada al servicio
             System.err.println("Error al consultar el servicio de pagos: " + e.getMessage());
             throw new BusinessException(DomainErrorMessage.PAYMENT_NOT_FOUND, "Error al consultar el servicio de pagos.");
         } catch (Exception e) {
-            // Manejo de otros errores durante el proceso
+
             System.err.println("Error durante el procesamiento del pago: " + e.getMessage());
             throw new BusinessException(DomainErrorMessage.PAYMENT_NOT_FOUND, "Error durante el procesamiento del pago.");
         }

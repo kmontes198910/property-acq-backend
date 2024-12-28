@@ -23,7 +23,7 @@ public class Billing {
     @GeneratedValue
     private UUID id;
 
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false)
     private String code;
 
     @ManyToOne(fetch = FetchType.EAGER)
@@ -72,6 +72,7 @@ public class Billing {
         this.code = billingDto.getCode();
         this.description = billingDto.getDescription();
         this.status = billingDto.getStatus();
+        this.cost = billingDto.getCost();
         this.isProforma = billingDto.isProforma();
     }
 
