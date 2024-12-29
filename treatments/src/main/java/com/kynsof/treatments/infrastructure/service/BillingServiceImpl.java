@@ -48,6 +48,7 @@ public class BillingServiceImpl implements IBillingService {
         billing.setDescription(dto.getDescription());
         billing.setCost(dto.getCost());
         billing.setStatus(dto.getStatus());
+        billing.setProforma(dto.isProforma());
         this.repositoryCommand.save(billing);
     }
 
