@@ -6,5 +6,6 @@ public enum BillingStatus {
     CANCELED,       // La factura ha sido cancelada
     OVERDUE,        // La factura está vencida
     IN_PROGRESS,    // La factura está en proceso de generación o validación
-    COMPLETED       // La factura ha sido finalizada y cerrada
+    COMPLETED  ,     // La factura ha sido finalizada y cerrada
+    PENDING_PAID,
 }

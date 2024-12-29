@@ -10,16 +10,23 @@ import com.kynsof.share.core.infrastructure.specifications.GenericSpecifications
 
 import com.kynsof.treatments.application.query.billing.getbyid.BillingResponse;
 import com.kynsof.treatments.domain.dto.BillingDto;
+import com.kynsof.treatments.domain.dto.enumDto.BillingStatus;
+import com.kynsof.treatments.domain.dto.enumDto.GroupPaymentStatus;
 import com.kynsof.treatments.domain.service.IBillingService;
 import com.kynsof.treatments.infrastructure.entity.Billing;
+import com.kynsof.treatments.infrastructure.entity.GroupPayment;
+import com.kynsof.treatments.infrastructure.entity.PaymentDetail;
 import com.kynsof.treatments.infrastructure.entity.Procedure;
 import com.kynsof.treatments.infrastructure.repositories.command.BillingWriteDataJPARepository;
+import com.kynsof.treatments.infrastructure.repositories.command.GroupPaymentWriteDataJPARepository;
+import com.kynsof.treatments.infrastructure.repositories.command.PaymentDetailWriteDataJPARepository;
 import com.kynsof.treatments.infrastructure.repositories.query.BillingReadDataJPARepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -31,10 +38,14 @@ public class BillingServiceImpl implements IBillingService {
     private final BillingReadDataJPARepository repositoryQuery;
 
     private final BillingWriteDataJPARepository repositoryCommand;
+    private final GroupPaymentWriteDataJPARepository groupPaymentWriteDataJPARepository;
+    private final PaymentDetailWriteDataJPARepository paymentDetailWriteDataJPARepository;
 
-    public BillingServiceImpl(BillingReadDataJPARepository repositoryQuery, BillingWriteDataJPARepository repositoryCommand) {
+    public BillingServiceImpl(BillingReadDataJPARepository repositoryQuery, BillingWriteDataJPARepository repositoryCommand, GroupPaymentWriteDataJPARepository groupPaymentWriteDataJPARepository, PaymentDetailWriteDataJPARepository paymentDetailWriteDataJPARepository) {
         this.repositoryQuery = repositoryQuery;
         this.repositoryCommand = repositoryCommand;
+        this.groupPaymentWriteDataJPARepository = groupPaymentWriteDataJPARepository;
+        this.paymentDetailWriteDataJPARepository = paymentDetailWriteDataJPARepository;
     }
 
     @Override
@@ -99,4 +110,31 @@ public class BillingServiceImpl implements IBillingService {
 
         throw new BusinessNotFoundException(new GlobalBusinessException(DomainErrorMessage.MEDICINES_NOT_FOUND, new ErrorField("id", "Medicione not found.")));
     }
+
+    @Override
+    @Transactional
+    public UUID createGroupPayment(List<UUID> billingIds) {
+        // Recuperar las facturas seleccionadas
+        List<Billing> billings = this.repositoryQuery.findAllById(billingIds);
+
+        // Crear el pago agrupado
+        GroupPayment groupPayment = new GroupPayment("", LocalDateTime.now(), "",
+                "", "");
+        groupPayment.setStatus(GroupPaymentStatus.PENDING_PAID);
+        groupPayment = this.groupPaymentWriteDataJPARepository.save(groupPayment);
+
+        // Crear detalles del pago
+        for (Billing billing : billings) {
+            PaymentDetail paymentDetail = new PaymentDetail(groupPayment, billing, billing.getCost());
+            this.paymentDetailWriteDataJPARepository.save(paymentDetail);
+
+            // Marcar la factura como pagada
+            billing.setStatus(BillingStatus.PENDING_PAID);
+            this.repositoryCommand.save(billing);
+        }
+
+        return groupPayment.getId();
+    }
 }
+
+
