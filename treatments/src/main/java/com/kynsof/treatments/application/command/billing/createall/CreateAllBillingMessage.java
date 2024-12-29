@@ -5,10 +5,11 @@ import lombok.Getter;
 
 @Getter
 public class CreateAllBillingMessage implements ICommandMessage {
+    private final boolean result;
+    private final String command = "CREATE_ALL_BILLINGS";
 
-    private final String command = "CREATE_ALL_MEDICINE";
-
-    public CreateAllBillingMessage() {
+    public CreateAllBillingMessage(boolean result) {
+        this.result = result;
     }
 
 }
