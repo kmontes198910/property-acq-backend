@@ -2,6 +2,7 @@ package com.kynsof.treatments.application.command.billing.update;
 
 import com.kynsof.share.core.domain.bus.command.ICommand;
 import com.kynsof.share.core.domain.bus.command.ICommandMessage;
+import com.kynsof.treatments.domain.dto.enumDto.BillingStatus;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -12,20 +13,30 @@ import java.util.UUID;
 public class UpdateBillingCommand implements ICommand {
 
     private UUID id;
-    private String name;
-    private final String presentation;
+    private final   String code;
+    private final   String description;
+    private final BillingStatus status;
+    private final boolean isProforma;
+    private final Double cost;
 
-    public UpdateBillingCommand(String name, UUID id, String presentation) {
+    public UpdateBillingCommand(UUID id, String code, String description, BillingStatus status, boolean isProforma, Double cost) {
         this.id = id;
-        this.name = name;
-        this.presentation = presentation;
+
+        this.code = code;
+        this.description = description;
+        this.status = status;
+        this.isProforma = isProforma;
+        this.cost = cost;
     }
 
     public static UpdateBillingCommand fromRequest(UpdateBillingRequest request, UUID id) {
         return new UpdateBillingCommand(
-                request.getName(),
                 id,
-                request.getPresentation()
+                request.getCode(),
+                request.getDescription(),
+                request.getStatus(),
+                request.isProforma(),
+                request.getCost()
         );
     }
 

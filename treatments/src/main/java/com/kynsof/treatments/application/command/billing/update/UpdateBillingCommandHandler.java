@@ -23,7 +23,10 @@ public class UpdateBillingCommandHandler implements ICommandHandler<UpdateBillin
     public void handle(UpdateBillingCommand command) {
 
         BillingDto update = this.serviceImpl.findById(command.getId());
-
+        update.setCode(command.getCode());
+        update.setStatus(command.getStatus());
+        update.setDescription(command.getDescription());
+        update.setProforma(command.isProforma());
 
         this.serviceImpl.update(update);
     }
