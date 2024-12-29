@@ -10,9 +10,10 @@ import java.util.UUID;
 
 public interface IBillingService {
 
-    void create(BillingDto medicines);
+    void create(BillingDto dto);
+    void createAll(List<BillingDto> dtoList);
 
-    void update(BillingDto medicines);
+    void update(BillingDto billingDto);
 
     BillingDto findById(UUID id);
 

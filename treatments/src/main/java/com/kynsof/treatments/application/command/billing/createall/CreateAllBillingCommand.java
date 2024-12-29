@@ -7,19 +7,27 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.util.List;
+import java.util.UUID;
 
 @Getter
 @Setter
 public class CreateAllBillingCommand implements ICommand {
+    private boolean result;
+    private final UUID patientId;
+    private final   UUID businessId;
+    private final boolean isProforma;
+    private final List<CreateBillingPartialRequest> billingPartialRequests;
 
-    private List<CreateBillingRequest> payload;
-
-    public CreateAllBillingCommand(List<CreateBillingRequest> payload) {
-        this.payload = payload;
+    public CreateAllBillingCommand(UUID patientId, UUID businessId, boolean isProforma, List<CreateBillingPartialRequest> billingPartialRequests) {
+        this.patientId = patientId;
+        this.businessId = businessId;
+        this.isProforma = isProforma;
+        this.billingPartialRequests = billingPartialRequests;
     }
+
 
     @Override
     public ICommandMessage getMessage() {
-        return new CreateAllBillingMessage();
+        return new CreateAllBillingMessage(result);
     }
 }

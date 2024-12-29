@@ -10,6 +10,7 @@ import com.kynsof.treatments.application.command.billing.create.CreateBillingReq
 import com.kynsof.treatments.application.command.billing.createall.CreateAllBillingCommand;
 import com.kynsof.treatments.application.command.billing.createall.CreateAllBillingMessage;
 
+import com.kynsof.treatments.application.command.billing.createall.CreateBillingBulkRequest;
 import com.kynsof.treatments.application.command.billing.delete.BillingDeleteMessage;
 import com.kynsof.treatments.application.command.billing.delete.DeleteBillingCommand;
 import com.kynsof.treatments.application.command.billing.update.UpdateBillingCommand;
@@ -45,9 +46,10 @@ public class BillingController {
         return ResponseEntity.ok(response);
     }
 
-    @PostMapping("all")
-    public ResponseEntity<?> createAll(@RequestBody List<CreateBillingRequest> payload) {
-        CreateAllBillingCommand createCommand = new CreateAllBillingCommand(payload);
+    @PostMapping("block")
+    public ResponseEntity<?> createAll(@RequestBody CreateBillingBulkRequest payload) {
+        CreateAllBillingCommand createCommand = new CreateAllBillingCommand(payload.getPatientId(),
+                payload.getBusinessId(), payload.isProforma(), payload.getBillingPartialRequests());
         CreateAllBillingMessage response = mediator.send(createCommand);
 
         return ResponseEntity.ok(response);
