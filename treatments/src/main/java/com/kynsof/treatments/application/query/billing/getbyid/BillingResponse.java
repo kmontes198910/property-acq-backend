@@ -26,6 +26,7 @@ public class BillingResponse implements IResponse {
     private BillingStatus status;
     private PatientDto patient;
     private LocalDateTime createdAt;
+    private Double cost;
 
 
     public BillingResponse(BillingDto dto) {
@@ -38,6 +39,7 @@ public class BillingResponse implements IResponse {
         this.patient = dto.getPatient();
         this.createdAt = dto.getCreatedAt();
         this.isProforma = dto.isProforma();
+        this.cost = dto.getCost();
     }
 
 }
