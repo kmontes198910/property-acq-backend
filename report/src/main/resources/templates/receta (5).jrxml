@@ -53,7 +53,7 @@
     doctor.lastname as apellido_dr,
     doctor.registernumber as regist_number,
     UPPER(doctor."name" || ' ' ||  COALESCE(doctor.lastname, '')) as fullname_dr,
-    COALESCE(doctor.registernumber, '') as registernumber,
+    COALESCE(doctor.identification, '') as registernumber,
     medicines."name" as medicine,
     medicines."presentation" as presentation,
     treatment.description as description_tratment,
