@@ -10,10 +10,13 @@ import com.kynsof.share.core.infrastructure.specifications.GenericSpecifications
 import com.kynsof.share.utils.GeneratorRandomNumber;
 import com.kynsof.treatments.application.query.externalConsultation.getall.ExternalConsultationResponse;
 import com.kynsof.treatments.domain.dto.ExternalConsultationDto;
+import com.kynsof.treatments.domain.dto.OptometryExamDto;
 import com.kynsof.treatments.domain.service.IExternalConsultationService;
 import com.kynsof.treatments.infrastructure.entity.ExternalConsultation;
+import com.kynsof.treatments.infrastructure.entity.OptometryExam;
 import com.kynsof.treatments.infrastructure.entity.specifications.ExternalConsultationSpecifications;
 import com.kynsof.treatments.infrastructure.repositories.command.ExternalConsultationWriteDataJPARepository;
+import com.kynsof.treatments.infrastructure.repositories.command.OptometryExamenWriteDataJPARepository;
 import com.kynsof.treatments.infrastructure.repositories.query.ExternalConsultationReadDataJPARepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -30,11 +33,13 @@ public class ExternalConsultationServiceImpl implements IExternalConsultationSer
 
     private final ExternalConsultationWriteDataJPARepository repositoryCommand;
     private final ExternalConsultationReadDataJPARepository repositoryQuery;
+    private final OptometryExamenWriteDataJPARepository repositoryOptometryExamen;
 
     public ExternalConsultationServiceImpl(ExternalConsultationWriteDataJPARepository repositoryCommand,
-                                           ExternalConsultationReadDataJPARepository repositoryQuery) {
+                                           ExternalConsultationReadDataJPARepository repositoryQuery, OptometryExamenWriteDataJPARepository repositoryOptometryExamen) {
         this.repositoryCommand = repositoryCommand;
         this.repositoryQuery = repositoryQuery;
+        this.repositoryOptometryExamen = repositoryOptometryExamen;
     }
 
     @Override
@@ -53,8 +58,50 @@ public class ExternalConsultationServiceImpl implements IExternalConsultationSer
 
     @Override
     public UUID update(ExternalConsultationDto dto) {
-        ExternalConsultation update = new ExternalConsultation(dto);
-        update.setUpdatedAt(LocalDateTime.now());
+        ExternalConsultation update = this.repositoryQuery.findById(dto.getId()).orElseThrow();
+        update.setConsultationReason(dto.getConsultationReason());
+        update.setMedicalHistory(dto.getMedicalHistory());
+        update.setObservations(dto.getObservations());
+        update.setPhysicalExam(dto.getPhysicalExam());
+
+
+        if (dto.getOptometryExams()!= null && !dto.getOptometryExams().isEmpty()) {
+            if (update.getOptometryExams() != null && !update.getOptometryExams().isEmpty()) {
+                update.getOptometryExams().clear();
+
+            }
+            List<OptometryExam> newExams = dto.getOptometryExams().stream()
+                    .filter(OptometryExamDto::isCurrent)
+                    .map(optometryExamDto -> {
+                        OptometryExam exam = new OptometryExam();
+                        exam.setId(UUID.randomUUID());
+                        exam.setSphereOd(optometryExamDto.getSphereOd());
+                        exam.setCylinderOd(optometryExamDto.getCylinderOd());
+                        exam.setAxisOd(optometryExamDto.getAxisOd());
+                        exam.setAvscOd(optometryExamDto.getAvscOd());
+                        exam.setAvccOd(optometryExamDto.getAvccOd());
+                        exam.setSphereOi(optometryExamDto.getSphereOi());
+                        exam.setCylinderOi(optometryExamDto.getCylinderOi());
+                        exam.setAxisOi(optometryExamDto.getAxisOi());
+                        exam.setAvscOi(optometryExamDto.getAvscOi());
+                        exam.setAvccOi(optometryExamDto.getAvccOi());
+                        exam.setDp(optometryExamDto.getDp());
+                        exam.setDv(optometryExamDto.getDv());
+                        exam.setFilter(optometryExamDto.getFilter());
+                        exam.setCurrent(optometryExamDto.isCurrent());
+                        exam.setAvccAdd(optometryExamDto.getAvccAdd());
+                        exam.setSphereAdd(optometryExamDto.getSphereAdd());
+                        exam.setCylinderAdd(optometryExamDto.getCylinderAdd());
+                        exam.setAvscAdd(optometryExamDto.getAvscAdd());
+                        exam.setAxisAdd(optometryExamDto.getAxisAdd());
+                        exam.setCurrent(optometryExamDto.isCurrent());
+                        exam.setExternalConsultation(update); // Relacionarlo con la consulta actual
+                        return exam;
+                    }).toList();
+
+            update.setOptometryExams(newExams); // Asignar los nuevos exámenes
+        }
+
         this.repositoryCommand.save(update);
         return update.getId();
     }
@@ -109,8 +156,8 @@ public class ExternalConsultationServiceImpl implements IExternalConsultationSer
     }
 
     @Override
-    public List<Long> getConsultationsCountByMonth(UUID businessId,int year) {
-        List<Object[]> results = repositoryQuery.countConsultationsByMonth(businessId,year);
+    public List<Long> getConsultationsCountByMonth(UUID businessId, int year) {
+        List<Object[]> results = repositoryQuery.countConsultationsByMonth(businessId, year);
 
         // Crear una lista con 12 meses inicializados en 0
         List<Long> monthlyCounts = new ArrayList<>(Collections.nCopies(12, 0L));
