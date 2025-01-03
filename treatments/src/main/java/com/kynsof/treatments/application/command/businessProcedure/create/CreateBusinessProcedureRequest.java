@@ -10,5 +10,6 @@ import java.util.UUID;
 @Setter
 public class CreateBusinessProcedureRequest {
     private UUID idBusiness;
+    private UUID insuranceId;
     private Set<BusinessProcedurePriceRequest> procedurePrices;
 }
