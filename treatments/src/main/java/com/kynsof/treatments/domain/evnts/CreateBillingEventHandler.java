@@ -42,7 +42,7 @@ public class CreateBillingEventHandler {
 
         List<BillingDto> billingDtoList = new ArrayList<>();
         for (BusinessProcedureDto businessProcedureDto : businessProcedureDtos) {
-            if (this.billingService.existsByCodeAndBusinessIdAndStatusAndPatientId(businessProcedureDto.getProcedure().getCode(), event.getBusinessId(), BillingStatus.PENDING,
+            if (!this.billingService.existsByCodeAndBusinessIdAndStatusAndPatientId(businessProcedureDto.getProcedure().getCode(), event.getBusinessId(), BillingStatus.PENDING,
                     event.getPatientId())) {
                 BillingDto billingDto = new BillingDto();
                 billingDto.setCode(businessProcedureDto.getProcedure().getCode());
