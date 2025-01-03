@@ -4,6 +4,7 @@ import com.kynsof.share.core.domain.bus.command.ICommandHandler;
 import com.kynsof.treatments.domain.dto.BillingDto;
 import com.kynsof.treatments.domain.dto.BusinessDto;
 import com.kynsof.treatments.domain.dto.PatientDto;
+import com.kynsof.treatments.domain.dto.enumDto.BillingStatus;
 import com.kynsof.treatments.domain.service.IBillingService;
 import com.kynsof.treatments.domain.service.IBusiness;
 import com.kynsof.treatments.domain.service.IPatientsService;
@@ -24,25 +25,25 @@ public class CreateBillingCommandHandler implements ICommandHandler<CreateBillin
 
     @Override
     public void handle(CreateBillingCommand command) {
+        if (this.serviceImpl.existsByCodeAndBusinessIdAndStatusAndPatientId(command.getCode(), command.getBusinessId(), BillingStatus.PENDING,
+                command.getPatientId())) {
+            PatientDto patientDto = patientsService.findById(command.getPatientId());
+            BusinessDto businessDto = businessService.findById(command.getBusinessId());
 
-        //TODO
-        //Validar que no existan dos registros con el mismo paciente,el mismo codigo y el mismo estado
-        PatientDto patientDto = patientsService.findById(command.getPatientId());
-        BusinessDto businessDto = businessService.findById(command.getBusinessId());
+            BillingDto create = new BillingDto(
+                    command.getId(),
+                    command.getPatientId(),
+                    command.getBusinessId(),
+                    command.getCode(),
+                    command.getDescription(),
+                    command.getStatus(),
+                    command.isProforma(),
+                    command.getCost()
+            );
 
-        BillingDto create = new BillingDto(
-                command.getId(), 
-                command.getPatientId(),
-                command.getBusinessId(),
-                command.getCode(),
-                command.getDescription(),
-                command.getStatus(),
-                command.isProforma(),
-                command.getCost()
-        );
-
-        create.setPatient(patientDto);
-        create.setBusiness(businessDto);
-        this.serviceImpl.create(create);
+            create.setPatient(patientDto);
+            create.setBusiness(businessDto);
+            this.serviceImpl.create(create);
+        }
     }
 }

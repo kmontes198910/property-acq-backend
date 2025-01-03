@@ -135,6 +135,11 @@ public class BillingServiceImpl implements IBillingService {
 
         return groupPayment.getId();
     }
+
+    @Override
+    public boolean existsByCodeAndBusinessIdAndStatusAndPatientId(String code, UUID businessId, BillingStatus status, UUID patientId) {
+        return this.repositoryQuery.existsByCodeAndBusinessIdAndStatusAndPatientId(code, businessId, status,patientId);
+    }
 }
 
 

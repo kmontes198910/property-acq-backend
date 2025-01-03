@@ -3,6 +3,7 @@ package com.kynsof.treatments.domain.service;
 import com.kynsof.share.core.domain.request.FilterCriteria;
 import com.kynsof.share.core.domain.response.PaginatedResponse;
 import com.kynsof.treatments.domain.dto.BillingDto;
+import com.kynsof.treatments.domain.dto.enumDto.BillingStatus;
 import org.springframework.data.domain.Pageable;
 
 import java.util.List;
@@ -22,5 +23,6 @@ public interface IBillingService {
     void delete(BillingDto object);
 
     UUID createGroupPayment(List<UUID> billingIds);
+    boolean existsByCodeAndBusinessIdAndStatusAndPatientId(String code, UUID businessId, BillingStatus status, UUID patientId);
 
 }
