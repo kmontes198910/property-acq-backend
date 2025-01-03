@@ -84,6 +84,7 @@ public class Billing {
         billingDto.setBusiness(this.business.toAggregate());
         billingDto.setDescription(this.description);
         billingDto.setStatus(this.status);
+        billingDto.setCost(this.cost);
         billingDto.setCreatedAt(this.createdAt);
         billingDto.setProforma(this.isProforma);
         return billingDto;
