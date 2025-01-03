@@ -1,8 +1,10 @@
 package com.kynsof.treatments.application.command.diagnosis.update;
 
+import com.kynsof.share.core.domain.RulesChecker;
 import com.kynsof.share.core.domain.bus.command.ICommandHandler;
 import com.kynsof.treatments.domain.dto.DiagnosisDto;
 import com.kynsof.treatments.domain.dto.ExternalConsultationDto;
+import com.kynsof.treatments.domain.rules.externalconsultation.ExternalConsultationCreateAtNotEqualsRule;
 import com.kynsof.treatments.domain.service.IDiagnosisService;
 import com.kynsof.treatments.domain.service.IExternalConsultationService;
 import org.springframework.stereotype.Component;
@@ -21,6 +23,7 @@ public class UpdateDiagnosisCommandHandler implements ICommandHandler<UpdateDiag
     @Override
     public void handle(UpdateDiagnosisCommand command) {
         ExternalConsultationDto externalConsultationDto = this.externalConsultationService.findById(command.getIdExternalConsultation());
+        RulesChecker.checkRule(new ExternalConsultationCreateAtNotEqualsRule(externalConsultationDto.getConsultationTime()));
         DiagnosisDto dto = serviceImpl.findById(command.getId());
         dto.setExternalConsultation(externalConsultationDto);
         dto.setDescription(command.getDescription());

@@ -1,7 +1,9 @@
 package com.kynsof.treatments.application.command.optometryExam.update;
 
+import com.kynsof.share.core.domain.RulesChecker;
 import com.kynsof.share.core.domain.bus.command.ICommandHandler;
 import com.kynsof.treatments.domain.dto.OptometryExamDto;
+import com.kynsof.treatments.domain.rules.externalconsultation.ExternalConsultationCreateAtNotEqualsRule;
 import com.kynsof.treatments.domain.service.IOptometryExamService;
 import org.springframework.stereotype.Component;
 

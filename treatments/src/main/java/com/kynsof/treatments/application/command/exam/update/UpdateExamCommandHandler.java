@@ -5,7 +5,10 @@ import com.kynsof.share.core.domain.bus.command.ICommandHandler;
 import com.kynsof.share.core.domain.rules.ValidateObjectNotNullRule;
 import com.kynsof.share.utils.UpdateIfNotNull;
 import com.kynsof.treatments.domain.dto.ExamDto;
+import com.kynsof.treatments.domain.dto.ExternalConsultationDto;
+import com.kynsof.treatments.domain.rules.externalconsultation.ExternalConsultationCreateAtNotEqualsRule;
 import com.kynsof.treatments.domain.service.IExamService;
+import com.kynsof.treatments.domain.service.IExternalConsultationService;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -13,7 +16,7 @@ public class UpdateExamCommandHandler implements ICommandHandler<UpdateExamComma
 
     private final IExamService serviceImpl;
 
-    public UpdateExamCommandHandler(IExamService serviceImpl) {
+    public UpdateExamCommandHandler(IExamService serviceImpl, IExternalConsultationService externalConsultationService) {
         this.serviceImpl = serviceImpl;
     }
 
@@ -21,7 +24,7 @@ public class UpdateExamCommandHandler implements ICommandHandler<UpdateExamComma
     public void handle(UpdateExamCommand command) {
         RulesChecker.checkRule(new ValidateObjectNotNullRule<>(command.getId(), "id", "Exam ID cannot be null."));
         ExamDto update = this.serviceImpl.findById(command.getId());
-
+        RulesChecker.checkRule(new ExternalConsultationCreateAtNotEqualsRule(update.getExternalConsultation().getConsultationTime()));
         UpdateIfNotNull.updateIfStringNotNull(update::setDescription, command.getDescription());
         UpdateIfNotNull.updateIfStringNotNull(update::setName, command.getName());
         UpdateIfNotNull.updateIfStringNotNull(update::setResult, command.getResult());
