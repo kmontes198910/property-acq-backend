@@ -15,4 +15,5 @@ public class BusinessProcedureDto {
     private ProcedureDto procedure;
     private Double price;
     private String code;
+    private InsuranceDto insurance;
 }

@@ -46,9 +46,10 @@ public class BusinessProcedure {
         this.procedure = new Procedure(businessProcedure.getProcedure());
         this.price = businessProcedure.getPrice();
         this.code = businessProcedure.getCode();
+        this.insurance = new Insurance(businessProcedure.getInsurance());
     }
 
     public BusinessProcedureDto toAggregate () {
-        return new BusinessProcedureDto(id, business.toAggregate(), procedure.toAggregate(), price, code);
+        return new BusinessProcedureDto(id, business.toAggregate(), procedure.toAggregate(), price, code, insurance.toAggregate());
     }
 }
