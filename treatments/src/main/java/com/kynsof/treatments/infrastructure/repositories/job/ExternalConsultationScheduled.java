@@ -2,7 +2,7 @@ package com.kynsof.treatments.infrastructure.repositories.job;
 
 import com.kynsof.share.core.domain.kafka.entity.ExternalConsultationByBusiness;
 import com.kynsof.treatments.domain.dto.BusinessDto;
-import com.kynsof.treatments.domain.service.IBusinessService;
+import com.kynsof.treatments.domain.service.IBusiness;
 import com.kynsof.treatments.domain.service.IExternalConsultationService;
 import com.kynsof.treatments.infrastructure.service.kafka.procedure.externalConsultationByBusiness.ProducerExternalConsultationByBusinessEventService;
 import jakarta.transaction.Transactional;
@@ -18,11 +18,11 @@ import java.util.List;
 @Component
 public class ExternalConsultationScheduled {
     private final IExternalConsultationService externalConsultationService;
-    private final IBusinessService businessService;
+    private final IBusiness businessService;
     private final ProducerExternalConsultationByBusinessEventService pecbbes;
 
     public ExternalConsultationScheduled(IExternalConsultationService externalConsultationService,
-                                         IBusinessService businessService,
+                                         IBusiness businessService,
                                          ProducerExternalConsultationByBusinessEventService pecbbes) {
         this.externalConsultationService = externalConsultationService;
         this.businessService = businessService;

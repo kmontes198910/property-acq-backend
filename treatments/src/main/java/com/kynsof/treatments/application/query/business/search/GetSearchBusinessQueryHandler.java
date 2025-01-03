@@ -2,14 +2,14 @@ package com.kynsof.treatments.application.query.business.search;
 
 import com.kynsof.share.core.domain.bus.query.IQueryHandler;
 import com.kynsof.share.core.domain.response.PaginatedResponse;
-import com.kynsof.treatments.domain.service.IBusinessService;
+import com.kynsof.treatments.domain.service.IBusiness;
 import org.springframework.stereotype.Component;
 
 @Component
 public class GetSearchBusinessQueryHandler implements IQueryHandler<GetSearchBusinessQuery, PaginatedResponse>{
-    private final IBusinessService service;
+    private final IBusiness service;
     
-    public GetSearchBusinessQueryHandler(IBusinessService service) {
+    public GetSearchBusinessQueryHandler(IBusiness service) {
         this.service = service;
     }
 

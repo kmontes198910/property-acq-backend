@@ -17,6 +17,8 @@ public interface IBusinessProcedureService {
     void deleteIds(List<UUID> ids);
     BusinessProcedureDto findById(UUID id);
 
+    List<BusinessProcedureDto> findByCodes(UUID businessId, List<String> codes);
+
     PaginatedResponse search(Pageable pageable, List<FilterCriteria> filterCriteria);
 
 }
