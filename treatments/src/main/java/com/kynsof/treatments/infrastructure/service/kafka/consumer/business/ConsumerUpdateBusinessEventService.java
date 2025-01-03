@@ -5,7 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kynsof.share.core.domain.kafka.entity.UpdateBusinessKafka;
 import com.kynsof.share.core.domain.kafka.event.EventType;
 import com.kynsof.treatments.domain.dto.BusinessDto;
-import com.kynsof.treatments.domain.service.IBusinessService;
+import com.kynsof.treatments.domain.service.IBusiness;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
@@ -17,7 +17,7 @@ import java.util.logging.Logger;
 public class ConsumerUpdateBusinessEventService {
 
     @Autowired
-    private IBusinessService service;
+    private IBusiness service;
 
     @KafkaListener(topics = "update-busines", groupId = "update-busines-treatment")
     public void consumer(String event) {

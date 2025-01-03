@@ -10,7 +10,7 @@ import com.kynsof.share.core.domain.response.PaginatedResponse;
 import com.kynsof.share.core.infrastructure.specifications.GenericSpecificationsBuilder;
 import com.kynsof.treatments.application.query.business.search.BusinessResponse;
 import com.kynsof.treatments.domain.dto.BusinessDto;
-import com.kynsof.treatments.domain.service.IBusinessService;
+import com.kynsof.treatments.domain.service.IBusiness;
 import com.kynsof.treatments.infrastructure.entity.Business;
 import com.kynsof.treatments.infrastructure.repositories.command.BusinessWriteDataJPARepository;
 import com.kynsof.treatments.infrastructure.repositories.query.BusinessReadDataJPARepository;
@@ -24,7 +24,7 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
-public class BusinessServiceImpl implements IBusinessService {
+public class BusinessServiceImpl implements IBusiness {
 
     private final BusinessWriteDataJPARepository repositoryCommand;
     private final BusinessReadDataJPARepository repositoryQuery;
@@ -80,6 +80,7 @@ public class BusinessServiceImpl implements IBusinessService {
                         DomainErrorMessage.BUSINESS_NOT_FOUND,
                         new ErrorField("id", "Business not found."))));
     }
+
 
     @Override
     public PaginatedResponse search(Pageable pageable, List<FilterCriteria> filterCriteria) {

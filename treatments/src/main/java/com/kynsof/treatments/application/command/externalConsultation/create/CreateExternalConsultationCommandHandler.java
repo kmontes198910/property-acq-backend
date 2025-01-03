@@ -2,7 +2,9 @@ package com.kynsof.treatments.application.command.externalConsultation.create;
 
 import com.kynsof.share.core.domain.bus.command.ICommandHandler;
 import com.kynsof.treatments.domain.dto.*;
+import com.kynsof.treatments.domain.evnts.CreateBillingEvent;
 import com.kynsof.treatments.domain.service.*;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -17,20 +19,22 @@ public class CreateExternalConsultationCommandHandler implements ICommandHandler
     private final IPatientsService patientsService;
     private final IDoctorService doctorService;
     private final IMedicinesService medicinesService;
-    private final IBusinessService businessService;
+    private final IBusiness businessService;
     private final IServiceService serviceService;
+    private final ApplicationEventPublisher applicationEventPublisher;
 
     public CreateExternalConsultationCommandHandler(IExternalConsultationService externalConsultationService,
                                                     IPatientsService patientsService,
                                                     IDoctorService doctorService,
                                                     IMedicinesService medicinesService,
-                                                    IBusinessService businessService, IServiceService serviceService) {
+                                                    IBusiness businessService, IServiceService serviceService, ApplicationEventPublisher applicationEventPublisher) {
         this.externalConsultationService = externalConsultationService;
         this.patientsService = patientsService;
         this.doctorService = doctorService;
         this.medicinesService = medicinesService;
         this.businessService = businessService;
         this.serviceService = serviceService;
+        this.applicationEventPublisher = applicationEventPublisher;
     }
 
     @Override
@@ -113,6 +117,14 @@ public class CreateExternalConsultationCommandHandler implements ICommandHandler
                 optometryExamDtoList
         ));
         command.setId(id);
+
+        CreateBillingEvent createBillingEvent = new CreateBillingEvent(
+                command.getPatientId(),
+                command.getBusinessId(),
+                examDtoList.stream().map(ExamDto::getCode).toList()
+        );
+
+        applicationEventPublisher.publishEvent(createBillingEvent);
     }
 
 }

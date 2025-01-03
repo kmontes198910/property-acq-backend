@@ -1,15 +1,11 @@
 package com.kynsof.treatments.application.command.billing.create;
 
-import com.kynsof.share.core.domain.RulesChecker;
 import com.kynsof.share.core.domain.bus.command.ICommandHandler;
 import com.kynsof.treatments.domain.dto.BillingDto;
 import com.kynsof.treatments.domain.dto.BusinessDto;
-import com.kynsof.treatments.domain.dto.MedicinesDto;
 import com.kynsof.treatments.domain.dto.PatientDto;
-import com.kynsof.treatments.domain.rules.medicines.MedicinesNameMustBeUniqueRule;
 import com.kynsof.treatments.domain.service.IBillingService;
-import com.kynsof.treatments.domain.service.IBusinessService;
-import com.kynsof.treatments.domain.service.IMedicinesService;
+import com.kynsof.treatments.domain.service.IBusiness;
 import com.kynsof.treatments.domain.service.IPatientsService;
 import org.springframework.stereotype.Component;
 
@@ -18,9 +14,9 @@ public class CreateBillingCommandHandler implements ICommandHandler<CreateBillin
 
     private final IBillingService serviceImpl;
     private final IPatientsService patientsService;
-    private final IBusinessService businessService;
+    private final IBusiness businessService;
 
-    public CreateBillingCommandHandler(IBillingService serviceImpl, IPatientsService patientsService, IBusinessService businessService) {
+    public CreateBillingCommandHandler(IBillingService serviceImpl, IPatientsService patientsService, IBusiness businessService) {
         this.serviceImpl = serviceImpl;
         this.patientsService = patientsService;
         this.businessService = businessService;

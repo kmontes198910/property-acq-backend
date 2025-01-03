@@ -6,7 +6,7 @@ import com.kynsof.treatments.domain.dto.BusinessDto;
 import com.kynsof.treatments.domain.dto.BusinessProcedureDto;
 import com.kynsof.treatments.domain.dto.ProcedureDto;
 import com.kynsof.treatments.domain.service.IBusinessProcedureService;
-import com.kynsof.treatments.domain.service.IBusinessService;
+import com.kynsof.treatments.domain.service.IBusiness;
 import com.kynsof.treatments.domain.service.IProcedureService;
 import org.springframework.stereotype.Component;
 
@@ -17,10 +17,10 @@ import java.util.UUID;
 public class CreateBusinessProcedureCommandHandler implements ICommandHandler<CreateBusinessProcedureCommand> {
 
     private final IBusinessProcedureService businessProcedureService;
-    private final IBusinessService businessService;
+    private final IBusiness businessService;
     private final IProcedureService procedureService;
 
-    public CreateBusinessProcedureCommandHandler(IBusinessProcedureService service, IBusinessService serviceBusiness, IProcedureService procedureService) {
+    public CreateBusinessProcedureCommandHandler(IBusinessProcedureService service, IBusiness serviceBusiness, IProcedureService procedureService) {
         this.businessProcedureService = service;
         this.businessService = serviceBusiness;
         this.procedureService = procedureService;

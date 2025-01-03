@@ -75,6 +75,12 @@ public class BusinessProcedureServiceImpl implements IBusinessProcedureService {
     }
 
     @Override
+    public List<BusinessProcedureDto> findByCodes(UUID businessId, List<String> codes) {
+        List<BusinessProcedure> businessProcedures = repositoryQuery.findByCodesAndBusiness(codes,businessId);
+        return businessProcedures.stream().map(BusinessProcedure::toAggregate).collect(Collectors.toList());
+    }
+
+    @Override
     public PaginatedResponse search(Pageable pageable, List<FilterCriteria> filterCriteria) {
         GenericSpecificationsBuilder<BusinessProcedure> specifications = new GenericSpecificationsBuilder<>(filterCriteria);
         Page<BusinessProcedure> data = repositoryQuery.findAll(specifications, pageable);
