@@ -15,15 +15,18 @@ public class UpdateBusinessProcedureCommand implements ICommand {
     private UUID businessProcedureId;
     private double price;
     private String code;
+    private final UUID insuranceId;
 
-    public UpdateBusinessProcedureCommand(UUID businessProcedureId, double price, String code) {
+    public UpdateBusinessProcedureCommand(UUID businessProcedureId, double price, String code, UUID insuranceId) {
         this.businessProcedureId = businessProcedureId;
         this.price = price;
         this.code = code;
+        this.insuranceId = insuranceId;
     }
 
     public static UpdateBusinessProcedureCommand fromRequest( BusinessProcedurePriceUpdateRequest request) {
-        return new UpdateBusinessProcedureCommand(request.getBusinessProcedureId(), request.getPrice(), request.getCode());
+        return new UpdateBusinessProcedureCommand(request.getBusinessProcedureId(), request.getPrice(), request.getCode(),
+                request.getInsuranceId());
     }
 
     @Override

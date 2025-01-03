@@ -13,4 +13,5 @@ public class BusinessProcedurePriceUpdateRequest {
     private UUID businessProcedureId;
     private double price;
     private String code;
+    private UUID insuranceId;
 }
