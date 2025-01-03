@@ -1,9 +1,11 @@
 package com.kynsof.treatments.application.command.treatment.create;
 
+import com.kynsof.share.core.domain.RulesChecker;
 import com.kynsof.share.core.domain.bus.command.ICommandHandler;
 import com.kynsof.treatments.domain.dto.ExternalConsultationDto;
 import com.kynsof.treatments.domain.dto.MedicinesDto;
 import com.kynsof.treatments.domain.dto.TreatmentDto;
+import com.kynsof.treatments.domain.rules.externalconsultation.ExternalConsultationCreateAtNotEqualsRule;
 import com.kynsof.treatments.domain.service.IExternalConsultationService;
 import com.kynsof.treatments.domain.service.IMedicinesService;
 import com.kynsof.treatments.domain.service.ITreatmentService;
@@ -27,6 +29,7 @@ public class CreateTreatmentCommandHandler implements ICommandHandler<CreateTrea
     @Override
     public void handle(CreateTreatmentCommand command) {
         ExternalConsultationDto externalConsultationDto = this.externalConsultationService.findById(UUID.fromString(command.getExternalConsultId()));
+        RulesChecker.checkRule(new ExternalConsultationCreateAtNotEqualsRule(externalConsultationDto.getConsultationTime()));
         MedicinesDto medicinesDto = this.medicinesService.findById(UUID.fromString(command.getMedication()));
         UUID id = UUID.randomUUID();
         TreatmentDto create = new TreatmentDto(

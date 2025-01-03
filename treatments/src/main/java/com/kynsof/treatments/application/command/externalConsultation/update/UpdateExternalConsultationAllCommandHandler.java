@@ -30,7 +30,7 @@ public class UpdateExternalConsultationAllCommandHandler implements ICommandHand
         RulesChecker.checkRule(new ValidateObjectNotNullRule<>(command.getId(), "id", "External Consultation ID cannot be null."));
         ExternalConsultationDto externalConsultationDto = externalConsultationService.findById(command.getId());
 
-      //  RulesChecker.checkRule(new ExternalConsultationCreateAtNotEqualsRule(externalConsultationDto.getConsultationTime()));
+      RulesChecker.checkRule(new ExternalConsultationCreateAtNotEqualsRule(externalConsultationDto.getConsultationTime()));
         if (command.getOptometryExamRequests() != null) {
             List<OptometryExamDto> newOptometryExams = command.getOptometryExamRequests().stream()
                     .filter(OptometryExamRequest::isCurrent)
