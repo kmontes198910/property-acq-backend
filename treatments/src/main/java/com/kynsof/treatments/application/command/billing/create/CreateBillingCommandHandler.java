@@ -1,6 +1,10 @@
 package com.kynsof.treatments.application.command.billing.create;
 
 import com.kynsof.share.core.domain.bus.command.ICommandHandler;
+import com.kynsof.share.core.domain.exception.BusinessNotFoundException;
+import com.kynsof.share.core.domain.exception.DomainErrorMessage;
+import com.kynsof.share.core.domain.exception.GlobalBusinessException;
+import com.kynsof.share.core.domain.response.ErrorField;
 import com.kynsof.treatments.domain.dto.BillingDto;
 import com.kynsof.treatments.domain.dto.BusinessDto;
 import com.kynsof.treatments.domain.dto.PatientDto;
@@ -44,6 +48,11 @@ public class CreateBillingCommandHandler implements ICommandHandler<CreateBillin
             create.setPatient(patientDto);
             create.setBusiness(businessDto);
             this.serviceImpl.create(create);
+        }else{
+            throw new BusinessNotFoundException(new GlobalBusinessException(
+                    DomainErrorMessage.BILLING_SERVICE_NOT_FOUND,
+                    new ErrorField("code", "Ya se encuentra registrado un pago con ese código para el paciente.")));
         }
     }
+
 }
