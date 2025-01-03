@@ -27,6 +27,7 @@ public class UpdateBillingCommandHandler implements ICommandHandler<UpdateBillin
         update.setStatus(command.getStatus());
         update.setDescription(command.getDescription());
         update.setProforma(command.isProforma());
+        update.setCost(command.getCost());
 
         this.serviceImpl.update(update);
     }
