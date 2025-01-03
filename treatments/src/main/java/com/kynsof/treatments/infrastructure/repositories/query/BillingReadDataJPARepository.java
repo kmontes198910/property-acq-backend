@@ -1,5 +1,6 @@
 package com.kynsof.treatments.infrastructure.repositories.query;
 
+import com.kynsof.treatments.domain.dto.enumDto.BillingStatus;
 import com.kynsof.treatments.infrastructure.entity.Billing;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -11,5 +12,6 @@ import java.util.UUID;
 
 public interface BillingReadDataJPARepository extends JpaRepository<Billing, UUID>, JpaSpecificationExecutor<Billing> {
     Page<Billing> findAll(Specification specification, Pageable pageable);
+    boolean existsByCodeAndBusinessIdAndStatusAndPatientId(String code, UUID businessId, BillingStatus status, UUID patientId);
 
 }

@@ -42,17 +42,22 @@ public class CreateBillingEventHandler {
 
         List<BillingDto> billingDtoList = new ArrayList<>();
         for (BusinessProcedureDto businessProcedureDto : businessProcedureDtos) {
-            BillingDto billingDto = new BillingDto();
-            billingDto.setCode(businessProcedureDto.getProcedure().getCode());
-            billingDto.setProforma(true);
-            billingDto.setCost(businessProcedureDto.getPrice());
-            billingDto.setStatus(BillingStatus.PENDING);
-            billingDto.setDescription(businessProcedureDto.getProcedure().getDescription());
-            billingDto.setBusiness(businessDto);
-            billingDto.setPatient(patientDto);
-            billingDtoList.add(billingDto);
+            if (this.billingService.existsByCodeAndBusinessIdAndStatusAndPatientId(businessProcedureDto.getProcedure().getCode(), event.getBusinessId(), BillingStatus.PENDING,
+                    event.getPatientId())) {
+                BillingDto billingDto = new BillingDto();
+                billingDto.setCode(businessProcedureDto.getProcedure().getCode());
+                billingDto.setProforma(true);
+                billingDto.setCost(businessProcedureDto.getPrice());
+                billingDto.setStatus(BillingStatus.PENDING);
+                billingDto.setDescription(businessProcedureDto.getProcedure().getDescription());
+                billingDto.setBusiness(businessDto);
+                billingDto.setPatient(patientDto);
+                billingDtoList.add(billingDto);
+            }
         }
-        billingService.createAll(billingDtoList);
+        if (!billingDtoList.isEmpty()) {
+            billingService.createAll(billingDtoList);
+        }
 
     }
 }
