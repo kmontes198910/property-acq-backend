@@ -25,7 +25,7 @@ public class CreateBillingCommandHandler implements ICommandHandler<CreateBillin
 
     @Override
     public void handle(CreateBillingCommand command) {
-        if (this.serviceImpl.existsByCodeAndBusinessIdAndStatusAndPatientId(command.getCode(), command.getBusinessId(), BillingStatus.PENDING,
+        if (!this.serviceImpl.existsByCodeAndBusinessIdAndStatusAndPatientId(command.getCode(), command.getBusinessId(), BillingStatus.PENDING,
                 command.getPatientId())) {
             PatientDto patientDto = patientsService.findById(command.getPatientId());
             BusinessDto businessDto = businessService.findById(command.getBusinessId());
