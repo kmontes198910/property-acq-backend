@@ -28,6 +28,11 @@ public class BusinessProcedure {
     private Procedure procedure;
     private Double price;
 
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "insurance_id", nullable = true) // Relación con Insurance
+    private Insurance insurance;
+
     @CreationTimestamp
     @Column(updatable = false)
     private LocalDateTime createdAt;
