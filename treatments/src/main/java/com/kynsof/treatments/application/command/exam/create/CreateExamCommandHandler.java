@@ -1,9 +1,11 @@
 package com.kynsof.treatments.application.command.exam.create;
 
+import com.kynsof.share.core.domain.RulesChecker;
 import com.kynsof.share.core.domain.bus.command.ICommandHandler;
 import com.kynsof.treatments.domain.dto.ExamDto;
 import com.kynsof.treatments.domain.dto.ExternalConsultationDto;
 import com.kynsof.treatments.domain.evnts.CreateBillingEvent;
+import com.kynsof.treatments.domain.rules.externalconsultation.ExternalConsultationCreateAtNotEqualsRule;
 import com.kynsof.treatments.domain.service.IExamService;
 import com.kynsof.treatments.domain.service.IExternalConsultationService;
 import org.springframework.context.ApplicationEventPublisher;
@@ -28,6 +30,7 @@ public class CreateExamCommandHandler implements ICommandHandler<CreateExamComma
     @Override
     public void handle(CreateExamCommand command) {
         ExternalConsultationDto externalConsultationDto = this.externalConsultationService.findById(command.getExternalConsultationId());
+        RulesChecker.checkRule(new ExternalConsultationCreateAtNotEqualsRule(externalConsultationDto.getConsultationTime()));
         ExamDto create = new ExamDto(
                 command.getId(),
                 command.getName(),
