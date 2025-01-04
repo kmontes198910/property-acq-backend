@@ -34,7 +34,7 @@ public class CreateBillingEventHandler {
     }
 
     @EventListener
-    public void onCreateEmailListEvent(CreateBillingEvent event) {
+    public void onCreateBillingEvent(CreateBillingEvent event) {
         List<String> codeList = event.getExamenCodeList();
         BusinessDto businessDto = businessService.findById(event.getBusinessId());
         PatientDto patientDto = patientsService.findById(event.getPatientId());

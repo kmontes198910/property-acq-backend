@@ -24,6 +24,7 @@ public class BillingDto {
     private BusinessDto business;
     private LocalDateTime createdAt;
     private Double cost;
+    private InsuranceDto insurance;
 
     public BillingDto(UUID id, UUID patientId, UUID businessId, String code, String description, BillingStatus status, boolean isProforma,
                       Double cost) {
