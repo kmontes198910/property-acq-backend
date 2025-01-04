@@ -18,6 +18,7 @@ public class UpdateBillingCommand implements ICommand {
     private final BillingStatus status;
     private final boolean isProforma;
     private final Double cost;
+    private String insuranceId;
 
     public UpdateBillingCommand(UUID id, String code, String description, BillingStatus status, boolean isProforma, Double cost) {
         this.id = id;

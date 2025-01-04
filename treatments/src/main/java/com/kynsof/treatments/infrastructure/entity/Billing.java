@@ -28,11 +28,15 @@ public class Billing {
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "patient_id", nullable = false)
-    private Patients patient; // Relación con el paciente
+    private Patients patient;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "business_id", nullable = false)
     private Business business;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "insurance_id")
+    private Insurance insurance;
 
     @Column(nullable = false)
     private Double cost;
@@ -74,6 +78,7 @@ public class Billing {
         this.status = billingDto.getStatus();
         this.cost = billingDto.getCost();
         this.isProforma = billingDto.isProforma();
+        this.insurance = billingDto.getInsurance() == null ? null : new Insurance(billingDto.getInsurance());
     }
 
     public BillingDto toAggregate() {
@@ -87,6 +92,9 @@ public class Billing {
         billingDto.setCost(this.cost);
         billingDto.setCreatedAt(this.createdAt);
         billingDto.setProforma(this.isProforma);
+        if (this.insurance != null) {
+            billingDto.setInsurance(this.insurance.toAggregate());
+        }
         return billingDto;
     }
 }

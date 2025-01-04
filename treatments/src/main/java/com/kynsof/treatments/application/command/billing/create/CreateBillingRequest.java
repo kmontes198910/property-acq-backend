@@ -17,4 +17,5 @@ public class CreateBillingRequest {
     private BillingStatus status;
     private boolean isProforma;
     private Double cost;
+    private String insuranceId;
 }

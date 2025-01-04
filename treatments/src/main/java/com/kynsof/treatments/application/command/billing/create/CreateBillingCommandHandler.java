@@ -7,12 +7,16 @@ import com.kynsof.share.core.domain.exception.GlobalBusinessException;
 import com.kynsof.share.core.domain.response.ErrorField;
 import com.kynsof.treatments.domain.dto.BillingDto;
 import com.kynsof.treatments.domain.dto.BusinessDto;
+import com.kynsof.treatments.domain.dto.InsuranceDto;
 import com.kynsof.treatments.domain.dto.PatientDto;
 import com.kynsof.treatments.domain.dto.enumDto.BillingStatus;
 import com.kynsof.treatments.domain.service.IBillingService;
 import com.kynsof.treatments.domain.service.IBusiness;
+import com.kynsof.treatments.domain.service.IInsuranceService;
 import com.kynsof.treatments.domain.service.IPatientsService;
 import org.springframework.stereotype.Component;
+
+import java.util.UUID;
 
 @Component
 public class CreateBillingCommandHandler implements ICommandHandler<CreateBillingCommand> {
@@ -20,11 +24,13 @@ public class CreateBillingCommandHandler implements ICommandHandler<CreateBillin
     private final IBillingService serviceImpl;
     private final IPatientsService patientsService;
     private final IBusiness businessService;
+    private final IInsuranceService insuranceService;
 
-    public CreateBillingCommandHandler(IBillingService serviceImpl, IPatientsService patientsService, IBusiness businessService) {
+    public CreateBillingCommandHandler(IBillingService serviceImpl, IPatientsService patientsService, IBusiness businessService, IInsuranceService insuranceService) {
         this.serviceImpl = serviceImpl;
         this.patientsService = patientsService;
         this.businessService = businessService;
+        this.insuranceService = insuranceService;
     }
 
     @Override
@@ -47,6 +53,11 @@ public class CreateBillingCommandHandler implements ICommandHandler<CreateBillin
 
             create.setPatient(patientDto);
             create.setBusiness(businessDto);
+
+            if(command.getInsuranceId() != null) {
+                InsuranceDto insuranceDto = insuranceService.findById(UUID.fromString(command.getInsuranceId()));
+                create.setInsurance(insuranceDto);
+            }
             this.serviceImpl.create(create);
         }else{
             throw new BusinessNotFoundException(new GlobalBusinessException(
