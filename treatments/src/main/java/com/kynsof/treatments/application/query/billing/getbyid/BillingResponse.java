@@ -2,6 +2,7 @@ package com.kynsof.treatments.application.query.billing.getbyid;
 
 import com.kynsof.share.core.domain.bus.query.IResponse;
 import com.kynsof.treatments.domain.dto.BillingDto;
+import com.kynsof.treatments.domain.dto.InsuranceDto;
 import com.kynsof.treatments.domain.dto.MedicinesDto;
 import com.kynsof.treatments.domain.dto.PatientDto;
 import com.kynsof.treatments.domain.dto.enumDto.BillingStatus;
@@ -27,6 +28,7 @@ public class BillingResponse implements IResponse {
     private PatientDto patient;
     private LocalDateTime createdAt;
     private Double cost;
+    private InsuranceDto insurance;
 
 
     public BillingResponse(BillingDto dto) {
@@ -40,6 +42,7 @@ public class BillingResponse implements IResponse {
         this.createdAt = dto.getCreatedAt();
         this.isProforma = dto.isProforma();
         this.cost = dto.getCost();
+        this.insurance = dto.getInsurance();
     }
 
 }
