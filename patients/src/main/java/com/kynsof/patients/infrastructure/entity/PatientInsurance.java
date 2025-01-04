@@ -37,6 +37,7 @@ public class PatientInsurance {
     @UpdateTimestamp
     private LocalDateTime updatedAt;
 
+    @Enumerated(EnumType.STRING)
     private Status status;
 
 
