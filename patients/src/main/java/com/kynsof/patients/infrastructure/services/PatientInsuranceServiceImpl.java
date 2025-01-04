@@ -15,6 +15,7 @@ import com.kynsof.patients.infrastructure.repository.command.PatientInsuranceWri
 import com.kynsof.patients.infrastructure.repository.query.InsuranceReadDataJPARepository;
 import com.kynsof.patients.infrastructure.repository.query.PatientInsuranceReadDataJPARepository;
 import com.kynsof.patients.infrastructure.repository.query.PatientsReadDataJPARepository;
+import com.kynsof.share.core.domain.EUserType;
 import com.kynsof.share.core.domain.exception.BusinessNotFoundException;
 import com.kynsof.share.core.domain.exception.DomainErrorMessage;
 import com.kynsof.share.core.domain.exception.GlobalBusinessException;
@@ -85,10 +86,28 @@ public class PatientInsuranceServiceImpl implements IPatientInsuranceService {
 
     @Override
     public PaginatedResponse search(Pageable pageable, List<FilterCriteria> filterCriteria) {
-        GenericSpecificationsBuilder<Allergy> specifications = new GenericSpecificationsBuilder<>(filterCriteria);
+        filterCriteria(filterCriteria);
+        GenericSpecificationsBuilder<PatientInsurance> specifications = new GenericSpecificationsBuilder<>(filterCriteria);
         Page<PatientInsurance> data = this.repositoryQuery.findAll(specifications, pageable);
 
         return getPaginatedResponse(data);
+    }
+
+    private void filterCriteria(List<FilterCriteria> filterCriteria) {
+        filterCriteria.forEach(filter -> {
+            if ("status".equals(filter.getKey()) && filter.getValue() instanceof String) {
+                filter.setValue(parseEnum(Status.class, (String) filter.getValue(), "Status"));
+            }
+        });
+    }
+
+    private <T extends Enum<T>> T parseEnum(Class<T> enumClass, String value, String enumName) {
+        try {
+            return Enum.valueOf(enumClass, value);
+        } catch (IllegalArgumentException e) {
+            System.err.println("Invalid value for enum " + enumName + ": " + value);
+            return null;
+        }
     }
 
     private PaginatedResponse getPaginatedResponse(Page<PatientInsurance> data) {
