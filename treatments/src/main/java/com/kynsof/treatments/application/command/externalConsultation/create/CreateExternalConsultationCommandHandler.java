@@ -22,12 +22,13 @@ public class CreateExternalConsultationCommandHandler implements ICommandHandler
     private final IBusiness businessService;
     private final IServiceService serviceService;
     private final ApplicationEventPublisher applicationEventPublisher;
+    private final IBusinessBalanceService businessBalanceService;
 
     public CreateExternalConsultationCommandHandler(IExternalConsultationService externalConsultationService,
                                                     IPatientsService patientsService,
                                                     IDoctorService doctorService,
                                                     IMedicinesService medicinesService,
-                                                    IBusiness businessService, IServiceService serviceService, ApplicationEventPublisher applicationEventPublisher) {
+                                                    IBusiness businessService, IServiceService serviceService, ApplicationEventPublisher applicationEventPublisher, IBusinessBalanceService businessBalanceService) {
         this.externalConsultationService = externalConsultationService;
         this.patientsService = patientsService;
         this.doctorService = doctorService;
@@ -35,6 +36,7 @@ public class CreateExternalConsultationCommandHandler implements ICommandHandler
         this.businessService = businessService;
         this.serviceService = serviceService;
         this.applicationEventPublisher = applicationEventPublisher;
+        this.businessBalanceService = businessBalanceService;
     }
 
     @Override
@@ -58,13 +60,13 @@ public class CreateExternalConsultationCommandHandler implements ICommandHandler
             );
         }).toList();
 
-        List<ExamDto> examDtoList =command.getExams() != null ? command.getExams().stream().map(examRequest -> new ExamDto(
+        List<ExamDto> examDtoList = command.getExams() != null ? command.getExams().stream().map(examRequest -> new ExamDto(
                 UUID.randomUUID(),
                 examRequest.getName(),
                 examRequest.getDescription(),
                 examRequest.getType(),
                 examRequest.getCode()
-        )).toList(): new ArrayList<>();
+        )).toList() : new ArrayList<>();
 
         List<OptometryExamDto> optometryExamDtoList = new ArrayList<>();
         if (command.getOptometryExams() != null && !command.getOptometryExams().isEmpty()) {
@@ -117,14 +119,18 @@ public class CreateExternalConsultationCommandHandler implements ICommandHandler
                 optometryExamDtoList
         ));
         command.setId(id);
+        System.err.println("Entro");
+      String resulDiscount =  businessBalanceService.discountBusinessBalance(command.getBusinessId(), 0.25);
+      System.err.println("resulDiscount:"+resulDiscount);
 
-        CreateBillingEvent createBillingEvent = new CreateBillingEvent(
-                command.getPatientId(),
-                command.getBusinessId(),
-                examDtoList.stream().map(ExamDto::getCode).toList()
-        );
-
-        applicationEventPublisher.publishEvent(createBillingEvent);
+        if (!examDtoList.isEmpty()) {
+            CreateBillingEvent createBillingEvent = new CreateBillingEvent(
+                    command.getPatientId(),
+                    command.getBusinessId(),
+                    examDtoList.stream().map(ExamDto::getCode).toList()
+            );
+            applicationEventPublisher.publishEvent(createBillingEvent);
+        }
     }
 
 }
