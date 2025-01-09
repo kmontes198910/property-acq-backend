@@ -7,5 +7,6 @@ public enum MedicalExamCategory {
     ENDOSCOPIC,
     ORGAN_SPECIFIC,
     ALLERGY_SENSITIVITY,
-    OPHTHALMOLOGY
+    OPHTHALMOLOGY,
+    CARDIOLOGY
 }

@@ -119,8 +119,9 @@ public class CreateExternalConsultationCommandHandler implements ICommandHandler
                 optometryExamDtoList
         ));
         command.setId(id);
-
-        businessBalanceService.discountBusinessBalance(command.getBusinessId(), 0.25);
+        System.err.println("Entro");
+      String resulDiscount =  businessBalanceService.discountBusinessBalance(command.getBusinessId(), 0.25);
+      System.err.println("resulDiscount:"+resulDiscount);
 
         if (!examDtoList.isEmpty()) {
             CreateBillingEvent createBillingEvent = new CreateBillingEvent(
