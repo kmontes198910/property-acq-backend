@@ -27,7 +27,8 @@ public class BusinessBalanceService implements IBusinessBalanceService {
 
     public String discountBusinessBalance(UUID businessId, double balance) {
         System.out.println(businessId);
-        System.out.println("entro");
+        System.out.println("discountUrl:"+discountUrl);
+        System.out.println(businessId);
         DiscountRequest request = new DiscountRequest();
         request.setBusinessId(businessId);
         request.setBalance(balance);
