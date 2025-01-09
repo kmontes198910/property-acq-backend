@@ -15,12 +15,11 @@ public class UpdateStatusReceiptCommandHandler implements ICommandHandler<Update
 
     private final IReceiptService receiptService;
     private final IScheduleService serviceSchedule;
-    private final BusinessBalanceService businessBalanceService;
 
-    public UpdateStatusReceiptCommandHandler(IReceiptService service, IScheduleService scheduleService, BusinessBalanceService businessBalanceService) {
+
+    public UpdateStatusReceiptCommandHandler(IReceiptService service, IScheduleService scheduleService) {
         this.receiptService = service;
         this.serviceSchedule = scheduleService;
-        this.businessBalanceService = businessBalanceService;
     }
 
     @Override
@@ -41,10 +40,10 @@ public class UpdateStatusReceiptCommandHandler implements ICommandHandler<Update
             receiptDto.setStatus(EStatusReceipt.REJECTED);
         }
 
-        if (command.getStatus().equals(EStatusReceipt.CONFIRMED)){
-            receiptDto.setStatus(EStatusReceipt.CONFIRMED);
-            businessBalanceService.discountBusinessBalance(receiptDto.getSchedule().getBusiness().getId(), 0.25);
-        }
+//        if (command.getStatus().equals(EStatusReceipt.CONFIRMED)){
+//            receiptDto.setStatus(EStatusReceipt.CONFIRMED);
+//            businessBalanceService.discountBusinessBalance(receiptDto.getSchedule().getBusiness().getId(), 0.25);
+//        }
 
 
         receiptService.update(receiptDto);
