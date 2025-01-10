@@ -14,6 +14,9 @@ import com.kynsof.share.core.domain.exception.BusinessException;
 import com.kynsof.share.core.domain.exception.DomainErrorMessage;
 import org.springframework.stereotype.Component;
 
+import org.redisson.api.RLock;
+import org.redisson.api.RedissonClient;
+
 import java.util.UUID;
 
 @Component
@@ -23,40 +26,63 @@ public class CreateReceiptCommandHandler implements ICommandHandler<CreateReceip
     private final IPatientsService servicePatient;
     private final IScheduleService serviceSchedule;
     private final IServiceService serviceService;
+    private final RedissonClient redissonClient;
 
     public CreateReceiptCommandHandler(IReceiptService service, IPatientsService servicePatient,
-                                       IScheduleService serviceSchedule, IServiceService serviceService) {
+                                       IScheduleService serviceSchedule, IServiceService serviceService,
+                                       RedissonClient redissonClient) {
         this.service = service;
         this.servicePatient = servicePatient;
         this.serviceSchedule = serviceSchedule;
         this.serviceService = serviceService;
+        this.redissonClient = redissonClient;
     }
 
     @Override
     public void handle(CreateReceiptCommand command) {
+        // Verificar si el paciente, el horario y el servicio existen
         PatientDto _patient = this.servicePatient.findById(command.getUser());
         ScheduleDto _schedule = this.serviceSchedule.findById(command.getSchedule());
         ServiceDto _service = this.serviceService.findByIds(command.getService());
 
-        if (_schedule.getStock() == 0) {
-            throw new BusinessException(DomainErrorMessage.SCHEDULE_IS_NOT_AVAIBLE, "La cita no está disponible.");
+        // Configurar el bloqueo para el stock del horario
+        String lockKey = "schedule_stock_lock:" + _schedule.getId();
+        RLock lock = redissonClient.getLock(lockKey);
+
+        try {
+            if (lock.tryLock()) {
+                // Verificar si hay stock disponible
+                if (_schedule.getStock() == 0) {
+                    throw new BusinessException(DomainErrorMessage.SCHEDULE_IS_NOT_AVAIBLE, "La cita no está disponible.");
+                }
+
+                // Reducir el stock del horario
+                _schedule.setStock(_schedule.getStock() - 1);
+                this.serviceSchedule.update(_schedule); // Actualiza el estado del horario en la base de datos
+
+                // Crear el recibo
+                ReceiptDto receiptDto = new ReceiptDto(
+                        UUID.randomUUID(),
+                        command.getPrice() == null ? _service.getNormalAppointmentPrice() : command.getPrice(),
+                        command.getExpress(),
+                        command.getReasons(),
+                        _patient,
+                        _schedule,
+                        _service,
+                        command.getStatus() == null ? EStatusReceipt.PENDING : command.getStatus()
+                );
+
+                receiptDto.setIpAddressCreate(command.getIpAddress());
+                receiptDto.setUserAgentCreate(command.getUserAgent());
+
+                // Crear el recibo en la base de datos
+                UUID id = service.create(receiptDto);
+                command.setId(id);
+            } else {
+                throw new BusinessException(DomainErrorMessage.SCHEDULE_IS_NOT_AVAIBLE, "El horario está siendo procesado.");
+            }
+        } finally {
+            lock.unlock(); // Liberar el bloqueo
         }
-
-        ReceiptDto receiptDto = new ReceiptDto(
-                UUID.randomUUID(),
-                command.getPrice() == null ? _service.getNormalAppointmentPrice() : command.getPrice(),
-                command.getExpress(),
-                command.getReasons(),
-                _patient,
-                _schedule,
-                _service,
-                command.getStatus() == null ? EStatusReceipt.PENDING : command.getStatus()
-
-        );
-        receiptDto.setIpAddressCreate(command.getIpAddress());
-        receiptDto.setUserAgentCreate(command.getUserAgent());
-
-        UUID id = service.create(receiptDto);
-        command.setId(id);
     }
 }

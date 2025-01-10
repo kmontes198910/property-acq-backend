@@ -179,6 +179,12 @@
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
         </dependency>
+
+        <dependency>
+            <groupId>org.redisson</groupId>
+            <artifactId>redisson</artifactId>
+            <version>3.32.0</version> <!-- Verifica siempre la última versión -->
+        </dependency>
     </dependencies>
 
     <build>

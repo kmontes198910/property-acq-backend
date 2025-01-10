@@ -1,5 +1,8 @@
 package com.kynsof.share.core.infrastructure.redis;
 
+import org.redisson.Redisson;
+import org.redisson.api.RedissonClient;
+import org.redisson.config.Config;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -53,5 +56,18 @@ public class RedisConfig {
         }
 
         return factory;
+    }
+
+    @Bean
+    public RedissonClient redissonClient() {
+        Config config = new Config();
+        config.useSingleServer()
+                .setAddress("redis://" + redisAddress + ":" + redisPort)
+                .setUsername(redisUsername.isEmpty() ? null : redisUsername)
+                .setPassword(redisPassword.isEmpty() ? null : redisPassword);
+
+        RedissonClient client = Redisson.create(config);
+        logger.info("Redisson client configured for Redis at {}:{}", redisAddress, redisPort);
+        return client;
     }
 }

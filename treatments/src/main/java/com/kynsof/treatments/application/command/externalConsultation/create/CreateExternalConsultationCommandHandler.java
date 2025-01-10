@@ -28,7 +28,9 @@ public class CreateExternalConsultationCommandHandler implements ICommandHandler
                                                     IPatientsService patientsService,
                                                     IDoctorService doctorService,
                                                     IMedicinesService medicinesService,
-                                                    IBusiness businessService, IServiceService serviceService, ApplicationEventPublisher applicationEventPublisher, IBusinessBalanceService businessBalanceService) {
+                                                    IBusiness businessService, IServiceService serviceService,
+                                                    ApplicationEventPublisher applicationEventPublisher
+            , IBusinessBalanceService businessBalanceService) {
         this.externalConsultationService = externalConsultationService;
         this.patientsService = patientsService;
         this.doctorService = doctorService;
