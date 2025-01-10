@@ -18,6 +18,7 @@ import org.redisson.api.RLock;
 import org.redisson.api.RedissonClient;
 
 import java.util.UUID;
+import java.util.concurrent.TimeUnit;
 
 @Component
 public class CreateReceiptCommandHandler implements ICommandHandler<CreateReceiptCommand> {
@@ -50,7 +51,7 @@ public class CreateReceiptCommandHandler implements ICommandHandler<CreateReceip
         RLock lock = redissonClient.getLock(lockKey);
 
         try {
-            if (lock.tryLock()) {
+            if (lock.tryLock(3, TimeUnit.SECONDS)) {
                 // Verificar si hay stock disponible
                 if (_schedule.getStock() == 0) {
                     throw new BusinessException(DomainErrorMessage.SCHEDULE_IS_NOT_AVAIBLE, "La cita no está disponible.");
@@ -81,6 +82,9 @@ public class CreateReceiptCommandHandler implements ICommandHandler<CreateReceip
             } else {
                 throw new BusinessException(DomainErrorMessage.SCHEDULE_IS_NOT_AVAIBLE, "El horario está siendo procesado.");
             }
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+            throw new BusinessException(DomainErrorMessage.SCHEDULE_IS_NOT_AVAIBLE, "La cita no está disponible.");
         } finally {
             lock.unlock(); // Liberar el bloqueo
         }
