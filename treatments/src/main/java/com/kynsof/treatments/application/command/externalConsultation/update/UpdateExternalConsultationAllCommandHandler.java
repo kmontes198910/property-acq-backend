@@ -62,133 +62,6 @@ public class UpdateExternalConsultationAllCommandHandler implements ICommandHand
 
             externalConsultationDto.setOptometryExams(newOptometryExams);
         }
-//        // Manejo de Diagnosis por UUID
-//        if (command.getDiagnosis() != null) {
-//            List<UUID> incomingIds = command.getDiagnosis().stream()
-//                    .filter(d -> d.getId() != null)
-//                    .map(UpdateDiagnosisAllRequest::getId)
-//                    .toList();
-//
-//            List<DiagnosisDto> updatedDiagnoses = externalConsultationDto.getDiagnoses().stream()
-//                    .filter(d -> incomingIds.contains(d.getId())) // Mantener los existentes
-//                    .collect(Collectors.toList());
-//
-//            List<DiagnosisDto> newDiagnoses = command.getDiagnosis().stream()
-//                    .filter(d -> d.getId() == null) // Agregar nuevos
-//                    .map(d -> new DiagnosisDto(UUID.randomUUID(), d.getIcdCode(), d.getDescription()))
-//                    .toList();
-//
-//            updatedDiagnoses.addAll(newDiagnoses); // Combina los existentes con los nuevos
-//            externalConsultationDto.setDiagnoses(updatedDiagnoses);
-//        }
-//
-//        // Manejo de Treatments por UUID
-//        if (command.getTreatments() != null) {
-//            List<UUID> incomingIds = command.getTreatments().stream()
-//                    .filter(t -> t.getId() != null)
-//                    .map(UpdateTreatmentAllRequest::getMedication)
-//                    .toList();
-//
-//            List<TreatmentDto> updatedTreatments = externalConsultationDto.getTreatments().stream()
-//                    .filter(t -> incomingIds.contains(t.getId()))
-//                    .collect(Collectors.toList());
-//
-//            List<TreatmentDto> newTreatments = command.getTreatments().stream()
-//                    .filter(t -> t.getId() == null)
-//                    .map(t -> {
-//                        MedicinesDto medicinesDto = medicinesService.findById(t.getMedication());
-//                        return new TreatmentDto(
-//                                UUID.randomUUID(),
-//                                t.getDescription(),
-//                                medicinesDto,
-//                                t.getQuantity(),
-//                                t.getMedicineUnit());
-//                    }).toList();
-//
-//            updatedTreatments.addAll(newTreatments);
-//            externalConsultationDto.setTreatments(updatedTreatments);
-//        }
-//
-//        // Manejo de Optometry Exams por UUID
-//        if (command.getOptometryExams() != null) {
-//            List<UUID> incomingIds = command.getOptometryExams().stream()
-//                    .filter(o -> o.getId() != null)
-//                    .map(UpdateOptometryExamRequest::getId)
-//                    .toList();
-//
-//            List<OptometryExamDto> updatedOptometryExams = externalConsultationDto.getOptometryExams().stream()
-//                    .filter(o -> incomingIds.contains(o.getId()))
-//                    .collect(Collectors.toList());
-//
-//            List<OptometryExamDto> newOptometryExams = command.getOptometryExams().stream()
-//                    .filter(o -> o.getId() == null)
-//                    .map(o -> {
-//                        OptometryExamDto dto = new OptometryExamDto();
-//                        dto.setId(UUID.randomUUID());
-//                        dto.setSphereOd(o.getSphereOd());
-//                        dto.setCylinderOd(o.getCylinderOd());
-//                        dto.setAxisOd(o.getAxisOd());
-//                        dto.setAvscOd(o.getAvscOd());
-//                        dto.setAvccOd(o.getAvccOd());
-//                        dto.setSphereOi(o.getSphereOi());
-//                        dto.setCylinderOi(o.getCylinderOi());
-//                        dto.setAxisOi(o.getAxisOi());
-//                        dto.setAvscOi(o.getAvscOi());
-//                        dto.setAvccOi(o.getAvccOi());
-//                        dto.setAddPower(o.getAddPower());
-//                        dto.setDp(o.getDp());
-//                        dto.setDv(o.getDv());
-//                        dto.setFilter(o.getFilter());
-//                        dto.setCurrent(o.isCurrent());
-//                        dto.setAvccAdd(o.getAvccAdd());
-//                        dto.setSphereAdd(o.getSphereAdd());
-//                        dto.setCylinderAdd(o.getCylinderAdd());
-//                        dto.setAvscAdd(o.getAvscAdd());
-//                        dto.setAxisAdd(o.getAxisAdd());
-//                        return dto;
-//                    }).toList();
-//
-//            updatedOptometryExams.addAll(newOptometryExams);
-//            externalConsultationDto.setOptometryExams(updatedOptometryExams);
-//        }
-//
-//        // Manejo de ExamOrder y Exams por UUID
-//        if (command.getExamOrder() != null) {
-//            ExamOrderDto currentExamOrder = externalConsultationDto.getExamOrder();
-//
-//            List<UUID> incomingExamIds = command.getExamOrder().getExams().stream()
-//                    .map(e -> e.getId())
-//                    .filter(id -> id != null)
-//                    .toList();
-////
-////            List<ExamDto> updatedExams = (currentExamOrder != null ? currentExamOrder.getExams() : List.of()).stream()
-////                    .filter(e -> incomingExamIds.contains(e.getId()))
-////                    .collect(Collectors.toList());
-//
-//            List<ExamDto> newExams = command.getExamOrder().getExams().stream()
-//                    .filter(e -> e.getId() == null)
-//                    .map(e -> new ExamDto(
-//                            UUID.randomUUID(),
-//                            e.getName(),
-//                            e.getDescription(),
-//                            e.getType(),
-//                            "",
-//                            new Date(),
-//                            e.getCode()))
-//                    .toList();
-//
-////            updatedExams.addAll(newExams);
-////
-////            ExamOrderDto updatedExamOrder = new ExamOrderDto(
-////                    currentExamOrder != null ? currentExamOrder.getId() : UUID.randomUUID(),
-////                    command.getExamOrder().getReason(),
-////                    Status.ACTIVE.toString(),
-////                    new Date(),
-////                    externalConsultationDto.getPatient(),
-////                    updatedExams
-////            );
-////            externalConsultationDto.setExamOrder(updatedExamOrder);
-//        }
 
         // Actualización de campos simples
         UpdateIfNotNull.updateIfNotNull(externalConsultationDto::setConsultationReason, command.getConsultationReason());
@@ -198,6 +71,7 @@ public class UpdateExternalConsultationAllCommandHandler implements ICommandHand
         // UpdateIfNotNull.updateIfNotNull(externalConsultationDto::setMedicalSpeciality, command.getMedicalSpeciality());
 
         // Persistencia de la actualización
+        externalConsultationDto.setOdontogramJson(command.getOdontogramJson());
         UUID id = externalConsultationService.update(externalConsultationDto);
         command.setId(id);
     }

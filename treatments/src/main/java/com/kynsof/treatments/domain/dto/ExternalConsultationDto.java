@@ -29,11 +29,13 @@ public class ExternalConsultationDto {
     private String referenceNumber;
     private ServiceDto service;
     private List<OptometryExamDto> optometryExams;
+    private String odontogramJson;
 
     public ExternalConsultationDto(UUID id, PatientDto patient, DoctorDto doctor, Date consultationTime,
                                    String consultationReason, String medicalHistory, String physicalExam,
                                    String observations, List exams, String medicalSpeciality,
-                                   ServiceDto service, List<OptometryExamDto> optometryExams) {
+                                   ServiceDto service, List<OptometryExamDto> optometryExams,
+                                   String odontogramJson) {
         this.id = id;
         this.patient = patient;
         this.doctor = doctor;
@@ -46,6 +48,7 @@ public class ExternalConsultationDto {
         this.medicalSpeciality = medicalSpeciality;
         this.service = service;
         this.optometryExams = optometryExams;
+        this.odontogramJson = odontogramJson;
     }
 
 }

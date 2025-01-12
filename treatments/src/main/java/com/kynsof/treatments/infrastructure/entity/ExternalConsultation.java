@@ -46,6 +46,9 @@ public class ExternalConsultation {
     private String physicalExam;
     private String medicalSpeciality;
 
+    @Column(columnDefinition = "TEXT") // Usar TEXT para almacenar JSON de gran tamaño
+    private String odontogramJson;
+
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "externalConsultation")
     private List<Diagnosis> diagnoses;
 
@@ -82,6 +85,7 @@ public class ExternalConsultation {
         this.doctor = new Doctor(dto.getDoctor());
         this.observations = dto.getObservations();
         this.medicalSpeciality = dto.getMedicalSpeciality();
+        this.odontogramJson = dto.getOdontogramJson();
         this.treatments = dto.getTreatments() != null ? dto.getTreatments().stream().map(t -> {
             Treatment treatment = new Treatment();
             treatment.setDescription(t.getDescription());
@@ -179,7 +183,8 @@ public class ExternalConsultation {
         return new ExternalConsultationDto(this.id, this.patient.toAggregate(), this.doctor.toAggregate(),
                 this.consultationTime, this.consultationReason, this.medicalHistory, this.physicalExam, diagnosisDtoList,
                 treatmentList, this.observations, exams, business.toAggregate(),
-                medicalSpeciality, this.referenceNumber, this.service.toAggregate(),optometryExamDtoList);
+                medicalSpeciality, this.referenceNumber, this.service.toAggregate(),optometryExamDtoList,
+                odontogramJson);
     }
 
     @PrePersist

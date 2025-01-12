@@ -22,4 +22,5 @@ public class CreateExternalConsultationRequest {
     private List<TreatmentRequest> treatments;
     private List<OptometryExamRequest> optometryExams;
     private String medicalSpeciality;
+    private String odontogramJson;
 }

@@ -63,6 +63,7 @@ public class ExternalConsultationServiceImpl implements IExternalConsultationSer
         update.setMedicalHistory(dto.getMedicalHistory());
         update.setObservations(dto.getObservations());
         update.setPhysicalExam(dto.getPhysicalExam());
+        update.setOdontogramJson(dto.getOdontogramJson());
 
 
         if (dto.getOptometryExams()!= null && !dto.getOptometryExams().isEmpty()) {
