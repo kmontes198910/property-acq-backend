@@ -118,7 +118,8 @@ public class CreateExternalConsultationCommandHandler implements ICommandHandler
                 serviceDto.getName(),
                 "",
                 serviceDto,
-                optometryExamDtoList
+                optometryExamDtoList,
+                command.getOdontogramJson()
         ));
         command.setId(id);
         System.err.println("Entro");

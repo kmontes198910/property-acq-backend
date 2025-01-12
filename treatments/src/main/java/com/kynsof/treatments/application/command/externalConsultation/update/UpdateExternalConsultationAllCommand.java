@@ -19,10 +19,11 @@ public class UpdateExternalConsultationAllCommand implements ICommand {
     private String physicalExam;
     private String observations;
     private final List<OptometryExamRequest> optometryExamRequests;
+    private final String odontogramJson;
 
     public UpdateExternalConsultationAllCommand(UUID id, String consultationReason,
                                                 String medicalHistory, String physicalExam, String observations,
-                                                List<OptometryExamRequest> optometryExamRequests) {
+                                                List<OptometryExamRequest> optometryExamRequests, String odontogramJson) {
 
         this.id = id;
         this.consultationReason = consultationReason;
@@ -30,11 +31,13 @@ public class UpdateExternalConsultationAllCommand implements ICommand {
         this.physicalExam = physicalExam;
         this.observations = observations;
         this.optometryExamRequests = optometryExamRequests;
+        this.odontogramJson = odontogramJson;
     }
 
     public static UpdateExternalConsultationAllCommand fromRequest(UUID id,UpdateExternalConsultationAllRequest request) {
         return new UpdateExternalConsultationAllCommand(id, request.getConsultationReason(), request.getMedicalHistory(), request.getPhysicalExam(),
-                request.getObservations(),request.getOptometryExams());
+                request.getObservations(),request.getOptometryExams(),
+                request.getOdontogramJson());
     }
 
     @Override

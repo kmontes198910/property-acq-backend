@@ -14,4 +14,5 @@ public class UpdateExternalConsultationAllRequest {
     private String physicalExam;
     private String observations;
     private List<OptometryExamRequest> optometryExams;
+    private String odontogramJson;
 }

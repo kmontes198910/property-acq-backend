@@ -63,7 +63,7 @@ public class Schedule {
     @JoinColumn(name = "service_id")
     private Services service;
 
-    @OneToMany(mappedBy = "schedule")
+    @OneToMany(mappedBy = "schedule", fetch = FetchType.LAZY)
     @JsonIgnoreProperties("schedule") // Evita la recursión infinita al serializar a JSON
     private List<Receipt> receipts = new ArrayList<>();
 

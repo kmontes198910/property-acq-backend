@@ -25,11 +25,12 @@ public class CreateExternalConsultationCommand implements ICommand {
     private final List<TreatmentRequest> treatments;
     private final List<OptometryExamRequest> optometryExams;
     private final String medicalSpeciality;
+    private final String odontogramJson;
 
     public CreateExternalConsultationCommand(UUID patientId, UUID doctorId, String consultationReason,
                                              String medicalHistory, String physicalExam, String observations,
                                              List<ExamRequest> exams, List<DiagnosisRequest> diagnosis,
-                                             List<TreatmentRequest> treatments, UUID businessId, List<OptometryExamRequest> optometryExams, String medicalSpeciality) {
+                                             List<TreatmentRequest> treatments, UUID businessId, List<OptometryExamRequest> optometryExams, String medicalSpeciality, String odontogramJson) {
 
         this.patientId = patientId;
         this.doctorId = doctorId;
@@ -43,6 +44,7 @@ public class CreateExternalConsultationCommand implements ICommand {
         this.treatments = treatments;
         this.optometryExams = optometryExams;
         this.medicalSpeciality = medicalSpeciality;
+        this.odontogramJson = odontogramJson;
     }
 
     public static CreateExternalConsultationCommand fromRequest(CreateExternalConsultationRequest request) {
@@ -51,7 +53,8 @@ public class CreateExternalConsultationCommand implements ICommand {
                 request.getObservations(), request.getExams(),request.getDiagnosis() ,request.getTreatments(),
                 request.getBusiness(),
                 request.getOptometryExams(),
-                request.getMedicalSpeciality() );
+                request.getMedicalSpeciality(),
+                request.getOdontogramJson());
     }
 
     @Override
