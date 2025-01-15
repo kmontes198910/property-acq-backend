@@ -50,11 +50,11 @@ public class ReceiptService implements IReceiptService {
         if (receipt.getSchedule().getStatus() != EStatusSchedule.AVAILABLE) {
             throw new BusinessException(DomainErrorMessage.SCHEDULE_IS_NOT_AVAIBLE, "The selected schedule is not available.");
         }
-        var stock = receipt.getSchedule().getStock() - 1;
-        receipt.getSchedule().setStock(stock);
-        if (stock == 0) {
-            receipt.getSchedule().setStatus(EStatusSchedule.SOLD_OUT);
-        }
+//        var stock = receipt.getSchedule().getStock() - 1;
+//        receipt.getSchedule().setStock(stock);
+//        if (receipt.getSchedule().getStock() == 0) {
+//            receipt.getSchedule().setStatus(EStatusSchedule.SOLD_OUT);
+//        }
         Receipt entity = this.receiptRepositoryCommand.save(new Receipt(receipt));
         return entity.getId();
 

@@ -111,6 +111,7 @@ public class ScheduleServiceImpl implements IScheduleService {
                 pageable.getPageNumber()
         );
     }
+
     public static List<LocalDate> generateDateRange(LocalDate startDate, LocalDate endDate) {
         List<LocalDate> dates = new ArrayList<>();
         LocalDate currentDate = startDate;
@@ -251,4 +252,4 @@ public class ScheduleServiceImpl implements IScheduleService {
                 pagedServiceDtos.getNumber()
         );
     }
-    }
+}

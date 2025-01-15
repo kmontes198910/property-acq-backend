@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Created with Jaspersoft Studio version 6.21.2.final using JasperReports Library version 6.21.2-8434a0bd7c3bbc37cbf916f2968d35e4b165821a  -->
+<!-- Created with Jaspersoft Studio version 6.19.1.final using JasperReports Library version 6.19.1-867c00bf88cd4d784d404379d6c05e1b419e8a4c  -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="informe_medico" pageWidth="612" pageHeight="792" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="b2fc13d9-aa35-4929-bf1e-cf4c3ddcdaaf">
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
-	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="kynsoft"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="DataAdapter.jrdax"/>
 	<subDataset name="Diagnostico" uuid="c9dc45de-8071-4770-ad45-a4524bd1b280">
 		<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 		<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w1" value="272"/>
@@ -29,7 +29,7 @@
     externalconsultation.id,
     patients.name,
     patients.lastname,
-    UPPER(patients.name || ' ' || patients.lastname) as fullname,
+    patients.name || ' ' || patients.lastname as fullname,
     patients.identification,
     DATE_PART('year', AGE(patients.birthdate))::int AS edad,
     CASE
@@ -40,7 +40,7 @@
     doctor."name" as name_dr,
     doctor.lastname as apellido_dr,
     doctor.registernumber as regist_number,
-    UPPER(doctor."name" || ' ' ||  COALESCE(doctor.lastname, '')) as fullname_dr,
+    doctor."name" || ' ' ||  COALESCE(doctor.lastname, '') as fullname_dr,
     COALESCE(doctor.identification, '') as registernumber,
     COALESCE(services.name, ' ') as medicalspeciality,
     UPPER(business.name) as clinica,
@@ -257,7 +257,7 @@
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="16" isBold="true"/>
 				</textElement>
-				<textFieldExpression><![CDATA[UPPER( $P{titulo_reporte})]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$P{titulo_reporte}]]></textFieldExpression>
 			</textField>
 		</band>
 	</title>
