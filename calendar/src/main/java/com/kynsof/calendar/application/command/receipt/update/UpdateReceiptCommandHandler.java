@@ -59,7 +59,7 @@ public class UpdateReceiptCommandHandler implements ICommandHandler<UpdateReceip
                     && command.getStatus().equals(EStatusReceipt.REJECTED.toString())){
                 //TO DO
                 //Validar el estado del pago, si el estado es pendiente de pago o pago hacer el proceso de confirmado ,sino cambiar el estado
-                 cleanStock(_schedule);
+                cleanStock(_schedule);
 
                 //Enviar Correo de cancelado
                 dto.setStatus(EStatusReceipt.REJECTED);
