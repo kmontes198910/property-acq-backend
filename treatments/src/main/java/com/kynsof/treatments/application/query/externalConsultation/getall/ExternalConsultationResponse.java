@@ -40,6 +40,7 @@ public class ExternalConsultationResponse implements IResponse {
     private BusinessResponse business;
     private boolean isEdit;
     private ServicesResponse speciality;
+    private String odontogramJson;
 
     public ExternalConsultationResponse(ExternalConsultationDto dto) {
         this.id = dto.getId();
@@ -64,6 +65,7 @@ public class ExternalConsultationResponse implements IResponse {
         this.isEdit = !ConfigureTimeZone.validateEqualsDate(ConfigureTimeZone.convertDateToLocalDateTime(consultationTime));
         speciality = dto.getService() != null ? new ServicesResponse(dto.getService()) : null;
         optometryExams = dto.getOptometryExams().stream().map(OptometryExamResponse::new).collect(Collectors.toList());
+        this.odontogramJson = dto.getOdontogramJson();
     }
 
 }
