@@ -2,6 +2,7 @@ package com.kynsof.calendar.application.command.receipt.confirmPayment;
 
 import com.kynsof.calendar.domain.dto.ReceiptDto;
 import com.kynsof.calendar.domain.dto.enumType.EStatusReceipt;
+import com.kynsof.calendar.domain.dto.enumType.EStatusSchedule;
 import com.kynsof.calendar.domain.service.IReceiptService;
 import com.kynsof.calendar.infrastructure.service.kafka.producer.ProducerGenerateReportEventService;
 import com.kynsof.share.core.application.payment.domain.placeToPlay.PaymentServiceStatusResponse;
@@ -45,11 +46,13 @@ public class ConfirmPaymentReceiptCommandHandler implements ICommandHandler<Conf
 
             if (command.getStatus().equals(EStatusReceipt.CANCEL)) {
                 _receipt.getSchedule().setStock(_receipt.getSchedule().getStock() + 1);
+                _receipt.getSchedule().setStatus(EStatusSchedule.AVAILABLE);
                 _receipt.setStatus(command.getStatus());
             }
 
             if (command.getStatus().equals(EStatusReceipt.REJECTED)) {
                 _receipt.getSchedule().setStock(_receipt.getSchedule().getStock() + 1);
+                _receipt.getSchedule().setStatus(EStatusSchedule.AVAILABLE);
                 _receipt.setStatus(command.getStatus());
             }
 
