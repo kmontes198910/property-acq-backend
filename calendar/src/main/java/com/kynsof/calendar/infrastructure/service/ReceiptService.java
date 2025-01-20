@@ -52,9 +52,9 @@ public class ReceiptService implements IReceiptService {
         }
 //        var stock = receipt.getSchedule().getStock() - 1;
 //        receipt.getSchedule().setStock(stock);
-//        if (receipt.getSchedule().getStock() == 0) {
-//            receipt.getSchedule().setStatus(EStatusSchedule.SOLD_OUT);
-//        }
+        if (receipt.getSchedule().getStock() == 0) {
+            receipt.getSchedule().setStatus(EStatusSchedule.SOLD_OUT);
+        }
         Receipt entity = this.receiptRepositoryCommand.save(new Receipt(receipt));
         return entity.getId();
 
