@@ -23,6 +23,19 @@
         <spring-security-oauth2.version>2.5.2.RELEASE</spring-security-oauth2.version>
         <maven-compiler-plugin.version>3.13.0</maven-compiler-plugin.version>
     </properties>
+    <!-- Agregamos el repositorio de Jaspersoft -->
+    <repositories>
+        <repository>
+            <id>jaspersoft-releases</id>
+            <url>https://jaspersoft.jfrog.io/artifactory/jaspersoft-releases/</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
+    </repositories>
 
     <dependencyManagement>
         <dependencies>
@@ -171,13 +184,40 @@
         <dependency>
             <groupId>net.sf.jasperreports</groupId>
             <artifactId>jasperreports</artifactId>
-            <version>6.20.0</version>
+            <version>7.0.1</version>
+        </dependency>
+        <dependency>
+            <groupId>net.sf.jasperreports</groupId>
+            <artifactId>jasperreports-pdf</artifactId>
+            <version>7.0.1</version>
         </dependency>
         <dependency>
             <groupId>net.sf.jasperreports</groupId>
             <artifactId>jasperreports-fonts</artifactId>
-            <version>6.20.0</version>
+            <version>7.0.1</version>
         </dependency>
+
+
+        <!-- Add Apache FOP for PDF rendering -->
+        <dependency>
+            <groupId>org.apache.xmlgraphics</groupId>
+            <artifactId>fop</artifactId>
+            <version>2.9</version>
+        </dependency>
+
+
+
+        <!-- PDFBox for handling PDFs -->
+        <dependency>
+            <groupId>org.apache.pdfbox</groupId>
+            <artifactId>pdfbox</artifactId>
+            <version>2.0.30</version>
+        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>net.sf.jasperreports</groupId>-->
+<!--            <artifactId>jasperreports-fonts</artifactId>-->
+<!--            <version>6.21.3</version> &lt;!&ndash; O la versión que estés usando &ndash;&gt;-->
+<!--        </dependency>-->
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-dbcp2</artifactId>
@@ -235,6 +275,12 @@
             <artifactId>s3</artifactId>
             <version>2.21.7</version>
             <scope>compile</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.redisson</groupId>
+            <artifactId>redisson</artifactId>
+            <version>3.32.0</version> <!-- Verifica siempre la última versión -->
         </dependency>
     </dependencies>
 
