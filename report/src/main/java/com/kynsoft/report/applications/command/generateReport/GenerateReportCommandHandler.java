@@ -1,6 +1,7 @@
 package com.kynsoft.report.applications.command.generateReport;
 
 import com.kynsof.share.core.domain.bus.command.ICommandHandler;
+import com.kynsoft.report.domain.dto.DBConectionDto;
 import com.kynsoft.report.domain.dto.JasperReportTemplateDto;
 import com.kynsoft.report.domain.services.IJasperReportTemplateService;
 import net.sf.jasperreports.engine.*;
@@ -24,6 +25,7 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URL;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -65,36 +67,107 @@ public class GenerateReportCommandHandler implements ICommandHandler<GenerateRep
         }
     }
 
-    public byte[] generatePdfReport(Map<String, Object> parameters, String reportPath, JasperReportTemplateDto reportTemplateDto) throws JRException, IOException {
-        JRFileVirtualizer virtualized = new JRFileVirtualizer(2, "temp/");
-        parameters.put(JRParameter.REPORT_VIRTUALIZER, virtualized);
+    public byte[] generatePdfReport(Map<String, Object> parameters, String reportPath, JasperReportTemplateDto reportTemplateDto) {
+        Connection connection = null;
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 
-        try (ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-             Connection connection = createConnection(reportTemplateDto)) {
-
-            JasperReport jasperReport = getJasperReport(reportPath);
-            logger.error("Generating PDF report with database: {}", reportTemplateDto.getDbConection().getName());
-
-            if (reportTemplateDto.getQuery() != null && !reportTemplateDto.getQuery().isEmpty()) {
-                JdbcTemplate jdbcTemplate = new JdbcTemplate(new SingleConnectionDataSource(connection, true));
-                String query = replaceQueryParameters(reportTemplateDto.getQuery(), parameters);
-                NamedParameterJdbcTemplate namedJdbc = new NamedParameterJdbcTemplate(jdbcTemplate);
-                List<Map<String, Object>> rows = namedJdbc.queryForList(query, parameters);
-                JRDataSource jrDataSource = new JRBeanCollectionDataSource(rows);
-                JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, jrDataSource);
-                JasperExportManager.exportReportToPdfStream(jasperPrint, outputStream);
-            } else {
-                JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, connection);
-                JasperExportManager.exportReportToPdfStream(jasperPrint, outputStream);
+        try {
+            // Verificar que el DTO contiene información válida
+            if (reportTemplateDto == null || reportTemplateDto.getDbConection() == null) {
+                throw new IllegalArgumentException("Database connection details are missing.");
             }
 
+            // Cargar el reporte
+            JasperReport jasperReport = loadJasperReportFromUrl(reportTemplateDto.getTemplateContentUrl());
+            if (jasperReport == null) {
+                throw new IllegalArgumentException("Could not load JasperReport from provided URL.");
+            }
+
+            // Establecer la conexión con la base de datos
+            DBConectionDto dbConnection = reportTemplateDto.getDbConection();
+            Class.forName("org.postgresql.Driver"); // Asegurar que el driver está cargado
+
+            connection = DriverManager.getConnection(dbConnection.getUrl(),
+                    dbConnection.getUsername(),
+                    dbConnection.getPassword());
+
+            // Llenar el reporte con los parámetros y la conexión
+            JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, connection);
+
+            // Exportar el reporte a un stream en formato PDF
+
+
+
+            // Usar JRPdfExporter en lugar de JasperExportManager
+
+            JasperExportManager.exportReportToPdfStream(jasperPrint, outputStream);
+
+//            // Verifica el tamaño del archivo generado
+            if (outputStream.size() > getMaxFileSize()) {
+                throw new RuntimeException("The generated PDF report is too large. Size: " + outputStream.size() + " bytes.");
+            }
             return outputStream.toByteArray();
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException("PostgreSQL JDBC Driver not found. Ensure it is included in the classpath.", e);
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException("Error connecting to the database. Verify credentials and connection settings.", e);
+        } catch (JRException e) {
+            throw new RuntimeException("Error generating the JasperReport.", e);
         } finally {
-            virtualized.cleanup();
+            // Cerrar la conexión a la base de datos
+            if (connection != null) {
+                try {
+                    connection.close();
+                } catch (SQLException ex) {
+                    System.err.println("Error closing database connection: " + ex.getMessage());
+                }
+            }
         }
     }
+
+    private JasperReport loadJasperReportFromUrl(String templateUrl) throws JRException {
+        try (ByteArrayInputStream inputStream = new ByteArrayInputStream(new URL(templateUrl).openStream().readAllBytes())) {
+            System.setProperty("net.sf.jasperreports.compiler.class", "net.sf.jasperreports.engine.design.JRJavacCompiler"); // Forzar JavaCompiler
+            return JasperCompileManager.compileReport(inputStream);
+        } catch (Exception e) {
+            throw new RuntimeException("Error loading JRXML template from URL: " + templateUrl, e);
+        }
+    }
+
+    private int getMaxFileSize() {
+        // Define el límite en bytes (por ejemplo, 50 MB)
+        return 50 * 1024 * 1024; // 50 MB
+    }
+//    public byte[] generatePdfReport(Map<String, Object> parameters, String reportPath, JasperReportTemplateDto reportTemplateDto) throws JRException, IOException {
+//        JRFileVirtualizer virtualized = new JRFileVirtualizer(2, "temp/");
+//        parameters.put(JRParameter.REPORT_VIRTUALIZER, virtualized);
+//
+//        try (ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+//             Connection connection = createConnection(reportTemplateDto)) {
+//
+//            JasperReport jasperReport = getJasperReport(reportPath);
+//            logger.error("Generating PDF report with database: {}", reportTemplateDto.getDbConection().getName());
+//
+//            if (reportTemplateDto.getQuery() != null && !reportTemplateDto.getQuery().isEmpty()) {
+//                JdbcTemplate jdbcTemplate = new JdbcTemplate(new SingleConnectionDataSource(connection, true));
+//                String query = replaceQueryParameters(reportTemplateDto.getQuery(), parameters);
+//                NamedParameterJdbcTemplate namedJdbc = new NamedParameterJdbcTemplate(jdbcTemplate);
+//                List<Map<String, Object>> rows = namedJdbc.queryForList(query, parameters);
+//                JRDataSource jrDataSource = new JRBeanCollectionDataSource(rows);
+//                JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, jrDataSource);
+//                JasperExportManager.exportReportToPdfStream(jasperPrint, outputStream);
+//            } else {
+//                JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, connection);
+//                JasperExportManager.exportReportToPdfStream(jasperPrint, outputStream);
+//            }
+//
+//            return outputStream.toByteArray();
+//        } catch (SQLException e) {
+//            throw new RuntimeException(e);
+//        } finally {
+//            virtualized.cleanup();
+//        }
+//    }
 
     public byte[] generateExcelReport(Map<String, Object> parameters, String reportPath, JasperReportTemplateDto reportTemplateDto) throws JRException, IOException {
         JRFileVirtualizer virtualizer = new JRFileVirtualizer(2, "temp/");

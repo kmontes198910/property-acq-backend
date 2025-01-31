@@ -12,12 +12,10 @@ import org.springframework.stereotype.Component;
 public class CreateJasperReportTemplateCommandHandler implements ICommandHandler<CreateJasperReportTemplateCommand> {
 
     private final IJasperReportTemplateService service;
-    private final IAmazonClient amazonClient;
     private final IDBConectionService conectionService;
 
-    public CreateJasperReportTemplateCommandHandler(IJasperReportTemplateService service, IAmazonClient amazonClient, IDBConectionService conectionService) {
+    public CreateJasperReportTemplateCommandHandler(IJasperReportTemplateService service, IDBConectionService conectionService) {
         this.service = service;
-        this.amazonClient = amazonClient;
         this.conectionService = conectionService;
     }
 
