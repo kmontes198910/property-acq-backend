@@ -5,8 +5,6 @@ import com.kynsof.share.core.domain.request.SearchRequest;
 import com.kynsof.share.core.domain.response.PaginatedResponse;
 import com.kynsof.share.core.infrastructure.bus.IMediator;
 import com.kynsoft.report.applications.command.jasperReportTemplate.create.CreateJasperReportTemplateCommand;
-import com.kynsoft.report.applications.command.jasperReportTemplate.create.CreateJasperReportTemplateMessage;
-import com.kynsoft.report.applications.command.jasperReportTemplate.create.CreateJasperReportTemplateRequest;
 import com.kynsoft.report.applications.command.jasperReportTemplate.delete.DeleteJasperReportTemplateCommand;
 import com.kynsoft.report.applications.command.jasperReportTemplate.delete.DeleteJasperReportTemplateMessage;
 import com.kynsoft.report.applications.command.jasperReportTemplate.update.UpdateJasperReportTemplateCommand;
@@ -17,10 +15,6 @@ import com.kynsoft.report.applications.query.jasperreporttemplate.getbyid.Jasper
 import com.kynsoft.report.applications.query.jasperreporttemplate.search.GetJasperReportTemplateQuery;
 import com.kynsoft.report.domain.dto.JasperReportTemplateType;
 import com.kynsoft.report.domain.dto.status.Status;
-import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JasperCompileManager;
-import net.sf.jasperreports.engine.JasperReport;
-import net.sf.jasperreports.engine.util.JRSaver;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.buffer.DataBufferUtils;
 import org.springframework.data.domain.Pageable;
@@ -29,15 +23,9 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.codec.multipart.FilePart;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 import reactor.core.publisher.Mono;
 import reactor.core.scheduler.Schedulers;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.Objects;
 import java.util.UUID;
 
 @RestController
@@ -52,8 +40,8 @@ public class JasperReportTemplateController {
     }
 
 
-    @PostMapping(value = "/upload", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public Mono<ResponseEntity<String>> uploadReport(
+    @PostMapping(value = "", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public Mono<ResponseEntity<String>> create(
             @RequestPart("file") Mono<FilePart> filePartMono,
             @RequestParam("code") String code,
             @RequestParam("name") String name,
@@ -89,13 +77,13 @@ public class JasperReportTemplateController {
                 );
     }
 
-    @PostMapping("")
-    public ResponseEntity<?> create(@RequestBody CreateJasperReportTemplateRequest request) {
-        CreateJasperReportTemplateCommand createCommand = CreateJasperReportTemplateCommand.fromRequest(request);
-        CreateJasperReportTemplateMessage response = mediator.send(createCommand);
-
-        return ResponseEntity.ok(response);
-    }
+//    @PostMapping("")
+//    public ResponseEntity<?> create(@RequestBody CreateJasperReportTemplateRequest request) {
+//        CreateJasperReportTemplateCommand createCommand = CreateJasperReportTemplateCommand.fromRequest(request);
+//        CreateJasperReportTemplateMessage response = mediator.send(createCommand);
+//
+//        return ResponseEntity.ok(response);
+//    }
 
     @GetMapping(path = "/{id}")
     public ResponseEntity<?> getById(@PathVariable UUID id) {
