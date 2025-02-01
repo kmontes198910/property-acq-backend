@@ -11,7 +11,7 @@ public interface IAmazonClient {
 
     void uploadFile(InputStream streamToUpload, Long size, String contentType, String objectKey) throws IOException;
 
-    String save(MultipartFile file) throws IOException;
+    String save(MultipartFile file, String path) throws IOException;
 
     void delete(String url);
 
