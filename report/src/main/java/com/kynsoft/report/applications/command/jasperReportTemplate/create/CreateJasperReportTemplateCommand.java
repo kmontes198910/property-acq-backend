@@ -7,6 +7,7 @@ import com.kynsoft.report.domain.dto.status.Status;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.io.InputStream;
 import java.util.UUID;
 
 @Getter
@@ -18,14 +19,14 @@ public class CreateJasperReportTemplateCommand implements ICommand {
     private String name;
     private String description;
     private JasperReportTemplateType type;
-    private String file;
+    private byte[] file;
     private String parameters;
     private UUID dbConection;
     private String query;
     private Status status;
 
     public CreateJasperReportTemplateCommand(String code, String name, String description, JasperReportTemplateType type,
-                                             String file, String parameters, UUID dbConection, String query, Status status) {
+                                             byte[] file, String parameters, UUID dbConection, String query, Status status) {
         this.id = UUID.randomUUID();
         this.code = code;
         this.name = name;
@@ -44,7 +45,7 @@ public class CreateJasperReportTemplateCommand implements ICommand {
                 request.getName(), 
                 request.getDescription(), 
                 request.getType(), 
-                request.getFile(),
+               null,
                 request.getParameters(),
                 request.getDbConection(),
                 request.getQuery(),

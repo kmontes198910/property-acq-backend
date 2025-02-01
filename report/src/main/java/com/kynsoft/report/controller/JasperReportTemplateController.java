@@ -15,11 +15,29 @@ import com.kynsoft.report.applications.command.jasperReportTemplate.update.Updat
 import com.kynsoft.report.applications.query.jasperreporttemplate.getbyid.FindJasperReportTemplateByIdQuery;
 import com.kynsoft.report.applications.query.jasperreporttemplate.getbyid.JasperReportTemplateResponse;
 import com.kynsoft.report.applications.query.jasperreporttemplate.search.GetJasperReportTemplateQuery;
+import com.kynsoft.report.domain.dto.JasperReportTemplateType;
+import com.kynsoft.report.domain.dto.status.Status;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperCompileManager;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.util.JRSaver;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.buffer.DataBufferUtils;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.codec.multipart.FilePart;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+import reactor.core.publisher.Mono;
+import reactor.core.scheduler.Schedulers;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Objects;
 import java.util.UUID;
 
 @RestController
@@ -31,6 +49,44 @@ public class JasperReportTemplateController {
     @Autowired
     public JasperReportTemplateController(IMediator mediator) {
         this.mediator = mediator;
+    }
+
+
+    @PostMapping(value = "/upload", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public Mono<ResponseEntity<String>> uploadReport(
+            @RequestPart("file") Mono<FilePart> filePartMono,
+            @RequestParam("code") String code,
+            @RequestParam("name") String name,
+            @RequestParam("description") String description,
+            @RequestParam("type") JasperReportTemplateType type,
+            @RequestParam("parameters") String parameters,
+            @RequestParam("dbConection") UUID dbConection,
+            @RequestParam("query") String query,
+            @RequestParam("status") Status status
+    ) {
+        return filePartMono
+                .flatMap(filePart -> DataBufferUtils.join(filePart.content())
+                        .flatMap(dataBuffer -> {
+                            byte[] fileBytes = new byte[dataBuffer.readableByteCount()];
+                            dataBuffer.read(fileBytes);
+                            DataBufferUtils.release(dataBuffer); // Liberar memoria
+                            return Mono.just(fileBytes);
+                        })
+                )
+                .flatMap(fileBytes -> Mono.fromRunnable(() -> {
+                            // Crear el comando con los parámetros
+                            CreateJasperReportTemplateCommand createCommand = new CreateJasperReportTemplateCommand(
+                                    code, name, description, type, fileBytes, parameters, dbConection, query, status
+                            );
+
+                            // Enviar el comando a través del mediator
+                            mediator.send(createCommand);
+                        })
+                        .subscribeOn(Schedulers.boundedElastic()))
+                .thenReturn(ResponseEntity.ok("Archivo procesado y comando creado correctamente"))
+                .onErrorResume(e -> Mono.just(ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                        .body("Error procesando el archivo: " + e.getMessage()))
+                );
     }
 
     @PostMapping("")
@@ -61,7 +117,7 @@ public class JasperReportTemplateController {
 
     @PatchMapping("/{id}")
     public ResponseEntity<UpdateJasperReportTemplateMessage> update(@PathVariable("id") UUID id,
-            @RequestBody UpdateJasperReportTemplateRequest request) {
+                                                                    @RequestBody UpdateJasperReportTemplateRequest request) {
 
         UpdateJasperReportTemplateCommand command = UpdateJasperReportTemplateCommand.fromRequest(request, id);
         UpdateJasperReportTemplateMessage response = mediator.send(command);

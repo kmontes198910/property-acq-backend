@@ -16,6 +16,7 @@ public class AFileDto {
     private String name;
     private String url;
     private String objetId;
+    private  String path;
 
     public AFileDto(String name, String url) {
         this.name = name;

@@ -39,6 +39,6 @@ public class AFile extends BaseEntity {
     }
 
     public AFileDto toAggregate () {
-        return new AFileDto(id, name,  url, objetId);
+        return new AFileDto(id, name,  url, objetId, "");
     }
 }

@@ -7,7 +7,6 @@ import com.kynsof.share.utils.UpdateIfNotNull;
 import com.kynsoft.report.domain.dto.DBConectionDto;
 import com.kynsoft.report.domain.dto.JasperReportTemplateDto;
 import com.kynsoft.report.domain.dto.status.Status;
-import com.kynsoft.report.domain.services.IAmazonClient;
 import com.kynsoft.report.domain.services.IDBConectionService;
 import com.kynsoft.report.domain.services.IJasperReportTemplateService;
 import org.springframework.stereotype.Component;
@@ -18,13 +17,11 @@ import java.util.function.Consumer;
 @Component
 public class UpdateJasperReportTemplateCommandHandler implements ICommandHandler<UpdateJasperReportTemplateCommand> {
 
-    private final IJasperReportTemplateService service;
-    private final IAmazonClient amazonClient;
+    private final IJasperReportTemplateService service;;
     private final IDBConectionService conectionService;
 
-    public UpdateJasperReportTemplateCommandHandler(IJasperReportTemplateService service, IAmazonClient amazonClient, IDBConectionService conectionService) {
+    public UpdateJasperReportTemplateCommandHandler(IJasperReportTemplateService service, IDBConectionService conectionService) {
         this.service = service;
-        this.amazonClient = amazonClient;
         this.conectionService = conectionService;
     }
 

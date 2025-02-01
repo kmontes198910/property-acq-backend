@@ -25,8 +25,8 @@ public class SaveFileS3CommandHandler implements ICommandHandler<SaveFileS3Comma
     @Override
     public void handle(SaveFileS3Command command) {
         try {
-            String url = amazonClient.save(command.getMultipartFile());
-            AFileDto aFileDto = new AFileDto(UUID.randomUUID(), command.getFileName(),  url, command.getObjectId());
+            String url = amazonClient.save(command.getMultipartFile(), command.getFolderPath());
+            AFileDto aFileDto = new AFileDto(UUID.randomUUID(), command.getFileName(),  url, command.getObjectId(), command.getFolderPath());
             UUID fileId = fileService.create(aFileDto);
             command.setFileId(fileId);
             command.setUrl(url);

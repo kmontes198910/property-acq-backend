@@ -75,11 +75,6 @@ public class AmazonClient implements IAmazonClient {
     public void uploadFileV1(InputStream streamToUpload, Long size, String contentType, String objectKey)
             throws AwsServiceException, SdkClientException, IOException {
 
-//        PutObjectRequest putObjectRequest = PutObjectRequest
-//                .builder().bucket(this.bucketName)
-//                .key(objectKey)
-//                .build();
-
         PutObjectRequest putObjectRequest = PutObjectRequest.builder().bucket(this.bucketName)
                 .key(objectKey).contentType(contentType).contentDisposition("inline").build();
 
@@ -88,15 +83,18 @@ public class AmazonClient implements IAmazonClient {
     }
 
     @Override
-    public String save(MultipartFile file) throws IOException {
+    public String save(MultipartFile file, String folderPath) throws IOException {
         String originalFilename = file.getOriginalFilename();
 
+        assert originalFilename != null;
         String sanitizedFilename = originalFilename.replace(" ", "_");
 
         String fileExtension = StringUtils.getFilenameExtension(sanitizedFilename);
         String timestamp = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss").format(new Date());
         String name = StringUtils.stripFilenameExtension(sanitizedFilename) + "_" + timestamp + "." + fileExtension;
-        this.uploadFileV1(file.getInputStream(), file.getSize(), file.getContentType(), name);
+
+        String objectKey = folderPath + name; // Genera la ruta completa dentro del bucket
+        this.uploadFileV1(file.getInputStream(), file.getSize(), file.getContentType(), objectKey);
 
         return this.cloudfrontDomain + name;
     }
