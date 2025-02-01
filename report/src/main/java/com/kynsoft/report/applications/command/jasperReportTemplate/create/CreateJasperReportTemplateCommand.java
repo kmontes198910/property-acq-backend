@@ -7,7 +7,6 @@ import com.kynsoft.report.domain.dto.status.Status;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.io.InputStream;
 import java.util.UUID;
 
 @Getter
