@@ -9,6 +9,8 @@ import com.kynsoft.report.applications.command.generateTemplate1.GenerateTemplat
 import com.kynsoft.report.applications.command.generateTemplate1.GenerateTemplateRequest;
 import com.kynsoft.report.applications.query.reportTemplate.GetReportParameterByCodeQuery;
 import com.kynsoft.report.applications.query.reportTemplate.GetReportParameterByCodeResponse;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperCompileManager;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -40,20 +42,6 @@ public class ReportController {
                 .body(response.getResult());
     }
 
-//    @PostMapping(value = "/generate", produces = MediaType.APPLICATION_PDF_VALUE)
-//    public Mono<ResponseEntity<byte[]>> generateReport(@RequestBody GenerateReportRequest request) {
-//        return Mono.fromCallable(() -> {
-//            GenerateReportCommand command = new GenerateReportCommand(request.getParameters(),
-//                    request.getJasperReportCode(), request.getReportFormatType());
-//            GenerateReportMessage response = mediator.send(command);
-//
-//            return ResponseEntity.ok()
-//                    .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=report.pdf")
-//                    .contentType(MediaType.APPLICATION_PDF)
-//                    .body(response.getResult());
-//        });
-//    }
-
     @PostMapping(value = "/generate", produces = MediaType.APPLICATION_JSON_VALUE)
     public Mono<ResponseEntity<Map<String, String>>> generateReport(@RequestBody GenerateReportRequest request) {
         return Mono.fromCallable(() -> {
@@ -74,12 +62,23 @@ public class ReportController {
         });
     }
 
-
     @GetMapping("/parameters/{reportCode}")
     public ResponseEntity<?> getReportParameters(@PathVariable String reportCode) {
         GetReportParameterByCodeQuery query = new GetReportParameterByCodeQuery(reportCode);
         GetReportParameterByCodeResponse response = mediator.send(query);
         return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/generate_jasper")
+    public ResponseEntity<?> generatedJasper() {
+        String jrxmlPath = "/Users/keimermontes/Downloads/actuales/receta_optometrico.jrxml";
+        String jasperPath = "/Users/keimermontes/Downloads/actuales/receta_optometrico.jasper";
+        try {
+            JasperCompileManager.compileReportToFile(jrxmlPath, jasperPath);
+        } catch (JRException e) {
+            throw new RuntimeException(e);
+        }
+        return ResponseEntity.ok("ok");
     }
 
 }

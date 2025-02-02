@@ -40,7 +40,7 @@ public class JasperReportTemplateController {
     }
 
 
-    @PostMapping(value = "", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @PostMapping(value = "create", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public Mono<ResponseEntity<String>> create(
             @RequestPart("file") Mono<FilePart> filePartMono,
             @RequestParam("code") String code,
