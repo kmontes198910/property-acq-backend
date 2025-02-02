@@ -48,9 +48,7 @@ public class JasperReportTemplateController {
             @RequestParam("description") String description,
             @RequestParam("type") JasperReportTemplateType type,
             @RequestParam("parameters") String parameters,
-            @RequestParam("dbConection") UUID dbConection,
-            @RequestParam("query") String query,
-            @RequestParam("status") Status status
+            @RequestParam("dbConection") UUID dbConection
     ) {
         return filePartMono
                 .flatMap(filePart -> DataBufferUtils.join(filePart.content())
@@ -64,7 +62,7 @@ public class JasperReportTemplateController {
                 .flatMap(fileBytes -> Mono.fromRunnable(() -> {
                             // Crear el comando con los parámetros
                             CreateJasperReportTemplateCommand createCommand = new CreateJasperReportTemplateCommand(
-                                    code, name, description, type, fileBytes, parameters, dbConection, query, status
+                                    code, name, description, type, fileBytes, parameters, dbConection, "", Status.ACTIVE
                             );
 
                             // Enviar el comando a través del mediator
