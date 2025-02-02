@@ -2,8 +2,10 @@ package com.kynsoft.report.controller;
 
 import com.kynsof.share.core.domain.request.PageableUtil;
 import com.kynsof.share.core.domain.request.SearchRequest;
+import com.kynsof.share.core.domain.response.ApiResponse;
 import com.kynsof.share.core.domain.response.PaginatedResponse;
 import com.kynsof.share.core.infrastructure.bus.IMediator;
+import org.springframework.mock.web.MockMultipartFile;
 import com.kynsoft.report.applications.command.jasperReportTemplate.create.CreateJasperReportTemplateCommand;
 import com.kynsoft.report.applications.command.jasperReportTemplate.delete.DeleteJasperReportTemplateCommand;
 import com.kynsoft.report.applications.command.jasperReportTemplate.delete.DeleteJasperReportTemplateMessage;
@@ -23,9 +25,11 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.codec.multipart.FilePart;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import reactor.core.publisher.Mono;
 import reactor.core.scheduler.Schedulers;
 
+import java.util.Objects;
 import java.util.UUID;
 
 @RestController
@@ -39,21 +43,44 @@ public class JasperReportTemplateController {
         this.mediator = mediator;
     }
 
-
-    @PostMapping(value = "create", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public Mono<ResponseEntity<String>> create(
-            @RequestPart("file") FilePart filePartMono,
-            @RequestParam("code") String code,
-            @RequestParam("name") String name,
-            @RequestParam("description") String description,
-            @RequestParam("type") JasperReportTemplateType type,
-            @RequestParam("parameters") String parameters,
-            @RequestParam("dbConection") UUID dbConection
+    @PostMapping(value = "")
+    public Mono<ResponseEntity<ApiResponse<?>>> upload(
+            @RequestPart("file") FilePart filePart,
+            @RequestPart("reportCode") String reportCode,
+             @RequestPart("name") String name,
+            @RequestPart("description") String description,
+             @RequestPart("type") String type,
+            @RequestPart("dbConection") String dbConection
     ) {
-        String filename = filePartMono.filename(); // Obtiene el nombre del archivo
+        // Asignar cadena vacía si objectId es null
+       // String valueId = (objectId == null) ? "" : objectId;
+        return DataBufferUtils.join(filePart.content())
+                .flatMap(dataBuffer -> {
+                    byte[] bytes = new byte[dataBuffer.readableByteCount()];
+                    dataBuffer.read(bytes);
+                    DataBufferUtils.release(dataBuffer);
 
-        return Mono.just(ResponseEntity.ok(filename)); // Devuelve el nombre del archivo en la respuesta
+                    // Obtener el tipo de contenido (MIME type)
+                    String contentType = Objects.requireNonNull(filePart.headers().getContentType()).toString();
+
+                    // Crear MultipartFile a partir de bytes y tipo MIME
+                    MultipartFile multipartFile = new MockMultipartFile(
+                            UUID.randomUUID().toString(),
+                            filePart.filename(),
+                            contentType,
+                            bytes
+                    );
+
+                    try {
+                        // Pasar el objectId al comando junto con el archivo
+                      //  SaveFileS3Message response = mediator.send(new SaveFileS3Command(multipartFile, filePart.filename(), valueId,""));
+                        return Mono.just(ResponseEntity.ok(ApiResponse.success( filePart.filename())));
+                    } catch (Exception e) {
+                        return Mono.error(e);
+                    }
+                });
     }
+
 //    @PostMapping("")
 //    public ResponseEntity<?> create(@RequestBody CreateJasperReportTemplateRequest request) {
 //        CreateJasperReportTemplateCommand createCommand = CreateJasperReportTemplateCommand.fromRequest(request);
