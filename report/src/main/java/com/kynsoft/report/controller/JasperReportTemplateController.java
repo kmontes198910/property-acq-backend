@@ -40,7 +40,7 @@ public class JasperReportTemplateController {
     }
 
 
-    @PostMapping(value = "", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @PostMapping(value = "create", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public Mono<ResponseEntity<String>> create(
             @RequestPart("file") Mono<FilePart> filePartMono,
             @RequestParam("code") String code,
@@ -48,9 +48,7 @@ public class JasperReportTemplateController {
             @RequestParam("description") String description,
             @RequestParam("type") JasperReportTemplateType type,
             @RequestParam("parameters") String parameters,
-            @RequestParam("dbConection") UUID dbConection,
-            @RequestParam("query") String query,
-            @RequestParam("status") Status status
+            @RequestParam("dbConection") UUID dbConection
     ) {
         return filePartMono
                 .flatMap(filePart -> DataBufferUtils.join(filePart.content())
@@ -64,7 +62,7 @@ public class JasperReportTemplateController {
                 .flatMap(fileBytes -> Mono.fromRunnable(() -> {
                             // Crear el comando con los parámetros
                             CreateJasperReportTemplateCommand createCommand = new CreateJasperReportTemplateCommand(
-                                    code, name, description, type, fileBytes, parameters, dbConection, query, status
+                                    code, name, description, type, fileBytes, parameters, dbConection, "", Status.ACTIVE
                             );
 
                             // Enviar el comando a través del mediator
