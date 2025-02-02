@@ -42,7 +42,7 @@ public class JasperReportTemplateController {
 
     @PostMapping(value = "create", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public Mono<ResponseEntity<String>> create(
-            @RequestPart("file") Mono<FilePart> filePartMono,
+            @RequestPart("file") FilePart filePartMono,
             @RequestParam("code") String code,
             @RequestParam("name") String name,
             @RequestParam("description") String description,
@@ -50,31 +50,10 @@ public class JasperReportTemplateController {
             @RequestParam("parameters") String parameters,
             @RequestParam("dbConection") UUID dbConection
     ) {
-        return filePartMono
-                .flatMap(filePart -> DataBufferUtils.join(filePart.content())
-                        .flatMap(dataBuffer -> {
-                            byte[] fileBytes = new byte[dataBuffer.readableByteCount()];
-                            dataBuffer.read(fileBytes);
-                            DataBufferUtils.release(dataBuffer); // Liberar memoria
-                            return Mono.just(fileBytes);
-                        })
-                )
-                .flatMap(fileBytes -> Mono.fromRunnable(() -> {
-                            // Crear el comando con los parámetros
-                            CreateJasperReportTemplateCommand createCommand = new CreateJasperReportTemplateCommand(
-                                    code, name, description, type, fileBytes, parameters, dbConection, "", Status.ACTIVE
-                            );
+        String filename = filePartMono.filename(); // Obtiene el nombre del archivo
 
-                            // Enviar el comando a través del mediator
-                            mediator.send(createCommand);
-                        })
-                        .subscribeOn(Schedulers.boundedElastic()))
-                .thenReturn(ResponseEntity.ok("Archivo procesado y comando creado correctamente"))
-                .onErrorResume(e -> Mono.just(ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                        .body("Error procesando el archivo: " + e.getMessage()))
-                );
+        return Mono.just(ResponseEntity.ok(filename)); // Devuelve el nombre del archivo en la respuesta
     }
-
 //    @PostMapping("")
 //    public ResponseEntity<?> create(@RequestBody CreateJasperReportTemplateRequest request) {
 //        CreateJasperReportTemplateCommand createCommand = CreateJasperReportTemplateCommand.fromRequest(request);
