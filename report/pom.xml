@@ -276,6 +276,10 @@
             <artifactId>redisson</artifactId>
             <version>3.32.0</version> <!-- Verifica siempre la última versión -->
         </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-test</artifactId>
+        </dependency>
     </dependencies>
 
     <build>
