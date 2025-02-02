@@ -43,7 +43,7 @@ public class JasperReportTemplateController {
         this.mediator = mediator;
     }
 
-    @PostMapping(value = "")
+    @PostMapping(value = "create")
     public Mono<ResponseEntity<ApiResponse<?>>> upload(
             @RequestPart("file") FilePart filePart,
             @RequestPart("reportCode") String reportCode,
