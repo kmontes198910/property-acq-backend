@@ -40,11 +40,10 @@ public class CreateJasperReportTemplateCommandHandler implements ICommandHandler
                 throw new RuntimeException("El archivo JRXML está vacío o no se proporcionó.");
             }
 
-            // 2️⃣ Convertir el byte[] a InputStream
-            InputStream jrxmlInputStream = new ByteArrayInputStream(jrxmlBytes);
-
-            // 3️⃣ Compilar el JRXML a un archivo JasperReport
+            System.setProperty("net.sf.jasperreports.compiler.useThreadContextClassLoader", "true");
             System.setProperty("net.sf.jasperreports.compiler.class", "net.sf.jasperreports.engine.design.JRJdtCompiler");
+
+            InputStream jrxmlInputStream = new ByteArrayInputStream(jrxmlBytes);
             JasperReport jasperReport = JasperCompileManager.compileReport(jrxmlInputStream);
 
             // 4️⃣ Convertir `JasperReport` a bytes
