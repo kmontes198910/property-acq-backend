@@ -1,29 +1,36 @@
-# Etapa de construcción: usa Maven para compilar la aplicación
-FROM maven:3.9.4-eclipse-temurin-17 AS builder
+# Etapa 1: Construcción de la aplicación con Maven y Java 17
+FROM eclipse-temurin:17-jdk AS builder
 
+# Establece el directorio de trabajo
 WORKDIR /build
 
-# Copia el archivo de configuración de Maven y ajusta el token
+# (Opcional) Si usas un archivo de configuración para Maven, como rc-settings.xml, y necesitas reemplazar tokens:
 COPY rc-settings.xml settings.xml
 ARG PACKAGE_TOKEN
 RUN sed -i "s|GIT_TOKEN|$PACKAGE_TOKEN|g" settings.xml
 
-# Copia el código fuente
+# Copia el código fuente completo
 COPY . /build
 
-# Descarga las dependencias en modo offline y compila sin pruebas
+# Descarga dependencias y compila la aplicación generando el fat JAR (usando, por ejemplo, maven-shade-plugin)
 RUN mvn dependency:go-offline -s settings.xml && \
     mvn clean package -DskipTests
 
-# Etapa final: usa una imagen con JDK para soportar compilación de JasperReports
+# Etapa 2: Imagen de ejecución con JDK 17
 FROM eclipse-temurin:17-jdk
+
+# Configura la zona horaria (opcional)
 ENV TZ="America/Guayaquil"
 
-# Copia el fat jar generado desde la etapa de construcción
+# Copia el fat JAR generado en la etapa de construcción
+# Asegúrate de que el nombre del JAR coincida con el que genera tu proceso de compilación (por ejemplo, report-1.0.0-shaded.jar)
 COPY --from=builder /build/target/report-1.0.0-shaded.jar /app/report-1.0.0.jar
 
-## Copia también los templates (asegúrate que la ruta sea la correcta)
-#COPY src/main/resources/templates/receta.jrxml /app/resources/templates/receta.jrxml
+# (Opcional) Copia recursos adicionales, como archivos de templates JasperReports (.jrxml)
+COPY src/main/resources/templates/receta.jrxml /app/resources/templates/receta.jrxml
 
+# Expone el puerto que utiliza la aplicación
 EXPOSE 9909
+
+# Comando de inicio de la aplicación
 ENTRYPOINT ["java", "-Xmx1024m", "-XX:+UseG1GC", "-jar", "/app/report-1.0.0.jar"]
