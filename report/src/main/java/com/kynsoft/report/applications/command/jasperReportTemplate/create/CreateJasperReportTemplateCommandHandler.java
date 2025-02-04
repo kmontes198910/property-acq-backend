@@ -44,6 +44,7 @@ public class CreateJasperReportTemplateCommandHandler implements ICommandHandler
             InputStream jrxmlInputStream = new ByteArrayInputStream(jrxmlBytes);
 
             // 3️⃣ Compilar el JRXML a un archivo JasperReport
+            System.setProperty("net.sf.jasperreports.compiler.class", "net.sf.jasperreports.engine.design.JRJdtCompiler");
             JasperReport jasperReport = JasperCompileManager.compileReport(jrxmlInputStream);
 
             // 4️⃣ Convertir `JasperReport` a bytes
