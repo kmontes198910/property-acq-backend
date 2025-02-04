@@ -37,7 +37,7 @@ public class CreateJasperReportTemplateCommandHandler implements ICommandHandler
     @Override
     public void handle(CreateJasperReportTemplateCommand command) {
         DBConnectionDto dbConnectionDto = command.getDbConection() != null ? this.connectionService.findById(command.getDbConection()) : null;
-
+        System.err.println("Create Report Template");
         try {
             // 1️⃣ Obtener el contenido del archivo en bytes
             byte[] jrxmlBytes = command.getFile();
@@ -68,9 +68,11 @@ public class CreateJasperReportTemplateCommandHandler implements ICommandHandler
 
 
             // 5️⃣ Guardar la referencia en base de datos (si aplica)
-           // UploadResponse result=  uploadJasperToS3(jasperBytes, command.getCode());
-            UploadResponse result=  fileUploadService.uploadJasperToS3(jasperBytes, command.getCode(),
+            // UploadResponse result=  uploadJasperToS3(jasperBytes, command.getCode());
+            UploadResponse result = fileUploadService.uploadJasperToS3(jasperBytes, command.getCode(),
                     "jasper-reports/");
+
+            System.err.println("Url del Jasper: " + result.getUrl());
             JasperReportTemplateDto templateDto = new JasperReportTemplateDto(
                     UUID.randomUUID(),
                     command.getCode(),
@@ -84,9 +86,9 @@ public class CreateJasperReportTemplateCommandHandler implements ICommandHandler
 
             service.create(templateDto);
 
-          System.err.println(result.getUrl());
-        }catch (Exception e) {
-           System.err.println(e.getMessage());
+            System.err.println("OK");
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
 
         }
 
