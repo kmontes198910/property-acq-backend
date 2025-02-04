@@ -1,22 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
         <version>3.2.5</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
-
     <groupId>com.kynsoft</groupId>
     <artifactId>report</artifactId>
     <version>1.0.0</version>
     <name>report</name>
     <description>report</description>
-
     <properties>
         <java.version>17</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -27,8 +23,7 @@
         <spring-security-oauth2.version>2.5.2.RELEASE</spring-security-oauth2.version>
         <maven-compiler-plugin.version>3.13.0</maven-compiler-plugin.version>
     </properties>
-
-    <!-- Repositorio para JasperReports -->
+    <!-- Agregamos el repositorio de Jaspersoft -->
     <repositories>
         <repository>
             <id>jaspersoft-releases</id>
@@ -44,16 +39,18 @@
 
     <dependencyManagement>
         <dependencies>
-            <!-- Importa la gestión de dependencias de Spring Cloud -->
+            <!-- Override Lombok provided by Spring Boot -->
             <dependency>
+                <!-- Import dependency management from Spring Cloud -->
                 <groupId>org.springframework.cloud</groupId>
                 <artifactId>spring-cloud-dependencies</artifactId>
                 <version>${spring-cloud.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
-            <!-- Importa la gestión de dependencias de Spring Boot -->
+
             <dependency>
+                <!-- Import dependency management from Spring Boot -->
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-dependencies</artifactId>
                 <version>${spring-boot.version}</version>
@@ -62,13 +59,12 @@
             </dependency>
         </dependencies>
     </dependencyManagement>
-
     <dependencies>
-        <!-- Dependencias generales -->
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
         </dependency>
+
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-config</artifactId>
@@ -77,28 +73,34 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-actuator</artifactId>
         </dependency>
+
         <dependency>
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-oauth2-resource-server</artifactId>
         </dependency>
+
         <dependency>
             <groupId>jakarta.servlet</groupId>
             <artifactId>jakarta.servlet-api</artifactId>
             <scope>provided</scope>
         </dependency>
+
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
         </dependency>
+
         <dependency>
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-oauth2-jose</artifactId>
         </dependency>
+
         <dependency>
             <groupId>org.springframework.security.oauth</groupId>
             <artifactId>spring-security-oauth2</artifactId>
             <version>${spring-security-oauth2.version}</version>
         </dependency>
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-oauth2-client</artifactId>
@@ -107,36 +109,45 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-security</artifactId>
         </dependency>
+
         <dependency>
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-config</artifactId>
         </dependency>
+
         <dependency>
             <groupId>jakarta.annotation</groupId>
             <artifactId>jakarta.annotation-api</artifactId>
         </dependency>
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-oauth2-resource-server</artifactId>
         </dependency>
+
         <dependency>
+
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-test</artifactId>
             <scope>test</scope>
         </dependency>
+
         <dependency>
             <groupId>io.netty</groupId>
             <artifactId>netty-resolver-dns-native-macos</artifactId>
         </dependency>
+
         <dependency>
             <groupId>org.springdoc</groupId>
             <artifactId>springdoc-openapi-starter-webflux-ui</artifactId>
             <version>${springdoc-openapi.version}</version>
         </dependency>
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-configuration-processor</artifactId>
@@ -146,6 +157,7 @@
             <groupId>org.springframework.kafka</groupId>
             <artifactId>spring-kafka</artifactId>
         </dependency>
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-jpa</artifactId>
@@ -155,6 +167,7 @@
             <artifactId>postgresql</artifactId>
             <scope>runtime</scope>
         </dependency>
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-redis</artifactId>
@@ -166,7 +179,8 @@
             <scope>compile</scope>
         </dependency>
 
-        <!-- Dependencias de JasperReports -->
+        <!--Inicio del jasper-->
+        <!-- https://mvnrepository.com/artifact/net.sf.jasperreports/jasperreports -->
         <dependency>
             <groupId>net.sf.jasperreports</groupId>
             <artifactId>jasperreports</artifactId>
@@ -183,17 +197,27 @@
             <version>7.0.1</version>
         </dependency>
 
-        <!-- Dependencias para PDF -->
+
+        <!-- Add Apache FOP for PDF rendering -->
         <dependency>
             <groupId>org.apache.xmlgraphics</groupId>
             <artifactId>fop</artifactId>
             <version>2.9</version>
         </dependency>
+
+
+
+        <!-- PDFBox for handling PDFs -->
         <dependency>
             <groupId>org.apache.pdfbox</groupId>
             <artifactId>pdfbox</artifactId>
             <version>2.0.30</version>
         </dependency>
+        <!--        <dependency>-->
+        <!--            <groupId>net.sf.jasperreports</groupId>-->
+        <!--            <artifactId>jasperreports-fonts</artifactId>-->
+        <!--            <version>6.21.3</version> &lt;!&ndash; O la versión que estés usando &ndash;&gt;-->
+        <!--        </dependency>-->
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-dbcp2</artifactId>
@@ -209,8 +233,7 @@
             <artifactId>core</artifactId>
             <version>3.4.1</version>
         </dependency>
-
-        <!-- Dependencias de Apache Batik para manejo de SVG -->
+        <!-- Apache Batik dependencies for handling SVG -->
         <dependency>
             <groupId>org.apache.xmlgraphics</groupId>
             <artifactId>batik-dom</artifactId>
@@ -231,8 +254,6 @@
             <artifactId>batik-transcoder</artifactId>
             <version>1.17</version>
         </dependency>
-
-        <!-- Otras dependencias -->
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-core</artifactId>
@@ -249,10 +270,11 @@
             <version>2.21.7</version>
             <scope>compile</scope>
         </dependency>
+
         <dependency>
             <groupId>org.redisson</groupId>
             <artifactId>redisson</artifactId>
-            <version>3.32.0</version>
+            <version>3.32.0</version> <!-- Verifica siempre la última versión -->
         </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
@@ -262,7 +284,6 @@
 
     <build>
         <plugins>
-            <!-- Plugin de Spring Boot -->
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
@@ -273,48 +294,8 @@
                             <artifactId>lombok</artifactId>
                         </exclude>
                     </excludes>
-                    <!-- Se asigna un classifier para evitar el reempaquetado por defecto -->
-                    <classifier>exec</classifier>
                 </configuration>
             </plugin>
-
-            <!-- Maven Shade Plugin para generar un fat jar -->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-shade-plugin</artifactId>
-                <version>3.3.0</version>
-                <executions>
-                    <execution>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>shade</goal>
-                        </goals>
-                        <configuration>
-                            <!-- Evita la generación del dependency-reduced-pom -->
-                            <createDependencyReducedPom>false</createDependencyReducedPom>
-                            <filters>
-                                <filter>
-                                    <artifact>*:*</artifact>
-                                    <excludes>
-                                        <exclude>META-INF/*.SF</exclude>
-                                        <exclude>META-INF/*.DSA</exclude>
-                                        <exclude>META-INF/*.RSA</exclude>
-                                    </excludes>
-                                </filter>
-                            </filters>
-                            <transformers>
-                                <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-                                    <!-- Reemplaza esta clase por la clase principal de tu aplicación -->
-                                    <mainClass>com.kynsoft.report.ReportsApplication</mainClass>
-                                </transformer>
-                            </transformers>
-                            <!-- Nombre final del JAR generado -->
-                            <finalName>report-1.0.0-shaded</finalName>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-
         </plugins>
     </build>
 
