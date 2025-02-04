@@ -1,4 +1,4 @@
-package com.kynsof.share.core.application.file;
+package com.kynsof.share.core.application.FileServices;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

@@ -1,7 +1,8 @@
 package com.kynsoft.report.applications.command.jasperReportTemplate.create;
 
-import com.kynsof.share.core.application.file.IFileUploadService;
-import com.kynsof.share.core.application.file.UploadResponse;
+
+import com.kynsof.share.core.application.FileServices.IFileUploadService;
+import com.kynsof.share.core.application.FileServices.UploadResponse;
 import com.kynsof.share.core.domain.bus.command.ICommandHandler;
 import com.kynsoft.report.domain.dto.DBConnectionDto;
 import com.kynsoft.report.domain.dto.JasperReportTemplateDto;
@@ -10,15 +11,9 @@ import com.kynsoft.report.domain.services.IDBConnectionService;
 import com.kynsoft.report.domain.services.IJasperReportTemplateService;
 import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperReport;
-import org.springframework.core.io.ByteArrayResource;
-import org.springframework.http.*;
 import org.springframework.stereotype.Component;
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
-import org.springframework.web.client.RestTemplate;
 
 import java.io.*;
-import java.util.Map;
 import java.util.UUID;
 
 @Component
@@ -99,7 +94,7 @@ public class CreateJasperReportTemplateCommandHandler implements ICommandHandler
 //
 //        // Crear el cuerpo de la solicitud multipart
 //        MultiValueMap<String, Object> body = new LinkedMultiValueMap<>();
-//        body.add("file", new ByteArrayResource(jasperBytes) {
+//        body.add("fileService", new ByteArrayResource(jasperBytes) {
 //            @Override
 //            public String getFilename() {
 //                return fileName + ".jasper";

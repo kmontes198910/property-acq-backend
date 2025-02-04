@@ -71,8 +71,8 @@ public class ReportController {
 
     @GetMapping("/generate_jasper")
     public ResponseEntity<?> generatedJasper() {
-        String jrxmlPath = "/Users/keimermontes/Downloads/actuales/receta_optometrico.jrxml";
-        String jasperPath = "/Users/keimermontes/Downloads/actuales/receta_optometrico.jasper";
+        String jrxmlPath = "/Users/keimermontes/Downloads/actuales/resumen_hc.jrxml";
+        String jasperPath = "/Users/keimermontes/Downloads/actuales/resumen_hc.jasper";
         try {
             JasperCompileManager.compileReportToFile(jrxmlPath, jasperPath);
         } catch (JRException e) {
