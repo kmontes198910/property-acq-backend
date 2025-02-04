@@ -40,9 +40,12 @@ public class CreateJasperReportTemplateCommandHandler implements ICommandHandler
                 throw new RuntimeException("El archivo JRXML está vacío o no se proporcionó.");
             }
 
+            // Establece el thread context class loader
+            Thread.currentThread().setContextClassLoader(this.getClass().getClassLoader());
+
+            // Configura para usar el compilador Eclipse (JDT)
             System.setProperty("net.sf.jasperreports.compiler.useThreadContextClassLoader", "true");
             System.setProperty("net.sf.jasperreports.compiler.class", "net.sf.jasperreports.engine.design.JRJdtCompiler");
-
             InputStream jrxmlInputStream = new ByteArrayInputStream(jrxmlBytes);
             JasperReport jasperReport = JasperCompileManager.compileReport(jrxmlInputStream);
 
@@ -84,6 +87,7 @@ public class CreateJasperReportTemplateCommandHandler implements ICommandHandler
             System.err.println("OK");
         } catch (Exception e) {
             System.err.println(e.getMessage());
+            throw new RuntimeException(e);
 
         }
 
