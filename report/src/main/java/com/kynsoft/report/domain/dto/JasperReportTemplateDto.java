@@ -20,35 +20,31 @@ public class JasperReportTemplateDto {
     private  String templateDescription;
     private  String templateContentUrl;
     private  JasperReportTemplateType type;
-    private  String parameters;
     private LocalDateTime createdAt;
-    private DBConectionDto dbConection;
-    private String query;
+    private DBConnectionDto dbConection;
     private Status status;
 
     public JasperReportTemplateDto(UUID id, String templateCode, String templateName, String templateDescription,
-                                   String templateContentUrl, JasperReportTemplateType type, String parameters) {
+                                   String templateContentUrl, JasperReportTemplateType type) {
         this.id = id;
         this.templateCode = templateCode;
         this.templateName = templateName;
         this.templateDescription = templateDescription;
         this.templateContentUrl = templateContentUrl;
         this.type = type;
-        this.parameters = parameters;
     }
 
     public JasperReportTemplateDto(UUID id, String templateCode, String templateName, String templateDescription,
-                                   String templateContentUrl, JasperReportTemplateType type, String parameters,
-                                   DBConectionDto dbConection, String query, Status status) {
+                                   String templateContentUrl, JasperReportTemplateType type,
+                                   DBConnectionDto dbConection, Status status) {
         this.id = id;
         this.templateCode = templateCode;
         this.templateName = templateName;
         this.templateDescription = templateDescription;
         this.templateContentUrl = templateContentUrl;
         this.type = type;
-        this.parameters = parameters;
         this.dbConection = dbConection;
-        this.query = query;
+
         this.status = status;
     }
 }

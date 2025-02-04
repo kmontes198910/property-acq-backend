@@ -1,7 +1,7 @@
 package com.kynsoft.report.applications.command.generateReport;
 
 import com.kynsof.share.core.domain.bus.command.ICommandHandler;
-import com.kynsoft.report.domain.dto.DBConectionDto;
+import com.kynsoft.report.domain.dto.DBConnectionDto;
 import com.kynsoft.report.domain.dto.JasperReportTemplateDto;
 import com.kynsoft.report.domain.services.IJasperReportTemplateService;
 import net.sf.jasperreports.engine.*;
@@ -84,7 +84,7 @@ public class GenerateReportCommandHandler implements ICommandHandler<GenerateRep
             }
 
             // Establecer la conexión con la base de datos
-            DBConectionDto dbConnection = reportTemplateDto.getDbConection();
+            DBConnectionDto dbConnection = reportTemplateDto.getDbConection();
             Class.forName("org.postgresql.Driver"); // Asegurar que el driver está cargado
 
             connection = DriverManager.getConnection(dbConnection.getUrl(),
@@ -194,7 +194,7 @@ public class GenerateReportCommandHandler implements ICommandHandler<GenerateRep
             logger.error("Generating Excel report with database: {}", reportTemplateDto.getDbConection().getName());
 
             JdbcTemplate jdbcTemplate = new JdbcTemplate(new SingleConnectionDataSource(connection, true));
-            String query = reportTemplateDto.getQuery() != null ? reportTemplateDto.getQuery() : "";
+            String query =  "";
             NamedParameterJdbcTemplate namedJdbc = new NamedParameterJdbcTemplate(jdbcTemplate);
             query = replaceQueryParameters(query, parameters);
             List<Map<String, Object>> rows = namedJdbc.queryForList(query, parameters);

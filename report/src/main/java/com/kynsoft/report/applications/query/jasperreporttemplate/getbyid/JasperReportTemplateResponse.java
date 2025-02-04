@@ -24,10 +24,8 @@ public class JasperReportTemplateResponse implements IResponse {
     private String description;
     private String url;
     private JasperReportTemplateType type;
-    private String parameters;
     private LocalDate createdAt;
     private DBConectionResponse dbConection;
-    private String query;
     private Status status;
 
 
@@ -38,10 +36,10 @@ public class JasperReportTemplateResponse implements IResponse {
         this.description = jasperReportTemplateDto.getTemplateDescription();
         this.url = jasperReportTemplateDto.getTemplateContentUrl();
         this.type = jasperReportTemplateDto.getType();
-        this.parameters = jasperReportTemplateDto.getParameters();
+       // this.parameters = jasperReportTemplateDto.getParameters();
         this.createdAt = jasperReportTemplateDto.getCreatedAt().toLocalDate();
         this.dbConection = jasperReportTemplateDto.getDbConection() != null ? new DBConectionResponse(jasperReportTemplateDto.getDbConection()) : null;
-        this.query = jasperReportTemplateDto.getQuery();
+      //  this.query = jasperReportTemplateDto.getQuery();
         this.status = jasperReportTemplateDto.getStatus();
     }
 

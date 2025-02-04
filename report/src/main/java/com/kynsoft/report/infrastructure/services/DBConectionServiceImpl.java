@@ -8,8 +8,8 @@ import com.kynsof.share.core.domain.response.ErrorField;
 import com.kynsof.share.core.domain.response.PaginatedResponse;
 import com.kynsof.share.core.infrastructure.specifications.GenericSpecificationsBuilder;
 import com.kynsoft.report.applications.query.dbconection.getById.DBConectionResponse;
-import com.kynsoft.report.domain.dto.DBConectionDto;
-import com.kynsoft.report.domain.services.IDBConectionService;
+import com.kynsoft.report.domain.dto.DBConnectionDto;
+import com.kynsoft.report.domain.services.IDBConnectionService;
 import com.kynsoft.report.infrastructure.entity.DBConection;
 import com.kynsoft.report.infrastructure.repository.command.DBConectionWriteDataJPARepository;
 import com.kynsoft.report.infrastructure.repository.query.DBConectionReadDataJPARepository;
@@ -24,7 +24,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Service
-public class DBConectionServiceImpl implements IDBConectionService {
+public class DBConectionServiceImpl implements IDBConnectionService {
 
     @Autowired
     private final DBConectionWriteDataJPARepository repositoryCommand;
@@ -37,19 +37,19 @@ public class DBConectionServiceImpl implements IDBConectionService {
     }
 
     @Override
-    public void create(DBConectionDto object) {
+    public void create(DBConnectionDto object) {
         DBConection dbConection = new DBConection(object);
         this.repositoryCommand.save(dbConection);
     }
 
     @Override
-    public void update(DBConectionDto object) {
+    public void update(DBConnectionDto object) {
         DBConection dbConection = new DBConection(object);
         this.repositoryCommand.save(dbConection);
     }
 
     @Override
-    public void delete(DBConectionDto object) {
+    public void delete(DBConnectionDto object) {
         try {
             this.repositoryCommand.deleteById(object.getId());
         } catch (Exception e) {
@@ -67,7 +67,7 @@ public class DBConectionServiceImpl implements IDBConectionService {
     }
 
     @Override
-    public DBConectionDto findById(UUID id) {
+    public DBConnectionDto findById(UUID id) {
         Optional<DBConection> dbConection = this.repositoryQuery.findById(id);
         if (dbConection.isPresent()) {
             return dbConection.get().toAggregate();

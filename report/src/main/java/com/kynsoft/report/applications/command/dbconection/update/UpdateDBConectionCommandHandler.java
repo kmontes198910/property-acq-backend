@@ -4,10 +4,10 @@ import com.kynsof.share.core.domain.RulesChecker;
 import com.kynsof.share.core.domain.bus.command.ICommandHandler;
 import com.kynsof.share.utils.ConsumerUpdate;
 import com.kynsof.share.utils.UpdateIfNotNull;
-import com.kynsoft.report.domain.dto.DBConectionDto;
+import com.kynsoft.report.domain.dto.DBConnectionDto;
 import com.kynsoft.report.domain.dto.status.Status;
 import com.kynsoft.report.domain.rules.dbconection.DBConectionCodeMustBeUniqueRule;
-import com.kynsoft.report.domain.services.IDBConectionService;
+import com.kynsoft.report.domain.services.IDBConnectionService;
 import org.springframework.stereotype.Component;
 
 import java.util.function.Consumer;
@@ -15,9 +15,9 @@ import java.util.function.Consumer;
 @Component
 public class UpdateDBConectionCommandHandler implements ICommandHandler<UpdateDBConectionCommand> {
 
-    private final IDBConectionService service;
+    private final IDBConnectionService service;
 
-    public UpdateDBConectionCommandHandler(IDBConectionService service) {
+    public UpdateDBConectionCommandHandler(IDBConnectionService service) {
         this.service = service;
     }
 
@@ -25,7 +25,7 @@ public class UpdateDBConectionCommandHandler implements ICommandHandler<UpdateDB
     public void handle(UpdateDBConectionCommand command) {
         RulesChecker.checkRule(new DBConectionCodeMustBeUniqueRule(this.service, command.getCode(), command.getId()));
 
-        DBConectionDto dto = this.service.findById(command.getId());
+        DBConnectionDto dto = this.service.findById(command.getId());
         ConsumerUpdate update = new ConsumerUpdate();
 
         UpdateIfNotNull.updateIfStringNotNullNotEmptyAndNotEquals(dto::setUrl, command.getUrl(), dto.getUrl(), update::setUpdate);

@@ -19,37 +19,19 @@ public class CreateJasperReportTemplateCommand implements ICommand {
     private String description;
     private JasperReportTemplateType type;
     private byte[] file;
-    private String parameters;
     private UUID dbConection;
     private String query;
     private Status status;
 
     public CreateJasperReportTemplateCommand(String code, String name, String description, JasperReportTemplateType type,
-                                             byte[] file, String parameters, UUID dbConection, String query, Status status) {
+                                             byte[] file,  UUID dbConection) {
         this.id = UUID.randomUUID();
         this.code = code;
         this.name = name;
         this.description = description;
         this.type = type;
         this.file = file;
-        this.parameters = parameters;
         this.dbConection = dbConection;
-        this.query = query;
-        this.status = status;
-    }
-
-    public static CreateJasperReportTemplateCommand fromRequest(CreateJasperReportTemplateRequest request) {
-        return new CreateJasperReportTemplateCommand(
-                request.getCode(), 
-                request.getName(), 
-                request.getDescription(), 
-                request.getType(), 
-               null,
-                request.getParameters(),
-                request.getDbConection(),
-                request.getQuery(),
-                request.getStatus()
-        );
     }
 
     @Override
