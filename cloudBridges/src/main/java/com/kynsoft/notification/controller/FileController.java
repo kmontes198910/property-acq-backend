@@ -105,12 +105,9 @@ public class FileController {
                                         bytes
                                 );
 
-                                // Enviar comando a través del mediator
-                                return Mono.fromCallable(() -> mediator.send(
-                                                new SaveFileS3Command(multipartFile, filePart.filename(), valueId,folderPath)
-                                        ))
-                                        .subscribeOn(Schedulers.boundedElastic()) // Para ejecución no bloqueante
-                                        .map(response -> ResponseEntity.ok(ApiResponse.success(response)));
+                                SaveFileS3Message response = mediator.send(new SaveFileS3Command(multipartFile,
+                                        filePart.filename(), valueId,folderPath));
+                                return Mono.just(ResponseEntity.ok(ApiResponse.success(response)));
 
                             } catch (Exception e) {
                                 return Mono.error(new RuntimeException("Error al procesar el archivo", e));

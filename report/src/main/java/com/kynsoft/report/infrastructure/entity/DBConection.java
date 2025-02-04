@@ -1,6 +1,6 @@
 package com.kynsoft.report.infrastructure.entity;
 
-import com.kynsoft.report.domain.dto.DBConectionDto;
+import com.kynsoft.report.domain.dto.DBConnectionDto;
 import com.kynsoft.report.domain.dto.status.Status;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -45,7 +45,7 @@ public class DBConection implements Serializable {
     @UpdateTimestamp
     private LocalDateTime updatedAt;
 
-    public DBConection(DBConectionDto dto){
+    public DBConection(DBConnectionDto dto){
         this.id = dto.getId();
         this.url = dto.getUrl();
         this.username = dto.getUsername();
@@ -55,8 +55,8 @@ public class DBConection implements Serializable {
         this.status = dto.getStatus();
     }
 
-    public DBConectionDto toAggregate(){
-        return new DBConectionDto(
+    public DBConnectionDto toAggregate(){
+        return new DBConnectionDto(
                 id, url, username, password, code, name, status
         );
     }

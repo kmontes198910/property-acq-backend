@@ -1,7 +1,7 @@
 package com.kynsoft.report.applications.query.dbconection.getById;
 
 import com.kynsof.share.core.domain.bus.query.IResponse;
-import com.kynsoft.report.domain.dto.DBConectionDto;
+import com.kynsoft.report.domain.dto.DBConnectionDto;
 import com.kynsoft.report.domain.dto.status.Status;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -24,7 +24,7 @@ public class DBConectionResponse implements IResponse {
     private String name;
     private Status status;
 
-    public DBConectionResponse(DBConectionDto dto){
+    public DBConectionResponse(DBConnectionDto dto){
         this.id = dto.getId();
         this.url = dto.getUrl();
         this.username = dto.getUsername();

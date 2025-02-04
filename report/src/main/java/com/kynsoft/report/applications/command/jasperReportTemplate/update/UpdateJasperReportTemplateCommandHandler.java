@@ -4,10 +4,10 @@ import com.kynsof.share.core.domain.RulesChecker;
 import com.kynsof.share.core.domain.bus.command.ICommandHandler;
 import com.kynsof.share.core.domain.rules.ValidateObjectNotNullRule;
 import com.kynsof.share.utils.UpdateIfNotNull;
-import com.kynsoft.report.domain.dto.DBConectionDto;
+import com.kynsoft.report.domain.dto.DBConnectionDto;
 import com.kynsoft.report.domain.dto.JasperReportTemplateDto;
 import com.kynsoft.report.domain.dto.status.Status;
-import com.kynsoft.report.domain.services.IDBConectionService;
+import com.kynsoft.report.domain.services.IDBConnectionService;
 import com.kynsoft.report.domain.services.IJasperReportTemplateService;
 import org.springframework.stereotype.Component;
 
@@ -18,9 +18,9 @@ import java.util.function.Consumer;
 public class UpdateJasperReportTemplateCommandHandler implements ICommandHandler<UpdateJasperReportTemplateCommand> {
 
     private final IJasperReportTemplateService service;;
-    private final IDBConectionService conectionService;
+    private final IDBConnectionService conectionService;
 
-    public UpdateJasperReportTemplateCommandHandler(IJasperReportTemplateService service, IDBConectionService conectionService) {
+    public UpdateJasperReportTemplateCommandHandler(IJasperReportTemplateService service, IDBConnectionService conectionService) {
         this.service = service;
         this.conectionService = conectionService;
     }
@@ -33,18 +33,18 @@ public class UpdateJasperReportTemplateCommandHandler implements ICommandHandler
         UpdateIfNotNull.updateIfNotNull(update::setTemplateCode, command.getCode());
         UpdateIfNotNull.updateIfNotNull(update::setTemplateDescription, command.getDescription());
         UpdateIfNotNull.updateIfNotNull(update::setTemplateName, command.getName());
-        UpdateIfNotNull.updateIfNotNull(update::setParameters, command.getParameters());
+       // UpdateIfNotNull.updateIfNotNull(update::setParameters, command.getParameters());
         update.setType(command.getType());
         this.updateConection(update::setDbConection, command.getDbConection(), update.getDbConection() != null ? update.getDbConection().getId() : null);
-        UpdateIfNotNull.updateIfNotNull(update::setQuery, command.getQuery());
+       // UpdateIfNotNull.updateIfNotNull(update::setQuery, command.getQuery());
         updateStatus(update::setStatus, command.getStatus(), update.getStatus());
 
         this.service.update(update);
     }
 
-    private void updateConection(Consumer<DBConectionDto> setter, UUID newValue, UUID oldValue) {
+    private void updateConection(Consumer<DBConnectionDto> setter, UUID newValue, UUID oldValue) {
         if (newValue != null && !newValue.equals(oldValue)) {
-            DBConectionDto conectionDto = this.conectionService.findById(newValue);
+            DBConnectionDto conectionDto = this.conectionService.findById(newValue);
             setter.accept(conectionDto);
         }
     }

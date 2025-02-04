@@ -58,17 +58,6 @@ public class Billing {
     @UpdateTimestamp
     private LocalDateTime updatedAt;
 
-    public Billing(String code, Patients patient, Business business, Double cost, String description,
-                   BillingStatus status, boolean isProforma) {
-        this.code = code;
-        this.patient = patient;
-        this.business = business;
-        this.cost = cost;
-        this.description = description;
-        this.status = status;
-        this.isProforma = isProforma;
-    }
-
     public Billing(BillingDto billingDto) {
         this.id = billingDto.getId();
         this.patient =  new Patients(billingDto.getPatient());

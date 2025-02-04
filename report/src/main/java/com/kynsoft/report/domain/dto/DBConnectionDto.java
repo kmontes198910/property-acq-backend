@@ -12,7 +12,7 @@ import java.util.UUID;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class DBConectionDto {
+public class DBConnectionDto {
 
     private UUID id;
     private String url;

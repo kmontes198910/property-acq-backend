@@ -1,7 +1,7 @@
 package com.kynsoft.report.infrastructure.entity;
 
 import com.kynsof.share.core.domain.BaseEntity;
-import com.kynsoft.report.domain.dto.DBConectionDto;
+import com.kynsoft.report.domain.dto.DBConnectionDto;
 import com.kynsoft.report.domain.dto.JasperReportTemplateDto;
 import com.kynsoft.report.domain.dto.JasperReportTemplateType;
 import com.kynsoft.report.domain.dto.status.Status;
@@ -29,13 +29,10 @@ public class JasperReportTemplate extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private JasperReportTemplateType type;
 
-    private String parameters;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "db_conection_id", nullable = true)
     private DBConection dbConection;
-
-    private String query;
 
     @Enumerated(EnumType.STRING)
     private Status status;
@@ -55,16 +52,16 @@ public class JasperReportTemplate extends BaseEntity {
         this.templateDescription = jasperReportTemplateDto.getTemplateDescription();
         this.templateContentUrl = jasperReportTemplateDto.getTemplateContentUrl();
         this.type = jasperReportTemplateDto.getType();
-        this.parameters = jasperReportTemplateDto.getParameters();
+       // this.parameters = jasperReportTemplateDto.getParameters();
         this.dbConection = jasperReportTemplateDto.getDbConection() != null ? new DBConection(jasperReportTemplateDto.getDbConection()) : null;
-        this.query = jasperReportTemplateDto.getQuery();
+      //  this.query = jasperReportTemplateDto.getQuery();
         this.status = jasperReportTemplateDto.getStatus();
     }
 
     public JasperReportTemplateDto toAggregate () {
         String templateContentUrlS = templateContentUrl != null ? templateContentUrl : null;
-        DBConectionDto conectionDto = dbConection != null ? dbConection.toAggregate() : null;
-        return new JasperReportTemplateDto(id, templateCode, templateName, templateDescription, templateContentUrlS, type, parameters, createdAt, conectionDto, query, status);
+        DBConnectionDto conectionDto = dbConection != null ? dbConection.toAggregate() : null;
+        return new JasperReportTemplateDto(id, templateCode, templateName, templateDescription, templateContentUrlS, type, createdAt, conectionDto,status);
     }
 
 }
