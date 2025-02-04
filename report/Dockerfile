@@ -1,32 +1,40 @@
-# Etapa 1: Construcción de la aplicación con Maven y Java 17
+# ============================
+# Etapa 1: Construcción (build)
+# ============================
 FROM maven:3.9.4-eclipse-temurin-17 AS builder
 
 # Establece el directorio de trabajo
 WORKDIR /build
 
-# (Opcional) Si usas un archivo de configuración para Maven, como rc-settings.xml, y necesitas reemplazar tokens:
+# (Opcional) Copia el archivo de configuración de Maven y reemplaza el token si es necesario
 COPY rc-settings.xml settings.xml
 ARG PACKAGE_TOKEN
 RUN sed -i "s|GIT_TOKEN|$PACKAGE_TOKEN|g" settings.xml
 
-# Copia el código fuente completo
+# Copia todo el código fuente al contenedor
 COPY . /build
 
-# Descarga dependencias y compila la aplicación generando el fat JAR (usando, por ejemplo, maven-shade-plugin)
+# Descarga las dependencias y compila la aplicación generando el fat JAR
+# Se asume que en el pom.xml se utiliza el maven-shade-plugin para generar "report-1.0.0-shaded.jar"
 RUN mvn dependency:go-offline -s settings.xml && \
     mvn clean package -DskipTests
 
-# Etapa 2: Imagen de ejecución con JDK 17
+# ============================
+# Etapa 2: Ejecución (runtime)
+# ============================
 FROM eclipse-temurin:17-jdk
 
 # Configura la zona horaria (opcional)
 ENV TZ="America/Guayaquil"
 
+# Crea el directorio de la aplicación
+WORKDIR /app
+
 # Copia el fat JAR generado en la etapa de construcción
-# Asegúrate de que el nombre del JAR coincida con el que genera tu proceso de compilación (por ejemplo, report-1.0.0-shaded.jar)
+# Verifica que el nombre coincida con el definido en tu pom.xml (en este caso, "report-1.0.0-shaded.jar")
 COPY --from=builder /build/target/report-1.0.0-shaded.jar /app/report-1.0.0.jar
 
-# (Opcional) Copia recursos adicionales, como archivos de templates JasperReports (.jrxml)
+# (Opcional) Copia recursos adicionales, como plantillas JasperReports (.jrxml)
 COPY src/main/resources/templates/receta.jrxml /app/resources/templates/receta.jrxml
 
 # Expone el puerto que utiliza la aplicación
