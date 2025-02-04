@@ -1,5 +1,5 @@
 # Etapa 1: Construcción de la aplicación con Maven y Java 17
-FROM  maven:3.9.4-eclipse-temurin-17 AS builder
+FROM maven:3.9.4-eclipse-temurin-17 AS builder
 
 # Establece el directorio de trabajo
 WORKDIR /build
