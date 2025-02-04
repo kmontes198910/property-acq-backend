@@ -1,4 +1,4 @@
-package com.kynsof.share.core.application.file;
+package com.kynsof.share.core.application.FileServices;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
@@ -15,7 +15,7 @@ public class FileUploadServiceImpl implements IFileUploadService {
 
     private final RestTemplate restTemplate;
 
-    @Value("${file.upload.url:http://localhost:8097/api/files/upload}")
+    @Value("${FileServices.upload.url:http://localhost:8097/api/files/upload}")
     private String uploadUrl;
 
     public FileUploadServiceImpl(RestTemplate restTemplate) {
