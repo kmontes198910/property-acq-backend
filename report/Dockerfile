@@ -20,7 +20,8 @@ RUN mvn dependency:go-offline -s settings.xml && \
     mvn clean package -DskipTests
 
 # Etapa final: imagen ligera de distroless
-FROM gcr.io/distroless/java17-debian11
+#FROM gcr.io/distroless/java17-debian11
+FROM eclipse-temurin:17-jdk
 
 # Establece la zona horaria
 ENV TZ="America/Guayaquil"
