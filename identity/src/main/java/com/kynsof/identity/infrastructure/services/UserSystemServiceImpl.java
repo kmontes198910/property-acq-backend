@@ -111,7 +111,7 @@ public class UserSystemServiceImpl implements IUserSystemService {
     }
 
     private PaginatedResponse getPaginatedResponse(Page<UserSystem> data) {
-        var userSystemsResponses = data.getContent().stream()
+        var userSystemsResponses = data.getContent().stream().distinct()
                 .map(UserSystem::toAggregate)
                 .map(UserSystemsResponse::new)
                 .toList();
