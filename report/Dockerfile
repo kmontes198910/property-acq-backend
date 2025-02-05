@@ -1,38 +1,55 @@
-# Etapa de construcción: utiliza Maven para compilar la aplicación
+# ==========================================
+# Etapa 1: Construcción de la aplicación
+# ==========================================
 FROM maven:3.9.4-eclipse-temurin-17 AS builder
 
 # Establece el directorio de trabajo
 WORKDIR /build
 
-# Copia el archivo de configuración de Maven
+# Copia el archivo de configuración de Maven (si existe)
 COPY rc-settings.xml settings.xml
 
 # Configura variables de entorno para Maven y token de paquete
-# Configura el token para el acceso a repositorios privados en settings.xml
 ARG PACKAGE_TOKEN
 RUN sed -i "s|GIT_TOKEN|$PACKAGE_TOKEN|g" settings.xml
 
-# Copia los archivos de proyecto
+# Copia los archivos del proyecto
 COPY . /build
 
-# Compila las dependencias en modo offline y construye el paquete sin ejecutar pruebas
+# Descarga dependencias en modo offline y compila la aplicación generando el fat JAR
 RUN mvn dependency:go-offline -s settings.xml && \
     mvn clean package -DskipTests
 
-# Etapa final: imagen ligera de distroless
-FROM gcr.io/distroless/java17-debian11
+# ==========================================
+# Etapa 2: Imagen de ejecución (JDK Completo)
+# ==========================================
+FROM eclipse-temurin:17-jdk
 
 # Establece la zona horaria
 ENV TZ="America/Guayaquil"
 
-# Copia el JAR generado desde la etapa de construcción
+# Define el directorio de trabajo
+WORKDIR /app
+
+# Copia el JAR generado en la etapa de construcción
 COPY --from=builder /build/target/report-1.0.0.jar /app/report-1.0.0.jar
+
+# Copia archivos adicionales como plantillas de JasperReports
 COPY src/main/resources/templates/receta.jrxml /app/resources/templates/receta.jrxml
-# Expone el puerto que utiliza la aplicación
+
+# ==========================
+# 🚀 PASOS PARA DEPURAR PROBLEMAS 🚀
+# ==========================
+
+# 1️⃣ Verifica si el JAR contiene JasperReports
+RUN jar -tf /app/report-1.0.0.jar | grep "net/sf/jasperreports" || echo "❌ JasperReports no encontrado en el JAR"
+
+# 2️⃣ Verifica si los archivos fueron copiados correctamente
+RUN ls -lah /app && ls -lah /app/resources/templates/
+
+# 3️⃣ Ejecuta la aplicación manualmente dentro del contenedor para probar antes de iniciar
+CMD ["java", "-Xmx1024m", "-XX:+UseG1GC", "-jar", "/app/report-1.0.0.jar"]
+
+# ==========================
+# Expone el puerto de la aplicación
 EXPOSE 9909
-
-# Variables de entorno para depuración y monitoreo
-ENV JAVA_TOOL_OPTIONS="-Xmx1024m -XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=/app/ -Dlogging.level.org.springframework=DEBUG"
-
-# Comando de inicio de la aplicación con más memoria y recolección de basura mejorada
-ENTRYPOINT ["java", "-Xmx1024m", "-XX:+UseG1GC", "-jar", "/app/report-1.0.0.jar"]
