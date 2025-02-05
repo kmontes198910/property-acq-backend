@@ -56,8 +56,10 @@ public class CreateJasperReportTemplateCommandHandler implements ICommandHandler
 
             // Compilar y guardar el reporte .jasper
             try {
-                JasperReport jasperReport = JasperCompileManager.compileReport(jrxmlFilePath);
-                JRSaver.saveObject(jasperReport, jasperFilePath);
+                System.setProperty("net.sf.jasperreports.compiler.class", "net.sf.jasperreports.engine.design.JRJdtCompiler");
+                JasperCompileManager.compileReportToFile(jrxmlFilePath, jasperFilePath);
+//                JasperReport jasperReport = JasperCompileManager.compileReport(jrxmlFilePath);
+//                JRSaver.saveObject(jasperReport, jasperFilePath);
 
                 System.err.println("Reporte compilado correctamente en: " + jasperFilePath);
             } catch (JRException e) {
