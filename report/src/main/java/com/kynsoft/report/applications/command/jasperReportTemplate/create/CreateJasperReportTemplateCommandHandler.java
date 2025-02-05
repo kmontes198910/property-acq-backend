@@ -9,11 +9,15 @@ import com.kynsoft.report.domain.dto.JasperReportTemplateDto;
 import com.kynsoft.report.domain.dto.status.Status;
 import com.kynsoft.report.domain.services.IDBConnectionService;
 import com.kynsoft.report.domain.services.IJasperReportTemplateService;
+import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.util.JRSaver;
 import org.springframework.stereotype.Component;
 
 import java.io.*;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.UUID;
 
 @Component
@@ -40,23 +44,46 @@ public class CreateJasperReportTemplateCommandHandler implements ICommandHandler
                 throw new RuntimeException("El archivo JRXML está vacío o no se proporcionó.");
             }
 
-            // Establece el thread context class loader
-            Thread.currentThread().setContextClassLoader(this.getClass().getClassLoader());
+            Path jarPath = Paths.get("").toAbsolutePath(); // Obtiene la ruta de ejecución del JAR
+            System.out.println("El JAR se está ejecutando en: " + jarPath);
+            String jrxmlFilePath = jarPath + File.separator + "receta.jrxml";
+            String jasperFilePath = jarPath + File.separator + "receta.jasper";
 
-            // Configura para usar el compilador Eclipse (JDT)
-            System.setProperty("net.sf.jasperreports.compiler.useThreadContextClassLoader", "true");
-            System.setProperty("net.sf.jasperreports.compiler.class", "net.sf.jasperreports.engine.design.JRJdtCompiler");
-            InputStream jrxmlInputStream = new ByteArrayInputStream(jrxmlBytes);
-            JasperReport jasperReport = JasperCompileManager.compileReport(jrxmlInputStream);
+            try (FileOutputStream fos = new FileOutputStream(jrxmlFilePath)) {
+                fos.write(jrxmlBytes);
+                fos.flush();
+            }
+
+            // Compilar y guardar el reporte .jasper
+            try {
+                JasperReport jasperReport = JasperCompileManager.compileReport(jrxmlFilePath);
+                JRSaver.saveObject(jasperReport, jasperFilePath);
+
+                System.err.println("Reporte compilado correctamente en: " + jasperFilePath);
+            } catch (JRException e) {
+                e.printStackTrace();
+                System.err.println();
+                throw new RuntimeException("Error al compilar el reporte: " + e.getMessage());
+            }
+//            // Establece el thread context class loader
+//            Thread.currentThread().setContextClassLoader(this.getClass().getClassLoader());
+//
+//            // Configura para usar el compilador Eclipse (JDT)
+//            System.setProperty("net.sf.jasperreports.compiler.useThreadContextClassLoader", "true");
+//            System.setProperty("net.sf.jasperreports.compiler.class", "net.sf.jasperreports.engine.design.JRJdtCompiler");
+//            InputStream jrxmlInputStream = new ByteArrayInputStream(jrxmlBytes);
+//            JasperReport jasperReport = JasperCompileManager.compileReport(jrxmlInputStream);
+
+
 
             // 4️⃣ Convertir `JasperReport` a bytes
-            ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-            ObjectOutputStream objectOutputStream = new ObjectOutputStream(outputStream);
-            objectOutputStream.writeObject(jasperReport);
-            objectOutputStream.flush();
-            byte[] jasperBytes = outputStream.toByteArray();
-            objectOutputStream.close();
-            outputStream.close();
+//            ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+//            ObjectOutputStream objectOutputStream = new ObjectOutputStream(outputStream);
+//            objectOutputStream.writeObject(jasperReport);
+//            objectOutputStream.flush();
+//            byte[] jasperBytes = outputStream.toByteArray();
+//            objectOutputStream.close();
+//            outputStream.close();
 
             // ✅ Log para depuración
             System.out.println("Archivo Jasper compilado correctamente.");
@@ -67,16 +94,16 @@ public class CreateJasperReportTemplateCommandHandler implements ICommandHandler
 
             // 5️⃣ Guardar la referencia en base de datos (si aplica)
             // UploadResponse result=  uploadJasperToS3(jasperBytes, command.getCode());
-            UploadResponse result = fileUploadService.uploadJasperToS3(jasperBytes, command.getCode(),
-                    "jasper-reports/");
+         //   UploadResponse result = fileUploadService.uploadJasperToS3(jasperBytes, command.getCode(),
+                //    "jasper-reports/");
 
-            System.err.println("Url del Jasper: " + result.getUrl());
+           // System.err.println("Url del Jasper: " + result.getUrl());
             JasperReportTemplateDto templateDto = new JasperReportTemplateDto(
                     UUID.randomUUID(),
                     command.getCode(),
                     command.getName(),
                     command.getDescription(),
-                    result.getUrl(),
+                    "result.getUrl()",
                     command.getType(),
                     dbConnectionDto,
                     Status.ACTIVE
