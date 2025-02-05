@@ -49,7 +49,7 @@ RUN ls -lah /app && ls -lah /app/resources/templates/
 
 # 3️⃣ Ejecuta la aplicación manualmente dentro del contenedor para probar antes de iniciar
 CMD ["java", "-Xmx1024m", "-XX:+UseG1GC", "-jar", "/app/report-1.0.0.jar"]
-
+CMD ["java", "-Xmx1024m", "-XX:+UseG1GC", "-cp", "/app/report-1.0.0.jar", "org.springframework.boot.loader.JarLauncher"]
 # ==========================
 # Expone el puerto de la aplicación
 EXPOSE 9909
