@@ -20,9 +20,6 @@ COPY . /build
 RUN mvn dependency:go-offline -s settings.xml && \
     mvn clean package -DskipTests
 
-# ==========================================
-# Etapa 2: Imagen de ejecución (JDK Completo)
-# ==========================================
 FROM eclipse-temurin:17-jdk
 
 # Establece la zona horaria
