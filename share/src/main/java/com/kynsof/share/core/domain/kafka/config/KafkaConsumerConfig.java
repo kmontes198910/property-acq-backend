@@ -26,7 +26,7 @@ public class KafkaConsumerConfig {
     private String groupId;
 
     @Bean
-    @Profile("prod")
+//    @Profile("prod")
     public DefaultKafkaConsumerFactory<String, String> devConsumerFactory() {
         Map<String, Object> configProps = createBaseProps();
         addSaslConfig(configProps, "user1", "AkC7B1ooWO");
@@ -41,12 +41,12 @@ public class KafkaConsumerConfig {
 //        return new DefaultKafkaConsumerFactory<>(configProps);
 //    }
 
-    @Bean
-    @Profile("!prod")
-    public DefaultKafkaConsumerFactory<String, String> defaultConsumerFactory() {
-        Map<String, Object> configProps = createBaseProps();
-        return new DefaultKafkaConsumerFactory<>(configProps);
-    }
+//    @Bean
+//    @Profile("!prod")
+//    public DefaultKafkaConsumerFactory<String, String> defaultConsumerFactory() {
+//        Map<String, Object> configProps = createBaseProps();
+//        return new DefaultKafkaConsumerFactory<>(configProps);
+//    }
 
     private Map<String, Object> createBaseProps() {
         Map<String, Object> configProps = new HashMap<>();
