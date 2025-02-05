@@ -20,8 +20,8 @@ RUN mvn dependency:go-offline -s settings.xml && \
     mvn clean package -DskipTests
 
 # Etapa final: imagen ligera de distroless
-#FROM gcr.io/distroless/java17-debian11
-FROM eclipse-temurin:17-jdk
+FROM gcr.io/distroless/java17-debian11
+#FROM eclipse-temurin:17-jdk
 
 # Establece la zona horaria
 ENV TZ="America/Guayaquil"
@@ -33,7 +33,7 @@ COPY src/main/resources/templates/receta.jrxml /app/resources/templates/receta.j
 EXPOSE 9909
 
 # Variables de entorno para depuración y monitoreo
-ENV JAVA_TOOL_OPTIONS="-Xmx1024m -XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=/app/ -Dlogging.level.org.springframework=DEBUG"
+#ENV JAVA_TOOL_OPTIONS="-Xmx1024m -XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=/app/ -Dlogging.level.org.springframework=DEBUG"
 
 # Comando de inicio de la aplicación con más memoria y recolección de basura mejorada
 ENTRYPOINT ["java", "-Xmx1024m", "-XX:+UseG1GC", "-jar", "/app/report-1.0.0.jar"]
