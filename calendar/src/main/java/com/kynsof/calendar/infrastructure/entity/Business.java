@@ -28,7 +28,6 @@ public class Business{
     private String logo;
     @OneToMany(mappedBy = "business", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<BusinessResource> businessResources = new HashSet<>();
-
     @CreationTimestamp
     @Column(updatable = false)
     private LocalDateTime createdAt;
