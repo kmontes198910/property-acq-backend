@@ -69,6 +69,7 @@ public class VitalSigns {
         dto.setWeight(this.weight);
         dto.setHeight(this.height);
         dto.setCranialCircumference(this.cranialCircumference);
+        dto.setVitalSignDate(this.createdAt);
         return dto;
     }
 }
