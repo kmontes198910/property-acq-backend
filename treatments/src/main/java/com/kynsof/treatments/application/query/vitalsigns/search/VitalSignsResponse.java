@@ -8,6 +8,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @AllArgsConstructor
@@ -24,6 +26,7 @@ public class VitalSignsResponse implements IResponse {
     private Double height; // Altura en metros o centímetros
     private Double cranialCircumference; // Circunferencia craneal en centímetros
     private PatientDto patient;
+    private LocalDateTime vitalSignDate;
 
 
     public VitalSignsResponse(VitalSignsDto dto) {
@@ -37,6 +40,7 @@ public class VitalSignsResponse implements IResponse {
        this.height = dto.getHeight();
        this.cranialCircumference = dto.getCranialCircumference();
        this.patient = dto.getPatient();
+       this.vitalSignDate = dto.getVitalSignDate();
     }
 
 }
