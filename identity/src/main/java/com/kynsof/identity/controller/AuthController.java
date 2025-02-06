@@ -5,6 +5,8 @@ import com.kynsof.identity.application.command.auth.autenticate.AuthenticateComm
 import com.kynsof.identity.application.command.auth.autenticate.AuthenticateMessage;
 import com.kynsof.identity.application.command.auth.autenticate.LoginRequest;
 import com.kynsof.identity.application.command.auth.autenticate.TokenResponse;
+import com.kynsof.identity.application.command.auth.deletedAccount.DeleteAccountCommand;
+import com.kynsof.identity.application.command.auth.deletedAccount.DeleteAccountMessage;
 import com.kynsof.identity.application.command.auth.firstsChangePassword.FirstsChangePasswordCommand;
 import com.kynsof.identity.application.command.auth.firstsChangePassword.FirstsChangePasswordMessage;
 import com.kynsof.identity.application.command.auth.firstsChangePassword.FirstsChangePasswordRequest;
@@ -88,6 +90,8 @@ public class AuthController {
 
     @PostMapping("/delete-account")
     private ResponseEntity<?> deleteAccount(@RequestBody LoginRequest loginDTO){
-        return ResponseEntity.ok(ApiResponse.success(loginDTO.getUsername()));
+        DeleteAccountCommand command = new DeleteAccountCommand(loginDTO.getUsername(), loginDTO.getPassword());
+        DeleteAccountMessage response = mediator.send(command);
+        return ResponseEntity.ok(ApiResponse.success(response.getResult()));
     }
 }
