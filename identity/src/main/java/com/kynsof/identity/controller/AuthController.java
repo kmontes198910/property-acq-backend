@@ -85,4 +85,9 @@ public class AuthController {
         ForwardPasswordMessage response = mediator.send(command);
         return ResponseEntity.ok(ApiResponse.success(response.getResult()));
     }
+
+    @PostMapping("/delete-account")
+    private ResponseEntity<?> deleteAccount(@RequestBody LoginRequest loginDTO){
+        return ResponseEntity.ok(ApiResponse.success(loginDTO.getUsername()));
+    }
 }
