@@ -4,6 +4,9 @@ package com.kynsof.treatments.application.query.vitalsigns.search;
 import com.kynsof.share.core.domain.bus.query.IResponse;
 import com.kynsof.treatments.domain.dto.PatientDto;
 import com.kynsof.treatments.domain.dto.VitalSignsDto;
+import com.kynsof.treatments.domain.dto.enumDto.BMIClassification;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
@@ -26,7 +29,9 @@ public class VitalSignsResponse implements IResponse {
     private Double height; // Altura en metros o centímetros
     private Double cranialCircumference; // Circunferencia craneal en centímetros
     private PatientDto patient;
-    private LocalDateTime vitalSignDate;
+    private LocalDate vitalSignDate;
+    private double calculateBMI;
+    private BMIClassification bmiClassification;
 
 
     public VitalSignsResponse(VitalSignsDto dto) {
@@ -40,7 +45,9 @@ public class VitalSignsResponse implements IResponse {
        this.height = dto.getHeight();
        this.cranialCircumference = dto.getCranialCircumference();
        this.patient = dto.getPatient();
-       this.vitalSignDate = dto.getVitalSignDate();
+       this.vitalSignDate = dto.getVitalSignDate().toLocalDate();
+       this.calculateBMI = dto.getCalculateBMI();
+       this.bmiClassification = dto.getBmiClassification();
     }
 
 }

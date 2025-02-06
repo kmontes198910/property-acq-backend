@@ -1,6 +1,7 @@
 package com.kynsof.treatments.infrastructure.entity;
 
 import com.kynsof.treatments.domain.dto.VitalSignsDto;
+import com.kynsof.treatments.domain.dto.enumDto.BMIClassification;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -35,6 +36,10 @@ public class VitalSigns {
     @JoinColumn(name = "patient_id", nullable = false)
     private Patients patient;
 
+    private double calculateBMI;
+    @Enumerated(EnumType.STRING)
+    private BMIClassification bmiClassification;
+
     @CreationTimestamp
     @Column(nullable = false, updatable = false)
     private LocalDateTime createdAt;
@@ -54,6 +59,15 @@ public class VitalSigns {
         this.height = dto.getHeight();
         this.cranialCircumference = dto.getCranialCircumference();
         this.patient = dto.getPatient() != null ? new Patients(dto.getPatient()) : null;
+
+        // Calcular el IMC solo si el peso y la altura son válidos
+        if (this.weight != null && this.height != null && this.height > 0) {
+            this.calculateBMI = this.weight / (this.height * this.height);
+            this.bmiClassification = classifyBMI(this.calculateBMI);
+        } else {
+            this.calculateBMI = 0.0;
+            this.bmiClassification = null; // No se puede clasificar si no hay datos válidos
+        }
     }
 
     // Método toAggregate para convertir a DTO
@@ -70,6 +84,25 @@ public class VitalSigns {
         dto.setHeight(this.height);
         dto.setCranialCircumference(this.cranialCircumference);
         dto.setVitalSignDate(this.createdAt);
+        dto.setCalculateBMI(this.calculateBMI);
+        dto.setBmiClassification(this.bmiClassification);
         return dto;
+    }
+
+    // Método para clasificar el IMC
+    private BMIClassification classifyBMI(double bmi) {
+        if (bmi < 18.5) {
+            return BMIClassification.UNDERWEIGHT;
+        } else if (bmi < 24.9) {
+            return BMIClassification.NORMAL_WEIGHT;
+        } else if (bmi < 29.9) {
+            return BMIClassification.OVERWEIGHT;
+        } else if (bmi < 34.9) {
+            return BMIClassification.OBESITY_GRADE_1;
+        } else if (bmi < 39.9) {
+            return BMIClassification.OBESITY_GRADE_2;
+        } else {
+            return BMIClassification.OBESITY_GRADE_3;
+        }
     }
 }
