@@ -1,5 +1,8 @@
 package com.kynsof.treatments.domain.dto;
 
+import com.kynsof.treatments.domain.dto.enumDto.BMIClassification;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -26,6 +29,8 @@ public class VitalSignsDto {
     private  Double height; // Altura en metros o centímetros
     private  Double cranialCircumference; // Circunferencia craneal en centímetros
     private LocalDateTime vitalSignDate;
+    private double calculateBMI;
+    private BMIClassification bmiClassification;
     public VitalSignsDto(UUID id, String bloodPressure, Integer heartRate, Integer oxygenSaturation,
                          Integer respiratoryRate, Double temperature, PatientDto patient, Double weight, Double height, Double cranialCircumference) {
         this.id = id;

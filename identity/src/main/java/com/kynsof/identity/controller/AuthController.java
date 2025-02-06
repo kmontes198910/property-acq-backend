@@ -21,7 +21,6 @@ import com.kynsof.identity.application.command.auth.sendPasswordRecoveryOtp.Send
 import com.kynsof.identity.application.query.auth.RefreshTokenQuery;
 import com.kynsof.share.core.domain.response.ApiResponse;
 import com.kynsof.share.core.infrastructure.bus.IMediator;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -33,7 +32,6 @@ public class AuthController {
 
     private final IMediator mediator;
 
-    @Autowired
     public AuthController(IMediator mediator) {
 
         this.mediator = mediator;
@@ -44,6 +42,14 @@ public class AuthController {
         AuthenticateCommand authenticateCommand = new AuthenticateCommand(loginDTO.getUsername(), loginDTO.getPassword());
         AuthenticateMessage response = mediator.send(authenticateCommand);
         return Mono.just(ResponseEntity.ok(response.getTokenResponse()));
+    }
+
+    @PreAuthorize("permitAll()")
+    @PostMapping("/delete-account")
+    public ResponseEntity<?> deleteAccount(@RequestBody LoginRequest loginDTO){
+        DeleteAccountCommand command = new DeleteAccountCommand(loginDTO.getUsername(), loginDTO.getPassword());
+        DeleteAccountMessage response = this.mediator.send(command);
+        return ResponseEntity.ok(ApiResponse.success(response.getResult()));
     }
 
     @PreAuthorize("permitAll()")
@@ -88,10 +94,5 @@ public class AuthController {
         return ResponseEntity.ok(ApiResponse.success(response.getResult()));
     }
 
-    @PostMapping("/delete-account")
-    private ResponseEntity<?> deleteAccount(@RequestBody LoginRequest loginDTO){
-        DeleteAccountCommand command = new DeleteAccountCommand(loginDTO.getUsername(), loginDTO.getPassword());
-        DeleteAccountMessage response = mediator.send(command);
-        return ResponseEntity.ok(ApiResponse.success(response.getResult()));
-    }
+
 }
