@@ -34,7 +34,7 @@ public class UpdatePatientsCommandHandler implements ICommandHandler<UpdatePatie
     public void handle(UpdatePatientsCommand command) {
         ContactInfoDto contactInfoDto = contactInfoService.findByPatientId(command.getId());
         PatientDto patientDto = serviceImpl.findByIdSimple(command.getId());
-        GeographicLocationDto parroquia = geographicLocationService.findById(command.getCreateContactInfoRequest().getParroquia());
+        GeographicLocationDto parroquia =command.getCreateContactInfoRequest().getParroquia() != null ? geographicLocationService.findById(command.getCreateContactInfoRequest().getParroquia()) : null;
 
         patientDto.setIdentification(command.getIdentification());
         patientDto.setName(command.getName());

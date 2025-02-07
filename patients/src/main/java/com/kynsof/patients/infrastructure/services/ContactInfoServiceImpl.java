@@ -27,10 +27,13 @@ import java.util.UUID;
 @Service
 public class ContactInfoServiceImpl implements IContactInfoService {
 
-    @Autowired
-    private ContactInfoWriteDataJPARepository repositoryCommand;
-    @Autowired
-    private ContactInfoReadDataJPARepository repositoryQuery;
+    private final ContactInfoWriteDataJPARepository repositoryCommand;
+    private final ContactInfoReadDataJPARepository repositoryQuery;
+
+    public ContactInfoServiceImpl(ContactInfoWriteDataJPARepository repositoryCommand, ContactInfoReadDataJPARepository repositoryQuery) {
+        this.repositoryCommand = repositoryCommand;
+        this.repositoryQuery = repositoryQuery;
+    }
 
     @Override
     public UUID create(ContactInfoDto dto) {
