@@ -1,10 +1,7 @@
 package com.kynsof.identity.controller;
 
 import com.kynsof.identity.application.command.auth.TokenRefreshRequest;
-import com.kynsof.identity.application.command.auth.autenticate.AuthenticateCommand;
-import com.kynsof.identity.application.command.auth.autenticate.AuthenticateMessage;
-import com.kynsof.identity.application.command.auth.autenticate.LoginRequest;
-import com.kynsof.identity.application.command.auth.autenticate.TokenResponse;
+import com.kynsof.identity.application.command.auth.autenticate.*;
 import com.kynsof.identity.application.command.auth.deletedAccount.DeleteAccountCommand;
 import com.kynsof.identity.application.command.auth.deletedAccount.DeleteAccountMessage;
 import com.kynsof.identity.application.command.auth.firstsChangePassword.FirstsChangePasswordCommand;
@@ -44,9 +41,9 @@ public class AuthController {
         return Mono.just(ResponseEntity.ok(response.getTokenResponse()));
     }
 
-    @PreAuthorize("permitAll()")
+    //@PreAuthorize("permitAll()")
     @PostMapping("/delete-account")
-    public ResponseEntity<?> deleteAccount(@RequestBody LoginRequest loginDTO){
+    public ResponseEntity<ApiResponse<?>> deleteAccount(@RequestBody DeleteRequest loginDTO){
         DeleteAccountCommand command = new DeleteAccountCommand(loginDTO.getUsername(), loginDTO.getPassword());
         DeleteAccountMessage response = this.mediator.send(command);
         return ResponseEntity.ok(ApiResponse.success(response.getResult()));

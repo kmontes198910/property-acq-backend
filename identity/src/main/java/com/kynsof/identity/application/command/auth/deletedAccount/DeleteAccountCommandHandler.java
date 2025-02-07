@@ -26,7 +26,8 @@ public class DeleteAccountCommandHandler implements ICommandHandler<DeleteAccoun
         TokenResponse tokenResponse = authService.authenticate(new LoginRequest(command.getEmail(), command.getPassword()));
         UserSystemDto userSystemDto = userSystemService.findByEmail(command.getEmail());
         if (userSystemDto != null) {
-            Boolean result = authService.delete(userSystemDto.getId().toString());
+            Boolean result = authService.delete(userSystemDto.getKeyCloakId().toString());
+            userSystemService.delete(userSystemDto);
             command.setResul(result);
         }
 
