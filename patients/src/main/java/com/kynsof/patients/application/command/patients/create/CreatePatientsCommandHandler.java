@@ -38,7 +38,7 @@ public class CreatePatientsCommandHandler implements ICommandHandler<CreatePatie
     @Override
     public void handle(CreatePatientsCommand command) {
         RulesChecker.checkRule(new DependentMustBeUniqueRule(this.serviceImpl, command.getIdentification(), command.getId()));
-        GeographicLocationDto parroquia = geographicLocationService.findById(command.getCreateContactInfoRequest().getParroquia());
+        GeographicLocationDto parroquia = command.getCreateContactInfoRequest().getParroquia() != null ? geographicLocationService.findById(command.getCreateContactInfoRequest().getParroquia()) : null;
         PatientDto patientDto = new PatientDto(
                 command.getId(),
                 command.getIdentification(),
