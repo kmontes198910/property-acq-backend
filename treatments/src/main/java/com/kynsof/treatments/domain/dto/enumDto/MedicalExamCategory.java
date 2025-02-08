@@ -8,5 +8,6 @@ public enum MedicalExamCategory {
     ORGAN_SPECIFIC,
     ALLERGY_SENSITIVITY,
     OPHTHALMOLOGY,
-    CARDIOLOGY
+    CARDIOLOGY,
+    ODONTOLOGY
 }
