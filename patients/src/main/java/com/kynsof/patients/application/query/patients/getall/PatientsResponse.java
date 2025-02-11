@@ -34,8 +34,8 @@ public class PatientsResponse implements IResponse {
         this.hasDisability = patients.getHasDisability();
         this.isPregnant = patients.getIsPregnant();
         this.image = patients.getPhoto();
-        this.email = patients.getContactInfo().getEmail();
-        this.phone = patients.getContactInfo().getTelephone();
+        this.email = patients.getContactInfo() != null ? patients.getContactInfo().getEmail() :"";
+        this.phone =patients.getContactInfo() != null ? patients.getContactInfo().getTelephone() : "";
     }
 
 }

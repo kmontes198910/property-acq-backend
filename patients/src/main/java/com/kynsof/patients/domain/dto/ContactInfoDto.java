@@ -12,16 +12,27 @@ import java.util.UUID;
 
 @Getter
 @Setter
-@AllArgsConstructor
+
 @NoArgsConstructor
 public class ContactInfoDto implements Serializable {
-    private UUID id;
-    private PatientDto patient;
-    private String email;
-    private String telephone;
-    private String address;
-    private LocalDate birthdayDate;
-    private Status status;
-    private GeographicLocationDto parroquia;
+    private  UUID id;
+    private  PatientDto patient;
+    private  String email;
+    private  String telephone;
+    private  String address;
+    private  LocalDate birthdayDate;
+    private  Status status;
+    private  GeographicLocationDto parroquia;
 
+    public ContactInfoDto(UUID id, PatientDto patient, String email, String telephone, String address,
+                          LocalDate birthdayDate, Status status, GeographicLocationDto parroquia) {
+        this.id = id;
+        this.patient = patient;
+        this.email = email != null ? email : "";
+        this.telephone = telephone;
+        this.address = address;
+        this.birthdayDate = birthdayDate;
+        this.status = status;
+        this.parroquia = parroquia;
+    }
 }
