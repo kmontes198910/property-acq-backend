@@ -1,13 +1,12 @@
 package com.kynsoft.notification.domain.dto;
 
-import java.time.OffsetDateTime;
-
 import com.kynsoft.notification.infrastructure.entity.Tenant;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.OffsetDateTime;
 import java.util.UUID;
 
 @Getter
