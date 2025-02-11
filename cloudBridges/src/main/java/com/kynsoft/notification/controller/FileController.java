@@ -1,11 +1,15 @@
 package com.kynsoft.notification.controller;
 
+import com.kynsof.share.core.domain.request.PageableUtil;
+import com.kynsof.share.core.domain.request.SearchRequest;
 import com.kynsof.share.core.domain.response.ApiResponse;
 import com.kynsof.share.core.infrastructure.bus.IMediator;
 import com.kynsoft.notification.application.command.file.deleteFileS3.DeleteFileS3Command;
 import com.kynsoft.notification.application.command.file.deleteFileS3.DeleteFileS3Message;
 import com.kynsoft.notification.application.command.file.saveFileS3.SaveFileS3Command;
 import com.kynsoft.notification.application.command.file.saveFileS3.SaveFileS3Message;
+import com.kynsoft.notification.application.query.campaign.search.SearchCampaignQuery;
+import com.kynsoft.notification.application.query.file.search.GetSearchAFileQuery;
 import com.kynsoft.notification.domain.dto.AFileDto;
 import com.kynsoft.notification.domain.dto.FileInfoDto;
 import com.kynsoft.notification.domain.service.IAFileService;
@@ -159,6 +163,15 @@ public class FileController {
     @GetMapping("/buckets")
     public List<String> listBuckets() {
         return amazonClient.listAllBuckets();
+    }
+
+    @PostMapping("/search")
+    public ResponseEntity<?> search(@RequestBody SearchRequest searchRequest){
+        GetSearchAFileQuery searchCampaignQuery = new GetSearchAFileQuery(
+                PageableUtil.createPageable(searchRequest),
+                searchRequest.getFilter(),
+                searchRequest.getQuery());
+        return ResponseEntity.ok(mediator.send(searchCampaignQuery));
     }
 }
 
