@@ -1,0 +1,24 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: doctor-kyn-delete-account-ingress
+  namespace: medinec
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+  ingressClassName: nginx
+  tls:
+    - hosts:
+        - delete-account.doctorkyn.com
+      secretName: kynsoft-medinec-tls
+  rules:
+    - host: delete-account.doctorkyn.com
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: doctor-kyn-delete-account
+                port:
+                  number: 80

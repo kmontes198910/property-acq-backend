@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: doctor-kyn-delete-account
+  namespace: medinec
+spec:
+  selector:
+    app: doctor-kyn-delete-account
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 3000
+  type: ClusterIP
