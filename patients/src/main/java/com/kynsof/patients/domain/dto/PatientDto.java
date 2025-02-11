@@ -37,7 +37,6 @@ public class PatientDto implements Serializable {
         this.lastName = lastName;
         this.gender = gender;
         this.status = status;
-
         this.hasDisability = hasDisability;
         this.isPregnant = isPregnant;
         this.photo = photo;

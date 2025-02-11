@@ -54,8 +54,8 @@ public class ContactInformation {
     public ContactInformation(ContactInfoDto contactInfoDto) {
         this.id = contactInfoDto.getId();
         this.patient = new Patients(contactInfoDto.getPatient());
-        this.email = contactInfoDto.getEmail();
-        this.telephone = contactInfoDto.getTelephone();
+        this.email = contactInfoDto.getEmail()!= null ? contactInfoDto.getEmail() : null;
+        this.telephone = contactInfoDto.getTelephone() != null? contactInfoDto.getTelephone() : null;
         this.address = contactInfoDto.getAddress();
         this.birthdayDate = contactInfoDto.getBirthdayDate();
         this.status = contactInfoDto.getStatus();
@@ -83,8 +83,8 @@ public class ContactInformation {
         return new ContactInfoDto(
                 getId(),
                 null,
-                getEmail(),
-                getTelephone(),
+                getEmail() != null ? getEmail() : "",
+                getTelephone() != null ? getTelephone() : "",
                 getAddress(),
                 getBirthdayDate(),
                 getStatus(),
