@@ -3,7 +3,6 @@ package com.kynsoft.notification.application.query.campaign.getById;
 import com.kynsof.share.core.domain.bus.query.IResponse;
 import com.kynsoft.notification.domain.dto.CampaignDto;
 import lombok.Getter;
-import org.checkerframework.checker.index.qual.GTENegativeOne;
 
 @Getter
 public class GetCampaignByIdResponse implements IResponse {

@@ -8,7 +8,6 @@ import com.kynsoft.notification.application.command.file.deleteFileS3.DeleteFile
 import com.kynsoft.notification.application.command.file.deleteFileS3.DeleteFileS3Message;
 import com.kynsoft.notification.application.command.file.saveFileS3.SaveFileS3Command;
 import com.kynsoft.notification.application.command.file.saveFileS3.SaveFileS3Message;
-import com.kynsoft.notification.application.query.campaign.search.SearchCampaignQuery;
 import com.kynsoft.notification.application.query.file.search.GetSearchAFileQuery;
 import com.kynsoft.notification.domain.dto.AFileDto;
 import com.kynsoft.notification.domain.dto.FileInfoDto;
@@ -16,7 +15,6 @@ import com.kynsoft.notification.domain.service.IAFileService;
 import com.kynsoft.notification.infrastructure.service.AmazonClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.buffer.DataBufferUtils;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.codec.multipart.FilePart;
@@ -24,7 +22,6 @@ import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import reactor.core.publisher.Mono;
-import reactor.core.scheduler.Schedulers;
 
 import java.util.List;
 import java.util.Objects;

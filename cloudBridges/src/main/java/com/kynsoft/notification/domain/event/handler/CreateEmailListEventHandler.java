@@ -6,7 +6,6 @@ import com.kynsoft.notification.domain.dto.EmailListDto;
 import com.kynsoft.notification.domain.event.CreateEmailListEvent;
 import com.kynsoft.notification.domain.service.CampaignService;
 import com.kynsoft.notification.domain.service.EmailListService;
-import com.kynsoft.notification.domain.service.ImportEmailListService;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
 

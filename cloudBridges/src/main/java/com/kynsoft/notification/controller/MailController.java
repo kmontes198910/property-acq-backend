@@ -1,8 +1,8 @@
 package com.kynsoft.notification.controller;
 
 import com.kynsof.share.core.infrastructure.bus.IMediator;
-import com.kynsoft.notification.application.command.campaign.CreateCampaignRequest;
 import com.kynsoft.notification.application.command.ContactList.ContactListRequest;
+import com.kynsoft.notification.application.command.campaign.CreateCampaignRequest;
 import com.kynsoft.notification.application.command.sendMailjetEmail.SendMailJetEMailCommand;
 import com.kynsoft.notification.application.command.sendMailjetEmail.SendMailJetEMailRequest;
 import com.kynsoft.notification.application.command.sendMailjetEmail.SendMailjetEmailMessage;

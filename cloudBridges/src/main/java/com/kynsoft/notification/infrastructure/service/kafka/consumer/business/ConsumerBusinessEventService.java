@@ -5,11 +5,11 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kynsof.share.core.domain.kafka.entity.BusinessKafka;
 import com.kynsoft.notification.domain.dto.TenantDto;
 import com.kynsoft.notification.domain.service.ITenantService;
-import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
 
+import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
