@@ -91,7 +91,7 @@ public class AmazonClient implements IAmazonClient {
 
         String fileExtension = StringUtils.getFilenameExtension(sanitizedFilename);
         String timestamp = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss").format(new Date());
-        String name = StringUtils.stripFilenameExtension(sanitizedFilename) + "_" + timestamp + "." + fileExtension;
+        String name = StringUtils.stripFilenameExtension(sanitizedFilename)+"." + fileExtension;
 
         String objectKey = folderPath+"/"+name; // Genera la ruta completa dentro del bucket
         this.uploadFileV1(file.getInputStream(), file.getSize(), file.getContentType(), objectKey);
