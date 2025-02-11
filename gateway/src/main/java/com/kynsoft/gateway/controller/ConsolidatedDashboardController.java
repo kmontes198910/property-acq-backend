@@ -29,7 +29,6 @@ public class ConsolidatedDashboardController {
 
         int currentYear = java.time.LocalDate.now().getYear();
 
-        // Llamada al servicio calendar-service
         Mono<Map<String, Object>> appointmentsByStatus = webClient
                 .get()
                 .uri("http://calendar-service:9909/api/dashboard/receipt-count-by-type/" + businessId)
@@ -40,7 +39,6 @@ public class ConsolidatedDashboardController {
                     return Mono.just(Map.of("error", "Error fetching appointments: " + e.getMessage()));
                 });
 
-        // Llamada al servicio treatments-service
         Mono<Map<String, Object>> consultationsByMonth = webClient
                 .get()
                 .uri("http://treatments-service:9909/api/dashboard/external-consultation-count-by-month?businessId=" + businessId + "&year=" + currentYear)
@@ -72,7 +70,6 @@ public class ConsolidatedDashboardController {
                 });
 
 
-        // Llamada al servicio identity-service para usuarios
         Mono<Map<String, Object>> userCountByType = webClient
                 .get()
                 .uri("http://identity-service:80/api/dashboard/user-count-by-type/" + businessId)
