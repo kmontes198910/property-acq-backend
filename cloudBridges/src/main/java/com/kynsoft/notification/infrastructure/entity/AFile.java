@@ -23,6 +23,7 @@ public class AFile extends BaseEntity {
     private String name;
     private String url;
     private String objetId;
+    private  String path;
 
     @CreationTimestamp
     @Column(updatable = false)
@@ -36,9 +37,11 @@ public class AFile extends BaseEntity {
         this.name = file.getName();
         this.url = file.getUrl();
         this.objetId = file.getObjetId();
+        this.path = file.getPath();
+
     }
 
     public AFileDto toAggregate () {
-        return new AFileDto(id, name,  url, objetId, "");
+        return new AFileDto(id, name,  url, objetId, path);
     }
 }
