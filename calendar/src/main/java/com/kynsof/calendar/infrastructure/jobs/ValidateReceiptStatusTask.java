@@ -26,8 +26,8 @@ public class ValidateReceiptStatusTask {
         this.paymentServiceClient = paymentServiceClient;
     }
 
-    @Scheduled(cron = "*/30 * * * * *")
-    public void clean() {
+    @Scheduled(cron = "0 */5 * * * *")
+    public void updateStatusPayment() {
         List<Receipt> receipts = this.receiptService.findByStatus(EStatusReceipt.PENDING_PAY);
         receipts.forEach(receipt -> {
             try {
