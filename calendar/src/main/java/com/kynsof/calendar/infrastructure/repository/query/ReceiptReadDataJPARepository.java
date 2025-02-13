@@ -1,5 +1,6 @@
 package com.kynsof.calendar.infrastructure.repository.query;
 
+import com.kynsof.calendar.domain.dto.enumType.EStatusReceipt;
 import com.kynsof.calendar.infrastructure.entity.Receipt;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -25,4 +26,9 @@ public interface ReceiptReadDataJPARepository extends JpaRepository<Receipt, UUI
             "GROUP BY r.status " +
             "ORDER BY r.status")
     List<Object[]> countAppointmentsByStatusForBusiness(@Param("businessId") UUID businessId);
+
+    @Query("SELECT r " +
+            "FROM Receipt r " +
+            "WHERE r.status = :statusReceipt ")
+    List<Receipt> findByStatus(EStatusReceipt statusReceipt);
 }

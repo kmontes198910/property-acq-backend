@@ -105,7 +105,7 @@ public class ReceiptService implements IReceiptService {
             case CONFIRMED: {
                 if (receipt.getStatus().equals(EStatusReceipt.PRE_RESERVE) || receipt.getStatus().equals(EStatusReceipt.CONFIRMED)) {
                     ScheduleDto _schedule = receipt.getSchedule();
-                   // _schedule.setStatus(EStatusSchedule.RESERVED);
+                    // _schedule.setStatus(EStatusSchedule.RESERVED);
                     receipt.setSchedule(_schedule);
 
                     receipt.setStatus(status);
@@ -118,7 +118,7 @@ public class ReceiptService implements IReceiptService {
             }
             case ATTENDED: {
                 ScheduleDto _schedule = receipt.getSchedule();
-               // _schedule.setStatus(EStatusSchedule.ATTENDED);
+                // _schedule.setStatus(EStatusSchedule.ATTENDED);
                 receipt.setSchedule(_schedule);
 
                 receipt.setStatus(status);
@@ -186,6 +186,44 @@ public class ReceiptService implements IReceiptService {
                     return map;
                 })
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<Receipt> findByStatus(EStatusReceipt statusReceipt) {
+        return this.receiptRepositoryQuery.findByStatus(statusReceipt);
+    }
+
+    @Override
+    public void updatePaymentStatus(Receipt receipt, String status, String reference, String authorization) {
+        switch (status) {
+            case "APPROVED":
+                receipt.setStatus(EStatusReceipt.PAYMENT);
+                break;
+            case "REFUNDED":
+            case "ERROR":
+            case "UNKNOWN":
+            case "REJECTED":
+                receipt.setStatus(EStatusReceipt.REJECTED);
+                resetSchedule(receipt);
+                break;
+            case "APPROVED_PARTIAL":
+                receipt.setStatus(EStatusReceipt.PAYMENT_PARTIAL);
+                break;
+            default:
+                throw new IllegalArgumentException("Estado no válido: " + status);
+        }
+
+        receipt.setReference(reference);
+        receipt.setProcessUrl(null);
+        receipt.setAuthorizationCode(authorization);
+        receiptRepositoryCommand.save(receipt);
+    }
+
+    private void resetSchedule(Receipt receipt) {
+        if (receipt.getSchedule() != null) {
+            receipt.getSchedule().setStatus(EStatusSchedule.AVAILABLE);
+            receipt.getSchedule().setStock(receipt.getSchedule().getStock() + 1);
+        }
     }
 
 }
