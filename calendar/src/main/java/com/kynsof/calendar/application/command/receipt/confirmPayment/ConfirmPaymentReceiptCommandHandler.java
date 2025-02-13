@@ -32,7 +32,7 @@ public class ConfirmPaymentReceiptCommandHandler implements ICommandHandler<Conf
 
         try {
             // Llamar al servicio externo para obtener el estado del pago
-            paymentStatus = paymentServiceClient.callExternalService(command.getRequestId(), "279e33bd-471c-42ec-b0ac-ada8d82c6270");
+            paymentStatus = paymentServiceClient.validateStatusPayment(command.getRequestId());
 
 //            if (paymentStatus == null || !paymentStatus.getStatus().equalsIgnoreCase(command.getStatus().toString())) {
 //                throw new BusinessException(DomainErrorMessage.PAYMENT_NOT_FOUND, "Payment not approved or not found.");

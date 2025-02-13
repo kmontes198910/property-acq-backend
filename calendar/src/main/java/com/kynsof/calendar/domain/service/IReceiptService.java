@@ -1,6 +1,7 @@
 package com.kynsof.calendar.domain.service;
 
 import com.kynsof.calendar.domain.dto.ReceiptDto;
+import com.kynsof.calendar.domain.dto.enumType.EStatusReceipt;
 import com.kynsof.calendar.infrastructure.entity.Receipt;
 import com.kynsof.share.core.domain.request.FilterCriteria;
 import com.kynsof.share.core.domain.response.PaginatedResponse;
@@ -19,4 +20,7 @@ public interface IReceiptService {
     PaginatedResponse search(Pageable pageable, List<FilterCriteria> filterCriteria);
     Optional<Receipt> findByRequestId(String requestId);
     List<Map<String, Object>> getAppointmentsByStatus(UUID businessId);
+    List<Receipt> findByStatus(EStatusReceipt statusReceipt);
+
+    void updatePaymentStatus(Receipt receipt, String status, String reference, String authorization);
 }

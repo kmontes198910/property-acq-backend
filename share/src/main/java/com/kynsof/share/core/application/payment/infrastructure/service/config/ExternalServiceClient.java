@@ -23,7 +23,7 @@ public class ExternalServiceClient {
         this.objectMapper = objectMapper;
     }
 
-    public PaymentServiceStatusResponse callExternalService(String requestId, String clientRegistrationId) throws IOException {
+    public PaymentServiceStatusResponse validateStatusPayment(String requestId) throws IOException {
         // Construcción del endpoint
         String baseUrl = paymentServiceConfig.getPaymentServiceBaseUrl();
         if (!baseUrl.startsWith("http://") && !baseUrl.startsWith("https://")) {
