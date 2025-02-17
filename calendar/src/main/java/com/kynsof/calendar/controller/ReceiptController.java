@@ -1,8 +1,5 @@
 package com.kynsof.calendar.controller;
 
-import com.kynsof.calendar.application.command.receipt.cancel.CancelReceiptCommand;
-import com.kynsof.calendar.application.command.receipt.cancel.CancelReceiptMessage;
-import com.kynsof.calendar.application.command.receipt.cancel.CancelReceiptRequest;
 import com.kynsof.calendar.application.command.receipt.confirmPayment.ConfirmPaymentReceiptCommand;
 import com.kynsof.calendar.application.command.receipt.confirmPayment.ConfirmPaymentReceiptMessage;
 import com.kynsof.calendar.application.command.receipt.confirmPayment.ConfirmPaymentReceiptRequest;
@@ -78,18 +75,18 @@ public class ReceiptController {
         return ResponseEntity.ok(response);
     }
 
-    @PostMapping("/cancel")
-    public ResponseEntity<?> cancel(@RequestBody CancelReceiptRequest cancelReceiptRequest,
-                                                       ServerHttpRequest request,
-                                                       @RequestHeader(value = "User-Agent", required = false,
-                                                               defaultValue = "Unknown") String userAgent) {
-
-        String ipAddress = Objects.requireNonNull(request.getRemoteAddress()).getAddress().getHostAddress();
-
-        CancelReceiptCommand createCommand = CancelReceiptCommand.fromRequest(cancelReceiptRequest, ipAddress, userAgent);
-        CancelReceiptMessage response = mediator.send(createCommand);
-        return ResponseEntity.ok(response);
-    }
+//    @PostMapping("/cancel")
+//    public ResponseEntity<?> cancel(@RequestBody CancelReceiptRequest cancelReceiptRequest,
+//                                                       ServerHttpRequest request,
+//                                                       @RequestHeader(value = "User-Agent", required = false,
+//                                                               defaultValue = "Unknown") String userAgent) {
+//
+//        String ipAddress = Objects.requireNonNull(request.getRemoteAddress()).getAddress().getHostAddress();
+//
+//        CancelReceiptCommand createCommand = CancelReceiptCommand.fromRequest(cancelReceiptRequest, ipAddress, userAgent);
+//        CancelReceiptMessage response = mediator.send(createCommand);
+//        return ResponseEntity.ok(response);
+//    }
 
     @PostMapping("/reschedule")
     public ResponseEntity<?> reschedule(@RequestBody RescheduleReceiptRequest rescheduleReceiptRequest,
