@@ -93,10 +93,10 @@ public class AmazonClient implements IAmazonClient {
         String timestamp = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss").format(new Date());
         String name = StringUtils.stripFilenameExtension(sanitizedFilename)+"." + fileExtension;
 
-        String objectKey = folderPath+"/"+name; // Genera la ruta completa dentro del bucket
+        String objectKey = folderPath+"/"+name+"-"+timestamp; // Genera la ruta completa dentro del bucket
         this.uploadFileV1(file.getInputStream(), file.getSize(), file.getContentType(), objectKey);
 
-        return this.cloudfrontDomain + name;
+        return this.cloudfrontDomain + "/"+folderPath+"/"+name;
     }
 
     @Override
