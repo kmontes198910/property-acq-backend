@@ -34,7 +34,6 @@ public class RegistryCommandHandler implements ICommandHandler<RegistryCommand> 
     private final ProducerRegisterUserEventService producerRegisterUserEventService;
     private final ProducerUserWelcomEventService producerUserWelcomEventService;
     private final IUserSystemService userSystemService;
-    private final WebClient.Builder webClientBuilder;
     private final HttpClient httpClient;
     private final ObjectMapper objectMapper;
     public RegistryCommandHandler(IAuthService authService, ProducerRegisterUserEventService producerRegisterUserEventService, ProducerUserWelcomEventService producerUserWelcomEventService, IUserSystemService userSystemService, WebClient.Builder webClientBuilder, HttpClient httpClient, ObjectMapper objectMapper) {
@@ -42,7 +41,6 @@ public class RegistryCommandHandler implements ICommandHandler<RegistryCommand> 
         this.producerRegisterUserEventService = producerRegisterUserEventService;
         this.producerUserWelcomEventService = producerUserWelcomEventService;
         this.userSystemService = userSystemService;
-        this.webClientBuilder = webClientBuilder;
         this.httpClient = HttpClient.newHttpClient();
         this.objectMapper = new ObjectMapper();
     }
@@ -52,7 +50,7 @@ public class RegistryCommandHandler implements ICommandHandler<RegistryCommand> 
         try {
             // Llamada al servicio externo para validar si el usuario existe y obtener todos sus datos
             HttpRequest request = HttpRequest.newBuilder()
-                    .uri(URI.create("http://localhost:9909/api/patients/identification/" + command.getUsername()))
+                    .uri(URI.create("http://patients-service:80/api/patients/identification/" + command.getUsername()))
                     .GET()
                     .build();
 
@@ -83,6 +81,7 @@ public class RegistryCommandHandler implements ICommandHandler<RegistryCommand> 
                     userDto.setUserType(EUserType.PATIENTS);
 
                     UUID id = userSystemService.create(userDto);
+                    extracted(userResponse.getId(), registerUser);
 
                     command.setResul(id.toString());
                     return;
@@ -128,6 +127,16 @@ public class RegistryCommandHandler implements ICommandHandler<RegistryCommand> 
                 command.getFirstname() + " " + command.getLastname()
         ));
 
+    }
+
+    private void extracted(UUID userResponseId, String registerUser) throws IOException, InterruptedException {
+        String url = String.format("http://patients-service:80/api/patients/setKeycloak/%s/%s", userResponseId, registerUser);
+        HttpRequest requestUpdateKeyCloak = HttpRequest.newBuilder()
+                .uri(URI.create(url))
+                .GET()
+                .build();
+
+        HttpResponse<String> responseUpdate = httpClient.send(requestUpdateKeyCloak, HttpResponse.BodyHandlers.ofString());
     }
 
 

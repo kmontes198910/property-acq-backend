@@ -69,6 +69,8 @@ public class Patients implements Serializable {
     @OneToMany(mappedBy = "patient", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<PatientInsurance> patientInsurances = new ArrayList<>();
 
+    private UUID keycloakId;
+
     @CreationTimestamp
     @Column(updatable = false)
     private LocalDateTime createdAt;

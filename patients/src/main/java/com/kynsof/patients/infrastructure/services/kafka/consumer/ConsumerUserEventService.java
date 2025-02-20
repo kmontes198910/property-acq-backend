@@ -42,8 +42,7 @@ public class ConsumerUserEventService {
             UserKafka eventRead = objectMapper.treeToValue(rootNode.get("data"), UserKafka.class);
             EventType eventType = objectMapper.treeToValue(rootNode.get("type"), EventType.class);
 
-            if (eventType.equals(EventType.CREATED)) {
-                //Definir accion
+
                 UUID patientId = this.service.create(new PatientDto(UUID.fromString(eventRead.getId()),
                         eventRead.getIdentification(), eventRead.getFirstname(), eventRead.getLastname(), GenderType.UNDEFINED, Status.ACTIVE,
                        null, null, null, null, 0));
@@ -52,28 +51,6 @@ public class ConsumerUserEventService {
                 this.contactInfoService.create(new ContactInfoDto(UUID.randomUUID(), patientDto, eventRead.getEmail(),
                         eventRead.getPhone(), null, null, Status.ACTIVE, null
                 ));
-
-            }
-            if (eventType.equals(EventType.DELETED)) {
-                //Definir accion
-                System.err.println("#######################################################");
-                System.err.println("#######################################################");
-                System.err.println("SE EJECUTA UN DELETED");
-                System.err.println("#######################################################");
-                System.err.println("#######################################################");
-
-            }
-            if (eventType.equals(EventType.UPDATED)) {
-                //Definir accion
-                System.err.println("#######################################################");
-                System.err.println("#######################################################");
-                System.err.println("SE EJECUTA UN UPDATED");
-                System.err.println("#######################################################");
-                System.err.println("#######################################################");
-                this.service.update(new PatientDto(UUID.fromString(eventRead.getId()),
-                        "", eventRead.getFirstname(), eventRead.getLastname(), GenderType.OTHER, Status.ACTIVE,
-                        null, null, null, null, 0));
-            }
 
         } catch (JsonProcessingException ex) {
             Logger.getLogger(ConsumerUserEventService.class.getName()).log(Level.SEVERE, null, ex);

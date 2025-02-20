@@ -18,6 +18,7 @@ public interface IPatientsService {
     void delete(PatientDto patientDto);
 
     PatientByIdDto findById(UUID id);
+    PatientByIdDto findByKeyCloakId(UUID id);
     PatientDto findByIdSimple(UUID id);
     PaginatedResponse findAll(Pageable pageable);
 
@@ -29,4 +30,6 @@ public interface IPatientsService {
 
     Long countByIdentificationAndNotId(String identification, UUID id);
     Long countPatient();
+
+    void updateKeyCloak(UUID patientId, UUID keyCloakId);
 }

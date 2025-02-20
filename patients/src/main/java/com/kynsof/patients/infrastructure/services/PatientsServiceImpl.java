@@ -51,8 +51,9 @@ public class PatientsServiceImpl implements IPatientsService {
 
     @Override
     public UUID create(PatientDto patients) {
-        Patients entity = this.repositoryCommand.save(new Patients(patients));
-        //this.patientEventService.create(patients);
+        Patients obj = new Patients(patients);
+        obj.setKeycloakId(patients.getId());
+        Patients entity = this.repositoryCommand.save(obj);
         return entity.getId();
     }
 
@@ -70,8 +71,6 @@ public class PatientsServiceImpl implements IPatientsService {
 
         Patients existingPatient = repositoryQuery.findById(patientDto.getId())
                 .orElseThrow(() -> new EntityNotFoundException("Patient not found with ID: " + patientDto.getId()));
-
-        // Actualizar solo los campos necesarios
         existingPatient.setFirstName(patientDto.getName());
         existingPatient.setLastName(patientDto.getLastName());
         existingPatient.setIdentification(patientDto.getIdentification());
@@ -137,14 +136,23 @@ public class PatientsServiceImpl implements IPatientsService {
     public PatientByIdDto findById(UUID id) {
         Optional<Patients> patient = this.repositoryQuery.findById(id);
         if (patient.isPresent()) {
-            PatientByIdDto patientByIdDto = patient.get().toAggregateById();
-            return patientByIdDto;
+            return patient.get().toAggregateById();
         }
         throw new BusinessNotFoundException(new GlobalBusinessException(DomainErrorMessage.PATIENTS_NOT_FOUND, new ErrorField("id", "Patient not found.")));
 
     }
 
-//    @Cacheable(cacheNames = CacheConfig.USER_CACHE, unless = "#result == null")
+    @Override
+    public PatientByIdDto findByKeyCloakId(UUID id) {
+        Optional<Patients> patient = this.repositoryQuery.findByKeyCloakId(id);
+        if (patient.isPresent()) {
+            return patient.get().toAggregateById();
+        }
+        throw new BusinessNotFoundException(new GlobalBusinessException(DomainErrorMessage.PATIENTS_NOT_FOUND, new ErrorField("id", "Patient not found.")));
+
+    }
+
+    //    @Cacheable(cacheNames = CacheConfig.USER_CACHE, unless = "#result == null")
     @Override
     public PatientDto findByIdSimple(UUID id) {
         Optional<Patients> patient = this.repositoryQuery.findById(id);
@@ -226,6 +234,13 @@ public class PatientsServiceImpl implements IPatientsService {
     @Override
     public Long countPatient() {
         return this.repositoryQuery.countPatient();
+    }
+
+    @Override
+    public void updateKeyCloak(UUID patientId, UUID keyCloakId) {
+        Patients patients = this.repositoryQuery.findById(patientId).get();
+        patients.setKeycloakId(keyCloakId);
+        this.repositoryCommand.save(patients);
     }
 
 }
