@@ -8,6 +8,8 @@ import com.kynsof.patients.application.command.patients.createInsurance.CreateIn
 import com.kynsof.patients.application.command.patients.createInsurance.CreateInsuranceRequest;
 import com.kynsof.patients.application.command.patients.delete.DeletePatientsCommand;
 import com.kynsof.patients.application.command.patients.delete.PatientDeleteMessage;
+import com.kynsof.patients.application.command.patients.patientsKeyCloack.patientsKeyCloakCommand;
+import com.kynsof.patients.application.command.patients.patientsKeyCloack.patientsKeyCloakMessage;
 import com.kynsof.patients.application.command.patients.update.UpdatePatientMessage;
 import com.kynsof.patients.application.command.patients.update.UpdatePatientsCommand;
 import com.kynsof.patients.application.command.patients.update.UpdatePatientsRequest;
@@ -19,10 +21,11 @@ import com.kynsof.patients.application.query.patients.getById.PatientByIdRespons
 import com.kynsof.patients.application.query.patients.getByIdentification.FindPatientsByIdentificationQuery;
 import com.kynsof.patients.application.query.patients.getall.GetAllPatientsFilterQuery;
 import com.kynsof.patients.application.query.patients.getall.PatientsResponse;
+import com.kynsof.patients.application.query.patients.keyCloak.FindPatientsByKeyCloakIdQuery;
+import com.kynsof.patients.application.query.patients.keyCloak.FindPatientsByKeyCloakIdResponse;
 import com.kynsof.patients.application.query.patients.search.GetSearchPatientsQuery;
 import com.kynsof.share.core.domain.request.PageableUtil;
 import com.kynsof.share.core.domain.request.SearchRequest;
-import com.kynsof.share.core.domain.response.ApiError;
 import com.kynsof.share.core.domain.response.ApiResponse;
 import com.kynsof.share.core.domain.response.PaginatedResponse;
 import com.kynsof.share.core.infrastructure.bus.IMediator;
@@ -56,7 +59,7 @@ public class PatientsController {
 
     @PatchMapping("/admin/updated/{patientId}")
     public ResponseEntity<?> create(@PathVariable UUID patientId, @RequestBody CreatePatientsAdminRequest request) {
-        CreatePatientAdminCommand createCommand = CreatePatientAdminCommand.fromRequest(patientId,request);
+        CreatePatientAdminCommand createCommand = CreatePatientAdminCommand.fromRequest(patientId, request);
         CreatePatientAdminMessage response = mediator.send(createCommand);
 
         return ResponseEntity.ok(response);
@@ -81,10 +84,10 @@ public class PatientsController {
 
     @GetMapping("/all")
     public ResponseEntity<PaginatedResponse> getAll(@RequestParam(defaultValue = "20") Integer pageSize,
-            @RequestParam(defaultValue = "0") Integer page,
-            @RequestParam(defaultValue = "") UUID patientId,
-            @RequestParam(defaultValue = "") UUID primeId,
-            @RequestParam(defaultValue = "") String identification) {
+                                                    @RequestParam(defaultValue = "0") Integer page,
+                                                    @RequestParam(defaultValue = "") UUID patientId,
+                                                    @RequestParam(defaultValue = "") UUID primeId,
+                                                    @RequestParam(defaultValue = "") String identification) {
         Pageable pageable = PageRequest.of(page, pageSize);
         GetAllPatientsFilterQuery query = new GetAllPatientsFilterQuery(pageable, patientId, identification, primeId);
         PaginatedResponse data = mediator.send(query);
@@ -118,6 +121,13 @@ public class PatientsController {
         return ResponseEntity.ok(response);
     }
 
+    @GetMapping(path = "/setKeycloak/{patientId}/{keyCloakId}")
+    public ResponseEntity<?> setKeycloak(@PathVariable UUID patientId, @PathVariable UUID keyCloakId) {
+        patientsKeyCloakCommand query = new patientsKeyCloakCommand(patientId, keyCloakId);
+        patientsKeyCloakMessage response = mediator.send(query);
+        return ResponseEntity.ok(response);
+    }
+
     @PatchMapping(path = "/{id}")
     public ResponseEntity<UpdatePatientMessage> update(@PathVariable UUID id, @RequestBody UpdatePatientsRequest request) {
 
@@ -137,14 +147,10 @@ public class PatientsController {
 
     @GetMapping("/me")
     public ResponseEntity<ApiResponse<?>> me(@AuthenticationPrincipal Jwt jwt) {
-        try {
-            String patientId = jwt.getClaim("sub");
-            FindPatientsByIdQuery query = new FindPatientsByIdQuery(UUID.fromString(patientId));
-            PatientByIdResponse response = mediator.send(query);
-            return ResponseEntity.ok(ApiResponse.success(response));
-        } catch (Exception e) {
-            return ResponseEntity.ok(ApiResponse.fail(ApiError.withSingleError("error", "token", "Error al procesar el token")));
-        }
 
+        String patientId = jwt.getClaim("sub");
+        FindPatientsByKeyCloakIdQuery query = new FindPatientsByKeyCloakIdQuery(UUID.fromString(patientId));
+        FindPatientsByKeyCloakIdResponse response = mediator.send(query);
+        return ResponseEntity.ok(ApiResponse.success(response));
     }
 }

@@ -23,4 +23,6 @@ public interface PatientsReadDataJPARepository extends JpaRepository<Patients, U
     @Query("SELECT COUNT(p) FROM Patients p")
     Long countPatient();
 
+    @Query("SELECT p FROM Patients p WHERE p.keycloakId = :id")
+    Optional<Patients> findByKeyCloakId(UUID id);
 }
