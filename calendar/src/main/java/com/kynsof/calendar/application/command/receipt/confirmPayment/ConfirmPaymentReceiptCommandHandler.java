@@ -56,7 +56,12 @@ public class ConfirmPaymentReceiptCommandHandler implements ICommandHandler<Conf
                 _receipt.setStatus(command.getStatus());
             }
 
-            // Guardar los cambios en el recibo
+
+            if (command.getStatus().equals(EStatusReceipt.PAYMENT)) {
+                if (_receipt.getSchedule().getStock() == 0) {
+                    _receipt.getSchedule().setStatus(EStatusSchedule.SOLD_OUT);
+                }
+            }
             service.update(_receipt);
 
         } catch (IOException e) {
