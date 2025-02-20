@@ -42,7 +42,11 @@ public class GroupPayment {
     private GroupPaymentStatus status;
 
     @OneToMany(mappedBy = "groupPayment", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<PaymentDetail> paymentDetails; // Relación con pagos individuales
+    private List<PaymentDetail> paymentDetails;
+
+    @ManyToOne
+    @JoinColumn(name = "business_id")
+    private Business business;
 
     @CreationTimestamp
     @Column(nullable = false, updatable = false)
@@ -51,12 +55,13 @@ public class GroupPayment {
     @UpdateTimestamp
     private LocalDateTime updatedAt;
 
-    public GroupPayment(String requestId, LocalDateTime paymentDate, String authorizationCode, String reference, String processUrl) {
+    public GroupPayment(String requestId, LocalDateTime paymentDate, String authorizationCode, String reference, String processUrl, Business business) {
         this.requestId = requestId;
         this.paymentDate = paymentDate;
         this.authorizationCode = authorizationCode;
         this.reference = reference;
         this.processUrl = processUrl;
+        this.business = business;
     }
 
     public GroupPaymentDto toAggregate() {
