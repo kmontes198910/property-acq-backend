@@ -60,9 +60,9 @@ public class CreateReceiptCommandHandler implements ICommandHandler<CreateReceip
 
                 // Reducir el stock del horario
                 _schedule.setStock(_schedule.getStock() - 1);
-                if (_schedule.getStock() == 0) {
-                    _schedule.setStatus(EStatusSchedule.SOLD_OUT);
-                }
+//                if (_schedule.getStock() == 0) {
+//                    _schedule.setStatus(EStatusSchedule.SOLD_OUT);
+//                }
                 this.serviceSchedule.update(_schedule); // Actualiza el estado del horario en la base de datos
 
                 // Crear el recibo
