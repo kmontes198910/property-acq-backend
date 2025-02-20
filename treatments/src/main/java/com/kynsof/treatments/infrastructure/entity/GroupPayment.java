@@ -1,11 +1,13 @@
 package com.kynsof.treatments.infrastructure.entity;
 
+import com.kynsof.treatments.domain.dto.GroupPaymentDto;
 import com.kynsof.treatments.domain.dto.enumDto.GroupPaymentStatus;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -36,7 +38,7 @@ public class GroupPayment {
 
     @Column(nullable = false)
     private String processUrl;
-
+    @Enumerated(EnumType.STRING)
     private GroupPaymentStatus status;
 
     @OneToMany(mappedBy = "groupPayment", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
@@ -46,11 +48,27 @@ public class GroupPayment {
     @Column(nullable = false, updatable = false)
     private LocalDateTime createdAt;
 
+    @UpdateTimestamp
+    private LocalDateTime updatedAt;
+
     public GroupPayment(String requestId, LocalDateTime paymentDate, String authorizationCode, String reference, String processUrl) {
         this.requestId = requestId;
         this.paymentDate = paymentDate;
         this.authorizationCode = authorizationCode;
         this.reference = reference;
         this.processUrl = processUrl;
+    }
+
+    public GroupPaymentDto toAggregate() {
+        GroupPaymentDto dto = new GroupPaymentDto();
+        dto.setRequestId(requestId);
+        dto.setPaymentDate(paymentDate);
+        dto.setAuthorizationCode(authorizationCode);
+        dto.setReference(reference);
+        dto.setProcessUrl(processUrl);
+        dto.setStatus(status);
+        dto.setId(id);
+        dto.setCreatedAt(createdAt);
+        return dto;
     }
 }
