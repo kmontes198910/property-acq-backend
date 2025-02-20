@@ -11,5 +11,6 @@ import java.util.UUID;
 @Setter
 public class CreateGroupPaymentRequest {
     private List<UUID> billingIds;
+    private UUID businessId;
 
 }

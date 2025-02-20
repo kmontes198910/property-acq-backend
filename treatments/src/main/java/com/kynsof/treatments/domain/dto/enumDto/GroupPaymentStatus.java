@@ -4,5 +4,6 @@ public enum GroupPaymentStatus {
     PENDING_PAID,
     PENDING_APPROVED,
     PAYMENT_APPROVED,
-    REJECTED
+    REJECTED,
+    CANCELLED,
 }

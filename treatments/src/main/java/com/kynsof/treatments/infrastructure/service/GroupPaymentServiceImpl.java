@@ -4,19 +4,19 @@ import com.kynsof.share.core.domain.request.FilterCriteria;
 import com.kynsof.share.core.domain.response.PaginatedResponse;
 import com.kynsof.share.core.infrastructure.specifications.GenericSpecificationsBuilder;
 import com.kynsof.treatments.application.query.groupPayment.getbyid.GroupPaymentResponse;
-import com.kynsof.treatments.application.query.services.replicate.ServicesResponse;
 import com.kynsof.treatments.domain.dto.GroupPaymentDto;
 import com.kynsof.treatments.domain.dto.enumDto.BillingStatus;
 import com.kynsof.treatments.domain.dto.enumDto.GroupPaymentStatus;
 import com.kynsof.treatments.domain.service.IGroupPaymentService;
 import com.kynsof.treatments.infrastructure.entity.Billing;
+import com.kynsof.treatments.infrastructure.entity.Business;
 import com.kynsof.treatments.infrastructure.entity.GroupPayment;
 import com.kynsof.treatments.infrastructure.entity.PaymentDetail;
-import com.kynsof.treatments.infrastructure.entity.Services;
 import com.kynsof.treatments.infrastructure.repositories.command.BillingWriteDataJPARepository;
 import com.kynsof.treatments.infrastructure.repositories.command.GroupPaymentWriteDataJPARepository;
 import com.kynsof.treatments.infrastructure.repositories.command.PaymentDetailWriteDataJPARepository;
 import com.kynsof.treatments.infrastructure.repositories.query.BillingReadDataJPARepository;
+import com.kynsof.treatments.infrastructure.repositories.query.BusinessReadDataJPARepository;
 import com.kynsof.treatments.infrastructure.repositories.query.GroupPaymentReadDataJPARepository;
 import com.kynsof.treatments.infrastructure.repositories.query.PaymentDetailReadDataJPARepository;
 import jakarta.transaction.Transactional;
@@ -39,14 +39,16 @@ public class GroupPaymentServiceImpl implements IGroupPaymentService {
     private final PaymentDetailWriteDataJPARepository paymentDetailWriteDataJPARepository;
     private final PaymentDetailReadDataJPARepository paymentDetailReadDataJPARepository;
     private final GroupPaymentReadDataJPARepository groupPaymentReadDataJPARepository;
+    private final BusinessReadDataJPARepository businessReadDataJPARepository;
 
-    public GroupPaymentServiceImpl(BillingReadDataJPARepository repositoryQuery, BillingWriteDataJPARepository repositoryCommand, GroupPaymentWriteDataJPARepository groupPaymentWriteDataJPARepository, PaymentDetailWriteDataJPARepository paymentDetailWriteDataJPARepository, PaymentDetailReadDataJPARepository paymentDetailReadDataJPARepository, GroupPaymentReadDataJPARepository groupPaymentReadDataJPARepository) {
+    public GroupPaymentServiceImpl(BillingReadDataJPARepository repositoryQuery, BillingWriteDataJPARepository repositoryCommand, GroupPaymentWriteDataJPARepository groupPaymentWriteDataJPARepository, PaymentDetailWriteDataJPARepository paymentDetailWriteDataJPARepository, PaymentDetailReadDataJPARepository paymentDetailReadDataJPARepository, GroupPaymentReadDataJPARepository groupPaymentReadDataJPARepository, BusinessReadDataJPARepository businessReadDataJPARepository) {
         this.repositoryQuery = repositoryQuery;
         this.billingWriteDataJPARepository = repositoryCommand;
         this.groupPaymentWriteDataJPARepository = groupPaymentWriteDataJPARepository;
         this.paymentDetailWriteDataJPARepository = paymentDetailWriteDataJPARepository;
         this.paymentDetailReadDataJPARepository = paymentDetailReadDataJPARepository;
         this.groupPaymentReadDataJPARepository = groupPaymentReadDataJPARepository;
+        this.businessReadDataJPARepository = businessReadDataJPARepository;
     }
 
     @Transactional
@@ -75,10 +77,11 @@ public class GroupPaymentServiceImpl implements IGroupPaymentService {
 
     @Override
     @Transactional
-    public UUID createGroupPayment(List<UUID> billingIds) {
+    public UUID createGroupPayment(List<UUID> billingIds, UUID businessId) {
         List<Billing> billings = this.repositoryQuery.findAllById(billingIds);
+        Business business = this.businessReadDataJPARepository.findById(businessId).orElseThrow();
         GroupPayment groupPayment = new GroupPayment("", LocalDateTime.now(), "",
-                "", "");
+                "", "", business);
         groupPayment.setStatus(GroupPaymentStatus.PENDING_PAID);
         groupPayment = this.groupPaymentWriteDataJPARepository.save(groupPayment);
 
