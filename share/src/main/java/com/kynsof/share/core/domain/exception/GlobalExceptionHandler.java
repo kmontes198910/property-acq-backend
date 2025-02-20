@@ -122,5 +122,12 @@ public class GlobalExceptionHandler {
                 List.of(ex.getErrorField()));
         return ResponseEntity.status(HttpStatus.PRECONDITION_REQUIRED).body(ApiResponse.fail(apiError));
     }
+
+    @ExceptionHandler(UserEmailDifferentException.class)
+    public ResponseEntity<ApiResponse<?>> handleUserEmailDifferentException(UserEmailDifferentException ex) {
+        ApiError apiError = new ApiError( ex.getMessage(),
+                List.of(ex.getErrorField()));
+        return ResponseEntity.status(555).body(ApiResponse.fail(apiError));
+    }
 }
 

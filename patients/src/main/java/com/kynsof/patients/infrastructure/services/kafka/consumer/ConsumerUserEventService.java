@@ -22,16 +22,15 @@ import java.util.logging.Logger;
 @Service
 public class ConsumerUserEventService {
 
-    @Autowired
-    private IPatientsService service;
+    private final IPatientsService service;
 
-    @Autowired
-    private IContactInfoService contactInfoService;
+    private final IContactInfoService contactInfoService;
 
-//    public ConsumerUserEventService(IPatientsService service, IContactInfoService contactInfoService) {
-//        this.service = service;
-//        this.contactInfoService = contactInfoService;
-//    }
+    public ConsumerUserEventService(IPatientsService service, IContactInfoService contactInfoService) {
+        this.service = service;
+        this.contactInfoService = contactInfoService;
+    }
+
     // Ejemplo de un método listener
     @KafkaListener(topics = "user", groupId = "patient-user")
     public void listen(String event) {
@@ -46,7 +45,7 @@ public class ConsumerUserEventService {
             if (eventType.equals(EventType.CREATED)) {
                 //Definir accion
                 UUID patientId = this.service.create(new PatientDto(UUID.fromString(eventRead.getId()),
-                        null, eventRead.getFirstname(), eventRead.getLastname(), GenderType.UNDEFINED, Status.ACTIVE,
+                        eventRead.getIdentification(), eventRead.getFirstname(), eventRead.getLastname(), GenderType.UNDEFINED, Status.ACTIVE,
                        null, null, null, null, 0));
 
                 PatientDto patientDto = this.service.findByIdSimple(patientId);
