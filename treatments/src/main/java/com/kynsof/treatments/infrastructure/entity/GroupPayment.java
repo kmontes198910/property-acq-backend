@@ -24,22 +24,13 @@ public class GroupPayment {
     @GeneratedValue
     private UUID id;
 
-    @Column(nullable = false, unique = true)
     private String requestId;
-
-    @Column(nullable = false)
     private LocalDateTime paymentDate;
-
-    @Column(nullable = false, unique = true)
     private String authorizationCode;
-
-    @Column(nullable = false, unique = true)
     private String reference;
-
     private double totalAmount;
-
-    @Column(nullable = false)
     private String processUrl;
+
     @Enumerated(EnumType.STRING)
     private GroupPaymentStatus status;
 
