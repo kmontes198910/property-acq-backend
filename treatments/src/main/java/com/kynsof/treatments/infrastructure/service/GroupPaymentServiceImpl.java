@@ -73,7 +73,7 @@ public class GroupPaymentServiceImpl implements IGroupPaymentService {
     }
 
     @Override
-    @Transactional
+//    @Transactional
     public UUID createGroupPayment(List<UUID> billingIds, UUID businessId, UUID patientsId) {
         List<Billing> billings = this.repositoryQuery.findAllById(billingIds);
         Business business = this.businessReadDataJPARepository.findById(businessId).orElseThrow();
