@@ -14,4 +14,5 @@ public interface IGroupPaymentService {
     PaginatedResponse search(Pageable pageable, List<FilterCriteria> filterCriteria);
 
     GroupPaymentDto findById(UUID id);
+    PaginatedResponse searchPaymentDetail(Pageable pageable, List<FilterCriteria> filterCriteria);
 }

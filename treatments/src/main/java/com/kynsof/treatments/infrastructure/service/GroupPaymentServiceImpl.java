@@ -4,6 +4,7 @@ import com.kynsof.share.core.domain.request.FilterCriteria;
 import com.kynsof.share.core.domain.response.PaginatedResponse;
 import com.kynsof.share.core.infrastructure.specifications.GenericSpecificationsBuilder;
 import com.kynsof.treatments.application.query.groupPayment.getbyid.GroupPaymentResponse;
+import com.kynsof.treatments.application.query.groupPaymentDetails.SearchGroupPaymentDetailResponse;
 import com.kynsof.treatments.domain.dto.GroupPaymentDto;
 import com.kynsof.treatments.domain.dto.enumDto.BillingStatus;
 import com.kynsof.treatments.domain.dto.enumDto.GroupPaymentStatus;
@@ -31,12 +32,12 @@ public class GroupPaymentServiceImpl implements IGroupPaymentService {
     private final BillingWriteDataJPARepository billingWriteDataJPARepository;
     private final GroupPaymentWriteDataJPARepository groupPaymentWriteDataJPARepository;
     private final PaymentDetailWriteDataJPARepository paymentDetailWriteDataJPARepository;
-    private final PaymentDetailReadDataJPARepository paymentDetailReadDataJPARepository;
+    private final GroupPaymentDetailReadDataJPARepository paymentDetailReadDataJPARepository;
     private final GroupPaymentReadDataJPARepository groupPaymentReadDataJPARepository;
     private final BusinessReadDataJPARepository businessReadDataJPARepository;
     private final PatientsReadDataJPARepository patientsReadDataJPARepository;
 
-    public GroupPaymentServiceImpl(BillingReadDataJPARepository repositoryQuery, BillingWriteDataJPARepository repositoryCommand, GroupPaymentWriteDataJPARepository groupPaymentWriteDataJPARepository, PaymentDetailWriteDataJPARepository paymentDetailWriteDataJPARepository, PaymentDetailReadDataJPARepository paymentDetailReadDataJPARepository, GroupPaymentReadDataJPARepository groupPaymentReadDataJPARepository, BusinessReadDataJPARepository businessReadDataJPARepository, PatientsReadDataJPARepository patientsReadDataJPARepository) {
+    public GroupPaymentServiceImpl(BillingReadDataJPARepository repositoryQuery, BillingWriteDataJPARepository repositoryCommand, GroupPaymentWriteDataJPARepository groupPaymentWriteDataJPARepository, PaymentDetailWriteDataJPARepository paymentDetailWriteDataJPARepository, GroupPaymentDetailReadDataJPARepository paymentDetailReadDataJPARepository, GroupPaymentReadDataJPARepository groupPaymentReadDataJPARepository, BusinessReadDataJPARepository businessReadDataJPARepository, PatientsReadDataJPARepository patientsReadDataJPARepository) {
         this.repositoryQuery = repositoryQuery;
         this.billingWriteDataJPARepository = repositoryCommand;
         this.groupPaymentWriteDataJPARepository = groupPaymentWriteDataJPARepository;
@@ -94,11 +95,18 @@ public class GroupPaymentServiceImpl implements IGroupPaymentService {
     }
 
     @Override
-    //@Cacheable(cacheNames =  CacheConfig.SERVICE_CACHE, unless = "#result == null")
     public PaginatedResponse search(Pageable pageable, List<FilterCriteria> filterCriteria) {
         GenericSpecificationsBuilder<PaymentDetail> specifications = new GenericSpecificationsBuilder<>(filterCriteria);
         Page<GroupPayment> data = this.groupPaymentReadDataJPARepository.findAll(specifications, pageable);
         return getPaginatedResponse(data);
+    }
+
+
+    @Override
+    public PaginatedResponse searchPaymentDetail(Pageable pageable, List<FilterCriteria> filterCriteria) {
+        GenericSpecificationsBuilder<PaymentDetail> specifications = new GenericSpecificationsBuilder<>(filterCriteria);
+        Page<PaymentDetail> data = this.paymentDetailReadDataJPARepository.findAll(specifications, pageable);
+        return getPaginatedResponsePaymentDetail(data);
     }
 
     @Override
@@ -110,6 +118,15 @@ public class GroupPaymentServiceImpl implements IGroupPaymentService {
         List<GroupPaymentResponse> groupPaymentResponses = new ArrayList<>();
         for (GroupPayment s : data.getContent()) {
             groupPaymentResponses.add(new GroupPaymentResponse(s.toAggregate()));
+        }
+        return new PaginatedResponse(groupPaymentResponses, data.getTotalPages(), data.getNumberOfElements(),
+                data.getTotalElements(), data.getSize(), data.getNumber());
+    }
+
+    private PaginatedResponse getPaginatedResponsePaymentDetail(Page<PaymentDetail> data) {
+        List<SearchGroupPaymentDetailResponse> groupPaymentResponses = new ArrayList<>();
+        for (PaymentDetail s : data.getContent()) {
+            groupPaymentResponses.add(new SearchGroupPaymentDetailResponse(s.toAggregate()));
         }
         return new PaginatedResponse(groupPaymentResponses, data.getTotalPages(), data.getNumberOfElements(),
                 data.getTotalElements(), data.getSize(), data.getNumber());

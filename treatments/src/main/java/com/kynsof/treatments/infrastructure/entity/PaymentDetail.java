@@ -1,5 +1,7 @@
 package com.kynsof.treatments.infrastructure.entity;
 
+import com.kynsof.treatments.domain.dto.GroupPaymentDetailDto;
+import com.kynsof.treatments.domain.dto.GroupPaymentDto;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -18,11 +20,11 @@ public class PaymentDetail {
     @GeneratedValue
     private UUID id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "group_payment_id", nullable = false)
     private GroupPayment groupPayment; // Relación con el pago agrupado
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "billing_id", nullable = false)
     private Billing billing; // Relación con los pagos pendientes del paciente
 
@@ -33,5 +35,15 @@ public class PaymentDetail {
         this.groupPayment = groupPayment;
         this.billing = billing;
         this.amount = amount;
+    }
+
+    public GroupPaymentDetailDto toAggregate() {
+        GroupPaymentDetailDto dto = new GroupPaymentDetailDto();
+        dto.setId(id);
+        dto.setCode(billing.getCode());
+        dto.setDescription(billing.getDescription());
+        dto.setCost(billing.getCost());
+        dto.setCreatedAt(billing.getCreatedAt());
+        return dto;
     }
 }
