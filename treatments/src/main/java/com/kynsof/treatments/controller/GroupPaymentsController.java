@@ -67,8 +67,8 @@ public class GroupPaymentsController {
         return ResponseEntity.ok(response);
     }
 
-    @GetMapping("/id")
-    public ResponseEntity<?> getById(@RequestParam UUID id) {
+    @GetMapping(path = "/{id}")
+    public ResponseEntity<?> getById(@PathVariable UUID id) {
         FindByIdGroupPaymentQuery query = new FindByIdGroupPaymentQuery(id);
         GroupPaymentResponse response = mediator.send(query);
         return ResponseEntity.ok(response);
