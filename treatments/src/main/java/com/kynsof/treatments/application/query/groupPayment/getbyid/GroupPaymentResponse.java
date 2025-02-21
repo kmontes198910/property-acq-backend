@@ -23,6 +23,7 @@ public class GroupPaymentResponse implements IResponse {
     private String processUrl;
     private GroupPaymentStatus status;
     private LocalDateTime createdAt;
+    private Double totalAmount;
 
 
     public GroupPaymentResponse(GroupPaymentDto aggregate) {
@@ -34,5 +35,6 @@ public class GroupPaymentResponse implements IResponse {
         this.processUrl = aggregate.getProcessUrl();
         this.status = aggregate.getStatus();
         this.createdAt = aggregate.getCreatedAt();
+        this.totalAmount = aggregate.getTotalAmount();
     }
 }
