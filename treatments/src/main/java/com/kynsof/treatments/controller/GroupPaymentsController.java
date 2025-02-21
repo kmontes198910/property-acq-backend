@@ -12,6 +12,9 @@ import com.kynsof.treatments.application.command.groupPayment.create.CreateGroup
 import com.kynsof.treatments.application.command.groupPayment.create.CreateGroupPaymentRequest;
 import com.kynsof.treatments.application.command.groupPayment.delete.DeleteGroupPaymentCommand;
 import com.kynsof.treatments.application.command.groupPayment.delete.DeleteGroupPaymentMessage;
+import com.kynsof.treatments.application.command.groupPayment.update.UpdateGroupPaymentCommand;
+import com.kynsof.treatments.application.command.groupPayment.update.UpdateGroupPaymentMessage;
+import com.kynsof.treatments.application.command.groupPayment.update.UpdateGroupPaymentRequest;
 import com.kynsof.treatments.application.query.groupPayment.getbyid.FindByIdGroupPaymentQuery;
 import com.kynsof.treatments.application.query.groupPayment.getbyid.GroupPaymentResponse;
 import com.kynsof.treatments.application.query.groupPayment.search.GroupPaymentQuery;
@@ -57,10 +60,10 @@ public class GroupPaymentsController {
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<?> update(@PathVariable("id") UUID id, @RequestBody UpdateExamRequest request) {
+    public ResponseEntity<?> update(@PathVariable("id") UUID id, @RequestBody UpdateGroupPaymentRequest request) {
 
-        UpdateExamCommand command = UpdateExamCommand.fromRequest(request, id);
-        UpdateExamMessage response = mediator.send(command);
+        UpdateGroupPaymentCommand command = UpdateGroupPaymentCommand.fromRequest( id, request);
+        UpdateGroupPaymentMessage response = mediator.send(command);
         return ResponseEntity.ok(response);
     }
 
@@ -70,5 +73,7 @@ public class GroupPaymentsController {
         GroupPaymentResponse response = mediator.send(query);
         return ResponseEntity.ok(response);
     }
+
+
 
 }
