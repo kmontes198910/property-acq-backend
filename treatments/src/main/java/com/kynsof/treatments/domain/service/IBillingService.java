@@ -22,7 +22,7 @@ public interface IBillingService {
 
     void delete(BillingDto object);
 
-    UUID createGroupPayment(List<UUID> billingIds);
+   // UUID createGroupPayment(List<UUID> billingIds);
     boolean existsByCodeAndBusinessIdAndStatusAndPatientId(String code, UUID businessId, BillingStatus status, UUID patientId);
 
 }

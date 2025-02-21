@@ -12,5 +12,6 @@ import java.util.UUID;
 public class CreateGroupPaymentRequest {
     private List<UUID> billingIds;
     private UUID businessId;
+    private UUID patientsId;
 
 }

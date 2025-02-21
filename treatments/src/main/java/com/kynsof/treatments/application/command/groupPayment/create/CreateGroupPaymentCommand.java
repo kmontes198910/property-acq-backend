@@ -15,17 +15,20 @@ public class CreateGroupPaymentCommand implements ICommand {
     private  UUID id;
     private final List<UUID> billingIds;
     private final UUID businessId;
+    private final UUID patientsId;
 
-    public CreateGroupPaymentCommand(List<UUID> billingIds, UUID businessId) {
+    public CreateGroupPaymentCommand(List<UUID> billingIds, UUID businessId, UUID patientsId) {
         this.billingIds = billingIds;
         this.businessId = businessId;
+        this.patientsId = patientsId;
     }
 
 
     public static CreateGroupPaymentCommand fromRequest(CreateGroupPaymentRequest request) {
         return new CreateGroupPaymentCommand(
              request.getBillingIds(),
-                request.getBusinessId()
+                request.getBusinessId(),
+                request.getPatientsId()
         );
     }
 
