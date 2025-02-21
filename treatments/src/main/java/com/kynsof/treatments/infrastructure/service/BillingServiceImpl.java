@@ -111,30 +111,30 @@ public class BillingServiceImpl implements IBillingService {
         throw new BusinessNotFoundException(new GlobalBusinessException(DomainErrorMessage.MEDICINES_NOT_FOUND, new ErrorField("id", "Medicione not found.")));
     }
 
-    @Override
-    @Transactional
-    public UUID createGroupPayment(List<UUID> billingIds) {
-        // Recuperar las facturas seleccionadas
-        List<Billing> billings = this.repositoryQuery.findAllById(billingIds);
-        Business business = this.businessReadDataJPARepository.findById(billings.get(0).getId()).orElseThrow();
-        // Crear el pago agrupado
-        GroupPayment groupPayment = new GroupPayment("", LocalDateTime.now(), "",
-                "", "", business);
-        groupPayment.setStatus(GroupPaymentStatus.PENDING_PAID);
-        groupPayment = this.groupPaymentWriteDataJPARepository.save(groupPayment);
-
-        // Crear detalles del pago
-        for (Billing billing : billings) {
-            PaymentDetail paymentDetail = new PaymentDetail(groupPayment, billing, billing.getCost());
-            this.paymentDetailWriteDataJPARepository.save(paymentDetail);
-
-            // Marcar la factura como pagada
-            billing.setStatus(BillingStatus.PENDING_PAID);
-            this.repositoryCommand.save(billing);
-        }
-
-        return groupPayment.getId();
-    }
+//    @Override
+//    @Transactional
+//    public UUID createGroupPayment(List<UUID> billingIds) {
+//        // Recuperar las facturas seleccionadas
+//        List<Billing> billings = this.repositoryQuery.findAllById(billingIds);
+//        Business business = this.businessReadDataJPARepository.findById(billings.get(0).getId()).orElseThrow();
+//        // Crear el pago agrupado
+//        GroupPayment groupPayment = new GroupPayment("", LocalDateTime.now(), "",
+//                "", "", business);
+//        groupPayment.setStatus(GroupPaymentStatus.PENDING_PAID);
+//        groupPayment = this.groupPaymentWriteDataJPARepository.save(groupPayment);
+//
+//        // Crear detalles del pago
+//        for (Billing billing : billings) {
+//            PaymentDetail paymentDetail = new PaymentDetail(groupPayment, billing, billing.getCost());
+//            this.paymentDetailWriteDataJPARepository.save(paymentDetail);
+//
+//            // Marcar la factura como pagada
+//            billing.setStatus(BillingStatus.PENDING_PAID);
+//            this.repositoryCommand.save(billing);
+//        }
+//
+//        return groupPayment.getId();
+//    }
 
     @Override
     public boolean existsByCodeAndBusinessIdAndStatusAndPatientId(String code, UUID businessId, BillingStatus status, UUID patientId) {

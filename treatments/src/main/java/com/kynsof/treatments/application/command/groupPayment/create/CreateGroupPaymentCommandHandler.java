@@ -18,7 +18,8 @@ public class CreateGroupPaymentCommandHandler implements ICommandHandler<CreateG
 
     @Override
     public void handle(CreateGroupPaymentCommand command) {
-        UUID id = this.serviceImpl.createGroupPayment(command.getBillingIds(), command.getBusinessId());
+        UUID id = this.serviceImpl.createGroupPayment(command.getBillingIds(), command.getBusinessId(),
+                command.getPatientsId());
         command.setId(id);
     }
 }

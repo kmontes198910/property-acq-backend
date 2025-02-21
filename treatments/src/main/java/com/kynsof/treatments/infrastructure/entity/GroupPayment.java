@@ -48,6 +48,10 @@ public class GroupPayment {
     @JoinColumn(name = "business_id")
     private Business business;
 
+    @ManyToOne
+    @JoinColumn(name = "patients_id")
+    private Patients patients;
+
     @CreationTimestamp
     @Column(nullable = false, updatable = false)
     private LocalDateTime createdAt;
@@ -55,13 +59,15 @@ public class GroupPayment {
     @UpdateTimestamp
     private LocalDateTime updatedAt;
 
-    public GroupPayment(String requestId, LocalDateTime paymentDate, String authorizationCode, String reference, String processUrl, Business business) {
+    public GroupPayment(String requestId, LocalDateTime paymentDate, String authorizationCode, String reference,
+                        String processUrl, Business business, Patients patients) {
         this.requestId = requestId;
         this.paymentDate = paymentDate;
         this.authorizationCode = authorizationCode;
         this.reference = reference;
         this.processUrl = processUrl;
         this.business = business;
+        this.patients = patients;
     }
 
     public GroupPaymentDto toAggregate() {

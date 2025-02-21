@@ -10,7 +10,7 @@ import java.util.UUID;
 
 public interface IGroupPaymentService {
     void delete(UUID id);
-    UUID createGroupPayment(List<UUID> billingIds, UUID businessId);
+    UUID createGroupPayment(List<UUID> billingIds, UUID businessId, UUID patientsId);
     PaginatedResponse search(Pageable pageable, List<FilterCriteria> filterCriteria);
 
     GroupPaymentDto findById(UUID id);
