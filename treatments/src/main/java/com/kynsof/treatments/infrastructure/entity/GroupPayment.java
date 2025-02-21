@@ -36,6 +36,8 @@ public class GroupPayment {
     @Column(nullable = false, unique = true)
     private String reference;
 
+    private double totalAmount;
+
     @Column(nullable = false)
     private String processUrl;
     @Enumerated(EnumType.STRING)
@@ -60,7 +62,7 @@ public class GroupPayment {
     private LocalDateTime updatedAt;
 
     public GroupPayment(String requestId, LocalDateTime paymentDate, String authorizationCode, String reference,
-                        String processUrl, Business business, Patients patients) {
+                        String processUrl, Business business, Patients patients, Double totalAmount) {
         this.requestId = requestId;
         this.paymentDate = paymentDate;
         this.authorizationCode = authorizationCode;
@@ -68,6 +70,7 @@ public class GroupPayment {
         this.processUrl = processUrl;
         this.business = business;
         this.patients = patients;
+        this.totalAmount = totalAmount;
     }
 
     public GroupPaymentDto toAggregate() {
@@ -80,6 +83,7 @@ public class GroupPayment {
         dto.setStatus(status);
         dto.setId(id);
         dto.setCreatedAt(createdAt);
+        dto.setTotalAmount(totalAmount);
         return dto;
     }
 }

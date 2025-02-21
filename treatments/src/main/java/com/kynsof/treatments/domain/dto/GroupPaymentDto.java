@@ -22,4 +22,5 @@ public class GroupPaymentDto {
     private String processUrl;
     private GroupPaymentStatus status;
     private LocalDateTime createdAt;
+    private double totalAmount;
 }

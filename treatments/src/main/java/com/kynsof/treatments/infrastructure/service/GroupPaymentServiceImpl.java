@@ -78,8 +78,12 @@ public class GroupPaymentServiceImpl implements IGroupPaymentService {
         List<Billing> billings = this.repositoryQuery.findAllById(billingIds);
         Business business = this.businessReadDataJPARepository.findById(businessId).orElseThrow();
         Patients patients = this.patientsReadDataJPARepository.findById(patientsId).orElseThrow();
+
+        Double totalAmount = billings.stream()
+                .map(Billing::getCost)  // Extrae el costo de cada billing
+                .reduce(0.0, Double::sum); // Suma todos los costos
         GroupPayment groupPayment = new GroupPayment("", LocalDateTime.now(), "",
-                "", "", business, patients);
+                "", "", business, patients,totalAmount);
         groupPayment.setStatus(GroupPaymentStatus.PENDING_PAID);
         groupPayment = this.groupPaymentWriteDataJPARepository.save(groupPayment);
 
