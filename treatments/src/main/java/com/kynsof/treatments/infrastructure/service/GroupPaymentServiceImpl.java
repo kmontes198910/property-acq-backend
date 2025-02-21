@@ -82,7 +82,7 @@ public class GroupPaymentServiceImpl implements IGroupPaymentService {
         Double totalAmount = billings.stream()
                 .map(Billing::getCost)  // Extrae el costo de cada billing
                 .reduce(0.0, Double::sum); // Suma todos los costos
-        GroupPayment groupPayment = new GroupPayment("", LocalDateTime.now(), "",
+        GroupPayment groupPayment = new GroupPayment("",null, "",
                 "", "", business, patients,totalAmount);
         groupPayment.setStatus(GroupPaymentStatus.PENDING_PAID);
         groupPayment = this.groupPaymentWriteDataJPARepository.save(groupPayment);
@@ -111,6 +111,18 @@ public class GroupPaymentServiceImpl implements IGroupPaymentService {
         GenericSpecificationsBuilder<PaymentDetail> specifications = new GenericSpecificationsBuilder<>(filterCriteria);
         Page<PaymentDetail> data = this.paymentDetailReadDataJPARepository.findAll(specifications, pageable);
         return getPaginatedResponsePaymentDetail(data);
+    }
+
+    @Override
+    public void update(UUID id, String reference, String authorizationCode, String requestId, String processUrl, GroupPaymentStatus status) {
+        GroupPayment groupPayment = this.groupPaymentReadDataJPARepository.findById(id).orElseThrow();
+        groupPayment.setStatus(status);
+        groupPayment.setReference(reference);
+        groupPayment.setAuthorizationCode(authorizationCode);
+        groupPayment.setRequestId(requestId);
+        groupPayment.setProcessUrl(processUrl);
+        groupPayment.setStatus(status);
+        this.groupPaymentWriteDataJPARepository.save(groupPayment);
     }
 
     @Override
