@@ -9,14 +9,12 @@ import com.kynsof.treatments.application.command.billing.create.CreateBillingMes
 import com.kynsof.treatments.application.command.billing.create.CreateBillingRequest;
 import com.kynsof.treatments.application.command.billing.createall.CreateAllBillingCommand;
 import com.kynsof.treatments.application.command.billing.createall.CreateAllBillingMessage;
-
 import com.kynsof.treatments.application.command.billing.createall.CreateBillingBulkRequest;
 import com.kynsof.treatments.application.command.billing.delete.BillingDeleteMessage;
 import com.kynsof.treatments.application.command.billing.delete.DeleteBillingCommand;
 import com.kynsof.treatments.application.command.billing.update.UpdateBillingCommand;
 import com.kynsof.treatments.application.command.billing.update.UpdateBillingMessage;
 import com.kynsof.treatments.application.command.billing.update.UpdateBillingRequest;
-
 import com.kynsof.treatments.application.query.billing.getbyid.BillingResponse;
 import com.kynsof.treatments.application.query.billing.getbyid.FindByIdBillingQuery;
 import com.kynsof.treatments.application.query.billing.search.GetSearchBillingQuery;
@@ -24,7 +22,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.UUID;
 
 @RestController

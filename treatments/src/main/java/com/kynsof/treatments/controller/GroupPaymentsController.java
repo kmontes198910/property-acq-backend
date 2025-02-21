@@ -12,7 +12,6 @@ import com.kynsof.treatments.application.command.groupPayment.create.CreateGroup
 import com.kynsof.treatments.application.command.groupPayment.create.CreateGroupPaymentRequest;
 import com.kynsof.treatments.application.command.groupPayment.delete.DeleteGroupPaymentCommand;
 import com.kynsof.treatments.application.command.groupPayment.delete.DeleteGroupPaymentMessage;
-import com.kynsof.treatments.application.query.exam.search.GetSearchExamQuery;
 import com.kynsof.treatments.application.query.groupPayment.getbyid.FindByIdGroupPaymentQuery;
 import com.kynsof.treatments.application.query.groupPayment.getbyid.GroupPaymentResponse;
 import com.kynsof.treatments.application.query.groupPayment.search.GroupPaymentQuery;
@@ -20,7 +19,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.UUID;
 
 @RestController
