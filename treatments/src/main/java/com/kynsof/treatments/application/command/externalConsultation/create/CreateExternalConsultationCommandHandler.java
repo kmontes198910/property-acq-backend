@@ -123,17 +123,17 @@ public class CreateExternalConsultationCommandHandler implements ICommandHandler
         ));
         command.setId(id);
         System.err.println("Entro");
-      String resulDiscount =  businessBalanceService.discountBusinessBalance(command.getBusinessId(), 0.25);
-      System.err.println("resulDiscount:"+resulDiscount);
+        String resulDiscount = businessBalanceService.discountBusinessBalance(command.getBusinessId(), 0.25);
+        System.err.println("resulDiscount:" + resulDiscount);
 
-        if (!examDtoList.isEmpty()) {
-            CreateBillingEvent createBillingEvent = new CreateBillingEvent(
-                    command.getPatientId(),
-                    command.getBusinessId(),
-                    examDtoList.stream().map(ExamDto::getCode).toList()
-            );
-            applicationEventPublisher.publishEvent(createBillingEvent);
-        }
+//        if (!examDtoList.isEmpty()) {
+//            CreateBillingEvent createBillingEvent = new CreateBillingEvent(
+//                    command.getPatientId(),
+//                    command.getBusinessId(),
+//                    examDtoList.stream().map(ExamDto::getCode).toList()
+//            );
+//            applicationEventPublisher.publishEvent(createBillingEvent);
+//        }
     }
 
 }
