@@ -75,18 +75,6 @@ public class ReceiptController {
         return ResponseEntity.ok(response);
     }
 
-//    @PostMapping("/cancel")
-//    public ResponseEntity<?> cancel(@RequestBody CancelReceiptRequest cancelReceiptRequest,
-//                                                       ServerHttpRequest request,
-//                                                       @RequestHeader(value = "User-Agent", required = false,
-//                                                               defaultValue = "Unknown") String userAgent) {
-//
-//        String ipAddress = Objects.requireNonNull(request.getRemoteAddress()).getAddress().getHostAddress();
-//
-//        CancelReceiptCommand createCommand = CancelReceiptCommand.fromRequest(cancelReceiptRequest, ipAddress, userAgent);
-//        CancelReceiptMessage response = mediator.send(createCommand);
-//        return ResponseEntity.ok(response);
-//    }
 
     @PostMapping("/reschedule")
     public ResponseEntity<?> reschedule(@RequestBody RescheduleReceiptRequest rescheduleReceiptRequest,
