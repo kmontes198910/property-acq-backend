@@ -92,5 +92,8 @@ public class AuthController {
         return ResponseEntity.ok(ApiResponse.success(response.getResult()));
     }
 
-
+    @GetMapping("/app-version")
+    public ResponseEntity<ApiResponse<?>> appVersion() {
+        return ResponseEntity.ok(ApiResponse.success("1.0.6"));
+    }
 }
