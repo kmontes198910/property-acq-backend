@@ -18,6 +18,7 @@ import com.kynsof.identity.application.command.auth.sendPasswordRecoveryOtp.Send
 import com.kynsof.identity.application.query.auth.RefreshTokenQuery;
 import com.kynsof.share.core.domain.response.ApiResponse;
 import com.kynsof.share.core.infrastructure.bus.IMediator;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -29,6 +30,8 @@ import reactor.core.publisher.Mono;
 public class AuthController {
 
     private final IMediator mediator;
+    @Value("${app.version}")
+    private String appVersion;
 
     public AuthController(IMediator mediator) {
 
@@ -94,6 +97,6 @@ public class AuthController {
 
     @GetMapping("/app-version")
     public ResponseEntity<?> appVersion() {
-        return ResponseEntity.ok(ApiResponse.success("1.0.8"));
+        return ResponseEntity.ok(ApiResponse.success(appVersion));
     }
 }
