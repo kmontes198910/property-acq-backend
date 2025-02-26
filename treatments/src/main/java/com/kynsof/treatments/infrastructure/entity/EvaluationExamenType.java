@@ -1,8 +1,6 @@
 package com.kynsof.treatments.infrastructure.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
@@ -16,9 +14,10 @@ import java.util.UUID;
 @Setter
 public class EvaluationExamenType {
     @Id
-    @Column(name="id")
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
-    private String name;  // Ejemplo: MMSE, Pfeiffer, MoCA, etc.
+
+    private String name;
 
     @CreationTimestamp
     @Column(nullable = false, updatable = false)

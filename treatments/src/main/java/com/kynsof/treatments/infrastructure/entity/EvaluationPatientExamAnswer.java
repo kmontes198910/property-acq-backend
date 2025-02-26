@@ -12,17 +12,21 @@ import java.util.UUID;
 @Entity
 @Getter
 @Setter
-public class ElderlyPatientExamAnswer {
+public class EvaluationPatientExamAnswer {
     @Id
-    @Column(name="id")
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
 
     @ManyToOne
-    @JoinColumn(name = "question_id")
+    @JoinColumn(name = "patient_exam_id", nullable = false)
+    private EvaluationPatientExam patientExam;
+
+    @ManyToOne
+    @JoinColumn(name = "question_id", nullable = false)
     private EvaluationQuestion question;
 
-    private boolean correct;  // Indica si la respuesta fue correcta
-    private int scoreObtained;  // Puntaje obtenido en la pregunta
+    private boolean correct;
+    private int scoreObtained;
 
     @CreationTimestamp
     @Column(nullable = false, updatable = false)

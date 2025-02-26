@@ -15,14 +15,19 @@ import java.util.UUID;
 @Setter
 public class Evaluation {
     @Id
-    @Column(name="id")
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
 
     @ManyToOne
-    @JoinColumn(name = "patient_id")
+    @JoinColumn(name = "patient_id", nullable = false)
     private Patients patient;
 
-    @OneToMany(mappedBy = "evaluationPatientExamen", cascade = CascadeType.ALL)
+    private String consultationReason;
+    private String medicalHistory;
+    private String physicalExam;
+    private String medicalSpeciality;
+
+    @OneToMany(mappedBy = "evaluation", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<EvaluationPatientExam> evaluationPatientExams;
 
     @CreationTimestamp

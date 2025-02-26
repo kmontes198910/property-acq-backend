@@ -14,16 +14,17 @@ import java.util.UUID;
 @Setter
 public class EvaluationQuestion {
     @Id
-    @Column(name="id")
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
 
-    private String code;  // Código único de la pregunta
-    private String text;  // Texto de la pregunta
-    private int maxScore;  // Puntuación máxima de la pregunta
+    private String code;
+    private String text;
+    private int maxScore;
 
     @ManyToOne
-    @JoinColumn(name = "exam_type_id")
-    private EvaluationExamenType examType;  // Relación con el tipo de examen
+    @JoinColumn(name = "exam_type_id", nullable = false)
+    private EvaluationExamenType examType;
+
     @CreationTimestamp
     @Column(nullable = false, updatable = false)
     private LocalDateTime createdAt;
