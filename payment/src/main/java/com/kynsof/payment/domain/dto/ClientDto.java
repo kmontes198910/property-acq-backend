@@ -1,0 +1,21 @@
+package com.kynsof.payment.domain.dto;
+
+import com.kynsof.payment.domain.dto.enumDto.Status;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+import java.util.UUID;
+
+@NoArgsConstructor
+@AllArgsConstructor
+@Getter
+@Setter
+public class ClientDto {
+    private UUID id;
+    private String identification;
+    private String name;
+    private String lastName;
+    private Status status;
+}
