@@ -10,10 +10,12 @@ import org.hibernate.annotations.UpdateTimestamp;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Getter
 @Setter
+@NoArgsConstructor
 public class Evaluation {
     @Id
     private UUID id;
