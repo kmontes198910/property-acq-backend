@@ -7,8 +7,11 @@ import com.kynsof.calendar.domain.dto.enumType.EStatusReceipt;
 import com.kynsof.calendar.domain.dto.enumType.EStatusSchedule;
 import com.kynsof.calendar.domain.service.IReceiptService;
 import com.kynsof.calendar.infrastructure.entity.Receipt;
+import com.kynsof.calendar.infrastructure.entity.Schedule;
 import com.kynsof.calendar.infrastructure.repository.command.ReceiptWriteDataJPARepository;
+import com.kynsof.calendar.infrastructure.repository.command.ScheduleWriteDataJPARepository;
 import com.kynsof.calendar.infrastructure.repository.query.ReceiptReadDataJPARepository;
+import com.kynsof.calendar.infrastructure.repository.query.ScheduleReadDataJPARepository;
 import com.kynsof.share.core.domain.exception.BusinessException;
 import com.kynsof.share.core.domain.exception.BusinessNotFoundException;
 import com.kynsof.share.core.domain.exception.DomainErrorMessage;
@@ -31,13 +34,17 @@ public class ReceiptService implements IReceiptService {
     private final ReceiptReadDataJPARepository receiptRepositoryQuery;
 
     private final ReceiptWriteDataJPARepository receiptRepositoryCommand;
+    private final ScheduleReadDataJPARepository scheduleRepositoryQuery;
+    private final ScheduleWriteDataJPARepository scheduleRepositoryCommand;
 
     private final ScheduleServiceImpl scheduleServiceImpl;
 
     public ReceiptService(ReceiptReadDataJPARepository receiptRepositoryQuery,
-                          ReceiptWriteDataJPARepository receiptRepositoryCommand, ScheduleServiceImpl scheduleServiceImpl) {
+                          ReceiptWriteDataJPARepository receiptRepositoryCommand, ScheduleReadDataJPARepository scheduleRepositoryQuery, ScheduleWriteDataJPARepository scheduleRepositoryCommand, ScheduleServiceImpl scheduleServiceImpl) {
         this.receiptRepositoryQuery = receiptRepositoryQuery;
         this.receiptRepositoryCommand = receiptRepositoryCommand;
+        this.scheduleRepositoryQuery = scheduleRepositoryQuery;
+        this.scheduleRepositoryCommand = scheduleRepositoryCommand;
         this.scheduleServiceImpl = scheduleServiceImpl;
 
     }
@@ -217,6 +224,26 @@ public class ReceiptService implements IReceiptService {
         receipt.setProcessUrl(null);
         receipt.setAuthorizationCode(authorization);
         receiptRepositoryCommand.save(receipt);
+    }
+
+    @Override
+    public void updateScheduled(UUID receiptId, UUID scheduledId) {
+        Receipt receipt = receiptRepositoryCommand.findById(receiptId).orElse(null);
+        assert receipt != null;
+        Schedule scheduleOld = receipt.getSchedule();
+        Schedule scheduleNew = this.scheduleRepositoryQuery.findById(scheduledId).orElse(null);
+        assert scheduleNew != null;
+        scheduleNew.setStock(scheduleNew.getStock() - 1);
+        scheduleOld.setStock(scheduleOld.getStock() + 1);
+        scheduleOld.setStatus(EStatusSchedule.AVAILABLE);
+       if(scheduleNew.getStock()==0){
+           scheduleNew.setStatus(EStatusSchedule.SOLD_OUT);
+       }
+       receipt.setSchedule(scheduleNew);
+       receiptRepositoryCommand.save(receipt);
+       scheduleRepositoryCommand.save(scheduleOld);
+       scheduleRepositoryCommand.save(scheduleNew);
+
     }
 
     private void resetSchedule(Receipt receipt) {
