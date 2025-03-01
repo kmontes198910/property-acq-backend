@@ -1,8 +1,8 @@
-name: ci-patients-evolutions-prod
+name: ci-patients-evaluation-prod
 
 env:
-  SERVICE_NAME: 'patients-evolutions'
-  SERVICE_PATH: 'evolution'
+  SERVICE_NAME: 'patients-evaluation'
+  SERVICE_PATH: 'evaluation'
 
 on:
   workflow_dispatch:
@@ -10,7 +10,7 @@ on:
     branches:
       - 'prod'
     paths:
-      - .github/workflows/ci-patients-evolutions-prod.yml
+      - .github/workflows/ci-patients-evaluation-prod.yml
       - 'patients/**'
       - 'share/**'
 jobs:
@@ -40,7 +40,7 @@ jobs:
             "PACKAGE_TOKEN=${{secrets.PACKAGE_TOKEN}}"
           context: "{{defaultContext}}:${{ env.SERVICE_PATH }}"
           push: true
-          tags: kmontes2020/medinec-patients-evolutions:v1
+          tags: kmontes2020/medinec-patients-evaluation:v1
 
   deploy:
     needs: build-push
