@@ -24,6 +24,10 @@ public class Evaluation {
     @JoinColumn(name = "patient_id", nullable = false)
     private Patients patient;
 
+    @ManyToOne
+    @JoinColumn(name = "doctor_id")
+    private Doctor doctor;
+
     private String consultationReason;
     private String medicalHistory;
     private String physicalExam;
