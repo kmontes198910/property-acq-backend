@@ -28,7 +28,7 @@ ENV TZ="America/Guayaquil"
 COPY --from=builder /build/target/evaluation-1.0.0.jar /app/evaluation-1.0.0.jar
 
 # Expone el puerto utilizado por la aplicación
-EXPOSE 9906
+EXPOSE 9901
 
 # Comando de inicio para ejecutar la aplicación
 ENTRYPOINT ["java", "-jar", "/app/evaluation-1.0.0.jar"]
