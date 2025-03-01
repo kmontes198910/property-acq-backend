@@ -11,7 +11,7 @@ on:
       - 'prod'
     paths:
       - .github/workflows/ci-patients-evaluation-prod.yml
-      - 'patients/**'
+      - 'evaluation/**'
       - 'share/**'
 jobs:
   build-push:
