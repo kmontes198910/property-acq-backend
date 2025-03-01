@@ -41,7 +41,7 @@ metadata:
   namespace: medinec
 spec:
   selector:
-    app: payment-internal-secret
+    app: payment-internal
   ports:
     - protocol: TCP
       port: 9901           # Puerto externo expuesto por el servicio
