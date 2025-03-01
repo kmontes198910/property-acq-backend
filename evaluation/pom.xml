@@ -163,7 +163,7 @@
         <dependency>
             <groupId>org.codehaus.jettison</groupId>
             <artifactId>jettison</artifactId>
-            <version>1.4.0</version>
+            <version>1.5.4</version>
         </dependency>
         <dependency>
             <groupId>com.vaadin.external.google</groupId>
@@ -178,6 +178,7 @@
         <dependency>
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
+            <version>42.7.2</version>
             <scope>runtime</scope>
         </dependency>
         <dependency>
@@ -224,7 +225,7 @@
                         <manifest>
                             <addClasspath>true</addClasspath>
                             <classpathPrefix>lib/</classpathPrefix>
-                            <mainClass>com.kynsof.treatments.TreatmentsApplication</mainClass> <!-- Reemplaza con tu clase que contiene el método main -->
+                            <mainClass>com.kynsof.evaluation.EvaluationsApplication</mainClass> <!-- Reemplaza con tu clase que contiene el método main -->
                         </manifest>
                     </archive>
                 </configuration>
