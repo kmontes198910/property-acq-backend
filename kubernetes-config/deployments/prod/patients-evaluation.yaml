@@ -1,13 +1,13 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: patients-evolutions
+  name: patients-evaluation
   namespace: medinec
 spec:
   replicas: 1
   selector:
     matchLabels:
-      workload.user.cattle.io/workloadselector: apps.deployment-medinec-patients-evolutions
+      workload.user.cattle.io/workloadselector: apps.deployment-medinec-patients-evaluation
   strategy:
     rollingUpdate:
       maxSurge: 25%
@@ -15,19 +15,19 @@ spec:
   template:
     metadata:
       labels:
-        app: patients-evolutions
-        workload.user.cattle.io/workloadselector: apps.deployment-medinec-patients-evolutions
+        app: patients-evaluation
+        workload.user.cattle.io/workloadselector: apps.deployment-medinec-patients-evaluation
     spec:
       containers:
-        - name: patients-evolutions
-          image: kmontes2020/medinec-patients-evolutions:v1
+        - name: patients-evaluation
+          image: kmontes2020/medinec-patients-evaluation:v1
           imagePullPolicy: Always
           ports:
-            - containerPort: 9909
+            - containerPort: 9902
               protocol: TCP
           envFrom:
             - secretRef:
-                name: patients-evolutions-secret
+                name: patients-evaluation-secret
       imagePullSecrets:
         - name: dokcer-hub
       restartPolicy: Always
@@ -37,13 +37,13 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: patients-evolutions-service
+  name: patients-evaluation-service
   namespace: medinec
 spec:
   selector:
-    app: patients-evolutions
+    app: patients-evaluation-secret
   ports:
     - protocol: TCP
-      port: 80           # Puerto externo expuesto por el servicio
-      targetPort: 9909   # Puerto donde está escuchando el contenedor
+      port: 9902           # Puerto externo expuesto por el servicio
+      targetPort: 9902   # Puerto donde está escuchando el contenedor
   type: ClusterIP        # Tipo de servicio (puedes cambiar a NodePort o LoadBalancer si es necesario)
