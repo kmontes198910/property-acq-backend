@@ -17,7 +17,6 @@ public class CreateEvaluationCommand implements ICommand {
     private String medicalHistory;
     private String physicalExam;
     private String medicalSpeciality;
-
     public CreateEvaluationCommand(UUID patient, String consultationReason, String medicalHistory, String physicalExam, String medicalSpeciality) {
         this.id = UUID.randomUUID();
         this.patient = patient;
