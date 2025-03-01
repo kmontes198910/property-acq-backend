@@ -1,8 +1,8 @@
-name: ci-patients-prod
+name: ci-patients-evolutions-prod
 
 env:
   SERVICE_NAME: 'patients-evolutions'
-  SERVICE_PATH: 'evolutions'
+  SERVICE_PATH: 'evolution'
 
 on:
   workflow_dispatch:
