@@ -224,7 +224,7 @@
                         <manifest>
                             <addClasspath>true</addClasspath>
                             <classpathPrefix>lib/</classpathPrefix>
-                            <mainClass>com.kynsof.treatments.TreatmentsApplication</mainClass> <!-- Reemplaza con tu clase que contiene el método main -->
+                            <mainClass>com.kynsof.payment.PaymentApplication</mainClass> <!-- Reemplaza con tu clase que contiene el método main -->
                         </manifest>
                     </archive>
                 </configuration>
