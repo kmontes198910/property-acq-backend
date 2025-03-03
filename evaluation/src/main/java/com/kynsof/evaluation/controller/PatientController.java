@@ -3,11 +3,14 @@ package com.kynsof.evaluation.controller;
 import com.kynsof.evaluation.application.command.patients.create.CreatePatientMessage;
 import com.kynsof.evaluation.application.command.patients.create.CreatePatientsCommand;
 import com.kynsof.evaluation.application.command.patients.create.CreatePatientsRequest;
+import com.kynsof.evaluation.application.query.patients.getByIdHttp.FindHttpPatientsByIdQuery;
 import com.kynsof.evaluation.application.query.patients.search.GetSearchPatientsQuery;
+import com.kynsof.share.core.domain.http.entity.PatientHttp;
 import com.kynsof.share.core.domain.request.PageableUtil;
 import com.kynsof.share.core.domain.request.SearchRequest;
 import com.kynsof.share.core.domain.response.PaginatedResponse;
 import com.kynsof.share.core.infrastructure.bus.IMediator;
+import java.util.UUID;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -38,6 +41,15 @@ public class PatientController {
         GetSearchPatientsQuery query = new GetSearchPatientsQuery(pageable, request.getFilter(),request.getQuery());
         PaginatedResponse data = mediator.send(query);
         return ResponseEntity.ok(data);
+    }
+
+    @GetMapping(path = "/http/replicate/{id}")
+    public ResponseEntity<PatientHttp> getByIdHttpReplicate(@PathVariable UUID id) {
+
+        FindHttpPatientsByIdQuery query = new FindHttpPatientsByIdQuery(id);
+        PatientHttp response = mediator.send(query);
+
+        return ResponseEntity.ok(response);
     }
 
 }
