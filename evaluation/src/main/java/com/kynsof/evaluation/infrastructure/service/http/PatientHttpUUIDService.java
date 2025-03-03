@@ -22,8 +22,8 @@ public class PatientHttpUUIDService {
 
     private final RestTemplate restTemplate;
 
-    @Value("${booking.invoice.service:http://localhost:8098}")
-//    @Value("${booking.invoice.service:http://invoicing.finamer.svc.cluster.local:9909}")
+    @Value("${patient.service:http://localhost:8098}")
+//    @Value("${patient.service:http://invoicing.finamer.svc.cluster.local:9909}")
     private String serviceUrl;
 
     public PatientHttpUUIDService(RestTemplate restTemplate) {
