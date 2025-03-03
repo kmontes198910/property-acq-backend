@@ -26,6 +26,8 @@
         <module>rrhh</module>
         <module>report</module>
         <module>socketService</module>
+        <module>payment</module>
+        <module>evaluation</module>
     </modules>
     <build>
 

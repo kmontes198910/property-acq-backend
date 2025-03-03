@@ -23,4 +23,6 @@ public interface IReceiptService {
     List<Receipt> findByStatus(EStatusReceipt statusReceipt);
 
     void updatePaymentStatus(Receipt receipt, String status, String reference, String authorization);
+
+    void updateScheduled(UUID receiptId, UUID scheduledId);
 }

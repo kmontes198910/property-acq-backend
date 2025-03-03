@@ -8,10 +8,9 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @EnableCaching
 @SpringBootApplication
 @EnableScheduling
-public class TreatmentsApplication {
-
+public class EvaluationsApplication {
     public static void main(String[] args) {
-        SpringApplication.run(TreatmentsApplication.class, args);
+        SpringApplication.run(EvaluationsApplication.class, args);
     }
 
 }

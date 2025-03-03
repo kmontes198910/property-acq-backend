@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @Setter
 @NoArgsConstructor
+@Table(name = "evaluation_exam_types")
 public class EvaluationExamenType {
 
     @Id

@@ -2,7 +2,9 @@ package com.kynsof.evaluation.infrastructure.entity;
 
 import com.kynsof.evaluation.domain.dto.EvaluationQuestionDto;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -13,6 +15,9 @@ import java.util.UUID;
 @Entity
 @Getter
 @Setter
+@AllArgsConstructor
+@NoArgsConstructor
+@Table(name = "evaluation_questions")
 public class EvaluationQuestion {
     @Id
     private UUID id;
