@@ -1,6 +1,7 @@
 package com.kynsoft.rrhh.controller;
 
 
+import com.kynsof.share.core.domain.http.entity.DoctorHttp;
 import com.kynsof.share.core.domain.request.PageableUtil;
 import com.kynsof.share.core.domain.request.SearchRequest;
 import com.kynsof.share.core.domain.response.PaginatedResponse;
@@ -13,6 +14,7 @@ import com.kynsoft.rrhh.application.command.doctor.delete.DeleteDoctorMessage;
 import com.kynsoft.rrhh.application.command.doctor.update.UpdateDoctorCommand;
 import com.kynsoft.rrhh.application.command.doctor.update.UpdateDoctorMessage;
 import com.kynsoft.rrhh.application.command.doctor.update.UpdateDoctorRequest;
+import com.kynsoft.rrhh.application.query.doctor.getByIdHttpReplicate.FindHttpDoctorByIdQuery;
 import com.kynsoft.rrhh.application.query.doctor.getbyid.DoctorResponse;
 import com.kynsoft.rrhh.application.query.doctor.getbyid.FindByIdDoctorQuery;
 import com.kynsoft.rrhh.application.query.doctor.search.GetSearchDoctorQuery;
@@ -48,6 +50,15 @@ public class DoctorController {
 
         FindByIdDoctorQuery query = new FindByIdDoctorQuery(id);
         DoctorResponse response = mediator.send(query);
+
+        return ResponseEntity.ok(response);
+    }
+
+    @GetMapping(path = "/http/replicate/{id}")
+    public ResponseEntity<?> getByIdHttpReplicate(@PathVariable UUID id) {
+
+        FindHttpDoctorByIdQuery query = new FindHttpDoctorByIdQuery(id);
+        DoctorHttp response = mediator.send(query);
 
         return ResponseEntity.ok(response);
     }
