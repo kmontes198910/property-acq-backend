@@ -3,7 +3,7 @@ package com.kynsof.evaluation.infrastructure.service.http;
 import com.kynsof.share.core.domain.exception.BusinessNotFoundException;
 import com.kynsof.share.core.domain.exception.DomainErrorMessage;
 import com.kynsof.share.core.domain.exception.GlobalBusinessException;
-import com.kynsof.share.core.domain.http.entity.PatientHttp;
+import com.kynsof.share.core.domain.http.entity.DoctorHttp;
 import com.kynsof.share.core.domain.response.ErrorField;
 import java.util.UUID;
 import org.springframework.beans.factory.annotation.Value;
@@ -18,21 +18,21 @@ import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
 @Service
-public class PatientHttpUUIDService {
+public class DoctorHttpUUIDService {
 
     private final RestTemplate restTemplate;
 
-    @Value("${patient.service:http://localhost:8098}")
+    @Value("${doctor.service:http://localhost:8097}")
 //    @Value("${patient.service:http://invoicing.finamer.svc.cluster.local:9909}")
     private String serviceUrl;
 
-    public PatientHttpUUIDService(RestTemplate restTemplate) {
+    public DoctorHttpUUIDService(RestTemplate restTemplate) {
         this.restTemplate = restTemplate;
     }
 
-    public PatientHttp sendGetBookingHttpRequest(UUID id) {
+    public DoctorHttp sendGetBookingHttpRequest(UUID id) {
         try {
-            String url = serviceUrl + "/api/patients/http/replicate/" + id;
+            String url = serviceUrl + "/api/doctor/http/replicate/" + id;
 
             // Crear cabeceras para la solicitud
             HttpHeaders headers = new HttpHeaders();
@@ -42,8 +42,8 @@ public class PatientHttpUUIDService {
             HttpEntity<UUID> entity = new HttpEntity<>(id, headers);
 
             // Enviar la solicitud POST al endpoint del controlador
-            ResponseEntity<PatientHttp> response = restTemplate.exchange(
-                    url, HttpMethod.GET, entity, PatientHttp.class);
+            ResponseEntity<DoctorHttp> response = restTemplate.exchange(
+                    url, HttpMethod.GET, entity, DoctorHttp.class);
 
             if (!HttpStatus.OK.equals(response.getStatusCode())) {
                 throw new BusinessNotFoundException(new GlobalBusinessException(DomainErrorMessage.PATIENTS_NOT_FOUND, new ErrorField("id", DomainErrorMessage.PATIENTS_NOT_FOUND.getReasonPhrase())));
