@@ -20,7 +20,7 @@ public class FindHttpDoctorByIdQueryHandler implements IQueryHandler<FindHttpDoc
 
     @Override
     public DoctorHttp handle(FindHttpDoctorByIdQuery query) {
-        DoctorHttp doctor = serviceImpl.sendGetBookingHttpRequest(query.getId());
+        DoctorHttp doctor = serviceImpl.sendGetHttpRequest(query.getId());
         return doctor;
     }
 }

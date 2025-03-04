@@ -30,7 +30,7 @@ public class PatientHttpUUIDService {
         this.restTemplate = restTemplate;
     }
 
-    public PatientHttp sendGetBookingHttpRequest(UUID id) {
+    public PatientHttp sendGetHttpRequest(UUID id) {
         try {
             String url = serviceUrl + "/api/patients/http/replicate/" + id;
 
