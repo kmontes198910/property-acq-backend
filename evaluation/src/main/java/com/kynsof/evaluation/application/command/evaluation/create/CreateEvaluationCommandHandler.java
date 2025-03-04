@@ -1,12 +1,16 @@
 package com.kynsof.evaluation.application.command.evaluation.create;
 
+import com.kynsof.evaluation.domain.dto.DoctorDto;
 import com.kynsof.evaluation.domain.dto.EvaluationDto;
 import com.kynsof.evaluation.domain.dto.PatientDto;
 import com.kynsof.evaluation.domain.dto.enumDto.Status;
+import com.kynsof.evaluation.domain.service.IDoctorService;
 import com.kynsof.share.core.domain.bus.command.ICommandHandler;
 import com.kynsof.evaluation.domain.service.IEvaluationService;
 import com.kynsof.evaluation.domain.service.IPatientsService;
+import com.kynsof.evaluation.infrastructure.service.http.DoctorHttpUUIDService;
 import com.kynsof.evaluation.infrastructure.service.http.PatientHttpUUIDService;
+import com.kynsof.share.core.domain.http.entity.DoctorHttp;
 import com.kynsof.share.core.domain.http.entity.PatientHttp;
 import java.time.LocalDate;
 import org.springframework.stereotype.Component;
@@ -16,14 +20,20 @@ public class CreateEvaluationCommandHandler implements ICommandHandler<CreateEva
 
     private final IEvaluationService serviceImpl;
     private final IPatientsService patientsService;
+    private final IDoctorService doctorService;
     private final PatientHttpUUIDService patientHttpUUIDService;
+    private final DoctorHttpUUIDService doctorHttpUUIDService;
 
     public CreateEvaluationCommandHandler(IEvaluationService serviceImpl,
-            IPatientsService patientsService,
-            PatientHttpUUIDService patientHttpUUIDService) {
+                                          IPatientsService patientsService,
+                                          PatientHttpUUIDService patientHttpUUIDService,
+                                          IDoctorService doctorService,
+                                          DoctorHttpUUIDService doctorHttpUUIDService) {
         this.serviceImpl = serviceImpl;
         this.patientsService = patientsService;
         this.patientHttpUUIDService = patientHttpUUIDService;
+        this.doctorService = doctorService;
+        this.doctorHttpUUIDService = doctorHttpUUIDService;
     }
 
     @Override
@@ -43,13 +53,31 @@ public class CreateEvaluationCommandHandler implements ICommandHandler<CreateEva
             );
             this.patientsService.create(patientDto);
         }
+        DoctorDto doctorDto = null;
+        try {
+            doctorDto = this.doctorService.findById(command.getDoctor());
+        } catch (Exception e) {
+            DoctorHttp doctorHttp = this.doctorHttpUUIDService.sendGetBookingHttpRequest(command.getDoctor());
+            doctorDto = new DoctorDto(
+                    doctorHttp.getId(), 
+                    doctorHttp.getIdentification(), 
+                    doctorHttp.getName(), 
+                    doctorHttp.getLastName(), 
+                    doctorHttp.getRegisterNumber(), 
+                    doctorHttp.getImage(), 
+                    Status.valueOf(doctorHttp.getStatus())
+            );
+            this.doctorService.create(doctorDto);
+        }
+
         serviceImpl.create(new EvaluationDto(
                 command.getId(),
                 patientDto,
                 command.getConsultationReason(),
                 command.getMedicalHistory(),
                 command.getPhysicalExam(),
-                command.getMedicalSpeciality()
+                command.getMedicalSpeciality(),
+                doctorDto
         ));
     }
 }

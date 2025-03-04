@@ -46,6 +46,7 @@ public class Evaluation {
     public Evaluation(EvaluationDto dto) {
         this.id = dto.getId();
         this.patient = dto.getPatient() != null ? new Patients(dto.getPatient()) : null;
+        this.doctor = dto.getDoctor() != null ? new Doctor(dto.getDoctor()) : null;
         this.consultationReason = dto.getConsultationReason();
         this.medicalHistory = dto.getMedicalHistory();
         this.physicalExam = dto.getPhysicalExam();
@@ -56,6 +57,7 @@ public class Evaluation {
         return new EvaluationDto(
                 this.id,
                 this.patient != null ? this.patient.toAggregate() : null,
+                this.doctor != null ? this.doctor.toAggregate() : null,
                 this.consultationReason,
                 this.medicalHistory,
                 this.physicalExam,

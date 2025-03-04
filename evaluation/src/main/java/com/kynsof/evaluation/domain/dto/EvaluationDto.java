@@ -13,6 +13,7 @@ import lombok.AllArgsConstructor;
 public class EvaluationDto {
     private UUID id;
     private PatientDto patient;
+    private DoctorDto doctor;
     private String consultationReason;
     private String medicalHistory;
     private String physicalExam;
@@ -20,9 +21,10 @@ public class EvaluationDto {
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
-    public EvaluationDto(UUID id, PatientDto patient, String consultationReason, String medicalHistory, String physicalExam, String medicalSpeciality) {
+    public EvaluationDto(UUID id, PatientDto patient, String consultationReason, String medicalHistory, String physicalExam, String medicalSpeciality, DoctorDto doctor) {
         this.id = id;
         this.patient = patient;
+        this.doctor = doctor;
         this.consultationReason = consultationReason;
         this.medicalHistory = medicalHistory;
         this.physicalExam = physicalExam;
