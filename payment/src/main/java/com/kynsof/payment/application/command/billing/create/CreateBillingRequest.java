@@ -1,6 +1,7 @@
 package com.kynsof.payment.application.command.billing.create;
 
 import com.kynsof.payment.domain.dto.enumDto.BillingStatus;
+import com.kynsof.payment.domain.dto.enumDto.TypeOperation;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -20,4 +21,5 @@ public class CreateBillingRequest {
     private boolean isProforma;
     private Double cost;
     private String insuranceId;
+    private TypeOperation typeOperation;
 }

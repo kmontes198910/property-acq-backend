@@ -1,6 +1,7 @@
 package com.kynsof.payment.domain.dto;
 
 import com.kynsof.payment.domain.dto.enumDto.BillingStatus;
+import com.kynsof.payment.domain.dto.enumDto.TypeOperation;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -26,8 +27,11 @@ public class BillingDto {
     private Double cost;
     private UUID userSystemId;
     private String userSystemFullName;
+    private TypeOperation typeOperation;
 
-    public BillingDto(UUID id, UUID clientId, UUID businessId, String code, String description, BillingStatus status, boolean isProforma, Double cost, UUID userSystemId, String userSystemFullName) {
+    public BillingDto(UUID id, UUID clientId, UUID businessId, String code, String description, 
+            BillingStatus status, boolean isProforma, Double cost, UUID userSystemId, 
+            String userSystemFullName, TypeOperation typeOperation) {
         this.id = id;
         this.clientId = clientId;
         this.businessId = businessId;
@@ -38,5 +42,6 @@ public class BillingDto {
         this.cost = cost;
         this.userSystemId = userSystemId;
         this.userSystemFullName = userSystemFullName;
+        this.typeOperation = typeOperation;
     }
 }

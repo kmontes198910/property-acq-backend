@@ -5,6 +5,7 @@ import com.kynsof.payment.domain.dto.BillingDto;
 import com.kynsof.payment.domain.dto.BusinessDto;
 import com.kynsof.payment.domain.dto.ClientDto;
 import com.kynsof.payment.domain.dto.enumDto.BillingStatus;
+import com.kynsof.payment.domain.dto.enumDto.TypeOperation;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -26,6 +27,7 @@ public class BillingResponse implements IResponse {
     private ClientDto client;
     private LocalDateTime createdAt;
     private Double cost;
+    private TypeOperation typeOperation;
 
     public BillingResponse(BillingDto dto) {
         this.id = dto.getId();
@@ -37,6 +39,7 @@ public class BillingResponse implements IResponse {
         this.createdAt = dto.getCreatedAt();
         this.isProforma = dto.isProforma();
         this.cost = dto.getCost();
+        this.typeOperation = dto.getTypeOperation();
     }
 
 }

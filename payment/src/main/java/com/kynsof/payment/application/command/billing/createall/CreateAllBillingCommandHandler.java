@@ -5,6 +5,7 @@ import com.kynsof.payment.domain.dto.BillingDto;
 import com.kynsof.payment.domain.dto.BusinessDto;
 import com.kynsof.payment.domain.dto.ClientDto;
 import com.kynsof.payment.domain.dto.enumDto.Status;
+import com.kynsof.payment.domain.dto.enumDto.TypeOperation;
 import com.kynsof.payment.domain.service.IBillingService;
 import com.kynsof.payment.domain.service.IBusiness;
 import com.kynsof.payment.domain.service.IClientService;
@@ -65,7 +66,8 @@ public class CreateAllBillingCommandHandler implements ICommandHandler<CreateAll
                     command.isProforma(),
                     billingPartialRequest.getCost(),
                     command.getUserSystemId(),
-                    command.getUserSystemFullName()
+                    command.getUserSystemFullName(),
+                    TypeOperation.Other
             );
 
             create.setClient(clientDto);

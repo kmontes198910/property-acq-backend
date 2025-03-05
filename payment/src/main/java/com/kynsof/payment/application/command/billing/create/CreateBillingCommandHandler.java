@@ -64,7 +64,8 @@ public class CreateBillingCommandHandler implements ICommandHandler<CreateBillin
                     command.isProforma(),
                     command.getCost(),
                     command.getUserSystemId(),
-                    command.getUserSystemFullName()
+                    command.getUserSystemFullName(),
+                    command.getTypeOperation()
             );
 
             create.setClient(clientDto);

@@ -2,6 +2,7 @@ package com.kynsof.payment.infrastructure.entity;
 
 import com.kynsof.payment.domain.dto.BillingDto;
 import com.kynsof.payment.domain.dto.enumDto.BillingStatus;
+import com.kynsof.payment.domain.dto.enumDto.TypeOperation;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -44,6 +45,9 @@ public class Billing {
     @Column(nullable = false)
     private BillingStatus status;
 
+    @Enumerated(EnumType.STRING)
+    private TypeOperation typeOperation;
+
     @Column(name = "is_proforma", nullable = false)
     private boolean isProforma;
 
@@ -71,6 +75,7 @@ public class Billing {
         this.isProforma = billingDto.isProforma();
         this.userSystemId = billingDto.getUserSystemId();
         this.userSystemFullName = billingDto.getUserSystemFullName();
+        this.typeOperation = billingDto.getTypeOperation();
     }
 
     public BillingDto toAggregate() {
@@ -86,6 +91,7 @@ public class Billing {
         billingDto.setProforma(this.isProforma);
         billingDto.setUserSystemId(this.userSystemId);
         billingDto.setUserSystemFullName(this.userSystemFullName);
+        billingDto.setTypeOperation(this.typeOperation);
         return billingDto;
     }
 }
