@@ -9,9 +9,12 @@ import com.kynsof.payment.domain.dto.BillingDto;
 import com.kynsof.payment.domain.dto.BusinessDto;
 import com.kynsof.payment.domain.dto.ClientDto;
 import com.kynsof.payment.domain.dto.enumDto.BillingStatus;
+import com.kynsof.payment.domain.dto.enumDto.Status;
 import com.kynsof.payment.domain.service.IBillingService;
 import com.kynsof.payment.domain.service.IBusiness;
 import com.kynsof.payment.domain.service.IClientService;
+import com.kynsof.payment.infrastructure.service.http.PatientHttpUUIDService;
+import com.kynsof.share.core.domain.http.entity.PatientHttp;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -20,17 +23,35 @@ public class CreateBillingCommandHandler implements ICommandHandler<CreateBillin
     private final IBillingService serviceImpl;
     private final IClientService clientService;
     private final IBusiness businessService;
+    private final PatientHttpUUIDService patientHttpUUIDService;
 
-    public CreateBillingCommandHandler(IBillingService serviceImpl, IClientService clientService, IBusiness businessService) {
+    public CreateBillingCommandHandler(IBillingService serviceImpl, 
+                                       IClientService clientService, 
+                                       IBusiness businessService,
+                                       PatientHttpUUIDService patientHttpUUIDService) {
         this.serviceImpl = serviceImpl;
         this.clientService = clientService;
         this.businessService = businessService;
+        this.patientHttpUUIDService = patientHttpUUIDService;
     }
 
     @Override
     public void handle(CreateBillingCommand command) {
         if (!this.serviceImpl.existsByCodeAndBusinessIdAndStatusAndPatientId(command.getCode(), command.getBusinessId(), BillingStatus.PENDING, command.getClientId())) {
-            ClientDto clientDto = clientService.findById(command.getClientId());
+            ClientDto clientDto = null;
+            try {
+                clientDto = clientService.findById(command.getClientId());
+            } catch (Exception e) {
+                PatientHttp patient = patientHttpUUIDService.sendGetHttpRequest(command.getClientId());
+                clientDto = new ClientDto(
+                        patient.getId(), 
+                        patient.getIdentification(), 
+                        patient.getName(), 
+                        patient.getLastName(), 
+                        Status.valueOf(patient.getStatus())
+                );
+                this.clientService.create(clientDto);
+            }
             BusinessDto businessDto = businessService.findById(command.getBusinessId());
 
             BillingDto create = new BillingDto(
@@ -41,7 +62,9 @@ public class CreateBillingCommandHandler implements ICommandHandler<CreateBillin
                     command.getDescription(),
                     command.getStatus(),
                     command.isProforma(),
-                    command.getCost()
+                    command.getCost(),
+                    command.getUserSystemId(),
+                    command.getUserSystemFullName()
             );
 
             create.setClient(clientDto);

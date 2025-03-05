@@ -24,8 +24,10 @@ public class BillingDto {
     private BusinessDto business;
     private LocalDateTime createdAt;
     private Double cost;
+    private UUID userSystemId;
+    private String userSystemFullName;
 
-    public BillingDto(UUID id, UUID clientId, UUID businessId, String code, String description, BillingStatus status, boolean isProforma, Double cost) {
+    public BillingDto(UUID id, UUID clientId, UUID businessId, String code, String description, BillingStatus status, boolean isProforma, Double cost, UUID userSystemId, String userSystemFullName) {
         this.id = id;
         this.clientId = clientId;
         this.businessId = businessId;
@@ -34,5 +36,7 @@ public class BillingDto {
         this.status = status;
         this.isProforma = isProforma;
         this.cost = cost;
+        this.userSystemId = userSystemId;
+        this.userSystemFullName = userSystemFullName;
     }
 }
