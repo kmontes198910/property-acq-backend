@@ -42,7 +42,7 @@ public class CreateEvaluationCommandHandler implements ICommandHandler<CreateEva
         try {
             patientDto = this.patientsService.findById(command.getPatient());
         } catch (Exception e) {
-            PatientHttp patient = patientHttpUUIDService.sendGetBookingHttpRequest(command.getPatient());
+            PatientHttp patient = patientHttpUUIDService.sendGetHttpRequest(command.getPatient());
             patientDto = new PatientDto(
                     patient.getId(),
                     patient.getIdentification(),
@@ -57,7 +57,7 @@ public class CreateEvaluationCommandHandler implements ICommandHandler<CreateEva
         try {
             doctorDto = this.doctorService.findById(command.getDoctor());
         } catch (Exception e) {
-            DoctorHttp doctorHttp = this.doctorHttpUUIDService.sendGetBookingHttpRequest(command.getDoctor());
+            DoctorHttp doctorHttp = this.doctorHttpUUIDService.sendGetHttpRequest(command.getDoctor());
             doctorDto = new DoctorDto(
                     doctorHttp.getId(), 
                     doctorHttp.getIdentification(), 

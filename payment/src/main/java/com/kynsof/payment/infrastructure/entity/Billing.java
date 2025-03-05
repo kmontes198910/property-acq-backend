@@ -47,6 +47,12 @@ public class Billing {
     @Column(name = "is_proforma", nullable = false)
     private boolean isProforma;
 
+    @Column(name = "user_system_id")
+    private UUID userSystemId;
+
+    @Column(name = "user_system_full_name")
+    private String userSystemFullName;
+
     @CreationTimestamp
     @Column(nullable = false, updatable = false)
     private LocalDateTime createdAt;
@@ -63,6 +69,8 @@ public class Billing {
         this.status = billingDto.getStatus();
         this.cost = billingDto.getCost();
         this.isProforma = billingDto.isProforma();
+        this.userSystemId = billingDto.getUserSystemId();
+        this.userSystemFullName = billingDto.getUserSystemFullName();
     }
 
     public BillingDto toAggregate() {
@@ -76,6 +84,8 @@ public class Billing {
         billingDto.setCost(this.cost);
         billingDto.setCreatedAt(this.createdAt);
         billingDto.setProforma(this.isProforma);
+        billingDto.setUserSystemId(this.userSystemId);
+        billingDto.setUserSystemFullName(this.userSystemFullName);
         return billingDto;
     }
 }

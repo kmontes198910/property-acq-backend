@@ -12,6 +12,8 @@ public class CreateBillingBulkRequest {
 
     private UUID clientId;
     private UUID businessId;
+    private UUID userSystemId;
+    private String userSystemFullName;
     private boolean isProforma;
     private List<CreateBillingPartialRequest> billingPartialRequests;
 }

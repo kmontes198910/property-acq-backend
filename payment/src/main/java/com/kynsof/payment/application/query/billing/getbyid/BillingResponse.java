@@ -2,6 +2,7 @@ package com.kynsof.payment.application.query.billing.getbyid;
 
 import com.kynsof.share.core.domain.bus.query.IResponse;
 import com.kynsof.payment.domain.dto.BillingDto;
+import com.kynsof.payment.domain.dto.BusinessDto;
 import com.kynsof.payment.domain.dto.ClientDto;
 import com.kynsof.payment.domain.dto.enumDto.BillingStatus;
 import lombok.Getter;
@@ -17,8 +18,7 @@ import java.util.UUID;
 public class BillingResponse implements IResponse {
 
     private UUID id;
-    private UUID patientId;
-    private UUID businessId;
+    private BusinessDto business;
     private String code;
     private String description;
     private boolean isProforma;
@@ -32,8 +32,7 @@ public class BillingResponse implements IResponse {
         this.code = dto.getCode();
         this.description = dto.getDescription();
         this.status = dto.getStatus();
-        this.businessId = dto.getBusinessId();
-        this.patientId = dto.getClientId();
+        this.business = dto.getBusiness();
         this.client = dto.getClient();
         this.createdAt = dto.getCreatedAt();
         this.isProforma = dto.isProforma();

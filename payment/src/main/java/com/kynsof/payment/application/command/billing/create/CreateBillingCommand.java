@@ -14,6 +14,8 @@ public class CreateBillingCommand implements ICommand {
 
     private UUID id;
     private final UUID clientId;
+    private UUID userSystemId;
+    private String userSystemFullName;
     private final UUID businessId;
     private final String code;
     private final String description;
@@ -22,7 +24,7 @@ public class CreateBillingCommand implements ICommand {
     private final Double cost;
     private final String insuranceId;
 
-    public CreateBillingCommand(UUID clientId, UUID businessId, String code, String description, BillingStatus status, boolean isProforma, Double cost, String insuranceId) {
+    public CreateBillingCommand(UUID clientId, UUID businessId, String code, String description, BillingStatus status, boolean isProforma, Double cost, String insuranceId, UUID userSystemId, String userSystemFullName) {
         this.clientId = clientId;
         this.businessId = businessId;
         this.code = code;
@@ -31,6 +33,8 @@ public class CreateBillingCommand implements ICommand {
         this.isProforma = isProforma;
         this.cost = cost;
         this.insuranceId = insuranceId;
+        this.userSystemId = userSystemId;
+        this.userSystemFullName = userSystemFullName;
     }
 
     public static CreateBillingCommand fromRequest(CreateBillingRequest request) {
@@ -42,7 +46,9 @@ public class CreateBillingCommand implements ICommand {
                 request.getStatus(),
                 request.isProforma(),
                 request.getCost(),
-                request.getInsuranceId()
+                request.getInsuranceId(),
+                request.getUserSystemId(),
+                request.getUserSystemFullName()
         );
     }
 

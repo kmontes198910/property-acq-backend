@@ -14,14 +14,18 @@ public class CreateAllBillingCommand implements ICommand {
 
     private boolean result;
     private final UUID clientId;
+    private UUID userSystemId;
+    private String userSystemFullName;
     private final UUID businessId;
     private final boolean isProforma;
     private final List<CreateBillingPartialRequest> billingPartialRequests;
 
-    public CreateAllBillingCommand(UUID clientId, UUID businessId, boolean isProforma, List<CreateBillingPartialRequest> billingPartialRequests) {
+    public CreateAllBillingCommand(UUID clientId, UUID businessId, boolean isProforma, UUID userSystemId, String userSystemFullName, List<CreateBillingPartialRequest> billingPartialRequests) {
         this.clientId = clientId;
         this.businessId = businessId;
         this.isProforma = isProforma;
+        this.userSystemId = userSystemId;
+        this.userSystemFullName = userSystemFullName;
         this.billingPartialRequests = billingPartialRequests;
     }
 

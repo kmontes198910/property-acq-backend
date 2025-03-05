@@ -23,7 +23,7 @@ public class FindHttpPatientsByIdQueryHandler implements IQueryHandler<FindHttpP
 
     @Override
     public PatientHttp handle(FindHttpPatientsByIdQuery query) {
-        PatientHttp patient = serviceImpl.sendGetBookingHttpRequest(query.getId());
+        PatientHttp patient = serviceImpl.sendGetHttpRequest(query.getId());
         this.patientsService.create(new PatientDto(
                 patient.getId(), 
                 patient.getIdentification(), 

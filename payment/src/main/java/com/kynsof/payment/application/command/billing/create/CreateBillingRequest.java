@@ -9,10 +9,13 @@ import java.util.UUID;
 @Getter
 @Setter
 public class CreateBillingRequest {
-    private  UUID clientId;
-    private  UUID businessId;
-    private  String code;
-    private  String description;
+
+    private UUID clientId;
+    private UUID userSystemId;
+    private String userSystemFullName;
+    private UUID businessId;
+    private String code;
+    private String description;
     private BillingStatus status;
     private boolean isProforma;
     private Double cost;
