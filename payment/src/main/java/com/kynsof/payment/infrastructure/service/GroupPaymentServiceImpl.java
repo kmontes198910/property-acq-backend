@@ -19,7 +19,11 @@ import com.kynsof.payment.infrastructure.repositories.query.BusinessReadDataJPAR
 import com.kynsof.payment.infrastructure.repositories.query.ClientReadDataJPARepository;
 import com.kynsof.payment.infrastructure.repositories.query.GroupPaymentDetailReadDataJPARepository;
 import com.kynsof.payment.infrastructure.repositories.query.GroupPaymentReadDataJPARepository;
+import com.kynsof.share.core.domain.exception.BusinessNotFoundException;
+import com.kynsof.share.core.domain.exception.DomainErrorMessage;
+import com.kynsof.share.core.domain.exception.GlobalBusinessException;
 import com.kynsof.share.core.domain.request.FilterCriteria;
+import com.kynsof.share.core.domain.response.ErrorField;
 import com.kynsof.share.core.domain.response.PaginatedResponse;
 import com.kynsof.share.core.infrastructure.specifications.GenericSpecificationsBuilder;
 import jakarta.transaction.Transactional;
@@ -148,7 +152,11 @@ public class GroupPaymentServiceImpl implements IGroupPaymentService {
 
     @Override
     public GroupPaymentDto findById(UUID id) {
-        return this.groupPaymentReadDataJPARepository.findById(id).get().toAggregate();
+        try {
+            return this.groupPaymentReadDataJPARepository.findById(id).get().toAggregate();
+        } catch (Exception e) {
+            throw new BusinessNotFoundException(new GlobalBusinessException(DomainErrorMessage.MEDICINES_NOT_FOUND, new ErrorField("id", "Group Payment not found.")));
+        }
     }
 
     private PaginatedResponse getPaginatedResponse(Page<GroupPayment> data) {
