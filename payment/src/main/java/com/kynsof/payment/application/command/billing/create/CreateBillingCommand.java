@@ -3,6 +3,7 @@ package com.kynsof.payment.application.command.billing.create;
 import com.kynsof.share.core.domain.bus.command.ICommand;
 import com.kynsof.share.core.domain.bus.command.ICommandMessage;
 import com.kynsof.payment.domain.dto.enumDto.BillingStatus;
+import com.kynsof.payment.domain.dto.enumDto.TypeOperation;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -23,8 +24,11 @@ public class CreateBillingCommand implements ICommand {
     private final boolean isProforma;
     private final Double cost;
     private final String insuranceId;
+    private TypeOperation typeOperation;
 
-    public CreateBillingCommand(UUID clientId, UUID businessId, String code, String description, BillingStatus status, boolean isProforma, Double cost, String insuranceId, UUID userSystemId, String userSystemFullName) {
+    public CreateBillingCommand(UUID clientId, UUID businessId, String code, 
+            String description, BillingStatus status, boolean isProforma, Double cost, 
+            String insuranceId, UUID userSystemId, String userSystemFullName, TypeOperation typeOperation) {
         this.clientId = clientId;
         this.businessId = businessId;
         this.code = code;
@@ -35,6 +39,7 @@ public class CreateBillingCommand implements ICommand {
         this.insuranceId = insuranceId;
         this.userSystemId = userSystemId;
         this.userSystemFullName = userSystemFullName;
+        this.typeOperation = typeOperation;
     }
 
     public static CreateBillingCommand fromRequest(CreateBillingRequest request) {
@@ -48,7 +53,8 @@ public class CreateBillingCommand implements ICommand {
                 request.getCost(),
                 request.getInsuranceId(),
                 request.getUserSystemId(),
-                request.getUserSystemFullName()
+                request.getUserSystemFullName(),
+                request.getTypeOperation()
         );
     }
 
