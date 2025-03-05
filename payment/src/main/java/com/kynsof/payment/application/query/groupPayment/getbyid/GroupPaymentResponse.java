@@ -26,7 +26,6 @@ public class GroupPaymentResponse implements IResponse {
     private ClientDto client;
     private BusinessDto business;
 
-
     public GroupPaymentResponse(GroupPaymentDto aggregate) {
         this.id = aggregate.getId();
         this.requestId = aggregate.getRequestId();
