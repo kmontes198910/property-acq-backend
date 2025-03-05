@@ -18,12 +18,14 @@ import com.kynsof.patients.application.command.patients.updatePatientAdmin.Creat
 import com.kynsof.patients.application.command.patients.updatePatientAdmin.CreatePatientsAdminRequest;
 import com.kynsof.patients.application.query.patients.getById.FindPatientsByIdQuery;
 import com.kynsof.patients.application.query.patients.getById.PatientByIdResponse;
+import com.kynsof.patients.application.query.patients.getByIdHttpReplicate.FindHttpPatientsByIdQuery;
 import com.kynsof.patients.application.query.patients.getByIdentification.FindPatientsByIdentificationQuery;
 import com.kynsof.patients.application.query.patients.getall.GetAllPatientsFilterQuery;
 import com.kynsof.patients.application.query.patients.getall.PatientsResponse;
 import com.kynsof.patients.application.query.patients.keyCloak.FindPatientsByKeyCloakIdQuery;
 import com.kynsof.patients.application.query.patients.keyCloak.FindPatientsByKeyCloakIdResponse;
 import com.kynsof.patients.application.query.patients.search.GetSearchPatientsQuery;
+import com.kynsof.share.core.domain.http.entity.PatientHttp;
 import com.kynsof.share.core.domain.request.PageableUtil;
 import com.kynsof.share.core.domain.request.SearchRequest;
 import com.kynsof.share.core.domain.response.ApiResponse;
@@ -108,6 +110,15 @@ public class PatientsController {
 
         FindPatientsByIdQuery query = new FindPatientsByIdQuery(id);
         PatientByIdResponse response = mediator.send(query);
+
+        return ResponseEntity.ok(response);
+    }
+
+    @GetMapping(path = "/http/replicate/{id}")
+    public ResponseEntity<PatientHttp> getByIdHttpReplicate(@PathVariable UUID id) {
+
+        FindHttpPatientsByIdQuery query = new FindHttpPatientsByIdQuery(id);
+        PatientHttp response = mediator.send(query);
 
         return ResponseEntity.ok(response);
     }

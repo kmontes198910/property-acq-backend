@@ -9,6 +9,7 @@ import lombok.Setter;
 public class CreateEvaluationRequest {
 
     private UUID patient;
+    private UUID doctor;
     private String consultationReason;
     private String medicalHistory;
     private String physicalExam;

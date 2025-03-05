@@ -49,6 +49,8 @@ public class BillingController {
                 payload.getClientId(),
                 payload.getBusinessId(), 
                 payload.isProforma(), 
+                payload.getUserSystemId(),
+                payload.getUserSystemFullName(),
                 payload.getBillingPartialRequests()
         );
         CreateAllBillingMessage response = mediator.send(createCommand);
