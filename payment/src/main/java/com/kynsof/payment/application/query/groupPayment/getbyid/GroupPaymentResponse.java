@@ -1,5 +1,7 @@
 package com.kynsof.payment.application.query.groupPayment.getbyid;
 
+import com.kynsof.payment.domain.dto.BusinessDto;
+import com.kynsof.payment.domain.dto.ClientDto;
 import com.kynsof.share.core.domain.bus.query.IResponse;
 import com.kynsof.payment.domain.dto.GroupPaymentDto;
 import com.kynsof.payment.domain.dto.enumDto.GroupPaymentStatus;
@@ -21,6 +23,8 @@ public class GroupPaymentResponse implements IResponse {
     private GroupPaymentStatus status;
     private LocalDateTime createdAt;
     private Double totalAmount;
+    private ClientDto client;
+    private BusinessDto business;
 
 
     public GroupPaymentResponse(GroupPaymentDto aggregate) {
@@ -33,5 +37,7 @@ public class GroupPaymentResponse implements IResponse {
         this.status = aggregate.getStatus();
         this.createdAt = aggregate.getCreatedAt();
         this.totalAmount = aggregate.getTotalAmount();
+        this.client = aggregate.getClient();
+        this.business = aggregate.getBusiness();
     }
 }

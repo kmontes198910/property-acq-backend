@@ -14,13 +14,30 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 public class GroupPaymentDto {
-    private UUID id;
-    private String requestId;
-    private LocalDateTime paymentDate;
-    private String authorizationCode;
-    private String reference;
-    private String processUrl;
-    private GroupPaymentStatus status;
-    private LocalDateTime createdAt;
-    private double totalAmount;
+    private  UUID id;
+    private  String requestId;
+    private  LocalDateTime paymentDate;
+    private  String authorizationCode;
+    private  String reference;
+    private  String processUrl;
+    private  GroupPaymentStatus status;
+    private  LocalDateTime createdAt;
+    private  double totalAmount;
+
+    private ClientDto client;
+    private BusinessDto business;
+
+    public GroupPaymentDto(UUID id, String requestId, LocalDateTime paymentDate, String authorizationCode,
+                           String reference, String processUrl, GroupPaymentStatus status,
+                           LocalDateTime createdAt, double totalAmount) {
+        this.id = id;
+        this.requestId = requestId;
+        this.paymentDate = paymentDate;
+        this.authorizationCode = authorizationCode;
+        this.reference = reference;
+        this.processUrl = processUrl;
+        this.status = status;
+        this.createdAt = createdAt;
+        this.totalAmount = totalAmount;
+    }
 }
