@@ -25,8 +25,8 @@ public class CreateBillingCommandHandler implements ICommandHandler<CreateBillin
     private final IBusiness businessService;
     private final PatientHttpUUIDService patientHttpUUIDService;
 
-    public CreateBillingCommandHandler(IBillingService serviceImpl, 
-                                       IClientService clientService, 
+    public CreateBillingCommandHandler(IBillingService serviceImpl,
+                                       IClientService clientService,
                                        IBusiness businessService,
                                        PatientHttpUUIDService patientHttpUUIDService) {
         this.serviceImpl = serviceImpl;
@@ -44,11 +44,13 @@ public class CreateBillingCommandHandler implements ICommandHandler<CreateBillin
             } catch (Exception e) {
                 PatientHttp patient = patientHttpUUIDService.sendGetHttpRequest(command.getClientId());
                 clientDto = new ClientDto(
-                        patient.getId(), 
-                        patient.getIdentification(), 
-                        patient.getName(), 
-                        patient.getLastName(), 
-                        Status.valueOf(patient.getStatus())
+                        patient.getId(),
+                        patient.getIdentification(),
+                        patient.getName(),
+                        patient.getLastName(),
+                        Status.valueOf(patient.getStatus()),
+                        patient.getEmail(),
+                        patient.getPhone()
                 );
                 this.clientService.create(clientDto);
             }

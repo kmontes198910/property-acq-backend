@@ -24,7 +24,9 @@ public class CreateClientCommandHandler  implements ICommandHandler<CreateClient
                 command.getIdentification(),
                 command.getName(),
                 command.getLastName(),
-               Status.ACTIVE
+               Status.ACTIVE,
+               command.getEmail(),
+               command.getPhone()
         ));
        command.setId(id);
     }

@@ -10,4 +10,6 @@ public class CreateClientRequest {
     private String identification;
     private String name;
     private String lastName;
+    private  String email;
+    private  String phone;
 }

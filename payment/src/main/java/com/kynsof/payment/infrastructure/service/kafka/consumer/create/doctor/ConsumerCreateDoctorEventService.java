@@ -34,7 +34,9 @@ public class ConsumerCreateDoctorEventService {
                     eventRead.getIdentification(),
                     eventRead.getName(),
                     eventRead.getLastName(),
-                    Status.ACTIVE
+                    Status.ACTIVE,
+                    eventRead.getEmail(),
+                    "0983825630"
             ));
 
         } catch (JsonProcessingException ex) {

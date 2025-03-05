@@ -19,8 +19,11 @@ import java.util.logging.Logger;
 @Service
 public class ConsumerDependentPatientsEventService {
 
-    @Autowired
-    private IClientService service;
+    private final IClientService service;
+
+    public ConsumerDependentPatientsEventService(IClientService service) {
+        this.service = service;
+    }
 
     // Ejemplo de un método listener
     @KafkaListener(topics = "user-dependent", groupId = "user-dependent-payment")
@@ -38,7 +41,9 @@ public class ConsumerDependentPatientsEventService {
                         eventRead.getIdentification(),
                         eventRead.getFirstname(),
                         eventRead.getLastname(),
-                        Status.ACTIVE
+                        Status.ACTIVE,
+                        eventRead.getEmail(),
+                        eventRead.getPhone()
                 ));
             }
             if (eventType.equals(EventType.UPDATED)) {
@@ -48,7 +53,9 @@ public class ConsumerDependentPatientsEventService {
                         eventRead.getIdentification(),
                         eventRead.getFirstname(),
                         eventRead.getLastname(),
-                        Status.ACTIVE
+                        Status.ACTIVE,
+                        eventRead.getEmail(),
+                        eventRead.getPhone()
                 ));
             }
         } catch (JsonProcessingException ex) {

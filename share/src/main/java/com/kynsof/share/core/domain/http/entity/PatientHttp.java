@@ -22,4 +22,6 @@ public class PatientHttp implements IResponse, Serializable {
     private String gender;
     private String status;
     private String birthDate;
+    private String email;
+    private String phone;
 }

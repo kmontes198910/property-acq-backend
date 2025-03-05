@@ -18,4 +18,6 @@ public class ClientDto {
     private String name;
     private String lastName;
     private Status status;
+    private String email;
+    private String phone;
 }

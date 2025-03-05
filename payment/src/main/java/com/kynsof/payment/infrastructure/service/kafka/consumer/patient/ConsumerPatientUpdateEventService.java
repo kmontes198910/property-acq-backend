@@ -34,7 +34,9 @@ public class ConsumerPatientUpdateEventService {
                     eventRead.getIdentification(), 
                     eventRead.getName(), 
                     eventRead.getLastName(), 
-                    Status.ACTIVE
+                    Status.ACTIVE,
+                    "info@gmail.com",
+                    "0983825630"
             );
             this.service.create(clientDto);
 
