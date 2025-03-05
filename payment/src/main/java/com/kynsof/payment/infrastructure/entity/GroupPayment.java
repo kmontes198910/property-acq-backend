@@ -75,6 +75,8 @@ public class GroupPayment {
         dto.setId(id);
         dto.setCreatedAt(createdAt);
         dto.setTotalAmount(totalAmount);
+        dto.setClient(client.toAggregate());
+        dto.setBusiness(business.toAggregate());
         return dto;
     }
 }
