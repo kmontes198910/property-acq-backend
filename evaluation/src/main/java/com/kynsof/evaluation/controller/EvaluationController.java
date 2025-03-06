@@ -3,6 +3,14 @@ package com.kynsof.evaluation.controller;
 import com.kynsof.evaluation.application.command.evaluation.create.CreateEvaluationCommand;
 import com.kynsof.evaluation.application.command.evaluation.create.CreateEvaluationMessage;
 import com.kynsof.evaluation.application.command.evaluation.create.CreateEvaluationRequest;
+import com.kynsof.evaluation.application.command.evaluation.update.UpdateEvaluationCommand;
+import com.kynsof.evaluation.application.command.evaluation.update.UpdateEvaluationRequest;
+import com.kynsof.evaluation.application.command.evaluationExamenType.update.UpdateEvaluationExamenTypeCommand;
+import com.kynsof.evaluation.application.command.evaluationExamenType.update.UpdateEvaluationExamenTypeMessage;
+import com.kynsof.evaluation.application.command.evaluationExamenType.update.UpdateEvaluationExamenTypeRequest;
+import com.kynsof.evaluation.application.object.response.EvaluationExamenTypeResponse;
+import com.kynsof.evaluation.application.object.response.EvaluationResponse;
+import com.kynsof.evaluation.application.query.evaluation.getById.GetByIdEvaluationQuery;
 import com.kynsof.evaluation.application.query.evaluation.search.GetSearchEvaluationQuery;
 import com.kynsof.share.core.domain.request.PageableUtil;
 import com.kynsof.share.core.domain.request.SearchRequest;
@@ -11,6 +19,8 @@ import com.kynsof.share.core.infrastructure.bus.IMediator;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/evaluation")
@@ -30,15 +40,15 @@ public class EvaluationController {
 
         return ResponseEntity.ok(response);
     }
-//
-//    @GetMapping(path = "/{id}")
-//    public ResponseEntity<?> getById(@PathVariable UUID id) {
-//
-//        FindEvaluationExamentTypeByIdQuery query = new FindEvaluationExamentTypeByIdQuery(id);
-//        EvaluationExamenTypeResponse response = mediator.send(query);
-//
-//        return ResponseEntity.ok(response);
-//    }
+
+    @GetMapping(path = "/{id}")
+    public ResponseEntity<?> getById(@PathVariable UUID id) {
+
+        GetByIdEvaluationQuery query = new GetByIdEvaluationQuery(id);
+        EvaluationResponse response = mediator.send(query);
+
+        return ResponseEntity.ok(response);
+    }
 
     @PostMapping("/search")
     public ResponseEntity<PaginatedResponse> search(@RequestBody SearchRequest request)
@@ -49,14 +59,14 @@ public class EvaluationController {
         return ResponseEntity.ok(data);
     }
 
-//    @PatchMapping("/{id}")
-//    public ResponseEntity<?> update(@PathVariable("id") UUID id, @RequestBody UpdateEvaluationExamenTypeRequest request) {
-//
-//        UpdateEvaluationExamenTypeCommand command = UpdateEvaluationExamenTypeCommand.fromRequest(request, id);
-//        UpdateEvaluationExamenTypeMessage response = mediator.send(command);
-//        return ResponseEntity.ok(response);
-//    }
-//
+    @PatchMapping("/{id}")
+    public ResponseEntity<?> update(@PathVariable("id") UUID id, @RequestBody UpdateEvaluationRequest request) {
+
+        UpdateEvaluationCommand command = UpdateEvaluationCommand.fromRequest(request, id);
+        UpdateEvaluationExamenTypeMessage response = mediator.send(command);
+        return ResponseEntity.ok(response);
+    }
+
 //    @DeleteMapping(path = "/{id}")
 //    public ResponseEntity<?> delete(@PathVariable UUID id) {
 //
