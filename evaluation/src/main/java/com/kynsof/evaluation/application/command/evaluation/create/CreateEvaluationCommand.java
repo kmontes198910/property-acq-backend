@@ -35,7 +35,7 @@ public class CreateEvaluationCommand implements ICommand {
                 request.getConsultationReason(), 
                 request.getMedicalHistory(), 
                 request.getPhysicalExam(), 
-                request.getObservations(),
+                request.getObservation(),
                 request.getDoctor()
         );
     }
