@@ -5,6 +5,9 @@ import com.kynsof.evaluation.application.command.evaluation.update.UpdateEvaluat
 import com.kynsof.evaluation.application.command.evaluationPatient.create.CreateEvaluationPatientCommand;
 import com.kynsof.evaluation.application.command.evaluationPatient.create.CreateEvaluationPatientMessage;
 import com.kynsof.evaluation.application.command.evaluationPatient.create.CreateEvaluationPatientRequest;
+import com.kynsof.evaluation.application.command.evaluationPatient.update.UpdateEvaluationPatientCommand;
+import com.kynsof.evaluation.application.command.evaluationPatient.update.UpdateEvaluationPatientMessage;
+import com.kynsof.evaluation.application.command.evaluationPatient.update.UpdateEvaluationPatientRequest;
 import com.kynsof.evaluation.application.object.response.EvaluationResponse;
 import com.kynsof.evaluation.application.query.evaluation.getById.GetByIdEvaluationQuery;
 import com.kynsof.evaluation.application.query.evaluation.search.GetSearchEvaluationQuery;
@@ -66,11 +69,11 @@ public class EvaluationPatientExamenController {
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<?> update(@PathVariable("id") UUID id, @RequestBody UpdateEvaluationRequest request) {
+    public ResponseEntity<?> update(@PathVariable("id") UUID id, @RequestBody UpdateEvaluationPatientRequest request) {
 
-//        UpdateEvaluationCommand command = UpdateEvaluationCommand.fromRequest(request, id);
-//        UpdateEvaluationExamenTypeMessage response = mediator.send(command);
-        return ResponseEntity.ok("response");
+        UpdateEvaluationPatientCommand command = UpdateEvaluationPatientCommand.fromRequest(request, id);
+        UpdateEvaluationPatientMessage response = mediator.send(command);
+        return ResponseEntity.ok(response);
     }
 
 //    @DeleteMapping(path = "/{id}")

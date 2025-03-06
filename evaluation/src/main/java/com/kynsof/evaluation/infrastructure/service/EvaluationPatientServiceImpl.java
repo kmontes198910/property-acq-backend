@@ -10,10 +10,8 @@ import com.kynsof.evaluation.infrastructure.repositories.command.EvaluationPatie
 import com.kynsof.evaluation.infrastructure.repositories.command.EvaluationPatientWriteDataJPARepository;
 import com.kynsof.evaluation.infrastructure.repositories.query.EvaluationPatientReadDataJPARepository;
 import com.kynsof.evaluation.infrastructure.repositories.query.EvaluationQuestionReadDataJPARepository;
-import com.kynsof.share.core.domain.EUserType;
 import com.kynsof.share.core.domain.request.FilterCriteria;
 import com.kynsof.share.core.domain.response.PaginatedResponse;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
@@ -51,7 +49,6 @@ public class EvaluationPatientServiceImpl implements IEvaluationPatientService {
         exam = this.repositoryCommand.save(exam);
 
 
-        // Crear respuestas para cada pregunta y asociarlas al examen
         EvaluationPatientExam finalExam = exam;
         List<EvaluationPatientExamAnswer> evaluationPatientExamAnswers = evaluationQuestions.stream()
                 .map(question -> new EvaluationPatientExamAnswer(finalExam, question, true, question.getMaxScore()))
@@ -67,8 +64,34 @@ public class EvaluationPatientServiceImpl implements IEvaluationPatientService {
     }
 
     @Override
-    public void update(EvaluationPatientExamDto object) {
+    public void update(EvaluationPatientExamDto object, List<String> answers) {
+        // Buscar el examen, lanzar excepción si no existe
+        EvaluationPatientExam evaluationPatientExam = this.repositoryQuery.findById(object.getId())
+                .orElseThrow(() -> new RuntimeException("EvaluationPatientExam not found"));
 
+        // Buscar preguntas según los códigos de respuestas
+        List<EvaluationQuestion> evaluationQuestions = this.evaluationQuestionReadDataJPARepository.findByCodes(answers);
+
+        // Calcular la nueva puntuación total
+        long cantPoint = evaluationQuestions.stream()
+                .mapToLong(EvaluationQuestion::getMaxScore)
+                .sum();
+        evaluationPatientExam.setTotalScore((int) cantPoint);
+
+        // 🔴 ELIMINAR TODAS LAS RESPUESTAS ANTERIORES
+        this.evaluationPatientExamAnswerWriteDataJPARepository.deleteAllByPatientExamId(evaluationPatientExam.getId());
+
+        // Guardar el examen actualizado en la base de datos
+        evaluationPatientExam = this.repositoryCommand.save(evaluationPatientExam);
+
+        // Crear nuevas respuestas y asociarlas al examen
+        EvaluationPatientExam finalExam = evaluationPatientExam;
+        List<EvaluationPatientExamAnswer> evaluationPatientExamAnswers = evaluationQuestions.stream()
+                .map(question -> new EvaluationPatientExamAnswer(finalExam, question, true, question.getMaxScore()))
+                .toList();
+
+        // Guardar las nuevas respuestas en la base de datos
+        this.evaluationPatientExamAnswerWriteDataJPARepository.saveAll(evaluationPatientExamAnswers);
     }
 
     @Override
