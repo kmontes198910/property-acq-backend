@@ -39,6 +39,7 @@ public class CreateEvaluationPatientCommandHandler implements ICommandHandler<Cr
         evaluationPatientExamDto.setId(UUID.randomUUID());
         evaluationPatientExamDto.setEvaluation(evaluationDto);
         evaluationPatientExamDto.setExamDate(LocalDate.now());
-          this.serviceImpl.create(evaluationPatientExamDto, command.getExamenListCode());
+
+          this.serviceImpl.create(evaluationPatientExamDto, command.getExamenListCode(), command.getExamenType());
     }
 }

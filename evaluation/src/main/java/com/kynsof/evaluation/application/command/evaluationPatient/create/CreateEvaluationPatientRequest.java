@@ -1,5 +1,6 @@
 package com.kynsof.evaluation.application.command.evaluationPatient.create;
 
+import com.kynsof.evaluation.domain.dto.enumDto.EvaluationExamenType;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -12,4 +13,5 @@ public class CreateEvaluationPatientRequest {
     private UUID patient;
     private UUID evaluationId;
     private List<String> examenListCode;
+    private EvaluationExamenType examenType;
 }
