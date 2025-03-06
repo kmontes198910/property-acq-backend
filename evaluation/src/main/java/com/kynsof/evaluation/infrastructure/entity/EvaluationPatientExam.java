@@ -31,7 +31,7 @@ public class EvaluationPatientExam {
     private LocalDate examDate;
     private int totalScore;
 
-    @OneToMany(mappedBy = "patientExam", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "patientExam", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private List<EvaluationPatientExamAnswer> answers;
 
     @Enumerated(EnumType.STRING)
