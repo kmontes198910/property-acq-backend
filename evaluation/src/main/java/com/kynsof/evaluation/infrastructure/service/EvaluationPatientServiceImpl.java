@@ -40,14 +40,16 @@ public class EvaluationPatientServiceImpl implements IEvaluationPatientService {
 
     @Override
     public void create(EvaluationPatientExamDto object, List<String> questionCodes) {
-        // Crear el examen desde el DTO
-        EvaluationPatientExam exam = new EvaluationPatientExam(object);
 
+        List<EvaluationQuestion> evaluationQuestions = this.evaluationQuestionReadDataJPARepository.findByCodes(questionCodes);
+        EvaluationPatientExam exam = new EvaluationPatientExam(object);
+        long cantPoint = evaluationQuestions.stream()
+                .mapToLong(EvaluationQuestion::getMaxScore)
+                .sum();
+        exam.setTotalScore((int) cantPoint);
         // Guardar el examen en la base de datos antes de asociarle respuestas
         exam = this.repositoryCommand.save(exam);
 
-        // Obtener las preguntas asociadas a los códigos proporcionados
-        List<EvaluationQuestion> evaluationQuestions = this.evaluationQuestionReadDataJPARepository.findByCodes(questionCodes);
 
         // Crear respuestas para cada pregunta y asociarlas al examen
         EvaluationPatientExam finalExam = exam;
