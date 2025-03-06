@@ -43,8 +43,12 @@ public class EvaluationServiceImpl implements IEvaluationService {
 
     @Override
     public void update(EvaluationDto objectDto) {
-        Evaluation update = new Evaluation(objectDto);
-        this.repositoryCommand.save(update);
+      Evaluation evaluation = this.repositoryQuery.findById(objectDto.getId()).orElseThrow();
+      evaluation.setMedicalHistory(objectDto.getMedicalHistory());
+      evaluation.setPhysicalExam(objectDto.getPhysicalExam());
+      evaluation.setObservation(objectDto.getObservation());
+      evaluation.setConsultationReason(objectDto.getConsultationReason());
+        this.repositoryCommand.save(evaluation);
     }
 
     @Override

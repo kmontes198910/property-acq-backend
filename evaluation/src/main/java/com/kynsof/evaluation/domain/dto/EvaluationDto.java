@@ -17,7 +17,7 @@ public class EvaluationDto {
     private String consultationReason;
     private String medicalHistory;
     private String physicalExam;
-    private String medicalSpeciality;
+    private String observation;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
@@ -28,7 +28,7 @@ public class EvaluationDto {
         this.consultationReason = consultationReason;
         this.medicalHistory = medicalHistory;
         this.physicalExam = physicalExam;
-        this.medicalSpeciality = medicalSpeciality;
+        this.observation = medicalSpeciality;
     }
 
 }

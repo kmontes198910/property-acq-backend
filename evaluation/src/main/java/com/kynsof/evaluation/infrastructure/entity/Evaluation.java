@@ -31,7 +31,7 @@ public class Evaluation {
     private String consultationReason;
     private String medicalHistory;
     private String physicalExam;
-    private String medicalSpeciality;
+    private String observation;
 
     @OneToMany(mappedBy = "evaluation", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<EvaluationPatientExam> evaluationPatientExams;
@@ -50,7 +50,7 @@ public class Evaluation {
         this.consultationReason = dto.getConsultationReason();
         this.medicalHistory = dto.getMedicalHistory();
         this.physicalExam = dto.getPhysicalExam();
-        this.medicalSpeciality = dto.getMedicalSpeciality();
+        this.observation = dto.getObservation();
     }
 
     public EvaluationDto toAggregate() {
@@ -61,7 +61,7 @@ public class Evaluation {
                 this.consultationReason,
                 this.medicalHistory,
                 this.physicalExam,
-                this.medicalSpeciality,
+                this.observation,
                 this.createdAt,
                 this.updatedAt
         );
