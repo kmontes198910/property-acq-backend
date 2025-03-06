@@ -29,6 +29,8 @@ public class EvaluationResponse implements IResponse {
         this.medicalHistory = dto.getMedicalHistory();
         this.physicalExam = dto.getPhysicalExam();
         this.observation = dto.getObservation();
+        this.createdAt = dto.getCreatedAt();
+        this.updatedAt = dto.getUpdatedAt();
     }
 
 }
