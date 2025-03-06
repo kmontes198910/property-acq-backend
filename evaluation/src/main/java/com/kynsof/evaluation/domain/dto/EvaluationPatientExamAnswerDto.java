@@ -1,5 +1,6 @@
 package com.kynsof.evaluation.domain.dto;
 
+import com.kynsof.evaluation.domain.dto.enumDto.EvaluationExamenType;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -16,15 +17,9 @@ public class EvaluationPatientExamAnswerDto {
     private EvaluationQuestionDto question;
     private boolean correct;
     private int scoreObtained;
+    private EvaluationExamenType examenType;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
-    public EvaluationPatientExamAnswerDto(UUID id, EvaluationPatientExamDto patientExam, EvaluationQuestionDto question, boolean correct, int scoreObtained) {
-        this.id = id;
-        this.patientExam = patientExam;
-        this.question = question;
-        this.correct = correct;
-        this.scoreObtained = scoreObtained;
-    }
 
 }

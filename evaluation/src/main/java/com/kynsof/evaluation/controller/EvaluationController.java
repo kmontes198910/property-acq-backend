@@ -4,11 +4,8 @@ import com.kynsof.evaluation.application.command.evaluation.create.CreateEvaluat
 import com.kynsof.evaluation.application.command.evaluation.create.CreateEvaluationMessage;
 import com.kynsof.evaluation.application.command.evaluation.create.CreateEvaluationRequest;
 import com.kynsof.evaluation.application.command.evaluation.update.UpdateEvaluationCommand;
+import com.kynsof.evaluation.application.command.evaluation.update.UpdateEvaluationMessage;
 import com.kynsof.evaluation.application.command.evaluation.update.UpdateEvaluationRequest;
-import com.kynsof.evaluation.application.command.evaluationExamenType.update.UpdateEvaluationExamenTypeCommand;
-import com.kynsof.evaluation.application.command.evaluationExamenType.update.UpdateEvaluationExamenTypeMessage;
-import com.kynsof.evaluation.application.command.evaluationExamenType.update.UpdateEvaluationExamenTypeRequest;
-import com.kynsof.evaluation.application.object.response.EvaluationExamenTypeResponse;
 import com.kynsof.evaluation.application.object.response.EvaluationResponse;
 import com.kynsof.evaluation.application.query.evaluation.getById.GetByIdEvaluationQuery;
 import com.kynsof.evaluation.application.query.evaluation.search.GetSearchEvaluationQuery;
@@ -63,7 +60,7 @@ public class EvaluationController {
     public ResponseEntity<?> update(@PathVariable("id") UUID id, @RequestBody UpdateEvaluationRequest request) {
 
         UpdateEvaluationCommand command = UpdateEvaluationCommand.fromRequest(request, id);
-        UpdateEvaluationExamenTypeMessage response = mediator.send(command);
+        UpdateEvaluationMessage response = mediator.send(command);
         return ResponseEntity.ok(response);
     }
 

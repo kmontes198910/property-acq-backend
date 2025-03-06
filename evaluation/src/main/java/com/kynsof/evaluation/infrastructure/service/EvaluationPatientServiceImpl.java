@@ -1,6 +1,7 @@
 package com.kynsof.evaluation.infrastructure.service;
 
 import com.kynsof.evaluation.domain.dto.EvaluationPatientExamDto;
+import com.kynsof.evaluation.domain.dto.enumDto.EvaluationExamenType;
 import com.kynsof.evaluation.domain.service.IEvaluationPatientService;
 import com.kynsof.evaluation.infrastructure.entity.EvaluationPatientExam;
 import com.kynsof.evaluation.infrastructure.entity.EvaluationPatientExamAnswer;
@@ -14,7 +15,6 @@ import com.kynsof.share.core.domain.response.PaginatedResponse;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -36,7 +36,7 @@ public class EvaluationPatientServiceImpl implements IEvaluationPatientService {
     }
 
     @Override
-    public void create(EvaluationPatientExamDto object, List<String> questionCodes) {
+    public void create(EvaluationPatientExamDto object, List<String> questionCodes, EvaluationExamenType examenType) {
         // Crear el examen desde el DTO
         EvaluationPatientExam exam = new EvaluationPatientExam(object);
 
@@ -49,7 +49,7 @@ public class EvaluationPatientServiceImpl implements IEvaluationPatientService {
         // Crear respuestas para cada pregunta y asociarlas al examen
         EvaluationPatientExam finalExam = exam;
         List<EvaluationPatientExamAnswer> evaluationPatientExamAnswers = evaluationQuestions.stream()
-                .map(question -> new EvaluationPatientExamAnswer(finalExam, question, true, question.getMaxScore()))
+                .map(question -> new EvaluationPatientExamAnswer(finalExam, question, true, question.getMaxScore(),examenType))
                 .toList(); // Convertir a lista para ser guardado
 
         // Guardar las respuestas en la base de datos

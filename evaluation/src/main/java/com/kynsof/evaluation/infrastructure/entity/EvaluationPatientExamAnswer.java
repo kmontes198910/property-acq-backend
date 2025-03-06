@@ -1,6 +1,7 @@
 package com.kynsof.evaluation.infrastructure.entity;
 
 import com.kynsof.evaluation.domain.dto.EvaluationPatientExamAnswerDto;
+import com.kynsof.evaluation.domain.dto.enumDto.EvaluationExamenType;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -33,6 +34,9 @@ public class EvaluationPatientExamAnswer {
     private boolean correct;
     private int scoreObtained;
 
+    @Enumerated(EnumType.STRING)
+    private EvaluationExamenType examenType;
+
     @CreationTimestamp
     @Column(nullable = false, updatable = false)
     private LocalDateTime createdAt;
@@ -40,12 +44,14 @@ public class EvaluationPatientExamAnswer {
     @UpdateTimestamp
     private LocalDateTime updatedAt;
 
-    public EvaluationPatientExamAnswer(EvaluationPatientExam patientExam, EvaluationQuestion question, boolean correct, int scoreObtained) {
+    public EvaluationPatientExamAnswer(EvaluationPatientExam patientExam, EvaluationQuestion question, boolean correct,
+                                       int scoreObtained, EvaluationExamenType examenType) {
         this.id = UUID.randomUUID();
         this.patientExam = patientExam;
         this.question = question;
         this.correct = correct;
         this.scoreObtained = scoreObtained;
+        this.examenType = examenType;
     }
 
     public EvaluationPatientExamAnswer(EvaluationPatientExamAnswerDto dto) {
@@ -63,6 +69,7 @@ public class EvaluationPatientExamAnswer {
                 this.question != null ? this.question.toAggregate() : null,
                 this.correct,
                 this.scoreObtained,
+                examenType,
                 this.createdAt,
                 this.updatedAt
         );

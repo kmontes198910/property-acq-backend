@@ -1,11 +1,7 @@
 package com.kynsof.evaluation.controller;
 
-import com.kynsof.evaluation.application.command.evaluation.create.CreateEvaluationCommand;
-import com.kynsof.evaluation.application.command.evaluation.create.CreateEvaluationMessage;
-import com.kynsof.evaluation.application.command.evaluation.create.CreateEvaluationRequest;
 import com.kynsof.evaluation.application.command.evaluation.update.UpdateEvaluationCommand;
 import com.kynsof.evaluation.application.command.evaluation.update.UpdateEvaluationRequest;
-import com.kynsof.evaluation.application.command.evaluationExamenType.update.UpdateEvaluationExamenTypeMessage;
 import com.kynsof.evaluation.application.command.evaluationPatient.create.CreateEvaluationPatientCommand;
 import com.kynsof.evaluation.application.command.evaluationPatient.create.CreateEvaluationPatientMessage;
 import com.kynsof.evaluation.application.command.evaluationPatient.create.CreateEvaluationPatientRequest;
@@ -61,9 +57,9 @@ public class EvaluationPatientExamenController {
     @PatchMapping("/{id}")
     public ResponseEntity<?> update(@PathVariable("id") UUID id, @RequestBody UpdateEvaluationRequest request) {
 
-        UpdateEvaluationCommand command = UpdateEvaluationCommand.fromRequest(request, id);
-        UpdateEvaluationExamenTypeMessage response = mediator.send(command);
-        return ResponseEntity.ok(response);
+//        UpdateEvaluationCommand command = UpdateEvaluationCommand.fromRequest(request, id);
+//        UpdateEvaluationExamenTypeMessage response = mediator.send(command);
+        return ResponseEntity.ok("response");
     }
 
 //    @DeleteMapping(path = "/{id}")

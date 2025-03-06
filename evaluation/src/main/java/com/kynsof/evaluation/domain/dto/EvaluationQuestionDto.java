@@ -15,16 +15,14 @@ public class EvaluationQuestionDto {
     private String code;
     private String text;
     private int maxScore;
-    private EvaluationExamenTypeDto examType;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
-    public EvaluationQuestionDto(UUID id, String code, String text, int maxScore, EvaluationExamenTypeDto examType) {
+    public EvaluationQuestionDto(UUID id, String code, String text, int maxScore) {
         this.id = id;
         this.code = code;
         this.text = text;
         this.maxScore = maxScore;
-        this.examType = examType;
     }
 
 }
