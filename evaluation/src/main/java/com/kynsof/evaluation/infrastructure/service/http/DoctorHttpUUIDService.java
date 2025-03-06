@@ -46,11 +46,11 @@ public class DoctorHttpUUIDService {
                     url, HttpMethod.GET, entity, DoctorHttp.class);
 
             if (!HttpStatus.OK.equals(response.getStatusCode())) {
-                throw new BusinessNotFoundException(new GlobalBusinessException(DomainErrorMessage.PATIENTS_NOT_FOUND, new ErrorField("id", DomainErrorMessage.PATIENTS_NOT_FOUND.getReasonPhrase())));
+                throw new BusinessNotFoundException(new GlobalBusinessException(DomainErrorMessage.DOCTOR_NOT_FOUND, new ErrorField("id", DomainErrorMessage.DOCTOR_NOT_FOUND.getReasonPhrase())));
             }
             return response.getBody();
         } catch (RestClientException e) {
-            throw new BusinessNotFoundException(new GlobalBusinessException(DomainErrorMessage.PATIENTS_NOT_FOUND, new ErrorField("id", DomainErrorMessage.PATIENTS_NOT_FOUND.getReasonPhrase())));
+            throw new BusinessNotFoundException(new GlobalBusinessException(DomainErrorMessage.DOCTOR_NOT_FOUND, new ErrorField("id", DomainErrorMessage.DOCTOR_NOT_FOUND.getReasonPhrase())));
         }
     }
 }
