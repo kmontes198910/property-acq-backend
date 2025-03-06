@@ -40,6 +40,14 @@ public class EvaluationPatientExamAnswer {
     @UpdateTimestamp
     private LocalDateTime updatedAt;
 
+    public EvaluationPatientExamAnswer(EvaluationPatientExam patientExam, EvaluationQuestion question, boolean correct, int scoreObtained) {
+        this.id = UUID.randomUUID();
+        this.patientExam = patientExam;
+        this.question = question;
+        this.correct = correct;
+        this.scoreObtained = scoreObtained;
+    }
+
     public EvaluationPatientExamAnswer(EvaluationPatientExamAnswerDto dto) {
         this.id = dto.getId();
         this.patientExam = dto.getPatientExam() != null ? new EvaluationPatientExam(dto.getPatientExam()) : null;

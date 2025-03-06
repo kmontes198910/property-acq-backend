@@ -76,7 +76,7 @@ public class CreateEvaluationCommandHandler implements ICommandHandler<CreateEva
                 command.getConsultationReason(),
                 command.getMedicalHistory(),
                 command.getPhysicalExam(),
-                command.getMedicalSpeciality(),
+                command.getObservation(),
                 doctorDto
         ));
     }
