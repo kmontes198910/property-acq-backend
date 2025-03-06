@@ -15,8 +15,11 @@ import java.util.logging.Logger;
 @Service
 public class ConsumerBusinessEventService {
 
-    @Autowired
-    private IBusiness service;
+    private final IBusiness service;
+
+    public ConsumerBusinessEventService(IBusiness service) {
+        this.service = service;
+    }
 
     @KafkaListener(topics = "busines", groupId = "busines-payment")
     public void consumer(String event) {
@@ -26,7 +29,7 @@ public class ConsumerBusinessEventService {
             JsonNode rootNode = objectMapper.readTree(event);
 
             BusinessKafka eventRead = objectMapper.treeToValue(rootNode.get("data"), BusinessKafka.class);
-            this.service.create(new BusinessDto(eventRead.getId(), eventRead.getName(), eventRead.getLogo()));
+            this.service.create(new BusinessDto(eventRead.getId(), eventRead.getName(), eventRead.getLogo(), "RUC"));
         } catch (Exception ex) {
             Logger.getLogger(ConsumerBusinessEventService.class.getName()).log(Level.SEVERE, null, ex);
         }
