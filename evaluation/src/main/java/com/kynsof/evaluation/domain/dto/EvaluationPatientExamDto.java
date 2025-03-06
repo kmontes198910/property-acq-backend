@@ -1,6 +1,7 @@
 package com.kynsof.evaluation.domain.dto;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDate;
@@ -11,6 +12,7 @@ import lombok.AllArgsConstructor;
 @Getter
 @Setter
 @AllArgsConstructor
+@NoArgsConstructor
 public class EvaluationPatientExamDto {
     private UUID id;
     private EvaluationDto evaluation;
@@ -19,8 +21,7 @@ public class EvaluationPatientExamDto {
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
-    public EvaluationPatientExamDto(UUID id, EvaluationDto evaluation,  LocalDate examDate, int totalScore) {
-        this.id = id;
+    public EvaluationPatientExamDto(EvaluationDto evaluation,  LocalDate examDate, int totalScore) {
         this.evaluation = evaluation;
         this.examDate = examDate;
         this.totalScore = totalScore;

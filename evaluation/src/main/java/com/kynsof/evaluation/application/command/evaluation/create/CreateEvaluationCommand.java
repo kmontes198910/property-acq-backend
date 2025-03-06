@@ -17,15 +17,15 @@ public class CreateEvaluationCommand implements ICommand {
     private String consultationReason;
     private String medicalHistory;
     private String physicalExam;
-    private String medicalSpeciality;
+    private String observation;
 
-    public CreateEvaluationCommand(UUID patient, String consultationReason, String medicalHistory, String physicalExam, String medicalSpeciality, UUID doctor) {
+    public CreateEvaluationCommand(UUID patient, String consultationReason, String medicalHistory, String physicalExam, String observation, UUID doctor) {
         this.id = UUID.randomUUID();
         this.patient = patient;
         this.consultationReason = consultationReason;
         this.medicalHistory = medicalHistory;
         this.physicalExam = physicalExam;
-        this.medicalSpeciality = medicalSpeciality;
+        this.observation = observation;
         this.doctor = doctor;
     }
 

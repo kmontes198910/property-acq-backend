@@ -21,14 +21,14 @@ public class EvaluationDto {
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
-    public EvaluationDto(UUID id, PatientDto patient, String consultationReason, String medicalHistory, String physicalExam, String medicalSpeciality, DoctorDto doctor) {
+    public EvaluationDto(UUID id, PatientDto patient, String consultationReason, String medicalHistory, String physicalExam, String observation, DoctorDto doctor) {
         this.id = id;
         this.patient = patient;
         this.doctor = doctor;
         this.consultationReason = consultationReason;
         this.medicalHistory = medicalHistory;
         this.physicalExam = physicalExam;
-        this.observation = medicalSpeciality;
+        this.observation = observation;
     }
 
 }

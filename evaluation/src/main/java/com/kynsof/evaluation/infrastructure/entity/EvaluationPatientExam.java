@@ -27,8 +27,6 @@ public class EvaluationPatientExam {
     @ManyToOne
     @JoinColumn(name = "evaluation_id", nullable = false)
     private Evaluation evaluation;
-
-
     private LocalDate examDate;
     private int totalScore;
 
