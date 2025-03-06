@@ -3,11 +3,10 @@ package com.kynsof.evaluation.application.command.evaluationPatient.update;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.List;
+
 @Getter
 @Setter
 public class UpdateEvaluationPatientRequest {
-    private String consultationReason;
-    private String medicalHistory;
-    private String physicalExam;
-    private String observation;
+    private List<String> answers;
 }

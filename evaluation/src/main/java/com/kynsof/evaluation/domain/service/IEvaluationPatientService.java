@@ -12,7 +12,7 @@ import java.util.UUID;
 
 public interface IEvaluationPatientService {
     void create(EvaluationPatientExamDto object, List<String> questionCodes);
-    void update(EvaluationPatientExamDto object);
+    void update(EvaluationPatientExamDto object, List<String> answers);
     void delete(UUID id);
     EvaluationPatientExamDto findByIds(UUID id);
     PaginatedResponse search(Pageable pageable, List<FilterCriteria> filterCriteria);
