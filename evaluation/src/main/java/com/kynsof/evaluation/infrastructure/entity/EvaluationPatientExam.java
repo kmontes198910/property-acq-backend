@@ -1,6 +1,7 @@
 package com.kynsof.evaluation.infrastructure.entity;
 
 import com.kynsof.evaluation.domain.dto.EvaluationPatientExamDto;
+import com.kynsof.evaluation.domain.dto.enumDto.EvaluationExamenType;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -33,6 +34,9 @@ public class EvaluationPatientExam {
     @OneToMany(mappedBy = "patientExam", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<EvaluationPatientExamAnswer> answers;
 
+    @Enumerated(EnumType.STRING)
+    private EvaluationExamenType examenType;
+
     @CreationTimestamp
     @Column(nullable = false, updatable = false)
     private LocalDateTime createdAt;
@@ -45,6 +49,7 @@ public class EvaluationPatientExam {
         this.evaluation = dto.getEvaluation() != null ? new Evaluation(dto.getEvaluation()) : null;
         this.examDate = dto.getExamDate();
         this.totalScore = dto.getTotalScore();
+        this.examenType = dto.getExamenType();
     }
 
     public EvaluationPatientExamDto toAggregate() {
@@ -53,6 +58,7 @@ public class EvaluationPatientExam {
                 this.evaluation != null ? this.evaluation.toAggregate() : null,
                 this.examDate,
                 this.totalScore,
+                examenType,
                 this.createdAt,
                 this.updatedAt
         );

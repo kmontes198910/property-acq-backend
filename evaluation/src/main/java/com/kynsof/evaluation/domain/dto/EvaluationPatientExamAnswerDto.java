@@ -17,7 +17,6 @@ public class EvaluationPatientExamAnswerDto {
     private EvaluationQuestionDto question;
     private boolean correct;
     private int scoreObtained;
-    private EvaluationExamenType examenType;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 

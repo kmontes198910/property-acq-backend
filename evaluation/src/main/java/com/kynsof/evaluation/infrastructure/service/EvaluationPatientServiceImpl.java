@@ -10,11 +10,14 @@ import com.kynsof.evaluation.infrastructure.repositories.command.EvaluationPatie
 import com.kynsof.evaluation.infrastructure.repositories.command.EvaluationPatientWriteDataJPARepository;
 import com.kynsof.evaluation.infrastructure.repositories.query.EvaluationPatientReadDataJPARepository;
 import com.kynsof.evaluation.infrastructure.repositories.query.EvaluationQuestionReadDataJPARepository;
+import com.kynsof.share.core.domain.EUserType;
 import com.kynsof.share.core.domain.request.FilterCriteria;
 import com.kynsof.share.core.domain.response.PaginatedResponse;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -36,7 +39,7 @@ public class EvaluationPatientServiceImpl implements IEvaluationPatientService {
     }
 
     @Override
-    public void create(EvaluationPatientExamDto object, List<String> questionCodes, EvaluationExamenType examenType) {
+    public void create(EvaluationPatientExamDto object, List<String> questionCodes) {
         // Crear el examen desde el DTO
         EvaluationPatientExam exam = new EvaluationPatientExam(object);
 
@@ -49,11 +52,16 @@ public class EvaluationPatientServiceImpl implements IEvaluationPatientService {
         // Crear respuestas para cada pregunta y asociarlas al examen
         EvaluationPatientExam finalExam = exam;
         List<EvaluationPatientExamAnswer> evaluationPatientExamAnswers = evaluationQuestions.stream()
-                .map(question -> new EvaluationPatientExamAnswer(finalExam, question, true, question.getMaxScore(),examenType))
+                .map(question -> new EvaluationPatientExamAnswer(finalExam, question, true, question.getMaxScore()))
                 .toList(); // Convertir a lista para ser guardado
 
         // Guardar las respuestas en la base de datos
         this.evaluationPatientExamAnswerWriteDataJPARepository.saveAll(evaluationPatientExamAnswers);
+    }
+
+    public EvaluationPatientExam getExamByEvaluationIdAndType(UUID evaluationId, EvaluationExamenType examenType) {
+        return this.repositoryQuery.findByEvaluationIdAndExamType(evaluationId, examenType)
+                .orElseThrow(() -> new RuntimeException("No se encontró un examen con esos parámetros"));
     }
 
     @Override
@@ -73,7 +81,29 @@ public class EvaluationPatientServiceImpl implements IEvaluationPatientService {
 
     @Override
     public PaginatedResponse search(Pageable pageable, List<FilterCriteria> filterCriteria) {
+        filterCriteria(filterCriteria);
+//                GenericSpecificationsBuilder<Evaluation> specifications = new GenericSpecificationsBuilder<>(filterCriteria);
+//        Page<Evaluation> data = this.repositoryQuery.findAll(specifications, pageable);
+//        return getPaginatedResponse(data);
         return null;
+
+    }
+
+    private void filterCriteria(List<FilterCriteria> filterCriteria) {
+        filterCriteria.forEach(filter -> {
+            if ("examenType".equals(filter.getKey()) && filter.getValue() instanceof String) {
+                filter.setValue(parseEnum(EvaluationExamenType.class, (String) filter.getValue(), "EvaluationExamenType"));
+            }
+        });
+    }
+
+    private <T extends Enum<T>> T parseEnum(Class<T> enumClass, String value, String enumName) {
+        try {
+            return Enum.valueOf(enumClass, value);
+        } catch (IllegalArgumentException e) {
+            System.err.println("Invalid value for enum " + enumName + ": " + value);
+            return null;
+        }
     }
 //
 //    @Override
@@ -110,7 +140,7 @@ public class EvaluationPatientServiceImpl implements IEvaluationPatientService {
 //        return getPaginatedResponse(data);
 //    }
 //
-//    private PaginatedResponse getPaginatedResponse(Page<Evaluation> data) {
+//    private PaginatedResponse getPaginatedResponse(Page<EvaluationPatientExam> data) {
 //        List<EvaluationResponse> servicesResponses = new ArrayList<>();
 //        for (Evaluation s : data.getContent()) {
 //            servicesResponses.add(new EvaluationResponse(s.toAggregate()));

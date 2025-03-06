@@ -1,5 +1,6 @@
 package com.kynsof.evaluation.domain.dto;
 
+import com.kynsof.evaluation.domain.dto.enumDto.EvaluationExamenType;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -18,6 +19,7 @@ public class EvaluationPatientExamDto {
     private EvaluationDto evaluation;
     private LocalDate examDate;
     private int totalScore;
+    private EvaluationExamenType examenType;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 

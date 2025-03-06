@@ -8,6 +8,9 @@ import com.kynsof.evaluation.application.command.evaluationPatient.create.Create
 import com.kynsof.evaluation.application.object.response.EvaluationResponse;
 import com.kynsof.evaluation.application.query.evaluation.getById.GetByIdEvaluationQuery;
 import com.kynsof.evaluation.application.query.evaluation.search.GetSearchEvaluationQuery;
+import com.kynsof.evaluation.application.query.getExamByEvaluationIdAndType.getById.EvaluationPatientExamResponse;
+import com.kynsof.evaluation.application.query.getExamByEvaluationIdAndType.getById.getExamByEvaluationIdAndTypeQuery;
+import com.kynsof.evaluation.domain.dto.enumDto.EvaluationExamenType;
 import com.kynsof.share.core.domain.request.PageableUtil;
 import com.kynsof.share.core.domain.request.SearchRequest;
 import com.kynsof.share.core.domain.response.PaginatedResponse;
@@ -52,6 +55,14 @@ public class EvaluationPatientExamenController {
         GetSearchEvaluationQuery query = new GetSearchEvaluationQuery(pageable, request.getFilter(),request.getQuery());
         PaginatedResponse data = mediator.send(query);
         return ResponseEntity.ok(data);
+    }
+
+    @GetMapping("/{evaluationId}/{examType}")
+    public ResponseEntity<?> getPatientExam(@PathVariable UUID evaluationId,
+                                                @PathVariable EvaluationExamenType examType) {
+        getExamByEvaluationIdAndTypeQuery query = new getExamByEvaluationIdAndTypeQuery(evaluationId, examType);
+        EvaluationPatientExamResponse response = mediator.send(query);
+        return ResponseEntity.ok(response);
     }
 
     @PatchMapping("/{id}")
