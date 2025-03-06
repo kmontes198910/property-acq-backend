@@ -28,9 +28,6 @@ public class EvaluationPatientExam {
     @JoinColumn(name = "evaluation_id", nullable = false)
     private Evaluation evaluation;
 
-    @ManyToOne
-    @JoinColumn(name = "exam_type_id", nullable = false)
-    private EvaluationExamenType examType;
 
     private LocalDate examDate;
     private int totalScore;
@@ -48,7 +45,6 @@ public class EvaluationPatientExam {
     public EvaluationPatientExam(EvaluationPatientExamDto dto) {
         this.id = dto.getId();
         this.evaluation = dto.getEvaluation() != null ? new Evaluation(dto.getEvaluation()) : null;
-        this.examType = dto.getExamType() != null ? new EvaluationExamenType(dto.getExamType()) : null;
         this.examDate = dto.getExamDate();
         this.totalScore = dto.getTotalScore();
     }
@@ -57,7 +53,6 @@ public class EvaluationPatientExam {
         return new EvaluationPatientExamDto(
                 this.id,
                 this.evaluation != null ? this.evaluation.toAggregate() : null,
-                this.examType != null ? this.examType.toAggregate() : null,
                 this.examDate,
                 this.totalScore,
                 this.createdAt,

@@ -14,16 +14,14 @@ import lombok.AllArgsConstructor;
 public class EvaluationPatientExamDto {
     private UUID id;
     private EvaluationDto evaluation;
-    private EvaluationExamenTypeDto examType;
     private LocalDate examDate;
     private int totalScore;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
-    public EvaluationPatientExamDto(UUID id, EvaluationDto evaluation, EvaluationExamenTypeDto examType, LocalDate examDate, int totalScore) {
+    public EvaluationPatientExamDto(UUID id, EvaluationDto evaluation,  LocalDate examDate, int totalScore) {
         this.id = id;
         this.evaluation = evaluation;
-        this.examType = examType;
         this.examDate = examDate;
         this.totalScore = totalScore;
     }

@@ -12,5 +12,4 @@ public class CreateEvaluationPatientRequest {
     private UUID patient;
     private UUID evaluationId;
     private List<String> examenListCode;
-    private UUID evaluationExamenTypeId;
 }
