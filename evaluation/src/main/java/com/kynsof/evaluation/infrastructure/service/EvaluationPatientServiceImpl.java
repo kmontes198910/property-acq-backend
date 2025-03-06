@@ -60,7 +60,7 @@ public class EvaluationPatientServiceImpl implements IEvaluationPatientService {
 
     public EvaluationPatientExam getExamByEvaluationIdAndType(UUID evaluationId, EvaluationExamenType examenType) {
         return this.repositoryQuery.findByEvaluationIdAndExamType(evaluationId, examenType)
-                .orElseThrow(() -> new RuntimeException("No se encontró un examen con esos parámetros"));
+                .orElse(null);
     }
 
     @Override

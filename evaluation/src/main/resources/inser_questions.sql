@@ -45,3 +45,45 @@ INSERT INTO evaluation_questions (id, code, text, maxscore, createdat, updatedat
 (gen_random_uuid(), 'lawton_brody_economy_1', 'Se encarga de sus asuntos económicos por sí solo.', 1, NOW(), NOW()),
 (gen_random_uuid(), 'lawton_brody_economy_2', 'Realiza los gastos cotidianos, pero necesita ayuda en las grandes compras, bancos, etc.', 1, NOW(), NOW()),
 (gen_random_uuid(), 'lawton_brody_economy_3', 'Incapaz de manejar dinero.', 0, NOW(), NOW());
+
+
+INSERT INTO evaluation_questions (id, code, text, maxscore, createdat, updatedat) VALUES
+                                                                                      (gen_random_uuid(), 'indice_barthel_eating_1', 'Incapaz de alimentarse', 0, NOW(), NOW()),
+                                                                                      (gen_random_uuid(), 'indice_barthel_eating_2', 'Necesita ayuda para cortar, extender mantequilla, usar condimentos, etc', 5, NOW(), NOW()),
+                                                                                      (gen_random_uuid(), 'indice_barthel_eating_3', 'Independiente (la comida está al alcance de la mano)', 10, NOW(), NOW()),
+
+                                                                                      (gen_random_uuid(), 'indice_barthel_transferring_1', 'Incapaz, no se mantiene sentado', 0, NOW(), NOW()),
+                                                                                      (gen_random_uuid(), 'indice_barthel_transferring_2', 'Necesita ayuda importante (una persona entrenada o dos personas), puede estar sentado', 5, NOW(), NOW()),
+                                                                                      (gen_random_uuid(), 'indice_barthel_transferring_3', 'Necesita algo de ayuda (una pequeña ayuda física o ayuda verbal)', 10, NOW(), NOW()),
+                                                                                      (gen_random_uuid(), 'indice_barthel_transferring_4', 'Independiente', 15, NOW(), NOW()),
+
+                                                                                      (gen_random_uuid(), 'indice_barthel_grooming_1', 'Necesita ayuda con el aseo personal.', 0, NOW(), NOW()),
+                                                                                      (gen_random_uuid(), 'indice_barthel_grooming_2', 'Independiente para lavarse la cara, las manos y los dientes, peinarse y afeitarse.', 5, NOW(), NOW()),
+
+                                                                                      (gen_random_uuid(), 'indice_barthel_toiletuse_1', 'Dependiente', 0, NOW(), NOW()),
+                                                                                      (gen_random_uuid(), 'indice_barthel_toiletuse_2', 'Necesita alguna ayuda, pero puede hacer algo sólo', 5, NOW(), NOW()),
+                                                                                      (gen_random_uuid(), 'indice_barthel_toiletuse_3', 'Independiente (entrar y salir, limpiarse y vestirse)', 10, NOW(), NOW()),
+
+                                                                                      (gen_random_uuid(), 'indice_barthel_bathing_1', 'Dependiente', 0, NOW(), NOW()),
+                                                                                      (gen_random_uuid(), 'indice_barthel_bathing_2', 'Independiente (para bañarse o ducharse)', 5, NOW(), NOW()),
+
+                                                                                      (gen_random_uuid(), 'indice_barthel_walking_1', 'Inmóvil', 0, NOW(), NOW()),
+                                                                                      (gen_random_uuid(), 'indice_barthel_walking_2', 'Independiente en silla de ruedas en 50 m.', 5, NOW(), NOW()),
+                                                                                      (gen_random_uuid(), 'indice_barthel_walking_3', 'Anda con pequeña ayuda de una persona (física o verbal)', 10, NOW(), NOW()),
+                                                                                      (gen_random_uuid(), 'indice_barthel_walking_4', 'Independiente al menos 50 m, con cualquier tipo de muleta, excepto andador.', 15, NOW(), NOW()),
+
+                                                                                      (gen_random_uuid(), 'indice_barthel_stairs_1', 'Incapaz', 0, NOW(), NOW()),
+                                                                                      (gen_random_uuid(), 'indice_barthel_stairs_2', 'Necesita ayuda, puede llevar cualquier tipo de muleta', 5, NOW(), NOW()),
+                                                                                      (gen_random_uuid(), 'indice_barthel_stairs_3', 'Independiente (subir y bajar)', 10, NOW(), NOW()),
+
+                                                                                      (gen_random_uuid(), 'indice_barthel_dressing_1', 'Dependiente', 0, NOW(), NOW()),
+                                                                                      (gen_random_uuid(), 'indice_barthel_dressing_2', 'Necesita ayuda, puede hacer la mitad aproximadamente sin ayuda.', 5, NOW(), NOW()),
+                                                                                      (gen_random_uuid(), 'indice_barthel_dressing_3', 'Independiente, incluyendo botones, cremalleras, cordones, etc.', 10, NOW(), NOW()),
+
+                                                                                      (gen_random_uuid(), 'indice_barthel_bowelcontrol_1', 'Incontinente (o necesita precisa enema)', 0, NOW(), NOW()),
+                                                                                      (gen_random_uuid(), 'indice_barthel_bowelcontrol_2', 'Accidente excepcional (uno/semana)', 5, NOW(), NOW()),
+                                                                                      (gen_random_uuid(), 'indice_barthel_bowelcontrol_3', 'Continente', 10, NOW(), NOW()),
+
+                                                                                      (gen_random_uuid(), 'indice_barthel_bladdercontrol_1', 'Incontinente, o sondado incapaz de cambiarse la bolsa', 0, NOW(), NOW()),
+                                                                                      (gen_random_uuid(), 'indice_barthel_bladdercontrol_2', 'Accidente excepcional (máximo uno/24 horas)', 5, NOW(), NOW()),
+                                                                                      (gen_random_uuid(), 'indice_barthel_bladdercontrol_3', 'Continente, durante al menos 7 días', 10, NOW(), NOW());
