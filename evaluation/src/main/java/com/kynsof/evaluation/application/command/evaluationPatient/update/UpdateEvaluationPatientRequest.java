@@ -1,15 +1,11 @@
-package com.kynsof.evaluation.application.command.evaluation.create;
+package com.kynsof.evaluation.application.command.evaluationPatient.update;
 
-import java.util.UUID;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
-public class CreateEvaluationRequest {
-
-    private UUID patient;
-    private UUID doctor;
+public class UpdateEvaluationPatientRequest {
     private String consultationReason;
     private String medicalHistory;
     private String physicalExam;
