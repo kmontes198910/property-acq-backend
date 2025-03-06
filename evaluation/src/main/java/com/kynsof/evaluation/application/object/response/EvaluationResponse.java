@@ -18,7 +18,7 @@ public class EvaluationResponse implements IResponse {
     private String consultationReason;
     private String medicalHistory;
     private String physicalExam;
-    private String medicalSpeciality;
+    private String observation;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
@@ -28,7 +28,7 @@ public class EvaluationResponse implements IResponse {
         this.consultationReason = dto.getConsultationReason();
         this.medicalHistory = dto.getMedicalHistory();
         this.physicalExam = dto.getPhysicalExam();
-        this.medicalSpeciality = dto.getMedicalSpeciality();
+        this.observation = dto.getObservation();
     }
 
 }

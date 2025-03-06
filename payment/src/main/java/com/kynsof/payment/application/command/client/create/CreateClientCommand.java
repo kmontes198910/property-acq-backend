@@ -15,20 +15,25 @@ public class CreateClientCommand implements ICommand {
     private String identification;
     private String name;
     private String lastName;
+    private final String email;
+    private final String phone;
 
-    public CreateClientCommand(String identification, String name, String lastName) {
+    public CreateClientCommand(String identification, String name, String lastName, String email, String phone) {
 
         this.identification = identification;
         this.name = name;
         this.lastName = lastName;
+        this.email = email;
+        this.phone = phone;
     }
 
     public static CreateClientCommand fromRequest(CreateClientRequest request) {
         return new CreateClientCommand(
                 request.getIdentification(), 
                 request.getName(), 
-                request.getLastName()
-        );
+                request.getLastName(),
+                request.getEmail(),
+                request.getPhone() );
     }
 
     @Override

@@ -13,5 +13,5 @@ public class CreateEvaluationRequest {
     private String consultationReason;
     private String medicalHistory;
     private String physicalExam;
-    private String medicalSpeciality;
+    private String Observation;
 }

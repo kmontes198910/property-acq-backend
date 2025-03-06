@@ -24,6 +24,8 @@ public class Client {
     private String lastName;
     @Enumerated(EnumType.STRING)
     private Status status;
+    private String email;
+    private String phone;
 
     public Client(ClientDto client) {
         this.id = client.getId();
@@ -31,9 +33,11 @@ public class Client {
         this.name = client.getName();
         this.lastName = client.getLastName();
         this.status = client.getStatus();
+        this.email = client.getEmail();
+        this.phone = client.getPhone();
     }
 
     public ClientDto toAggregate() {
-        return new ClientDto(id, identification, name, lastName, status);
+        return new ClientDto(id, identification, name, lastName, status, email, phone);
     }
 }

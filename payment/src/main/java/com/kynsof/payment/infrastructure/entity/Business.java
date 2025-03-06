@@ -18,6 +18,7 @@ public class Business{
     @Id
     @Column(name="id")
     private UUID id;
+    private String ruc;
     private String name;
     private String logo;
 
@@ -25,9 +26,10 @@ public class Business{
         this.id = business.getId();
         this.name = business.getName();
         this.logo = business.getLogo();
+        this.ruc = business.getRuc();
     }
 
     public BusinessDto toAggregate () {
-        return new BusinessDto(id, name, logo);
+        return new BusinessDto(id, name, logo,ruc);
     }
 }

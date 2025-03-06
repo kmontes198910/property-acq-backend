@@ -26,9 +26,9 @@ public class CreateAllBillingCommandHandler implements ICommandHandler<CreateAll
     private final PatientHttpUUIDService patientHttpUUIDService;
 
     public CreateAllBillingCommandHandler(IBillingService serviceImpl,
-            IClientService clientService,
-            IBusiness businessService,
-            PatientHttpUUIDService patientHttpUUIDService) {
+                                          IClientService clientService,
+                                          IBusiness businessService,
+                                          PatientHttpUUIDService patientHttpUUIDService) {
 
         this.serviceImpl = serviceImpl;
         this.clientService = clientService;
@@ -49,7 +49,9 @@ public class CreateAllBillingCommandHandler implements ICommandHandler<CreateAll
                     patient.getIdentification(),
                     patient.getName(),
                     patient.getLastName(),
-                    Status.valueOf(patient.getStatus())
+                    Status.valueOf(patient.getStatus()),
+                    patient.getEmail(),
+                    patient.getPhone()
             );
             this.clientService.create(clientDto);
         }

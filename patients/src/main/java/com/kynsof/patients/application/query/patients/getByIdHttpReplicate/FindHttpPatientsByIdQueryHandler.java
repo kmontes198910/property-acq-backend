@@ -29,7 +29,9 @@ public class FindHttpPatientsByIdQueryHandler implements IQueryHandler<FindHttpP
                 patient.getLastName(), 
                 patient.getGender().name(), 
                 patient.getStatus().name(), 
-                birthDate
+                birthDate,
+                patient.getContactInfoDto() != null ? patient.getContactInfoDto().getEmail() : null,
+                patient.getContactInfoDto() != null ? patient.getContactInfoDto().getTelephone() : null
         );
     }
 }

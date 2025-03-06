@@ -37,7 +37,9 @@ public class ConsumerPatientEventService {
                     eventRead.getIdentificationNumber(), 
                     eventRead.getFirstName(), 
                     eventRead.getLastName(), 
-                    Status.ACTIVE
+                    Status.ACTIVE,
+                    "info@gamil.com",
+                    "0983825630"
             );
             this.service.create(clientDto);
 
