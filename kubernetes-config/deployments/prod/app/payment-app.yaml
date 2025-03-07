@@ -1,0 +1,49 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: payment-app-client
+  namespace: medinec
+  labels:
+    workload.user.cattle.io/workloadselector: apps.deployment-medinec-payment-app-client
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      workload.user.cattle.io/workloadselector: apps.deployment-medinec-payment-app-client
+  strategy:
+    rollingUpdate:
+      maxSurge: 50%
+      maxUnavailable: 50%
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: payment-app-client
+        workload.user.cattle.io/workloadselector: apps.deployment-medinec-payment-app-client
+    spec:
+      containers:
+        - name: payment-app-client
+          image: kmontes2020/medinec-payment-app:v1
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 3000
+              name: http
+              protocol: TCP
+          env:
+            - name: AUTH_ORIGIN
+              value: https://payments.doctorkyn.com
+            - name: VITE_APP_BASE_URL
+              value: https://medinec-api.kynsoft.net
+            - name: AUTH_SECRET
+              value: some-secret-random-string
+            - name: CLIENT_USER
+              value: admin-user@kynsoft.net
+            - name: CLIENT_PASS
+              value: Ecuador.*2014
+          securityContext:
+            allowPrivilegeEscalation: false
+            privileged: false
+            readOnlyRootFilesystem: false
+            runAsNonRoot: false
+      imagePullSecrets:
+        - name: docker-hub
