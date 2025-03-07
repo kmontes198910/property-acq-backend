@@ -101,7 +101,7 @@ public class EvaluationPatientServiceImpl implements IEvaluationPatientService {
 
     @Override
     public EvaluationPatientExamDto findByIds(UUID id) {
-        return null;
+        return this.repositoryQuery.findById(id).get().toAggregate();
     }
 
     @Override
