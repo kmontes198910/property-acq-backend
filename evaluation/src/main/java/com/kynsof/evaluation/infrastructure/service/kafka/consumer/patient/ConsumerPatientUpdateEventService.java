@@ -23,7 +23,7 @@ public class ConsumerPatientUpdateEventService {
     @Autowired
     private IPatientsService service;
 
-    @KafkaListener(topics = "patient-update", groupId = "treatments-patient")
+    @KafkaListener(topics = "patient-update", groupId = "evaluation-patient")
     public void listen(String event) {
         try {
             ObjectMapper objectMapper = new ObjectMapper();

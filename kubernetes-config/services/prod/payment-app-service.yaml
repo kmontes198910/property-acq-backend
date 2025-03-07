@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: payment-app-client
+  namespace: medinec
+spec:
+  selector:
+    workload.user.cattle.io/workloadselector: apps.deployment-medinec-payment-app-client
+  ports:
+    - protocol: TCP
+      port: 3000       # Puerto en el Service
+      targetPort: 3000  # Puerto del contenedor en el Deployment
+  type: ClusterIP  # Puedes cambiar a LoadBalancer o NodePort si es necesario
