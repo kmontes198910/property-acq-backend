@@ -78,8 +78,10 @@ public class EvaluationPatientServiceImpl implements IEvaluationPatientService {
                 .sum();
         evaluationPatientExam.setTotalScore((int) cantPoint);
 
+        List<UUID> eval= evaluationPatientExam.getAnswers().stream().map(EvaluationPatientExamAnswer::getId).toList();
+
         // 🔴 ELIMINAR TODAS LAS RESPUESTAS ANTERIORES
-        this.evaluationPatientExamAnswerWriteDataJPARepository.deleteAllByPatientExamId(evaluationPatientExam.getId());
+        this.evaluationPatientExamAnswerWriteDataJPARepository.deleteAllByIdInBatch(eval);
 
         // Guardar el examen actualizado en la base de datos
         evaluationPatientExam = this.repositoryCommand.save(evaluationPatientExam);
