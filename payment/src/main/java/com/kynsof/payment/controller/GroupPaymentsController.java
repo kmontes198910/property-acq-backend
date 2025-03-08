@@ -1,5 +1,8 @@
 package com.kynsof.payment.controller;
 
+import com.kynsof.payment.application.command.groupPayment.sendPaymentLink.SendGroupPaymentLinkCommand;
+import com.kynsof.payment.application.command.groupPayment.sendPaymentLink.SendGroupPaymentLinkMessage;
+import com.kynsof.payment.application.command.groupPayment.sendPaymentLink.SendGroupPaymentLinkRequest;
 import com.kynsof.share.core.domain.request.PageableUtil;
 import com.kynsof.share.core.domain.request.SearchRequest;
 import com.kynsof.share.core.domain.response.PaginatedResponse;
@@ -69,4 +72,11 @@ public class GroupPaymentsController {
         return ResponseEntity.ok(response);
     }
 
+    @PostMapping("/send")
+    public ResponseEntity<?> send(@RequestBody SendGroupPaymentLinkRequest requests) {
+
+        SendGroupPaymentLinkCommand command = new SendGroupPaymentLinkCommand(requests.getGroupPaymentId());
+        SendGroupPaymentLinkMessage message = mediator.send(command);
+        return ResponseEntity.ok(message);
+    }
 }
