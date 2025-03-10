@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Map;
 
 @Service
-public class EmailService {
+public class SendNotification {
 
     private final HttpClient httpClient;
     private final ObjectMapper objectMapper;
@@ -20,7 +20,7 @@ public class EmailService {
     @Value("${email.service.base-url}")
     private String emailServiceBaseUrl;
 
-    public EmailService(ObjectMapper objectMapper) {
+    public SendNotification(ObjectMapper objectMapper) {
         this.httpClient = HttpClient.newHttpClient();
         this.objectMapper = objectMapper;
     }
@@ -73,4 +73,39 @@ public class EmailService {
             return false;
         }
     }
+    /**
+     * Método para enviar un mensaje de WhatsApp usando QBot API.
+     *
+     * @param requestData Datos del mensaje de WhatsApp a enviar.
+     * @return Respuesta de la API de QBot.
+     */
+    public String sendWhatsAppNotification(Map<String, String> requestData) {
+        try {
+            String qbotServiceUrl = emailServiceBaseUrl + "/api/qbot/send";
+
+            String requestBodyJson = objectMapper.writeValueAsString(Map.of("requestData", requestData));
+
+            HttpRequest request = HttpRequest.newBuilder()
+                    .uri(URI.create(qbotServiceUrl))
+                    .header("Content-Type", "application/json")
+                    .POST(HttpRequest.BodyPublishers.ofString(requestBodyJson))
+                    .build();
+
+            HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
+
+            if (response.statusCode() == 200) {
+                System.out.println("✅ WhatsApp message sent successfully: " + response.body());
+                return response.body();
+            } else {
+                System.err.println("❌ Error sending WhatsApp message: " + response.statusCode() + " - " + response.body());
+                return "Error sending message";
+            }
+
+        } catch (Exception e) {
+            System.err.println("❌ Exception sending WhatsApp message: " + e.getMessage());
+            e.printStackTrace();
+            return "Exception occurred while sending message";
+        }
+    }
+
 }

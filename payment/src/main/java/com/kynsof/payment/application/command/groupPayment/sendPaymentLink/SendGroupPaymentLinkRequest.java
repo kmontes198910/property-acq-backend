@@ -9,4 +9,5 @@ import java.util.UUID;
 @Setter
 public class SendGroupPaymentLinkRequest {
     private UUID groupPaymentId;
+    private String type;
 }
