@@ -6,6 +6,7 @@ import com.kynsof.evaluation.application.command.evaluationPatient.create.Create
 import com.kynsof.evaluation.application.command.evaluationPatient.create.CreateEvaluationPatientMessage;
 import com.kynsof.evaluation.application.command.evaluationPatient.create.CreateEvaluationPatientRequest;
 import com.kynsof.evaluation.application.command.evaluationPatient.createSpecification.CreateSpecificationEvaluationPatientCommand;
+import com.kynsof.evaluation.application.command.evaluationPatient.createSpecification.CreateSpecificationEvaluationPatientMessage;
 import com.kynsof.evaluation.application.command.evaluationPatient.createSpecification.CreateSpecificationEvaluationPatientRequest;
 import com.kynsof.evaluation.application.command.evaluationPatient.update.UpdateEvaluationPatientCommand;
 import com.kynsof.evaluation.application.command.evaluationPatient.update.UpdateEvaluationPatientMessage;
@@ -47,7 +48,7 @@ public class EvaluationPatientExamenController {
     @PostMapping("create-specification")
     public ResponseEntity<?> createSpecification(@RequestBody CreateSpecificationEvaluationPatientRequest request) {
         CreateSpecificationEvaluationPatientCommand createCommand = CreateSpecificationEvaluationPatientCommand.fromRequest(request);
-        CreateEvaluationPatientMessage response = mediator.send(createCommand);
+        CreateSpecificationEvaluationPatientMessage response = mediator.send(createCommand);
         return ResponseEntity.ok(response);
     }
 
