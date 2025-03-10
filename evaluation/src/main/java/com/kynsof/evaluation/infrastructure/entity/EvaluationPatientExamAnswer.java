@@ -34,6 +34,8 @@ public class EvaluationPatientExamAnswer {
     private boolean correct;
     private int scoreObtained;
 
+    private String response;
+
 
 
     @CreationTimestamp
@@ -44,12 +46,13 @@ public class EvaluationPatientExamAnswer {
     private LocalDateTime updatedAt;
 
     public EvaluationPatientExamAnswer(EvaluationPatientExam patientExam, EvaluationQuestion question, boolean correct,
-                                       int scoreObtained) {
+                                       int scoreObtained, String response) {
         this.id = UUID.randomUUID();
         this.patientExam = patientExam;
         this.question = question;
         this.correct = correct;
         this.scoreObtained = scoreObtained;
+        this.response = response;
     }
 
     public EvaluationPatientExamAnswer(EvaluationPatientExamAnswerDto dto) {
