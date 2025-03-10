@@ -1,5 +1,6 @@
 package com.kynsof.evaluation.infrastructure.service;
 
+import com.kynsof.evaluation.application.command.evaluationPatient.createSpecification.CodeAnswerRequest;
 import com.kynsof.evaluation.domain.dto.EvaluationPatientExamDto;
 import com.kynsof.evaluation.domain.dto.enumDto.EvaluationExamenType;
 import com.kynsof.evaluation.domain.service.IEvaluationPatientService;
@@ -17,7 +18,9 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 public class EvaluationPatientServiceImpl implements IEvaluationPatientService {
@@ -51,7 +54,7 @@ public class EvaluationPatientServiceImpl implements IEvaluationPatientService {
 
         EvaluationPatientExam finalExam = exam;
         List<EvaluationPatientExamAnswer> evaluationPatientExamAnswers = evaluationQuestions.stream()
-                .map(question -> new EvaluationPatientExamAnswer(finalExam, question, true, question.getMaxScore()))
+                .map(question -> new EvaluationPatientExamAnswer(finalExam, question, true, question.getMaxScore(), ""))
                 .toList(); // Convertir a lista para ser guardado
 
         // Guardar las respuestas en la base de datos
@@ -62,6 +65,37 @@ public class EvaluationPatientServiceImpl implements IEvaluationPatientService {
         return this.repositoryQuery.findByEvaluationIdAndExamType(evaluationId, examenType)
                 .orElse(null);
     }
+
+    @Override
+    public void createSpecification(EvaluationPatientExamDto evaluationPatientExamDto, List<CodeAnswerRequest> examenListCode) {
+        List<String> questionCodes = examenListCode.stream()
+                .map(CodeAnswerRequest::getCode)
+                .toList();
+
+        List<EvaluationQuestion> evaluationQuestions = this.evaluationQuestionReadDataJPARepository.findByCodes(questionCodes);
+        EvaluationPatientExam exam = new EvaluationPatientExam(evaluationPatientExamDto);
+
+        long totalPoints = evaluationQuestions.stream()
+                .mapToLong(EvaluationQuestion::getMaxScore)
+                .sum();
+        exam.setTotalScore((int) totalPoints);
+
+        // Guardar el examen en la base de datos antes de asociarle respuestas
+        exam = this.repositoryCommand.save(exam);
+
+        Map<String, String> responseMap = examenListCode.stream()
+                .collect(Collectors.toMap(CodeAnswerRequest::getCode, CodeAnswerRequest::getResponse));
+
+        EvaluationPatientExam finalExam = exam;
+        List<EvaluationPatientExamAnswer> evaluationPatientExamAnswers = evaluationQuestions.stream()
+                .map(question -> new EvaluationPatientExamAnswer(finalExam, question, true, question.getMaxScore(),
+                        responseMap.getOrDefault(question.getCode(), "")))
+                .toList();
+
+        // Guardar las respuestas en la base de datos
+        this.evaluationPatientExamAnswerWriteDataJPARepository.saveAll(evaluationPatientExamAnswers);
+    }
+
 
     @Override
     public void update(EvaluationPatientExamDto object, List<String> answers) {
@@ -89,7 +123,7 @@ public class EvaluationPatientServiceImpl implements IEvaluationPatientService {
         // Crear nuevas respuestas y asociarlas al examen
         EvaluationPatientExam finalExam = evaluationPatientExam;
         List<EvaluationPatientExamAnswer> evaluationPatientExamAnswers = evaluationQuestions.stream()
-                .map(question -> new EvaluationPatientExamAnswer(finalExam, question, true, question.getMaxScore()))
+                .map(question -> new EvaluationPatientExamAnswer(finalExam, question, true, question.getMaxScore(),""))
                 .toList();
 
         // Guardar las nuevas respuestas en la base de datos
