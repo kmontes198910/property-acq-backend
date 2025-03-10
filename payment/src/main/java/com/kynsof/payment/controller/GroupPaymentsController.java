@@ -75,7 +75,7 @@ public class GroupPaymentsController {
     @PostMapping("/send")
     public ResponseEntity<?> send(@RequestBody SendGroupPaymentLinkRequest requests) {
 
-        SendGroupPaymentLinkCommand command = new SendGroupPaymentLinkCommand(requests.getGroupPaymentId());
+        SendGroupPaymentLinkCommand command = new SendGroupPaymentLinkCommand(requests.getGroupPaymentId(), requests.getType());
         SendGroupPaymentLinkMessage message = mediator.send(command);
         return ResponseEntity.ok(message);
     }

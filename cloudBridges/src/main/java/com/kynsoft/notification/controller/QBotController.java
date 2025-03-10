@@ -15,7 +15,7 @@ public class QBotController {
 
     @PostMapping("/send")
     public String sendMessage(@RequestBody QBotRequest request) {
-        String accessToken = qBotService.authenticate(request.getEmail(), request.getPassword());
-        return qBotService.sendMessage(accessToken, request.getStoreId(), request.requestData);
+        String accessToken = qBotService.authenticate();
+        return qBotService.sendMessage(accessToken, request.requestData);
     }
 }

@@ -14,6 +14,7 @@ import java.util.UUID;
 public class SendGroupPaymentLinkCommand implements ICommand {
 
     private  UUID id;
+    private String type;
 
 
     @Override
