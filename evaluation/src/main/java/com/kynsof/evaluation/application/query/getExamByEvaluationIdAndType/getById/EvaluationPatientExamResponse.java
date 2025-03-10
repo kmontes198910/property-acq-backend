@@ -1,5 +1,6 @@
 package com.kynsof.evaluation.application.query.getExamByEvaluationIdAndType.getById;
 
+import com.kynsof.evaluation.application.command.evaluationPatient.createSpecification.CodeAnswerRequest;
 import com.kynsof.evaluation.domain.dto.EvaluationDto;
 import com.kynsof.evaluation.domain.dto.enumDto.EvaluationExamenType;
 import com.kynsof.evaluation.infrastructure.entity.EvaluationPatientExam;
@@ -28,6 +29,7 @@ public class EvaluationPatientExamResponse  implements IResponse {
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
     private List<String> questionsCode;
+    private List<CodeAnswerRequest> responseCodes;
 
     public EvaluationPatientExamResponse(EvaluationPatientExam examByEvaluationIdAndType) {
         this.id = examByEvaluationIdAndType.getId();
@@ -40,5 +42,8 @@ public class EvaluationPatientExamResponse  implements IResponse {
             return evaluationPatientExamAnswer.getQuestion().getCode();
         }).toList();
 
+        this.responseCodes = examByEvaluationIdAndType.getAnswers().stream().map(evaluationPatientExamAnswer -> {
+            return new CodeAnswerRequest( evaluationPatientExamAnswer.getQuestion().getCode(), evaluationPatientExamAnswer.getResponse());
+        }).toList();
     }
 }
