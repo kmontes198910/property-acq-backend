@@ -52,16 +52,21 @@ public class CreatePatientsCommandHandler implements ICommandHandler<CreatePatie
         command.setId(id);
         patientDto.setId(id);
 
-        contactInfoService.create(new ContactInfoDto(
-                UUID.randomUUID(),
-                patientDto,
-                command.getCreateContactInfoRequest().getEmail(),
-                command.getCreateContactInfoRequest().getTelephone(),
-                command.getCreateContactInfoRequest().getAddress(),
-                command.getCreateContactInfoRequest().getBirthdayDate(),
-                Status.ACTIVE,
-                parroquia
-        ));
+        try {
+            contactInfoService.create(new ContactInfoDto(
+                    UUID.randomUUID(),
+                    patientDto,
+                    command.getCreateContactInfoRequest().getEmail(),
+                    command.getCreateContactInfoRequest().getTelephone(),
+                    command.getCreateContactInfoRequest().getAddress(),
+                    command.getCreateContactInfoRequest().getBirthdayDate(),
+                    Status.ACTIVE,
+                    parroquia
+            ));
+        }catch (Exception ignored) {
+
+        }
+
 
         this.createCustomerEventService.create(new CustomerKafka(
                 patientDto.getId().toString(),
@@ -72,7 +77,7 @@ public class CreatePatientsCommandHandler implements ICommandHandler<CreatePatie
                 patientDto.getPhoto(),
                 command.getCreateContactInfoRequest().getBirthdayDate(),
                 patientDto.getGender().name(),
-                patientDto.getContactInfo().getTelephone()
+                command.getCreateContactInfoRequest().getTelephone()
         ));
     }
 }
