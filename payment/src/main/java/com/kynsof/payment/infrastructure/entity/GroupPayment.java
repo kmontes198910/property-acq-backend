@@ -27,6 +27,7 @@ public class GroupPayment {
     private String requestId;
     private LocalDateTime paymentDate;
     private String authorizationCode;
+    private String internalReferenceNumber;
     private String reference;
     private double totalAmount;
     private String processUrl;
@@ -62,6 +63,7 @@ public class GroupPayment {
         this.business = business;
         this.client = client;
         this.totalAmount = totalAmount;
+        this.internalReferenceNumber = generateInternalReference();
     }
 
     public GroupPaymentDto toAggregate() {
@@ -77,6 +79,11 @@ public class GroupPayment {
         dto.setTotalAmount(totalAmount);
         dto.setClient(client.toAggregate());
         dto.setBusiness(business.toAggregate());
+        dto.setInternalReferenceNumber(internalReferenceNumber);
         return dto;
+    }
+
+    public String generateInternalReference() {
+        return "IR-" + UUID.randomUUID().toString().substring(0, 8).toUpperCase();
     }
 }

@@ -11,6 +11,9 @@ import com.kynsof.evaluation.application.command.evaluationPatient.createSpecifi
 import com.kynsof.evaluation.application.command.evaluationPatient.update.UpdateEvaluationPatientCommand;
 import com.kynsof.evaluation.application.command.evaluationPatient.update.UpdateEvaluationPatientMessage;
 import com.kynsof.evaluation.application.command.evaluationPatient.update.UpdateEvaluationPatientRequest;
+import com.kynsof.evaluation.application.command.evaluationPatient.updateSpecification.UpdateSpecificationEvaluationPatientCommand;
+import com.kynsof.evaluation.application.command.evaluationPatient.updateSpecification.UpdateSpecificationEvaluationPatientMessage;
+import com.kynsof.evaluation.application.command.evaluationPatient.updateSpecification.UpdateSpecificationEvaluationPatientRequest;
 import com.kynsof.evaluation.application.object.response.EvaluationResponse;
 import com.kynsof.evaluation.application.query.evaluation.getById.GetByIdEvaluationQuery;
 import com.kynsof.evaluation.application.query.evaluation.search.GetSearchEvaluationQuery;
@@ -49,6 +52,13 @@ public class EvaluationPatientExamenController {
     public ResponseEntity<?> createSpecification(@RequestBody CreateSpecificationEvaluationPatientRequest request) {
         CreateSpecificationEvaluationPatientCommand createCommand = CreateSpecificationEvaluationPatientCommand.fromRequest(request);
         CreateSpecificationEvaluationPatientMessage response = mediator.send(createCommand);
+        return ResponseEntity.ok(response);
+    }
+
+    @PatchMapping("update-specification/{id}")
+    public ResponseEntity<?> updateSpecification(@PathVariable("id") UUID id,@RequestBody UpdateSpecificationEvaluationPatientRequest request) {
+        UpdateSpecificationEvaluationPatientCommand createCommand = UpdateSpecificationEvaluationPatientCommand.fromRequest(request,id);
+        UpdateSpecificationEvaluationPatientMessage response = mediator.send(createCommand);
         return ResponseEntity.ok(response);
     }
 

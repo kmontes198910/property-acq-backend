@@ -1,6 +1,7 @@
 package com.kynsof.evaluation.infrastructure.service;
 
 import com.kynsof.evaluation.application.command.evaluationPatient.createSpecification.CodeAnswerRequest;
+import com.kynsof.evaluation.application.command.evaluationPatient.updateSpecification.CodeAnswerUpdateRequest;
 import com.kynsof.evaluation.domain.dto.EvaluationPatientExamDto;
 import com.kynsof.evaluation.domain.dto.enumDto.EvaluationExamenType;
 import com.kynsof.evaluation.domain.service.IEvaluationPatientService;
@@ -96,8 +97,42 @@ public class EvaluationPatientServiceImpl implements IEvaluationPatientService {
         this.evaluationPatientExamAnswerWriteDataJPARepository.saveAll(evaluationPatientExamAnswers);
     }
 
+@Override
+public void updateSpecification(EvaluationPatientExamDto object, List<CodeAnswerUpdateRequest> examenListCode) {
+    EvaluationPatientExam evaluationPatientExam = this.repositoryQuery.findById(object.getId())
+            .orElseThrow(() -> new RuntimeException("EvaluationPatientExam not found"));
 
-    @Override
+    List<String> questionCodes = examenListCode.stream()
+            .map(CodeAnswerUpdateRequest::getCode)
+            .toList();
+
+    List<EvaluationQuestion> evaluationQuestions = this.evaluationQuestionReadDataJPARepository.findByCodes(questionCodes);
+
+    long totalPoints = evaluationQuestions.stream()
+            .mapToLong(EvaluationQuestion::getMaxScore)
+            .sum();
+    evaluationPatientExam.setTotalScore((int) totalPoints);
+
+    List<UUID> eval = evaluationPatientExam.getAnswers().stream()
+            .map(EvaluationPatientExamAnswer::getId)
+            .toList();
+
+    this.evaluationPatientExamAnswerWriteDataJPARepository.deleteAllByIdInBatch(eval);
+    evaluationPatientExam = this.repositoryCommand.save(evaluationPatientExam);
+
+    Map<String, String> responseMap = examenListCode.stream()
+            .collect(Collectors.toMap(CodeAnswerUpdateRequest::getCode, CodeAnswerUpdateRequest::getResponse));
+
+    EvaluationPatientExam finalExam = evaluationPatientExam;
+    List<EvaluationPatientExamAnswer> evaluationPatientExamAnswers = evaluationQuestions.stream()
+            .map(question -> new EvaluationPatientExamAnswer(finalExam, question, true, question.getMaxScore(), responseMap.getOrDefault(question.getCode(), "")))
+            .toList();
+
+    this.evaluationPatientExamAnswerWriteDataJPARepository.saveAll(evaluationPatientExamAnswers);
+}
+
+
+@Override
     public void update(EvaluationPatientExamDto object, List<String> answers) {
         // Buscar el examen, lanzar excepción si no existe
         EvaluationPatientExam evaluationPatientExam = this.repositoryQuery.findById(object.getId())

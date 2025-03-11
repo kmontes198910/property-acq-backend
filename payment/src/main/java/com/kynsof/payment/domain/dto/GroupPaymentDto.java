@@ -23,7 +23,7 @@ public class GroupPaymentDto {
     private  GroupPaymentStatus status;
     private  LocalDateTime createdAt;
     private  double totalAmount;
-
+    private String internalReferenceNumber;
     private ClientDto client;
     private BusinessDto business;
 
