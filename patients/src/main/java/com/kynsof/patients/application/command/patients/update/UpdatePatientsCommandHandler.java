@@ -70,7 +70,8 @@ public class UpdatePatientsCommandHandler implements ICommandHandler<UpdatePatie
                 contactInfoDto.getEmail(), 
                 patientDto.getPhoto(), 
                 contactInfoDto.getBirthdayDate(),
-                patientDto.getGender().name()
+                patientDto.getGender().name(),
+                contactInfoDto.getTelephone()
         ));
     }
 }

@@ -153,3 +153,25 @@ INSERT INTO evaluation_questions (id, code, text, maxscore, createdat, updatedat
                                                                                       (gen_random_uuid(), 'feelsSituationIsHopeless_No', '¿No siente que su situación es desesperanzadora?', 0, now(), now()),
                                                                                       (gen_random_uuid(), 'thinksManyPeopleAreBetterOff_Yes', '¿Cree que muchas personas están mejor que usted?', 1, now(), now()),
                                                                                       (gen_random_uuid(), 'thinksManyPeopleAreBetterOff_No', '¿No cree que muchas personas están mejor que usted?', 0, now(), now());
+
+INSERT INTO evaluation_questions (id, code, text, maxscore, createdat, updatedat) VALUES
+                                                                                      (gen_random_uuid(), 'currentDate_Yes', '¿Conoce la fecha actual?', 1, now(), now()),
+                                                                                      (gen_random_uuid(), 'currentDate_No', '¿No conoce la fecha actual?', 0, now(), now()),
+                                                                                      (gen_random_uuid(), 'currentDay_Yes', '¿Sabe qué día es hoy?', 1, now(), now()),
+                                                                                      (gen_random_uuid(), 'currentDay_No', '¿No sabe qué día es hoy?', 0, now(), now()),
+                                                                                      (gen_random_uuid(), 'locationName_Yes', '¿Conoce el nombre de su ubicación?', 1, now(), now()),
+                                                                                      (gen_random_uuid(), 'locationName_No', '¿No conoce el nombre de su ubicación?', 0, now(), now()),
+                                                                                      (gen_random_uuid(), 'phoneNumber_Yes', '¿Puede recordar su número de teléfono?', 1, now(), now()),
+                                                                                      (gen_random_uuid(), 'phoneNumber_No', '¿No puede recordar su número de teléfono?', 0, now(), now()),
+                                                                                      (gen_random_uuid(), 'age_Yes', '¿Puede decir su edad correctamente?', 1, now(), now()),
+                                                                                      (gen_random_uuid(), 'age_No', '¿No puede decir su edad correctamente?', 0, now(), now()),
+                                                                                      (gen_random_uuid(), 'birthDate_Yes', '¿Recuerda su fecha de nacimiento?', 1, now(), now()),
+                                                                                      (gen_random_uuid(), 'birthDate_No', '¿No recuerda su fecha de nacimiento?', 0, now(), now()),
+                                                                                      (gen_random_uuid(), 'currentPresident_Yes', '¿Sabe quién es el presidente actual?', 1, now(), now()),
+                                                                                      (gen_random_uuid(), 'currentPresident_No', '¿No sabe quién es el presidente actual?', 0, now(), now()),
+                                                                                      (gen_random_uuid(), 'previousPresident_Yes', '¿Recuerda quién fue el presidente anterior?', 1, now(), now()),
+                                                                                      (gen_random_uuid(), 'previousPresident_No', '¿No recuerda quién fue el presidente anterior?', 0, now(), now()),
+                                                                                      (gen_random_uuid(), 'motherLastNames_Yes', '¿Puede recordar los apellidos de su madre?', 1, now(), now()),
+                                                                                      (gen_random_uuid(), 'motherLastNames_No', '¿No puede recordar los apellidos de su madre?', 0, now(), now()),
+                                                                                      (gen_random_uuid(), 'subtractingByThrees_Yes', '¿Puede restar de tres en tres correctamente?', 1, now(), now()),
+                                                                                      (gen_random_uuid(), 'subtractingByThrees_No', '¿No puede restar de tres en tres correctamente?', 0, now(), now());
