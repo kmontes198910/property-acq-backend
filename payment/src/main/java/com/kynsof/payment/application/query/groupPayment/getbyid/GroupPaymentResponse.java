@@ -25,6 +25,7 @@ public class GroupPaymentResponse implements IResponse {
     private Double totalAmount;
     private ClientDto client;
     private BusinessDto business;
+    private String internalReferenceNumber;
 
     public GroupPaymentResponse(GroupPaymentDto aggregate) {
         this.id = aggregate.getId();
@@ -38,5 +39,6 @@ public class GroupPaymentResponse implements IResponse {
         this.totalAmount = aggregate.getTotalAmount();
         this.client = aggregate.getClient();
         this.business = aggregate.getBusiness();
+        this.internalReferenceNumber = aggregate.getInternalReferenceNumber();
     }
 }

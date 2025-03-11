@@ -32,7 +32,7 @@ public class SendGroupPaymentLinkCommandHandler implements ICommandHandler<SendG
             if ("EMAIL".equals(command.getType())) {
                 sendEmailNotification(groupPaymentDto, paymentLink);
             } else if ("WHATSAPP".equals(command.getType())) {
-                sendWhatsAppNotification(groupPaymentDto, paymentLink);
+                sendWhatsAppNotification(groupPaymentDto);
             }
         } catch (Exception e) {
             System.err.println("❌ Exception sending notification: " + e.getMessage());
@@ -45,7 +45,7 @@ public class SendGroupPaymentLinkCommandHandler implements ICommandHandler<SendG
                 List.of(Map.of("email", groupPaymentDto.getClient().getEmail(), "name", groupPaymentDto.getClient().getName() + " " + groupPaymentDto.getClient().getLastName())),
                 List.of(
                         Map.of("Key", "payment_link", "Value", paymentLink),
-                        Map.of("Key", "reference_number", "Value", groupPaymentDto.getReference()),
+                        Map.of("Key", "reference_number", "Value", groupPaymentDto.getInternalReferenceNumber()),
                         Map.of("Key", "invoice_amount", "Value", String.valueOf(groupPaymentDto.getTotalAmount())),
                         Map.of("Key", "client_name", "Value", groupPaymentDto.getClient().getName() + " " + groupPaymentDto.getClient().getLastName())
                 ),
@@ -61,7 +61,8 @@ public class SendGroupPaymentLinkCommandHandler implements ICommandHandler<SendG
         }
     }
 
-    private void sendWhatsAppNotification(GroupPaymentDto groupPaymentDto, String paymentLink) {
+    private void sendWhatsAppNotification(GroupPaymentDto groupPaymentDto) {
+        String paymentLink = "/payment-info?token=" + groupPaymentDto.getId();
         Map<String, String> requestData = buildWhatsAppRequestData(groupPaymentDto, paymentLink);
         String response = notificationService.sendWhatsAppNotification(requestData);
         System.out.println("📲 WhatsApp Response: " + response);
@@ -74,7 +75,7 @@ public class SendGroupPaymentLinkCommandHandler implements ICommandHandler<SendG
         requestData.put("template_name", "doctor_kyn_paymently");
         requestData.put("customer_name", groupPaymentDto.getClient().getName());
         requestData.put("invoice_amount", String.valueOf(groupPaymentDto.getTotalAmount()));
-        requestData.put("reference_number", groupPaymentDto.getReference());
+        requestData.put("reference_number", groupPaymentDto.getInternalReferenceNumber());
         requestData.put("payment_url", paymentLink);
         return requestData;
     }
