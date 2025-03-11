@@ -40,7 +40,7 @@ public class ContactInformation {
     private Status status;
 
     @ManyToOne()
-    @JoinColumn(name = "parroquia_id", nullable = true)
+    @JoinColumn(name = "parroquia_id")
     private GeographicLocation parroquia;
 
     @CreationTimestamp
