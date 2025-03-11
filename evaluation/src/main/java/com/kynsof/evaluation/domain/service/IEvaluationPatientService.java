@@ -1,6 +1,7 @@
 package com.kynsof.evaluation.domain.service;
 
 import com.kynsof.evaluation.application.command.evaluationPatient.createSpecification.CodeAnswerRequest;
+import com.kynsof.evaluation.application.command.evaluationPatient.updateSpecification.CodeAnswerUpdateRequest;
 import com.kynsof.evaluation.domain.dto.EvaluationPatientExamDto;
 import com.kynsof.evaluation.domain.dto.enumDto.EvaluationExamenType;
 import com.kynsof.evaluation.infrastructure.entity.EvaluationPatientExam;
@@ -21,4 +22,6 @@ public interface IEvaluationPatientService {
     EvaluationPatientExam getExamByEvaluationIdAndType(UUID evaluationId, EvaluationExamenType examenType);
 
     void createSpecification(EvaluationPatientExamDto evaluationPatientExamDto, List<CodeAnswerRequest> examenListCode);
+
+    void updateSpecification(EvaluationPatientExamDto evaluationDto, List<CodeAnswerUpdateRequest> examenListCode);
 }
