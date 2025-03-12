@@ -37,7 +37,7 @@ public class SecurityConfig {
         				.pathMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                         .pathMatchers(HttpMethod.POST,"/identity/api/auth/*").permitAll()
                         .pathMatchers(HttpMethod.POST,"/payments-confirm/*").permitAll()
-                        .pathMatchers(HttpMethod.GET, "/identity/api/auth/*").permitAll()
+                        .pathMatchers(HttpMethod.GET, "/identity/api/auth/**").permitAll()
                         .pathMatchers(HttpMethod.GET, "/swagger-ui.html", "/swagger-ui/**", "/v2/api-docs.yaml", "/v3/api-docs.yaml", "/v2/api-docs/**", "/v3/api-docs/**", "/swagger-resources/**", "/webjars/**").permitAll()
                         .pathMatchers(AUTH_WHITELIST).permitAll()
                         .anyExchange().authenticated()
