@@ -6,7 +6,7 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>3.1.5</version>
+		<version>3.4.3</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 
@@ -17,7 +17,7 @@
 	<properties>
 		<java.version>17</java.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<spring-boot.version>3.1.5</spring-boot.version>
+		<spring-boot.version>3.4.3</spring-boot.version>
 		<spring-boot-maven-plugin.version>3.2.2</spring-boot-maven-plugin.version>
 		<spring-cloud.version>2022.0.4</spring-cloud.version>
 		<springdoc-openapi.version>2.2.0</springdoc-openapi.version>
@@ -72,10 +72,6 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-oauth2-client</artifactId>
 		</dependency>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-web</artifactId>
-		</dependency>
 
 
 		<dependency>
@@ -103,7 +99,7 @@
 		<dependency>
 			<groupId>org.codehaus.jettison</groupId>
 			<artifactId>jettison</artifactId>
-			<version>1.4.0</version>
+			<version>1.5.4</version>
 		</dependency>
 		<dependency>
 			<groupId>com.vaadin.external.google</groupId>
