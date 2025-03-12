@@ -1,5 +1,6 @@
 package com.kynsof.identity.domain.interfaces.service;
 
+import com.kynsof.identity.domain.dto.UserStatus;
 import com.kynsof.identity.domain.dto.UserSystemDto;
 import com.kynsof.share.core.domain.request.FilterCriteria;
 import com.kynsof.share.core.domain.response.PaginatedResponse;
@@ -26,4 +27,6 @@ public interface IUserSystemService {
     Long countByEmailAndNotId(String email, UUID id);
 
     UserSystemDto findByEmail(String email);
+
+    boolean existsByEmailAndStatus(String email);
 }

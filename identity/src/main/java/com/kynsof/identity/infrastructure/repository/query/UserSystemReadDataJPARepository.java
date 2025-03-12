@@ -1,5 +1,6 @@
 package com.kynsof.identity.infrastructure.repository.query;
 
+import com.kynsof.identity.domain.dto.UserStatus;
 import com.kynsof.identity.infrastructure.identity.UserSystem;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -12,8 +13,7 @@ import org.springframework.data.repository.query.Param;
 import java.util.Optional;
 import java.util.UUID;
 
-public interface UserSystemReadDataJPARepository extends JpaRepository<UserSystem, UUID>,
-        JpaSpecificationExecutor<UserSystem> {
+public interface UserSystemReadDataJPARepository extends JpaRepository<UserSystem, UUID>, JpaSpecificationExecutor<UserSystem> {
     Page<UserSystem> findAll(Specification specification, Pageable pageable);
 
     @Query("SELECT COUNT(b) FROM UserSystem b WHERE b.userName = :userName AND b.id <> :id")
@@ -27,4 +27,6 @@ public interface UserSystemReadDataJPARepository extends JpaRepository<UserSyste
 
     @Query("SELECT b FROM UserSystem b WHERE b.keyCloakId = :keyCloakId")
     Optional<UserSystem> findByKeyCloakId(UUID keyCloakId);
+
+    boolean existsByEmailAndStatus(String email, UserStatus status);
 }
