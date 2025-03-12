@@ -5,14 +5,16 @@ import com.kynsof.calendar.domain.dto.ReceiptDto;
 import com.kynsof.calendar.domain.dto.ScheduleDto;
 import com.kynsof.calendar.domain.dto.ServiceDto;
 import com.kynsof.calendar.domain.dto.enumType.EStatusReceipt;
-import com.kynsof.calendar.domain.dto.enumType.EStatusSchedule;
+import com.kynsof.calendar.domain.dto.enumType.PatientStatus;
 import com.kynsof.calendar.domain.service.IPatientsService;
 import com.kynsof.calendar.domain.service.IReceiptService;
 import com.kynsof.calendar.domain.service.IScheduleService;
 import com.kynsof.calendar.domain.service.IServiceService;
+import com.kynsof.calendar.infrastructure.service.http.PatientHttpUUIDService;
 import com.kynsof.share.core.domain.bus.command.ICommandHandler;
 import com.kynsof.share.core.domain.exception.BusinessException;
 import com.kynsof.share.core.domain.exception.DomainErrorMessage;
+import com.kynsof.share.core.domain.http.entity.PatientHttp;
 import org.springframework.stereotype.Component;
 
 import org.redisson.api.RLock;
@@ -29,21 +31,39 @@ public class CreateReceiptCommandHandler implements ICommandHandler<CreateReceip
     private final IScheduleService serviceSchedule;
     private final IServiceService serviceService;
     private final RedissonClient redissonClient;
+    private final PatientHttpUUIDService patientHttpUUIDService;
 
     public CreateReceiptCommandHandler(IReceiptService service, IPatientsService servicePatient,
                                        IScheduleService serviceSchedule, IServiceService serviceService,
-                                       RedissonClient redissonClient) {
+                                       RedissonClient redissonClient,
+                                       PatientHttpUUIDService patientHttpUUIDService) {
         this.service = service;
         this.servicePatient = servicePatient;
         this.serviceSchedule = serviceSchedule;
         this.serviceService = serviceService;
         this.redissonClient = redissonClient;
+        this.patientHttpUUIDService = patientHttpUUIDService;
     }
 
     @Override
     public void handle(CreateReceiptCommand command) {
         // Verificar si el paciente, el horario y el servicio existen
-        PatientDto _patient = this.servicePatient.findById(command.getUser());
+        PatientDto _patient = null;
+        try {
+            _patient = this.servicePatient.findById(command.getUser());
+        } catch (Exception e) {
+            PatientHttp patient = patientHttpUUIDService.sendGetHttpRequest(command.getUser());
+            _patient = new PatientDto(
+                    patient.getId(),
+                    patient.getIdentification(),
+                    patient.getEmail(),
+                    patient.getName(),
+                    patient.getLastName(),
+                    PatientStatus.valueOf(patient.getStatus()),
+                    ""
+            );
+            this.servicePatient.create(_patient);
+        }
         ScheduleDto _schedule = this.serviceSchedule.findById(command.getSchedule());
         ServiceDto _service = this.serviceService.findByIds(command.getService());
 
