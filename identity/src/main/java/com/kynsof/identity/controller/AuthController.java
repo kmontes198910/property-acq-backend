@@ -16,13 +16,14 @@ import com.kynsof.identity.application.command.auth.registry.UserRequest;
 import com.kynsof.identity.application.command.auth.sendPasswordRecoveryOtp.SendPasswordRecoveryOtpCommand;
 import com.kynsof.identity.application.command.auth.sendPasswordRecoveryOtp.SendPasswordRecoveryOtpMessage;
 import com.kynsof.identity.application.query.auth.RefreshTokenQuery;
+import com.kynsof.identity.application.query.users.existByEmail.ExistByEmailUserSystemsQuery;
+import com.kynsof.identity.application.query.users.existByEmail.UserSystemsExistByEmailResponse;
 import com.kynsof.share.core.domain.response.ApiResponse;
 import com.kynsof.share.core.infrastructure.bus.IMediator;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 
 @RestController
@@ -98,5 +99,12 @@ public class AuthController {
     @GetMapping("/app-version")
     public ResponseEntity<?> appVersion() {
         return ResponseEntity.ok(ApiResponse.success(appVersion));
+    }
+
+    @GetMapping("/exist-by-email/{email}")
+    public ResponseEntity<?> existUserByEmail(@PathVariable String email) {
+        ExistByEmailUserSystemsQuery query = new ExistByEmailUserSystemsQuery(email);
+        UserSystemsExistByEmailResponse response = this.mediator.send(query);
+        return ResponseEntity.ok(response);
     }
 }
