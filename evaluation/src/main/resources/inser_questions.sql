@@ -175,3 +175,32 @@ INSERT INTO evaluation_questions (id, code, text, maxscore, createdat, updatedat
                                                                                       (gen_random_uuid(), 'motherLastNames_No', '¿No puede recordar los apellidos de su madre?', 0, now(), now()),
                                                                                       (gen_random_uuid(), 'subtractingByThrees_Yes', '¿Puede restar de tres en tres correctamente?', 1, now(), now()),
                                                                                       (gen_random_uuid(), 'subtractingByThrees_No', '¿No puede restar de tres en tres correctamente?', 0, now(), now());
+
+
+INSERT INTO evaluation_questions (id, code, text, maxscore, createdat) VALUES
+                                                                           (gen_random_uuid(), 'EVALUATION_KQUESTION12_VALUEFOROPTION0_NO', 'EVALUATION KQUESTION12 VALUEFOROPTION0 NO', 1, NOW()),
+                                                                           (gen_random_uuid(), 'EVALUATION_KQUESTION12_VALUEFOROPTION1_NO', 'EVALUATION KQUESTION12 VALUEFOROPTION1 NO', 0, NOW()),
+                                                                           (gen_random_uuid(), 'EVALUATION_KQUESTION12_VALUEFOROPTION2_NO', 'EVALUATION KQUESTION12 VALUEFOROPTION2 NO', 1, NOW()),
+                                                                           (gen_random_uuid(), 'EVALUATION_KQUESTION12_VALUEFOROPTION0_SI', 'EVALUATION KQUESTION12 VALUEFOROPTION0 SI', 1, NOW()),
+                                                                           (gen_random_uuid(), 'EVALUATION_KQUESTION12_VALUEFOROPTION1_SI', 'EVALUATION KQUESTION12 VALUEFOROPTION1 SI', 0, NOW()),
+                                                                           (gen_random_uuid(), 'EVALUATION_KQUESTION12_VALUEFOROPTION2_SI', 'EVALUATION KQUESTION12 VALUEFOROPTION2 SI', 1, NOW()),
+                                                                           (gen_random_uuid(), 'CRIBAJE_AQUESTION1', 'CRIBAJE AQUESTION1', 2, NOW()),
+                                                                           (gen_random_uuid(), 'CRIBAJE_BQUESTION2', 'CRIBAJE BQUESTION2', 2, NOW()),
+                                                                           (gen_random_uuid(), 'CRIBAJE_CQUESTION3', 'CRIBAJE CQUESTION3', 2, NOW()),
+                                                                           (gen_random_uuid(), 'CRIBAJE_DQUESTION4', 'CRIBAJE DQUESTION4', 2, NOW()),
+                                                                           (gen_random_uuid(), 'CRIBAJE_EQUESTION5', 'CRIBAJE EQUESTION5', 2, NOW()),
+                                                                           (gen_random_uuid(), 'CRIBAJE_FQUESTION6', 'CRIBAJE FQUESTION6', 2, NOW()),
+                                                                           (gen_random_uuid(), 'CRIBAJE_RESULT', 'CRIBAJE RESULT', 12, NOW()),
+                                                                           (gen_random_uuid(), 'EVALUATION_GQUESTION8', 'EVALUATION GQUESTION8', 1, NOW()),
+                                                                           (gen_random_uuid(), 'EVALUATION_HQUESTION9', 'EVALUATION HQUESTION9', 1, NOW()),
+                                                                           (gen_random_uuid(), 'EVALUATION_IQUESTION10', 'EVALUATION IQUESTION10', 1, NOW()),
+                                                                           (gen_random_uuid(), 'EVALUATION_JQUESTION11', 'EVALUATION JQUESTION11', 1, NOW()),
+                                                                           (gen_random_uuid(), 'EVALUATION_KQUESTION12', 'EVALUATION KQUESTION12', 2, NOW()),
+                                                                           (gen_random_uuid(), 'EVALUATION_LQUESTION13', 'EVALUATION LQUESTION13', 1, NOW()),
+                                                                           (gen_random_uuid(), 'EVALUATION_MQUESTION14', 'EVALUATION MQUESTION14', 1, NOW()),
+                                                                           (gen_random_uuid(), 'EVALUATION_NQUESTION15', 'EVALUATION NQUESTION15', 1, NOW()),
+                                                                           (gen_random_uuid(), 'EVALUATION_OQUESTION16', 'EVALUATION OQUESTION16', 1, NOW()),
+                                                                           (gen_random_uuid(), 'EVALUATION_PQUESTION17', 'EVALUATION PQUESTION17', 1, NOW()),
+                                                                           (gen_random_uuid(), 'EVALUATION_QQUESTION18', 'EVALUATION QQUESTION18', 1, NOW()),
+                                                                           (gen_random_uuid(), 'EVALUATION_RQUESTION19', 'EVALUATION RQUESTION19', 1, NOW()),
+                                                                           (gen_random_uuid(), 'EVALUATION_RESULT', 'EVALUATION RESULT', 13, NOW());
