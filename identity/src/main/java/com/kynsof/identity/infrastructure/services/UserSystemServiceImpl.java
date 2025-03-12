@@ -138,4 +138,9 @@ public class UserSystemServiceImpl implements IUserSystemService {
                 .map(UserSystem::toAggregate)
                 .orElse(null);
     }
+
+    @Override
+    public boolean existsByEmailAndStatus(String email) {
+        return this.repositoryQuery.existsByEmailAndStatus(email, UserStatus.ACTIVE);
+    }
 }
