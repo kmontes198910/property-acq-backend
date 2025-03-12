@@ -28,5 +28,6 @@ public interface UserSystemReadDataJPARepository extends JpaRepository<UserSyste
     @Query("SELECT b FROM UserSystem b WHERE b.keyCloakId = :keyCloakId")
     Optional<UserSystem> findByKeyCloakId(UUID keyCloakId);
 
-    boolean existsByEmailAndStatus(String email, UserStatus status);
+    @Query("SELECT CASE WHEN COUNT(u) > 0 THEN TRUE ELSE FALSE END FROM UserSystem u WHERE LOWER(u.email) = LOWER(:email) AND u.status = :status")
+    boolean existsByEmailAndStatus(@Param("email") String email, @Param("status") UserStatus status);
 }
