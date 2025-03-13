@@ -10,7 +10,7 @@ public class UpdateEvaluationPatientMessage implements ICommandMessage {
 
     private final UUID id;
 
-    private final String command = "CREATE_EVALUATION";
+    private final String command = "UPDATE_EVALUATION_PATIENT";
 
     public UpdateEvaluationPatientMessage(UUID id) {
         this.id = id;

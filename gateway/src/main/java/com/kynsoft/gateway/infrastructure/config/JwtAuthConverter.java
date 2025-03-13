@@ -1,6 +1,5 @@
 package com.kynsoft.gateway.infrastructure.config;
 
-
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.lang.NonNull;
@@ -21,7 +20,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 @Component
-public class JwtAuthConverter  implements Converter<Jwt, Mono<AbstractAuthenticationToken>> {
+public class JwtAuthConverter implements Converter<Jwt, Mono<AbstractAuthenticationToken>> {
 
     private final JwtGrantedAuthoritiesConverter jwtGrantedAuthoritiesConverter =
             new JwtGrantedAuthoritiesConverter();
@@ -30,12 +29,11 @@ public class JwtAuthConverter  implements Converter<Jwt, Mono<AbstractAuthentica
     private String principleAttribute = "preferred_username";
 
     @Value("${jwt.auth.converter.resource-id}")
-    private String resourceId = "quipux-gateway";
-    
+    private String resourceId = "medinec";
+
     @NonNull
     public Mono<AbstractAuthenticationToken> convert(@NonNull Jwt jwt) {
-
-    	return Mono.fromSupplier(() -> {
+        return Mono.fromSupplier(() -> {
             Collection<GrantedAuthority> authorities = Stream
                     .concat(jwtGrantedAuthoritiesConverter.convert(jwt).stream(), extractResourceRoles(jwt).stream())
                     .toList();
@@ -50,7 +48,6 @@ public class JwtAuthConverter  implements Converter<Jwt, Mono<AbstractAuthentica
 
     @SuppressWarnings("unchecked")
     private Collection<? extends GrantedAuthority> extractResourceRoles(Jwt jwt) {
-
         Map<String, Object> resourceAccess;
         Map<String, Object> resource;
         Collection<String> resourceRoles;
@@ -65,7 +62,6 @@ public class JwtAuthConverter  implements Converter<Jwt, Mono<AbstractAuthentica
         }
 
         resource = (Map<String, Object>) resourceAccess.get(resourceId);
-
         resourceRoles = (Collection<String>) resource.get("roles");
         return resourceRoles
                 .stream()
@@ -74,10 +70,8 @@ public class JwtAuthConverter  implements Converter<Jwt, Mono<AbstractAuthentica
     }
 
     private String getPrincipleClaimName(Jwt jwt) {
-        String claimName = JwtClaimNames.SUB;
-        if (principleAttribute != null) {
-            claimName = principleAttribute;
-        }
-        return jwt.getClaim(claimName);
+        return jwt.getClaims().containsKey(principleAttribute)
+                ? jwt.getClaim(principleAttribute)
+                : jwt.getClaim(JwtClaimNames.SUB);
     }
 }

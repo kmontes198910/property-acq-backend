@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.UUID;
 
 public interface IEvaluationPatientService {
-    void create(EvaluationPatientExamDto object, List<String> questionCodes);
+    UUID create(EvaluationPatientExamDto object, List<String> questionCodes);
     void update(EvaluationPatientExamDto object, List<String> answers);
     void delete(UUID id);
     EvaluationPatientExamDto findByIds(UUID id);
@@ -21,7 +21,7 @@ public interface IEvaluationPatientService {
 
     EvaluationPatientExam getExamByEvaluationIdAndType(UUID evaluationId, EvaluationExamenType examenType);
 
-    void createSpecification(EvaluationPatientExamDto evaluationPatientExamDto, List<CodeAnswerRequest> examenListCode);
+    UUID createSpecification(EvaluationPatientExamDto evaluationPatientExamDto, List<CodeAnswerRequest> examenListCode);
 
     void updateSpecification(EvaluationPatientExamDto evaluationDto, List<CodeAnswerUpdateRequest> examenListCode);
 }

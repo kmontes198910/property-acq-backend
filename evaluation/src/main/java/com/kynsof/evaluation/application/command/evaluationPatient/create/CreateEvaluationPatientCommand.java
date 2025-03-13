@@ -14,10 +14,19 @@ import java.util.UUID;
 @Setter
 @AllArgsConstructor
 public class CreateEvaluationPatientCommand implements ICommand {
-    private UUID patient;
-    private UUID evaluationId;
-    private List<String> examenListCode;
-    private EvaluationExamenType examenType;
+    private UUID id;
+    private final UUID patient;
+    private final UUID evaluationId;
+    private final List<String> examenListCode;
+    private final EvaluationExamenType examenType;
+
+    public CreateEvaluationPatientCommand(UUID patient, UUID evaluationId, List<String> examenListCode, EvaluationExamenType examenType){
+
+        this.patient = patient;
+        this.evaluationId = evaluationId;
+        this.examenListCode = examenListCode;
+        this.examenType = examenType;
+    }
 
     public static CreateEvaluationPatientCommand fromRequest(CreateEvaluationPatientRequest request) {
         return new CreateEvaluationPatientCommand(
@@ -30,6 +39,6 @@ public class CreateEvaluationPatientCommand implements ICommand {
 
     @Override
     public ICommandMessage getMessage() {
-        return new CreateEvaluationPatientMessage(UUID.randomUUID());
+        return new CreateEvaluationPatientMessage(id);
     }
 }
