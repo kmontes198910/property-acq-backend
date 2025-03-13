@@ -17,6 +17,8 @@ import com.kynsof.share.core.domain.response.PaginatedResponse;
 import com.kynsof.share.core.infrastructure.specifications.GenericSpecificationsBuilder;
 import com.kynsof.share.core.infrastructure.specifications.LogicalOperation;
 import com.kynsof.share.core.infrastructure.specifications.SearchOperation;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -48,6 +50,7 @@ public class UserSystemServiceImpl implements IUserSystemService {
 
     @Override
     @Transactional
+    @CacheEvict(value = "userExistsCache", key = "#userSystemDto.email")
     public void update(UserSystemDto userSystemDto) {
         var update = new UserSystem(userSystemDto);
         update.setUpdatedAt(LocalDateTime.now());
@@ -140,6 +143,7 @@ public class UserSystemServiceImpl implements IUserSystemService {
     }
 
     @Override
+    @Cacheable(value = "userExistsCache", key = "#email")
     public boolean existsByEmailAndStatus(String email) {
         return this.repositoryQuery.existsByEmailAndStatus(email, UserStatus.ACTIVE);
     }
