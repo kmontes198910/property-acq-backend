@@ -21,7 +21,7 @@ public interface IEvaluationPatientService {
 
     EvaluationPatientExam getExamByEvaluationIdAndType(UUID evaluationId, EvaluationExamenType examenType);
 
-    void createSpecification(EvaluationPatientExamDto evaluationPatientExamDto, List<CodeAnswerRequest> examenListCode);
+    UUID createSpecification(EvaluationPatientExamDto evaluationPatientExamDto, List<CodeAnswerRequest> examenListCode);
 
     void updateSpecification(EvaluationPatientExamDto evaluationDto, List<CodeAnswerUpdateRequest> examenListCode);
 }

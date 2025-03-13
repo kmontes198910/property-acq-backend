@@ -68,7 +68,7 @@ public class EvaluationPatientServiceImpl implements IEvaluationPatientService {
     }
 
     @Override
-    public void createSpecification(EvaluationPatientExamDto evaluationPatientExamDto, List<CodeAnswerRequest> examenListCode) {
+    public UUID createSpecification(EvaluationPatientExamDto evaluationPatientExamDto, List<CodeAnswerRequest> examenListCode) {
         List<String> questionCodes = examenListCode.stream()
                 .map(CodeAnswerRequest::getCode)
                 .toList();
@@ -95,6 +95,8 @@ public class EvaluationPatientServiceImpl implements IEvaluationPatientService {
 
         // Guardar las respuestas en la base de datos
         this.evaluationPatientExamAnswerWriteDataJPARepository.saveAll(evaluationPatientExamAnswers);
+
+        return exam.getId();
     }
 
     @Override
