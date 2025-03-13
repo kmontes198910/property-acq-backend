@@ -1,6 +1,7 @@
 package com.kynsof.payment.domain.dto;
 
 import com.kynsof.payment.domain.dto.enumDto.GroupPaymentStatus;
+import com.kynsof.payment.domain.dto.enumDto.PaymentType;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -26,6 +27,7 @@ public class GroupPaymentDto {
     private String internalReferenceNumber;
     private ClientDto client;
     private BusinessDto business;
+    private PaymentType paymentType;
 
     public GroupPaymentDto(UUID id, String requestId, LocalDateTime paymentDate, String authorizationCode,
                            String reference, String processUrl, GroupPaymentStatus status,

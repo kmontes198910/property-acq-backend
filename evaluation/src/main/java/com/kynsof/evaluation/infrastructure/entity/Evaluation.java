@@ -28,6 +28,10 @@ public class Evaluation {
     @JoinColumn(name = "doctor_id")
     private Doctor doctor;
 
+    @ManyToOne
+    @JoinColumn(name = "business_id")
+    private Business business;
+
     private String consultationReason;
     private String medicalHistory;
     private String physicalExam;
@@ -46,6 +50,7 @@ public class Evaluation {
     public Evaluation(EvaluationDto dto) {
         this.id = dto.getId();
         this.patient = dto.getPatient() != null ? new Patients(dto.getPatient()) : null;
+        this.business = dto.getBusiness() != null ? new Business(dto.getBusiness()) : null;
         this.doctor = dto.getDoctor() != null ? new Doctor(dto.getDoctor()) : null;
         this.consultationReason = dto.getConsultationReason();
         this.medicalHistory = dto.getMedicalHistory();
@@ -62,6 +67,7 @@ public class Evaluation {
                 this.medicalHistory,
                 this.physicalExam,
                 this.observation,
+                this.business != null ? this.business.toAggregate() : null,
                 this.createdAt,
                 this.updatedAt
         );

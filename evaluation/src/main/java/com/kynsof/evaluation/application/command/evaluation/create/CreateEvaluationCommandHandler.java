@@ -1,9 +1,11 @@
 package com.kynsof.evaluation.application.command.evaluation.create;
 
+import com.kynsof.evaluation.domain.dto.BusinessDto;
 import com.kynsof.evaluation.domain.dto.DoctorDto;
 import com.kynsof.evaluation.domain.dto.EvaluationDto;
 import com.kynsof.evaluation.domain.dto.PatientDto;
 import com.kynsof.evaluation.domain.dto.enumDto.Status;
+import com.kynsof.evaluation.domain.service.IBusinessService;
 import com.kynsof.evaluation.domain.service.IDoctorService;
 import com.kynsof.share.core.domain.bus.command.ICommandHandler;
 import com.kynsof.evaluation.domain.service.IEvaluationService;
@@ -20,6 +22,7 @@ public class CreateEvaluationCommandHandler implements ICommandHandler<CreateEva
 
     private final IEvaluationService serviceImpl;
     private final IPatientsService patientsService;
+    private final IBusinessService businessService;
     private final IDoctorService doctorService;
     private final PatientHttpUUIDService patientHttpUUIDService;
     private final DoctorHttpUUIDService doctorHttpUUIDService;
@@ -28,12 +31,14 @@ public class CreateEvaluationCommandHandler implements ICommandHandler<CreateEva
                                           IPatientsService patientsService,
                                           PatientHttpUUIDService patientHttpUUIDService,
                                           IDoctorService doctorService,
-                                          DoctorHttpUUIDService doctorHttpUUIDService) {
+                                          DoctorHttpUUIDService doctorHttpUUIDService,
+                                          IBusinessService businessService) {
         this.serviceImpl = serviceImpl;
         this.patientsService = patientsService;
         this.patientHttpUUIDService = patientHttpUUIDService;
         this.doctorService = doctorService;
         this.doctorHttpUUIDService = doctorHttpUUIDService;
+        this.businessService = businessService;
     }
 
     @Override
@@ -70,6 +75,7 @@ public class CreateEvaluationCommandHandler implements ICommandHandler<CreateEva
             this.doctorService.create(doctorDto);
         }
 
+        BusinessDto business = this.businessService.findById(command.getBusiness());
         serviceImpl.create(new EvaluationDto(
                 command.getId(),
                 patientDto,
@@ -77,7 +83,8 @@ public class CreateEvaluationCommandHandler implements ICommandHandler<CreateEva
                 command.getMedicalHistory(),
                 command.getPhysicalExam(),
                 command.getObservation(),
-                doctorDto
+                doctorDto,
+                business
         ));
     }
 }

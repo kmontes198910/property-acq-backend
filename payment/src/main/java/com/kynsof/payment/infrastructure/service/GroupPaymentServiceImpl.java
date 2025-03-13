@@ -5,6 +5,7 @@ import com.kynsof.payment.application.query.groupPaymentDetails.SearchGroupPayme
 import com.kynsof.payment.domain.dto.GroupPaymentDto;
 import com.kynsof.payment.domain.dto.enumDto.BillingStatus;
 import com.kynsof.payment.domain.dto.enumDto.GroupPaymentStatus;
+import com.kynsof.payment.domain.dto.enumDto.PaymentType;
 import com.kynsof.payment.domain.service.IGroupPaymentService;
 import com.kynsof.payment.infrastructure.entity.Billing;
 import com.kynsof.payment.infrastructure.entity.Business;
@@ -108,7 +109,8 @@ public class GroupPaymentServiceImpl implements IGroupPaymentService {
                 "", 
                 business, 
                 patients, 
-                totalAmount
+                totalAmount,
+                PaymentType.NONE
         );
         groupPayment.setStatus(GroupPaymentStatus.PENDING_PAID);
         groupPayment = this.groupPaymentWriteDataJPARepository.save(groupPayment);
@@ -147,8 +149,22 @@ public class GroupPaymentServiceImpl implements IGroupPaymentService {
         groupPayment.setRequestId(requestId);
         groupPayment.setProcessUrl(processUrl);
         groupPayment.setStatus(status);
+        groupPayment.setPaymentType(PaymentType.PLACETOPAY);
         this.groupPaymentWriteDataJPARepository.save(groupPayment);
     }
+
+    @Override
+    public void updateAdminSystems(UUID id, String reference, String authorizationCode,
+                                   PaymentType paymentType, GroupPaymentStatus status) {
+        GroupPayment groupPayment = this.groupPaymentReadDataJPARepository.findById(id).orElseThrow();
+        groupPayment.setStatus(status);
+        groupPayment.setReference(reference);
+        groupPayment.setAuthorizationCode(authorizationCode);
+        groupPayment.setPaymentType(paymentType);
+        groupPayment.setStatus(status);
+        this.groupPaymentWriteDataJPARepository.save(groupPayment);
+    }
+
 
     @Override
     public GroupPaymentDto findById(UUID id) {

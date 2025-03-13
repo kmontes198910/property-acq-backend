@@ -1,5 +1,6 @@
 package com.kynsof.payment.domain.service;
 
+import com.kynsof.payment.domain.dto.enumDto.PaymentType;
 import com.kynsof.share.core.domain.request.FilterCriteria;
 import com.kynsof.share.core.domain.response.PaginatedResponse;
 import com.kynsof.payment.domain.dto.GroupPaymentDto;
@@ -18,4 +19,6 @@ public interface IGroupPaymentService {
     PaginatedResponse searchPaymentDetail(Pageable pageable, List<FilterCriteria> filterCriteria);
 
     void update(UUID id, String reference, String authorizationCode, String requestId, String processUrl, GroupPaymentStatus status);
+
+    void updateAdminSystems(UUID id, String reference, String authorizationCode, PaymentType paymentType, GroupPaymentStatus status);
 }

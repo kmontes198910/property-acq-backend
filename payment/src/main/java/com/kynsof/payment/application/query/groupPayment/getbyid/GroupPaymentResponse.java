@@ -2,6 +2,7 @@ package com.kynsof.payment.application.query.groupPayment.getbyid;
 
 import com.kynsof.payment.domain.dto.BusinessDto;
 import com.kynsof.payment.domain.dto.ClientDto;
+import com.kynsof.payment.domain.dto.enumDto.PaymentType;
 import com.kynsof.share.core.domain.bus.query.IResponse;
 import com.kynsof.payment.domain.dto.GroupPaymentDto;
 import com.kynsof.payment.domain.dto.enumDto.GroupPaymentStatus;
@@ -26,6 +27,7 @@ public class GroupPaymentResponse implements IResponse {
     private ClientDto client;
     private BusinessDto business;
     private String internalReferenceNumber;
+    private PaymentType paymentType;
 
     public GroupPaymentResponse(GroupPaymentDto aggregate) {
         this.id = aggregate.getId();
@@ -40,5 +42,6 @@ public class GroupPaymentResponse implements IResponse {
         this.client = aggregate.getClient();
         this.business = aggregate.getBusiness();
         this.internalReferenceNumber = aggregate.getInternalReferenceNumber();
+        this.paymentType = aggregate.getPaymentType();
     }
 }
