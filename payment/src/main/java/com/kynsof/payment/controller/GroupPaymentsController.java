@@ -3,6 +3,9 @@ package com.kynsof.payment.controller;
 import com.kynsof.payment.application.command.groupPayment.sendPaymentLink.SendGroupPaymentLinkCommand;
 import com.kynsof.payment.application.command.groupPayment.sendPaymentLink.SendGroupPaymentLinkMessage;
 import com.kynsof.payment.application.command.groupPayment.sendPaymentLink.SendGroupPaymentLinkRequest;
+import com.kynsof.payment.application.command.groupPayment.updateAdminSystems.UpdateGroupPaymentAdminSystemsCommand;
+import com.kynsof.payment.application.command.groupPayment.updateAdminSystems.UpdateGroupPaymentAdminSystemsMessage;
+import com.kynsof.payment.application.command.groupPayment.updateAdminSystems.UpdateGroupPaymentAdminSystemsRequest;
 import com.kynsof.share.core.domain.request.PageableUtil;
 import com.kynsof.share.core.domain.request.SearchRequest;
 import com.kynsof.share.core.domain.response.PaginatedResponse;
@@ -62,6 +65,14 @@ public class GroupPaymentsController {
 
         UpdateGroupPaymentCommand command = UpdateGroupPaymentCommand.fromRequest(id, request);
         UpdateGroupPaymentMessage response = mediator.send(command);
+        return ResponseEntity.ok(response);
+    }
+
+    @PatchMapping("/admin-systems/{id}")
+    public ResponseEntity<?> updateAdminSystems(@PathVariable("id") UUID id, @RequestBody UpdateGroupPaymentAdminSystemsRequest request) {
+
+        UpdateGroupPaymentAdminSystemsCommand command = UpdateGroupPaymentAdminSystemsCommand.fromRequest(id, request);
+        UpdateGroupPaymentAdminSystemsMessage response = mediator.send(command);
         return ResponseEntity.ok(response);
     }
 

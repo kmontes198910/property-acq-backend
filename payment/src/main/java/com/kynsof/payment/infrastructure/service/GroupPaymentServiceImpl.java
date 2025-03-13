@@ -149,8 +149,22 @@ public class GroupPaymentServiceImpl implements IGroupPaymentService {
         groupPayment.setRequestId(requestId);
         groupPayment.setProcessUrl(processUrl);
         groupPayment.setStatus(status);
+        groupPayment.setPaymentType(PaymentType.PLACETOPAY);
         this.groupPaymentWriteDataJPARepository.save(groupPayment);
     }
+
+    @Override
+    public void updateAdminSystems(UUID id, String reference, String authorizationCode,
+                                   PaymentType paymentType, GroupPaymentStatus status) {
+        GroupPayment groupPayment = this.groupPaymentReadDataJPARepository.findById(id).orElseThrow();
+        groupPayment.setStatus(status);
+        groupPayment.setReference(reference);
+        groupPayment.setAuthorizationCode(authorizationCode);
+        groupPayment.setPaymentType(paymentType);
+        groupPayment.setStatus(status);
+        this.groupPaymentWriteDataJPARepository.save(groupPayment);
+    }
+
 
     @Override
     public GroupPaymentDto findById(UUID id) {
