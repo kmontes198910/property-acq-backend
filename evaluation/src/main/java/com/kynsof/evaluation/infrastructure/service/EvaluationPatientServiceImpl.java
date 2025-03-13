@@ -10,6 +10,7 @@ import com.kynsof.evaluation.infrastructure.entity.EvaluationPatientExamAnswer;
 import com.kynsof.evaluation.infrastructure.entity.EvaluationQuestion;
 import com.kynsof.evaluation.infrastructure.repositories.command.EvaluationPatientExamAnswerWriteDataJPARepository;
 import com.kynsof.evaluation.infrastructure.repositories.command.EvaluationPatientWriteDataJPARepository;
+import com.kynsof.evaluation.infrastructure.repositories.query.EvaluationPatientExamAnswerReadDataJPARepository;
 import com.kynsof.evaluation.infrastructure.repositories.query.EvaluationPatientReadDataJPARepository;
 import com.kynsof.evaluation.infrastructure.repositories.query.EvaluationQuestionReadDataJPARepository;
 import com.kynsof.share.core.domain.request.FilterCriteria;
@@ -30,13 +31,15 @@ public class EvaluationPatientServiceImpl implements IEvaluationPatientService {
     private final EvaluationPatientReadDataJPARepository repositoryQuery;
     private final EvaluationQuestionReadDataJPARepository evaluationQuestionReadDataJPARepository;
     private final EvaluationPatientExamAnswerWriteDataJPARepository evaluationPatientExamAnswerWriteDataJPARepository;
+    private final EvaluationPatientExamAnswerReadDataJPARepository evaluationPatientExamAnswerReadDataJPARepository;
 
     public EvaluationPatientServiceImpl(EvaluationPatientWriteDataJPARepository repositoryCommand,
-                                        EvaluationPatientReadDataJPARepository repositoryQuery, EvaluationQuestionReadDataJPARepository evaluationQuestionPatientReadDataJPARepository, EvaluationPatientExamAnswerWriteDataJPARepository evaluationPatientExamAnswerWriteDataJPARepository) {
+                                        EvaluationPatientReadDataJPARepository repositoryQuery, EvaluationQuestionReadDataJPARepository evaluationQuestionPatientReadDataJPARepository, EvaluationPatientExamAnswerWriteDataJPARepository evaluationPatientExamAnswerWriteDataJPARepository, EvaluationPatientExamAnswerReadDataJPARepository evaluationPatientExamAnswerReadDataJPARepository) {
         this.repositoryCommand = repositoryCommand;
         this.repositoryQuery = repositoryQuery;
         this.evaluationQuestionReadDataJPARepository = evaluationQuestionPatientReadDataJPARepository;
         this.evaluationPatientExamAnswerWriteDataJPARepository = evaluationPatientExamAnswerWriteDataJPARepository;
+        this.evaluationPatientExamAnswerReadDataJPARepository = evaluationPatientExamAnswerReadDataJPARepository;
     }
 
     @Override
@@ -57,8 +60,8 @@ public class EvaluationPatientServiceImpl implements IEvaluationPatientService {
                 .map(question -> new EvaluationPatientExamAnswer(finalExam, question, true, question.getMaxScore(), ""))
                 .toList(); // Convertir a lista para ser guardado
 
-         this.evaluationPatientExamAnswerWriteDataJPARepository.saveAll(evaluationPatientExamAnswers);
-         return exam.getId();
+        this.evaluationPatientExamAnswerWriteDataJPARepository.saveAll(evaluationPatientExamAnswers);
+        return exam.getId();
     }
 
     public EvaluationPatientExam getExamByEvaluationIdAndType(UUID evaluationId, EvaluationExamenType examenType) {
@@ -96,46 +99,52 @@ public class EvaluationPatientServiceImpl implements IEvaluationPatientService {
         this.evaluationPatientExamAnswerWriteDataJPARepository.saveAll(evaluationPatientExamAnswers);
     }
 
-@Override
-public void updateSpecification(EvaluationPatientExamDto object, List<CodeAnswerUpdateRequest> examenListCode) {
-    EvaluationPatientExam evaluationPatientExam = this.repositoryQuery.findById(object.getId())
-            .orElseThrow(() -> new RuntimeException("EvaluationPatientExam not found"));
+    @Override
+    public void updateSpecification(EvaluationPatientExamDto object, List<CodeAnswerUpdateRequest> examenListCode) {
+        EvaluationPatientExam evaluationPatientExam = this.repositoryQuery.findById(object.getId())
+                .orElseThrow(() -> new RuntimeException("EvaluationPatientExam not found"));
 
-    List<String> questionCodes = examenListCode.stream()
-            .map(CodeAnswerUpdateRequest::getCode)
-            .toList();
+        List<String> questionCodes = examenListCode.stream()
+                .map(CodeAnswerUpdateRequest::getCode)
+                .toList();
 
-    List<EvaluationQuestion> evaluationQuestions = this.evaluationQuestionReadDataJPARepository.findByCodes(questionCodes);
+        List<EvaluationQuestion> evaluationQuestions = this.evaluationQuestionReadDataJPARepository.findByCodes(questionCodes);
 
-    long totalPoints = evaluationQuestions.stream()
-            .mapToLong(EvaluationQuestion::getMaxScore)
-            .sum();
-    evaluationPatientExam.setTotalScore((int) totalPoints);
+        long totalPoints = evaluationQuestions.stream()
+                .mapToLong(EvaluationQuestion::getMaxScore)
+                .sum();
+        evaluationPatientExam.setTotalScore((int) totalPoints);
 
-    List<UUID> eval = evaluationPatientExam.getAnswers().stream()
-            .map(EvaluationPatientExamAnswer::getId)
-            .toList();
+        List<UUID> eval = evaluationPatientExam.getAnswers().stream()
+                .map(EvaluationPatientExamAnswer::getId)
+                .toList();
 
-    this.evaluationPatientExamAnswerWriteDataJPARepository.deleteAllByIdInBatch(eval);
-    evaluationPatientExam = this.repositoryCommand.save(evaluationPatientExam);
+        this.evaluationPatientExamAnswerWriteDataJPARepository.deleteAllByIdInBatch(eval);
+        evaluationPatientExam = this.repositoryCommand.save(evaluationPatientExam);
 
-    Map<String, String> responseMap = examenListCode.stream()
-            .collect(Collectors.toMap(CodeAnswerUpdateRequest::getCode, CodeAnswerUpdateRequest::getResponse));
+        Map<String, String> responseMap = examenListCode.stream()
+                .collect(Collectors.toMap(CodeAnswerUpdateRequest::getCode, CodeAnswerUpdateRequest::getResponse));
 
-    EvaluationPatientExam finalExam = evaluationPatientExam;
-    List<EvaluationPatientExamAnswer> evaluationPatientExamAnswers = evaluationQuestions.stream()
-            .map(question -> new EvaluationPatientExamAnswer(finalExam, question, true, question.getMaxScore(), responseMap.getOrDefault(question.getCode(), "")))
-            .toList();
+        EvaluationPatientExam finalExam = evaluationPatientExam;
+        List<EvaluationPatientExamAnswer> evaluationPatientExamAnswers = evaluationQuestions.stream()
+                .map(question -> new EvaluationPatientExamAnswer(finalExam, question, true, question.getMaxScore(), responseMap.getOrDefault(question.getCode(), "")))
+                .toList();
 
-    this.evaluationPatientExamAnswerWriteDataJPARepository.saveAll(evaluationPatientExamAnswers);
-}
+        this.evaluationPatientExamAnswerWriteDataJPARepository.saveAll(evaluationPatientExamAnswers);
+    }
 
 
-@Override
+    @Override
     public void update(EvaluationPatientExamDto object, List<String> answers) {
+
         // Buscar el examen, lanzar excepción si no existe
         EvaluationPatientExam evaluationPatientExam = this.repositoryQuery.findById(object.getId())
                 .orElseThrow(() -> new RuntimeException("EvaluationPatientExam not found"));
+        List<UUID> eval = this.evaluationPatientExamAnswerReadDataJPARepository.findByPatientExamId(evaluationPatientExam.getId()).stream().map(EvaluationPatientExamAnswer::getId).toList();
+
+        // 🔴 ELIMINAR TODAS LAS RESPUESTAS ANTERIORES
+        this.evaluationPatientExamAnswerWriteDataJPARepository.deleteAllByIdInBatch(eval);
+
 
         // Buscar preguntas según los códigos de respuestas
         List<EvaluationQuestion> evaluationQuestions = this.evaluationQuestionReadDataJPARepository.findByCodes(answers);
@@ -146,10 +155,6 @@ public void updateSpecification(EvaluationPatientExamDto object, List<CodeAnswer
                 .sum();
         evaluationPatientExam.setTotalScore((int) cantPoint);
 
-        List<UUID> eval= evaluationPatientExam.getAnswers().stream().map(EvaluationPatientExamAnswer::getId).toList();
-
-        // 🔴 ELIMINAR TODAS LAS RESPUESTAS ANTERIORES
-        this.evaluationPatientExamAnswerWriteDataJPARepository.deleteAllByIdInBatch(eval);
 
         // Guardar el examen actualizado en la base de datos
         evaluationPatientExam = this.repositoryCommand.save(evaluationPatientExam);
@@ -157,7 +162,7 @@ public void updateSpecification(EvaluationPatientExamDto object, List<CodeAnswer
         // Crear nuevas respuestas y asociarlas al examen
         EvaluationPatientExam finalExam = evaluationPatientExam;
         List<EvaluationPatientExamAnswer> evaluationPatientExamAnswers = evaluationQuestions.stream()
-                .map(question -> new EvaluationPatientExamAnswer(finalExam, question, true, question.getMaxScore(),""))
+                .map(question -> new EvaluationPatientExamAnswer(finalExam, question, true, question.getMaxScore(), ""))
                 .toList();
 
         // Guardar las nuevas respuestas en la base de datos
