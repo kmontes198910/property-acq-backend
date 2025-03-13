@@ -1,5 +1,6 @@
 package com.kynsof.evaluation.application.object.response;
 
+import com.kynsof.evaluation.application.query.business.getById.BusinessResponse;
 import com.kynsof.evaluation.domain.dto.*;
 import com.kynsof.share.core.domain.bus.query.IResponse;
 import lombok.Getter;
@@ -15,6 +16,7 @@ import lombok.AllArgsConstructor;
 public class EvaluationResponse implements IResponse {
     private UUID id;
     private PatientResponse patient;
+    private BusinessResponse business;
     private String consultationReason;
     private String medicalHistory;
     private String physicalExam;
@@ -31,6 +33,7 @@ public class EvaluationResponse implements IResponse {
         this.observation = dto.getObservation();
         this.createdAt = dto.getCreatedAt();
         this.updatedAt = dto.getUpdatedAt();
+        this.business = dto.getBusiness() != null ? new BusinessResponse(dto.getBusiness()) : null;
     }
 
 }
