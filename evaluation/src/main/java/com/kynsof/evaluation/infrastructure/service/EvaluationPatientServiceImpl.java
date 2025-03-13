@@ -104,6 +104,11 @@ public class EvaluationPatientServiceImpl implements IEvaluationPatientService {
         EvaluationPatientExam evaluationPatientExam = this.repositoryQuery.findById(object.getId())
                 .orElseThrow(() -> new RuntimeException("EvaluationPatientExam not found"));
 
+        List<UUID> eval = this.evaluationPatientExamAnswerReadDataJPARepository.findByPatientExamId(evaluationPatientExam.getId()).stream().map(EvaluationPatientExamAnswer::getId).toList();
+
+        // 🔴 ELIMINAR TODAS LAS RESPUESTAS ANTERIORES
+        this.evaluationPatientExamAnswerWriteDataJPARepository.deleteAllByIdInBatch(eval);
+
         List<String> questionCodes = examenListCode.stream()
                 .map(CodeAnswerUpdateRequest::getCode)
                 .toList();
@@ -115,11 +120,9 @@ public class EvaluationPatientServiceImpl implements IEvaluationPatientService {
                 .sum();
         evaluationPatientExam.setTotalScore((int) totalPoints);
 
-        List<UUID> eval = evaluationPatientExam.getAnswers().stream()
-                .map(EvaluationPatientExamAnswer::getId)
-                .toList();
 
-        this.evaluationPatientExamAnswerWriteDataJPARepository.deleteAllByIdInBatch(eval);
+
+
         evaluationPatientExam = this.repositoryCommand.save(evaluationPatientExam);
 
         Map<String, String> responseMap = examenListCode.stream()
