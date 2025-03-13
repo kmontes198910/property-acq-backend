@@ -17,7 +17,6 @@ import com.kynsof.share.core.domain.response.PaginatedResponse;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -41,7 +40,7 @@ public class EvaluationPatientServiceImpl implements IEvaluationPatientService {
     }
 
     @Override
-    public void create(EvaluationPatientExamDto object, List<String> questionCodes) {
+    public UUID create(EvaluationPatientExamDto object, List<String> questionCodes) {
 
         List<EvaluationQuestion> evaluationQuestions = this.evaluationQuestionReadDataJPARepository.findByCodes(questionCodes);
         EvaluationPatientExam exam = new EvaluationPatientExam(object);
@@ -58,8 +57,8 @@ public class EvaluationPatientServiceImpl implements IEvaluationPatientService {
                 .map(question -> new EvaluationPatientExamAnswer(finalExam, question, true, question.getMaxScore(), ""))
                 .toList(); // Convertir a lista para ser guardado
 
-        // Guardar las respuestas en la base de datos
-        this.evaluationPatientExamAnswerWriteDataJPARepository.saveAll(evaluationPatientExamAnswers);
+         this.evaluationPatientExamAnswerWriteDataJPARepository.saveAll(evaluationPatientExamAnswers);
+         return exam.getId();
     }
 
     public EvaluationPatientExam getExamByEvaluationIdAndType(UUID evaluationId, EvaluationExamenType examenType) {
