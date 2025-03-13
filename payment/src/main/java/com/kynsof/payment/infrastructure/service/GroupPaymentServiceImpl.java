@@ -5,6 +5,7 @@ import com.kynsof.payment.application.query.groupPaymentDetails.SearchGroupPayme
 import com.kynsof.payment.domain.dto.GroupPaymentDto;
 import com.kynsof.payment.domain.dto.enumDto.BillingStatus;
 import com.kynsof.payment.domain.dto.enumDto.GroupPaymentStatus;
+import com.kynsof.payment.domain.dto.enumDto.PaymentType;
 import com.kynsof.payment.domain.service.IGroupPaymentService;
 import com.kynsof.payment.infrastructure.entity.Billing;
 import com.kynsof.payment.infrastructure.entity.Business;
@@ -108,7 +109,8 @@ public class GroupPaymentServiceImpl implements IGroupPaymentService {
                 "", 
                 business, 
                 patients, 
-                totalAmount
+                totalAmount,
+                PaymentType.NONE
         );
         groupPayment.setStatus(GroupPaymentStatus.PENDING_PAID);
         groupPayment = this.groupPaymentWriteDataJPARepository.save(groupPayment);

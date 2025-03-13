@@ -2,6 +2,7 @@ package com.kynsof.payment.infrastructure.entity;
 
 import com.kynsof.payment.domain.dto.GroupPaymentDto;
 import com.kynsof.payment.domain.dto.enumDto.GroupPaymentStatus;
+import com.kynsof.payment.domain.dto.enumDto.PaymentType;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -46,6 +47,10 @@ public class GroupPayment {
     @JoinColumn(name = "client_id")
     private Client client;
 
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private PaymentType paymentType;
+
     @CreationTimestamp
     @Column(nullable = false, updatable = false)
     private LocalDateTime createdAt;
@@ -54,7 +59,7 @@ public class GroupPayment {
     private LocalDateTime updatedAt;
 
     public GroupPayment(String requestId, LocalDateTime paymentDate, String authorizationCode, String reference,
-                        String processUrl, Business business, Client client, Double totalAmount) {
+                        String processUrl, Business business, Client client, Double totalAmount, PaymentType paymentType) {
         this.requestId = requestId;
         this.paymentDate = paymentDate;
         this.authorizationCode = authorizationCode;
@@ -64,6 +69,7 @@ public class GroupPayment {
         this.client = client;
         this.totalAmount = totalAmount;
         this.internalReferenceNumber = generateInternalReference();
+        this.paymentType = paymentType;
     }
 
     public GroupPaymentDto toAggregate() {
@@ -80,6 +86,7 @@ public class GroupPayment {
         dto.setClient(client.toAggregate());
         dto.setBusiness(business.toAggregate());
         dto.setInternalReferenceNumber(internalReferenceNumber);
+        dto.setPaymentType(this.paymentType);
         return dto;
     }
 
