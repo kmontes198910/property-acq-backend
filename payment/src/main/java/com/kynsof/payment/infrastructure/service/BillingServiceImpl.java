@@ -10,6 +10,7 @@ import com.kynsof.payment.infrastructure.repositories.command.GroupPaymentWriteD
 import com.kynsof.payment.infrastructure.repositories.command.PaymentDetailWriteDataJPARepository;
 import com.kynsof.payment.infrastructure.repositories.query.BillingReadDataJPARepository;
 import com.kynsof.payment.infrastructure.repositories.query.BusinessReadDataJPARepository;
+import com.kynsof.share.core.domain.EUserType;
 import com.kynsof.share.core.domain.exception.BusinessNotFoundException;
 import com.kynsof.share.core.domain.exception.DomainErrorMessage;
 import com.kynsof.share.core.domain.exception.GlobalBusinessException;
@@ -34,16 +35,10 @@ public class BillingServiceImpl implements IBillingService {
     private final BillingReadDataJPARepository repositoryQuery;
 
     private final BillingWriteDataJPARepository repositoryCommand;
-    private final GroupPaymentWriteDataJPARepository groupPaymentWriteDataJPARepository;
-    private final PaymentDetailWriteDataJPARepository paymentDetailWriteDataJPARepository;
-    private final BusinessReadDataJPARepository businessReadDataJPARepository;
 
-    public BillingServiceImpl(BillingReadDataJPARepository repositoryQuery, BillingWriteDataJPARepository repositoryCommand, GroupPaymentWriteDataJPARepository groupPaymentWriteDataJPARepository, PaymentDetailWriteDataJPARepository paymentDetailWriteDataJPARepository, BusinessReadDataJPARepository businessReadDataJPARepository) {
+    public BillingServiceImpl(BillingReadDataJPARepository repositoryQuery, BillingWriteDataJPARepository repositoryCommand) {
         this.repositoryQuery = repositoryQuery;
         this.repositoryCommand = repositoryCommand;
-        this.groupPaymentWriteDataJPARepository = groupPaymentWriteDataJPARepository;
-        this.paymentDetailWriteDataJPARepository = paymentDetailWriteDataJPARepository;
-        this.businessReadDataJPARepository = businessReadDataJPARepository;
     }
 
     @Override
@@ -85,9 +80,27 @@ public class BillingServiceImpl implements IBillingService {
 
     @Override
     public PaginatedResponse search(Pageable pageable, List<FilterCriteria> filterCriteria) {
+        filterCriteria(filterCriteria);
         GenericSpecificationsBuilder<Billing> specifications = new GenericSpecificationsBuilder<>(filterCriteria);
         Page<Billing> data = this.repositoryQuery.findAll(specifications, pageable);
         return getPaginatedResponse(data);
+    }
+
+    private void filterCriteria(List<FilterCriteria> filterCriteria) {
+        filterCriteria.forEach(filter -> {
+            if ("status".equals(filter.getKey()) && filter.getValue() instanceof String) {
+                filter.setValue(parseEnum(BillingStatus.class, (String) filter.getValue(), "BillingStatus"));
+            }
+        });
+    }
+
+    private <T extends Enum<T>> T parseEnum(Class<T> enumClass, String value, String enumName) {
+        try {
+            return Enum.valueOf(enumClass, value);
+        } catch (IllegalArgumentException e) {
+            System.err.println("Invalid value for enum " + enumName + ": " + value);
+            return null;
+        }
     }
 
     private PaginatedResponse getPaginatedResponse(Page<Billing> data) {
