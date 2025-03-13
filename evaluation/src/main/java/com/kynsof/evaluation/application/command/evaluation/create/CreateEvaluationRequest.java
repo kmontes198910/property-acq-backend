@@ -10,6 +10,7 @@ public class CreateEvaluationRequest {
 
     private UUID patient;
     private UUID doctor;
+    private UUID business;
     private String consultationReason;
     private String medicalHistory;
     private String physicalExam;
