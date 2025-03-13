@@ -18,9 +18,7 @@ import com.kynsof.share.core.domain.response.PaginatedResponse;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -148,28 +146,22 @@ public class EvaluationPatientServiceImpl implements IEvaluationPatientService {
         // 🔴 ELIMINAR TODAS LAS RESPUESTAS ANTERIORES
         this.evaluationPatientExamAnswerWriteDataJPARepository.deleteAllByIdInBatch(eval);
 
-
-        // Buscar preguntas según los códigos de respuestas
         List<EvaluationQuestion> evaluationQuestions = this.evaluationQuestionReadDataJPARepository.findByCodes(answers);
 
-        // Calcular la nueva puntuación total
         long cantPoint = evaluationQuestions.stream()
                 .mapToLong(EvaluationQuestion::getMaxScore)
                 .sum();
         evaluationPatientExam.setTotalScore((int) cantPoint);
 
-
-        // Guardar el examen actualizado en la base de datos
-        evaluationPatientExam = this.repositoryCommand.save(evaluationPatientExam);
-
-        // Crear nuevas respuestas y asociarlas al examen
-        EvaluationPatientExam finalExam = evaluationPatientExam;
         List<EvaluationPatientExamAnswer> evaluationPatientExamAnswers = evaluationQuestions.stream()
-                .map(question -> new EvaluationPatientExamAnswer(finalExam, question, true, question.getMaxScore(), ""))
+                .map(question -> new EvaluationPatientExamAnswer(evaluationPatientExam, question, true, question.getMaxScore(), ""))
                 .toList();
 
-        // Guardar las nuevas respuestas en la base de datos
-        this.evaluationPatientExamAnswerWriteDataJPARepository.saveAll(evaluationPatientExamAnswers);
+        evaluationPatientExam.setAnswers(evaluationPatientExamAnswers);
+    this.repositoryCommand.save(evaluationPatientExam);
+       // EvaluationPatientExam finalExam = evaluationPatientExam;
+
+      //  this.evaluationPatientExamAnswerWriteDataJPARepository.saveAll(evaluationPatientExamAnswers);
     }
 
     @Override
