@@ -32,6 +32,7 @@ public class CreateSpecificationEvaluationPatientCommandHandler implements IComm
         evaluationPatientExamDto.setExamDate(LocalDate.now());
         evaluationPatientExamDto.setExamenType(command.getExamenType());
 
-          this.serviceImpl.createSpecification(evaluationPatientExamDto, command.getExamenListCode());
+        UUID id=  this.serviceImpl.createSpecification(evaluationPatientExamDto, command.getExamenListCode());
+        command.setId(id);
     }
 }
