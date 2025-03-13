@@ -14,12 +14,13 @@ public class CreateEvaluationCommand implements ICommand {
     private UUID id;
     private UUID patient;
     private UUID doctor;
+    private UUID business;
     private String consultationReason;
     private String medicalHistory;
     private String physicalExam;
     private String observation;
 
-    public CreateEvaluationCommand(UUID patient, String consultationReason, String medicalHistory, String physicalExam, String observation, UUID doctor) {
+    public CreateEvaluationCommand(UUID patient, String consultationReason, String medicalHistory, String physicalExam, String observation, UUID doctor, UUID business) {
         this.id = UUID.randomUUID();
         this.patient = patient;
         this.consultationReason = consultationReason;
@@ -27,6 +28,7 @@ public class CreateEvaluationCommand implements ICommand {
         this.physicalExam = physicalExam;
         this.observation = observation;
         this.doctor = doctor;
+        this.business = business;
     }
 
     public static CreateEvaluationCommand fromRequest(CreateEvaluationRequest request) {
@@ -36,7 +38,8 @@ public class CreateEvaluationCommand implements ICommand {
                 request.getMedicalHistory(), 
                 request.getPhysicalExam(), 
                 request.getObservation(),
-                request.getDoctor()
+                request.getDoctor(),
+                request.getBusiness()
         );
     }
 
