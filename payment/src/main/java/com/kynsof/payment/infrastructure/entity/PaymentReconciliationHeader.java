@@ -1,0 +1,54 @@
+package com.kynsof.payment.infrastructure.entity;
+
+import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
+
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.UUID;
+
+@Entity
+@Table(name = "payment_reconciliation_header")
+@Getter
+@Setter
+@NoArgsConstructor
+public class PaymentReconciliationHeader {
+
+    @Id
+    @GeneratedValue
+    private UUID id;
+
+    @Column(nullable = false)
+    private LocalDateTime startDate;
+
+    @Column(nullable = false)
+    private LocalDateTime endDate;
+
+    @Column(nullable = false)
+    private int totalPayments;
+
+    @Column(nullable = false)
+    private double totalRevenue;
+
+    @ManyToOne
+    @JoinColumn(name = "business_id", nullable = false)
+    private Business business; // Identificación de la empresa
+
+    @CreationTimestamp
+    @Column(nullable = false, updatable = false)
+    private LocalDateTime generatedAt;
+
+    @OneToMany(mappedBy = "reconciliationHeader", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<PaymentReconciliationDetail> details;
+
+    public PaymentReconciliationHeader(LocalDateTime startDate, LocalDateTime endDate, int totalPayments, double totalRevenue, Business business) {
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.totalPayments = totalPayments;
+        this.totalRevenue = totalRevenue;
+        this.business = business;
+    }
+}
