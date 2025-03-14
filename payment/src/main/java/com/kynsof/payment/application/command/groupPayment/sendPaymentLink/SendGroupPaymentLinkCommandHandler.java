@@ -62,7 +62,7 @@ public class SendGroupPaymentLinkCommandHandler implements ICommandHandler<SendG
     }
 
     private void sendWhatsAppNotification(GroupPaymentDto groupPaymentDto) {
-        String paymentLink = "/payment-info?token=" + groupPaymentDto.getId();
+        String paymentLink = "payment-info?token=" + groupPaymentDto.getId();
         Map<String, String> requestData = buildWhatsAppRequestData(groupPaymentDto, paymentLink);
         String response = notificationService.sendWhatsAppNotification(requestData);
         System.out.println("📲 WhatsApp Response: " + response);
