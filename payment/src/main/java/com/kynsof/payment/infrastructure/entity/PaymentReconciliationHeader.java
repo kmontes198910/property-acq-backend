@@ -28,27 +28,50 @@ public class PaymentReconciliationHeader {
     private LocalDateTime endDate;
 
     @Column(nullable = false)
-    private int totalPayments;
+    private Long totalPayments;
 
     @Column(nullable = false)
     private double totalRevenue;
+
+
+    @Column(nullable = false)
+    private double totalPlacetoPay;
+
+    @Column(nullable = false)
+    private double totalCash;
+
+    @Column(nullable = false)
+    private double totalTransfer;
 
     @ManyToOne
     @JoinColumn(name = "business_id", nullable = false)
     private Business business; // Identificación de la empresa
 
+    @Column(name = "user_system_id")
+    private UUID userSystemId;
+
+    @Column(name = "user_system_full_name")
+    private String userSystemFullName;
+
     @CreationTimestamp
     @Column(nullable = false, updatable = false)
-    private LocalDateTime generatedAt;
+    private LocalDateTime createdAt;
 
     @OneToMany(mappedBy = "reconciliationHeader", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<PaymentReconciliationDetail> details;
 
-    public PaymentReconciliationHeader(LocalDateTime startDate, LocalDateTime endDate, int totalPayments, double totalRevenue, Business business) {
+    public PaymentReconciliationHeader(LocalDateTime startDate, LocalDateTime endDate, Long totalPayments,
+                                       double totalRevenue, Business business, UUID userI, String userFullName,
+                                       double totalPlacetoPay, double totalCash, double totalTransfer) {
         this.startDate = startDate;
         this.endDate = endDate;
         this.totalPayments = totalPayments;
         this.totalRevenue = totalRevenue;
         this.business = business;
+        this.userSystemId = userI;
+        this.userSystemFullName = userFullName;
+        this.totalPlacetoPay = totalPlacetoPay;
+        this.totalCash = totalCash;
+        this.totalTransfer = totalTransfer;
     }
 }

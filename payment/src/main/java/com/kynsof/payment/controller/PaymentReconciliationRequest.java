@@ -12,5 +12,7 @@ public class PaymentReconciliationRequest {
     private LocalDateTime startDate;
     private  LocalDateTime endDate;
     private UUID businessId;
+    private UUID userSystemsId;
+    private String userSystemsFullName;
 
 }

@@ -20,7 +20,11 @@ public interface GroupPaymentDetailReadDataJPARepository extends JpaRepository<P
     List<PaymentDetail> findByGroupPayment(GroupPayment groupPayment);
 
 
-    @Query("SELECT pd.billing.code AS serviceCode, COUNT(pd.id) AS serviceCount, SUM(pd.amount) AS totalAmount " +
+    @Query("SELECT pd.billing.code AS serviceCode, COUNT(pd.id) AS serviceCount, " +
+            "SUM(pd.amount) AS totalAmount, " +
+            "SUM(CASE WHEN pd.groupPayment.paymentType = 'PLACETOPAY' THEN pd.amount ELSE 0 END) AS placetopayAmount, " +
+            "SUM(CASE WHEN pd.groupPayment.paymentType = 'CASH' THEN pd.amount ELSE 0 END) AS cashAmount, " +
+            "SUM(CASE WHEN pd.groupPayment.paymentType = 'TRANSFER' THEN pd.amount ELSE 0 END) AS transferAmount " +
             "FROM PaymentDetail pd " +
             "WHERE pd.groupPayment.paymentDate BETWEEN :startDate AND :endDate " +
             "AND pd.billing.business.id = :businessId " +
@@ -32,4 +36,12 @@ public interface GroupPaymentDetailReadDataJPARepository extends JpaRepository<P
 
     @Query("SELECT pd.billing FROM PaymentDetail pd WHERE pd.billing.code = :serviceCode ORDER BY pd.billing.createdAt ASC")
     List<Billing> findBillingByServiceCode(@Param("serviceCode") String serviceCode);
+
+    @Query("SELECT COUNT(DISTINCT pd.groupPayment.id) FROM PaymentDetail pd " +
+            "WHERE pd.groupPayment.paymentDate BETWEEN :startDate AND :endDate " +
+            "AND pd.billing.business.id = :businessId " +
+            "AND pd.groupPayment.status = 'PAYMENT_APPROVED'")
+    Long countDistinctGroupPayments(@Param("startDate") LocalDateTime startDate,
+                                    @Param("endDate") LocalDateTime endDate,
+                                    @Param("businessId") UUID businessId);
 }

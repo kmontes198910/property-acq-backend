@@ -35,6 +35,15 @@ public class PaymentReconciliationDetail {
     private double totalAmount; // Total recaudado por este servicio
 
     @Column(nullable = false)
+    private double placetopayAmount; // Monto pagado con PlaceToPay
+
+    @Column(nullable = false)
+    private double cashAmount; // Monto pagado en efectivo
+
+    @Column(nullable = false)
+    private double transferAmount; // Monto pagado por transferencia
+
+    @Column(nullable = false)
     private int serviceCount; // Cantidad de veces que se pagó este servicio
 
     @CreationTimestamp
@@ -45,11 +54,15 @@ public class PaymentReconciliationDetail {
     private LocalDateTime updatedAt;
 
     public PaymentReconciliationDetail(PaymentReconciliationHeader reconciliationHeader, String serviceCode,
-                                       String description, int serviceCount, double totalAmount) {
+                                       String description, int serviceCount, double totalAmount, double placetopayAmount,
+                                       double cashAmount, double transferAmount) {
         this.reconciliationHeader = reconciliationHeader;
         this.serviceCode = serviceCode;
         this.description = description;
         this.serviceCount = serviceCount;
         this.totalAmount = totalAmount;
+        this.placetopayAmount = placetopayAmount;
+        this.cashAmount = cashAmount;
+        this.transferAmount = transferAmount;
     }
 }

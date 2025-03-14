@@ -9,7 +9,7 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
 import java.util.UUID;
 
-public interface AccountReconciliationReadDataJPARepository extends JpaRepository<PaymentReconciliationDetail, UUID>, JpaSpecificationExecutor<PaymentReconciliationDetail> {
+public interface PaymentReconciliationDetailReadDataJPARepository extends JpaRepository<PaymentReconciliationDetail, UUID>, JpaSpecificationExecutor<PaymentReconciliationDetail> {
     Page<PaymentReconciliationDetail> findAll(Specification specification, Pageable pageable);
 
 }
