@@ -1,11 +1,14 @@
 package com.kynsof.payment.infrastructure.service;
 
+import com.kynsof.payment.application.command.groupPayment.createGroupPaymentUnif.CreateBillingPartialRequest;
 import com.kynsof.payment.application.query.groupPayment.getbyid.GroupPaymentResponse;
 import com.kynsof.payment.application.query.groupPaymentDetails.SearchGroupPaymentDetailResponse;
+import com.kynsof.payment.domain.dto.BillingDto;
 import com.kynsof.payment.domain.dto.GroupPaymentDto;
 import com.kynsof.payment.domain.dto.enumDto.BillingStatus;
 import com.kynsof.payment.domain.dto.enumDto.GroupPaymentStatus;
 import com.kynsof.payment.domain.dto.enumDto.PaymentType;
+import com.kynsof.payment.domain.dto.enumDto.TypeOperation;
 import com.kynsof.payment.domain.service.IGroupPaymentService;
 import com.kynsof.payment.infrastructure.entity.Billing;
 import com.kynsof.payment.infrastructure.entity.Business;
@@ -163,6 +166,53 @@ public class GroupPaymentServiceImpl implements IGroupPaymentService {
         groupPayment.setPaymentType(paymentType);
         groupPayment.setStatus(status);
         this.groupPaymentWriteDataJPARepository.save(groupPayment);
+    }
+
+    @Override
+    public UUID createBillingsAndGroupPayment(UUID clientId, UUID businessId, List<CreateBillingPartialRequest> billings,
+                                              UUID userSystemId, String userSystemFullName, PaymentType paymentType,
+                                              GroupPaymentStatus paymentStatus, String insuranceId,
+                                              TypeOperation typeOperation, boolean proforma, String authorizationCode,
+                                              String reference) {
+        Client client = this.clientReadDataJPARepository.findById(clientId).orElseThrow();
+        Business business = this.businessReadDataJPARepository.findById(businessId).orElseThrow();
+        List<BillingDto> billingDtos = billings.stream().map(billing ->
+                new BillingDto(
+                        UUID.randomUUID(),
+                        client.toAggregate(),
+                        business.toAggregate(),
+                        billing.getCode(),
+                        billing.getDescription(),
+                        BillingStatus.PENDING_PAID,
+                        proforma,
+                        billing.getCost(),
+                        userSystemId,
+                        userSystemFullName,
+                        typeOperation
+                )
+        ).toList();
+
+        billingWriteDataJPARepository.saveAll(billingDtos.stream().map(Billing::new).toList());
+
+        List<UUID> billingIds = billingDtos.stream()
+                .map(BillingDto::getId)
+                .toList();
+
+        UUID groupPaymentId = createGroupPayment(
+                billingIds,
+                businessId,
+                clientId
+        );
+
+        updateAdminSystems(
+                groupPaymentId,
+                authorizationCode,
+                reference,
+                paymentType,
+                paymentStatus
+        );
+
+        return groupPaymentId;
     }
 
 
