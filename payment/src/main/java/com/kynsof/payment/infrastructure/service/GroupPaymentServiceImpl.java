@@ -154,7 +154,10 @@ public class GroupPaymentServiceImpl implements IGroupPaymentService {
         groupPayment.setStatus(status);
         groupPayment.setPaymentType(PaymentType.PLACETOPAY);
         this.groupPaymentWriteDataJPARepository.save(groupPayment);
+
+        updateBilling(status, groupPayment);
     }
+
 
     @Override
     public void updateAdminSystems(UUID id, String reference, String authorizationCode,
@@ -166,6 +169,17 @@ public class GroupPaymentServiceImpl implements IGroupPaymentService {
         groupPayment.setPaymentType(paymentType);
         groupPayment.setStatus(status);
         this.groupPaymentWriteDataJPARepository.save(groupPayment);
+        updateBilling(status, groupPayment);
+    }
+    private void updateBilling(GroupPaymentStatus status, GroupPayment groupPayment) {
+        if(status == GroupPaymentStatus.PAYMENT_APPROVED) {
+            List<PaymentDetail> paymentDetails = paymentDetailReadDataJPARepository.findByGroupPayment(groupPayment);
+            for (PaymentDetail paymentDetail : paymentDetails) {
+                Billing billing = paymentDetail.getBilling();
+                billing.setStatus(BillingStatus.PAID);
+                billingWriteDataJPARepository.save(billing);
+            }
+        }
     }
 
     @Override
@@ -176,6 +190,13 @@ public class GroupPaymentServiceImpl implements IGroupPaymentService {
                                               String reference) {
         Client client = this.clientReadDataJPARepository.findById(clientId).orElseThrow();
         Business business = this.businessReadDataJPARepository.findById(businessId).orElseThrow();
+        BillingStatus billingStatus;
+
+        if(paymentStatus.equals(GroupPaymentStatus.PAYMENT_CASH) || paymentStatus.equals(GroupPaymentStatus.PAYMENT_APPROVED)) {
+            billingStatus = BillingStatus.PAID;
+        } else {
+            billingStatus = BillingStatus.PENDING;
+        }
         List<BillingDto> billingDtos = billings.stream().map(billing ->
                 new BillingDto(
                         UUID.randomUUID(),
@@ -183,7 +204,7 @@ public class GroupPaymentServiceImpl implements IGroupPaymentService {
                         business.toAggregate(),
                         billing.getCode(),
                         billing.getDescription(),
-                        BillingStatus.PENDING_PAID,
+                        billingStatus,
                         proforma,
                         billing.getCost(),
                         userSystemId,
