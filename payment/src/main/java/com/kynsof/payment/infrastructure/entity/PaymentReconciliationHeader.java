@@ -28,7 +28,7 @@ public class PaymentReconciliationHeader {
     private LocalDateTime endDate;
 
     @Column(nullable = false)
-    private int totalPayments;
+    private Long totalPayments;
 
     @Column(nullable = false)
     private double totalRevenue;
@@ -39,12 +39,12 @@ public class PaymentReconciliationHeader {
 
     @CreationTimestamp
     @Column(nullable = false, updatable = false)
-    private LocalDateTime generatedAt;
+    private LocalDateTime createdAt;
 
     @OneToMany(mappedBy = "reconciliationHeader", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<PaymentReconciliationDetail> details;
 
-    public PaymentReconciliationHeader(LocalDateTime startDate, LocalDateTime endDate, int totalPayments, double totalRevenue, Business business) {
+    public PaymentReconciliationHeader(LocalDateTime startDate, LocalDateTime endDate, Long totalPayments, double totalRevenue, Business business) {
         this.startDate = startDate;
         this.endDate = endDate;
         this.totalPayments = totalPayments;

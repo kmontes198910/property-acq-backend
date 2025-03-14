@@ -32,4 +32,12 @@ public interface GroupPaymentDetailReadDataJPARepository extends JpaRepository<P
 
     @Query("SELECT pd.billing FROM PaymentDetail pd WHERE pd.billing.code = :serviceCode ORDER BY pd.billing.createdAt ASC")
     List<Billing> findBillingByServiceCode(@Param("serviceCode") String serviceCode);
+
+    @Query("SELECT COUNT(DISTINCT pd.groupPayment.id) FROM PaymentDetail pd " +
+            "WHERE pd.groupPayment.paymentDate BETWEEN :startDate AND :endDate " +
+            "AND pd.billing.business.id = :businessId " +
+            "AND pd.groupPayment.status = 'PAYMENT_APPROVED'")
+    Long countDistinctGroupPayments(@Param("startDate") LocalDateTime startDate,
+                                    @Param("endDate") LocalDateTime endDate,
+                                    @Param("businessId") UUID businessId);
 }
