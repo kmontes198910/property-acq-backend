@@ -1,8 +1,8 @@
 package com.kynsof.payment.application.query.client.search;
 
 import com.kynsof.payment.domain.dto.ClientDto;
-import com.kynsof.share.core.domain.bus.query.IResponse;
 import com.kynsof.payment.domain.dto.enumDto.Status;
+import com.kynsof.share.core.domain.bus.query.IResponse;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;

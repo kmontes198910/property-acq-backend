@@ -1,8 +1,8 @@
 package com.kynsof.payment.application.command.billing.update;
 
+import com.kynsof.payment.domain.dto.enumDto.BillingStatus;
 import com.kynsof.share.core.domain.bus.command.ICommand;
 import com.kynsof.share.core.domain.bus.command.ICommandMessage;
-import com.kynsof.payment.domain.dto.enumDto.BillingStatus;
 import lombok.Getter;
 import lombok.Setter;
 

@@ -1,6 +1,5 @@
 package com.kynsof.payment.domain.dto;
 
-import com.kynsof.payment.domain.dto.enumDto.GroupPaymentStatus;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

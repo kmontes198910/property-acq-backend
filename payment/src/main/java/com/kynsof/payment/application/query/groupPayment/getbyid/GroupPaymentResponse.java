@@ -2,10 +2,10 @@ package com.kynsof.payment.application.query.groupPayment.getbyid;
 
 import com.kynsof.payment.domain.dto.BusinessDto;
 import com.kynsof.payment.domain.dto.ClientDto;
-import com.kynsof.payment.domain.dto.enumDto.PaymentType;
-import com.kynsof.share.core.domain.bus.query.IResponse;
 import com.kynsof.payment.domain.dto.GroupPaymentDto;
 import com.kynsof.payment.domain.dto.enumDto.GroupPaymentStatus;
+import com.kynsof.payment.domain.dto.enumDto.PaymentType;
+import com.kynsof.share.core.domain.bus.query.IResponse;
 import lombok.Getter;
 import lombok.Setter;
 

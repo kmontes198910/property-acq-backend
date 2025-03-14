@@ -1,6 +1,5 @@
 package com.kynsof.payment.domain.service;
 
-import com.kynsof.payment.domain.dto.PaymentReconciliationHeaderDto;
 import com.kynsof.payment.infrastructure.entity.PaymentReconciliationHeader;
 
 import java.time.LocalDateTime;

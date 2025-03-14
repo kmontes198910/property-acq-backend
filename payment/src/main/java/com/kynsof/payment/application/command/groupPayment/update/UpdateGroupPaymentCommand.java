@@ -1,12 +1,11 @@
 package com.kynsof.payment.application.command.groupPayment.update;
 
+import com.kynsof.payment.domain.dto.enumDto.GroupPaymentStatus;
 import com.kynsof.share.core.domain.bus.command.ICommand;
 import com.kynsof.share.core.domain.bus.command.ICommandMessage;
-import com.kynsof.payment.domain.dto.enumDto.GroupPaymentStatus;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.List;
 import java.util.UUID;
 
 @Getter

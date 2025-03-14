@@ -1,7 +1,5 @@
 package com.kynsof.payment.infrastructure.service;
 
-import com.kynsof.payment.domain.dto.PaymentReconciliationDetailDto;
-import com.kynsof.payment.domain.dto.PaymentReconciliationHeaderDto;
 import com.kynsof.payment.domain.service.IPaymentReconciliationService;
 import com.kynsof.payment.infrastructure.entity.Billing;
 import com.kynsof.payment.infrastructure.entity.Business;
@@ -11,7 +9,6 @@ import com.kynsof.payment.infrastructure.repositories.command.PaymentReconciliat
 import com.kynsof.payment.infrastructure.repositories.command.PaymentReconciliationHeaderRepository;
 import com.kynsof.payment.infrastructure.repositories.query.BusinessReadDataJPARepository;
 import com.kynsof.payment.infrastructure.repositories.query.GroupPaymentDetailReadDataJPARepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -40,6 +37,11 @@ public class PaymentReconciliationServiceImpl implements IPaymentReconciliationS
         // Validar si la empresa existe
         Business business = businessRepository.findById(businessId)
                 .orElseThrow(() -> new RuntimeException("Business not found with ID: " + businessId));
+        // Verificar si ya existe un cuadre contable para la fecha y empresa
+        Long existingCount = headerRepository.countByDateAndBusiness(startDate, businessId);
+        if (existingCount > 0) {
+            throw new RuntimeException("Ya existe un cuadre contable para esta fecha y empresa.");
+        }
 
         // Obtener los pagos agrupados por servicio para la empresa específica
         List<Object[]> results = paymentDetailRepository.findGroupedPaymentsByServiceAndBusiness(startDate, endDate, businessId);
@@ -81,9 +83,6 @@ public class PaymentReconciliationServiceImpl implements IPaymentReconciliationS
                 .collect(Collectors.toList());
 
         detailRepository.saveAll(details); // Guardar los detalles
-//        header.setDetails(details); // Asociar detalles a la cabecera
-//        headerRepository.save(header); // Guardar la cabecera con detalles asignados
-
         return header;
     }
 }

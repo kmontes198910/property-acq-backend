@@ -1,7 +1,7 @@
 package com.kynsof.payment.application.query.business.search;
 
-import com.kynsof.share.core.domain.bus.query.IResponse;
 import com.kynsof.payment.domain.dto.BusinessDto;
+import com.kynsof.share.core.domain.bus.query.IResponse;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
