@@ -44,4 +44,24 @@ public class BillingDto {
         this.userSystemFullName = userSystemFullName;
         this.typeOperation = typeOperation;
     }
+
+    public BillingDto(UUID id, ClientDto client, BusinessDto business, String code, String description,
+                      BillingStatus status, boolean isProforma, Double cost, UUID userSystemId,
+                      String userSystemFullName, TypeOperation typeOperation) {
+
+        this.id = id;
+        this.client = client;
+        this.clientId = client != null ? client.getId() : null;
+        this.business = business;
+        this.businessId = business != null ? business.getId() : null;
+        this.code = code;
+        this.description = description;
+        this.status = status;
+        this.isProforma = isProforma;
+        this.cost = cost;
+        this.userSystemId = userSystemId;
+        this.userSystemFullName = userSystemFullName;
+        this.typeOperation = typeOperation;
+        this.createdAt = LocalDateTime.now();
+    }
 }
