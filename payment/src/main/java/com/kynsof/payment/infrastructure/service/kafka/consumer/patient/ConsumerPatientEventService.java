@@ -4,9 +4,9 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kynsof.payment.domain.dto.ClientDto;
-import com.kynsof.share.core.domain.kafka.entity.CustomerKafka;
 import com.kynsof.payment.domain.dto.enumDto.Status;
 import com.kynsof.payment.domain.service.IClientService;
+import com.kynsof.share.core.domain.kafka.entity.CustomerKafka;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
 

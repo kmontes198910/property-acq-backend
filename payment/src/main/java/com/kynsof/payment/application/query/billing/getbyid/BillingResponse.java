@@ -1,11 +1,11 @@
 package com.kynsof.payment.application.query.billing.getbyid;
 
-import com.kynsof.share.core.domain.bus.query.IResponse;
 import com.kynsof.payment.domain.dto.BillingDto;
 import com.kynsof.payment.domain.dto.BusinessDto;
 import com.kynsof.payment.domain.dto.ClientDto;
 import com.kynsof.payment.domain.dto.enumDto.BillingStatus;
 import com.kynsof.payment.domain.dto.enumDto.TypeOperation;
+import com.kynsof.share.core.domain.bus.query.IResponse;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;

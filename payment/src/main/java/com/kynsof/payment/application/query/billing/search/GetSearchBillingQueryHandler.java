@@ -1,8 +1,8 @@
 package com.kynsof.payment.application.query.billing.search;
 
+import com.kynsof.payment.domain.service.IBillingService;
 import com.kynsof.share.core.domain.bus.query.IQueryHandler;
 import com.kynsof.share.core.domain.response.PaginatedResponse;
-import com.kynsof.payment.domain.service.IBillingService;
 import org.springframework.stereotype.Component;
 
 @Component

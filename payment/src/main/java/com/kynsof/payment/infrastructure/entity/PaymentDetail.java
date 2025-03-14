@@ -1,7 +1,6 @@
 package com.kynsof.payment.infrastructure.entity;
 
 import com.kynsof.payment.domain.dto.GroupPaymentDetailDto;
-import com.kynsof.payment.domain.dto.GroupPaymentDto;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

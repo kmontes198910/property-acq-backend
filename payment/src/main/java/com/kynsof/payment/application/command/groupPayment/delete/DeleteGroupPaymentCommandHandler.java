@@ -1,9 +1,7 @@
 package com.kynsof.payment.application.command.groupPayment.delete;
 
-import com.kynsof.share.core.domain.bus.command.ICommandHandler;
-import com.kynsof.payment.domain.dto.BillingDto;
-import com.kynsof.payment.domain.service.IBillingService;
 import com.kynsof.payment.domain.service.IGroupPaymentService;
+import com.kynsof.share.core.domain.bus.command.ICommandHandler;
 import org.springframework.stereotype.Component;
 
 @Component

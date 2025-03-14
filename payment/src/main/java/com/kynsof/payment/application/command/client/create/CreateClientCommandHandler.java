@@ -1,9 +1,9 @@
 package com.kynsof.payment.application.command.client.create;
 
 import com.kynsof.payment.domain.dto.ClientDto;
-import com.kynsof.share.core.domain.bus.command.ICommandHandler;
 import com.kynsof.payment.domain.dto.enumDto.Status;
 import com.kynsof.payment.domain.service.IClientService;
+import com.kynsof.share.core.domain.bus.command.ICommandHandler;
 import org.springframework.stereotype.Component;
 
 import java.util.UUID;

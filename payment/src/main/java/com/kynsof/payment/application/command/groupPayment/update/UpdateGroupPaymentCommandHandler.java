@@ -1,11 +1,8 @@
 package com.kynsof.payment.application.command.groupPayment.update;
 
-import com.kynsof.share.core.domain.bus.command.ICommandHandler;
-import com.kynsof.payment.domain.dto.enumDto.GroupPaymentStatus;
 import com.kynsof.payment.domain.service.IGroupPaymentService;
+import com.kynsof.share.core.domain.bus.command.ICommandHandler;
 import org.springframework.stereotype.Component;
-
-import java.util.UUID;
 
 @Component
 public class UpdateGroupPaymentCommandHandler implements ICommandHandler<UpdateGroupPaymentCommand> {

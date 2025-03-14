@@ -1,6 +1,5 @@
 package com.kynsof.payment.infrastructure.repositories.command;
 
-import com.kynsof.payment.infrastructure.entity.Billing;
 import com.kynsof.payment.infrastructure.entity.GroupPayment;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;

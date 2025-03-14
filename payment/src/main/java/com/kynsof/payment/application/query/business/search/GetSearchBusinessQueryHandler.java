@@ -1,8 +1,8 @@
 package com.kynsof.payment.application.query.business.search;
 
+import com.kynsof.payment.domain.service.IBusiness;
 import com.kynsof.share.core.domain.bus.query.IQueryHandler;
 import com.kynsof.share.core.domain.response.PaginatedResponse;
-import com.kynsof.payment.domain.service.IBusiness;
 import org.springframework.stereotype.Component;
 
 @Component

@@ -1,8 +1,8 @@
 package com.kynsof.payment.application.query.groupPayment.getbyid;
 
-import com.kynsof.share.core.domain.bus.query.IQueryHandler;
 import com.kynsof.payment.domain.dto.GroupPaymentDto;
 import com.kynsof.payment.domain.service.IGroupPaymentService;
+import com.kynsof.share.core.domain.bus.query.IQueryHandler;
 import org.springframework.stereotype.Component;
 
 @Component

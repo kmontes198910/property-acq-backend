@@ -1,13 +1,12 @@
 package com.kynsof.payment.domain.service;
 
 import com.kynsof.payment.application.command.groupPayment.createGroupPaymentUnif.CreateBillingPartialRequest;
-import com.kynsof.payment.domain.dto.BillingDto;
+import com.kynsof.payment.domain.dto.GroupPaymentDto;
+import com.kynsof.payment.domain.dto.enumDto.GroupPaymentStatus;
 import com.kynsof.payment.domain.dto.enumDto.PaymentType;
 import com.kynsof.payment.domain.dto.enumDto.TypeOperation;
 import com.kynsof.share.core.domain.request.FilterCriteria;
 import com.kynsof.share.core.domain.response.PaginatedResponse;
-import com.kynsof.payment.domain.dto.GroupPaymentDto;
-import com.kynsof.payment.domain.dto.enumDto.GroupPaymentStatus;
 import org.springframework.data.domain.Pageable;
 
 import java.util.List;
