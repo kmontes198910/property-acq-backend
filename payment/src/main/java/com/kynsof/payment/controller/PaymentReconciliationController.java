@@ -22,11 +22,7 @@ public class PaymentReconciliationController {
     }
 
     @PostMapping("/generate")
-    public PaymentReconciliationHeader generateReconciliation(
-            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime startDate,
-            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime endDate,
-            @RequestParam UUID businessId) {
-
-        return paymentReconciliationService.reconcilePayments(startDate, endDate, businessId);
+    public PaymentReconciliationHeader generateReconciliation(@RequestBody PaymentReconciliationRequest request) {
+        return paymentReconciliationService.reconcilePayments(request.getStartDate(), request.getEndDate(),request.getBusinessId());
     }
 }
