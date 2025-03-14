@@ -131,6 +131,7 @@ public class GroupPaymentServiceImpl implements IGroupPaymentService {
 
     @Override
     public PaginatedResponse search(Pageable pageable, List<FilterCriteria> filterCriteria) {
+        filterCriteria(filterCriteria);
         GenericSpecificationsBuilder<PaymentDetail> specifications = new GenericSpecificationsBuilder<>(filterCriteria);
         Page<GroupPayment> data = this.groupPaymentReadDataJPARepository.findAll(specifications, pageable);
         return getPaginatedResponse(data);
@@ -141,6 +142,23 @@ public class GroupPaymentServiceImpl implements IGroupPaymentService {
         GenericSpecificationsBuilder<PaymentDetail> specifications = new GenericSpecificationsBuilder<>(filterCriteria);
         Page<PaymentDetail> data = this.paymentDetailReadDataJPARepository.findAll(specifications, pageable);
         return getPaginatedResponsePaymentDetail(data);
+    }
+
+    private void filterCriteria(List<FilterCriteria> filterCriteria) {
+        filterCriteria.forEach(filter -> {
+            if ("status".equals(filter.getKey()) && filter.getValue() instanceof String) {
+                filter.setValue(parseEnum(GroupPaymentStatus.class, (String) filter.getValue(), "GroupPaymentStatus"));
+            }
+        });
+    }
+
+    private <T extends Enum<T>> T parseEnum(Class<T> enumClass, String value, String enumName) {
+        try {
+            return Enum.valueOf(enumClass, value);
+        } catch (IllegalArgumentException e) {
+            System.err.println("Invalid value for enum " + enumName + ": " + value);
+            return null;
+        }
     }
 
     @Override
