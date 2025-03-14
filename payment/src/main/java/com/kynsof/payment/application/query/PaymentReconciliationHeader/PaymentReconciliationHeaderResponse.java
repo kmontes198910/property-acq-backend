@@ -1,6 +1,5 @@
 package com.kynsof.payment.application.query.PaymentReconciliationHeader;
 
-import jakarta.persistence.Column;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -18,9 +17,14 @@ public class PaymentReconciliationHeaderResponse {
     private LocalDateTime createdAt;
     private UUID userSystemId;
     private String userSystemFullName;
+    private double totalPlacetoPay;
+    private double totalCash;
+    private double totalTransfer;
 
     public PaymentReconciliationHeaderResponse(UUID id, LocalDateTime startDate, LocalDateTime endDate,
-                                               Long totalPayments, double totalRevenue, LocalDateTime createdAt, UUID userSystemId, String userSystemFullName) {
+                                               Long totalPayments, double totalRevenue, LocalDateTime createdAt,
+                                               UUID userSystemId, String userSystemFullName, double totalPlacetoPay,
+                                               double totalCash, double totalTransfer) {
         this.id = id;
         this.startDate = startDate;
         this.endDate = endDate;
@@ -29,5 +33,8 @@ public class PaymentReconciliationHeaderResponse {
         this.createdAt = createdAt;
         this.userSystemId = userSystemId;
         this.userSystemFullName = userSystemFullName;
+        this.totalPlacetoPay = totalPlacetoPay;
+        this.totalCash = totalCash;
+        this.totalTransfer = totalTransfer;
     }
 }

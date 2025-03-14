@@ -1,7 +1,6 @@
 package com.kynsof.payment.controller;
 
 import com.kynsof.payment.application.query.PaymentReconciliationHeader.GetSearchPaymentReconciliationHeaderQuery;
-import com.kynsof.payment.application.query.business.search.GetSearchBusinessQuery;
 import com.kynsof.payment.domain.service.IPaymentReconciliationService;
 import com.kynsof.payment.infrastructure.entity.PaymentReconciliationHeader;
 import com.kynsof.share.core.domain.request.PageableUtil;

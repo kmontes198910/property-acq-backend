@@ -1,6 +1,5 @@
 package com.kynsof.payment.application.query.PaymentReconciliationHeader;
 
-import com.kynsof.payment.domain.service.IBillingService;
 import com.kynsof.payment.domain.service.IPaymentReconciliationService;
 import com.kynsof.share.core.domain.bus.query.IQueryHandler;
 import com.kynsof.share.core.domain.response.PaginatedResponse;

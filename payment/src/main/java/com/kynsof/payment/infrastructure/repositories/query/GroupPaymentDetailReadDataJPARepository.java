@@ -20,7 +20,11 @@ public interface GroupPaymentDetailReadDataJPARepository extends JpaRepository<P
     List<PaymentDetail> findByGroupPayment(GroupPayment groupPayment);
 
 
-    @Query("SELECT pd.billing.code AS serviceCode, COUNT(pd.id) AS serviceCount, SUM(pd.amount) AS totalAmount " +
+    @Query("SELECT pd.billing.code AS serviceCode, COUNT(pd.id) AS serviceCount, " +
+            "SUM(pd.amount) AS totalAmount, " +
+            "SUM(CASE WHEN pd.groupPayment.paymentType = 'PLACETOPAY' THEN pd.amount ELSE 0 END) AS placetopayAmount, " +
+            "SUM(CASE WHEN pd.groupPayment.paymentType = 'CASH' THEN pd.amount ELSE 0 END) AS cashAmount, " +
+            "SUM(CASE WHEN pd.groupPayment.paymentType = 'TRANSFER' THEN pd.amount ELSE 0 END) AS transferAmount " +
             "FROM PaymentDetail pd " +
             "WHERE pd.groupPayment.paymentDate BETWEEN :startDate AND :endDate " +
             "AND pd.billing.business.id = :businessId " +

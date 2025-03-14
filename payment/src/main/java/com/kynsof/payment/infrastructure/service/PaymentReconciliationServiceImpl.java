@@ -47,12 +47,12 @@ public class PaymentReconciliationServiceImpl implements IPaymentReconciliationS
         // Validar si la empresa existe
         Business business = businessRepository.findById(businessId)
                 .orElseThrow(() -> new RuntimeException("Business not found with ID: " + businessId));
+
         // Verificar si ya existe un cuadre contable para la fecha y empresa
         Long existingCount = headerRepository.countByDateAndBusiness(startDate, businessId);
         if (existingCount > 0) {
             throw new RuntimeException("Ya existe un cuadre contable para esta fecha y empresa.");
         }
-
 
         // Obtener la cantidad de `GroupPayment` distintos en el rango de fechas
         Long totalPayments = paymentDetailRepository.countDistinctGroupPayments(startDate, endDate, businessId);
@@ -62,13 +62,17 @@ public class PaymentReconciliationServiceImpl implements IPaymentReconciliationS
 
         // Verificar si results está vacío (no hay pagos aprobados)
         if (results.isEmpty()) {
-            return new PaymentReconciliationHeader(startDate, endDate, 0L, 0.0, business, userI, userFullName);
+            return new PaymentReconciliationHeader(startDate, endDate, 0L, 0.0, business, userI, userFullName, 0.0,0.0,0.0);
         }
 
+        // Calcular el total recaudado
         double totalRevenue = results.stream().mapToDouble(row -> ((Number) row[2]).doubleValue()).sum();
+        double totalPlacetoPay = results.stream().mapToDouble(row -> ((Number) row[3]).doubleValue()).sum();
+        double totalCash = results.stream().mapToDouble(row -> ((Number) row[4]).doubleValue()).sum();
+        double totalTransfer = results.stream().mapToDouble(row -> ((Number) row[5]).doubleValue()).sum();
 
         // Crear y guardar la cabecera de conciliación
-        PaymentReconciliationHeader header = new PaymentReconciliationHeader(startDate, endDate, totalPayments, totalRevenue, business,userI, userFullName);
+        PaymentReconciliationHeader header = new PaymentReconciliationHeader(startDate, endDate, totalPayments, totalRevenue, business,userI, userFullName, totalPlacetoPay, totalCash, totalTransfer);
         headerRepository.save(header);
 
         // Crear y guardar los detalles de la conciliación
@@ -77,6 +81,9 @@ public class PaymentReconciliationServiceImpl implements IPaymentReconciliationS
                     String serviceCode = (String) row[0];
                     int serviceCount = ((Number) row[1]).intValue();
                     double totalAmount = ((Number) row[2]).doubleValue();
+                    double placetopayAmount = ((Number) row[3]).doubleValue();
+                    double cashAmount = ((Number) row[4]).doubleValue();
+                    double transferAmount = ((Number) row[5]).doubleValue();
 
                     // Obtener todas las facturas con el mismo código de servicio
                     List<Billing> billings = paymentDetailRepository.findBillingByServiceCode(serviceCode);
@@ -89,7 +96,10 @@ public class PaymentReconciliationServiceImpl implements IPaymentReconciliationS
                             serviceCode,
                             description,
                             serviceCount,
-                            totalAmount
+                            totalAmount,
+                            placetopayAmount,
+                            cashAmount,
+                            transferAmount
                     );
                 })
                 .collect(Collectors.toList());
@@ -116,7 +126,10 @@ public class PaymentReconciliationServiceImpl implements IPaymentReconciliationS
                     o.getTotalRevenue(),
                     o.getCreatedAt(),
                     o.getUserSystemId(),
-                    o.getUserSystemFullName()
+                    o.getUserSystemFullName(),
+                    o.getTotalPlacetoPay(),
+                    o.getTotalCash(),
+                    o.getTotalTransfer()
                     ));
         }
         return new PaginatedResponse(patients, data.getTotalPages(), data.getNumberOfElements(),

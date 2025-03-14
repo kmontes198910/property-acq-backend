@@ -33,6 +33,16 @@ public class PaymentReconciliationHeader {
     @Column(nullable = false)
     private double totalRevenue;
 
+
+    @Column(nullable = false)
+    private double totalPlacetoPay;
+
+    @Column(nullable = false)
+    private double totalCash;
+
+    @Column(nullable = false)
+    private double totalTransfer;
+
     @ManyToOne
     @JoinColumn(name = "business_id", nullable = false)
     private Business business; // Identificación de la empresa
@@ -50,7 +60,9 @@ public class PaymentReconciliationHeader {
     @OneToMany(mappedBy = "reconciliationHeader", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<PaymentReconciliationDetail> details;
 
-    public PaymentReconciliationHeader(LocalDateTime startDate, LocalDateTime endDate, Long totalPayments, double totalRevenue, Business business, UUID userI, String userFullName) {
+    public PaymentReconciliationHeader(LocalDateTime startDate, LocalDateTime endDate, Long totalPayments,
+                                       double totalRevenue, Business business, UUID userI, String userFullName,
+                                       double totalPlacetoPay, double totalCash, double totalTransfer) {
         this.startDate = startDate;
         this.endDate = endDate;
         this.totalPayments = totalPayments;
@@ -58,5 +70,8 @@ public class PaymentReconciliationHeader {
         this.business = business;
         this.userSystemId = userI;
         this.userSystemFullName = userFullName;
+        this.totalPlacetoPay = totalPlacetoPay;
+        this.totalCash = totalCash;
+        this.totalTransfer = totalTransfer;
     }
 }
