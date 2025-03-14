@@ -1,7 +1,6 @@
 package com.kynsof.payment.infrastructure.service;
 
 import com.kynsof.payment.application.query.PaymentReconciliationHeader.PaymentReconciliationHeaderResponse;
-import com.kynsof.payment.application.query.billing.getbyid.BillingResponse;
 import com.kynsof.payment.domain.service.IPaymentReconciliationService;
 import com.kynsof.payment.infrastructure.entity.Billing;
 import com.kynsof.payment.infrastructure.entity.Business;
@@ -44,7 +43,7 @@ public class PaymentReconciliationServiceImpl implements IPaymentReconciliationS
 
 
     @Override
-    public PaymentReconciliationHeader reconcilePayments(LocalDateTime startDate, LocalDateTime endDate, UUID businessId) {
+    public PaymentReconciliationHeader reconcilePayments(LocalDateTime startDate, LocalDateTime endDate, UUID businessId, UUID userI, String userFullName) {
         // Validar si la empresa existe
         Business business = businessRepository.findById(businessId)
                 .orElseThrow(() -> new RuntimeException("Business not found with ID: " + businessId));
@@ -63,13 +62,13 @@ public class PaymentReconciliationServiceImpl implements IPaymentReconciliationS
 
         // Verificar si results está vacío (no hay pagos aprobados)
         if (results.isEmpty()) {
-            return new PaymentReconciliationHeader(startDate, endDate, 0L, 0.0, business);
+            return new PaymentReconciliationHeader(startDate, endDate, 0L, 0.0, business, userI, userFullName);
         }
 
         double totalRevenue = results.stream().mapToDouble(row -> ((Number) row[2]).doubleValue()).sum();
 
         // Crear y guardar la cabecera de conciliación
-        PaymentReconciliationHeader header = new PaymentReconciliationHeader(startDate, endDate, totalPayments, totalRevenue, business);
+        PaymentReconciliationHeader header = new PaymentReconciliationHeader(startDate, endDate, totalPayments, totalRevenue, business,userI, userFullName);
         headerRepository.save(header);
 
         // Crear y guardar los detalles de la conciliación
@@ -115,7 +114,9 @@ public class PaymentReconciliationServiceImpl implements IPaymentReconciliationS
                     o.getEndDate(),
                     o.getTotalPayments(),
                     o.getTotalRevenue(),
-                    o.getGeneratedAt()
+                    o.getCreatedAt(),
+                    o.getUserSystemId(),
+                    o.getUserSystemFullName()
                     ));
         }
         return new PaginatedResponse(patients, data.getTotalPages(), data.getNumberOfElements(),

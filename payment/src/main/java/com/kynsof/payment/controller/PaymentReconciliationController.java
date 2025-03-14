@@ -29,7 +29,8 @@ public class PaymentReconciliationController {
 
     @PostMapping("/generate")
     public PaymentReconciliationHeader generateReconciliation(@RequestBody PaymentReconciliationRequest request) {
-        return paymentReconciliationService.reconcilePayments(request.getStartDate(), request.getEndDate(),request.getBusinessId());
+        return paymentReconciliationService.reconcilePayments(request.getStartDate(), request.getEndDate(),request.getBusinessId(),
+                request.getUserSystemsId(),request.getUserSystemsFullName());
     }
 
     @PostMapping("/search")
