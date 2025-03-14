@@ -1,5 +1,8 @@
 package com.kynsof.payment.controller;
 
+import com.kynsof.payment.application.command.groupPayment.createGroupPaymentUnif.CreateGroupPaymentUnifCommand;
+import com.kynsof.payment.application.command.groupPayment.createGroupPaymentUnif.CreateGroupPaymentUnifMessage;
+import com.kynsof.payment.application.command.groupPayment.createGroupPaymentUnif.CreateGroupPaymentUnifRequest;
 import com.kynsof.payment.application.command.groupPayment.sendPaymentLink.SendGroupPaymentLinkCommand;
 import com.kynsof.payment.application.command.groupPayment.sendPaymentLink.SendGroupPaymentLinkMessage;
 import com.kynsof.payment.application.command.groupPayment.sendPaymentLink.SendGroupPaymentLinkRequest;
@@ -43,6 +46,14 @@ public class GroupPaymentsController {
 
         CreateGroupPaymentCommand command = CreateGroupPaymentCommand.fromRequest(requests);
         CreateGroupPaymentMessage message = mediator.send(command);
+        return ResponseEntity.ok(message);
+    }
+
+    @PostMapping("completed")
+    public ResponseEntity<?> createCompleted(@RequestBody CreateGroupPaymentUnifRequest requests) {
+
+        CreateGroupPaymentUnifCommand command = CreateGroupPaymentUnifCommand.fromRequest(requests);
+        CreateGroupPaymentUnifMessage message = mediator.send(command);
         return ResponseEntity.ok(message);
     }
 
