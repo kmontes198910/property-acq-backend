@@ -17,16 +17,16 @@ public class AccountReconciliationDto {
     private UUID id;
     private String code;
     private String description;
-    private double cost;
+    private double amount;
     private BusinessDto business;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
-    public AccountReconciliationDto(UUID id, String code, String description, double cost, BusinessDto business) {
+    public AccountReconciliationDto(UUID id, String code, String description, double amount, BusinessDto business) {
         this.id = id;
         this.code = code;
         this.description = description;
-        this.cost = cost;
+        this.amount = amount;
         this.business = business;
     }
 

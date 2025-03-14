@@ -35,7 +35,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -52,13 +54,13 @@ public class GroupPaymentServiceImpl implements IGroupPaymentService {
     private final BusinessReadDataJPARepository businessReadDataJPARepository;
     private final ClientReadDataJPARepository clientReadDataJPARepository;
 
-    public GroupPaymentServiceImpl(BillingReadDataJPARepository repositoryQuery, 
-                                   BillingWriteDataJPARepository repositoryCommand, 
-                                   GroupPaymentWriteDataJPARepository groupPaymentWriteDataJPARepository, 
-                                   PaymentDetailWriteDataJPARepository paymentDetailWriteDataJPARepository, 
-                                   GroupPaymentDetailReadDataJPARepository paymentDetailReadDataJPARepository, 
-                                   GroupPaymentReadDataJPARepository groupPaymentReadDataJPARepository, 
-                                   BusinessReadDataJPARepository businessReadDataJPARepository, 
+    public GroupPaymentServiceImpl(BillingReadDataJPARepository repositoryQuery,
+                                   BillingWriteDataJPARepository repositoryCommand,
+                                   GroupPaymentWriteDataJPARepository groupPaymentWriteDataJPARepository,
+                                   PaymentDetailWriteDataJPARepository paymentDetailWriteDataJPARepository,
+                                   GroupPaymentDetailReadDataJPARepository paymentDetailReadDataJPARepository,
+                                   GroupPaymentReadDataJPARepository groupPaymentReadDataJPARepository,
+                                   BusinessReadDataJPARepository businessReadDataJPARepository,
                                    ClientReadDataJPARepository clientReadDataJPARepository) {
         this.repositoryQuery = repositoryQuery;
         this.billingWriteDataJPARepository = repositoryCommand;
@@ -86,11 +88,8 @@ public class GroupPaymentServiceImpl implements IGroupPaymentService {
             billing.setStatus(BillingStatus.PENDING); // Cambiar el estado a PENDING u otro apropiado
             billingWriteDataJPARepository.save(billing); // Guardar el cambio
         }
-
-        // Eliminar los detalles del pago asociados
         paymentDetailWriteDataJPARepository.deleteAll(paymentDetails);
 
-        // Eliminar el grupo de pago
         groupPaymentWriteDataJPARepository.delete(groupPayment);
     }
 
@@ -105,13 +104,13 @@ public class GroupPaymentServiceImpl implements IGroupPaymentService {
                 .map(Billing::getCost) // Extrae el costo de cada billing
                 .reduce(0.0, Double::sum); // Suma todos los costos
         GroupPayment groupPayment = new GroupPayment(
-                "", 
-                null, 
                 "",
-                "", 
-                "", 
-                business, 
-                patients, 
+                null,
+                "",
+                "",
+                "",
+                business,
+                patients,
                 totalAmount,
                 PaymentType.NONE
         );
@@ -171,6 +170,9 @@ public class GroupPaymentServiceImpl implements IGroupPaymentService {
         groupPayment.setProcessUrl(processUrl);
         groupPayment.setStatus(status);
         groupPayment.setPaymentType(PaymentType.PLACETOPAY);
+        if (status == GroupPaymentStatus.PAYMENT_APPROVED) {
+            groupPayment.setPaymentDate(LocalDateTime.now());
+        }
         this.groupPaymentWriteDataJPARepository.save(groupPayment);
 
         updateBilling(status, groupPayment);
@@ -186,11 +188,15 @@ public class GroupPaymentServiceImpl implements IGroupPaymentService {
         groupPayment.setAuthorizationCode(authorizationCode);
         groupPayment.setPaymentType(paymentType);
         groupPayment.setStatus(status);
+        if (status == GroupPaymentStatus.PAYMENT_APPROVED) {
+            groupPayment.setPaymentDate(LocalDateTime.now());
+        }
         this.groupPaymentWriteDataJPARepository.save(groupPayment);
         updateBilling(status, groupPayment);
     }
+
     private void updateBilling(GroupPaymentStatus status, GroupPayment groupPayment) {
-        if(status == GroupPaymentStatus.PAYMENT_APPROVED) {
+        if (status == GroupPaymentStatus.PAYMENT_APPROVED) {
             List<PaymentDetail> paymentDetails = paymentDetailReadDataJPARepository.findByGroupPayment(groupPayment);
             for (PaymentDetail paymentDetail : paymentDetails) {
                 Billing billing = paymentDetail.getBilling();
@@ -210,7 +216,7 @@ public class GroupPaymentServiceImpl implements IGroupPaymentService {
         Business business = this.businessReadDataJPARepository.findById(businessId).orElseThrow();
         BillingStatus billingStatus;
 
-        if(paymentStatus.equals(GroupPaymentStatus.PAYMENT_CASH) || paymentStatus.equals(GroupPaymentStatus.PAYMENT_APPROVED)) {
+        if (paymentStatus.equals(GroupPaymentStatus.PAYMENT_CASH) || paymentStatus.equals(GroupPaymentStatus.PAYMENT_APPROVED)) {
             billingStatus = BillingStatus.PAID;
         } else {
             billingStatus = BillingStatus.PENDING;
