@@ -12,4 +12,5 @@ import java.util.UUID;
 public interface IPaymentReconciliationService {
     PaymentReconciliationHeader reconcilePayments(LocalDateTime startDate, LocalDateTime endDate, UUID businessId, UUID userId, String userFullName);
     PaginatedResponse search(Pageable pageable, List<FilterCriteria> filterCriteria);
+    PaginatedResponse searchReconciliationDetail(Pageable pageable, List<FilterCriteria> filterCriteria);
 }
