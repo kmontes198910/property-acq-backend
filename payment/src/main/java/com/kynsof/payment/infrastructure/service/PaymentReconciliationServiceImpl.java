@@ -1,5 +1,6 @@
 package com.kynsof.payment.infrastructure.service;
 
+import com.kynsof.payment.application.query.PaymentReconciliationDetails.PaymentReconciliationDetailsResponse;
 import com.kynsof.payment.application.query.PaymentReconciliationHeader.PaymentReconciliationHeaderResponse;
 import com.kynsof.payment.domain.service.IPaymentReconciliationService;
 import com.kynsof.payment.infrastructure.entity.Billing;
@@ -10,6 +11,7 @@ import com.kynsof.payment.infrastructure.repositories.command.PaymentReconciliat
 import com.kynsof.payment.infrastructure.repositories.command.PaymentReconciliationHeaderRepository;
 import com.kynsof.payment.infrastructure.repositories.query.BusinessReadDataJPARepository;
 import com.kynsof.payment.infrastructure.repositories.query.GroupPaymentDetailReadDataJPARepository;
+import com.kynsof.payment.infrastructure.repositories.query.PaymentReconciliationDetailReadDataJPARepository;
 import com.kynsof.payment.infrastructure.repositories.query.PaymentReconciliationHeaderReadDataJPARepository;
 import com.kynsof.share.core.domain.request.FilterCriteria;
 import com.kynsof.share.core.domain.response.PaginatedResponse;
@@ -29,14 +31,16 @@ public class PaymentReconciliationServiceImpl implements IPaymentReconciliationS
     private final PaymentReconciliationHeaderReadDataJPARepository paymentReconciliationHeaderReadDataJPARepository;
     private final GroupPaymentDetailReadDataJPARepository paymentDetailRepository;
     private final PaymentReconciliationHeaderRepository headerRepository;
+    private final PaymentReconciliationDetailReadDataJPARepository paymentReconciliationDetailReadDataJPARepository;
 
     private final PaymentReconciliationDetailRepository detailRepository;
     private final BusinessReadDataJPARepository businessRepository;
 
-    public PaymentReconciliationServiceImpl(PaymentReconciliationHeaderReadDataJPARepository paymentReconciliationHeaderReadDataJPARepository, GroupPaymentDetailReadDataJPARepository paymentDetailReadDataJPARepository, PaymentReconciliationHeaderRepository headerRepository, PaymentReconciliationDetailRepository detailRepository, BusinessReadDataJPARepository businessRepository) {
+    public PaymentReconciliationServiceImpl(PaymentReconciliationHeaderReadDataJPARepository paymentReconciliationHeaderReadDataJPARepository, GroupPaymentDetailReadDataJPARepository paymentDetailReadDataJPARepository, PaymentReconciliationHeaderRepository headerRepository, PaymentReconciliationDetailReadDataJPARepository paymentReconciliationDetailReadDataJPARepository, PaymentReconciliationDetailRepository detailRepository, BusinessReadDataJPARepository businessRepository) {
         this.paymentReconciliationHeaderReadDataJPARepository = paymentReconciliationHeaderReadDataJPARepository;
         this.paymentDetailRepository = paymentDetailReadDataJPARepository;
         this.headerRepository = headerRepository;
+        this.paymentReconciliationDetailReadDataJPARepository = paymentReconciliationDetailReadDataJPARepository;
         this.detailRepository = detailRepository;
         this.businessRepository = businessRepository;
     }
@@ -115,6 +119,14 @@ public class PaymentReconciliationServiceImpl implements IPaymentReconciliationS
         return getPaginatedResponse(data);
     }
 
+
+    @Override
+    public PaginatedResponse searchReconciliationDetail(Pageable pageable, List<FilterCriteria> filterCriteria) {
+        GenericSpecificationsBuilder<Billing> specifications = new GenericSpecificationsBuilder<>(filterCriteria);
+        Page<PaymentReconciliationDetail> data = this.paymentReconciliationDetailReadDataJPARepository.findAll(specifications, pageable);
+        return getPaginatedDetailResponse(data);
+    }
+
     private PaginatedResponse getPaginatedResponse(Page<PaymentReconciliationHeader> data) {
         List<PaymentReconciliationHeaderResponse> patients = new ArrayList<>();
         for (PaymentReconciliationHeader o : data.getContent()) {
@@ -131,6 +143,26 @@ public class PaymentReconciliationServiceImpl implements IPaymentReconciliationS
                     o.getTotalCash(),
                     o.getTotalTransfer()
                     ));
+        }
+        return new PaginatedResponse(patients, data.getTotalPages(), data.getNumberOfElements(),
+                data.getTotalElements(), data.getSize(), data.getNumber());
+    }
+
+    private PaginatedResponse getPaginatedDetailResponse(Page<PaymentReconciliationDetail> data) {
+        List<PaymentReconciliationDetailsResponse> patients = new ArrayList<>();
+        for (PaymentReconciliationDetail o : data.getContent()) {
+            patients.add(new PaymentReconciliationDetailsResponse(
+                    o.getId(),
+                    o.getServiceCode(),
+                    o.getDescription(),
+                    o.getTotalAmount(),
+                    o.getPlacetopayAmount(),
+                    o.getCashAmount(),
+                    o.getTransferAmount(),
+                    o.getServiceCount(),
+                    o.getCreatedAt()
+
+            ));
         }
         return new PaginatedResponse(patients, data.getTotalPages(), data.getNumberOfElements(),
                 data.getTotalElements(), data.getSize(), data.getNumber());
