@@ -1,8 +1,8 @@
 package com.kynsof.payment.application.query.billing.getbyid;
 
-import com.kynsof.share.core.domain.bus.query.IQueryHandler;
 import com.kynsof.payment.domain.dto.BillingDto;
 import com.kynsof.payment.domain.service.IBillingService;
+import com.kynsof.share.core.domain.bus.query.IQueryHandler;
 import org.springframework.stereotype.Component;
 
 @Component

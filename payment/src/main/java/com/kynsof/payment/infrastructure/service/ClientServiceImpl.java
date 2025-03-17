@@ -2,27 +2,27 @@ package com.kynsof.payment.infrastructure.service;
 
 import com.kynsof.payment.application.query.client.search.ClientResponse;
 import com.kynsof.payment.domain.dto.ClientDto;
-import com.kynsof.share.core.domain.exception.BusinessNotFoundException;
-import com.kynsof.share.core.domain.exception.DomainErrorMessage;
-import com.kynsof.share.core.domain.exception.GlobalBusinessException;
-import com.kynsof.share.core.domain.response.ErrorField;
 import com.kynsof.payment.domain.service.IClientService;
 import com.kynsof.payment.infrastructure.entity.Client;
 import com.kynsof.payment.infrastructure.repositories.command.ClientWriteDataJPARepository;
 import com.kynsof.payment.infrastructure.repositories.query.ClientReadDataJPARepository;
+import com.kynsof.share.core.domain.exception.BusinessNotFoundException;
+import com.kynsof.share.core.domain.exception.DomainErrorMessage;
+import com.kynsof.share.core.domain.exception.GlobalBusinessException;
 import com.kynsof.share.core.domain.request.FilterCriteria;
+import com.kynsof.share.core.domain.response.ErrorField;
 import com.kynsof.share.core.domain.response.PaginatedResponse;
 import com.kynsof.share.core.infrastructure.specifications.GenericSpecificationsBuilder;
 import jakarta.persistence.EntityNotFoundException;
-import java.util.ArrayList;
-import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-import java.util.Optional;
-import java.util.UUID;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class ClientServiceImpl implements IClientService {

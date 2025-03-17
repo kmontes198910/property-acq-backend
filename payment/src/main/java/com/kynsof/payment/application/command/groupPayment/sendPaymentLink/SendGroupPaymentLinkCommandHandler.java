@@ -1,13 +1,11 @@
 package com.kynsof.payment.application.command.groupPayment.sendPaymentLink;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kynsof.payment.domain.dto.GroupPaymentDto;
 import com.kynsof.payment.domain.service.IGroupPaymentService;
 import com.kynsof.payment.infrastructure.service.http.SendNotification;
 import com.kynsof.share.core.domain.bus.command.ICommandHandler;
 import org.springframework.stereotype.Component;
 
-import java.net.http.HttpClient;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -62,7 +60,7 @@ public class SendGroupPaymentLinkCommandHandler implements ICommandHandler<SendG
     }
 
     private void sendWhatsAppNotification(GroupPaymentDto groupPaymentDto) {
-        String paymentLink = "/payment-info?token=" + groupPaymentDto.getId();
+        String paymentLink = "payment-info?token=" + groupPaymentDto.getId();
         Map<String, String> requestData = buildWhatsAppRequestData(groupPaymentDto, paymentLink);
         String response = notificationService.sendWhatsAppNotification(requestData);
         System.out.println("📲 WhatsApp Response: " + response);

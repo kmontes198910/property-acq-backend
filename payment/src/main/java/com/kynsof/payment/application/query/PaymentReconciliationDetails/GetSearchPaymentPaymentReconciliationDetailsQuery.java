@@ -1,4 +1,4 @@
-package com.kynsof.payment.application.query.accountReconciliation.search;
+package com.kynsof.payment.application.query.PaymentReconciliationDetails;
 
 import com.kynsof.share.core.domain.bus.query.IQuery;
 import com.kynsof.share.core.domain.request.FilterCriteria;
@@ -12,7 +12,7 @@ import java.util.List;
 @Getter
 @Setter
 @AllArgsConstructor
-public class GetSearchAccountReconciliationQuery implements IQuery {
+public class GetSearchPaymentPaymentReconciliationDetailsQuery implements IQuery {
 
     private Pageable pageable;
     private List<FilterCriteria> filter;

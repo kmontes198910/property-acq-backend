@@ -1,25 +1,20 @@
 package com.kynsof.payment.infrastructure.service;
 
+import com.kynsof.payment.application.command.groupPayment.createGroupPaymentUnif.CreateBillingPartialRequest;
 import com.kynsof.payment.application.query.groupPayment.getbyid.GroupPaymentResponse;
 import com.kynsof.payment.application.query.groupPaymentDetails.SearchGroupPaymentDetailResponse;
+import com.kynsof.payment.domain.dto.BillingDto;
 import com.kynsof.payment.domain.dto.GroupPaymentDto;
 import com.kynsof.payment.domain.dto.enumDto.BillingStatus;
 import com.kynsof.payment.domain.dto.enumDto.GroupPaymentStatus;
 import com.kynsof.payment.domain.dto.enumDto.PaymentType;
+import com.kynsof.payment.domain.dto.enumDto.TypeOperation;
 import com.kynsof.payment.domain.service.IGroupPaymentService;
-import com.kynsof.payment.infrastructure.entity.Billing;
-import com.kynsof.payment.infrastructure.entity.Business;
-import com.kynsof.payment.infrastructure.entity.Client;
-import com.kynsof.payment.infrastructure.entity.GroupPayment;
-import com.kynsof.payment.infrastructure.entity.PaymentDetail;
+import com.kynsof.payment.infrastructure.entity.*;
 import com.kynsof.payment.infrastructure.repositories.command.BillingWriteDataJPARepository;
 import com.kynsof.payment.infrastructure.repositories.command.GroupPaymentWriteDataJPARepository;
 import com.kynsof.payment.infrastructure.repositories.command.PaymentDetailWriteDataJPARepository;
-import com.kynsof.payment.infrastructure.repositories.query.BillingReadDataJPARepository;
-import com.kynsof.payment.infrastructure.repositories.query.BusinessReadDataJPARepository;
-import com.kynsof.payment.infrastructure.repositories.query.ClientReadDataJPARepository;
-import com.kynsof.payment.infrastructure.repositories.query.GroupPaymentDetailReadDataJPARepository;
-import com.kynsof.payment.infrastructure.repositories.query.GroupPaymentReadDataJPARepository;
+import com.kynsof.payment.infrastructure.repositories.query.*;
 import com.kynsof.share.core.domain.exception.BusinessNotFoundException;
 import com.kynsof.share.core.domain.exception.DomainErrorMessage;
 import com.kynsof.share.core.domain.exception.GlobalBusinessException;
@@ -32,6 +27,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -49,13 +45,13 @@ public class GroupPaymentServiceImpl implements IGroupPaymentService {
     private final BusinessReadDataJPARepository businessReadDataJPARepository;
     private final ClientReadDataJPARepository clientReadDataJPARepository;
 
-    public GroupPaymentServiceImpl(BillingReadDataJPARepository repositoryQuery, 
-                                   BillingWriteDataJPARepository repositoryCommand, 
-                                   GroupPaymentWriteDataJPARepository groupPaymentWriteDataJPARepository, 
-                                   PaymentDetailWriteDataJPARepository paymentDetailWriteDataJPARepository, 
-                                   GroupPaymentDetailReadDataJPARepository paymentDetailReadDataJPARepository, 
-                                   GroupPaymentReadDataJPARepository groupPaymentReadDataJPARepository, 
-                                   BusinessReadDataJPARepository businessReadDataJPARepository, 
+    public GroupPaymentServiceImpl(BillingReadDataJPARepository repositoryQuery,
+                                   BillingWriteDataJPARepository repositoryCommand,
+                                   GroupPaymentWriteDataJPARepository groupPaymentWriteDataJPARepository,
+                                   PaymentDetailWriteDataJPARepository paymentDetailWriteDataJPARepository,
+                                   GroupPaymentDetailReadDataJPARepository paymentDetailReadDataJPARepository,
+                                   GroupPaymentReadDataJPARepository groupPaymentReadDataJPARepository,
+                                   BusinessReadDataJPARepository businessReadDataJPARepository,
                                    ClientReadDataJPARepository clientReadDataJPARepository) {
         this.repositoryQuery = repositoryQuery;
         this.billingWriteDataJPARepository = repositoryCommand;
@@ -83,11 +79,8 @@ public class GroupPaymentServiceImpl implements IGroupPaymentService {
             billing.setStatus(BillingStatus.PENDING); // Cambiar el estado a PENDING u otro apropiado
             billingWriteDataJPARepository.save(billing); // Guardar el cambio
         }
-
-        // Eliminar los detalles del pago asociados
         paymentDetailWriteDataJPARepository.deleteAll(paymentDetails);
 
-        // Eliminar el grupo de pago
         groupPaymentWriteDataJPARepository.delete(groupPayment);
     }
 
@@ -102,13 +95,13 @@ public class GroupPaymentServiceImpl implements IGroupPaymentService {
                 .map(Billing::getCost) // Extrae el costo de cada billing
                 .reduce(0.0, Double::sum); // Suma todos los costos
         GroupPayment groupPayment = new GroupPayment(
-                "", 
-                null, 
                 "",
-                "", 
-                "", 
-                business, 
-                patients, 
+                null,
+                "",
+                "",
+                "",
+                business,
+                patients,
                 totalAmount,
                 PaymentType.NONE
         );
@@ -128,6 +121,7 @@ public class GroupPaymentServiceImpl implements IGroupPaymentService {
 
     @Override
     public PaginatedResponse search(Pageable pageable, List<FilterCriteria> filterCriteria) {
+        filterCriteria(filterCriteria);
         GenericSpecificationsBuilder<PaymentDetail> specifications = new GenericSpecificationsBuilder<>(filterCriteria);
         Page<GroupPayment> data = this.groupPaymentReadDataJPARepository.findAll(specifications, pageable);
         return getPaginatedResponse(data);
@@ -140,6 +134,23 @@ public class GroupPaymentServiceImpl implements IGroupPaymentService {
         return getPaginatedResponsePaymentDetail(data);
     }
 
+    private void filterCriteria(List<FilterCriteria> filterCriteria) {
+        filterCriteria.forEach(filter -> {
+            if ("status".equals(filter.getKey()) && filter.getValue() instanceof String) {
+                filter.setValue(parseEnum(GroupPaymentStatus.class, (String) filter.getValue(), "GroupPaymentStatus"));
+            }
+        });
+    }
+
+    private <T extends Enum<T>> T parseEnum(Class<T> enumClass, String value, String enumName) {
+        try {
+            return Enum.valueOf(enumClass, value);
+        } catch (IllegalArgumentException e) {
+            System.err.println("Invalid value for enum " + enumName + ": " + value);
+            return null;
+        }
+    }
+
     @Override
     public void update(UUID id, String reference, String authorizationCode, String requestId, String processUrl, GroupPaymentStatus status) {
         GroupPayment groupPayment = this.groupPaymentReadDataJPARepository.findById(id).orElseThrow();
@@ -150,8 +161,14 @@ public class GroupPaymentServiceImpl implements IGroupPaymentService {
         groupPayment.setProcessUrl(processUrl);
         groupPayment.setStatus(status);
         groupPayment.setPaymentType(PaymentType.PLACETOPAY);
+        if (status == GroupPaymentStatus.PAYMENT_APPROVED) {
+            groupPayment.setPaymentDate(LocalDateTime.now());
+        }
         this.groupPaymentWriteDataJPARepository.save(groupPayment);
+
+        updateBilling(status, groupPayment);
     }
+
 
     @Override
     public void updateAdminSystems(UUID id, String reference, String authorizationCode,
@@ -162,7 +179,76 @@ public class GroupPaymentServiceImpl implements IGroupPaymentService {
         groupPayment.setAuthorizationCode(authorizationCode);
         groupPayment.setPaymentType(paymentType);
         groupPayment.setStatus(status);
+        if (status == GroupPaymentStatus.PAYMENT_APPROVED) {
+            groupPayment.setPaymentDate(LocalDateTime.now());
+        }
         this.groupPaymentWriteDataJPARepository.save(groupPayment);
+        updateBilling(status, groupPayment);
+    }
+
+    private void updateBilling(GroupPaymentStatus status, GroupPayment groupPayment) {
+        if (status == GroupPaymentStatus.PAYMENT_APPROVED) {
+            List<PaymentDetail> paymentDetails = paymentDetailReadDataJPARepository.findByGroupPayment(groupPayment);
+            for (PaymentDetail paymentDetail : paymentDetails) {
+                Billing billing = paymentDetail.getBilling();
+                billing.setStatus(BillingStatus.PAID);
+                billingWriteDataJPARepository.save(billing);
+            }
+        }
+    }
+
+    @Override
+    public UUID createBillingsAndGroupPayment(UUID clientId, UUID businessId, List<CreateBillingPartialRequest> billings,
+                                              UUID userSystemId, String userSystemFullName, PaymentType paymentType,
+                                              GroupPaymentStatus paymentStatus, String insuranceId,
+                                              TypeOperation typeOperation, boolean proforma, String authorizationCode,
+                                              String reference) {
+        Client client = this.clientReadDataJPARepository.findById(clientId).orElseThrow();
+        Business business = this.businessReadDataJPARepository.findById(businessId).orElseThrow();
+        BillingStatus billingStatus;
+
+        if (paymentStatus.equals(GroupPaymentStatus.PAYMENT_CASH) || paymentStatus.equals(GroupPaymentStatus.PAYMENT_APPROVED)) {
+            billingStatus = BillingStatus.PAID;
+        } else {
+            billingStatus = BillingStatus.PENDING;
+        }
+        List<BillingDto> billingDtos = billings.stream().map(billing ->
+                new BillingDto(
+                        UUID.randomUUID(),
+                        client.toAggregate(),
+                        business.toAggregate(),
+                        billing.getCode(),
+                        billing.getDescription(),
+                        billingStatus,
+                        proforma,
+                        billing.getCost(),
+                        userSystemId,
+                        userSystemFullName,
+                        typeOperation
+                )
+        ).toList();
+
+        billingWriteDataJPARepository.saveAll(billingDtos.stream().map(Billing::new).toList());
+
+        List<UUID> billingIds = billingDtos.stream()
+                .map(BillingDto::getId)
+                .toList();
+
+        UUID groupPaymentId = createGroupPayment(
+                billingIds,
+                businessId,
+                clientId
+        );
+
+        updateAdminSystems(
+                groupPaymentId,
+                authorizationCode,
+                reference,
+                paymentType,
+                paymentStatus
+        );
+
+        return groupPaymentId;
     }
 
 
