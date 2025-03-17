@@ -228,10 +228,10 @@ public class GroupPaymentServiceImpl implements IGroupPaymentService {
                 )
         ).toList();
 
-        billingWriteDataJPARepository.saveAll(billingDtos.stream().map(Billing::new).toList());
+      List<Billing> billingList =  billingWriteDataJPARepository.saveAll(billingDtos.stream().map(Billing::new).toList());
 
-        List<UUID> billingIds = billingDtos.stream()
-                .map(BillingDto::getId)
+        List<UUID> billingIds = billingList.stream()
+                .map(Billing::getId)
                 .toList();
 
         UUID groupPaymentId = createGroupPayment(
