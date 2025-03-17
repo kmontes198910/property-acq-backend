@@ -242,8 +242,8 @@ public class GroupPaymentServiceImpl implements IGroupPaymentService {
 
         updateAdminSystems(
                 groupPaymentId,
-                authorizationCode,
                 reference,
+                authorizationCode,
                 paymentType,
                 paymentStatus
         );
