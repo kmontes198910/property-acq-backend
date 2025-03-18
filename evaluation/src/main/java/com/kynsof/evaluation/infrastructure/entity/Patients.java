@@ -31,6 +31,7 @@ public class Patients {
     @Enumerated(EnumType.STRING)
     private Status status;
     private LocalDate birthDate;
+    private String profession;
 
     public Patients(PatientDto patients) {
         this.id = patients.getId();
@@ -40,9 +41,10 @@ public class Patients {
         this.gender = patients.getGender();
         this.status = patients.getStatus();
         this.birthDate = patients.getBirthDate();
+        this.profession = patients.getProfession();
     }
 
     public PatientDto toAggregate() {
-        return new PatientDto(id, identification, name, lastName, gender, status,birthDate);
+        return new PatientDto(id, identification, name, lastName, gender, status,birthDate, profession);
     }
 }

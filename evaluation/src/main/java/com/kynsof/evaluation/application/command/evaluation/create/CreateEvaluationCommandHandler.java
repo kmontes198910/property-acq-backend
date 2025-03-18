@@ -54,7 +54,8 @@ public class CreateEvaluationCommandHandler implements ICommandHandler<CreateEva
                     patient.getName(),
                     patient.getLastName(),
                     Status.valueOf(patient.getStatus()),
-                    !patient.getBirthDate().equals("") ? LocalDate.parse(patient.getBirthDate()) : null
+                    !patient.getBirthDate().equals("") ? LocalDate.parse(patient.getBirthDate()) : null,
+                    patient.getProfession()
             );
             this.patientsService.create(patientDto);
         }
