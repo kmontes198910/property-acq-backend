@@ -122,9 +122,16 @@ public class CreateExternalConsultationCommandHandler implements ICommandHandler
                 command.getOdontogramJson()
         ));
         command.setId(id);
-        System.err.println("Entro");
-        String resulDiscount = businessBalanceService.discountBusinessBalance(command.getBusinessId(), 0.25);
-        System.err.println("resulDiscount:" + resulDiscount);
+        try {
+            System.err.println("Entro");
+            String resulDiscount = businessBalanceService.discountBusinessBalance(command.getBusinessId(), 0.25);
+            System.err.println("resulDiscount:" + resulDiscount);
+        }catch (Exception e) {
+            System.err.println("Ocurio un error");
+            System.err.println(e.getMessage());
+
+        }
+
 
 //        if (!examDtoList.isEmpty()) {
 //            CreateBillingEvent createBillingEvent = new CreateBillingEvent(

@@ -228,10 +228,10 @@ public class GroupPaymentServiceImpl implements IGroupPaymentService {
                 )
         ).toList();
 
-        billingWriteDataJPARepository.saveAll(billingDtos.stream().map(Billing::new).toList());
+      List<Billing> billingList =  billingWriteDataJPARepository.saveAll(billingDtos.stream().map(Billing::new).toList());
 
-        List<UUID> billingIds = billingDtos.stream()
-                .map(BillingDto::getId)
+        List<UUID> billingIds = billingList.stream()
+                .map(Billing::getId)
                 .toList();
 
         UUID groupPaymentId = createGroupPayment(
@@ -242,8 +242,8 @@ public class GroupPaymentServiceImpl implements IGroupPaymentService {
 
         updateAdminSystems(
                 groupPaymentId,
-                authorizationCode,
                 reference,
+                authorizationCode,
                 paymentType,
                 paymentStatus
         );
@@ -257,7 +257,7 @@ public class GroupPaymentServiceImpl implements IGroupPaymentService {
         try {
             return this.groupPaymentReadDataJPARepository.findById(id).get().toAggregate();
         } catch (Exception e) {
-            throw new BusinessNotFoundException(new GlobalBusinessException(DomainErrorMessage.MEDICINES_NOT_FOUND, new ErrorField("id", "Group Payment not found.")));
+            throw new BusinessNotFoundException(new GlobalBusinessException(DomainErrorMessage.PAYMENT_NOT_PRESENT, new ErrorField("id", "Group Payment not found.")));
         }
     }
 
