@@ -39,7 +39,8 @@ public class ConsumerPatientEventService {
                     eventRead.getFirstName(),
                     eventRead.getLastName(),
                     Status.ACTIVE,
-                    eventRead.getBirthDate()
+                    eventRead.getBirthDate(),
+                    eventRead.getProfession()
             );
             patientDto.setGender(eventRead.getGender());
             this.service.create(patientDto);

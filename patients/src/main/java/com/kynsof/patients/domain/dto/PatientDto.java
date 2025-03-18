@@ -27,10 +27,11 @@ public class PatientDto implements Serializable {
     private  int gestationTime;
 
     private ContactInfoDto contactInfo;
+    private String profession;
 
     public PatientDto(UUID id, String identification, String name, String lastName, GenderType gender, Status status,
                      Boolean hasDisability, Boolean isPregnant, String photo,
-                      DisabilityType disabilityType, int gestationTime) {
+                      DisabilityType disabilityType, int gestationTime, String profession) {
         this.id = id;
         this.identification = identification;
         this.name = name;
@@ -42,6 +43,7 @@ public class PatientDto implements Serializable {
         this.photo = photo;
         this.disabilityType = disabilityType;
         this.gestationTime = gestationTime;
+        this.profession = profession;
     }
 
     public PatientDto(UUID id, String identification, String name, String lastName, GenderType gender, Status status, String photo) {

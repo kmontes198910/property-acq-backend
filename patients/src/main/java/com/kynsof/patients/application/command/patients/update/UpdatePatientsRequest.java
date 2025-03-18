@@ -15,4 +15,5 @@ public class UpdatePatientsRequest {
     private GenderType gender;
     private String image;
     private CreatePatientContactInfoRequest contactInfo;
+    private String profession;
 }

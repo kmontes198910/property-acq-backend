@@ -24,7 +24,8 @@ public class UpdatePatientsCommandHandler implements ICommandHandler<UpdatePatie
                 command.getLastName(),
                 command.getGender(),
                 Status.ACTIVE,
-                command.getBirthDate()
+                command.getBirthDate(),
+                command.getProfession()
         ));
 
     }

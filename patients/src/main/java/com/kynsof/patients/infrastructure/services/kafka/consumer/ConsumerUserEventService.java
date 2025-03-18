@@ -11,7 +11,6 @@ import com.kynsof.patients.domain.service.IContactInfoService;
 import com.kynsof.patients.domain.service.IPatientsService;
 import com.kynsof.share.core.domain.kafka.entity.UserKafka;
 import com.kynsof.share.core.domain.kafka.event.EventType;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
 
@@ -45,7 +44,7 @@ public class ConsumerUserEventService {
 
                 UUID patientId = this.service.create(new PatientDto(UUID.fromString(eventRead.getId()),
                         eventRead.getIdentification(), eventRead.getFirstname(), eventRead.getLastname(), GenderType.UNDEFINED, Status.ACTIVE,
-                       null, null, null, null, 0));
+                       null, null, null, null, 0, ""));
 
                 PatientDto patientDto = this.service.findByIdSimple(patientId);
                 this.contactInfoService.create(new ContactInfoDto(UUID.randomUUID(), patientDto, eventRead.getEmail(),

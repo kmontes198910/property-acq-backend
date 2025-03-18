@@ -46,7 +46,9 @@ public class CreatePatientsCommandHandler implements ICommandHandler<CreatePatie
                 command.getLastName(),
                 command.getGender(),
                 Status.ACTIVE,
-                command.getPhoto());
+                command.getPhoto()
+        );
+        patientDto.setProfession(command.getProfession());
 
         UUID id = serviceImpl.create(patientDto);
         command.setId(id);
@@ -77,7 +79,8 @@ public class CreatePatientsCommandHandler implements ICommandHandler<CreatePatie
                 patientDto.getPhoto(),
                 command.getCreateContactInfoRequest().getBirthdayDate(),
                 patientDto.getGender().name(),
-                command.getCreateContactInfoRequest().getTelephone()
+                command.getCreateContactInfoRequest().getTelephone(),
+                patientDto.getProfession()
         ));
     }
 }

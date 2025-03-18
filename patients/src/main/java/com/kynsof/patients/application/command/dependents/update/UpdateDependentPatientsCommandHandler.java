@@ -83,7 +83,8 @@ public class UpdateDependentPatientsCommandHandler implements ICommandHandler<Up
                 update.getPhoto(), 
                 contactInfoDto.getBirthdayDate(),
                 update.getGender().name(),
-                contactInfoDto.getTelephone()
+                contactInfoDto.getTelephone(),
+                ""
         ));
     }
 }

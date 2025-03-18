@@ -22,4 +22,5 @@ public class CustomerKafka {
     private LocalDate birthDate;
     private String gender;
     private String phoneNumber;
+    private String profession;
 }
