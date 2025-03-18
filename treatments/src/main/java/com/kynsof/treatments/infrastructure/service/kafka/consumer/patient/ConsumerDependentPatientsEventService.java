@@ -36,7 +36,7 @@ public class ConsumerDependentPatientsEventService {
                 this.service.create(new PatientDto(UUID.fromString(eventRead.getId()), 
                         eventRead.getIdentification(), eventRead.getFirstname(), 
                         eventRead.getLastname(), eventRead.getGender(), Status.ACTIVE,
-                        LocalDate.parse(eventRead.getBirthdayDate())));
+                        LocalDate.parse(eventRead.getBirthdayDate()), ""));
 
             }
             if (eventType.equals(EventType.UPDATED)) {
@@ -53,7 +53,7 @@ public class ConsumerDependentPatientsEventService {
                         eventRead.getLastname(), 
                         eventRead.getGender(), 
                         Status.ACTIVE, 
-                        LocalDate.parse(eventRead.getBirthdayDate())));
+                        LocalDate.parse(eventRead.getBirthdayDate()), ""));
             }
         } catch (JsonProcessingException ex) {
             Logger.getLogger(ConsumerDependentPatientsEventService.class.getName()).log(Level.SEVERE, null, ex);
