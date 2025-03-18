@@ -60,7 +60,8 @@ public class CreateReceiptCommandHandler implements ICommandHandler<CreateReceip
                     patient.getName(),
                     patient.getLastName(),
                     PatientStatus.valueOf(patient.getStatus()),
-                    ""
+                    "",
+                    patient.getProfession()
             );
             this.servicePatient.create(_patient);
         }
