@@ -8,7 +8,7 @@ on:
   workflow_dispatch:
   push:
     branches:
-      - 'dev'
+      - 'prod'
     paths:
       - .github/workflows/ci-config-prod.yml
       - 'config/**'
