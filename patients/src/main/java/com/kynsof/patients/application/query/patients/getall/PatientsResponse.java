@@ -25,6 +25,8 @@ public class PatientsResponse implements IResponse {
     private String image;
     private String email;
     private String phone;
+    private String profession;
+
     public PatientsResponse(PatientDto patients) {
         this.id = patients.getId();
         this.identification = patients.getIdentification();
@@ -36,6 +38,7 @@ public class PatientsResponse implements IResponse {
         this.image = patients.getPhoto();
         this.email = patients.getContactInfo() != null ? patients.getContactInfo().getEmail() :"";
         this.phone =patients.getContactInfo() != null ? patients.getContactInfo().getTelephone() : "";
+        this.profession = patients.getProfession();
     }
 
 }
