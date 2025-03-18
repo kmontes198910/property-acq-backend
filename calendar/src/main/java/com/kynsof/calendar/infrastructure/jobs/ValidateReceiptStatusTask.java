@@ -31,7 +31,7 @@ public class ValidateReceiptStatusTask {
         List<Receipt> receipts = this.receiptService.findByStatus(EStatusReceipt.PENDING_PAY);
         receipts.forEach(receipt -> {
             try {
-                PaymentServiceStatusResponse paymentStatus = paymentServiceClient.validateStatusPayment(receipt.getRequestId());
+                PaymentServiceStatusResponse paymentStatus = paymentServiceClient.validateStatusPayment(receipt.getRequestId(), receipt.getSchedule().getBusiness().getId());
                 this.receiptService.updatePaymentStatus(receipt,paymentStatus.getStatus(),paymentStatus.getReference(), paymentStatus.getAuthorization());
                 System.err.println(paymentStatus);
             } catch (IOException e) {

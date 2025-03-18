@@ -31,14 +31,15 @@ public class ConfirmPaymentReceiptCommandHandler implements ICommandHandler<Conf
         PaymentServiceStatusResponse paymentStatus;
 
         try {
+            ReceiptDto _receipt = this.service.findById(command.getReceiptId());
             // Llamar al servicio externo para obtener el estado del pago
-            paymentStatus = paymentServiceClient.validateStatusPayment(command.getRequestId());
+            paymentStatus = paymentServiceClient.validateStatusPayment(command.getRequestId(), _receipt.getSchedule().getBusiness().getId());
 
 //            if (paymentStatus == null || !paymentStatus.getStatus().equalsIgnoreCase(command.getStatus().toString())) {
 //                throw new BusinessException(DomainErrorMessage.PAYMENT_NOT_FOUND, "Payment not approved or not found.");
 //            }
 
-            ReceiptDto _receipt = this.service.findById(command.getReceiptId());
+
             _receipt.setAuthorizationCode(paymentStatus.getAuthorization());
             _receipt.setRequestId(command.getRequestId());
             _receipt.setReference(paymentStatus.getReference());
