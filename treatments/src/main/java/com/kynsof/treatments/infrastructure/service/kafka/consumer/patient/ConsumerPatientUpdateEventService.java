@@ -39,7 +39,8 @@ public class ConsumerPatientUpdateEventService {
                     eventRead.getLastName(),
                     eventRead.getGender(),
                     Status.ACTIVE,
-                    LocalDate.parse(eventRead.getBirthdayDate())
+                    LocalDate.parse(eventRead.getBirthdayDate()),
+                    ""
             ));
 
         } catch (JsonProcessingException ex) {

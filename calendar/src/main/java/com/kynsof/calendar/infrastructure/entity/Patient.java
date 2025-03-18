@@ -32,13 +32,14 @@ public class Patient {
 
     private String image;
 
+    private String profession;
+
     @Enumerated(EnumType.STRING)
     private PatientStatus status;
 
     @CreationTimestamp
     @Column(updatable = false)
     private LocalDateTime createdAt;
-
 
     @UpdateTimestamp
     private LocalDateTime updatedAt;
@@ -54,6 +55,6 @@ public class Patient {
     }
 
     public PatientDto toAggregate() {
-        return new PatientDto(id, identification, email, name, lastName, status, image);
+        return new PatientDto(id, identification, email, name, lastName, status, image, profession);
     }
 }

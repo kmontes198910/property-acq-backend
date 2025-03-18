@@ -21,4 +21,5 @@ public class PatientDto implements Serializable {
     private String lastName;
     private PatientStatus status;
     private String image;
+    private String profession;
 }

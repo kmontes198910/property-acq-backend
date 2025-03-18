@@ -32,6 +32,7 @@ public class Patients {
     @Enumerated(EnumType.STRING)
     private Status status;
     private LocalDate birthDate;
+    private String profession;
 
     @OneToMany(mappedBy = "patient")
     private List<ExternalConsultation> externalConsultations;
@@ -49,6 +50,6 @@ public class Patients {
     }
 
     public PatientDto toAggregate() {
-        return new PatientDto(id, identification, name, lastName, gender, status,birthDate);
+        return new PatientDto(id, identification, name, lastName, gender, status, birthDate, profession);
     }
 }
