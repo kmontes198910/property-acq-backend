@@ -30,4 +30,5 @@ public class PatientByIdDto implements Serializable {
     private int gestationTime;
     private FamilyRelationship familyRelationship;
     private ContactInfoDto contactInfoDto;
+    private String profession;
 }

@@ -26,7 +26,8 @@ public class CreatePatientsCommandHandler  implements ICommandHandler<CreatePati
                 command.getLastName(),
                 command.getGender(),
                Status.ACTIVE,
-               command.getBirthDate()
+               command.getBirthDate(),
+               ""
         ));
        command.setId(id);
     }

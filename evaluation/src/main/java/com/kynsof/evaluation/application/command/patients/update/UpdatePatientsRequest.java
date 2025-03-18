@@ -14,4 +14,5 @@ public class UpdatePatientsRequest {
     private String lastName;
     private String gender;
     private LocalDate birthDate;
+    private String profession;
 }

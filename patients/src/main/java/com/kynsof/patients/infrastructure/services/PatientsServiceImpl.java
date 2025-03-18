@@ -80,6 +80,7 @@ public class PatientsServiceImpl implements IPatientsService {
         existingPatient.setIsPregnant(patientDto.getIsPregnant());
         existingPatient.setDisabilityType(patientDto.getDisabilityType());
         existingPatient.setUpdatedAt(LocalDateTime.now());
+        existingPatient.setProfession(patientDto.getProfession());
 
         // Persistir los cambios
         repositoryCommand.save(existingPatient);

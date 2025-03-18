@@ -42,7 +42,8 @@ public class ConsumerPatientEventService {
                     eventRead.getFirstName(),
                     eventRead.getLastName(),
                     PatientStatus.ACTIVE,
-                    eventRead.getImage()
+                    eventRead.getImage(),
+                    eventRead.getProfession()
             ));
 
         } catch (JsonProcessingException ex) {

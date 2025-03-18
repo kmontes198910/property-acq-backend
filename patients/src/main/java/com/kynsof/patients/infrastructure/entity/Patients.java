@@ -71,6 +71,7 @@ public class Patients implements Serializable {
 
     private UUID keycloakId;
 
+    private String profession;
     @CreationTimestamp
     @Column(updatable = false)
     private LocalDateTime createdAt;
@@ -90,6 +91,7 @@ public class Patients implements Serializable {
         this.photo = patients.getPhoto();
         this.disabilityType = patients.getDisabilityType() != null ? patients.getDisabilityType() : DisabilityType.UNDEFINED;
         this.gestationTime = patients.getGestationTime();
+        this.profession = patients.getProfession();
     }
 
     public Patients(DependentPatientDto patients) {
@@ -110,7 +112,7 @@ public class Patients implements Serializable {
 
     public PatientDto toAggregate() {
         PatientDto patientDto = new PatientDto(id, identification, firstName, lastName, gender, status,  hasDisability, isPregnant,
-                photo, disabilityType, gestationTime);
+                photo, disabilityType, gestationTime, profession);
         ContactInfoDto contactInfoDto = contactInformation != null ? contactInformation.toAggregateSimple() : null;
         patientDto.setContactInfo(contactInfoDto);
         return patientDto;
@@ -120,9 +122,6 @@ public class Patients implements Serializable {
         ContactInfoDto contactInfoDto = contactInformation != null ? contactInformation.toAggregate() : null;
         return  new PatientByIdDto(id, identification, firstName, lastName, gender, status,
                 hasDisability, isPregnant, photo, disabilityType, gestationTime, familyRelationship,
-                contactInfoDto );
-
-
-
+                contactInfoDto, profession);
     }
 }
