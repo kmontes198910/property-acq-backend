@@ -203,8 +203,11 @@ public class GroupPaymentServiceImpl implements IGroupPaymentService {
                                               GroupPaymentStatus paymentStatus, String insuranceId,
                                               TypeOperation typeOperation, boolean proforma, String authorizationCode,
                                               String reference) {
+        System.err.println("Entro aqui antes de leer el cliente");
         Client client = this.clientReadDataJPARepository.findById(clientId).orElseThrow();
+        System.err.println("Entro aqui despues de leer el cliente");
         Business business = this.businessReadDataJPARepository.findById(businessId).orElseThrow();
+        System.err.println("Entro aqui despues de leer la empresa");
         BillingStatus billingStatus;
 
         if (paymentStatus.equals(GroupPaymentStatus.PAYMENT_CASH) || paymentStatus.equals(GroupPaymentStatus.PAYMENT_APPROVED)) {
@@ -227,8 +230,9 @@ public class GroupPaymentServiceImpl implements IGroupPaymentService {
                         typeOperation
                 )
         ).toList();
-
+        System.err.println("Construye los billing");
       List<Billing> billingList =  billingWriteDataJPARepository.saveAll(billingDtos.stream().map(Billing::new).toList());
+        System.err.println("Salva los billing");
 
         List<UUID> billingIds = billingList.stream()
                 .map(Billing::getId)
@@ -239,7 +243,7 @@ public class GroupPaymentServiceImpl implements IGroupPaymentService {
                 businessId,
                 clientId
         );
-
+        System.err.println("Salva los group payment");
         updateAdminSystems(
                 groupPaymentId,
                 reference,
@@ -247,7 +251,7 @@ public class GroupPaymentServiceImpl implements IGroupPaymentService {
                 paymentType,
                 paymentStatus
         );
-
+        System.err.println("Actualiza los group payment");
         return groupPaymentId;
     }
 
