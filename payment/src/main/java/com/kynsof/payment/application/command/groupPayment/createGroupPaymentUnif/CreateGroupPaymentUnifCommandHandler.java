@@ -37,22 +37,22 @@ public class CreateGroupPaymentUnifCommandHandler implements ICommandHandler<Cre
     @Override
     public void handle(CreateGroupPaymentUnifCommand command) {
 
-           ClientDto clientDto = null;
-            try {
-                clientDto = clientService.findById(command.getClientId());
-            } catch (Exception e) {
-                PatientHttp patient = patientHttpUUIDService.sendGetHttpRequest(command.getClientId());
-                clientDto = new ClientDto(
-                        patient.getId(),
-                        patient.getIdentification(),
-                        patient.getName(),
-                        patient.getLastName(),
-                        Status.valueOf(patient.getStatus()),
-                        patient.getEmail(),
-                        patient.getPhone()
-                );
-                this.clientService.create(clientDto);
-            }
+//           ClientDto clientDto = null;
+//            try {
+//                clientDto = clientService.findById(command.getClientId());
+//            } catch (Exception e) {
+//                PatientHttp patient = patientHttpUUIDService.sendGetHttpRequest(command.getClientId());
+//                clientDto = new ClientDto(
+//                        patient.getId(),
+//                        patient.getIdentification(),
+//                        patient.getName(),
+//                        patient.getLastName(),
+//                        Status.valueOf(patient.getStatus()),
+//                        patient.getEmail(),
+//                        patient.getPhone()
+//                );
+//                this.clientService.create(clientDto);
+//            }
 
 
         UUID id = this.serviceImpl.createBillingsAndGroupPayment(command.getClientId(),
