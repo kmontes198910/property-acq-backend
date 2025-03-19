@@ -279,6 +279,11 @@ public class GroupPaymentServiceImpl implements IGroupPaymentService {
         return groupPaymentId;
     }
 
+    @Override
+    public List<GroupPayment> findByStatus(GroupPaymentStatus groupPaymentStatus) {
+        return this.groupPaymentReadDataJPARepository.findByStatus(groupPaymentStatus);
+    }
+
 
     @Override
     public GroupPaymentDto findById(UUID id) {
