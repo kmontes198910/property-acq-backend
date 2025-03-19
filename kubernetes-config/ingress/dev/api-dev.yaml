@@ -1,0 +1,22 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: medinec-api-dev
+  namespace: medinec-dev
+spec:
+  ingressClassName: nginx
+  tls:
+    - hosts:
+        - doctorkyn-dev-api.kynsoft.net
+      secretName: medinec-tls-dev
+  rules:
+    - host: doctorkyn-dev-api.kynsoft.net
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: gateway-service
+                port:
+                  number: 8080

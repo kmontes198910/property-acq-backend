@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kynsof.share.core.domain.kafka.entity.CustomerKafka;
 import com.kynsof.share.core.domain.kafka.event.CreateEvent;
 import com.kynsof.share.core.domain.kafka.event.EventType;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 
@@ -27,7 +28,7 @@ public class ProducerCreateCustomerEventService {
             //ObjectMapper objectMapper = new ObjectMapper();
             String json = objectMapper.writeValueAsString(new CreateEvent<>(entity, EventType.CREATED));
 
-            this.producer.send("medinec-create-patient", json);
+            this.producer.send(topic, json);
         } catch (JsonProcessingException ex) {
             Logger.getLogger(ProducerCreateCustomerEventService.class.getName()).log(Level.SEVERE, null, ex);
         }

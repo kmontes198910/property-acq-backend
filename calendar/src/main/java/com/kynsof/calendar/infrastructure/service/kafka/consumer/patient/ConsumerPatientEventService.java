@@ -7,6 +7,7 @@ import com.kynsof.calendar.domain.dto.PatientDto;
 import com.kynsof.calendar.domain.dto.enumType.PatientStatus;
 import com.kynsof.calendar.domain.service.IPatientsService;
 import com.kynsof.share.core.domain.kafka.entity.CustomerKafka;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
 
@@ -19,13 +20,16 @@ public class ConsumerPatientEventService {
 
     private final IPatientsService service;
     private final ObjectMapper objectMapper;
+//    @Value("${kafka.topic.create-customer}")  // Inyecta el nombre del tópico desde la configuración
+//    private String topic;
 
     public ConsumerPatientEventService(IPatientsService service, ObjectMapper objectMapper) {
         this.service = service;
         this.objectMapper = objectMapper;
     }
 
-    @KafkaListener(topics = "medinec-create-patient", groupId = "calendar-patient")
+    //@KafkaListener(topics = "medinec-create-patient", groupId = "calendar-patient")
+    @KafkaListener(topics = "${kafka.topic.create-customer}", groupId = "calendar-patient")
     public void listen(String event) {
         try {
 
