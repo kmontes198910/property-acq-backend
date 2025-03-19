@@ -17,4 +17,6 @@ public class BusinessDto implements Serializable {
     private String name;
     private String logo;
     private String ruc;
+    private String phone;
+    private String email;
 }

@@ -15,11 +15,15 @@ public class BusinessResponse implements IResponse {
     private UUID id;
     private String name;
     private String logo;
+    private String phone;
+    private String email;
 
     public BusinessResponse(BusinessDto object) {
         this.id = object.getId();
         this.name = object.getName();
         this.logo = object.getLogo();
+        this.phone = object.getPhone();
+        this.email = object.getEmail();
     }
 
 }

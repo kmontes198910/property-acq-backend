@@ -26,7 +26,7 @@ public class ConsumerUpdateBusinessEventService {
             JsonNode rootNode = objectMapper.readTree(event);
 
             UpdateBusinessKafka eventRead = objectMapper.treeToValue(rootNode.get("data"), UpdateBusinessKafka.class);
-            this.service.update(new BusinessDto(eventRead.getId(), eventRead.getName(), eventRead.getLogo(), "ruc"));
+            this.service.update(new BusinessDto(eventRead.getId(), eventRead.getName(), eventRead.getLogo(), "ruc", eventRead.getPhone(), eventRead.getEmail()));
         } catch (Exception ex) {
             Logger.getLogger(ConsumerUpdateBusinessEventService.class.getName()).log(Level.SEVERE, null, ex);
         }

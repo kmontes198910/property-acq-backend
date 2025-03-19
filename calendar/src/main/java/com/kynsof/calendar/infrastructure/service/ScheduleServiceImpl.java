@@ -252,4 +252,9 @@ public class ScheduleServiceImpl implements IScheduleService {
                 pagedServiceDtos.getNumber()
         );
     }
+
+    @Override
+    public boolean existsOverlappingSchedule(UUID resourceId, LocalDate date, LocalTime startTime, LocalTime endingTime) {
+        return this.repositoryQuery.existsOverlappingSchedule(resourceId, date, startTime, endingTime);
+    }
 }
