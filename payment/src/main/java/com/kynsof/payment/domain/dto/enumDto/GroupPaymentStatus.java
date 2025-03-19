@@ -6,5 +6,6 @@ public enum GroupPaymentStatus {
     PAYMENT_APPROVED,
     REJECTED,
     CANCELLED,
-    PAYMENT_CASH
+    PAYMENT_CASH,
+    REVERSE
 }
