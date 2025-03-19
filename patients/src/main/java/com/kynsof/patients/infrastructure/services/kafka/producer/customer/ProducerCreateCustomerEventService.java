@@ -28,7 +28,7 @@ public class ProducerCreateCustomerEventService {
             //ObjectMapper objectMapper = new ObjectMapper();
             String json = objectMapper.writeValueAsString(new CreateEvent<>(entity, EventType.CREATED));
 
-            this.producer.send(topic, json);
+            this.producer.send("medinec-create-patient", json);
         } catch (JsonProcessingException ex) {
             Logger.getLogger(ProducerCreateCustomerEventService.class.getName()).log(Level.SEVERE, null, ex);
         }
