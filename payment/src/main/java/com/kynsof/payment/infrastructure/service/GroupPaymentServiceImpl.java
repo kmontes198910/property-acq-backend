@@ -4,20 +4,21 @@ import com.kynsof.payment.application.command.groupPayment.createGroupPaymentUni
 import com.kynsof.payment.application.query.groupPayment.getbyid.GroupPaymentResponse;
 import com.kynsof.payment.application.query.groupPaymentDetails.SearchGroupPaymentDetailResponse;
 import com.kynsof.payment.domain.dto.BillingDto;
+import com.kynsof.payment.domain.dto.ClientDto;
 import com.kynsof.payment.domain.dto.GroupPaymentDto;
-import com.kynsof.payment.domain.dto.enumDto.BillingStatus;
-import com.kynsof.payment.domain.dto.enumDto.GroupPaymentStatus;
-import com.kynsof.payment.domain.dto.enumDto.PaymentType;
-import com.kynsof.payment.domain.dto.enumDto.TypeOperation;
+import com.kynsof.payment.domain.dto.enumDto.*;
 import com.kynsof.payment.domain.service.IGroupPaymentService;
 import com.kynsof.payment.infrastructure.entity.*;
 import com.kynsof.payment.infrastructure.repositories.command.BillingWriteDataJPARepository;
+import com.kynsof.payment.infrastructure.repositories.command.ClientWriteDataJPARepository;
 import com.kynsof.payment.infrastructure.repositories.command.GroupPaymentWriteDataJPARepository;
 import com.kynsof.payment.infrastructure.repositories.command.PaymentDetailWriteDataJPARepository;
 import com.kynsof.payment.infrastructure.repositories.query.*;
+import com.kynsof.payment.infrastructure.service.http.PatientHttpUUIDService;
 import com.kynsof.share.core.domain.exception.BusinessNotFoundException;
 import com.kynsof.share.core.domain.exception.DomainErrorMessage;
 import com.kynsof.share.core.domain.exception.GlobalBusinessException;
+import com.kynsof.share.core.domain.http.entity.PatientHttp;
 import com.kynsof.share.core.domain.request.FilterCriteria;
 import com.kynsof.share.core.domain.response.ErrorField;
 import com.kynsof.share.core.domain.response.PaginatedResponse;
@@ -30,6 +31,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.UUID;
 
 @Service
@@ -44,6 +46,8 @@ public class GroupPaymentServiceImpl implements IGroupPaymentService {
     private final GroupPaymentReadDataJPARepository groupPaymentReadDataJPARepository;
     private final BusinessReadDataJPARepository businessReadDataJPARepository;
     private final ClientReadDataJPARepository clientReadDataJPARepository;
+    private final PatientHttpUUIDService patientHttpUUIDService;
+    private final ClientWriteDataJPARepository clientWriteDataJPARepository;
 
     public GroupPaymentServiceImpl(BillingReadDataJPARepository repositoryQuery,
                                    BillingWriteDataJPARepository repositoryCommand,
@@ -52,7 +56,7 @@ public class GroupPaymentServiceImpl implements IGroupPaymentService {
                                    GroupPaymentDetailReadDataJPARepository paymentDetailReadDataJPARepository,
                                    GroupPaymentReadDataJPARepository groupPaymentReadDataJPARepository,
                                    BusinessReadDataJPARepository businessReadDataJPARepository,
-                                   ClientReadDataJPARepository clientReadDataJPARepository) {
+                                   ClientReadDataJPARepository clientReadDataJPARepository, PatientHttpUUIDService patientHttpUUIDService, ClientWriteDataJPARepository clientWriteDataJPARepository) {
         this.repositoryQuery = repositoryQuery;
         this.billingWriteDataJPARepository = repositoryCommand;
         this.groupPaymentWriteDataJPARepository = groupPaymentWriteDataJPARepository;
@@ -61,6 +65,8 @@ public class GroupPaymentServiceImpl implements IGroupPaymentService {
         this.groupPaymentReadDataJPARepository = groupPaymentReadDataJPARepository;
         this.businessReadDataJPARepository = businessReadDataJPARepository;
         this.clientReadDataJPARepository = clientReadDataJPARepository;
+        this.patientHttpUUIDService = patientHttpUUIDService;
+        this.clientWriteDataJPARepository = clientWriteDataJPARepository;
     }
 
     @Transactional
@@ -203,8 +209,28 @@ public class GroupPaymentServiceImpl implements IGroupPaymentService {
                                               GroupPaymentStatus paymentStatus, String insuranceId,
                                               TypeOperation typeOperation, boolean proforma, String authorizationCode,
                                               String reference) {
-        Client client = this.clientReadDataJPARepository.findById(clientId).orElseThrow();
+        System.err.println("Entro aqui antes de leer el cliente");
+        Client client;
+        try {
+            client = this.clientReadDataJPARepository.findById(clientId)
+                    .orElseThrow(() -> new NoSuchElementException("Client not found with ID: " + clientId));
+        } catch (NoSuchElementException e) {
+            System.err.println("Client not found with ID: " + clientId);
+            PatientHttp patient = patientHttpUUIDService.sendGetHttpRequest(clientId);
+            client = new Client(
+                    patient.getId(),
+                    patient.getIdentification(),
+                    patient.getName(),
+                    patient.getLastName(),
+                    Status.valueOf(patient.getStatus()),
+                    patient.getEmail(),
+                    patient.getPhone()
+            );
+            this.clientWriteDataJPARepository.save(client);
+        }
+        System.err.println("Entro aqui despues de leer el cliente");
         Business business = this.businessReadDataJPARepository.findById(businessId).orElseThrow();
+        System.err.println("Entro aqui despues de leer la empresa");
         BillingStatus billingStatus;
 
         if (paymentStatus.equals(GroupPaymentStatus.PAYMENT_CASH) || paymentStatus.equals(GroupPaymentStatus.PAYMENT_APPROVED)) {
@@ -212,10 +238,11 @@ public class GroupPaymentServiceImpl implements IGroupPaymentService {
         } else {
             billingStatus = BillingStatus.PENDING;
         }
+        Client finalClient = client;
         List<BillingDto> billingDtos = billings.stream().map(billing ->
                 new BillingDto(
                         UUID.randomUUID(),
-                        client.toAggregate(),
+                        finalClient.toAggregate(),
                         business.toAggregate(),
                         billing.getCode(),
                         billing.getDescription(),
@@ -227,8 +254,9 @@ public class GroupPaymentServiceImpl implements IGroupPaymentService {
                         typeOperation
                 )
         ).toList();
-
+        System.err.println("Construye los billing");
       List<Billing> billingList =  billingWriteDataJPARepository.saveAll(billingDtos.stream().map(Billing::new).toList());
+        System.err.println("Salva los billing");
 
         List<UUID> billingIds = billingList.stream()
                 .map(Billing::getId)
@@ -239,7 +267,7 @@ public class GroupPaymentServiceImpl implements IGroupPaymentService {
                 businessId,
                 clientId
         );
-
+        System.err.println("Salva los group payment");
         updateAdminSystems(
                 groupPaymentId,
                 reference,
@@ -247,8 +275,13 @@ public class GroupPaymentServiceImpl implements IGroupPaymentService {
                 paymentType,
                 paymentStatus
         );
-
+        System.err.println("Actualiza los group payment");
         return groupPaymentId;
+    }
+
+    @Override
+    public List<GroupPayment> findByStatus(GroupPaymentStatus groupPaymentStatus) {
+        return this.groupPaymentReadDataJPARepository.findByStatus(groupPaymentStatus);
     }
 
 

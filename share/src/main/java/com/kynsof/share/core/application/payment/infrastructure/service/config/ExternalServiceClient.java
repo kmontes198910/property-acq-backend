@@ -12,6 +12,8 @@ import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.util.Map;
+import java.util.UUID;
+
 @Service
 public class ExternalServiceClient {
 
@@ -23,7 +25,7 @@ public class ExternalServiceClient {
         this.objectMapper = objectMapper;
     }
 
-    public PaymentServiceStatusResponse validateStatusPayment(String requestId) throws IOException {
+    public PaymentServiceStatusResponse validateStatusPayment(String requestId, UUID businessId) throws IOException {
         // Construcción del endpoint
         String baseUrl = paymentServiceConfig.getPaymentServiceBaseUrl();
         if (!baseUrl.startsWith("http://") && !baseUrl.startsWith("https://")) {
@@ -33,7 +35,7 @@ public class ExternalServiceClient {
                 "%s:%d/placetopay/%s/information/%s",
                 baseUrl,
                 paymentServiceConfig.getPaymentServicePort(),
-                paymentServiceConfig.getPaymentServiceClientId(),
+                businessId,
                 requestId
         );
 

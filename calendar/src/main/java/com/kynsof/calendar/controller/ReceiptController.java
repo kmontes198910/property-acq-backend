@@ -39,7 +39,7 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/receipt")
-public class ReceiptController {
+public class  ReceiptController {
 
     private final IMediator mediator;
 
