@@ -21,15 +21,19 @@ public class Business{
     private String ruc;
     private String name;
     private String logo;
+    private String phone;
+    private String email;
 
     public Business(BusinessDto business) {
         this.id = business.getId();
         this.name = business.getName();
         this.logo = business.getLogo();
         this.ruc = business.getRuc();
+        this.phone = business.getPhone();
+        this.email = business.getEmail();
     }
 
     public BusinessDto toAggregate () {
-        return new BusinessDto(id, name, logo,ruc);
+        return new BusinessDto(id, name, logo,ruc, phone, email);
     }
 }

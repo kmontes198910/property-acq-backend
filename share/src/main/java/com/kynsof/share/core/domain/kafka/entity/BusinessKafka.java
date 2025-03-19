@@ -24,7 +24,10 @@ public class BusinessKafka implements Serializable {
     private String address;
     @JsonProperty("logo")
     private String logo;
-
+    @JsonProperty("phone")
+    private String phone;
+    @JsonProperty("email")
+    private String email;
     public BusinessKafka() {
     }
 

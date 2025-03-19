@@ -21,6 +21,13 @@ public interface ScheduleReadDataJPARepository extends JpaRepository<Schedule, U
     Page<Schedule> findAll(Pageable pageable);
     Page<Schedule> findAll(Specification specification, Pageable pageable);
 
+    @Query("SELECT COUNT(s) > 0 FROM Schedule s WHERE s.resource.id = :resourceId " +
+       "AND s.date = :date " +
+       "AND ((s.startTime < :endTime AND s.endingTime > :startTime))")
+    boolean existsOverlappingSchedule(@Param("resourceId") UUID resourceId,
+                                    @Param("date") LocalDate date,
+                                    @Param("startTime") LocalTime startTime,
+                                    @Param("endTime") LocalTime endingTime);
 
     @Query("SELECT s FROM Schedule s WHERE s.resource.id = :resourceId " +
                   "AND s.date = :date " +
