@@ -28,7 +28,7 @@ public class ConsumerBusinessEventService {
             JsonNode rootNode = objectMapper.readTree(event);
 
             BusinessKafka eventRead = objectMapper.treeToValue(rootNode.get("data"), BusinessKafka.class);
-            this.service.create(new BusinessDto(eventRead.getId(), eventRead.getName(), eventRead.getLogo(), "RUC"));
+            this.service.create(new BusinessDto(eventRead.getId(), eventRead.getName(), eventRead.getLogo(), "RUC", eventRead.getPhone(), eventRead.getEmail()));
         } catch (Exception ex) {
             Logger.getLogger(ConsumerBusinessEventService.class.getName()).log(Level.SEVERE, null, ex);
         }
