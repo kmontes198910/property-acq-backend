@@ -3,7 +3,6 @@ package com.kynsoft.notification.infrastructure.entity;
 import com.kynsoft.notification.domain.dto.EmailListDto;
 import jakarta.persistence.*;
 import lombok.*;
-import net.minidev.json.annotate.JsonIgnore;
 import org.hibernate.annotations.Generated;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.generator.EventType;
@@ -20,7 +19,7 @@ import java.util.UUID;
 @Getter
 @Setter
 @Builder
-@EntityListeners(AuditingEntityListener.class)
+//@EntityListeners(AuditingEntityListener.class)
 public class EmailList {
     @Id
     @GeneratedValue(generator = "UUID")
@@ -32,7 +31,6 @@ public class EmailList {
     private String email;
     private String clientName;
     private String clientLastname;
-    @JsonIgnore
     @ManyToOne
     private Campaign campaign;
 
