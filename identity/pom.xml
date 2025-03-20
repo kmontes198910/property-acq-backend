@@ -21,7 +21,7 @@
 		<spring-boot-maven-plugin.version>3.4.3</spring-boot-maven-plugin.version>
 		<spring-cloud.version>2023.0.4</spring-cloud.version>
 		<springdoc-openapi.version>2.2.0</springdoc-openapi.version>
-		<maven-compiler-plugin.version>3.11.0</maven-compiler-plugin.version>
+		<maven-compiler-plugin.version>3.14.0</maven-compiler-plugin.version>
 	</properties>
 
 	<dependencyManagement>
