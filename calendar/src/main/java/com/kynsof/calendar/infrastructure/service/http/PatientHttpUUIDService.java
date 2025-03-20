@@ -27,7 +27,9 @@ public class PatientHttpUUIDService {
 
     public PatientHttp sendGetHttpRequest(UUID id) {
         try {
+            System.err.println("Paciente:"+id);
             String url = serviceUrl + "/api/patients/http/replicate/" + id;
+            System.err.println("URL:"+url);
 
             // Crear cabeceras para la solicitud
             HttpHeaders headers = new HttpHeaders();
