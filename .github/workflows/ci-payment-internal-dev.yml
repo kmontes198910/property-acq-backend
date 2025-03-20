@@ -1,4 +1,4 @@
-name: ci-payment-internal-prod
+name: ci-payment-internal-dev
 
 env:
   SERVICE_NAME: 'payment-internal'

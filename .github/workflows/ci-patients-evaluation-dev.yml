@@ -1,4 +1,4 @@
-name: ci-patients-evaluation-prod
+name: ci-patients-evaluation-dev
 
 env:
   SERVICE_NAME: 'patients-evaluation'
