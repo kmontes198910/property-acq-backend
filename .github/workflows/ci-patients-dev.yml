@@ -1,7 +1,7 @@
 name: ci-patients-dev
 
 env:
-  SERVICE_NAME: 'patients-dev'
+  SERVICE_NAME: 'patients'
   SERVICE_PATH: 'patients'
 
 on:
