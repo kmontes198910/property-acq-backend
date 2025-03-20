@@ -12,9 +12,11 @@ import com.kynsof.calendar.infrastructure.repository.command.BusinessResourceWri
 import com.kynsof.calendar.infrastructure.repository.command.ResourceServiceWriteDataJPARepository;
 import com.kynsof.calendar.infrastructure.repository.command.ResourceWriteDataJPARepository;
 import com.kynsof.calendar.infrastructure.repository.query.*;
+import com.kynsof.calendar.infrastructure.service.http.DoctorHttpUUIDService;
 import com.kynsof.share.core.domain.exception.BusinessNotFoundException;
 import com.kynsof.share.core.domain.exception.DomainErrorMessage;
 import com.kynsof.share.core.domain.exception.GlobalBusinessException;
+import com.kynsof.share.core.domain.http.entity.DoctorHttp;
 import com.kynsof.share.core.domain.request.FilterCriteria;
 import com.kynsof.share.core.domain.response.ErrorField;
 import com.kynsof.share.core.domain.response.PaginatedResponse;
@@ -40,8 +42,8 @@ public class ResourceServiceImpl implements IResourceService {
     private final ResourceServiceWriteDataJPARepository resourceServiceWriteDataJPARepository;
     private final ResourceServicesReadDataJPARepository resourceServiceReadDataJPARepository;
     private final BusinessResourceWriteDataJPARepository businessResourceWriteDataJPARepository;
-
-    public ResourceServiceImpl(ResourceWriteDataJPARepository repositoryCommand, ResourceReadDataJPARepository repositoryQuery, ScheduleReadDataJPARepository scheduleReadDataJPARepository, BusinessReadDataJPARepository businessReadDataJPARepository, ServiceReadDataJPARepository serviceReadRepository, ResourceServiceWriteDataJPARepository resourceServiceWriteDataJPARepository, ResourceServicesReadDataJPARepository resourceServiceReadDataJPARepository, BusinessResourceWriteDataJPARepository businessResourceWriteDataJPARepository) {
+    private final DoctorHttpUUIDService doctorHttpUUIDService;
+    public ResourceServiceImpl(ResourceWriteDataJPARepository repositoryCommand, ResourceReadDataJPARepository repositoryQuery, ScheduleReadDataJPARepository scheduleReadDataJPARepository, BusinessReadDataJPARepository businessReadDataJPARepository, ServiceReadDataJPARepository serviceReadRepository, ResourceServiceWriteDataJPARepository resourceServiceWriteDataJPARepository, ResourceServicesReadDataJPARepository resourceServiceReadDataJPARepository, BusinessResourceWriteDataJPARepository businessResourceWriteDataJPARepository, DoctorHttpUUIDService doctorHttpUUIDService) {
         this.repositoryCommand = repositoryCommand;
         this.repositoryQuery = repositoryQuery;
         this.scheduleReadDataJPARepository = scheduleReadDataJPARepository;
@@ -50,6 +52,7 @@ public class ResourceServiceImpl implements IResourceService {
         this.resourceServiceWriteDataJPARepository = resourceServiceWriteDataJPARepository;
         this.resourceServiceReadDataJPARepository = resourceServiceReadDataJPARepository;
         this.businessResourceWriteDataJPARepository = businessResourceWriteDataJPARepository;
+        this.doctorHttpUUIDService = doctorHttpUUIDService;
     }
 
     @Override
@@ -79,13 +82,21 @@ public class ResourceServiceImpl implements IResourceService {
     @Override
     public ResourceDto findById(UUID id) {
 
-        Optional<Resource> object = this.repositoryQuery.findById(id);
-        if (object.isPresent()) {
-            return object.get().toAggregate();
+        Optional<Resource> patient = this.repositoryQuery.findById(id);
+        if (patient.isPresent()) {
+            return patient.get().toAggregate();
         }
-
-        throw new BusinessNotFoundException(new GlobalBusinessException(DomainErrorMessage.RESOURCE_NOT_FOUND, new ErrorField("id", "Resource not found.")));
-
+        {
+            DoctorHttp doctorHttp = this.doctorHttpUUIDService.sendGetHttpRequest(id);
+            ResourceDto doctorDto = new ResourceDto(
+                    doctorHttp.getId(),
+                    doctorHttp.getName(),
+                    doctorHttp.getImage(),
+                    EResourceStatus.ACTIVE
+            );
+            this.repositoryCommand.save(new Resource(doctorDto));
+            return doctorDto;
+        }
     }
 
 
