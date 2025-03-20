@@ -3,8 +3,10 @@ package com.kynsof.treatments.infrastructure.service;
 import com.kynsof.share.core.domain.exception.BusinessNotFoundException;
 import com.kynsof.share.core.domain.exception.DomainErrorMessage;
 import com.kynsof.share.core.domain.exception.GlobalBusinessException;
+import com.kynsof.share.core.domain.http.entity.PatientHttp;
 import com.kynsof.share.core.domain.response.ErrorField;
 import com.kynsof.treatments.domain.dto.PatientDto;
+import com.kynsof.treatments.domain.dto.enumDto.Status;
 import com.kynsof.treatments.domain.service.IPatientsService;
 import com.kynsof.treatments.infrastructure.entity.Patients;
 import com.kynsof.treatments.infrastructure.repositories.command.PatientsWriteDataJPARepository;
@@ -13,6 +15,9 @@ import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -21,11 +26,14 @@ public class PatientsServiceImpl implements IPatientsService {
 
     private final PatientsWriteDataJPARepository repositoryCommand;
     private final PatientsReadDataJPARepository repositoryQuery;
+    private final PatientHttpUUIDService patientHttpUUIDService;
+
 
     public PatientsServiceImpl(PatientsWriteDataJPARepository repositoryCommand,
-                               PatientsReadDataJPARepository repositoryQuery) {
+                               PatientsReadDataJPARepository repositoryQuery, PatientHttpUUIDService patientHttpUUIDService) {
         this.repositoryCommand = repositoryCommand;
         this.repositoryQuery = repositoryQuery;
+        this.patientHttpUUIDService = patientHttpUUIDService;
     }
 
     @Override
@@ -59,11 +67,37 @@ public class PatientsServiceImpl implements IPatientsService {
 
     @Override
     public PatientDto findById(UUID id) {
+        // Intentamos encontrar el paciente en la base de datos
         return repositoryQuery.findById(id)
                 .map(Patients::toAggregate)
-                .orElseThrow(() -> new BusinessNotFoundException(new GlobalBusinessException(
-                        DomainErrorMessage.PATIENTS_NOT_FOUND,
-                        new ErrorField("id", "Patient not found."))));
+                .orElseGet(() -> { // Si no se encuentra, lo buscamos en el servicio externo
+                    PatientHttp patient = patientHttpUUIDService.sendGetHttpRequest(id);
+
+                    if (patient == null) {
+                        throw new BusinessNotFoundException(new GlobalBusinessException(
+                                DomainErrorMessage.PATIENTS_NOT_FOUND,
+                                new ErrorField("id", "Patient not found in external service.")
+                        ));
+                    }
+
+                    LocalDate birthDate = LocalDate.parse(patient.getBirthDate(), DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+
+                    PatientDto patientDto = new PatientDto(
+                            patient.getId(),
+                            patient.getIdentification(),
+                            patient.getName(),
+                            patient.getLastName(),
+                            patient.getGender(),
+                            Status.ACTIVE,
+                            birthDate,
+                            patient.getProfession()
+                    );
+
+                    // Guardamos en la base de datos
+                    repositoryCommand.save(new Patients(patientDto));
+
+                    return patientDto;
+                });
     }
 
     @Override

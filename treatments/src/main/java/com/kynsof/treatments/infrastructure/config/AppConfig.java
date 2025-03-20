@@ -16,7 +16,6 @@ import java.util.List;
 
 @Configuration
 public class AppConfig {
-
     @Bean
     public RestTemplate restTemplate() {
         // Crea un ObjectMapper de Jackson que excluya los campos null y configura otras características necesarias
