@@ -2,10 +2,11 @@ package com.kynsof.evaluation.application.object.response;
 
 import com.kynsof.evaluation.domain.dto.EvaluationExamenTypeDto;
 import com.kynsof.share.core.domain.bus.query.IResponse;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
+
 import java.util.UUID;
-import lombok.AllArgsConstructor;
 
 @Getter
 @Setter

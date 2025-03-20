@@ -1,6 +1,7 @@
 package com.kynsof.evaluation.domain.dto;
 
 import com.kynsof.evaluation.domain.dto.enumDto.EvaluationExamenType;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -8,7 +9,6 @@ import lombok.Setter;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.UUID;
-import lombok.AllArgsConstructor;
 
 @Getter
 @Setter

@@ -6,7 +6,6 @@ import com.kynsof.identity.domain.interfaces.service.IAuthService;
 import com.kynsof.identity.domain.interfaces.service.IUserSystemService;
 import com.kynsof.identity.domain.rules.usersystem.ModuleEmailMustBeUniqueRule;
 import com.kynsof.identity.domain.rules.usersystem.ModuleUserNameMustBeUniqueRule;
-import com.kynsof.identity.infrastructure.services.kafka.producer.user.ProducerUserSystemUpdateEventService;
 import com.kynsof.share.core.domain.RulesChecker;
 import com.kynsof.share.core.domain.bus.command.ICommandHandler;
 import com.kynsof.share.core.domain.rules.ValidateObjectNotNullRule;
@@ -18,14 +17,11 @@ public class UpdateUserSystemCommandHandler implements ICommandHandler<UpdateUse
 
     private final IUserSystemService systemService;
     private final IAuthService keycloakProvider;
-    private final ProducerUserSystemUpdateEventService resourceEventService;
 
     public UpdateUserSystemCommandHandler(IUserSystemService systemService,
-                                          IAuthService keycloakProvider,
-                                          ProducerUserSystemUpdateEventService resourceEventService) {
+                                          IAuthService keycloakProvider) {
         this.systemService = systemService;
         this.keycloakProvider = keycloakProvider;
-        this.resourceEventService = resourceEventService;
     }
 
     @Override
@@ -50,9 +46,6 @@ public class UpdateUserSystemCommandHandler implements ICommandHandler<UpdateUse
         idUpdate |= updateImageIfChanged(command, objectToUpdate);
 
         // Publicar el evento de actualización si es necesario
-        if (isPublish) {
-            resourceEventService.create(objectToUpdate);
-        }
 
         // Guardar los cambios en el sistema y actualizar en Keycloak si hubo modificaciones relevantes
         if (idUpdate) {

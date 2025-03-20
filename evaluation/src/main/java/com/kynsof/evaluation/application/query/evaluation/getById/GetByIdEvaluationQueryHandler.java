@@ -3,7 +3,6 @@ package com.kynsof.evaluation.application.query.evaluation.getById;
 import com.kynsof.evaluation.application.object.response.EvaluationResponse;
 import com.kynsof.evaluation.domain.service.IEvaluationService;
 import com.kynsof.share.core.domain.bus.query.IQueryHandler;
-import com.kynsof.share.core.domain.response.PaginatedResponse;
 import org.springframework.stereotype.Component;
 
 @Component

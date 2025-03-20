@@ -1,7 +1,5 @@
 package com.kynsof.evaluation.controller;
 
-import com.kynsof.evaluation.application.command.evaluation.update.UpdateEvaluationCommand;
-import com.kynsof.evaluation.application.command.evaluation.update.UpdateEvaluationRequest;
 import com.kynsof.evaluation.application.command.evaluationPatient.create.CreateEvaluationPatientCommand;
 import com.kynsof.evaluation.application.command.evaluationPatient.create.CreateEvaluationPatientMessage;
 import com.kynsof.evaluation.application.command.evaluationPatient.create.CreateEvaluationPatientRequest;

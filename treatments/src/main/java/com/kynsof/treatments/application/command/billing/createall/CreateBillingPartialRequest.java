@@ -4,8 +4,6 @@ import com.kynsof.treatments.domain.dto.enumDto.BillingStatus;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.UUID;
-
 @Getter
 @Setter
 public class CreateBillingPartialRequest {

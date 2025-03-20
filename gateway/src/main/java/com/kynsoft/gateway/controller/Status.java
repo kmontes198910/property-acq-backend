@@ -1,11 +1,7 @@
 package com.kynsoft.gateway.controller;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.web.bind.annotation.GetMapping;
-
-import java.time.ZonedDateTime;
 
 @Getter
 @Setter

@@ -1,6 +1,5 @@
 package com.kynsof.treatments.application.command.groupPayment.create;
 
-import com.kynsof.treatments.domain.dto.enumDto.BillingStatus;
 import lombok.Getter;
 import lombok.Setter;
 

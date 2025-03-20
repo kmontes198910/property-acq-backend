@@ -6,7 +6,6 @@ import com.kynsof.evaluation.domain.service.IEvaluationService;
 import com.kynsof.evaluation.infrastructure.entity.Evaluation;
 import com.kynsof.evaluation.infrastructure.repositories.command.EvaluationWriteDataJPARepository;
 import com.kynsof.evaluation.infrastructure.repositories.query.EvaluationReadDataJPARepository;
-import com.kynsof.share.core.domain.EUserType;
 import com.kynsof.share.core.domain.exception.BusinessNotFoundException;
 import com.kynsof.share.core.domain.exception.DomainErrorMessage;
 import com.kynsof.share.core.domain.exception.GlobalBusinessException;

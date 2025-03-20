@@ -9,9 +9,6 @@ import com.kynsof.patients.application.command.patientInsurance.delete.DeletePat
 import com.kynsof.patients.application.command.patientInsurance.update.UpdatePatientInsuranceCommand;
 import com.kynsof.patients.application.command.patientInsurance.update.UpdatePatientInsuranceMessage;
 import com.kynsof.patients.application.command.patientInsurance.update.UpdatePatientInsuranceRequest;
-import com.kynsof.patients.application.command.patients.delete.DeletePatientsCommand;
-import com.kynsof.patients.application.command.patients.delete.PatientDeleteMessage;
-import com.kynsof.patients.application.query.patients.search.GetSearchPatientsQuery;
 import com.kynsof.patients.application.query.patientsInsurance.getById.FindPatientsInsuranceByIdQuery;
 import com.kynsof.patients.application.query.patientsInsurance.getById.PatientsInsuranceByIdResponse;
 import com.kynsof.patients.application.query.patientsInsurance.search.GetSearchPatientInsuranceQuery;

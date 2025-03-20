@@ -6,8 +6,9 @@ import com.kynsof.evaluation.domain.service.IPatientsService;
 import com.kynsof.evaluation.infrastructure.service.http.PatientHttpUUIDService;
 import com.kynsof.share.core.domain.bus.query.IQueryHandler;
 import com.kynsof.share.core.domain.http.entity.PatientHttp;
-import java.time.LocalDate;
 import org.springframework.stereotype.Component;
+
+import java.time.LocalDate;
 
 @Component
 public class FindHttpPatientsByIdQueryHandler implements IQueryHandler<FindHttpPatientsByIdQuery, PatientHttp>  {

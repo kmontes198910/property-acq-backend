@@ -4,7 +4,6 @@ import com.kynsof.payment.application.command.groupPayment.createGroupPaymentUni
 import com.kynsof.payment.application.query.groupPayment.getbyid.GroupPaymentResponse;
 import com.kynsof.payment.application.query.groupPaymentDetails.SearchGroupPaymentDetailResponse;
 import com.kynsof.payment.domain.dto.BillingDto;
-import com.kynsof.payment.domain.dto.ClientDto;
 import com.kynsof.payment.domain.dto.GroupPaymentDto;
 import com.kynsof.payment.domain.dto.enumDto.*;
 import com.kynsof.payment.domain.service.IGroupPaymentService;

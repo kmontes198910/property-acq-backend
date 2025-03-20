@@ -3,7 +3,6 @@ package com.kynsof.treatments.application.query.billing.search;
 import com.kynsof.share.core.domain.bus.query.IQueryHandler;
 import com.kynsof.share.core.domain.response.PaginatedResponse;
 import com.kynsof.treatments.domain.service.IBillingService;
-import com.kynsof.treatments.domain.service.IMedicinesService;
 import org.springframework.stereotype.Component;
 
 @Component

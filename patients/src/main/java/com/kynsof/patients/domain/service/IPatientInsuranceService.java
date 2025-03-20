@@ -1,7 +1,6 @@
 package com.kynsof.patients.domain.service;
 
 import com.kynsof.patients.domain.dto.PatientInsuranceDto;
-import com.kynsof.patients.infrastructure.entity.Allergy;
 import com.kynsof.share.core.domain.request.FilterCriteria;
 import com.kynsof.share.core.domain.response.PaginatedResponse;
 import org.springframework.data.domain.Pageable;

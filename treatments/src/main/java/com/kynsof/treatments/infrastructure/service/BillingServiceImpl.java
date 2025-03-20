@@ -7,13 +7,12 @@ import com.kynsof.share.core.domain.request.FilterCriteria;
 import com.kynsof.share.core.domain.response.ErrorField;
 import com.kynsof.share.core.domain.response.PaginatedResponse;
 import com.kynsof.share.core.infrastructure.specifications.GenericSpecificationsBuilder;
-
 import com.kynsof.treatments.application.query.billing.getbyid.BillingResponse;
 import com.kynsof.treatments.domain.dto.BillingDto;
 import com.kynsof.treatments.domain.dto.enumDto.BillingStatus;
-import com.kynsof.treatments.domain.dto.enumDto.GroupPaymentStatus;
 import com.kynsof.treatments.domain.service.IBillingService;
-import com.kynsof.treatments.infrastructure.entity.*;
+import com.kynsof.treatments.infrastructure.entity.Billing;
+import com.kynsof.treatments.infrastructure.entity.Procedure;
 import com.kynsof.treatments.infrastructure.repositories.command.BillingWriteDataJPARepository;
 import com.kynsof.treatments.infrastructure.repositories.command.GroupPaymentWriteDataJPARepository;
 import com.kynsof.treatments.infrastructure.repositories.command.PaymentDetailWriteDataJPARepository;
@@ -24,7 +23,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;

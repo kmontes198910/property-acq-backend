@@ -9,10 +9,8 @@ import com.kynsof.patients.domain.rules.dependent.DependentMustBeUniqueRule;
 import com.kynsof.patients.domain.service.IContactInfoService;
 import com.kynsof.patients.domain.service.IGeographicLocationService;
 import com.kynsof.patients.domain.service.IPatientsService;
-import com.kynsof.patients.infrastructure.services.kafka.producer.customer.ProducerCreateCustomerEventService;
 import com.kynsof.share.core.domain.RulesChecker;
 import com.kynsof.share.core.domain.bus.command.ICommandHandler;
-import com.kynsof.share.core.domain.kafka.entity.CustomerKafka;
 import org.springframework.stereotype.Component;
 
 import java.util.UUID;
@@ -24,16 +22,13 @@ public class CreateDependentPatientsCommandHandler implements ICommandHandler<Cr
     private final IContactInfoService contactInfoService;
     private final IGeographicLocationService geographicLocationService;
 
-    private final ProducerCreateCustomerEventService createCustomerEventService;
 
     public CreateDependentPatientsCommandHandler(IPatientsService serviceImpl, IContactInfoService contactInfoService,
-            IGeographicLocationService geographicLocationService,
-            ProducerCreateCustomerEventService createCustomerEventService
+            IGeographicLocationService geographicLocationService
     ) {
         this.serviceImpl = serviceImpl;
         this.contactInfoService = contactInfoService;
         this.geographicLocationService = geographicLocationService;
-        this.createCustomerEventService = createCustomerEventService;
     }
 
     @Override
@@ -72,18 +67,5 @@ public class CreateDependentPatientsCommandHandler implements ICommandHandler<Cr
                 parroquia
         ));
         command.setId(id);
-
-        this.createCustomerEventService.create(new CustomerKafka(
-                id.toString(),
-                dependentPatientDto.getIdentification(),
-                dependentPatientDto.getName(),
-                dependentPatientDto.getLastName(),
-                command.getCreateContactInfoRequest().getEmail(),
-                command.getPhoto(),
-                command.getCreateContactInfoRequest().getBirthdayDate(),
-                dependentPatientDto.getGender().name(),
-                command.getCreateContactInfoRequest().getTelephone(),
-                ""
-        ));
     }
 }

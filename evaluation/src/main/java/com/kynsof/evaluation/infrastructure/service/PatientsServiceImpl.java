@@ -1,28 +1,28 @@
 package com.kynsof.evaluation.infrastructure.service;
 
 import com.kynsof.evaluation.application.object.response.PatientResponse;
-import com.kynsof.share.core.domain.exception.BusinessNotFoundException;
-import com.kynsof.share.core.domain.exception.DomainErrorMessage;
-import com.kynsof.share.core.domain.exception.GlobalBusinessException;
-import com.kynsof.share.core.domain.response.ErrorField;
 import com.kynsof.evaluation.domain.dto.PatientDto;
 import com.kynsof.evaluation.domain.service.IPatientsService;
 import com.kynsof.evaluation.infrastructure.entity.Patients;
 import com.kynsof.evaluation.infrastructure.repositories.command.PatientsWriteDataJPARepository;
 import com.kynsof.evaluation.infrastructure.repositories.query.PatientsReadDataJPARepository;
+import com.kynsof.share.core.domain.exception.BusinessNotFoundException;
+import com.kynsof.share.core.domain.exception.DomainErrorMessage;
+import com.kynsof.share.core.domain.exception.GlobalBusinessException;
 import com.kynsof.share.core.domain.request.FilterCriteria;
+import com.kynsof.share.core.domain.response.ErrorField;
 import com.kynsof.share.core.domain.response.PaginatedResponse;
 import com.kynsof.share.core.infrastructure.specifications.GenericSpecificationsBuilder;
 import jakarta.persistence.EntityNotFoundException;
-import java.util.ArrayList;
-import java.util.List;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 
 @Service
 public class PatientsServiceImpl implements IPatientsService {

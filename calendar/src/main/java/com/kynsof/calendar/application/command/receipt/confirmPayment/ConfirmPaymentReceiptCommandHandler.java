@@ -4,7 +4,6 @@ import com.kynsof.calendar.domain.dto.ReceiptDto;
 import com.kynsof.calendar.domain.dto.enumType.EStatusReceipt;
 import com.kynsof.calendar.domain.dto.enumType.EStatusSchedule;
 import com.kynsof.calendar.domain.service.IReceiptService;
-import com.kynsof.calendar.infrastructure.service.kafka.producer.ProducerGenerateReportEventService;
 import com.kynsof.share.core.application.payment.domain.placeToPlay.PaymentServiceStatusResponse;
 import com.kynsof.share.core.application.payment.infrastructure.service.config.ExternalServiceClient;
 import com.kynsof.share.core.domain.bus.command.ICommandHandler;
@@ -20,8 +19,7 @@ public class ConfirmPaymentReceiptCommandHandler implements ICommandHandler<Conf
     private final IReceiptService service;
     private final ExternalServiceClient paymentServiceClient;
 
-    public ConfirmPaymentReceiptCommandHandler(IReceiptService service, ExternalServiceClient paymentServiceClient,
-                                               ProducerGenerateReportEventService producerGenerateReportEventService) {
+    public ConfirmPaymentReceiptCommandHandler(IReceiptService service, ExternalServiceClient paymentServiceClient) {
         this.service = service;
         this.paymentServiceClient = paymentServiceClient;
     }

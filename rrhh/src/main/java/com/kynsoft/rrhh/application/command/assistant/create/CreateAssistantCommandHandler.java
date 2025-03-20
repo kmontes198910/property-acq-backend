@@ -5,7 +5,6 @@ import com.kynsof.share.core.domain.RulesChecker;
 import com.kynsof.share.core.domain.bus.command.ICommandHandler;
 import com.kynsof.share.core.domain.exception.BusinessException;
 import com.kynsof.share.core.domain.exception.DomainErrorMessage;
-import com.kynsof.share.core.domain.kafka.entity.DoctorKafka;
 import com.kynsof.share.core.domain.rules.ValidateObjectNotNullRule;
 import com.kynsoft.rrhh.domain.dto.AssistantDto;
 import com.kynsoft.rrhh.domain.dto.BusinessDto;
@@ -17,7 +16,6 @@ import com.kynsoft.rrhh.domain.interfaces.services.IUserBusinessRelationService;
 import com.kynsoft.rrhh.domain.rules.assistant.AssistantEmailMustBeUniqueRule;
 import com.kynsoft.rrhh.domain.rules.assistant.AssistantIdentificationMustBeUniqueRule;
 import com.kynsoft.rrhh.infrastructure.services.UserSystemService;
-import com.kynsoft.rrhh.infrastructure.services.kafka.producer.assistant.ProducerReplicateAssistantService;
 import com.kynsoft.rrhh.infrastructure.util.PasswordGenerator;
 import org.springframework.stereotype.Component;
 
@@ -34,18 +32,15 @@ public class CreateAssistantCommandHandler implements ICommandHandler<CreateAssi
     private final IAssistantService service;
     private final IBusinessService businessService;
     private final IUserBusinessRelationService userBusinessRelationService;
-    private final ProducerReplicateAssistantService producerReplicateAssistantService;
     private final UserSystemService userSystemService;
 
 
     // Inyección de RestTemplate
     public CreateAssistantCommandHandler(IAssistantService service, IBusinessService businessService,
-                                         IUserBusinessRelationService userBusinessRelationService,
-                                         ProducerReplicateAssistantService producerReplicateAssistantService, UserSystemService userSystemService) {
+                                         IUserBusinessRelationService userBusinessRelationService, UserSystemService userSystemService) {
         this.service = service;
         this.businessService = businessService;
         this.userBusinessRelationService = userBusinessRelationService;
-        this.producerReplicateAssistantService = producerReplicateAssistantService;
 
         this.userSystemService = userSystemService;
     }
@@ -78,17 +73,7 @@ public class CreateAssistantCommandHandler implements ICommandHandler<CreateAssi
             this.userBusinessRelationService.create(new UserBusinessRelationDto(UUID.randomUUID(),
                     assistantSave, businessDto, "ACTIVE", LocalDateTime.now()));
 
-            producerReplicateAssistantService.create(new DoctorKafka(
-                    assistantSave.getId(),
-                    assistantSave.getIdentification(),
-                    assistantSave.getCode(),
-                    assistantSave.getEmail(),
-                    assistantSave.getName(),
-                    assistantSave.getLastName(),
-                    assistantSave.getImage(),
-                    command.getBusiness().toString(),
-                    ""
-            ));
+
         } catch (Exception ex) {
             throw new BusinessException(DomainErrorMessage.DOCTOR_NOT_FOUND, "Ocurrió un error al crear al usuario.");
         }

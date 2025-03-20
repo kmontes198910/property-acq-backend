@@ -1,11 +1,7 @@
 package com.kynsof.patients.application.command.patientInsurance.create;
 
-import com.kynsof.patients.domain.dto.AllergyEntityDto;
-import com.kynsof.patients.domain.dto.MedicalInformationDto;
 import com.kynsof.patients.domain.dto.PatientInsuranceDto;
 import com.kynsof.patients.domain.dto.enumTye.Status;
-import com.kynsof.patients.domain.service.IAllergyService;
-import com.kynsof.patients.domain.service.IMedicalInformationService;
 import com.kynsof.patients.domain.service.IPatientInsuranceService;
 import com.kynsof.share.core.domain.bus.command.ICommandHandler;
 import org.springframework.stereotype.Component;

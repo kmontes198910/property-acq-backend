@@ -2,7 +2,6 @@ package com.kynsoft.rrhh.application.command.doctor.update;
 
 import com.kynsof.share.core.domain.RulesChecker;
 import com.kynsof.share.core.domain.bus.command.ICommandHandler;
-import com.kynsof.share.core.domain.kafka.entity.DoctorKafka;
 import com.kynsof.share.core.domain.rules.ValidateObjectNotNullRule;
 import com.kynsof.share.utils.ConsumerUpdate;
 import com.kynsof.share.utils.UpdateIfNotNull;
@@ -12,7 +11,6 @@ import com.kynsoft.rrhh.domain.rules.doctor.DoctorCodeMustBeUniqueRule;
 import com.kynsoft.rrhh.domain.rules.doctor.UpdateDoctorEmailMustBeUniqueRule;
 import com.kynsoft.rrhh.domain.rules.doctor.UpdateDoctorIdentificationMustBeUniqueRule;
 import com.kynsoft.rrhh.domain.rules.users.UserSystemEmailValidateRule;
-import com.kynsoft.rrhh.infrastructure.services.kafka.producer.doctor.ProducerReplicateDoctorService;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -22,11 +20,9 @@ import java.util.List;
 public class UpdateDoctorCommandHandler implements ICommandHandler<UpdateDoctorCommand> {
 
     private final IDoctorService service;
-    private final ProducerReplicateDoctorService producerReplicateDoctorService;
 
-    public UpdateDoctorCommandHandler(IDoctorService service, ProducerReplicateDoctorService producerReplicateDoctorService) {
+    public UpdateDoctorCommandHandler(IDoctorService service) {
         this.service = service;
-        this.producerReplicateDoctorService = producerReplicateDoctorService;
     }
 
     @Override
@@ -65,20 +61,7 @@ public class UpdateDoctorCommandHandler implements ICommandHandler<UpdateDoctorC
 
         service.update(doctorSave);
 
-        sendIntegrationEvent(doctorSave, changedFields);
     }
 
-    private void sendIntegrationEvent(DoctorDto doctorDto, List<String> changedFields) {
-        producerReplicateDoctorService.create(new DoctorKafka(
-                doctorDto.getId(),
-                doctorDto.getIdentification(),
-                doctorDto.getCode(),
-                doctorDto.getEmail(),
-                doctorDto.getName(),
-                doctorDto.getLastName(),
-                doctorDto.getImage(),
-                null,
-                doctorDto.getRegisterNumber()
-        ));
-    }
+
 }

@@ -1,7 +1,6 @@
 package com.kynsof.patients.infrastructure.repository.command;
 
 import com.kynsof.patients.infrastructure.entity.PatientInsurance;
-import com.kynsof.patients.infrastructure.entity.Patients;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

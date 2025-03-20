@@ -2,7 +2,6 @@ package com.kynsof.treatments.application.command.externalConsultation.create;
 
 import com.kynsof.share.core.domain.bus.command.ICommandHandler;
 import com.kynsof.treatments.domain.dto.*;
-import com.kynsof.treatments.domain.evnts.CreateBillingEvent;
 import com.kynsof.treatments.domain.service.*;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Component;

@@ -2,7 +2,6 @@ package com.kynsof.patients.application.command.patients.updatePatientAdmin;
 
 import com.kynsof.patients.domain.dto.PatientDto;
 import com.kynsof.patients.domain.service.IPatientsService;
-import com.kynsof.patients.infrastructure.services.kafka.producer.patient.ProducerUpdatePatientsEventService;
 import com.kynsof.share.core.domain.bus.command.ICommandHandler;
 import org.springframework.stereotype.Component;
 
@@ -11,13 +10,9 @@ public class CreatePatientsAdminCommandHandler implements ICommandHandler<Create
 
     private final IPatientsService serviceImpl;
 
-    private final ProducerUpdatePatientsEventService patientEventService;
-
-    public CreatePatientsAdminCommandHandler(IPatientsService serviceImpl,
-                                             ProducerUpdatePatientsEventService patientEventService
+    public CreatePatientsAdminCommandHandler(IPatientsService serviceImpl
     ) {
         this.serviceImpl = serviceImpl;
-        this.patientEventService = patientEventService;
     }
 
     @Override
@@ -31,6 +26,6 @@ public class CreatePatientsAdminCommandHandler implements ICommandHandler<Create
         patientDto.setHasDisability(command.getHasDisability());
         patientDto.setIsPregnant(command.getIsPregnant());
         serviceImpl.update(patientDto);
-        this.patientEventService.update(patientDto, null);
+
     }
 }

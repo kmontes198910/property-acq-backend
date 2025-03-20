@@ -7,9 +7,7 @@ import com.kynsof.patients.domain.dto.enumTye.Status;
 import com.kynsof.patients.domain.service.IContactInfoService;
 import com.kynsof.patients.domain.service.IGeographicLocationService;
 import com.kynsof.patients.domain.service.IPatientsService;
-import com.kynsof.patients.infrastructure.services.kafka.producer.customer.ProducerCreateCustomerEventService;
 import com.kynsof.share.core.domain.bus.command.ICommandHandler;
-import com.kynsof.share.core.domain.kafka.entity.CustomerKafka;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -18,16 +16,13 @@ public class UpdatePatientsCommandHandler implements ICommandHandler<UpdatePatie
     private final IPatientsService serviceImpl;
     private final IContactInfoService contactInfoService;
     private final IGeographicLocationService geographicLocationService;
-    private final ProducerCreateCustomerEventService createCustomerEventService;
 
     public UpdatePatientsCommandHandler(IPatientsService serviceImpl,
                                         IContactInfoService contactInfoService,
-                                        IGeographicLocationService geographicLocationService,
-                                        ProducerCreateCustomerEventService createCustomerEventService) {
+                                        IGeographicLocationService geographicLocationService) {
         this.serviceImpl = serviceImpl;
         this.contactInfoService = contactInfoService;
         this.geographicLocationService = geographicLocationService;
-        this.createCustomerEventService = createCustomerEventService;
     }
 
     @Override
@@ -63,17 +58,17 @@ public class UpdatePatientsCommandHandler implements ICommandHandler<UpdatePatie
             contactInfoService.update(contactInfoDto);
         }
 
-        this.createCustomerEventService.create(new CustomerKafka(
-                patientDto.getId().toString(), 
-                patientDto.getIdentification(), 
-                patientDto.getName(), 
-                patientDto.getLastName(), 
-                contactInfoDto.getEmail(), 
-                patientDto.getPhoto(), 
-                contactInfoDto.getBirthdayDate(),
-                patientDto.getGender().name(),
-                contactInfoDto.getTelephone(),
-                patientDto.getProfession()
-        ));
+//        this.createCustomerEventService.create(new CustomerKafka(
+//                patientDto.getId().toString(),
+//                patientDto.getIdentification(),
+//                patientDto.getName(),
+//                patientDto.getLastName(),
+//                contactInfoDto.getEmail(),
+//                patientDto.getPhoto(),
+//                contactInfoDto.getBirthdayDate(),
+//                patientDto.getGender().name(),
+//                contactInfoDto.getTelephone(),
+//                patientDto.getProfession()
+//        ));
     }
 }

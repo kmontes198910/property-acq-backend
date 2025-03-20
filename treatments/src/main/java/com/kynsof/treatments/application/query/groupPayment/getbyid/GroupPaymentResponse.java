@@ -1,15 +1,12 @@
 package com.kynsof.treatments.application.query.groupPayment.getbyid;
 
 import com.kynsof.share.core.domain.bus.query.IResponse;
-import com.kynsof.treatments.domain.dto.ExamDto;
 import com.kynsof.treatments.domain.dto.GroupPaymentDto;
 import com.kynsof.treatments.domain.dto.enumDto.GroupPaymentStatus;
-import com.kynsof.treatments.domain.dto.enumDto.MedicalExamCategory;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.UUID;
 
 @Getter

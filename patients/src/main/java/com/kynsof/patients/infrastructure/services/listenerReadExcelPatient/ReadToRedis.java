@@ -3,16 +3,17 @@ package com.kynsof.patients.infrastructure.services.listenerReadExcelPatient;
 import com.kynsof.patients.domain.dto.enumTye.GenderType;
 import com.kynsof.patients.infrastructure.entity.ContactInformation;
 import com.kynsof.patients.infrastructure.entity.Patients;
-import java.time.LocalDate;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
 import org.springframework.stereotype.Service;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.JedisPoolConfig;
 import redis.clients.jedis.params.ScanParams;
 import redis.clients.jedis.resps.ScanResult;
+
+import java.time.LocalDate;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
 @Service
 public class ReadToRedis {

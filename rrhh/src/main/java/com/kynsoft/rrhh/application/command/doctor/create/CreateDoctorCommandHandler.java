@@ -5,7 +5,6 @@ import com.kynsof.share.core.domain.RulesChecker;
 import com.kynsof.share.core.domain.bus.command.ICommandHandler;
 import com.kynsof.share.core.domain.exception.BusinessException;
 import com.kynsof.share.core.domain.exception.DomainErrorMessage;
-import com.kynsof.share.core.domain.kafka.entity.DoctorKafka;
 import com.kynsof.share.core.domain.rules.ValidateObjectNotNullRule;
 import com.kynsoft.rrhh.domain.dto.BusinessDto;
 import com.kynsoft.rrhh.domain.dto.CreateUserSystemRequest;
@@ -19,7 +18,6 @@ import com.kynsoft.rrhh.domain.rules.doctor.DoctorEmailMustBeUniqueRule;
 import com.kynsoft.rrhh.domain.rules.doctor.DoctorIdentificationMustBeUniqueRule;
 import com.kynsoft.rrhh.domain.rules.users.UserSystemEmailValidateRule;
 import com.kynsoft.rrhh.infrastructure.services.UserSystemService;
-import com.kynsoft.rrhh.infrastructure.services.kafka.producer.doctor.ProducerReplicateDoctorService;
 import com.kynsoft.rrhh.infrastructure.util.PasswordGenerator;
 import org.springframework.stereotype.Component;
 
@@ -33,14 +31,13 @@ public class CreateDoctorCommandHandler implements ICommandHandler<CreateDoctorC
 
     private final IDoctorService service;
     private final IBusinessService businessService;
-    private final ProducerReplicateDoctorService producerReplicateDoctorService;
     private final IUserBusinessRelationService userBusinessRelationService;
     private final UserSystemService userSystemService;
     public CreateDoctorCommandHandler(IDoctorService service, IBusinessService businessService,
-                                      ProducerReplicateDoctorService producerReplicateDoctorService, IUserBusinessRelationService userBusinessRelationService, UserSystemService userSystemService) {
+                                      IUserBusinessRelationService userBusinessRelationService,
+                                      UserSystemService userSystemService) {
         this.service = service;
         this.businessService = businessService;
-        this.producerReplicateDoctorService = producerReplicateDoctorService;
         this.userBusinessRelationService = userBusinessRelationService;
         this.userSystemService = userSystemService;
     }
@@ -77,17 +74,6 @@ public class CreateDoctorCommandHandler implements ICommandHandler<CreateDoctorC
             this.userBusinessRelationService.create(new UserBusinessRelationDto(UUID.randomUUID(),
                     doctorSave,businessDto, "ACTIVE", LocalDateTime.now()));
 
-            producerReplicateDoctorService.create(new DoctorKafka(
-                    UUID.fromString(id),
-                    doctorSave.getIdentification(),
-                    doctorSave.getCode(),
-                    doctorSave.getEmail(),
-                    doctorSave.getName(),
-                    doctorSave.getLastName(),
-                    doctorSave.getImage(),
-                    command.getBusiness().toString(),
-                    command.getRegisterNumber()
-            ));
         }catch (Exception exception){
             throw new BusinessException(DomainErrorMessage.DOCTOR_NOT_FOUND, "Ocurrió un error al crear al usuario.");
         }

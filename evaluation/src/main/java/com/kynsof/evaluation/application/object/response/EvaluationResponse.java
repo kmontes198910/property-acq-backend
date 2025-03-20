@@ -1,14 +1,14 @@
 package com.kynsof.evaluation.application.object.response;
 
 import com.kynsof.evaluation.application.query.business.getById.BusinessResponse;
-import com.kynsof.evaluation.domain.dto.*;
+import com.kynsof.evaluation.domain.dto.EvaluationDto;
 import com.kynsof.share.core.domain.bus.query.IResponse;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
-import lombok.AllArgsConstructor;
 
 @Getter
 @Setter

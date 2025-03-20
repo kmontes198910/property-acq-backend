@@ -3,9 +3,13 @@ package com.kynsof.evaluation.controller;
 import com.kynsof.evaluation.application.query.doctor.getByIdHttp.FindHttpDoctorByIdQuery;
 import com.kynsof.share.core.domain.http.entity.DoctorHttp;
 import com.kynsof.share.core.infrastructure.bus.IMediator;
-import java.util.UUID;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/doctor")

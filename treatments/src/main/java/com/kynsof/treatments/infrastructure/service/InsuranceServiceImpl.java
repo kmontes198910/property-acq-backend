@@ -3,23 +3,15 @@ package com.kynsof.treatments.infrastructure.service;
 import com.kynsof.share.core.domain.exception.BusinessNotFoundException;
 import com.kynsof.share.core.domain.exception.DomainErrorMessage;
 import com.kynsof.share.core.domain.exception.GlobalBusinessException;
-import com.kynsof.share.core.domain.request.FilterCriteria;
 import com.kynsof.share.core.domain.response.ErrorField;
-import com.kynsof.share.core.domain.response.PaginatedResponse;
-import com.kynsof.share.core.infrastructure.specifications.GenericSpecificationsBuilder;
 import com.kynsof.treatments.domain.dto.InsuranceDto;
 import com.kynsof.treatments.domain.service.IInsuranceService;
 import com.kynsof.treatments.infrastructure.entity.Insurance;
 import com.kynsof.treatments.infrastructure.repositories.command.InsuranceWriteDataJPARepository;
 import com.kynsof.treatments.infrastructure.repositories.query.InsuranceReadDataJPARepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 

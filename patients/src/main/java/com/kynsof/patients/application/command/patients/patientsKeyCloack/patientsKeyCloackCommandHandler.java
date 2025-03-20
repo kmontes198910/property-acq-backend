@@ -1,15 +1,7 @@
 package com.kynsof.patients.application.command.patients.patientsKeyCloack;
 
-import com.kynsof.patients.domain.dto.ContactInfoDto;
-import com.kynsof.patients.domain.dto.GeographicLocationDto;
-import com.kynsof.patients.domain.dto.PatientDto;
-import com.kynsof.patients.domain.dto.enumTye.Status;
-import com.kynsof.patients.domain.service.IContactInfoService;
-import com.kynsof.patients.domain.service.IGeographicLocationService;
 import com.kynsof.patients.domain.service.IPatientsService;
-import com.kynsof.patients.infrastructure.services.kafka.producer.customer.ProducerCreateCustomerEventService;
 import com.kynsof.share.core.domain.bus.command.ICommandHandler;
-import com.kynsof.share.core.domain.kafka.entity.CustomerKafka;
 import org.springframework.stereotype.Component;
 
 @Component

@@ -7,10 +7,7 @@ import com.kynsof.identity.domain.dto.enumType.TransactionType;
 import com.kynsof.identity.domain.interfaces.service.IUserSystemService;
 import com.kynsof.identity.domain.interfaces.service.IWalletService;
 import com.kynsof.identity.domain.interfaces.service.IWalletTransactionService;
-//import com.kynsof.share.core.application.payment.domain.placeToPlay.response.TransactionsState;
 import com.kynsof.share.core.domain.bus.command.ICommandHandler;
-import com.kynsof.share.core.domain.exception.BusinessException;
-import com.kynsof.share.core.domain.exception.DomainErrorMessage;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;

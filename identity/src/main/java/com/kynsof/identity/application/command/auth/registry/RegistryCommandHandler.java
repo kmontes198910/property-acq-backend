@@ -1,24 +1,18 @@
 package com.kynsof.identity.application.command.auth.registry;
 
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kynsof.identity.domain.dto.UserStatus;
 import com.kynsof.identity.domain.dto.UserSystemDto;
 import com.kynsof.identity.domain.interfaces.service.IAuthService;
 import com.kynsof.identity.domain.interfaces.service.IUserSystemService;
-import com.kynsof.identity.infrastructure.services.kafka.producer.user.ProducerRegisterUserEventService;
-import com.kynsof.identity.infrastructure.services.kafka.producer.user.welcom.ProducerUserWelcomEventService;
 import com.kynsof.share.core.domain.EUserType;
 import com.kynsof.share.core.domain.bus.command.ICommandHandler;
-import com.kynsof.share.core.domain.exception.AlreadyExistsException;
 import com.kynsof.share.core.domain.exception.UserEmailDifferentException;
 import com.kynsof.share.core.domain.kafka.entity.UserKafka;
-import com.kynsof.share.core.domain.kafka.entity.UserWelcomKafka;
 import com.kynsof.share.core.domain.response.ErrorField;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
-import reactor.core.publisher.Mono;
 
 import java.io.IOException;
 import java.net.URI;
@@ -31,15 +25,11 @@ import java.util.UUID;
 @Component
 public class RegistryCommandHandler implements ICommandHandler<RegistryCommand> {
     private final IAuthService authService;
-    private final ProducerRegisterUserEventService producerRegisterUserEventService;
-    private final ProducerUserWelcomEventService producerUserWelcomEventService;
     private final IUserSystemService userSystemService;
     private final HttpClient httpClient;
     private final ObjectMapper objectMapper;
-    public RegistryCommandHandler(IAuthService authService, ProducerRegisterUserEventService producerRegisterUserEventService, ProducerUserWelcomEventService producerUserWelcomEventService, IUserSystemService userSystemService, WebClient.Builder webClientBuilder, HttpClient httpClient, ObjectMapper objectMapper) {
+    public RegistryCommandHandler(IAuthService authService,  IUserSystemService userSystemService, WebClient.Builder webClientBuilder, HttpClient httpClient, ObjectMapper objectMapper) {
         this.authService = authService;
-        this.producerRegisterUserEventService = producerRegisterUserEventService;
-        this.producerUserWelcomEventService = producerUserWelcomEventService;
         this.userSystemService = userSystemService;
         this.httpClient = HttpClient.newHttpClient();
         this.objectMapper = new ObjectMapper();
@@ -106,7 +96,7 @@ public class RegistryCommandHandler implements ICommandHandler<RegistryCommand> 
         userKafka.setFirstname(command.getFirstname());
         userKafka.setLastname(command.getLastname());
         userKafka.setIdentification(command.getUsername());
-        producerRegisterUserEventService.create(userKafka);
+
 
         UserSystemDto userDto = new UserSystemDto(
                 UUID.fromString(registerUser),
@@ -121,11 +111,11 @@ public class RegistryCommandHandler implements ICommandHandler<RegistryCommand> 
         userDto.setUserType(EUserType.PATIENTS);
 
         UUID id = userSystemService.create(userDto);
-        this.producerUserWelcomEventService.create(new UserWelcomKafka(command.getEmail(),
-                command.getPassword(),
-                command.getEmail(),
-                command.getFirstname() + " " + command.getLastname()
-        ));
+//        this.producerUserWelcomEventService.create(new UserWelcomKafka(command.getEmail(),
+//                command.getPassword(),
+//                command.getEmail(),
+//                command.getFirstname() + " " + command.getLastname()
+//        ));
 
     }
 

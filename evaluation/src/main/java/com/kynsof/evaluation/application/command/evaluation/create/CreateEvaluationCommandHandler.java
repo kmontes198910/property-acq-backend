@@ -7,15 +7,16 @@ import com.kynsof.evaluation.domain.dto.PatientDto;
 import com.kynsof.evaluation.domain.dto.enumDto.Status;
 import com.kynsof.evaluation.domain.service.IBusinessService;
 import com.kynsof.evaluation.domain.service.IDoctorService;
-import com.kynsof.share.core.domain.bus.command.ICommandHandler;
 import com.kynsof.evaluation.domain.service.IEvaluationService;
 import com.kynsof.evaluation.domain.service.IPatientsService;
 import com.kynsof.evaluation.infrastructure.service.http.DoctorHttpUUIDService;
 import com.kynsof.evaluation.infrastructure.service.http.PatientHttpUUIDService;
+import com.kynsof.share.core.domain.bus.command.ICommandHandler;
 import com.kynsof.share.core.domain.http.entity.DoctorHttp;
 import com.kynsof.share.core.domain.http.entity.PatientHttp;
-import java.time.LocalDate;
 import org.springframework.stereotype.Component;
+
+import java.time.LocalDate;
 
 @Component
 public class CreateEvaluationCommandHandler implements ICommandHandler<CreateEvaluationCommand> {

@@ -3,7 +3,6 @@ package com.kynsof.treatments.application.query.billing.getbyid;
 import com.kynsof.share.core.domain.bus.query.IResponse;
 import com.kynsof.treatments.domain.dto.BillingDto;
 import com.kynsof.treatments.domain.dto.InsuranceDto;
-import com.kynsof.treatments.domain.dto.MedicinesDto;
 import com.kynsof.treatments.domain.dto.PatientDto;
 import com.kynsof.treatments.domain.dto.enumDto.BillingStatus;
 import lombok.Getter;

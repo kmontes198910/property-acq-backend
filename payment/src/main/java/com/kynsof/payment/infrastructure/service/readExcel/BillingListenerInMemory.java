@@ -11,6 +11,10 @@ import com.kynsof.payment.infrastructure.entity.Business;
 import com.kynsof.payment.infrastructure.entity.Client;
 import com.kynsof.payment.infrastructure.repositories.command.BillingWriteDataJPARepository;
 import com.kynsof.payment.infrastructure.repositories.query.ClientReadDataJPARepository;
+import org.springframework.data.redis.core.HashOperations;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.SetOperations;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -19,9 +23,6 @@ import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
-import org.springframework.data.redis.core.HashOperations;
-import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.data.redis.core.SetOperations;
 
 public class BillingListenerInMemory extends AnalysisEventListener<BillingExcel> {
 

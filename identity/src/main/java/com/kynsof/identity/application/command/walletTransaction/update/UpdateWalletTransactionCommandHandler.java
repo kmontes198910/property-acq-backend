@@ -7,12 +7,8 @@ import com.kynsof.identity.domain.interfaces.service.IGeographicLocationService;
 import com.kynsof.identity.domain.rules.business.BusinessNameMustBeUniqueRule;
 import com.kynsof.identity.domain.rules.business.BusinessRucCheckingNumberOfCharactersRule;
 import com.kynsof.identity.domain.rules.business.BusinessRucMustBeUniqueRule;
-import com.kynsof.identity.infrastructure.services.kafka.producer.business.ProducerUpdateBusinessEventService;
 import com.kynsof.share.core.domain.RulesChecker;
 import com.kynsof.share.core.domain.bus.command.ICommandHandler;
-import com.kynsof.share.core.domain.kafka.entity.FileKafka;
-import com.kynsof.share.core.domain.kafka.producer.s3.ProducerDeleteFileEventService;
-import com.kynsof.share.core.domain.kafka.producer.s3.ProducerSaveFileEventService;
 import com.kynsof.share.core.domain.rules.BusinessRule;
 import com.kynsof.share.core.domain.rules.ValidateObjectNotNullRule;
 import com.kynsof.share.utils.UpdateIfNotNull;
@@ -26,17 +22,13 @@ public class UpdateWalletTransactionCommandHandler implements ICommandHandler<Up
 
     private final IBusinessService service;
 
-    @Autowired
-    private ProducerSaveFileEventService saveFileEventService;
+
 
     @Autowired
     private IGeographicLocationService geographicLocationService;
 
-    @Autowired
-    private ProducerUpdateBusinessEventService updateBusinessEventService;
 
-    @Autowired
-    private ProducerDeleteFileEventService deleteFileEventService;
+
 
     public UpdateWalletTransactionCommandHandler(IBusinessService service) {
         this.service = service;
@@ -77,16 +69,16 @@ public class UpdateWalletTransactionCommandHandler implements ICommandHandler<Up
         service.update(updateBusiness);
 
         //Lanza el evento de integracion
-        updateBusinessEventService.update(updateBusiness);
-        if (logoId != null) {
-            //Si logoId es diferente de null, fue porque se cambio, por lo cual debe ser eliminado en actual.
-            this.deleteFileEventService.delete(new FileKafka(UUID.fromString(idLogoDelete), "identity", "", null));
-
-            //Manda a crear el nuevo logo en el S3.
-            FileKafka fileSave = new FileKafka(UUID.fromString(logoId), "identity", UUID.randomUUID().toString(),
-                command.getLogo());
-            saveFileEventService.create(fileSave);
-        }
+       // updateBusinessEventService.update(updateBusiness);
+//        if (logoId != null) {
+//            //Si logoId es diferente de null, fue porque se cambio, por lo cual debe ser eliminado en actual.
+//            this.deleteFileEventService.delete(new FileKafka(UUID.fromString(idLogoDelete), "identity", "", null));
+//
+//            //Manda a crear el nuevo logo en el S3.
+//            FileKafka fileSave = new FileKafka(UUID.fromString(logoId), "identity", UUID.randomUUID().toString(),
+//                command.getLogo());
+//            saveFileEventService.create(fileSave);
+//        }
     }
 
     private BusinessRule BusinessRucCheckingNumberOfCharactersRule(IBusinessService service, BusinessDto updateBusiness) {

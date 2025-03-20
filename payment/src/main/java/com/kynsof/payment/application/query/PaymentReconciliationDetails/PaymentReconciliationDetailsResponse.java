@@ -1,13 +1,8 @@
 package com.kynsof.payment.application.query.PaymentReconciliationDetails;
 
-import com.kynsof.payment.infrastructure.entity.PaymentReconciliationHeader;
-import jakarta.persistence.Column;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
 import java.util.UUID;

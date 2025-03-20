@@ -1,13 +1,10 @@
 package com.kynsof.patients.infrastructure.services;
 
 
-import com.kynsof.patients.application.query.allergy.getall.AllergyResponse;
 import com.kynsof.patients.application.query.patientsInsurance.getById.PatientsInsuranceByIdResponse;
 import com.kynsof.patients.domain.dto.PatientInsuranceDto;
 import com.kynsof.patients.domain.dto.enumTye.Status;
-import com.kynsof.patients.domain.service.IAllergyService;
 import com.kynsof.patients.domain.service.IPatientInsuranceService;
-import com.kynsof.patients.infrastructure.entity.Allergy;
 import com.kynsof.patients.infrastructure.entity.Insurance;
 import com.kynsof.patients.infrastructure.entity.PatientInsurance;
 import com.kynsof.patients.infrastructure.entity.Patients;
@@ -15,7 +12,6 @@ import com.kynsof.patients.infrastructure.repository.command.PatientInsuranceWri
 import com.kynsof.patients.infrastructure.repository.query.InsuranceReadDataJPARepository;
 import com.kynsof.patients.infrastructure.repository.query.PatientInsuranceReadDataJPARepository;
 import com.kynsof.patients.infrastructure.repository.query.PatientsReadDataJPARepository;
-import com.kynsof.share.core.domain.EUserType;
 import com.kynsof.share.core.domain.exception.BusinessNotFoundException;
 import com.kynsof.share.core.domain.exception.DomainErrorMessage;
 import com.kynsof.share.core.domain.exception.GlobalBusinessException;
@@ -27,7 +23,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
