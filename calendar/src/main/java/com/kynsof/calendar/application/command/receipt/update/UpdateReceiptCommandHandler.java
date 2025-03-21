@@ -16,14 +16,11 @@ public class UpdateReceiptCommandHandler implements ICommandHandler<UpdateReceip
 
     private final IReceiptService receiptService;
     private final IScheduleService serviceSchedule;
-  //  private final IPaymentServiceClient paymentServiceClient;
 
     public UpdateReceiptCommandHandler(IReceiptService service, IScheduleService scheduleService
-        //    , IPaymentServiceClient paymentServiceClient
     ) {
         this.receiptService = service;
         this.serviceSchedule = scheduleService;
-      //  this.paymentServiceClient = paymentServiceClient;
     }
 
     @Override

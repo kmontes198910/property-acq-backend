@@ -26,26 +26,29 @@ public class ExternalServiceClient {
     }
 
     public PaymentServiceStatusResponse validateStatusPayment(String requestId, UUID businessId) throws IOException {
-        // Construcción del endpoint
+        String endpoint = buildEndpoint("placetopay/%s/information/%s", businessId, requestId);
+        return sendPostRequest(endpoint);
+    }
+
+    public PaymentServiceStatusResponse reverseTransaction(UUID businessId, String reference) throws IOException {
+        String endpoint = buildEndpoint("placetopay/%s/transactions/%s", businessId, reference);
+        return sendPostRequest(endpoint);
+    }
+
+    private String buildEndpoint(String pathTemplate, UUID id, String param) {
         String baseUrl = paymentServiceConfig.getPaymentServiceBaseUrl();
         if (!baseUrl.startsWith("http://") && !baseUrl.startsWith("https://")) {
-            baseUrl = "http://" + baseUrl; // Agrega "http://" como esquema predeterminado
+            baseUrl = "http://" + baseUrl;
         }
-        String endpoint = String.format(
-                "%s:%d/placetopay/%s/information/%s",
-                baseUrl,
-                paymentServiceConfig.getPaymentServicePort(),
-                businessId,
-                requestId
-        );
+        return String.format("%s:%d/" + pathTemplate, baseUrl, paymentServiceConfig.getPaymentServicePort(), id, param);
+    }
 
-        // Depuración
+    private PaymentServiceStatusResponse sendPostRequest(String endpoint) throws IOException {
         System.out.println("Generated URL: " + endpoint);
 
-        // Crear cliente HTTP
         try (CloseableHttpClient httpClient = HttpClients.createDefault()) {
-            HttpPost execute = new HttpPost(endpoint);
-            try (CloseableHttpResponse response = httpClient.execute(execute)) {
+            HttpPost httpPost = new HttpPost(endpoint);
+            try (CloseableHttpResponse response = httpClient.execute(httpPost)) {
                 int statusCode = response.getCode();
                 if (statusCode != 200) {
                     throw new IOException("Error en la llamada HTTP. Código de estado: " + statusCode);

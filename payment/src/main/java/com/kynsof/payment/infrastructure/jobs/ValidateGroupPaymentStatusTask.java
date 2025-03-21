@@ -26,11 +26,12 @@ public class ValidateGroupPaymentStatusTask {
         this.paymentServiceClient = paymentServiceClient;
     }
 
-    @Scheduled(cron = "0 */5 * * * *")
+    @Scheduled(cron = "* */30 * * * *")
     public void updateStatusPayment() {
         List<GroupPayment> groupPayments = this.groupPaymentService.findByStatus(GroupPaymentStatus.PENDING_APPROVED);
         groupPayments.forEach(groupPayment -> {
             try {
+
                 PaymentServiceStatusResponse paymentStatus = paymentServiceClient.validateStatusPayment(
                         groupPayment.getRequestId(), groupPayment.getBusiness().getId());
                 GroupPaymentStatus groupPaymentStatus = GroupPaymentStatus.PENDING_APPROVED;

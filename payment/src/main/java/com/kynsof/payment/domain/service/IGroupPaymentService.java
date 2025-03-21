@@ -28,4 +28,6 @@ public interface IGroupPaymentService {
     UUID createBillingsAndGroupPayment(UUID clientId, UUID businessId, List<CreateBillingPartialRequest> billings, UUID userSystemId, String userSystemFullName, PaymentType paymentType, GroupPaymentStatus paymentStatus, String insuranceId, TypeOperation typeOperation, boolean proforma, String authorizationCode, String reference);
 
     List<GroupPayment> findByStatus(GroupPaymentStatus groupPaymentStatus);
+
+    void reverse(UUID id);
 }

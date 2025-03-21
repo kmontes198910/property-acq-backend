@@ -14,6 +14,8 @@ import com.kynsof.payment.infrastructure.repositories.command.GroupPaymentWriteD
 import com.kynsof.payment.infrastructure.repositories.command.PaymentDetailWriteDataJPARepository;
 import com.kynsof.payment.infrastructure.repositories.query.*;
 import com.kynsof.payment.infrastructure.service.http.PatientHttpUUIDService;
+import com.kynsof.share.core.application.payment.domain.placeToPlay.PaymentServiceStatusResponse;
+import com.kynsof.share.core.application.payment.infrastructure.service.config.ExternalServiceClient;
 import com.kynsof.share.core.domain.exception.BusinessNotFoundException;
 import com.kynsof.share.core.domain.exception.DomainErrorMessage;
 import com.kynsof.share.core.domain.exception.GlobalBusinessException;
@@ -27,6 +29,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -47,6 +50,7 @@ public class GroupPaymentServiceImpl implements IGroupPaymentService {
     private final ClientReadDataJPARepository clientReadDataJPARepository;
     private final PatientHttpUUIDService patientHttpUUIDService;
     private final ClientWriteDataJPARepository clientWriteDataJPARepository;
+    private final ExternalServiceClient paymentServiceClient;
 
     public GroupPaymentServiceImpl(BillingReadDataJPARepository repositoryQuery,
                                    BillingWriteDataJPARepository repositoryCommand,
@@ -55,7 +59,7 @@ public class GroupPaymentServiceImpl implements IGroupPaymentService {
                                    GroupPaymentDetailReadDataJPARepository paymentDetailReadDataJPARepository,
                                    GroupPaymentReadDataJPARepository groupPaymentReadDataJPARepository,
                                    BusinessReadDataJPARepository businessReadDataJPARepository,
-                                   ClientReadDataJPARepository clientReadDataJPARepository, PatientHttpUUIDService patientHttpUUIDService, ClientWriteDataJPARepository clientWriteDataJPARepository) {
+                                   ClientReadDataJPARepository clientReadDataJPARepository, PatientHttpUUIDService patientHttpUUIDService, ClientWriteDataJPARepository clientWriteDataJPARepository, ExternalServiceClient paymentServiceClient) {
         this.repositoryQuery = repositoryQuery;
         this.billingWriteDataJPARepository = repositoryCommand;
         this.groupPaymentWriteDataJPARepository = groupPaymentWriteDataJPARepository;
@@ -66,6 +70,7 @@ public class GroupPaymentServiceImpl implements IGroupPaymentService {
         this.clientReadDataJPARepository = clientReadDataJPARepository;
         this.patientHttpUUIDService = patientHttpUUIDService;
         this.clientWriteDataJPARepository = clientWriteDataJPARepository;
+        this.paymentServiceClient = paymentServiceClient;
     }
 
     @Transactional
@@ -281,6 +286,21 @@ public class GroupPaymentServiceImpl implements IGroupPaymentService {
     @Override
     public List<GroupPayment> findByStatus(GroupPaymentStatus groupPaymentStatus) {
         return this.groupPaymentReadDataJPARepository.findByStatus(groupPaymentStatus);
+    }
+
+    @Override
+    public void reverse(UUID id) {
+        GroupPayment groupPayment = this.groupPaymentReadDataJPARepository.findById(id).orElseThrow();
+        try {
+            PaymentServiceStatusResponse serviceStatusResponse = paymentServiceClient.
+                    reverseTransaction(groupPayment.getBusiness().getId(), groupPayment.getReference());
+
+            groupPayment.setStatus(GroupPaymentStatus.REVERSE);
+            groupPaymentWriteDataJPARepository.save(groupPayment);
+
+        } catch (IOException e) {
+            throw new BusinessNotFoundException(new GlobalBusinessException(DomainErrorMessage.PAYMENT_NOT_PRESENT, new ErrorField("id", "No se puede reversar la transacción.")));
+        }
     }
 
 
