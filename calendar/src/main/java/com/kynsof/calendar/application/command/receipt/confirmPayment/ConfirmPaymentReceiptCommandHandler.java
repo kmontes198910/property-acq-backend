@@ -4,6 +4,9 @@ import com.kynsof.calendar.domain.dto.ReceiptDto;
 import com.kynsof.calendar.domain.dto.enumType.EStatusReceipt;
 import com.kynsof.calendar.domain.dto.enumType.EStatusSchedule;
 import com.kynsof.calendar.domain.service.IReceiptService;
+import com.kynsof.calendar.infrastructure.service.http.CreateBillingPartialRequest;
+import com.kynsof.calendar.infrastructure.service.http.CreateGroupPaymentUnifRequest;
+import com.kynsof.calendar.infrastructure.service.http.GroupPaymentServiceClient;
 import com.kynsof.share.core.application.payment.domain.placeToPlay.PaymentServiceStatusResponse;
 import com.kynsof.share.core.application.payment.infrastructure.service.config.ExternalServiceClient;
 import com.kynsof.share.core.domain.bus.command.ICommandHandler;
@@ -12,16 +15,21 @@ import com.kynsof.share.core.domain.exception.DomainErrorMessage;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
 
 @Component
 public class ConfirmPaymentReceiptCommandHandler implements ICommandHandler<ConfirmPaymentReceiptCommand> {
 
     private final IReceiptService service;
     private final ExternalServiceClient paymentServiceClient;
+    private final GroupPaymentServiceClient groupPaymentServiceClient;
 
-    public ConfirmPaymentReceiptCommandHandler(IReceiptService service, ExternalServiceClient paymentServiceClient) {
+    public ConfirmPaymentReceiptCommandHandler(IReceiptService service, ExternalServiceClient paymentServiceClient, GroupPaymentServiceClient groupPaymentServiceClient) {
         this.service = service;
         this.paymentServiceClient = paymentServiceClient;
+        this.groupPaymentServiceClient = groupPaymentServiceClient;
     }
 
     @Override
@@ -37,11 +45,40 @@ public class ConfirmPaymentReceiptCommandHandler implements ICommandHandler<Conf
 //                throw new BusinessException(DomainErrorMessage.PAYMENT_NOT_FOUND, "Payment not approved or not found.");
 //            }
 
+            if (paymentStatus.getStatus().equals("APPROVED")) {
+                _receipt.setReference(paymentStatus.getReference());
+                _receipt.setAuthorizationCode(command.getAuthorizationCode());
+                _receipt.setStatus(EStatusReceipt.PAYMENT);
+                this.service.update(_receipt);
 
-            _receipt.setAuthorizationCode(paymentStatus.getAuthorization());
-            _receipt.setRequestId(command.getRequestId());
-            _receipt.setReference(paymentStatus.getReference());
-            _receipt.setStatus(command.getStatus());
+                CreateGroupPaymentUnifRequest request = new CreateGroupPaymentUnifRequest();
+                request.setClientId(_receipt.getUser().getId());
+                request.setBusinessId(_receipt.getSchedule().getBusiness().getId());
+                request.setUserSystemId(null);
+                request.setUserSystemFullName(null);
+                request.setPaymentType("PLACETOPAY");
+                request.setPaymentStatus("PAYMENT_APPROVED");
+                request.setInsuranceId(null);
+                request.setTypeOperation("ExternalConsult");
+                request.setAuthorizationCode(paymentStatus.getAuthorization());
+                request.setReference(paymentStatus.getReference());
+                request.setProforma(false);
+                List<CreateBillingPartialRequest> createBillingPartialRequests = new ArrayList<>();
+                CreateBillingPartialRequest createBillingPartialRequest = new CreateBillingPartialRequest();
+                createBillingPartialRequest.setCode(_receipt.getService().getCode());
+                createBillingPartialRequest.setDescription(_receipt.getService().getName());
+                createBillingPartialRequest.setCost(_receipt.getPrice());
+                createBillingPartialRequests.add(createBillingPartialRequest);
+                request.setBillings(createBillingPartialRequests);
+
+           String groupPaymentId=     groupPaymentServiceClient.createCompleted(request);
+            }
+
+
+//            _receipt.setAuthorizationCode(paymentStatus.getAuthorization());
+//            _receipt.setRequestId(command.getRequestId());
+//            _receipt.setReference(paymentStatus.getReference());
+//            _receipt.setStatus(command.getStatus());
 
             if (command.getStatus().equals(EStatusReceipt.CANCEL)) {
                 _receipt.getSchedule().setStock(_receipt.getSchedule().getStock() + 1);
