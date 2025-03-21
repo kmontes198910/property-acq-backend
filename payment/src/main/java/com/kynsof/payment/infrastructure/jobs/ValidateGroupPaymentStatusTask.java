@@ -26,7 +26,7 @@ public class ValidateGroupPaymentStatusTask {
         this.paymentServiceClient = paymentServiceClient;
     }
 
-    @Scheduled(cron = "* */30 * * * *")
+    @Scheduled(cron = "* */5 * * * *")
     public void updateStatusPayment() {
         List<GroupPayment> groupPayments = this.groupPaymentService.findByStatus(GroupPaymentStatus.PENDING_APPROVED);
         groupPayments.forEach(groupPayment -> {

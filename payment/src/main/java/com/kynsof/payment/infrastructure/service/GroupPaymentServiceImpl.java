@@ -162,7 +162,7 @@ public class GroupPaymentServiceImpl implements IGroupPaymentService {
     }
 
     @Override
-    public void update(UUID id, String reference, String authorizationCode, String requestId, String processUrl, GroupPaymentStatus status) {
+    public void update(UUID id, String reference, String authorizationCode, String requestId, String processUrl, GroupPaymentStatus status) throws IOException {
         GroupPayment groupPayment = this.groupPaymentReadDataJPARepository.findById(id).orElseThrow();
         groupPayment.setStatus(status);
         groupPayment.setReference(reference);
@@ -172,7 +172,11 @@ public class GroupPaymentServiceImpl implements IGroupPaymentService {
         groupPayment.setStatus(status);
         groupPayment.setPaymentType(PaymentType.PLACETOPAY);
         if (status == GroupPaymentStatus.PAYMENT_APPROVED) {
-            groupPayment.setPaymentDate(LocalDateTime.now());
+            PaymentServiceStatusResponse serviceStatusResponse = paymentServiceClient.validateStatusPayment(groupPayment.getRequestId(), groupPayment.getBusiness().getId());
+            if (serviceStatusResponse.getStatus().equals("APPROVED")) {
+                groupPayment.setPaymentDate(LocalDateTime.now());
+                groupPayment.setAuthorizationCode(serviceStatusResponse.getAuthorization());
+            }
         }
         this.groupPaymentWriteDataJPARepository.save(groupPayment);
 
@@ -259,7 +263,7 @@ public class GroupPaymentServiceImpl implements IGroupPaymentService {
                 )
         ).toList();
         System.err.println("Construye los billing");
-      List<Billing> billingList =  billingWriteDataJPARepository.saveAll(billingDtos.stream().map(Billing::new).toList());
+        List<Billing> billingList = billingWriteDataJPARepository.saveAll(billingDtos.stream().map(Billing::new).toList());
         System.err.println("Salva los billing");
 
         List<UUID> billingIds = billingList.stream()

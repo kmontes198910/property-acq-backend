@@ -10,6 +10,7 @@ import com.kynsof.share.core.domain.request.FilterCriteria;
 import com.kynsof.share.core.domain.response.PaginatedResponse;
 import org.springframework.data.domain.Pageable;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.UUID;
 
@@ -21,7 +22,7 @@ public interface IGroupPaymentService {
     GroupPaymentDto findById(UUID id);
     PaginatedResponse searchPaymentDetail(Pageable pageable, List<FilterCriteria> filterCriteria);
 
-    void update(UUID id, String reference, String authorizationCode, String requestId, String processUrl, GroupPaymentStatus status);
+    void update(UUID id, String reference, String authorizationCode, String requestId, String processUrl, GroupPaymentStatus status) throws IOException;
 
     void updateAdminSystems(UUID id, String reference, String authorizationCode, PaymentType paymentType, GroupPaymentStatus status);
 
