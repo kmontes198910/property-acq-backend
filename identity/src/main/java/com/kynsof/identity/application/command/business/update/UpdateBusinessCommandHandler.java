@@ -6,14 +6,10 @@ import com.kynsof.identity.domain.interfaces.service.IBusinessService;
 import com.kynsof.identity.domain.interfaces.service.IGeographicLocationService;
 import com.kynsof.identity.domain.rules.business.BusinessNameMustBeUniqueRule;
 import com.kynsof.identity.domain.rules.business.BusinessRucMustBeUniqueRule;
-import com.kynsof.identity.infrastructure.services.kafka.producer.business.ProducerUpdateBusinessEventService;
 import com.kynsof.share.core.domain.RulesChecker;
 import com.kynsof.share.core.domain.bus.command.ICommandHandler;
-import com.kynsof.share.core.domain.kafka.producer.s3.ProducerDeleteFileEventService;
-import com.kynsof.share.core.domain.kafka.producer.s3.ProducerSaveFileEventService;
 import com.kynsof.share.core.domain.rules.ValidateObjectNotNullRule;
 import com.kynsof.share.utils.UpdateIfNotNull;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -21,14 +17,11 @@ public class UpdateBusinessCommandHandler implements ICommandHandler<UpdateBusin
 
     private final IBusinessService service;
     private final IGeographicLocationService geographicLocationService;
-    private final ProducerUpdateBusinessEventService updateBusinessEventService;
 
 
-    public UpdateBusinessCommandHandler(IBusinessService service, IGeographicLocationService geographicLocationService,
-                                        ProducerUpdateBusinessEventService updateBusinessEventService) {
+    public UpdateBusinessCommandHandler(IBusinessService service, IGeographicLocationService geographicLocationService) {
         this.service = service;
         this.geographicLocationService = geographicLocationService;
-        this.updateBusinessEventService = updateBusinessEventService;
     }
 
     @Override
@@ -57,7 +50,6 @@ public class UpdateBusinessCommandHandler implements ICommandHandler<UpdateBusin
         updateBusiness.setPhone(command.getPhone());
         updateBusiness.setEmail(command.getEmail());
         service.update(updateBusiness);
-        updateBusinessEventService.update(updateBusiness);
     }
 
 }

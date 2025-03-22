@@ -13,7 +13,6 @@ import com.kynsoft.report.domain.services.IJasperReportTemplateService;
 import com.kynsoft.report.infrastructure.entity.JasperReportTemplate;
 import com.kynsoft.report.infrastructure.repository.command.JasperReportTemplateWriteDataJPARepository;
 import com.kynsoft.report.infrastructure.repository.query.JasperReportTemplateReadDataJPARepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;

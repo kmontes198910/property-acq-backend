@@ -1,9 +1,7 @@
 package com.kynsof.patients.application.query.patientsInsurance.getById;
 
-import com.kynsof.patients.domain.dto.PatientByIdDto;
 import com.kynsof.patients.domain.dto.PatientInsuranceDto;
 import com.kynsof.patients.domain.service.IPatientInsuranceService;
-import com.kynsof.patients.domain.service.IPatientsService;
 import com.kynsof.share.core.domain.bus.query.IQueryHandler;
 import org.springframework.stereotype.Component;
 

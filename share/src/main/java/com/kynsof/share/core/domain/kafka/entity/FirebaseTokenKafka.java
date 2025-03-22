@@ -1,12 +1,12 @@
 package com.kynsof.share.core.domain.kafka.entity;
 
-import java.io.Serializable;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.io.Serializable;
 import java.util.UUID;
-import lombok.AllArgsConstructor;
 
 @Getter
 @Setter

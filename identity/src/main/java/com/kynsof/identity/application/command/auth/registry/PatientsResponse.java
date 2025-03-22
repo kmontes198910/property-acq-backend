@@ -2,6 +2,7 @@ package com.kynsof.identity.application.command.auth.registry;
 
 import lombok.Getter;
 import lombok.Setter;
+
 import java.util.UUID;
 
 @Getter

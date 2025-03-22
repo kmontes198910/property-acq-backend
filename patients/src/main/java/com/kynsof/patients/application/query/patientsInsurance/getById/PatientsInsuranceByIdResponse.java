@@ -1,14 +1,9 @@
 package com.kynsof.patients.application.query.patientsInsurance.getById;
 
 
-import com.kynsof.patients.application.query.contactInfo.getall.ContactInfoResponse;
 import com.kynsof.patients.application.query.insuarance.getall.InsuranceResponse;
 import com.kynsof.patients.application.query.patients.getall.PatientsResponse;
-import com.kynsof.patients.domain.dto.PatientByIdDto;
 import com.kynsof.patients.domain.dto.PatientInsuranceDto;
-import com.kynsof.patients.domain.dto.enumTye.DisabilityType;
-import com.kynsof.patients.domain.dto.enumTye.FamilyRelationship;
-import com.kynsof.patients.domain.dto.enumTye.GenderType;
 import com.kynsof.patients.domain.dto.enumTye.Status;
 import com.kynsof.share.core.domain.bus.query.IResponse;
 import lombok.AllArgsConstructor;

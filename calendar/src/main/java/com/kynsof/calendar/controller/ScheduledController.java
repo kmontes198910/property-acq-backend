@@ -1,5 +1,8 @@
 package com.kynsof.calendar.controller;
 
+import com.kynsof.calendar.application.command.schedule.changeResource.ChangeResourceCommand;
+import com.kynsof.calendar.application.command.schedule.changeResource.ChangeResourceMessage;
+import com.kynsof.calendar.application.command.schedule.changeResource.ChangeResourceRequest;
 import com.kynsof.calendar.application.command.schedule.create.CreateScheduleCommand;
 import com.kynsof.calendar.application.command.schedule.create.CreateScheduleMessage;
 import com.kynsof.calendar.application.command.schedule.create.CreateScheduleRequest;
@@ -163,4 +166,13 @@ public class ScheduledController {
         PaginatedResponse data = mediator.send(query);
         return ResponseEntity.ok(data);
     }
+
+    @PostMapping("/change-resource")
+    public ResponseEntity<?> changeResource(@RequestBody ChangeResourceRequest request) {
+
+        ChangeResourceCommand command =  ChangeResourceCommand.fromRequest( request);
+        ChangeResourceMessage data = mediator.send(command);
+        return ResponseEntity.ok(data);
+    }
+
 }

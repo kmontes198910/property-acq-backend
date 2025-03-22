@@ -8,7 +8,6 @@ import com.kynsof.identity.domain.interfaces.service.IGeographicLocationService;
 import com.kynsof.identity.domain.rules.business.BusinessNameMustBeUniqueRule;
 import com.kynsof.identity.domain.rules.business.BusinessRucCheckingNumberOfCharactersRule;
 import com.kynsof.identity.domain.rules.business.BusinessRucMustBeUniqueRule;
-import com.kynsof.identity.infrastructure.services.kafka.producer.business.ProducerCreateBusinessEventService;
 import com.kynsof.share.core.domain.RulesChecker;
 import com.kynsof.share.core.domain.bus.command.ICommandHandler;
 import com.kynsof.share.utils.ConfigureTimeZone;
@@ -23,13 +22,10 @@ public class CreateBusinessCommandHandler implements ICommandHandler<CreateBusin
 
     private final IGeographicLocationService geographicLocationService;
 
-    private final ProducerCreateBusinessEventService createBusinessEventService;
 
-    public CreateBusinessCommandHandler(IBusinessService service, IGeographicLocationService geographicLocationService,
-                                        ProducerCreateBusinessEventService createBusinessEventService) {
+    public CreateBusinessCommandHandler(IBusinessService service, IGeographicLocationService geographicLocationService) {
         this.service = service;
         this.geographicLocationService = geographicLocationService;
-        this.createBusinessEventService = createBusinessEventService;
     }
 
     @Override
@@ -58,6 +54,5 @@ public class CreateBusinessCommandHandler implements ICommandHandler<CreateBusin
 
         create.setCreateAt(ConfigureTimeZone.getTimeZone());
         service.create(create);
-        createBusinessEventService.create(create);
     }
 }

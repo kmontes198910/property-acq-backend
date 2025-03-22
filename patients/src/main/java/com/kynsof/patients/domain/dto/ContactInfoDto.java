@@ -1,7 +1,6 @@
 package com.kynsof.patients.domain.dto;
 
 import com.kynsof.patients.domain.dto.enumTye.Status;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;

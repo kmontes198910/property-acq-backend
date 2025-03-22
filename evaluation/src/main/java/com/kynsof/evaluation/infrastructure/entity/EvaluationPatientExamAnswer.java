@@ -1,7 +1,6 @@
 package com.kynsof.evaluation.infrastructure.entity;
 
 import com.kynsof.evaluation.domain.dto.EvaluationPatientExamAnswerDto;
-import com.kynsof.evaluation.domain.dto.enumDto.EvaluationExamenType;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

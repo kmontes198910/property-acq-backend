@@ -1,8 +1,9 @@
 package com.kynsoft.rrhh.application.command.replicate.object;
 
-import java.util.List;
 import lombok.Getter;
 import lombok.Setter;
+
+import java.util.List;
 
 @Getter
 @Setter

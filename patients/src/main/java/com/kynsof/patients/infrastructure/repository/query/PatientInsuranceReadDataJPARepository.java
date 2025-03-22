@@ -1,6 +1,5 @@
 package com.kynsof.patients.infrastructure.repository.query;
 
-import com.kynsof.patients.infrastructure.entity.Allergy;
 import com.kynsof.patients.infrastructure.entity.PatientInsurance;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

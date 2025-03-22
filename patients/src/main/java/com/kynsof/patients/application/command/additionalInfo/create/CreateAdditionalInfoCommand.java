@@ -11,17 +11,11 @@ import java.util.UUID;
 @Setter
 public class CreateAdditionalInfoCommand implements ICommand {
     private UUID id;
-
     private UUID patientId;
-
     private String maritalStatus;
-
     private String occupation;
-
     private String emergencyContactName;
-
     private String emergencyContactPhone;
-
 
     public CreateAdditionalInfoCommand(UUID patientId, String maritalStatus, String occupation,
                                        String emergencyContactName, String emergencyContactPhone) {

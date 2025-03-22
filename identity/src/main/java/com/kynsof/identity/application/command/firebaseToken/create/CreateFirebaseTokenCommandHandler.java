@@ -4,9 +4,7 @@ import com.kynsof.identity.domain.dto.FirebaseTokenDto;
 import com.kynsof.identity.domain.dto.UserSystemDto;
 import com.kynsof.identity.domain.interfaces.service.IFirebaseTokenService;
 import com.kynsof.identity.domain.interfaces.service.IUserSystemService;
-import com.kynsof.identity.infrastructure.services.kafka.producer.firebaseToken.ProducerReplicateFirebaseTokenService;
 import com.kynsof.share.core.domain.bus.command.ICommandHandler;
-import com.kynsof.share.core.domain.kafka.entity.FirebaseTokenKafka;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -14,13 +12,10 @@ public class CreateFirebaseTokenCommandHandler implements ICommandHandler<Create
 
     private final IUserSystemService service;
     private final IFirebaseTokenService firebaseTokenService;
-    private final ProducerReplicateFirebaseTokenService producerReplicateFirebaseTokenService;
 
-    public CreateFirebaseTokenCommandHandler(IUserSystemService service, IFirebaseTokenService firebaseTokenService,
-            ProducerReplicateFirebaseTokenService producerReplicateFirebaseTokenService) {
+    public CreateFirebaseTokenCommandHandler(IUserSystemService service, IFirebaseTokenService firebaseTokenService) {
         this.service = service;
         this.firebaseTokenService = firebaseTokenService;
-        this.producerReplicateFirebaseTokenService = producerReplicateFirebaseTokenService;
     }
 
     @Override
@@ -33,11 +28,10 @@ public class CreateFirebaseTokenCommandHandler implements ICommandHandler<Create
                     userSystemDto,
                     command.getToken()
             ));
-            producerReplicateFirebaseTokenService.create(new FirebaseTokenKafka(command.getId(), command.getToken()));
+
         } else {
             firebaseTokenDto.setToken(command.getToken());
             firebaseTokenService.update(firebaseTokenDto);
-            producerReplicateFirebaseTokenService.create(new FirebaseTokenKafka(command.getId(), command.getToken()));
         }
 
     }

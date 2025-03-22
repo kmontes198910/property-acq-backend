@@ -5,17 +5,13 @@ import com.kynsof.share.core.domain.exception.DomainErrorMessage;
 import com.kynsof.share.core.domain.exception.GlobalBusinessException;
 import com.kynsof.share.core.domain.http.entity.PatientHttp;
 import com.kynsof.share.core.domain.response.ErrorField;
-import java.util.UUID;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
+
+import java.util.UUID;
 
 @Service
 public class PatientHttpUUIDService {
@@ -23,7 +19,6 @@ public class PatientHttpUUIDService {
     private final RestTemplate restTemplate;
 
     @Value("${patient.service:http://localhost:8098}")
-//    @Value("${patient.service:http://invoicing.finamer.svc.cluster.local:9909}")
     private String serviceUrl;
 
     public PatientHttpUUIDService(RestTemplate restTemplate) {
@@ -32,7 +27,9 @@ public class PatientHttpUUIDService {
 
     public PatientHttp sendGetHttpRequest(UUID id) {
         try {
+            System.err.println("Paciente:"+id);
             String url = serviceUrl + "/api/patients/http/replicate/" + id;
+            System.err.println("URL:"+url);
 
             // Crear cabeceras para la solicitud
             HttpHeaders headers = new HttpHeaders();

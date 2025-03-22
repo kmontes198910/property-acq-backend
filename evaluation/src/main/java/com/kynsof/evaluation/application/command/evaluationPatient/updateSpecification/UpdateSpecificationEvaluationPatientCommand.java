@@ -1,6 +1,5 @@
 package com.kynsof.evaluation.application.command.evaluationPatient.updateSpecification;
 
-import com.kynsof.evaluation.domain.dto.enumDto.EvaluationExamenType;
 import com.kynsof.share.core.domain.bus.command.ICommand;
 import com.kynsof.share.core.domain.bus.command.ICommandMessage;
 import lombok.AllArgsConstructor;

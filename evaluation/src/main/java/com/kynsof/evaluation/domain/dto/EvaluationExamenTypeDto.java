@@ -1,9 +1,10 @@
 package com.kynsof.evaluation.domain.dto;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
+
 import java.util.UUID;
-import lombok.AllArgsConstructor;
 
 @Getter
 @Setter

@@ -26,29 +26,19 @@ public class Resource {
 
     @Id
     protected UUID id;
-
     @Size(max = 250)
     @NotBlank
     private String name;
-
     @Enumerated(EnumType.STRING)
     private EResourceStatus status;
-
     private String image;
-
     @OneToMany(mappedBy = "resource")
     private Set<ResourceService> resourceServices = new HashSet<>();
-
     @OneToMany(mappedBy = "resource", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<BusinessResource> businessResources = new HashSet<>();
-
-
-
     @CreationTimestamp
     @Column(updatable = false)
     private LocalDateTime createdAt;
-
-
     @UpdateTimestamp
     private LocalDateTime updatedAt;
 
@@ -57,11 +47,9 @@ public class Resource {
         this.name = resourceDto.getName();
         this.image = resourceDto.getImage();
         this.status = resourceDto.getStatus();
-        //services = resourceDto.getServices() != null ? resourceDto.getServices().stream().map(Services::new).collect(Collectors.toSet()) : null;
     }
 
     public ResourceDto toAggregate() {
-        // List<ServiceDto> serviceDtos = services.stream().map(Services::toAggregate).toList();
         return new ResourceDto(id, name, image, status);
     }
 }

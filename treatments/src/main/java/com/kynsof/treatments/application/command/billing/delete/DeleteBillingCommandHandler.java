@@ -2,9 +2,7 @@ package com.kynsof.treatments.application.command.billing.delete;
 
 import com.kynsof.share.core.domain.bus.command.ICommandHandler;
 import com.kynsof.treatments.domain.dto.BillingDto;
-import com.kynsof.treatments.domain.dto.MedicinesDto;
 import com.kynsof.treatments.domain.service.IBillingService;
-import com.kynsof.treatments.domain.service.IMedicinesService;
 import org.springframework.stereotype.Component;
 
 @Component

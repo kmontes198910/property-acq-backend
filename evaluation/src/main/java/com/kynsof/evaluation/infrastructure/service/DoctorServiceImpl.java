@@ -1,14 +1,17 @@
 package com.kynsof.evaluation.infrastructure.service;
 
-import com.kynsof.share.core.domain.exception.BusinessNotFoundException;
-import com.kynsof.share.core.domain.exception.DomainErrorMessage;
-import com.kynsof.share.core.domain.exception.GlobalBusinessException;
-import com.kynsof.share.core.domain.response.ErrorField;
 import com.kynsof.evaluation.domain.dto.DoctorDto;
+import com.kynsof.evaluation.domain.dto.enumDto.Status;
 import com.kynsof.evaluation.domain.service.IDoctorService;
 import com.kynsof.evaluation.infrastructure.entity.Doctor;
 import com.kynsof.evaluation.infrastructure.repositories.command.DoctorWriteDataJPARepository;
 import com.kynsof.evaluation.infrastructure.repositories.query.DoctorReadDataJPARepository;
+import com.kynsof.evaluation.infrastructure.service.http.DoctorHttpUUIDService;
+import com.kynsof.share.core.domain.exception.BusinessNotFoundException;
+import com.kynsof.share.core.domain.exception.DomainErrorMessage;
+import com.kynsof.share.core.domain.exception.GlobalBusinessException;
+import com.kynsof.share.core.domain.http.entity.DoctorHttp;
+import com.kynsof.share.core.domain.response.ErrorField;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,11 +22,16 @@ import java.util.UUID;
 @Service
 public class DoctorServiceImpl implements IDoctorService {
 
-    @Autowired
-    private DoctorWriteDataJPARepository repositoryCommand;
+    private final DoctorWriteDataJPARepository repositoryCommand;
+    private final DoctorReadDataJPARepository repositoryQuery;
+    private final DoctorHttpUUIDService doctorHttpUUIDService;
 
-    @Autowired
-    private DoctorReadDataJPARepository repositoryQuery;
+    public DoctorServiceImpl(DoctorHttpUUIDService doctorHttpUUIDService, DoctorReadDataJPARepository repositoryQuery,
+                             DoctorWriteDataJPARepository repositoryCommand) {
+        this.doctorHttpUUIDService = doctorHttpUUIDService;
+        this.repositoryQuery = repositoryQuery;
+        this.repositoryCommand = repositoryCommand;
+    }
 
     @Override
     public UUID create(DoctorDto doctorDto) {
@@ -62,7 +70,20 @@ public class DoctorServiceImpl implements IDoctorService {
         if (patient.isPresent()) {
             return patient.get().toAggregate();
         }
-        throw new BusinessNotFoundException(new GlobalBusinessException(DomainErrorMessage.DOCTOR_NOT_FOUND, new ErrorField("id", "Doctor not found.")));
+        {
+            DoctorHttp doctorHttp = this.doctorHttpUUIDService.sendGetHttpRequest(id);
+            DoctorDto doctorDto = new DoctorDto(
+                    doctorHttp.getId(),
+                    doctorHttp.getIdentification(),
+                    doctorHttp.getName(),
+                    doctorHttp.getLastName(),
+                    doctorHttp.getRegisterNumber(),
+                    doctorHttp.getImage(),
+                    Status.valueOf(doctorHttp.getStatus())
+            );
+            this.repositoryCommand.save(new Doctor(doctorDto));
+            return doctorDto;
+        }
     }
 
     @Override

@@ -13,6 +13,8 @@ import com.kynsof.calendar.application.command.receipt.delete.ReceiptDeleteMessa
 import com.kynsof.calendar.application.command.receipt.reschedule.RescheduleReceiptCommand;
 import com.kynsof.calendar.application.command.receipt.reschedule.RescheduleReceiptMessage;
 import com.kynsof.calendar.application.command.receipt.reschedule.RescheduleReceiptRequest;
+import com.kynsof.calendar.application.command.receipt.reverse.ReverseReceiptCommand;
+import com.kynsof.calendar.application.command.receipt.reverse.ReverseReceiptMessage;
 import com.kynsof.calendar.application.command.receipt.setRequest.SetRequestIdCommand;
 import com.kynsof.calendar.application.command.receipt.setRequest.SetRequestIdMessage;
 import com.kynsof.calendar.application.command.receipt.setRequest.SetRequestIdRequest;
@@ -152,19 +154,27 @@ public class  ReceiptController {
         return ResponseEntity.ok(response);
     }
 
-    @PostMapping("set-request/{receiptId}")
-    public ResponseEntity<?> setRequest(@PathVariable UUID receiptId,
-                                                                       @RequestBody SetRequestIdRequest confirmPaymentReceiptRequest,
-                                                                       ServerHttpRequest request,
-                                                                       @RequestHeader(value = "User-Agent", required = false,
-                                                                               defaultValue = "Unknown") String userAgent) {
+    @PostMapping("/reverse/{requestId}")
+    public ResponseEntity<?> reverse( @PathVariable String requestId) {
 
-        String ipAddress = Objects.requireNonNull(request.getRemoteAddress()).getAddress().getHostAddress();
-        SetRequestIdCommand createCommand = SetRequestIdCommand.fromRequest(receiptId,
-                confirmPaymentReceiptRequest);
-        SetRequestIdMessage response = mediator.send(createCommand);
-
+        ReverseReceiptCommand createCommand =new ReverseReceiptCommand(requestId);
+        ReverseReceiptMessage response = mediator.send(createCommand);
         return ResponseEntity.ok(response);
     }
+
+//    @PostMapping("set-request/{receiptId}")
+//    public ResponseEntity<?> setRequest(@PathVariable UUID receiptId,
+//                                                                       @RequestBody SetRequestIdRequest confirmPaymentReceiptRequest,
+//                                                                       ServerHttpRequest request,
+//                                                                       @RequestHeader(value = "User-Agent", required = false,
+//                                                                               defaultValue = "Unknown") String userAgent) {
+//
+//        String ipAddress = Objects.requireNonNull(request.getRemoteAddress()).getAddress().getHostAddress();
+//        SetRequestIdCommand createCommand = SetRequestIdCommand.fromRequest(receiptId,
+//                confirmPaymentReceiptRequest);
+//        SetRequestIdMessage response = mediator.send(createCommand);
+//
+//        return ResponseEntity.ok(response);
+//    }
 
 }

@@ -1,7 +1,5 @@
 package com.kynsof.treatments.infrastructure.repositories.query;
 
-import com.kynsof.treatments.domain.dto.enumDto.BillingStatus;
-import com.kynsof.treatments.infrastructure.entity.Billing;
 import com.kynsof.treatments.infrastructure.entity.GroupPayment;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

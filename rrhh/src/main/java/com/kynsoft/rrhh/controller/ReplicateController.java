@@ -5,7 +5,10 @@ import com.kynsoft.rrhh.application.command.replicate.object.CreateReplicateComm
 import com.kynsoft.rrhh.application.command.replicate.object.CreateReplicateMessage;
 import com.kynsoft.rrhh.application.command.replicate.object.CreateReplicateRequest;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api/replicate")

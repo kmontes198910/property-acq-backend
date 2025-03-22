@@ -7,12 +7,8 @@ import com.kynsof.identity.application.command.auth.registry.UserRequest;
 import com.kynsof.identity.application.command.auth.registrySystemUser.UserSystemKycloackRequest;
 import com.kynsof.identity.domain.interfaces.service.IAuthService;
 import com.kynsof.identity.domain.interfaces.service.IRedisService;
-import com.kynsof.identity.infrastructure.services.kafka.producer.user.ProducerTriggerPasswordResetEventService;
-import com.kynsof.identity.infrastructure.services.kafka.producer.user.ProducerRegisterUserEventService;
-import com.kynsof.identity.infrastructure.services.kafka.producer.user.ProducerRegisterUserSystemEventService;
 import com.kynsof.share.core.domain.EUserType;
 import com.kynsof.share.core.domain.exception.*;
-import com.kynsof.share.core.domain.kafka.entity.UserOtpKafka;
 import com.kynsof.share.core.domain.response.ErrorField;
 import io.micrometer.common.lang.NonNull;
 import jakarta.ws.rs.core.Response;
@@ -38,17 +34,13 @@ public class AuthService implements IAuthService {
     private final KeycloakProvider keycloakProvider;
     private final RestTemplate restTemplate;
     private final IRedisService otpService;
-    private final ProducerTriggerPasswordResetEventService producerOtp;
 
     @Autowired
     public AuthService(KeycloakProvider keycloakProvider, RestTemplate restTemplate,
-                       ProducerRegisterUserEventService producerRegisterUserEvent,
-                       IRedisService otpService, ProducerTriggerPasswordResetEventService producerOtp,
-                       ProducerRegisterUserSystemEventService producerRegisterUserSystemEvent) {
+                       IRedisService otpService) {
         this.keycloakProvider = keycloakProvider;
         this.restTemplate = restTemplate;
         this.otpService = otpService;
-        this.producerOtp = producerOtp;
     }
 
     @Override
@@ -113,7 +105,7 @@ public class AuthService implements IAuthService {
             UserRepresentation user = users.get(0);
             String otpCode = otpService.generateOtpCode();
             otpService.saveOtpCode(email, otpCode);
-            producerOtp.create(new UserOtpKafka(email, otpCode, user.getFirstName()));
+         //  producerOtp.create(new UserOtpKafka(email, otpCode, user.getFirstName()));
             return true;
         }
         throw new UserNotFoundException("User not found", new ErrorField("email", "Email not found"));
@@ -255,7 +247,7 @@ public class AuthService implements IAuthService {
             if (errorResponse.contains("invalid_grant")) {
                 String otpCode = otpService.generateOtpCode();
                 otpService.saveOtpCode(email, otpCode);
-                producerOtp.create(new UserOtpKafka(email, otpCode, name));
+               // producerOtp.create(new UserOtpKafka(email, otpCode, name));
 
                 throw new UserChangePasswordException("You must change your password before continuing.",
                         new ErrorField("password", "You must change your password before continuing."));

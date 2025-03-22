@@ -1,6 +1,5 @@
 package com.kynsof.patients.application.command.patientInsurance.delete;
 
-import com.kynsof.patients.domain.service.IContactInfoService;
 import com.kynsof.patients.domain.service.IPatientInsuranceService;
 import com.kynsof.share.core.domain.bus.command.ICommandHandler;
 import org.springframework.stereotype.Component;

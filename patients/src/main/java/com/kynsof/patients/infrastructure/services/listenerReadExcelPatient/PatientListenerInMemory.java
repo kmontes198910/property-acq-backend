@@ -8,6 +8,7 @@ import com.kynsof.patients.infrastructure.entity.ContactInformation;
 import com.kynsof.patients.infrastructure.entity.Patients;
 import com.kynsof.patients.infrastructure.repository.command.ContactInfoWriteDataJPARepository;
 import com.kynsof.patients.infrastructure.repository.command.PatientsWriteDataJPARepository;
+
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;

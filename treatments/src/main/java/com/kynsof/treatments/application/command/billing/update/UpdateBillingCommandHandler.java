@@ -1,15 +1,10 @@
 package com.kynsof.treatments.application.command.billing.update;
 
-import com.kynsof.share.core.domain.RulesChecker;
 import com.kynsof.share.core.domain.bus.command.ICommandHandler;
-import com.kynsof.share.utils.UpdateIfNotNull;
 import com.kynsof.treatments.domain.dto.BillingDto;
 import com.kynsof.treatments.domain.dto.InsuranceDto;
-import com.kynsof.treatments.domain.dto.MedicinesDto;
-import com.kynsof.treatments.domain.rules.medicines.MedicinesNameMustBeUniqueRule;
 import com.kynsof.treatments.domain.service.IBillingService;
 import com.kynsof.treatments.domain.service.IInsuranceService;
-import com.kynsof.treatments.domain.service.IMedicinesService;
 import org.springframework.stereotype.Component;
 
 import java.util.UUID;

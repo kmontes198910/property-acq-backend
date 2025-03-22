@@ -15,10 +15,9 @@ import com.kynsof.share.core.domain.bus.command.ICommandHandler;
 import com.kynsof.share.core.domain.exception.BusinessException;
 import com.kynsof.share.core.domain.exception.DomainErrorMessage;
 import com.kynsof.share.core.domain.http.entity.PatientHttp;
-import org.springframework.stereotype.Component;
-
 import org.redisson.api.RLock;
 import org.redisson.api.RedissonClient;
+import org.springframework.stereotype.Component;
 
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
@@ -48,23 +47,7 @@ public class CreateReceiptCommandHandler implements ICommandHandler<CreateReceip
     @Override
     public void handle(CreateReceiptCommand command) {
         // Verificar si el paciente, el horario y el servicio existen
-        PatientDto _patient = null;
-        try {
-            _patient = this.servicePatient.findById(command.getUser());
-        } catch (Exception e) {
-            PatientHttp patient = patientHttpUUIDService.sendGetHttpRequest(command.getUser());
-            _patient = new PatientDto(
-                    patient.getId(),
-                    patient.getIdentification(),
-                    patient.getEmail(),
-                    patient.getName(),
-                    patient.getLastName(),
-                    PatientStatus.valueOf(patient.getStatus()),
-                    "",
-                    patient.getProfession()
-            );
-            this.servicePatient.create(_patient);
-        }
+        PatientDto _patient =  this.servicePatient.findById(command.getUser());
         ScheduleDto _schedule = this.serviceSchedule.findById(command.getSchedule());
         ServiceDto _service = this.serviceService.findByIds(command.getService());
 

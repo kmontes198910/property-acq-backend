@@ -5,7 +5,10 @@ import com.kynsof.calendar.application.command.replicateObject.CreateReplicateMe
 import com.kynsof.calendar.application.command.replicateObject.CreateReplicateRequest;
 import com.kynsof.share.core.infrastructure.bus.IMediator;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api/replicate")

@@ -2,7 +2,6 @@ package com.kynsof.treatments.application.command.billing.createall;
 
 import com.kynsof.share.core.domain.bus.command.ICommand;
 import com.kynsof.share.core.domain.bus.command.ICommandMessage;
-import com.kynsof.treatments.application.command.billing.create.CreateBillingRequest;
 import lombok.Getter;
 import lombok.Setter;
 

@@ -2,25 +2,22 @@ package com.kynsoft.rrhh.application.command.assistant.update;
 
 import com.kynsof.share.core.domain.RulesChecker;
 import com.kynsof.share.core.domain.bus.command.ICommandHandler;
-import com.kynsof.share.core.domain.kafka.entity.DoctorKafka;
 import com.kynsof.share.utils.ConsumerUpdate;
 import com.kynsof.share.utils.UpdateIfNotNull;
 import com.kynsoft.rrhh.domain.dto.AssistantDto;
 import com.kynsoft.rrhh.domain.interfaces.services.IAssistantService;
 import com.kynsoft.rrhh.domain.rules.assistant.UpdateAssistantEmailMustBeUniqueRule;
 import com.kynsoft.rrhh.domain.rules.assistant.UpdateAssistantIdentificationMustBeUniqueRule;
-import com.kynsoft.rrhh.infrastructure.services.kafka.producer.assistant.ProducerReplicateAssistantService;
 import org.springframework.stereotype.Component;
 
 @Component
 public class UpdateAssistantCommandHandler implements ICommandHandler<UpdateAssistantCommand> {
 
     private final IAssistantService service;
-    private final ProducerReplicateAssistantService producerReplicateAssistantService;
 
-    public UpdateAssistantCommandHandler(IAssistantService service, ProducerReplicateAssistantService producerReplicateAssistantService) {
+
+    public UpdateAssistantCommandHandler(IAssistantService service) {
         this.service = service;
-        this.producerReplicateAssistantService = producerReplicateAssistantService;
     }
 
     @Override
@@ -64,18 +61,6 @@ public class UpdateAssistantCommandHandler implements ICommandHandler<UpdateAssi
 
         if (isUpdated) {
             service.update(assistantDto);
-
-            producerReplicateAssistantService.create(new DoctorKafka(
-                    assistantDto.getId(),
-                    assistantDto.getIdentification(),
-                    assistantDto.getCode(),
-                    assistantDto.getEmail(),
-                    assistantDto.getName(),
-                    assistantDto.getLastName(),
-                    assistantDto.getImage(),
-                    null,
-                    ""
-            ));
         }
     }
 }

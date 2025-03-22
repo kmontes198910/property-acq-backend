@@ -1,9 +1,7 @@
 package com.kynsof.identity.application.command.auth.autenticate;
 
-import lombok.*;
-
-import java.io.Serial;
-import java.io.Serializable;
+import lombok.Getter;
+import lombok.Setter;
 
 
 @Getter

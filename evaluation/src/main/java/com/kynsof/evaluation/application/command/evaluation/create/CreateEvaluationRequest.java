@@ -1,8 +1,9 @@
 package com.kynsof.evaluation.application.command.evaluation.create;
 
-import java.util.UUID;
 import lombok.Getter;
 import lombok.Setter;
+
+import java.util.UUID;
 
 @Getter
 @Setter

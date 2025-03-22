@@ -8,9 +8,7 @@ import com.kynsof.patients.domain.dto.enumTye.Status;
 import com.kynsof.patients.domain.service.IContactInfoService;
 import com.kynsof.patients.domain.service.IGeographicLocationService;
 import com.kynsof.patients.domain.service.IPatientsService;
-import com.kynsof.patients.infrastructure.services.kafka.producer.customer.ProducerCreateCustomerEventService;
 import com.kynsof.share.core.domain.bus.command.ICommandHandler;
-import com.kynsof.share.core.domain.kafka.entity.CustomerKafka;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -19,16 +17,13 @@ public class UpdateDependentPatientsCommandHandler implements ICommandHandler<Up
     private final IPatientsService serviceImpl;
     private final IContactInfoService contactInfoService;
     private final IGeographicLocationService geographicLocationService;
-    private final ProducerCreateCustomerEventService createCustomerEventService;
 
     public UpdateDependentPatientsCommandHandler(IPatientsService serviceImpl,
                                                  IContactInfoService contactInfoService,
-                                                 IGeographicLocationService geographicLocationService,
-                                                 ProducerCreateCustomerEventService createCustomerEventService) {
+                                                 IGeographicLocationService geographicLocationService) {
         this.serviceImpl = serviceImpl;
         this.contactInfoService = contactInfoService;
         this.geographicLocationService = geographicLocationService;
-        this.createCustomerEventService = createCustomerEventService;
     }
 
     @Override
@@ -73,18 +68,5 @@ public class UpdateDependentPatientsCommandHandler implements ICommandHandler<Up
             contactInfoDto.setStatus(Status.ACTIVE);
             contactInfoService.update(contactInfoDto);
         }
-
-        this.createCustomerEventService.create(new CustomerKafka(
-                update.getId().toString(), 
-                update.getIdentification(), 
-                update.getName(), 
-                update.getLastName(), 
-                contactInfoDto.getEmail(), 
-                update.getPhoto(), 
-                contactInfoDto.getBirthdayDate(),
-                update.getGender().name(),
-                contactInfoDto.getTelephone(),
-                ""
-        ));
     }
 }

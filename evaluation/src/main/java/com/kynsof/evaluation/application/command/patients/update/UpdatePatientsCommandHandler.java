@@ -1,9 +1,9 @@
 package com.kynsof.evaluation.application.command.patients.update;
 
-import com.kynsof.share.core.domain.bus.command.ICommandHandler;
 import com.kynsof.evaluation.domain.dto.PatientDto;
 import com.kynsof.evaluation.domain.dto.enumDto.Status;
 import com.kynsof.evaluation.domain.service.IPatientsService;
+import com.kynsof.share.core.domain.bus.command.ICommandHandler;
 import org.springframework.stereotype.Component;
 
 @Component

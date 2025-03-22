@@ -1,7 +1,6 @@
 package com.kynsof.evaluation.infrastructure.repositories.query;
 
 import com.kynsof.evaluation.domain.dto.enumDto.EvaluationExamenType;
-import com.kynsof.evaluation.infrastructure.entity.Evaluation;
 import com.kynsof.evaluation.infrastructure.entity.EvaluationPatientExam;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

@@ -4,10 +4,10 @@ metadata:
   name: registry-service
   namespace: medinec-dev
 spec:
-  selector:
-    app: registry
   ports:
     - protocol: TCP
-      port: 8671
-      targetPort: 8671
+      port: 8761
+      targetPort: 8761
+  selector:
+    app: medinec-registry  # 👈 CORREGIDO PARA COINCIDIR CON EL DEPLOYMENT
   type: ClusterIP

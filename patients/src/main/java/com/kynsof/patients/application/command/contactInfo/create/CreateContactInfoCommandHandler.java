@@ -7,7 +7,6 @@ import com.kynsof.patients.domain.dto.enumTye.Status;
 import com.kynsof.patients.domain.service.IContactInfoService;
 import com.kynsof.patients.domain.service.IGeographicLocationService;
 import com.kynsof.patients.domain.service.IPatientsService;
-import com.kynsof.patients.infrastructure.services.kafka.producer.ProducerCreateContactEventService;
 import com.kynsof.share.core.domain.bus.command.ICommandHandler;
 import org.springframework.stereotype.Component;
 
@@ -19,14 +18,12 @@ public class CreateContactInfoCommandHandler implements ICommandHandler<CreateCo
     private final IContactInfoService contactInfoService;
     private final IPatientsService patientsService;
     private final IGeographicLocationService geographicLocationService;
-    private final ProducerCreateContactEventService producerCreateContactEventService;
 
     public CreateContactInfoCommandHandler(IContactInfoService serviceImpl, IPatientsService patientsService,
-            IGeographicLocationService geographicLocationService, ProducerCreateContactEventService producerCreateContactEventService) {
+            IGeographicLocationService geographicLocationService) {
         this.contactInfoService = serviceImpl;
         this.patientsService = patientsService;
         this.geographicLocationService = geographicLocationService;
-        this.producerCreateContactEventService = producerCreateContactEventService;
     }
 
     @Override
@@ -51,7 +48,6 @@ public class CreateContactInfoCommandHandler implements ICommandHandler<CreateCo
             );
             UUID id = contactInfoService.create(create);
             command.setId(id);
-            this.producerCreateContactEventService.create(create);
         } else {
             contactInfoDto.setPatient(patientDto);
             contactInfoDto.setAddress(command.getAddress());
@@ -61,7 +57,6 @@ public class CreateContactInfoCommandHandler implements ICommandHandler<CreateCo
             contactInfoDto.setParroquia(parroquia);
             contactInfoService.update(contactInfoDto);
             command.setId(contactInfoDto.getId());
-            this.producerCreateContactEventService.create(contactInfoDto);
         }
         //TODO yannier Evento de confirmación de creacion de usuario y datos de como debe acceder, se envia un correo
     }

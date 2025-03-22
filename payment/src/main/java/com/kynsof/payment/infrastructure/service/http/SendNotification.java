@@ -42,7 +42,7 @@ public class SendNotification {
                              String templateId) {
         try {
             String emailServiceUrl = emailServiceBaseUrl + "/api/mail/send/email";
-
+            System.out.println("✅ URL: " + emailServiceUrl);
             String requestBodyJson = objectMapper.writeValueAsString(Map.of(
                     "recipientEmail", recipientEmail,
                     "mailJetVars", mailJetVars,
@@ -50,7 +50,8 @@ public class SendNotification {
                     "subject", subject,
                     "templateId", templateId
             ));
-
+            System.out.println("✅ URL: " + emailServiceUrl);
+            System.out.println("✅ RequestBodyJson: " + requestBodyJson);
             HttpRequest request = HttpRequest.newBuilder()
                     .uri(URI.create(emailServiceUrl))
                     .header("Content-Type", "application/json")

@@ -7,7 +7,7 @@ spec:
   replicas: 1
   selector:
     matchLabels:
-      workload.user.cattle.io/workloadselector: apps.deployment-medinec-cloudbridges
+      app: cloudbridges
   strategy:
     rollingUpdate:
       maxSurge: 25%
@@ -16,7 +16,6 @@ spec:
     metadata:
       labels:
         app: cloudbridges
-        workload.user.cattle.io/workloadselector: apps.deployment-medinec-cloudbridges
     spec:
       containers:
         - name: cloudbridges
@@ -26,5 +25,26 @@ spec:
             - secretRef:
                 name: cloudbridges-secret
       imagePullSecrets:
-        - name: dokcer-hub
+        - name: docker-hub  # Corrección de nombre (antes tenía un error tipográfico)
       restartPolicy: Always
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: cloudbridges-service-dev
+  namespace: medinec-dev
+spec:
+  ports:
+    - protocol: TCP
+      port: 9909
+      targetPort: 9909
+  selector:
+    app: cloudbridges
+  type: ClusterIP
+  sessionAffinity: None
+  ipFamilies:
+    - IPv4
+  ipFamilyPolicy: SingleStack
+  internalTrafficPolicy: Cluster

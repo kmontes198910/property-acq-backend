@@ -6,7 +6,6 @@ import com.kynsof.treatments.domain.dto.enumDto.GroupPaymentStatus;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.List;
 import java.util.UUID;
 
 @Getter
