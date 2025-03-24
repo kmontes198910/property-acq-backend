@@ -22,9 +22,6 @@ import com.kynsof.identity.application.command.user.deleteAll.DeleteAllUserSyste
 import com.kynsof.identity.application.command.user.update.UpdateUserSystemCommand;
 import com.kynsof.identity.application.command.user.update.UpdateUserSystemMessage;
 import com.kynsof.identity.application.command.user.update.UpdateUserSystemRequest;
-import com.kynsof.identity.application.command.user.update.steptwo.UpdateUserSystemStepTwoCommand;
-import com.kynsof.identity.application.command.user.update.steptwo.UpdateUserSystemStepTwoMessage;
-import com.kynsof.identity.application.command.user.update.steptwo.UpdateUserSystemStepTwoRequest;
 import com.kynsof.identity.application.query.users.getById.FindByIdUserSystemsQuery;
 import com.kynsof.identity.application.query.users.getById.UserSystemsByIdResponse;
 import com.kynsof.identity.application.query.users.getSearch.GetSearchUserSystemsQuery;
@@ -81,13 +78,13 @@ public class UserSystemController {
         return ResponseEntity.ok(response);
     }
 
-    @PutMapping(path = "/update/step/two")
-    public ResponseEntity<?> updateStepTwo(@RequestBody UpdateUserSystemStepTwoRequest request) {
-
-        UpdateUserSystemStepTwoCommand command = UpdateUserSystemStepTwoCommand.fromRequest(request);
-        UpdateUserSystemStepTwoMessage response = mediator.send(command);
-        return ResponseEntity.ok(response);
-    }
+//    @PutMapping(path = "/update/step/two")
+//    public ResponseEntity<?> updateStepTwo(@RequestBody UpdateUserSystemStepTwoRequest request) {
+//
+//        UpdateUserSystemStepTwoCommand command = UpdateUserSystemStepTwoCommand.fromRequest(request);
+//        UpdateUserSystemStepTwoMessage response = mediator.send(command);
+//        return ResponseEntity.ok(response);
+//    }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteServices(@PathVariable("id") UUID id) {

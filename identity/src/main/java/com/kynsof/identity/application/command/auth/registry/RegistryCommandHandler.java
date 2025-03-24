@@ -6,13 +6,12 @@ import com.kynsof.identity.domain.dto.UserStatus;
 import com.kynsof.identity.domain.dto.UserSystemDto;
 import com.kynsof.identity.domain.interfaces.service.IAuthService;
 import com.kynsof.identity.domain.interfaces.service.IUserSystemService;
+import com.kynsof.identity.infrastructure.services.rabbitMq.welcome.WelcomeMessageProducer;
 import com.kynsof.share.core.domain.EUserType;
 import com.kynsof.share.core.domain.bus.command.ICommandHandler;
 import com.kynsof.share.core.domain.exception.UserEmailDifferentException;
-import com.kynsof.share.core.domain.kafka.entity.UserKafka;
 import com.kynsof.share.core.domain.response.ErrorField;
 import org.springframework.stereotype.Component;
-import org.springframework.web.reactive.function.client.WebClient;
 
 import java.io.IOException;
 import java.net.URI;
@@ -28,9 +27,12 @@ public class RegistryCommandHandler implements ICommandHandler<RegistryCommand> 
     private final IUserSystemService userSystemService;
     private final HttpClient httpClient;
     private final ObjectMapper objectMapper;
-    public RegistryCommandHandler(IAuthService authService,  IUserSystemService userSystemService, WebClient.Builder webClientBuilder, HttpClient httpClient, ObjectMapper objectMapper) {
+    private final WelcomeMessageProducer welcomeMessageProducer;
+    public RegistryCommandHandler(IAuthService authService, IUserSystemService userSystemService,
+                                  WelcomeMessageProducer welcomeMessageProducer) {
         this.authService = authService;
         this.userSystemService = userSystemService;
+        this.welcomeMessageProducer = welcomeMessageProducer;
         this.httpClient = HttpClient.newHttpClient();
         this.objectMapper = new ObjectMapper();
     }
@@ -71,7 +73,7 @@ public class RegistryCommandHandler implements ICommandHandler<RegistryCommand> 
                     userDto.setUserType(EUserType.PATIENTS);
 
                     UUID id = userSystemService.create(userDto);
-                    extracted(userResponse.getId(), registerUser);
+                    changeKeycloackId(userResponse.getId(), registerUser);
 
                     command.setResul(id.toString());
                     return;
@@ -89,15 +91,6 @@ public class RegistryCommandHandler implements ICommandHandler<RegistryCommand> 
         ), false);
         command.setResul(registerUser);
 
-        UserKafka userKafka = new UserKafka();
-        userKafka.setId(String.valueOf(UUID.fromString(registerUser)));
-        userKafka.setUsername(command.getUsername());
-        userKafka.setEmail(command.getEmail());
-        userKafka.setFirstname(command.getFirstname());
-        userKafka.setLastname(command.getLastname());
-        userKafka.setIdentification(command.getUsername());
-
-
         UserSystemDto userDto = new UserSystemDto(
                 UUID.fromString(registerUser),
                 command.getUsername(),
@@ -111,15 +104,14 @@ public class RegistryCommandHandler implements ICommandHandler<RegistryCommand> 
         userDto.setUserType(EUserType.PATIENTS);
 
         UUID id = userSystemService.create(userDto);
-//        this.producerUserWelcomEventService.create(new UserWelcomKafka(command.getEmail(),
-//                command.getPassword(),
-//                command.getEmail(),
-//                command.getFirstname() + " " + command.getLastname()
-//        ));
 
+
+        welcomeMessageProducer.sendWelcomeMessage(command.getEmail(),
+                command.getFirstname(), command.getLastname(),
+                command.getPassword());
     }
 
-    private void extracted(UUID userResponseId, String registerUser) throws IOException, InterruptedException {
+    private void changeKeycloackId(UUID userResponseId, String registerUser) throws IOException, InterruptedException {
         String url = String.format("http://patients-service:80/api/patients/setKeycloak/%s/%s", userResponseId, registerUser);
         HttpRequest requestUpdateKeyCloak = HttpRequest.newBuilder()
                 .uri(URI.create(url))

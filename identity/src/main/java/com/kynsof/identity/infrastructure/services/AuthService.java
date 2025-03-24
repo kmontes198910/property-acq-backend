@@ -7,6 +7,7 @@ import com.kynsof.identity.application.command.auth.registry.UserRequest;
 import com.kynsof.identity.application.command.auth.registrySystemUser.UserSystemKycloackRequest;
 import com.kynsof.identity.domain.interfaces.service.IAuthService;
 import com.kynsof.identity.domain.interfaces.service.IRedisService;
+import com.kynsof.identity.infrastructure.services.rabbitMq.otp.OtpMessageProducer;
 import com.kynsof.share.core.domain.EUserType;
 import com.kynsof.share.core.domain.exception.*;
 import com.kynsof.share.core.domain.response.ErrorField;
@@ -34,13 +35,15 @@ public class AuthService implements IAuthService {
     private final KeycloakProvider keycloakProvider;
     private final RestTemplate restTemplate;
     private final IRedisService otpService;
+    private final OtpMessageProducer otpMessageProducer;
 
     @Autowired
     public AuthService(KeycloakProvider keycloakProvider, RestTemplate restTemplate,
-                       IRedisService otpService) {
+                       IRedisService otpService, OtpMessageProducer otpMessageProducer) {
         this.keycloakProvider = keycloakProvider;
         this.restTemplate = restTemplate;
         this.otpService = otpService;
+        this.otpMessageProducer = otpMessageProducer;
     }
 
     @Override
@@ -105,7 +108,7 @@ public class AuthService implements IAuthService {
             UserRepresentation user = users.get(0);
             String otpCode = otpService.generateOtpCode();
             otpService.saveOtpCode(email, otpCode);
-         //  producerOtp.create(new UserOtpKafka(email, otpCode, user.getFirstName()));
+            //  producerOtp.create(new UserOtpKafka(email, otpCode, user.getFirstName()));
             return true;
         }
         throw new UserNotFoundException("User not found", new ErrorField("email", "Email not found"));
@@ -164,7 +167,7 @@ public class AuthService implements IAuthService {
             if (e.getStatusCode() == HttpStatus.BAD_REQUEST) {
                 String errorResponse = e.getResponseBodyAsString();
                 if (errorResponse.contains("invalid_grant")) {
-                    changePassword(userId, newPassword,false);
+                    changePassword(userId, newPassword, false);
                     return true;
                 }
             }
@@ -200,15 +203,15 @@ public class AuthService implements IAuthService {
             if (userRequest.getName() != null && !userRequest.getName().equals(user.getFirstName())) {
                 user.setFirstName(userRequest.getName());
             }
-            if (userRequest.getLastName() != null && !userRequest.getLastName().equals(user.getLastName())){
+            if (userRequest.getLastName() != null && !userRequest.getLastName().equals(user.getLastName())) {
                 user.setLastName(userRequest.getLastName());
             }
             if (userRequest.getEmail() != null && !userRequest.getEmail().equals(user.getEmail())) {
                 user.setEmail(userRequest.getEmail());
-         //       user.setEmailVerified(true);
+                //       user.setEmailVerified(true);
             }
 
-       //     user.setEnabled(true);
+            //     user.setEnabled(true);
             userResource.update(user);
         } catch (Exception e) {
             throw new RuntimeException("Failed to update user.", e);
@@ -247,7 +250,7 @@ public class AuthService implements IAuthService {
             if (errorResponse.contains("invalid_grant")) {
                 String otpCode = otpService.generateOtpCode();
                 otpService.saveOtpCode(email, otpCode);
-               // producerOtp.create(new UserOtpKafka(email, otpCode, name));
+                otpMessageProducer.sendOtpMessage(email, otpCode, name);
 
                 throw new UserChangePasswordException("You must change your password before continuing.",
                         new ErrorField("password", "You must change your password before continuing."));
