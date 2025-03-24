@@ -30,4 +30,17 @@ public interface UserSystemReadDataJPARepository extends JpaRepository<UserSyste
 
     @Query("SELECT CASE WHEN COUNT(u) > 0 THEN TRUE ELSE FALSE END FROM UserSystem u WHERE LOWER(u.email) = LOWER(:email) AND u.status = :status")
     boolean existsByEmailAndStatus(@Param("email") String email, @Param("status") UserStatus status);
+
+    @Query("SELECT DISTINCT u FROM UserSystem u " +
+            "JOIN u.userPermissionBusinesses upb " +
+            "WHERE upb.business.id = :businessId " +
+            "AND (:email IS NULL OR :email = '' OR LOWER(u.email) LIKE LOWER(CONCAT('%', :email, '%'))) " +
+            "AND (:name IS NULL OR :name = '' OR LOWER(u.name) LIKE LOWER(CONCAT('%', :name, '%'))) " +
+            "AND (:lastName IS NULL OR :lastName = '' OR LOWER(u.lastName) LIKE LOWER(CONCAT('%', :lastName, '%')))")
+    Page<UserSystem> findUsersByBusinessAndFilters(
+            @Param("businessId") UUID businessId,
+            @Param("email") String email,
+            @Param("name") String name,
+            @Param("lastName") String lastName,
+            Pageable pageable);
 }

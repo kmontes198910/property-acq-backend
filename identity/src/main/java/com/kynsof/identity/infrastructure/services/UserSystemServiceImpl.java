@@ -25,6 +25,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 public class UserSystemServiceImpl implements IUserSystemService {
@@ -143,5 +144,42 @@ public class UserSystemServiceImpl implements IUserSystemService {
     @Cacheable(value = "userExistsCache", key = "#email")
     public boolean existsByEmailAndStatus(String email) {
         return this.repositoryQuery.existsByEmailAndStatus(email, UserStatus.ACTIVE);
+    }
+
+    @Override
+    public PaginatedResponse getUsersByBusiness(UUID businessId, String email, String name, String lastName, Pageable pageable) {
+        // Validación del businessId para evitar consultas innecesarias
+        if (businessId == null) {
+            throw new IllegalArgumentException("El businessId no puede ser nulo.");
+        }
+
+        // Normalización de los filtros para evitar búsquedas incorrectas
+        String filteredEmail = (email != null && !email.trim().isEmpty()) ? email.trim() : null;
+        String filteredName = (name != null && !name.trim().isEmpty()) ? name.trim() : null;
+        String filteredLastName = (lastName != null && !lastName.trim().isEmpty()) ? lastName.trim() : null;
+
+        // Ejecutar la consulta con los filtros opcionales
+        Page<UserSystem> usersPage = this.repositoryQuery.findUsersByBusinessAndFilters(
+                businessId,
+                filteredEmail,
+                filteredName,
+                filteredLastName,
+                pageable
+        );
+
+        // Convertir a DTOs
+        List<UserSystemDto> usersDtoList = usersPage.getContent().stream()
+                .map(UserSystem::toAggregate)
+                .collect(Collectors.toList());
+
+        // Construir y devolver la respuesta paginada
+        return new PaginatedResponse(
+                usersDtoList,
+                usersPage.getTotalPages(),
+                usersPage.getNumberOfElements(),
+                usersPage.getTotalElements(),
+                usersPage.getSize(),
+                usersPage.getNumber()
+        );
     }
 }

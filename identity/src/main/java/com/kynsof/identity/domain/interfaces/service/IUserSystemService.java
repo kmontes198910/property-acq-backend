@@ -28,4 +28,6 @@ public interface IUserSystemService {
     UserSystemDto findByEmail(String email);
 
     boolean existsByEmailAndStatus(String email);
+
+    PaginatedResponse getUsersByBusiness(UUID businessId, String email, String name, String lastName, Pageable pageable);
 }
