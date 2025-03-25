@@ -28,11 +28,14 @@ import java.util.UUID;
 @Service
 public class MedicinesServiceImpl implements IMedicinesService {
 
-    @Autowired
-    private MedicinesReadDataJPARepository repositoryQuery;
+    private final MedicinesReadDataJPARepository repositoryQuery;
 
-    @Autowired
-    private MedicinesWriteDataJPARepository repositoryCommand;
+    private final MedicinesWriteDataJPARepository repositoryCommand;
+
+    public MedicinesServiceImpl(MedicinesReadDataJPARepository repositoryQuery, MedicinesWriteDataJPARepository repositoryCommand) {
+        this.repositoryQuery = repositoryQuery;
+        this.repositoryCommand = repositoryCommand;
+    }
 
     @Override
     public void create(MedicinesDto medicines) {
