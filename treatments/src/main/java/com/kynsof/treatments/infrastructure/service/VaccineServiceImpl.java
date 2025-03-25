@@ -7,12 +7,14 @@ import com.kynsof.share.core.domain.request.FilterCriteria;
 import com.kynsof.share.core.domain.response.ErrorField;
 import com.kynsof.share.core.domain.response.PaginatedResponse;
 import com.kynsof.share.core.infrastructure.specifications.GenericSpecificationsBuilder;
+import com.kynsof.share.core.infrastructure.specifications.LogicalOperation;
+import com.kynsof.share.core.infrastructure.specifications.SearchOperation;
 import com.kynsof.treatments.application.query.vaccine.getall.VaccineResponse;
 import com.kynsof.treatments.domain.dto.VaccineDto;
 import com.kynsof.treatments.domain.dto.enumDto.VaccinationStatus;
 import com.kynsof.treatments.domain.service.IVaccineService;
+import com.kynsof.treatments.infrastructure.entity.Cie10;
 import com.kynsof.treatments.infrastructure.entity.Vaccine;
-import com.kynsof.treatments.infrastructure.entity.specifications.Cie10Specifications;
 import com.kynsof.treatments.infrastructure.repositories.command.VaccineWriteDataJPARepository;
 import com.kynsof.treatments.infrastructure.repositories.query.PatientVaccineReadDataJPARepository;
 import com.kynsof.treatments.infrastructure.repositories.query.VaccineReadDataJPARepository;
@@ -23,6 +25,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
@@ -98,12 +101,15 @@ public class VaccineServiceImpl implements IVaccineService {
         this.repositoryCommand.save(update);
     }
 
-    @Override
-    public PaginatedResponse findAll(Pageable pageable, String name, String description) {
-        Cie10Specifications specifications = new Cie10Specifications(name, description);
-        Page<Vaccine> data = this.repositoryQuery.findAll(specifications, pageable);
-        return createPaginatedResponse(data);
-    }
+//    @Override
+//    public PaginatedResponse findAll(Pageable pageable, String name, String description) {
+//        List<FilterCriteria> filterCriteria = new ArrayList<>();
+//        filterCriteria.add(new FilterCriteria("description", SearchOperation.LIKE,description, LogicalOperation.OR));
+//        filterCriteria.add(new FilterCriteria("name", SearchOperation.LIKE,name, LogicalOperation.OR));
+//        var specifications = new GenericSpecificationsBuilder<Vaccine>(filterCriteria);
+//        Page<Vaccine> data = this.repositoryQuery.findAll(specifications, pageable);
+//        return createPaginatedResponse(data);
+//    }
 
     @Override
     public PaginatedResponse search(Pageable pageable, List<FilterCriteria> filterCriteria) {

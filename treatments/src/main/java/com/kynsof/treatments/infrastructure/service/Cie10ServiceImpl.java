@@ -8,17 +8,19 @@ import com.kynsof.share.core.domain.response.ErrorField;
 import com.kynsof.share.core.domain.response.PaginatedResponse;
 import com.kynsof.share.core.infrastructure.redis.CacheConfig;
 import com.kynsof.share.core.infrastructure.specifications.GenericSpecificationsBuilder;
+import com.kynsof.share.core.infrastructure.specifications.LogicalOperation;
+import com.kynsof.share.core.infrastructure.specifications.SearchOperation;
 import com.kynsof.treatments.application.query.cie10.getAll.Cie10Response;
 import com.kynsof.treatments.domain.dto.Cie10Dto;
 import com.kynsof.treatments.domain.service.ICie10Service;
 import com.kynsof.treatments.infrastructure.entity.Cie10;
-import com.kynsof.treatments.infrastructure.entity.specifications.Cie10Specifications;
 import com.kynsof.treatments.infrastructure.repositories.query.Cie10ReadDataJPARepository;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -44,7 +46,10 @@ public class Cie10ServiceImpl implements ICie10Service {
     @Override
     @Cacheable(cacheNames = CacheConfig.CIE10, unless = "#result == null")
     public PaginatedResponse findAll(Pageable pageable, String name, String code) {
-        var specifications = new Cie10Specifications(name, code);
+        List<FilterCriteria> filterCriteria = new ArrayList<>();
+        filterCriteria.add(new FilterCriteria("code", SearchOperation.LIKE,code, LogicalOperation.OR));
+        filterCriteria.add(new FilterCriteria("name", SearchOperation.LIKE,name, LogicalOperation.OR));
+        var specifications = new GenericSpecificationsBuilder<Cie10>(filterCriteria);
         var data = repositoryQuery.findAll(specifications, pageable);
         return createPaginatedResponse(data);
     }

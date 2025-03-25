@@ -22,7 +22,7 @@ public interface IExternalConsultationService {
 
     ExternalConsultationDto findById(UUID id);
 
-    PaginatedResponse findAll(Pageable pageable, UUID doctorId, UUID patientId);
+   // PaginatedResponse findAll(Pageable pageable, UUID doctorId, UUID patientId);
 
     PaginatedResponse search(Pageable pageable, List<FilterCriteria> filter);
 

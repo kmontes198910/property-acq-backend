@@ -12,7 +12,7 @@ import java.util.UUID;
 public interface IVaccineService {
 
     VaccineDto findById(UUID id);
-    PaginatedResponse findAll(Pageable pageable, String name, String description);
+   //  PaginatedResponse findAll(Pageable pageable, String name, String description);
     PaginatedResponse getApplicableVaccines(LocalDate birthDate, UUID patientId, Pageable pageable);
     UUID create(VaccineDto vaccineDto);
     void update(VaccineDto vaccineDto);

@@ -13,7 +13,6 @@ import com.kynsof.treatments.application.command.externalConsultation.update.Upd
 import com.kynsof.treatments.application.command.externalConsultation.update.UpdateExternalConsultationAllRequest;
 import com.kynsof.treatments.application.query.externalConsultation.getById.FindByIdExternalConsultationQuery;
 import com.kynsof.treatments.application.query.externalConsultation.getall.ExternalConsultationResponse;
-import com.kynsof.treatments.application.query.externalConsultation.getall.GetAllExternalConsultationQuery;
 import com.kynsof.treatments.application.query.externalConsultation.search.GetSearchExternalConsultationQuery;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -53,17 +52,17 @@ public class ExternalConsultationController {
         return ResponseEntity.ok(data);
     }
 
-    @GetMapping("/all")
-    public ResponseEntity<PaginatedResponse> getAll(@RequestParam(defaultValue = "20") Integer pageSize,
-            @RequestParam(defaultValue = "0") Integer page,
-            @RequestParam(defaultValue = "") UUID patientId,
-            @RequestParam(defaultValue = "") UUID doctorId) {
-        Pageable pageable = PageRequest.of(page, pageSize);
-        GetAllExternalConsultationQuery query = new GetAllExternalConsultationQuery(pageable, doctorId, patientId);
-        PaginatedResponse response = mediator.send(query);
-
-        return ResponseEntity.ok(response);
-    }
+//    @GetMapping("/all")
+//    public ResponseEntity<PaginatedResponse> getAll(@RequestParam(defaultValue = "20") Integer pageSize,
+//            @RequestParam(defaultValue = "0") Integer page,
+//            @RequestParam(defaultValue = "") UUID patientId,
+//            @RequestParam(defaultValue = "") UUID doctorId) {
+//        Pageable pageable = PageRequest.of(page, pageSize);
+//        GetAllExternalConsultationQuery query = new GetAllExternalConsultationQuery(pageable, doctorId, patientId);
+//        PaginatedResponse response = mediator.send(query);
+//
+//        return ResponseEntity.ok(response);
+//    }
 
     @GetMapping(path = "/{id}")
     public ResponseEntity<ExternalConsultationResponse> getById(@PathVariable UUID id) {

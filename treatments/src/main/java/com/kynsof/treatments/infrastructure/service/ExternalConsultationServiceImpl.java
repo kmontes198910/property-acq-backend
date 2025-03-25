@@ -14,7 +14,6 @@ import com.kynsof.treatments.domain.dto.OptometryExamDto;
 import com.kynsof.treatments.domain.service.IExternalConsultationService;
 import com.kynsof.treatments.infrastructure.entity.ExternalConsultation;
 import com.kynsof.treatments.infrastructure.entity.OptometryExam;
-import com.kynsof.treatments.infrastructure.entity.specifications.ExternalConsultationSpecifications;
 import com.kynsof.treatments.infrastructure.repositories.command.ExternalConsultationWriteDataJPARepository;
 import com.kynsof.treatments.infrastructure.repositories.command.OptometryExamenWriteDataJPARepository;
 import com.kynsof.treatments.infrastructure.repositories.query.ExternalConsultationReadDataJPARepository;
@@ -115,12 +114,12 @@ public class ExternalConsultationServiceImpl implements IExternalConsultationSer
                                 new ErrorField("id", "External Consultation not found."))));
     }
 
-    @Override
-    public PaginatedResponse findAll(Pageable pageable, UUID doctorId, UUID patientId) {
-        ExternalConsultationSpecifications specifications = new ExternalConsultationSpecifications(doctorId, patientId);
-        Page<ExternalConsultation> data = this.repositoryQuery.findAll(specifications, pageable);
-        return createPaginatedResponse(data);
-    }
+//    @Override
+//    public PaginatedResponse findAll(Pageable pageable, UUID doctorId, UUID patientId) {
+//        ExternalConsultationSpecifications specifications = new ExternalConsultationSpecifications(doctorId, patientId);
+//        Page<ExternalConsultation> data = this.repositoryQuery.findAll(specifications, pageable);
+//        return createPaginatedResponse(data);
+//    }
 
     @Override
     public PaginatedResponse search(Pageable pageable, List<FilterCriteria> filter) {
