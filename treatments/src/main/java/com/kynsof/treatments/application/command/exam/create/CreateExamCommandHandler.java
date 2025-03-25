@@ -4,7 +4,6 @@ import com.kynsof.share.core.domain.RulesChecker;
 import com.kynsof.share.core.domain.bus.command.ICommandHandler;
 import com.kynsof.treatments.domain.dto.ExamDto;
 import com.kynsof.treatments.domain.dto.ExternalConsultationDto;
-import com.kynsof.treatments.domain.evnts.CreateBillingEvent;
 import com.kynsof.treatments.domain.rules.externalconsultation.ExternalConsultationCreateAtNotEqualsRule;
 import com.kynsof.treatments.domain.service.IExamService;
 import com.kynsof.treatments.domain.service.IExternalConsultationService;
@@ -45,12 +44,6 @@ public class CreateExamCommandHandler implements ICommandHandler<CreateExamComma
         command.setId(id);
         List<String> codes = new ArrayList<>();
         codes.add(command.getCode());
-        CreateBillingEvent createBillingEvent = new CreateBillingEvent(
-                externalConsultationDto.getPatient().getId(),
-                externalConsultationDto.getBusiness().getId(),
-                codes
-        );
 
-        applicationEventPublisher.publishEvent(createBillingEvent);
     }
 }
