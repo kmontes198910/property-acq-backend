@@ -20,7 +20,7 @@ public interface IProcedureService {
 
     ProcedureDto findByCode(String code);
 
-    PaginatedResponse findAll(Pageable pageable, String name, String code, String type);
+   // PaginatedResponse findAll(Pageable pageable, String name, String code, String type);
     
     PaginatedResponse search(Pageable pageable, List<FilterCriteria> filterCriteria);
 

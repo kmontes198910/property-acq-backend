@@ -12,7 +12,6 @@ import com.kynsof.treatments.domain.dto.ProcedureDto;
 import com.kynsof.treatments.domain.dto.enumDto.MedicalExamCategory;
 import com.kynsof.treatments.domain.service.IProcedureService;
 import com.kynsof.treatments.infrastructure.entity.Procedure;
-import com.kynsof.treatments.infrastructure.entity.specifications.ProcedureSpecifications;
 import com.kynsof.treatments.infrastructure.repositories.command.ProcedureWriteDataJPARepository;
 import com.kynsof.treatments.infrastructure.repositories.query.ProcedureReadDataJPARepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -105,18 +104,18 @@ public class ProcedureServiceImpl implements IProcedureService {
         throw new BusinessNotFoundException(new GlobalBusinessException(DomainErrorMessage.PROCEDURE_NOT_FOUND, new ErrorField("id", "Procedure not found.")));
     }
 
-    @Override
-    public PaginatedResponse findAll(Pageable pageable, String name, String code, String type) {
-        ProcedureSpecifications specifications = new ProcedureSpecifications(code, name, type);
-        Page<Procedure> data = this.repositoryQuery.findAll(specifications, pageable);
-
-        List<ProcedureResponse> procedureResponses = new ArrayList<>();
-        for (Procedure p : data.getContent()) {
-            procedureResponses.add(new ProcedureResponse(p.toAggregate()));
-        }
-        return new PaginatedResponse(procedureResponses, data.getTotalPages(), data.getNumberOfElements(),
-                data.getTotalElements(), data.getSize(), data.getNumber());
-    }
+//    @Override
+//    public PaginatedResponse findAll(Pageable pageable, String name, String code, String type) {
+//        ProcedureSpecifications specifications = new ProcedureSpecifications(code, name, type);
+//        Page<Procedure> data = this.repositoryQuery.findAll(specifications, pageable);
+//
+//        List<ProcedureResponse> procedureResponses = new ArrayList<>();
+//        for (Procedure p : data.getContent()) {
+//            procedureResponses.add(new ProcedureResponse(p.toAggregate()));
+//        }
+//        return new PaginatedResponse(procedureResponses, data.getTotalPages(), data.getNumberOfElements(),
+//                data.getTotalElements(), data.getSize(), data.getNumber());
+//    }
 
     @Override
     public Long countByCodeAndNotId(String code, UUID id) {

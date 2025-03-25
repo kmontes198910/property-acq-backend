@@ -19,6 +19,6 @@ public interface IPatientVaccineService {
 
     PatientVaccineDto findById(UUID id);
 
-    PaginatedResponse findAll(Pageable pageable, UUID patientId);
+ //   PaginatedResponse findAll(Pageable pageable, UUID patientId);
     PaginatedResponse search(Pageable pageable, List<FilterCriteria> filterCriteria);
 }

@@ -12,7 +12,6 @@ import com.kynsof.treatments.application.command.procedure.delete.ProcedureDelet
 import com.kynsof.treatments.application.command.procedure.update.UpdateProcedureCommand;
 import com.kynsof.treatments.application.command.procedure.update.UpdateProcedureMessage;
 import com.kynsof.treatments.application.command.procedure.update.UpdateProcedureRequest;
-import com.kynsof.treatments.application.query.procedure.getAll.GetAllProcedureQuery;
 import com.kynsof.treatments.application.query.procedure.getAll.ProcedureResponse;
 import com.kynsof.treatments.application.query.procedure.getByCode.FindByCodeProcedureQuery;
 import com.kynsof.treatments.application.query.procedure.getbyid.FindByIdProcedureQuery;
@@ -51,18 +50,18 @@ public class ProcedureController {
         return ResponseEntity.ok(response);
     }
 
-    @GetMapping("/all")
-    public ResponseEntity<PaginatedResponse> getAll(@RequestParam(defaultValue = "20") Integer pageSize,
-            @RequestParam(defaultValue = "0") Integer page,
-            @RequestParam(defaultValue = "") String name,
-            @RequestParam(defaultValue = "") String code,
-            @RequestParam(defaultValue = "") String type) {
-        Pageable pageable = PageRequest.of(page, pageSize);
-        GetAllProcedureQuery query = new GetAllProcedureQuery(pageable, name, code, type);
-        PaginatedResponse response = mediator.send(query);
-
-        return ResponseEntity.ok(response);
-    }
+//    @GetMapping("/all")
+//    public ResponseEntity<PaginatedResponse> getAll(@RequestParam(defaultValue = "20") Integer pageSize,
+//            @RequestParam(defaultValue = "0") Integer page,
+//            @RequestParam(defaultValue = "") String name,
+//            @RequestParam(defaultValue = "") String code,
+//            @RequestParam(defaultValue = "") String type) {
+//        Pageable pageable = PageRequest.of(page, pageSize);
+//        GetAllProcedureQuery query = new GetAllProcedureQuery(pageable, name, code, type);
+//        PaginatedResponse response = mediator.send(query);
+//
+//        return ResponseEntity.ok(response);
+//    }
 
     @GetMapping(path = "/by-code/{code}")
     public ResponseEntity<ProcedureResponse> getById(@PathVariable String code) {

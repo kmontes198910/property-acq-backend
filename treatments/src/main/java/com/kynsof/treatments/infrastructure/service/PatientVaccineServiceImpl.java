@@ -12,7 +12,6 @@ import com.kynsof.treatments.domain.dto.PatientVaccineDto;
 import com.kynsof.treatments.domain.dto.enumDto.VaccinationStatus;
 import com.kynsof.treatments.domain.service.IPatientVaccineService;
 import com.kynsof.treatments.infrastructure.entity.PatientVaccine;
-import com.kynsof.treatments.infrastructure.entity.specifications.PatientVaccineSpecifications;
 import com.kynsof.treatments.infrastructure.repositories.command.PatientVaccineWriteDataJPARepository;
 import com.kynsof.treatments.infrastructure.repositories.query.PatientVaccineReadDataJPARepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -60,13 +59,13 @@ public class PatientVaccineServiceImpl implements IPatientVaccineService {
         throw new BusinessNotFoundException(new GlobalBusinessException(DomainErrorMessage.PATIENT_VACCINE_NOT_FOUND, new ErrorField("id", "Relationship not found.")));
     }
 
-    @Override
-    public PaginatedResponse findAll(Pageable pageable, UUID patientId) {
-        PatientVaccineSpecifications specifications = new PatientVaccineSpecifications(patientId);
-        Page<PatientVaccine> data = this.repositoryQuery.findAll(specifications, pageable);
-
-        return getPaginatedResponse(data);
-    }
+//    @Override
+//    public PaginatedResponse findAll(Pageable pageable, UUID patientId) {
+//        PatientVaccineSpecifications specifications = new PatientVaccineSpecifications(patientId);
+//        Page<PatientVaccine> data = this.repositoryQuery.findAll(specifications, pageable);
+//
+//        return getPaginatedResponse(data);
+//    }
 
     @Override
     public PaginatedResponse search(Pageable pageable, List<FilterCriteria> filterCriteria) {

@@ -11,7 +11,6 @@ import com.kynsof.treatments.application.command.patientVaccine.update.UpdatePat
 import com.kynsof.treatments.application.command.patientVaccine.update.UpdatePatientVaccineMessage;
 import com.kynsof.treatments.application.command.patientVaccine.update.UpdatePatientVaccineRequest;
 import com.kynsof.treatments.application.query.patientVaccine.getById.FindByIdPatientVaccineQuery;
-import com.kynsof.treatments.application.query.patientVaccine.getall.GetAllPatientVaccineQuery;
 import com.kynsof.treatments.application.query.patientVaccine.getall.PatientVaccineResponse;
 import com.kynsof.treatments.application.query.patientVaccine.search.GetSearchPatientsVaccineQuery;
 import org.springframework.data.domain.PageRequest;
@@ -41,16 +40,16 @@ public class PatientVaccineController {
     }
 
 
-    @GetMapping("/all")
-    public ResponseEntity<PaginatedResponse> getAll(@RequestParam(defaultValue = "20") Integer pageSize,
-                                                    @RequestParam(defaultValue = "0") Integer page,
-                                                    @RequestParam(defaultValue = "") UUID patientId)
-    {
-        Pageable pageable = PageRequest.of(page, pageSize);
-        GetAllPatientVaccineQuery query = new GetAllPatientVaccineQuery(pageable,patientId);
-        PaginatedResponse response = mediator.send(query);
-        return ResponseEntity.ok(response);
-    }
+//    @GetMapping("/all")
+//    public ResponseEntity<PaginatedResponse> getAll(@RequestParam(defaultValue = "20") Integer pageSize,
+//                                                    @RequestParam(defaultValue = "0") Integer page,
+//                                                    @RequestParam(defaultValue = "") UUID patientId)
+//    {
+//        Pageable pageable = PageRequest.of(page, pageSize);
+//        GetAllPatientVaccineQuery query = new GetAllPatientVaccineQuery(pageable,patientId);
+//        PaginatedResponse response = mediator.send(query);
+//        return ResponseEntity.ok(response);
+//    }
 
     @PostMapping("/search")
     public ResponseEntity<PaginatedResponse> search(@RequestBody SearchRequest request)
