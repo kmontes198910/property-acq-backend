@@ -44,8 +44,8 @@ public class ExternalConsultationServiceImpl implements IExternalConsultationSer
     public UUID create(ExternalConsultationDto dto) {
         ExternalConsultation entity = new ExternalConsultation(dto);
         entity.setReferenceNumber(GeneratorRandomNumber.generateRandomSecurity());
-        this.repositoryCommand.save(entity);
-        return entity.getId();
+        ExternalConsultation value =  this.repositoryCommand.save(entity);
+        return value.getId();
     }
 
     @Override
