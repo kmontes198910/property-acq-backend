@@ -51,7 +51,6 @@ public class UserSystemServiceImpl implements IUserSystemService {
     @CacheEvict(value = "userExistsCache", key = "#userSystemDto.email")
     public void update(UserSystemDto userSystemDto) {
         var update = new UserSystem(userSystemDto);
-        update.setUpdatedAt(LocalDateTime.now());
         repositoryCommand.save(update);
     }
 
