@@ -26,7 +26,7 @@ public class Treatment {
     private int quantity;
     private String medicineUnit;
 
-    @Column(name = "prescription_number", unique = true, nullable = false)
+    @Column(name = "prescription_number", unique = true)
     private Long prescriptionNumber;
 
     @ManyToOne
