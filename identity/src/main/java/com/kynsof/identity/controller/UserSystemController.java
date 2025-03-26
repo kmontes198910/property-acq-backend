@@ -22,12 +22,10 @@ import com.kynsof.identity.application.command.user.deleteAll.DeleteAllUserSyste
 import com.kynsof.identity.application.command.user.update.UpdateUserSystemCommand;
 import com.kynsof.identity.application.command.user.update.UpdateUserSystemMessage;
 import com.kynsof.identity.application.command.user.update.UpdateUserSystemRequest;
-import com.kynsof.identity.application.command.user.update.steptwo.UpdateUserSystemStepTwoCommand;
-import com.kynsof.identity.application.command.user.update.steptwo.UpdateUserSystemStepTwoMessage;
-import com.kynsof.identity.application.command.user.update.steptwo.UpdateUserSystemStepTwoRequest;
 import com.kynsof.identity.application.query.users.getById.FindByIdUserSystemsQuery;
 import com.kynsof.identity.application.query.users.getById.UserSystemsByIdResponse;
 import com.kynsof.identity.application.query.users.getSearch.GetSearchUserSystemsQuery;
+import com.kynsof.identity.application.query.users.userByBusiness.FindUsersByBusinessQuery;
 import com.kynsof.identity.application.query.users.userMe.UserMeQuery;
 import com.kynsof.identity.application.query.users.userMe.UserMeResponse;
 import com.kynsof.share.core.domain.request.PageableUtil;
@@ -37,7 +35,9 @@ import com.kynsof.share.core.domain.response.ApiResponse;
 import com.kynsof.share.core.domain.response.PaginatedResponse;
 import com.kynsof.share.core.infrastructure.bus.IMediator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.jwt.Jwt;
@@ -81,13 +81,13 @@ public class UserSystemController {
         return ResponseEntity.ok(response);
     }
 
-    @PutMapping(path = "/update/step/two")
-    public ResponseEntity<?> updateStepTwo(@RequestBody UpdateUserSystemStepTwoRequest request) {
-
-        UpdateUserSystemStepTwoCommand command = UpdateUserSystemStepTwoCommand.fromRequest(request);
-        UpdateUserSystemStepTwoMessage response = mediator.send(command);
-        return ResponseEntity.ok(response);
-    }
+//    @PutMapping(path = "/update/step/two")
+//    public ResponseEntity<?> updateStepTwo(@RequestBody UpdateUserSystemStepTwoRequest request) {
+//
+//        UpdateUserSystemStepTwoCommand command = UpdateUserSystemStepTwoCommand.fromRequest(request);
+//        UpdateUserSystemStepTwoMessage response = mediator.send(command);
+//        return ResponseEntity.ok(response);
+//    }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteServices(@PathVariable("id") UUID id) {
@@ -134,7 +134,7 @@ public class UserSystemController {
     }
 
     @PostMapping(path = "/change-password-otp")
-    public ResponseEntity<?> changePasswordOtp(@RequestParam String email,  @AuthenticationPrincipal Jwt jwt) {
+    public ResponseEntity<?> changePasswordOtp(@RequestParam String email, @AuthenticationPrincipal Jwt jwt) {
         SendPasswordRecoveryOtpCommand command = new SendPasswordRecoveryOtpCommand(email);
         SendPasswordRecoveryOtpMessage sendPasswordRecoveryOtpMessage = mediator.send(command);
         return ResponseEntity.ok(ApiResponse.success(sendPasswordRecoveryOtpMessage.getResult()));
@@ -150,9 +150,32 @@ public class UserSystemController {
     }
 
     @PatchMapping(path = "/{id}/business")
-    public ResponseEntity<?> changeSelectedBusiness(@PathVariable UUID id,@RequestBody ChangeSelectedBusinessRequest request) {
-        ChangeSelectedBusinessCommand command =  ChangeSelectedBusinessCommand.fromRequest(id, request);
+    public ResponseEntity<?> changeSelectedBusiness(@PathVariable UUID id, @RequestBody ChangeSelectedBusinessRequest request) {
+        ChangeSelectedBusinessCommand command = ChangeSelectedBusinessCommand.fromRequest(id, request);
         ChangeSelectedBusinessMessage result = mediator.send(command);
         return ResponseEntity.ok(ApiResponse.success(result.getResult()));
+    }
+
+
+    @GetMapping("/by-business")
+    public ResponseEntity<?> getUsersByBusiness(
+            @RequestParam UUID businessId,
+            @RequestParam(required = false) String email,
+            @RequestParam(required = false) String name,
+            @RequestParam(required = false) String lastName,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(defaultValue = "name,asc") String sort
+    ) {
+        // Convertimos el parámetro de ordenación en un objeto `Sort`
+        Sort sortConfig = Sort.by(sort.split(",")[0]).ascending();
+        if (sort.split(",").length > 1 && sort.split(",")[1].equalsIgnoreCase("desc")) {
+            sortConfig = sortConfig.descending();
+        }
+
+        // Creamos el objeto `Pageable`
+        Pageable pageable = PageRequest.of(page, size, sortConfig);
+        PaginatedResponse response = mediator.send(new FindUsersByBusinessQuery(businessId, email, name, lastName, pageable));
+        return ResponseEntity.ok(response);
     }
 }

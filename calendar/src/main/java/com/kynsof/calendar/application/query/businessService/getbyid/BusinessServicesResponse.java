@@ -7,12 +7,13 @@ import com.kynsof.share.core.domain.bus.query.IResponse;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Getter
 @Setter
-public class BusinessServicesResponse implements IResponse {
+public class BusinessServicesResponse implements IResponse, Serializable {
     private UUID id;
     private BusinessDto business;
     private ServiceDto service;

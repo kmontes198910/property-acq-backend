@@ -162,19 +162,19 @@ public class  ReceiptController {
         return ResponseEntity.ok(response);
     }
 
-//    @PostMapping("set-request/{receiptId}")
-//    public ResponseEntity<?> setRequest(@PathVariable UUID receiptId,
-//                                                                       @RequestBody SetRequestIdRequest confirmPaymentReceiptRequest,
-//                                                                       ServerHttpRequest request,
-//                                                                       @RequestHeader(value = "User-Agent", required = false,
-//                                                                               defaultValue = "Unknown") String userAgent) {
-//
-//        String ipAddress = Objects.requireNonNull(request.getRemoteAddress()).getAddress().getHostAddress();
-//        SetRequestIdCommand createCommand = SetRequestIdCommand.fromRequest(receiptId,
-//                confirmPaymentReceiptRequest);
-//        SetRequestIdMessage response = mediator.send(createCommand);
-//
-//        return ResponseEntity.ok(response);
-//    }
+    @PostMapping("set-request/{receiptId}")
+    public ResponseEntity<?> setRequest(@PathVariable UUID receiptId,
+                                                                       @RequestBody SetRequestIdRequest confirmPaymentReceiptRequest,
+                                                                       ServerHttpRequest request,
+                                                                       @RequestHeader(value = "User-Agent", required = false,
+                                                                               defaultValue = "Unknown") String userAgent) {
+
+        String ipAddress = Objects.requireNonNull(request.getRemoteAddress()).getAddress().getHostAddress();
+        SetRequestIdCommand createCommand = SetRequestIdCommand.fromRequest(receiptId,
+                confirmPaymentReceiptRequest);
+        SetRequestIdMessage response = mediator.send(createCommand);
+
+        return ResponseEntity.ok(response);
+    }
 
 }

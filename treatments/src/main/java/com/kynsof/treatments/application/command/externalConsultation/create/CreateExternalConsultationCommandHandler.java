@@ -6,10 +6,8 @@ import com.kynsof.treatments.domain.service.*;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Component
 public class CreateExternalConsultationCommandHandler implements ICommandHandler<CreateExternalConsultationCommand> {
@@ -23,13 +21,15 @@ public class CreateExternalConsultationCommandHandler implements ICommandHandler
     private final ApplicationEventPublisher applicationEventPublisher;
     private final IBusinessBalanceService businessBalanceService;
 
-    public CreateExternalConsultationCommandHandler(IExternalConsultationService externalConsultationService,
-                                                    IPatientsService patientsService,
-                                                    IDoctorService doctorService,
-                                                    IMedicinesService medicinesService,
-                                                    IBusiness businessService, IServiceService serviceService,
-                                                    ApplicationEventPublisher applicationEventPublisher
-            , IBusinessBalanceService businessBalanceService) {
+    public CreateExternalConsultationCommandHandler(
+            IExternalConsultationService externalConsultationService,
+            IPatientsService patientsService,
+            IDoctorService doctorService,
+            IMedicinesService medicinesService,
+            IBusiness businessService,
+            IServiceService serviceService,
+            ApplicationEventPublisher applicationEventPublisher,
+            IBusinessBalanceService businessBalanceService) {
         this.externalConsultationService = externalConsultationService;
         this.patientsService = patientsService;
         this.doctorService = doctorService;
@@ -42,65 +42,47 @@ public class CreateExternalConsultationCommandHandler implements ICommandHandler
 
     @Override
     public void handle(CreateExternalConsultationCommand command) {
+        // Obtener datos base
         PatientDto patientDto = patientsService.findById(command.getPatientId());
         DoctorDto doctorDto = doctorService.findById(command.getDoctorId());
         BusinessDto businessDto = businessService.findById(command.getBusinessId());
         ServiceDto serviceDto = serviceService.findByIds(UUID.fromString(command.getMedicalSpeciality()));
 
-        List<DiagnosisDto> diagnosisDtoList = command.getDiagnosis().stream().map(diagnosisRequest ->
-                new DiagnosisDto(UUID.randomUUID(), diagnosisRequest.getIcdCode(), diagnosisRequest.getDescription())).toList();
+        // Mapear diagnósticos
+        List<DiagnosisDto> diagnosisDtoList = command.getDiagnosis().stream()
+                .map(diagnosis -> new DiagnosisDto(
+                        UUID.randomUUID(),
+                        diagnosis.getIcdCode(),
+                        diagnosis.getDescription()))
+                .collect(Collectors.toList());
 
-        List<TreatmentDto> treatmentDtoList = command.getTreatments().stream().map(treatmentRequest -> {
-            MedicinesDto medicinesDto = medicinesService.findById(treatmentRequest.getMedication());
-            return new TreatmentDto(
-                    UUID.randomUUID(),
-                    treatmentRequest.getDescription(),
-                    medicinesDto,
-                    treatmentRequest.getQuantity(),
-                    treatmentRequest.getMedicineUnit()
-            );
-        }).toList();
+        // Mapear tratamientos
+        List<TreatmentDto> treatmentDtoList = command.getTreatments().stream()
+                .map(treatment -> {
+                    MedicinesDto medicinesDto = medicinesService.findById(treatment.getMedication());
+                    return new TreatmentDto(
+                            UUID.randomUUID(),
+                            treatment.getDescription(),
+                            medicinesDto,
+                            treatment.getQuantity(),
+                            treatment.getMedicineUnit()
+                    );
+                }).collect(Collectors.toList());
 
-        List<ExamDto> examDtoList = command.getExams() != null ? command.getExams().stream().map(examRequest -> new ExamDto(
-                UUID.randomUUID(),
-                examRequest.getName(),
-                examRequest.getDescription(),
-                examRequest.getType(),
-                examRequest.getCode()
-        )).toList() : new ArrayList<>();
+        // Mapear exámenes
+        List<ExamDto> examDtoList = (command.getExams() != null) ? command.getExams().stream()
+                .map(exam -> new ExamDto(
+                        UUID.randomUUID(),
+                        exam.getName(),
+                        exam.getDescription(),
+                        exam.getType(),
+                        exam.getCode()))
+                .collect(Collectors.toList()) : new ArrayList<>();
 
-        List<OptometryExamDto> optometryExamDtoList = new ArrayList<>();
-        if (command.getOptometryExams() != null && !command.getOptometryExams().isEmpty()) {
-            int[] counter = {1}; // Usar un array para manejar el contador dentro del stream
-            optometryExamDtoList = command.getOptometryExams().stream()
-                    .map(optometryExamRequest -> {
-                        OptometryExamDto dto = new OptometryExamDto();
-                        dto.setId(UUID.randomUUID());
-                        dto.setSphereOd(optometryExamRequest.getSphereOd());
-                        dto.setCylinderOd(optometryExamRequest.getCylinderOd());
-                        dto.setAxisOd(optometryExamRequest.getAxisOd());
-                        dto.setAvscOd(optometryExamRequest.getAvscOd());
-                        dto.setAvccOd(optometryExamRequest.getAvccOd());
-                        dto.setSphereOi(optometryExamRequest.getSphereOi());
-                        dto.setCylinderOi(optometryExamRequest.getCylinderOi());
-                        dto.setAxisOi(optometryExamRequest.getAxisOi());
-                        dto.setAvscOi(optometryExamRequest.getAvscOi());
-                        dto.setAvccOi(optometryExamRequest.getAvccOi());
-                        dto.setAddPower(optometryExamRequest.getAddPower());
-                        dto.setDp(optometryExamRequest.getDp());
-                        dto.setDv(optometryExamRequest.getDv());
-                        dto.setFilter(optometryExamRequest.getFilter());
-                        dto.setCurrent(optometryExamRequest.isCurrent());
-                        dto.setAvccAdd(optometryExamRequest.getAvccAdd());
-                        dto.setSphereAdd(optometryExamRequest.getSphereAdd());
-                        dto.setCylinderAdd(optometryExamRequest.getCylinderAdd());
-                        dto.setAvscAdd(optometryExamRequest.getAvscAdd());
-                        dto.setAxisAdd(optometryExamRequest.getAxisAdd());
-                        dto.setOrderNumber(counter[0]++); // Asignar el valor del contador y luego incrementarlo
-                        return dto;
-                    }).toList();
-        }
+        // Mapear exámenes de optometría
+        List<OptometryExamDto> optometryExamDtoList = mapOptometryExams(command);
 
+        // Crear la consulta externa
         UUID id = externalConsultationService.createAll(new ExternalConsultationDto(
                 UUID.randomUUID(),
                 patientDto,
@@ -121,25 +103,61 @@ public class CreateExternalConsultationCommandHandler implements ICommandHandler
                 command.getOdontogramJson()
         ));
         command.setId(id);
-        try {
-            System.err.println("Entro");
-            String resulDiscount = businessBalanceService.discountBusinessBalance(command.getBusinessId(), 0.25);
-            System.err.println("resulDiscount:" + resulDiscount);
-        }catch (Exception e) {
-            System.err.println("Ocurio un error");
-            System.err.println(e.getMessage());
 
-        }
-
-
-//        if (!examDtoList.isEmpty()) {
-//            CreateBillingEvent createBillingEvent = new CreateBillingEvent(
-//                    command.getPatientId(),
-//                    command.getBusinessId(),
-//                    examDtoList.stream().map(ExamDto::getCode).toList()
-//            );
-//            applicationEventPublisher.publishEvent(createBillingEvent);
-//        }
+        // Aplicar descuento en el balance del negocio
+        applyBusinessBalanceDiscount(command);
     }
 
+    /**
+     * Mapea la lista de exámenes de optometría con un contador de orden.
+     */
+    private List<OptometryExamDto> mapOptometryExams(CreateExternalConsultationCommand command) {
+        if (command.getOptometryExams() == null || command.getOptometryExams().isEmpty()) {
+            return new ArrayList<>();
+        }
+        int[] counter = {1}; // Usar un array para manejar el contador dentro del stream
+
+        return command.getOptometryExams().stream()
+                .map(optometryExam -> {
+                    OptometryExamDto dto = new OptometryExamDto();
+                    dto.setId(UUID.randomUUID());
+                    dto.setSphereOd(optometryExam.getSphereOd());
+                    dto.setCylinderOd(optometryExam.getCylinderOd());
+                    dto.setAxisOd(optometryExam.getAxisOd());
+                    dto.setAvscOd(optometryExam.getAvscOd());
+                    dto.setAvccOd(optometryExam.getAvccOd());
+                    dto.setSphereOi(optometryExam.getSphereOi());
+                    dto.setCylinderOi(optometryExam.getCylinderOi());
+                    dto.setAxisOi(optometryExam.getAxisOi());
+                    dto.setAvscOi(optometryExam.getAvscOi());
+                    dto.setAvccOi(optometryExam.getAvccOi());
+                    dto.setAddPower(optometryExam.getAddPower());
+                    dto.setDp(optometryExam.getDp());
+                    dto.setDv(optometryExam.getDv());
+                    dto.setFilter(optometryExam.getFilter());
+                    dto.setCurrent(optometryExam.isCurrent());
+                    dto.setAvccAdd(optometryExam.getAvccAdd());
+                    dto.setSphereAdd(optometryExam.getSphereAdd());
+                    dto.setCylinderAdd(optometryExam.getCylinderAdd());
+                    dto.setAvscAdd(optometryExam.getAvscAdd());
+                    dto.setAxisAdd(optometryExam.getAxisAdd());
+                    dto.setOrderNumber(counter[0]++); // Asignar el valor del contador y luego incrementarlo
+                    return dto;
+                })
+                .collect(Collectors.toList());
+    }
+
+    /**
+     * Aplica un descuento en el balance del negocio y maneja errores.
+     */
+    private void applyBusinessBalanceDiscount(CreateExternalConsultationCommand command) {
+        try {
+            System.err.println("Aplicando descuento al balance del negocio...");
+            String resultDiscount = businessBalanceService.discountBusinessBalance(command.getBusinessId(), 0.25);
+            System.err.println("Resultado del descuento: " + resultDiscount);
+        } catch (Exception e) {
+            System.err.println("Error al aplicar descuento en balance de negocio.");
+            e.printStackTrace();
+        }
+    }
 }

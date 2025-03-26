@@ -155,7 +155,11 @@
 			<artifactId>redisson</artifactId>
 			<version>3.32.0</version> <!-- Verifica siempre la última versión -->
 		</dependency>
-	</dependencies>
+        <dependency>
+            <groupId>org.springframework.amqp</groupId>
+            <artifactId>spring-rabbit</artifactId>
+        </dependency>
+    </dependencies>
 	<build>
 		<plugins>
 			<plugin>

@@ -6,11 +6,13 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.io.Serializable;
+
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class BusinessServicePriceResponse {
+public class BusinessServicePriceResponse implements Serializable {
     private Double price;
     private ServicesResponse service;
 }

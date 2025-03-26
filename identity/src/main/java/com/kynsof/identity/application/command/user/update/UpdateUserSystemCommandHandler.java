@@ -32,86 +32,44 @@ public class UpdateUserSystemCommandHandler implements ICommandHandler<UpdateUse
         // Recuperación del usuario a actualizar
         UserSystemDto objectToUpdate = this.systemService.findById(command.getId());
 
-        boolean isPublish = false;
-        boolean idUpdate = false;
+        changeValueKeycloack(command, objectToUpdate);
 
-        // Actualizaciones de atributos con validaciones de unicidad y reglas de negocio
-        isPublish |= updateEmailIfChanged(command, objectToUpdate);
-        isPublish |= updateUserNameIfChanged(command, objectToUpdate);
-        isPublish |= updateNameIfChanged(command, objectToUpdate);
-        isPublish |= updateLastNameIfChanged(command, objectToUpdate);
-
-        // Actualizaciones sin reglas adicionales
-        idUpdate |= updateUserTypeIfChanged(command, objectToUpdate);
-        idUpdate |= updateImageIfChanged(command, objectToUpdate);
-
-        // Publicar el evento de actualización si es necesario
-
-        // Guardar los cambios en el sistema y actualizar en Keycloak si hubo modificaciones relevantes
-        if (idUpdate) {
-            systemService.update(objectToUpdate);
-            updateUserKeycloak(command, objectToUpdate.getKeyCloakId().toString());
-        }
+        updateUserSystems(command, objectToUpdate);
     }
 
-    private boolean updateEmailIfChanged(UpdateUserSystemCommand command, UserSystemDto objectToUpdate) {
-        if (command.getEmail() != null && !command.getEmail().isEmpty() && !command.getEmail().equals(objectToUpdate.getEmail())) {
-            UpdateIfNotNull.updateIfNotNull(objectToUpdate::setEmail, command.getEmail());
-            RulesChecker.checkRule(new ModuleEmailMustBeUniqueRule(systemService, command.getEmail(), objectToUpdate.getId()));
-            return true;
+    private void updateUserSystems(UpdateUserSystemCommand command, UserSystemDto objectToUpdate) {
+        if (command.getEmail() != null) {
+            objectToUpdate.setEmail(command.getEmail());
         }
-        return false;
-    }
-
-    private boolean updateUserNameIfChanged(UpdateUserSystemCommand command, UserSystemDto objectToUpdate) {
-        if (command.getUserName() != null && !command.getUserName().isEmpty() && !command.getUserName().equals(objectToUpdate.getUserName())) {
-            UpdateIfNotNull.updateIfNotNull(objectToUpdate::setUserName, command.getUserName());
-            RulesChecker.checkRule(new ModuleUserNameMustBeUniqueRule(systemService, command.getUserName(), objectToUpdate.getId()));
-            return true;
+        if (command.getName() != null) {
+            objectToUpdate.setName(command.getName());
         }
-        return false;
-    }
-
-    private boolean updateNameIfChanged(UpdateUserSystemCommand command, UserSystemDto objectToUpdate) {
-        if (command.getName() != null && !command.getName().isEmpty() && !command.getName().equals(objectToUpdate.getName())) {
-            UpdateIfNotNull.updateIfNotNull(objectToUpdate::setName, command.getName());
-            return true;
+        if (command.getLastName() != null) {
+            objectToUpdate.setLastName(command.getLastName());
         }
-        return false;
-    }
-
-    private boolean updateLastNameIfChanged(UpdateUserSystemCommand command, UserSystemDto objectToUpdate) {
-        if (command.getLastName() != null && !command.getLastName().isEmpty() && !command.getLastName().equals(objectToUpdate.getLastName())) {
-            UpdateIfNotNull.updateIfNotNull(objectToUpdate::setLastName, command.getLastName());
-            return true;
-        }
-        return false;
-    }
-
-    private boolean updateImageIfChanged(UpdateUserSystemCommand command, UserSystemDto objectToUpdate) {
-        if (command.getImage() == null || !command.getImage().equals(objectToUpdate.getImage())) {
+        if (command.getImage() != null) {
             objectToUpdate.setImage(command.getImage());
-            return true;
         }
-        return false;
+        if (command.getUserType() != null) {
+            objectToUpdate.setUserType(command.getUserType());
+        }
+
+        systemService.update(objectToUpdate);
     }
 
-    private boolean updateUserTypeIfChanged(UpdateUserSystemCommand command, UserSystemDto objectToUpdate) {
-        if (command.getUserType() != null && command.getUserType() != objectToUpdate.getUserType()) {
-            UpdateIfNotNull.updateIfNotNull(objectToUpdate::setUserType, command.getUserType());
-            return true;
-        }
-        return false;
-    }
+    private void changeValueKeycloack(UpdateUserSystemCommand command, UserSystemDto objectToUpdate) {
+        if (!objectToUpdate.getEmail().equals(command.getEmail()) ||
+                !objectToUpdate.getName().equals(command.getName()) ||
+                !objectToUpdate.getLastName().equals(command.getLastName())) {
 
-    private void updateUserKeycloak(UpdateUserSystemCommand command, String userKeycloakId) {
-        UserRequest userRequest = new UserRequest(
-                command.getUserName(),
-                command.getEmail(),
-                command.getName(),
-                command.getLastName(),
-                ""
-        );
-        keycloakProvider.updateUser(userKeycloakId, userRequest);
+            UserRequest userRequest = new UserRequest(
+                    command.getUserName(),
+                    command.getEmail(),
+                    command.getName(),
+                    command.getLastName(),
+                    ""
+            );
+            keycloakProvider.updateUser(objectToUpdate.getKeyCloakId().toString(), userRequest);
+        }
     }
 }
