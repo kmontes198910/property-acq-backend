@@ -9,9 +9,7 @@ def main():
     client = MongoClient(mongo_uri)
     db = client[mongo_db]
     collection = db["Transactions"]
-
     now = datetime.utcnow()
-
     result = collection.delete_many({
         "$and": [
             {"Expiration": {"$lt": now}},
