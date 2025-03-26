@@ -3,8 +3,8 @@ from datetime import datetime
 from pymongo import MongoClient
 
 def main():
-    mongo_uri = os.getenv("MONGO_CONNECTION_STRING", "mongodb://localhost:27017")
-    mongo_db = os.getenv("MONGO_DATABASE_NAME", "paymentsDb")
+    mongo_uri = "mongodb://mongoadmin:mongopassword@mongodb-service.mongo-db.svc.cluster.local:27017"
+    mongo_db = "Payments"
 
     client = MongoClient(mongo_uri)
     db = client[mongo_db]
