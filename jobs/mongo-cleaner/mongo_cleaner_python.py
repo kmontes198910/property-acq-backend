@@ -8,7 +8,7 @@ def main():
 
     client = MongoClient(mongo_uri)
     db = client[mongo_db]
-    collection = db["transactions"]
+    collection = db["Transactions"]
 
     now = datetime.utcnow()
 
