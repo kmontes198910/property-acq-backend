@@ -6,6 +6,7 @@ import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.model.Filters;
 import org.bson.Document;
+
 import java.time.Instant;
 import java.util.Date;
 
@@ -27,6 +28,7 @@ public class MongoCleanTransactionJob {
                             Filters.eq("CurrentStatus", "")
                     )
             );
+
             var result = collection.deleteMany(filter);
             System.out.println("🧹 Se eliminaron " + result.getDeletedCount() + " transacciones caducadas/no aprobadas.");
         } catch (Exception e) {
