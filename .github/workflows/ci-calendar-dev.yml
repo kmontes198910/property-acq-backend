@@ -2,7 +2,7 @@ name: ci-mongo-cleaner-dev
 
 env:
   SERVICE_NAME: 'mongo-cleaner'
-  SERVICE_PATH: 'mongo-cleaner'
+  SERVICE_PATH: 'jobs/mongo-cleaner'
 
 on:
   workflow_dispatch:
@@ -11,8 +11,7 @@ on:
       - 'dev'
     paths:
       - ci-mongo-cleaner-dev.yml
-      - 'mongo-cleaner/**'
-
+      - 'jobs/mongo-cleaner/**'
 jobs:
   build-push:
     runs-on: ubuntu-latest
