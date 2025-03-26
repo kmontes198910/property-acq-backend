@@ -12,11 +12,12 @@ on:
     paths:
       - ci-mongo-cleaner-dev.yml
       - 'jobs/mongo-cleaner/**'
+
 jobs:
   build-push:
     runs-on: ubuntu-latest
     steps:
-      - name: 📥 Checkout
+      - name: 📅 Checkout
         uses: actions/checkout@v4
 
       - name: 🏗 Set up QEMU
@@ -31,7 +32,7 @@ jobs:
           username: ${{ secrets.DOCKER_HUB_USERNAME }}
           password: ${{ secrets.DOCKER_HUB_PASSWORD }}
 
-      - name: 🐳 Build and push image
+      - name: 🛣 Build and push image
         uses: docker/build-push-action@v5
         with:
           context: ${{ env.SERVICE_PATH }}
@@ -42,10 +43,10 @@ jobs:
     needs: build-push
     runs-on: ubuntu-latest
     steps:
-      - name: 📥 Checkout
+      - name: 📅 Checkout
         uses: actions/checkout@v4
 
-      - name: 📡 Install OpenVPN
+      - name: 🛁 Install OpenVPN
         run: |
           sudo apt update
           sudo apt install -y openvpn openvpn-systemd-resolved
@@ -62,7 +63,6 @@ jobs:
         with:
           base64-kube-config: ${{ secrets.KUBE_CONFIG }}
 
-      - name: 🚀 Redeploy Deployment
+      - name: 🚀 Apply updated CronJob
         run: |
-          kubectl -n ${{ vars.K8S_NAMESPACE_DEV }} patch deployment ${{ env.SERVICE_NAME }} -p \
-          '{"spec": {"template": {"metadata": { "labels": {  "redeploy": "'$(date +%s)'"}}}}}'
+          kubectl -n ${{ vars.K8S_NAMESPACE_DEV }} apply -f kubernetes-config/mongo-cleaner-cronjob.yaml
