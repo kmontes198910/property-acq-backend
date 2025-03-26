@@ -15,7 +15,7 @@ def main():
     result = collection.delete_many({
         "$and": [
             {"Expiration": {"$lt": now}},
-            {"$or": [
+            {"$and": [
                 {"CurrentStatus": None},
                 {"CurrentStatus": ""}
             ]}
