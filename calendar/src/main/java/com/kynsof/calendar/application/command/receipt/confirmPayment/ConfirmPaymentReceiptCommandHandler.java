@@ -41,44 +41,23 @@ public class ConfirmPaymentReceiptCommandHandler implements ICommandHandler<Conf
             // Llamar al servicio externo para obtener el estado del pago
             paymentStatus = paymentServiceClient.validateStatusPayment(command.getRequestId(), _receipt.getSchedule().getBusiness().getId());
 
-//            if (paymentStatus == null || !paymentStatus.getStatus().equalsIgnoreCase(command.getStatus().toString())) {
-//                throw new BusinessException(DomainErrorMessage.PAYMENT_NOT_FOUND, "Payment not approved or not found.");
-//            }
-
             if (paymentStatus.getStatus().equals("APPROVED")) {
                 _receipt.setReference(paymentStatus.getReference());
                 _receipt.setAuthorizationCode(command.getAuthorizationCode());
                 _receipt.setStatus(EStatusReceipt.PAYMENT);
                 this.service.update(_receipt);
 
-                CreateGroupPaymentUnifRequest request = new CreateGroupPaymentUnifRequest();
-                request.setClientId(_receipt.getUser().getId());
-                request.setBusinessId(_receipt.getSchedule().getBusiness().getId());
-                request.setUserSystemId(null);
-                request.setUserSystemFullName(null);
-                request.setPaymentType("PLACETOPAY");
-                request.setPaymentStatus("PAYMENT_APPROVED");
-                request.setInsuranceId(null);
-                request.setTypeOperation("ExternalConsult");
-                request.setAuthorizationCode(paymentStatus.getAuthorization());
-                request.setReference(paymentStatus.getReference());
-                request.setProforma(false);
-                List<CreateBillingPartialRequest> createBillingPartialRequests = new ArrayList<>();
-                CreateBillingPartialRequest createBillingPartialRequest = new CreateBillingPartialRequest();
-                createBillingPartialRequest.setCode(_receipt.getService().getCode());
-                createBillingPartialRequest.setDescription(_receipt.getService().getName());
-                createBillingPartialRequest.setCost(_receipt.getPrice());
-                createBillingPartialRequests.add(createBillingPartialRequest);
-                request.setBillings(createBillingPartialRequests);
+                CreateGroupPaymentUnifRequest request = getCreateGroupPaymentUnifRequest(_receipt, paymentStatus);
+                try {
+                    String groupPaymentId = groupPaymentServiceClient.createCompleted(request);
+                    service.updateGroupPaymentId(_receipt.getId(),groupPaymentId);
 
-           String groupPaymentId=     groupPaymentServiceClient.createCompleted(request);
+                } catch (Exception e) {
+                    System.err.println("Error creating group payment " + e.getMessage());
+                    System.err.println(e.getMessage());
+                }
+
             }
-
-
-//            _receipt.setAuthorizationCode(paymentStatus.getAuthorization());
-//            _receipt.setRequestId(command.getRequestId());
-//            _receipt.setReference(paymentStatus.getReference());
-//            _receipt.setStatus(command.getStatus());
 
             if (command.getStatus().equals(EStatusReceipt.CANCEL)) {
                 _receipt.getSchedule().setStock(_receipt.getSchedule().getStock() + 1);
@@ -108,5 +87,28 @@ public class ConfirmPaymentReceiptCommandHandler implements ICommandHandler<Conf
             System.err.println("Error durante el procesamiento del pago: " + e.getMessage());
             throw new BusinessException(DomainErrorMessage.PAYMENT_NOT_FOUND, "Error durante el procesamiento del pago.");
         }
+    }
+
+    private static CreateGroupPaymentUnifRequest getCreateGroupPaymentUnifRequest(ReceiptDto _receipt, PaymentServiceStatusResponse paymentStatus) {
+        CreateGroupPaymentUnifRequest request = new CreateGroupPaymentUnifRequest();
+        request.setClientId(_receipt.getUser().getId());
+        request.setBusinessId(_receipt.getSchedule().getBusiness().getId());
+        request.setUserSystemId(null);
+        request.setUserSystemFullName(null);
+        request.setPaymentType("PLACETOPAY");
+        request.setPaymentStatus("PAYMENT_APPROVED");
+        request.setInsuranceId(null);
+        request.setTypeOperation("ExternalConsult");
+        request.setAuthorizationCode(paymentStatus.getAuthorization());
+        request.setReference(paymentStatus.getReference());
+        request.setProforma(false);
+        List<CreateBillingPartialRequest> createBillingPartialRequests = new ArrayList<>();
+        CreateBillingPartialRequest createBillingPartialRequest = new CreateBillingPartialRequest();
+        createBillingPartialRequest.setCode(_receipt.getService().getCode());
+        createBillingPartialRequest.setDescription(_receipt.getService().getName());
+        createBillingPartialRequest.setCost(_receipt.getPrice());
+        createBillingPartialRequests.add(createBillingPartialRequest);
+        request.setBillings(createBillingPartialRequests);
+        return request;
     }
 }

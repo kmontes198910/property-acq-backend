@@ -25,4 +25,6 @@ public interface IReceiptService {
     void updatePaymentStatus(Receipt receipt, String status, String reference, String authorization);
 
     void updateScheduled(UUID receiptId, UUID scheduledId);
+
+    void updateGroupPaymentId(UUID id, String groupPaymentId);
 }

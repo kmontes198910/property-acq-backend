@@ -246,6 +246,14 @@ public class ReceiptService implements IReceiptService {
 
     }
 
+    @Override
+    public void updateGroupPaymentId(UUID id, String groupPaymentId) {
+        Receipt receipt = receiptRepositoryCommand.findById(id).orElse(null);
+        assert receipt != null;
+        receipt.setGroupPaymentId(groupPaymentId);
+        receiptRepositoryCommand.save(receipt);
+    }
+
     private void resetSchedule(Receipt receipt) {
         if (receipt.getSchedule() != null) {
             receipt.getSchedule().setStatus(EStatusSchedule.AVAILABLE);
