@@ -1,4 +1,4 @@
-package com.kynsof.treatments.infrastructure.service.rabbitMQ;
+package com.kynsof.treatments.application.service.rabbitMQ;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;

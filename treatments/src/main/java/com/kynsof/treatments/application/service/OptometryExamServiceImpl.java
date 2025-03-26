@@ -1,4 +1,4 @@
-package com.kynsof.treatments.infrastructure.service;
+package com.kynsof.treatments.application.service;
 
 import com.kynsof.share.core.domain.request.FilterCriteria;
 import com.kynsof.share.core.domain.response.PaginatedResponse;
