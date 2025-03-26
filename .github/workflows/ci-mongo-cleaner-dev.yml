@@ -65,4 +65,4 @@ jobs:
 
       - name: 🚀 Apply updated CronJob
         run: |
-          kubectl -n ${{ vars.K8S_NAMESPACE_DEV }} apply -f kubernetes-config/mongo-cleaner-cronjob.yaml
+          kubectl -n ${{ vars.K8S_NAMESPACE_DEV }} apply -f kubernetes-config/deployments/dev/mongo-cleaner-job-deployment.yaml

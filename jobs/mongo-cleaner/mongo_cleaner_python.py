@@ -21,6 +21,5 @@ def main():
     })
 
     print(f"🧹 Eliminadas {result.deleted_count} transacciones caducadas/no aprobadas.")
-
 if __name__ == "__main__":
     main()
