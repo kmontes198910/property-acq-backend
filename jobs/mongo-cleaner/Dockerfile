@@ -1,9 +1,13 @@
-FROM eclipse-temurin:17-jdk AS builder
-WORKDIR /app
-COPY . .
-RUN javac -d out com/kynsoft/job/MongoCleanTransactionJob.java
+# Dockerfile para Mongo Cleaner Python
+FROM python:3.11-slim
 
-FROM eclipse-temurin:17-jre
 WORKDIR /app
-COPY --from=builder /app/out /app
-ENTRYPOINT ["java", "com.kynsoft.job.MongoCleanTransactionJob"]
+
+# Instala dependencias necesarias
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Copia el script
+COPY mongo_cleaner_python.py .
+
+ENTRYPOINT ["python", "mongo_cleaner_python.py"]
