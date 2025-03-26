@@ -27,7 +27,6 @@ public class MongoCleanTransactionJob {
                             Filters.eq("CurrentStatus", "")
                     )
             );
-
             var result = collection.deleteMany(filter);
             System.out.println("🧹 Se eliminaron " + result.getDeletedCount() + " transacciones caducadas/no aprobadas.");
         } catch (Exception e) {
