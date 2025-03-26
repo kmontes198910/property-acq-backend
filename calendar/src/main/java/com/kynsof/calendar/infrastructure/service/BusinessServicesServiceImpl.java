@@ -107,7 +107,7 @@ public class BusinessServicesServiceImpl implements IBusinessServicesService {
     }
 
     @Override
-    @Cacheable(value = "businessServicesCache", key = "'findServicesSimpleByBusinessId-' + #businessId + '-' + #pageable.pageNumber + '-' + #pageable.pageSize", unless = "#result == null")
+   // @Cacheable(value = "businessServicesCache", key = "'findServicesSimpleByBusinessId-' + #businessId + '-' + #pageable.pageNumber + '-' + #pageable.pageSize", unless = "#result == null")
     public PaginatedResponse findServicesSimpleByBusinessId(Pageable pageable, UUID businessId) {
         var data = this.repositoryQuery.findServicesByBusinessId(businessId, pageable);
         var responses = data.getContent().stream()
@@ -124,7 +124,7 @@ public class BusinessServicesServiceImpl implements IBusinessServicesService {
     }
 
     @Override
-    @Cacheable(value = "businessServicesCache", key = "'findServicesByResourceId-' + #resourceId + '-' + #pageable.pageNumber + '-' + #pageable.pageSize", unless = "#result == null")
+    //@Cacheable(value = "businessServicesCache", key = "'findServicesByResourceId-' + #resourceId + '-' + #pageable.pageNumber + '-' + #pageable.pageSize", unless = "#result == null")
     public PaginatedResponse findServicesByResourceId(Pageable pageable, UUID resourceId) {
         var data = this.repositoryQuery.findServicesByResourceId(resourceId, pageable);
         return getPaginatedResponse(data);
