@@ -40,7 +40,7 @@ public class ServiceServiceImpl implements IServiceService {
     @Override
     //@CachePut(cacheNames =  CacheConfig.SERVICE_CACHE, key = "#result.id")
     public ServiceDto create(ServiceDto object) {
-        object.setStatus(EServiceStatus.ACTIVE.ACTIVE);
+        object.setStatus(EServiceStatus.ACTIVE);
         Services serviceEntity = new Services(object);
         Services savedEntity = this.repositoryCommand.save(serviceEntity);
         return savedEntity.toAggregate();

@@ -54,7 +54,7 @@ public class Receipt {
     private String userAgentCreate;
     private String userAgentPayment;
     private String processUrl;
-
+    private String groupPaymentId;
 
     private LocalDateTime paymentDate;
 
@@ -92,7 +92,7 @@ public class Receipt {
     public ReceiptDto toAggregate() {
         return new ReceiptDto(id, price, express, reasons, user.toAggregate(), schedule.toAggregate(),
                 schedule.getService().toAggregate(), status, requestId, authorizationCode, reference, ipAddressCreate,
-                ipAddressPayment, userAgentCreate, userAgentPayment,consultId,processUrl);
+                ipAddressPayment, userAgentCreate, userAgentPayment,consultId,processUrl, groupPaymentId);
     }
 
     @PostLoad
