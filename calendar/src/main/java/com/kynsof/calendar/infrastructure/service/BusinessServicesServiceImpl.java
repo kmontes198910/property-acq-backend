@@ -38,14 +38,14 @@ public class BusinessServicesServiceImpl implements IBusinessServicesService {
 
     @Override
     @Transactional
-    @CacheEvict(value = "businessServicesCache", allEntries = true)
+   // @CacheEvict(value = "businessServicesCache", allEntries = true)
     public void create(BusinessServicesDto object) {
         this.repositoryCommand.save(new BusinessServices(object));
     }
 
     @Override
     @Transactional
-    @CacheEvict(value = "businessServicesCache", allEntries = true)
+    //@CacheEvict(value = "businessServicesCache", allEntries = true)
     public void update(BusinessServicesDto object) {
         BusinessServices update = new BusinessServices(object);
         this.repositoryCommand.save(update);
@@ -53,7 +53,7 @@ public class BusinessServicesServiceImpl implements IBusinessServicesService {
 
     @Override
     @Transactional
-    @CacheEvict(value = "businessServicesCache", allEntries = true)
+   // @CacheEvict(value = "businessServicesCache", allEntries = true)
     public void delete(BusinessServicesDto object) {
         try {
             this.repositoryCommand.deleteById(object.getId());
@@ -64,13 +64,13 @@ public class BusinessServicesServiceImpl implements IBusinessServicesService {
 
     @Override
     @Transactional
-    @CacheEvict(value = "businessServicesCache", allEntries = true)
+   // @CacheEvict(value = "businessServicesCache", allEntries = true)
     public void deleteIds(List<UUID> ids) {
         this.repositoryCommand.deleteAllByIdInBatch(ids);
     }
 
     @Override
-    @Cacheable(value = "businessServicesCache", key = "#id", unless = "#result == null")
+   // @Cacheable(value = "businessServicesCache", key = "#id", unless = "#result == null")
     public BusinessServicesDto findById(UUID id) {
         return this.repositoryQuery.findById(id)
                 .map(BusinessServices::toAggregate)
@@ -79,7 +79,7 @@ public class BusinessServicesServiceImpl implements IBusinessServicesService {
     }
 
     @Override
-    @Cacheable(value = "businessServicesCache", key = "#pageable.pageNumber + '-' + #pageable.pageSize", unless = "#result == null")
+   // @Cacheable(value = "businessServicesCache", key = "#pageable.pageNumber + '-' + #pageable.pageSize", unless = "#result == null")
     public PaginatedResponse search(Pageable pageable, List<FilterCriteria> filterCriteria) {
         var specifications = new GenericSpecificationsBuilder<BusinessServices>(filterCriteria);
         var data = this.repositoryQuery.findAll(specifications, pageable);
@@ -96,7 +96,7 @@ public class BusinessServicesServiceImpl implements IBusinessServicesService {
     }
 
     @Override
-    @Cacheable(value = "businessServicesCache", key = "'findServicesByBusinessId-' + #businessId + '-' + #pageable.pageNumber + '-' + #pageable.pageSize", unless = "#result == null")
+  //  @Cacheable(value = "businessServicesCache", key = "'findServicesByBusinessId-' + #businessId + '-' + #pageable.pageNumber + '-' + #pageable.pageSize", unless = "#result == null")
     public PaginatedResponse findServicesByBusinessId(Pageable pageable, UUID businessId) {
         var data = this.repositoryQuery.findServicesByBusinessId(businessId, pageable);
         var responses = data.getContent().stream()
@@ -118,7 +118,7 @@ public class BusinessServicesServiceImpl implements IBusinessServicesService {
     }
 
     @Override
-    @Cacheable(value = "businessServicesCache", key = "'findBusinessServiceIdByBusinessId-' + #businessId", unless = "#result == null")
+   // @Cacheable(value = "businessServicesCache", key = "'findBusinessServiceIdByBusinessId-' + #businessId", unless = "#result == null")
     public List<UUID> findBusinessServiceIdByBusinessId(UUID businessId) {
         return this.repositoryQuery.findBusinessServicesIdByBusinessId(businessId);
     }
@@ -132,7 +132,7 @@ public class BusinessServicesServiceImpl implements IBusinessServicesService {
 
     @Override
     @Transactional
-    @CacheEvict(value = "businessServicesCache", allEntries = true)
+   // @CacheEvict(value = "businessServicesCache", allEntries = true)
     public void createAll(List<BusinessServicesDto> businessServicePrice) {
         this.repositoryCommand.saveAllAndFlush(businessServicePrice.stream().map(BusinessServices::new).toList());
     }
