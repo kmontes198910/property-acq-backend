@@ -1,4 +1,4 @@
-package com.kynsof.calendar.infrastructure.service;
+package com.kynsof.calendar.application.service;
 
 import com.kynsof.calendar.application.query.ResourceResponse;
 import com.kynsof.calendar.application.query.businessResource.getbyid.BusinessResourceResponse;

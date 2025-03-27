@@ -4,7 +4,7 @@ import com.kynsof.payment.domain.dto.enumDto.GroupPaymentStatus;
 import com.kynsof.payment.domain.service.IGroupPaymentService;
 import com.kynsof.payment.infrastructure.entity.GroupPayment;
 import com.kynsof.share.core.application.payment.domain.placeToPlay.PaymentServiceStatusResponse;
-import com.kynsof.share.core.application.payment.infrastructure.service.config.ExternalServiceClient;
+import com.kynsof.share.core.application.payment.infrastructure.service.config.PaymentServiceClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -18,10 +18,10 @@ import java.util.List;
 public class ValidateGroupPaymentStatusTask {
 
     private final IGroupPaymentService groupPaymentService;
-    private final ExternalServiceClient paymentServiceClient;
+    private final PaymentServiceClient paymentServiceClient;
     private static final Logger logger = LoggerFactory.getLogger(ValidateGroupPaymentStatusTask.class);
 
-    public ValidateGroupPaymentStatusTask(IGroupPaymentService receiptService, ExternalServiceClient paymentServiceClient) {
+    public ValidateGroupPaymentStatusTask(IGroupPaymentService receiptService, PaymentServiceClient paymentServiceClient) {
         this.groupPaymentService = receiptService;
         this.paymentServiceClient = paymentServiceClient;
     }

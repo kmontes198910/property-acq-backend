@@ -1,4 +1,4 @@
-package com.kynsof.calendar.infrastructure.service;
+package com.kynsof.calendar.application.service;
 
 import com.kynsof.calendar.domain.dto.PatientDto;
 import com.kynsof.calendar.domain.dto.enumType.PatientStatus;
@@ -6,8 +6,7 @@ import com.kynsof.calendar.domain.service.IPatientsService;
 import com.kynsof.calendar.infrastructure.entity.Patient;
 import com.kynsof.calendar.infrastructure.repository.command.PatientsWriteDataJPARepository;
 import com.kynsof.calendar.infrastructure.repository.query.PatientsReadDataJPARepository;
-import com.kynsof.calendar.infrastructure.service.http.PatientHttpUUIDService;
-import com.kynsof.share.core.domain.exception.BusinessException;
+import com.kynsof.calendar.application.service.http.PatientHttpUUIDService;
 import com.kynsof.share.core.domain.exception.BusinessNotFoundException;
 import com.kynsof.share.core.domain.exception.DomainErrorMessage;
 import com.kynsof.share.core.domain.exception.GlobalBusinessException;
@@ -16,9 +15,6 @@ import com.kynsof.share.core.domain.response.ErrorField;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.util.Optional;
 import java.util.UUID;
 
 @Service

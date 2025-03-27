@@ -3,23 +3,21 @@ package com.kynsof.payment.application.command.groupPayment.update;
 import com.kynsof.payment.domain.dto.GroupPaymentDto;
 import com.kynsof.payment.domain.dto.enumDto.GroupPaymentStatus;
 import com.kynsof.payment.domain.service.IGroupPaymentService;
-import com.kynsof.payment.infrastructure.entity.GroupPayment;
 import com.kynsof.share.core.application.payment.domain.placeToPlay.PaymentServiceStatusResponse;
-import com.kynsof.share.core.application.payment.infrastructure.service.config.ExternalServiceClient;
+import com.kynsof.share.core.application.payment.infrastructure.service.config.PaymentServiceClient;
 import com.kynsof.share.core.domain.bus.command.ICommandHandler;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
-import java.util.List;
 
 @Component
 public class UpdateGroupPaymentCommandHandler implements ICommandHandler<UpdateGroupPaymentCommand> {
 
     private final IGroupPaymentService serviceImpl;
     ;
-    private final ExternalServiceClient paymentServiceClient;
+    private final PaymentServiceClient paymentServiceClient;
 
-    public UpdateGroupPaymentCommandHandler(IGroupPaymentService serviceImpl, ExternalServiceClient paymentServiceClient) {
+    public UpdateGroupPaymentCommandHandler(IGroupPaymentService serviceImpl, PaymentServiceClient paymentServiceClient) {
         this.serviceImpl = serviceImpl;
 
         this.paymentServiceClient = paymentServiceClient;

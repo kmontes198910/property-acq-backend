@@ -1,4 +1,4 @@
-package com.kynsof.calendar.infrastructure.service.socket;
+package com.kynsof.calendar.application.service.socket;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

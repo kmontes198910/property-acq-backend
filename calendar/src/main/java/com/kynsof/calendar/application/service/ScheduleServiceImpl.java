@@ -1,4 +1,4 @@
-package com.kynsof.calendar.infrastructure.service;
+package com.kynsof.calendar.application.service;
 
 import com.kynsof.calendar.application.query.ScheduleResponse;
 import com.kynsof.calendar.application.query.schedule.getAvailabilityByRangeDate.ResourceWithSchedulesResponse;

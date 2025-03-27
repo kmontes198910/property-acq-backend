@@ -15,12 +15,12 @@ import java.util.Map;
 import java.util.UUID;
 
 @Service
-public class ExternalServiceClient {
+public class PaymentServiceClient {
 
     private final PaymentServiceConfig paymentServiceConfig;
     private final ObjectMapper objectMapper;
 
-    public ExternalServiceClient(PaymentServiceConfig paymentServiceConfig, ObjectMapper objectMapper) {
+    public PaymentServiceClient(PaymentServiceConfig paymentServiceConfig, ObjectMapper objectMapper) {
         this.paymentServiceConfig = paymentServiceConfig;
         this.objectMapper = objectMapper;
     }
@@ -55,10 +55,18 @@ public class ExternalServiceClient {
                 }
 
                 String responseBody = EntityUtils.toString(response.getEntity());
+                System.out.println("HTTP Response Body >>> " + responseBody);
+
                 Map<String, Object> responseMap = objectMapper.readValue(responseBody, Map.class);
+                boolean isSuccess = Boolean.parseBoolean(String.valueOf(responseMap.get("isSuccess")));
+
+                if (!isSuccess) {
+                    return null;
+                }
+
                 return mapToPaymentServiceStatusResponse(responseMap);
             } catch (ParseException e) {
-                throw new RuntimeException(e);
+                throw new RuntimeException("Error al parsear la respuesta HTTP", e);
             }
         }
     }

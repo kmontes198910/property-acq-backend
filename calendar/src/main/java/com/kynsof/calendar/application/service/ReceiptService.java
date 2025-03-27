@@ -1,7 +1,8 @@
-package com.kynsof.calendar.infrastructure.service;
+package com.kynsof.calendar.application.service;
 
 import com.kynsof.calendar.application.query.ReceiptResponse;
 import com.kynsof.calendar.domain.dto.ReceiptDto;
+import com.kynsof.calendar.domain.dto.ReceiptSummaryDTO;
 import com.kynsof.calendar.domain.dto.ScheduleDto;
 import com.kynsof.calendar.domain.dto.enumType.EStatusReceipt;
 import com.kynsof.calendar.domain.dto.enumType.EStatusSchedule;
@@ -196,12 +197,13 @@ public class ReceiptService implements IReceiptService {
     }
 
     @Override
-    public List<Receipt> findByStatus(EStatusReceipt statusReceipt) {
-        return this.receiptRepositoryQuery.findByStatus(statusReceipt);
+    public List<ReceiptSummaryDTO> findByStatus(EStatusReceipt statusReceipt) {
+        return this.receiptRepositoryQuery.findSummaryByStatus(statusReceipt);
     }
 
     @Override
-    public void updatePaymentStatus(Receipt receipt, String status, String reference, String authorization) {
+    public void updatePaymentStatus(UUID receiptID, String status, String reference, String authorization) {
+        Receipt receipt = this.receiptRepositoryQuery.findById(receiptID).get();
         switch (status) {
             case "APPROVED":
                 receipt.setStatus(EStatusReceipt.PAYMENT);

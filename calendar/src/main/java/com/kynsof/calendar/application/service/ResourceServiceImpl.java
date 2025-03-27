@@ -1,4 +1,4 @@
-package com.kynsof.calendar.infrastructure.service;
+package com.kynsof.calendar.application.service;
 
 import com.kynsof.calendar.application.query.ResourceResponse;
 import com.kynsof.calendar.domain.dto.ResourceDto;
@@ -12,7 +12,7 @@ import com.kynsof.calendar.infrastructure.repository.command.BusinessResourceWri
 import com.kynsof.calendar.infrastructure.repository.command.ResourceServiceWriteDataJPARepository;
 import com.kynsof.calendar.infrastructure.repository.command.ResourceWriteDataJPARepository;
 import com.kynsof.calendar.infrastructure.repository.query.*;
-import com.kynsof.calendar.infrastructure.service.http.DoctorHttpUUIDService;
+import com.kynsof.calendar.application.service.http.DoctorHttpUUIDService;
 import com.kynsof.share.core.domain.exception.BusinessNotFoundException;
 import com.kynsof.share.core.domain.exception.DomainErrorMessage;
 import com.kynsof.share.core.domain.exception.GlobalBusinessException;
