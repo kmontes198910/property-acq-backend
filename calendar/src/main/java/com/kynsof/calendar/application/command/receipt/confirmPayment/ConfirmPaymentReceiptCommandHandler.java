@@ -4,11 +4,11 @@ import com.kynsof.calendar.domain.dto.ReceiptDto;
 import com.kynsof.calendar.domain.dto.enumType.EStatusReceipt;
 import com.kynsof.calendar.domain.dto.enumType.EStatusSchedule;
 import com.kynsof.calendar.domain.service.IReceiptService;
-import com.kynsof.calendar.infrastructure.service.http.CreateBillingPartialRequest;
-import com.kynsof.calendar.infrastructure.service.http.CreateGroupPaymentUnifRequest;
-import com.kynsof.calendar.infrastructure.service.http.GroupPaymentServiceClient;
+import com.kynsof.calendar.application.service.http.CreateBillingPartialRequest;
+import com.kynsof.calendar.application.service.http.CreateGroupPaymentUnifRequest;
+import com.kynsof.calendar.application.service.http.GroupPaymentServiceClient;
 import com.kynsof.share.core.application.payment.domain.placeToPlay.PaymentServiceStatusResponse;
-import com.kynsof.share.core.application.payment.infrastructure.service.config.ExternalServiceClient;
+import com.kynsof.share.core.application.payment.infrastructure.service.config.PaymentServiceClient;
 import com.kynsof.share.core.domain.bus.command.ICommandHandler;
 import com.kynsof.share.core.domain.exception.BusinessException;
 import com.kynsof.share.core.domain.exception.DomainErrorMessage;
@@ -17,16 +17,15 @@ import org.springframework.stereotype.Component;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 @Component
 public class ConfirmPaymentReceiptCommandHandler implements ICommandHandler<ConfirmPaymentReceiptCommand> {
 
     private final IReceiptService service;
-    private final ExternalServiceClient paymentServiceClient;
+    private final PaymentServiceClient paymentServiceClient;
     private final GroupPaymentServiceClient groupPaymentServiceClient;
 
-    public ConfirmPaymentReceiptCommandHandler(IReceiptService service, ExternalServiceClient paymentServiceClient, GroupPaymentServiceClient groupPaymentServiceClient) {
+    public ConfirmPaymentReceiptCommandHandler(IReceiptService service, PaymentServiceClient paymentServiceClient, GroupPaymentServiceClient groupPaymentServiceClient) {
         this.service = service;
         this.paymentServiceClient = paymentServiceClient;
         this.groupPaymentServiceClient = groupPaymentServiceClient;

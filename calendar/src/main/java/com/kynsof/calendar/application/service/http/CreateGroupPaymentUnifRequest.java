@@ -1,4 +1,4 @@
-package com.kynsof.calendar.infrastructure.service.http;
+package com.kynsof.calendar.application.service.http;
 
 import lombok.Getter;
 import lombok.Setter;

@@ -3,7 +3,7 @@ package com.kynsof.calendar.application.command.receipt.updateConsultId;
 import com.kynsof.calendar.domain.dto.ReceiptDto;
 import com.kynsof.calendar.domain.service.IReceiptService;
 import com.kynsof.calendar.domain.service.IScheduleService;
-import com.kynsof.calendar.infrastructure.service.BusinessBalanceService;
+import com.kynsof.calendar.application.service.BusinessBalanceService;
 import com.kynsof.share.core.domain.bus.command.ICommandHandler;
 import org.springframework.stereotype.Component;
 

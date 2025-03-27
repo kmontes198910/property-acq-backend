@@ -1,4 +1,4 @@
-package com.kynsof.calendar.infrastructure.service;
+package com.kynsof.calendar.application.service;
 
 import com.kynsof.calendar.application.query.ServiceTypeResponse;
 import com.kynsof.calendar.domain.dto.ServiceTypeDto;

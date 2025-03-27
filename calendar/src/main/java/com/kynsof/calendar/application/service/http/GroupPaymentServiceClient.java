@@ -1,6 +1,4 @@
-package com.kynsof.calendar.infrastructure.service.http;
-
-
+package com.kynsof.calendar.application.service.http;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
