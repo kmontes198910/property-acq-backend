@@ -75,7 +75,7 @@ public interface ScheduleReadDataJPARepository extends JpaRepository<Schedule, U
 
     @Query("SELECT new com.kynsof.calendar.domain.dto.ScheduleServiceInfoDto(" +
             "s.business.id, s.business.name, s.business.address, s.business.logo, " +
-            "MIN(bs.price), s.business.latitude, s.business.longitude) " +
+            "MIN(bs.price), s.business.latitude, s.business.longitude,s.business.phone,s.business.email, s.business.ruc) " +
             "FROM Schedule s " +
             "JOIN s.business b " +
             "JOIN BusinessServices bs ON bs.business = b AND bs.services.id = s.service.id " +

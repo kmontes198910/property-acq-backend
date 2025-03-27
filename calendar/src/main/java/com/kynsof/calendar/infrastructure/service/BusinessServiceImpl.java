@@ -30,14 +30,19 @@ import java.util.UUID;
 @Service
 public class BusinessServiceImpl implements IBusinessService {
 
-    @Autowired
-    private BusinessWriteDataJPARepository repositoryCommand;
+    private final BusinessWriteDataJPARepository repositoryCommand;
 
-    @Autowired
-    private BusinessReadDataJPARepository repositoryQuery;
+    private final BusinessReadDataJPARepository repositoryQuery;
 
-    @Autowired
-    private ScheduleReadDataJPARepository scheduleReadDataJPARepository;
+    private final ScheduleReadDataJPARepository scheduleReadDataJPARepository;
+
+    public BusinessServiceImpl(BusinessWriteDataJPARepository repositoryCommand,
+                               BusinessReadDataJPARepository repositoryQuery,
+                               ScheduleReadDataJPARepository scheduleReadDataJPARepository) {
+        this.repositoryCommand = repositoryCommand;
+        this.repositoryQuery = repositoryQuery;
+        this.scheduleReadDataJPARepository = scheduleReadDataJPARepository;
+    }
 
     @Override
     public void create(BusinessDto object) {

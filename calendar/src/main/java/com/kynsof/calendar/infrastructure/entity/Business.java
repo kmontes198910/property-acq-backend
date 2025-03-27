@@ -27,6 +27,9 @@ public class Business implements Serializable {
     private String longitude;
     private String address;
     private String logo;
+    private String phone;
+    private String email;
+    private String ruc;
     @OneToMany(mappedBy = "business", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<BusinessResource> businessResources = new HashSet<>();
     @CreationTimestamp
@@ -48,6 +51,7 @@ public class Business implements Serializable {
     }
 
     public BusinessDto toAggregate () {
-        return new BusinessDto(id, name, latitude, longitude, address, logo);
+        return new BusinessDto(id, name, latitude, longitude, address, logo,
+                phone, email, ruc);
     }
 }
