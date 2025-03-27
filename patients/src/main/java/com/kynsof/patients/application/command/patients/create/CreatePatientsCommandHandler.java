@@ -58,7 +58,9 @@ public class CreatePatientsCommandHandler implements ICommandHandler<CreatePatie
                     command.getCreateContactInfoRequest().getAddress(),
                     command.getCreateContactInfoRequest().getBirthdayDate(),
                     Status.ACTIVE,
-                    parroquia
+                    parroquia,
+                    command.getCreateContactInfoRequest().getConventionalTelephone(),
+                    command.getCreateContactInfoRequest().getMaritalStatus()
             ));
         }catch (Exception ignored) {
 

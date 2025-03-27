@@ -47,9 +47,11 @@ public class ContactInformation {
     @Column(updatable = false)
     private LocalDateTime createdAt;
 
-
     @UpdateTimestamp
     private LocalDateTime updatedAt;
+
+    private String conventionalTelephone;
+    private String maritalStatus;
 
     public ContactInformation(ContactInfoDto contactInfoDto) {
         this.id = contactInfoDto.getId();
@@ -60,6 +62,8 @@ public class ContactInformation {
         this.birthdayDate = contactInfoDto.getBirthdayDate();
         this.status = contactInfoDto.getStatus();
         this.parroquia = contactInfoDto.getParroquia() != null ? new GeographicLocation(contactInfoDto.getParroquia()) : null;
+        this.conventionalTelephone = contactInfoDto.getConventionalTelephone();
+        this.maritalStatus = contactInfoDto.getMaritalStatus();
     }
 
     public ContactInfoDto toAggregate() {
@@ -73,7 +77,9 @@ public class ContactInformation {
                 getAddress(), 
                 getBirthdayDate(), 
                 getStatus(),
-                parroquiaDto
+                parroquiaDto,
+                getConventionalTelephone(),
+                getMaritalStatus()
         );
     }
 
@@ -88,7 +94,9 @@ public class ContactInformation {
                 getAddress(),
                 getBirthdayDate(),
                 getStatus(),
-                parroquiaDto
+                parroquiaDto,
+                getConventionalTelephone(),
+                getMaritalStatus()
         );
     }
 }
