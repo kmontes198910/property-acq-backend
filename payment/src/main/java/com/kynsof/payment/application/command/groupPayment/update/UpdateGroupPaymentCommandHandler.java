@@ -35,12 +35,16 @@ public class UpdateGroupPaymentCommandHandler implements ICommandHandler<UpdateG
                 GroupPaymentStatus groupPaymentStatus = GroupPaymentStatus.PENDING_APPROVED;
                 if (paymentStatus.getStatus().equals("APPROVED")) {
                     groupPaymentStatus = GroupPaymentStatus.PAYMENT_APPROVED;
+                    this.serviceImpl.update(groupPaymentDto.getId(), paymentStatus.getReference(), paymentStatus.getAuthorization(), command.getRequestId(),
+                            command.getProcessUrl(), groupPaymentStatus
+                    );
                 } else if (paymentStatus.getStatus().equals("REJECTED")) {
                     groupPaymentStatus = GroupPaymentStatus.REJECTED;
+                    this.serviceImpl.update(groupPaymentDto.getId(), paymentStatus.getReference(), paymentStatus.getAuthorization(), command.getRequestId(),
+                            command.getProcessUrl(), groupPaymentStatus
+                    );
                 }
-                this.serviceImpl.update(groupPaymentDto.getId(), paymentStatus.getReference(), paymentStatus.getAuthorization(), groupPaymentDto.getRequestId(),
-                        command.getProcessUrl(), groupPaymentStatus
-                );
+
             } else {
                 this.serviceImpl.update(command.getId(), command.getReference(),
                         command.getAuthorizationCode(), command.getRequestId(),
