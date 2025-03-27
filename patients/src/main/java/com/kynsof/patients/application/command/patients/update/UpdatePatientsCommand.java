@@ -20,11 +20,12 @@ public class UpdatePatientsCommand implements ICommand {
     private GenderType gender;
     private String photo;
     private CreatePatientContactInfoRequest createContactInfoRequest;
-    private String profession;
+    private String profession;    
+    private String educationalLevel;
+    private int clinicalHistoryNumber;
 
     public UpdatePatientsCommand(UUID id, String identification, String name, String lastName, GenderType gender, String photo,
-                                 CreatePatientContactInfoRequest createContactInfoRequest, String profession) {
-
+                                 CreatePatientContactInfoRequest createContactInfoRequest, String profession, String educationalLevel, int clinicalHistoryNumber) {
         this.identification = identification;
         this.name = name;
         this.lastName = lastName;
@@ -33,12 +34,14 @@ public class UpdatePatientsCommand implements ICommand {
         this.photo = photo;
         this.createContactInfoRequest = createContactInfoRequest;
         this.profession = profession;
-
+        this.educationalLevel = educationalLevel;
+        this.clinicalHistoryNumber = clinicalHistoryNumber;
     }
 
     public static UpdatePatientsCommand fromRequest(UUID id, UpdatePatientsRequest request) {
         return new UpdatePatientsCommand(id, request.getIdentification(), request.getName(), request.getLastName(), request.getGender(),
-                request.getImage(),  request.getContactInfo(), request.getProfession());
+                request.getImage(),  request.getContactInfo(), request.getProfession(), 
+                request.getEducationalLevel(), request.getClinicalHistoryNumber());
     }
 
     @Override

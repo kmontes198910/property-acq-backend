@@ -20,9 +20,12 @@ public class UpdateContactInfoCommand implements ICommand {
     private UUID province;
     private UUID canton;
     private UUID parroquia;
+    private String conventionalTelephone;
+    private String maritalStatus;
 
     public UpdateContactInfoCommand(UUID id, UUID patientId, String telephone, String address,
-            LocalDate birthdayDate, UUID province, UUID canton, UUID parroquia) {
+            LocalDate birthdayDate, UUID province, UUID canton, UUID parroquia, String conventionalTelephone,
+            String maritalStatus) {
         this.id = id;
         this.patientId = patientId;
         this.telephone = telephone;
@@ -31,12 +34,15 @@ public class UpdateContactInfoCommand implements ICommand {
         this.province = province;
         this.canton = canton;
         this.parroquia = parroquia;
+        this.conventionalTelephone = conventionalTelephone;
+        this.maritalStatus = maritalStatus;
     }
 
     public static UpdateContactInfoCommand fromRequest(UUID id, UpdateContactInfoRequest request) {
         return new UpdateContactInfoCommand(id, request.getPatientId(), request.getTelephone(),
                 request.getAddress(), request.getBirthdayDate(), request.getProvince(), 
-                request.getCanton(), request.getParroquia());
+                request.getCanton(), request.getParroquia(), request.getConventionalTelephone(),
+                      request.getMaritalStatus());
     }
 
     @Override
