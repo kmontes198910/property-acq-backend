@@ -30,6 +30,7 @@ public class UpdateGroupPaymentCommandHandler implements ICommandHandler<UpdateG
         GroupPaymentDto groupPaymentDto = serviceImpl.findById(command.getId());
         try {
             if (command.getStatus().equals(GroupPaymentStatus.PENDING_APPROVED) || command.getStatus().equals(GroupPaymentStatus.PAYMENT_APPROVED)) {
+                System.err.println("Entro aqui");
                 PaymentServiceStatusResponse paymentStatus = paymentServiceClient.validateStatusPayment(
                         command.getRequestId(), groupPaymentDto.getBusiness().getId());
                 GroupPaymentStatus groupPaymentStatus = GroupPaymentStatus.PENDING_APPROVED;
@@ -43,8 +44,14 @@ public class UpdateGroupPaymentCommandHandler implements ICommandHandler<UpdateG
                     this.serviceImpl.update(groupPaymentDto.getId(), paymentStatus.getReference(), paymentStatus.getAuthorization(), command.getRequestId(),
                             command.getProcessUrl(), groupPaymentStatus
                     );
-                }
 
+                }
+                else {
+                    this.serviceImpl.update(command.getId(), command.getReference(),
+                            command.getAuthorizationCode(), command.getRequestId(),
+                            command.getProcessUrl(),
+                            command.getStatus());
+                }
             } else {
                 this.serviceImpl.update(command.getId(), command.getReference(),
                         command.getAuthorizationCode(), command.getRequestId(),
