@@ -45,7 +45,7 @@ public class ValidateGroupPaymentStatusTask {
                 );
                 System.err.println(paymentStatus);
             } catch (IOException e) {
-                System.err.println(e.getMessage());
+                System.out.println("Error while updating JOB group payment " + e.getMessage());
             }
         });
 
