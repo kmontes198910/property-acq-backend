@@ -37,12 +37,15 @@ public class ValidateGroupPaymentStatusTask {
                 GroupPaymentStatus groupPaymentStatus = GroupPaymentStatus.PENDING_APPROVED;
                 if (paymentStatus.getStatus().equals("APPROVED")) {
                     groupPaymentStatus = GroupPaymentStatus.PAYMENT_APPROVED;
+                    this.groupPaymentService.update(groupPayment.getId(), paymentStatus.getReference(), paymentStatus.getAuthorization(), groupPayment.getRequestId(),
+                            "", groupPaymentStatus
+                    );
                 } else if (paymentStatus.getStatus().equals("REJECTED")) {
                     groupPaymentStatus = GroupPaymentStatus.REJECTED;
+                    this.groupPaymentService.update(groupPayment.getId(), paymentStatus.getReference(), paymentStatus.getAuthorization(), groupPayment.getRequestId(),
+                            "", groupPaymentStatus
+                    );
                 }
-                this.groupPaymentService.update(groupPayment.getId(), paymentStatus.getReference(), paymentStatus.getAuthorization(), groupPayment.getRequestId(),
-                        "", groupPaymentStatus
-                );
                 System.err.println(paymentStatus);
             } catch (IOException e) {
                 System.out.println("Error while updating JOB group payment " + e.getMessage());
