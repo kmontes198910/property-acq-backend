@@ -18,6 +18,9 @@ public class BusinessResponse implements IResponse {
     private String longitude;
     private String address;
     private String logo;
+    private String phone;
+    private String email;
+    private String ruc;
 
     public BusinessResponse(BusinessDto object) {
         this.id = object.getId();
@@ -26,6 +29,9 @@ public class BusinessResponse implements IResponse {
         this.longitude = object.getLongitude();
         this.logo = object.getLogo();
         this.address = object.getAddress();
+        this.phone = object.getPhone();
+        this.email = object.getEmail();
+        this.ruc = object.getRuc();
     }
 
 }
