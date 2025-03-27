@@ -32,8 +32,10 @@ public class ValidateReceiptStatusTask {
         receipts.forEach(receipt -> {
             try {
                 PaymentServiceStatusResponse paymentStatus = paymentServiceClient.validateStatusPayment(receipt.getRequestId(), receipt.getSchedule().getBusiness().getId());
-                this.receiptService.updatePaymentStatus(receipt,paymentStatus.getStatus(),paymentStatus.getReference(), paymentStatus.getAuthorization());
-                System.err.println(paymentStatus);
+                System.err.println("Estado del pago:"+paymentStatus);
+                if (paymentStatus.getStatus().equals("APPROVED")) {
+                    this.receiptService.updatePaymentStatus(receipt, paymentStatus.getStatus(), paymentStatus.getReference(), paymentStatus.getAuthorization());
+                }
             } catch (IOException e) {
                 System.err.println(e.getMessage());
             }
