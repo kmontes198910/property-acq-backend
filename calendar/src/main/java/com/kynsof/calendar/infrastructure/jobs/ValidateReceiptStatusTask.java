@@ -33,7 +33,7 @@ public class ValidateReceiptStatusTask {
             try {
                 PaymentServiceStatusResponse paymentStatus = paymentServiceClient.validateStatusPayment(receipt.getRequestId(), receipt.getSchedule().getBusiness().getId());
                 System.err.println("Estado del pago:"+paymentStatus);
-                if (paymentStatus.getStatus().equals("APPROVED")) {
+                if (!paymentStatus.getStatus().equals("PENDING")) {
                     this.receiptService.updatePaymentStatus(receipt, paymentStatus.getStatus(), paymentStatus.getReference(), paymentStatus.getAuthorization());
                 }
             } catch (IOException e) {
