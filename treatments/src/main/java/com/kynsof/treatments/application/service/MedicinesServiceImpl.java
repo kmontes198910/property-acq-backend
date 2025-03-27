@@ -36,13 +36,13 @@ public class MedicinesServiceImpl implements IMedicinesService {
     }
 
     @Override
-    @CacheEvict(value = "medicines", allEntries = true)
+  //  @CacheEvict(value = "medicines", allEntries = true)
     public void create(MedicinesDto medicines) {
         this.repositoryCommand.save(new Medicines(medicines));
     }
 
     @Override
-    @CacheEvict(value = "medicines", allEntries = true)
+   // @CacheEvict(value = "medicines", allEntries = true)
     public void update(MedicinesDto medicines) {
         Medicines update = new Medicines(medicines);
         update.setUpdatedAt(LocalDateTime.now());
@@ -50,7 +50,7 @@ public class MedicinesServiceImpl implements IMedicinesService {
     }
 
     @Override
-    @CacheEvict(value = "medicines", allEntries = true)
+   // @CacheEvict(value = "medicines", allEntries = true)
     public void delete(MedicinesDto object) {
         try {
             this.repositoryCommand.deleteById(object.getId());
@@ -63,7 +63,7 @@ public class MedicinesServiceImpl implements IMedicinesService {
     }
 
     @Override
-    @Cacheable(value = "medicines", key = "#id", unless = "#result == null")
+   // @Cacheable(value = "medicines", key = "#id", unless = "#result == null")
     public MedicinesDto findById(UUID id) {
         Optional<Medicines> object = this.repositoryQuery.findById(id);
         return object.map(Medicines::toAggregate)
@@ -73,7 +73,7 @@ public class MedicinesServiceImpl implements IMedicinesService {
     }
 
     @Override
-    @Cacheable(value = "medicines", key = "#pageable.pageNumber + '-' + #pageable.pageSize", unless = "#result.getTotalElements() == 0")
+   // @Cacheable(value = "medicines", key = "#pageable.pageNumber + '-' + #pageable.pageSize", unless = "#result.getTotalElements() == 0")
     public PaginatedResponse search(Pageable pageable, List<FilterCriteria> filterCriteria) {
         GenericSpecificationsBuilder<Procedure> specifications = new GenericSpecificationsBuilder<>(filterCriteria);
         Page<Medicines> data = this.repositoryQuery.findAll(specifications, pageable);
