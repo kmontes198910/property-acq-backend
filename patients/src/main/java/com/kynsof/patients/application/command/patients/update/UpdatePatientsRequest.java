@@ -17,5 +17,4 @@ public class UpdatePatientsRequest {
     private CreatePatientContactInfoRequest contactInfo;
     private String profession;
     private String educationalLevel;
-    private int clinicalHistoryNumber;
 }

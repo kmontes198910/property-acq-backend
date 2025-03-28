@@ -37,7 +37,6 @@ public class UpdatePatientsCommandHandler implements ICommandHandler<UpdatePatie
         patientDto.setGender(command.getGender());
         patientDto.setPhoto(command.getPhoto());
         patientDto.setProfession(command.getProfession());
-        patientDto.setClinicalHistoryNumber(command.getClinicalHistoryNumber());
         patientDto.setEducationalLevel(command.getEducationalLevel());
         serviceImpl.update(patientDto);
 
