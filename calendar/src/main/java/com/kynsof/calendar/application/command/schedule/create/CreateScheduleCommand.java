@@ -26,13 +26,15 @@ public class CreateScheduleCommand implements ICommand {
     private final String ipAddress;
     private final String userAgent;
     private final IMediator mediator;
+    private final boolean bloked;
 
     public CreateScheduleCommand(UUID idResource, UUID idBusiness, LocalDate date, LocalTime startTime, LocalTime endingTime,
-                                 int stock, UUID idService, UUID user, String ipAddress, String userAgent, IMediator mediator) {
+                                 int stock, UUID idService, UUID user, String ipAddress, String userAgent, IMediator mediator, boolean bloked) {
         this.user = user;
         this.ipAddress = ipAddress;
         this.userAgent = userAgent;
         this.mediator = mediator;
+        this.bloked = bloked;
         this.id = UUID.randomUUID();
         this.resource = idResource;
         this.businessId = idBusiness;
@@ -46,7 +48,7 @@ public class CreateScheduleCommand implements ICommand {
     public static CreateScheduleCommand fromRequest(CreateScheduleRequest request, String userAgent, String ipAddress, IMediator mediator) {
         return new CreateScheduleCommand(request.getResource(), request.getBusiness(), request.getDate(),
                 request.getStartTime(), request.getEndingTime(), request.getStock(),
-                request.getService(), request.getUser(), ipAddress, userAgent,mediator );
+                request.getService(), request.getUser(), ipAddress, userAgent,mediator,request.isBlocked() );
     }
 
     @Override

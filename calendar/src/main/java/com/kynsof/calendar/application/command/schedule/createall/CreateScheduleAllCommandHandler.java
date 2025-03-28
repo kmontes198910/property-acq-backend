@@ -30,7 +30,8 @@ public class CreateScheduleAllCommandHandler implements ICommandHandler<CreateSc
                     null,
                     "",
                     "",
-                null
+                null,
+                    false
             ));
         }
     }
