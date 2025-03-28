@@ -20,9 +20,11 @@ public class CreateContactInfoCommand implements ICommand {
     private UUID province;
     private UUID canton;
     private UUID parroquia;
+    private String conventionalTelephone;
+    private String maritalStatus;
 
     public CreateContactInfoCommand(UUID patientId, String telephone, String address, LocalDate localDate,
-            UUID province, UUID canton, UUID parroquia) {
+            UUID province, UUID canton, UUID parroquia, String conventionalTelephone, String maritalStatus) {
         this.patientId = patientId;
         this.telephone = telephone;
         this.address = address;
@@ -30,12 +32,15 @@ public class CreateContactInfoCommand implements ICommand {
         this.province = province;
         this.canton = canton;
         this.parroquia = parroquia;
+        this.conventionalTelephone = conventionalTelephone;
+        this.maritalStatus = maritalStatus;
     }
 
     public static CreateContactInfoCommand fromRequest(UUID patientId, CreateContactInfoRequest request) {
         return new CreateContactInfoCommand(patientId, request.getTelephone(),
                 request.getAddress(), request.getBirthdayDate(), request.getProvince(),
-                request.getCanton(), request.getParroquia());
+                request.getCanton(), request.getParroquia(), 
+                request.getConventionalTelephone(), request.getMaritalStatus());
     }
 
     @Override

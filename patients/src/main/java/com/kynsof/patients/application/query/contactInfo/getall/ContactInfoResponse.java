@@ -29,6 +29,8 @@ public class ContactInfoResponse implements IResponse {
     private GeographicLocationDto province;
     private GeographicLocationDto canton;
     private GeographicLocationDto parroquia;
+    private String conventionalTelephone;
+    private String maritalStatus;
 
     public ContactInfoResponse(ContactInfoDto contactInfoDto) {
         this.id = contactInfoDto.getId();
@@ -39,6 +41,8 @@ public class ContactInfoResponse implements IResponse {
         this.birthdayDate = contactInfoDto.getBirthdayDate();
         this.parroquia = contactInfoDto.getParroquia() != null
                 ? contactInfoDto.getParroquia() : null;
+        this.conventionalTelephone = contactInfoDto.getConventionalTelephone();
+        this.maritalStatus = contactInfoDto.getMaritalStatus();
     }
 
 }

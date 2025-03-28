@@ -17,4 +17,6 @@ public class UpdateContactInfoRequest {
     private UUID province;
     private UUID canton;
     private UUID parroquia;
+    private String conventionalTelephone;
+    private String maritalStatus;
 }

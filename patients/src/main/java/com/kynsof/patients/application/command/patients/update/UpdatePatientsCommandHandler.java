@@ -37,6 +37,7 @@ public class UpdatePatientsCommandHandler implements ICommandHandler<UpdatePatie
         patientDto.setGender(command.getGender());
         patientDto.setPhoto(command.getPhoto());
         patientDto.setProfession(command.getProfession());
+        patientDto.setEducationalLevel(command.getEducationalLevel());
         serviceImpl.update(patientDto);
 
         if (contactInfoDto.getId() == null) {
@@ -47,6 +48,8 @@ public class UpdatePatientsCommandHandler implements ICommandHandler<UpdatePatie
             contactInfoDto.setEmail(command.getCreateContactInfoRequest().getEmail());
             contactInfoDto.setParroquia(parroquia);
             contactInfoDto.setStatus(Status.ACTIVE);
+            contactInfoDto.setConventionalTelephone(command.getCreateContactInfoRequest().getConventionalTelephone());
+            contactInfoDto.setMaritalStatus(command.getCreateContactInfoRequest().getMaritalStatus());
             contactInfoService.create(contactInfoDto);
         } else {
             contactInfoDto.setAddress(command.getCreateContactInfoRequest().getAddress());
@@ -55,6 +58,8 @@ public class UpdatePatientsCommandHandler implements ICommandHandler<UpdatePatie
             contactInfoDto.setParroquia(parroquia);
             contactInfoDto.setEmail(command.getCreateContactInfoRequest().getEmail());
             contactInfoDto.setStatus(Status.ACTIVE);
+            contactInfoDto.setConventionalTelephone(command.getCreateContactInfoRequest().getConventionalTelephone());
+            contactInfoDto.setMaritalStatus(command.getCreateContactInfoRequest().getMaritalStatus());
             contactInfoService.update(contactInfoDto);
         }
 

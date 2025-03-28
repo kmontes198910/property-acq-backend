@@ -9,6 +9,7 @@ import com.kynsof.payment.application.command.groupPayment.createGroupPaymentUni
 import com.kynsof.payment.application.command.groupPayment.delete.DeleteGroupPaymentCommand;
 import com.kynsof.payment.application.command.groupPayment.delete.DeleteGroupPaymentMessage;
 import com.kynsof.payment.application.command.groupPayment.reversebyId.ReverseByIdGroupPaymentCommand;
+import com.kynsof.payment.application.command.groupPayment.reversebyId.ReverseByIdGroupPaymentResponse;
 import com.kynsof.payment.application.command.groupPayment.sendPaymentLink.SendGroupPaymentLinkCommand;
 import com.kynsof.payment.application.command.groupPayment.sendPaymentLink.SendGroupPaymentLinkMessage;
 import com.kynsof.payment.application.command.groupPayment.sendPaymentLink.SendGroupPaymentLinkRequest;
@@ -99,7 +100,7 @@ public class GroupPaymentsController {
     @GetMapping(path = "reverse/{id}")
     public ResponseEntity<?> greverseById(@PathVariable UUID id) {
         ReverseByIdGroupPaymentCommand command = new ReverseByIdGroupPaymentCommand(id);
-        GroupPaymentResponse response = mediator.send(command);
+        ReverseByIdGroupPaymentResponse response = mediator.send(command);
         return ResponseEntity.ok(response);
     }
 

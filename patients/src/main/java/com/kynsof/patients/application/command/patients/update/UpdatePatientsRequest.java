@@ -16,4 +16,5 @@ public class UpdatePatientsRequest {
     private String image;
     private CreatePatientContactInfoRequest contactInfo;
     private String profession;
+    private String educationalLevel;
 }

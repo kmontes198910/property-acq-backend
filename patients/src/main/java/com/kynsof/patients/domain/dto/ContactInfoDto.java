@@ -14,17 +14,21 @@ import java.util.UUID;
 
 @NoArgsConstructor
 public class ContactInfoDto implements Serializable {
-    private  UUID id;
-    private  PatientDto patient;
-    private  String email;
-    private  String telephone;
-    private  String address;
-    private  LocalDate birthdayDate;
-    private  Status status;
-    private  GeographicLocationDto parroquia;
+
+    private UUID id;
+    private PatientDto patient;
+    private String email;
+    private String telephone;
+    private String conventionalTelephone;
+    private String maritalStatus;
+    private String address;
+    private LocalDate birthdayDate;
+    private Status status;
+    private GeographicLocationDto parroquia;
 
     public ContactInfoDto(UUID id, PatientDto patient, String email, String telephone, String address,
-                          LocalDate birthdayDate, Status status, GeographicLocationDto parroquia) {
+            LocalDate birthdayDate, Status status, GeographicLocationDto parroquia,
+            String conventionalTelephone, String maritalStatus) {
         this.id = id;
         this.patient = patient;
         this.email = email != null ? email : "";
@@ -33,5 +37,7 @@ public class ContactInfoDto implements Serializable {
         this.birthdayDate = birthdayDate;
         this.status = status;
         this.parroquia = parroquia;
+        this.conventionalTelephone = conventionalTelephone;
+        this.maritalStatus = maritalStatus;
     }
 }

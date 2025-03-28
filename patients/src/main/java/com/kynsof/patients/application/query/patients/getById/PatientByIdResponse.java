@@ -31,6 +31,8 @@ public class PatientByIdResponse implements IResponse {
     private ContactInfoResponse contactInfo;
     private FamilyRelationship familyRelationship;
     private String profession;
+    private String educationalLevel;
+    private String clinicalHistoryNumber;
 
     public PatientByIdResponse(PatientByIdDto patients) {
         this.id = patients.getId();
@@ -45,6 +47,8 @@ public class PatientByIdResponse implements IResponse {
         gestationTime = patients.getGestationTime();
         familyRelationship = patients.getFamilyRelationship();
         this.profession = patients.getProfession();
+        this.educationalLevel = patients.getEducationalLevel();
+        this.clinicalHistoryNumber = patients.getClinicalHistoryNumber();
         if (patients.getContactInfoDto() != null) {
             this.contactInfo = new ContactInfoResponse(patients.getContactInfoDto());
         }

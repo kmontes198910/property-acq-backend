@@ -81,6 +81,8 @@ public class PatientsServiceImpl implements IPatientsService {
         existingPatient.setDisabilityType(patientDto.getDisabilityType());
         existingPatient.setUpdatedAt(LocalDateTime.now());
         existingPatient.setProfession(patientDto.getProfession());
+        existingPatient.setClinicalHistoryNumber(patientDto.getClinicalHistoryNumber());
+        existingPatient.setEducationalLevel(patientDto.getEducationalLevel());
 
         // Persistir los cambios
         repositoryCommand.save(existingPatient);

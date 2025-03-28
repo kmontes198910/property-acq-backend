@@ -33,6 +33,8 @@ public class UpdateContactInfoCommandHandler implements ICommandHandler<UpdateCo
         contactInfoDto.setTelephone(command.getTelephone());
         contactInfoDto.setStatus(Status.ACTIVE);
         contactInfoDto.setParroquia(parroquia);
+        contactInfoDto.setConventionalTelephone(command.getConventionalTelephone());
+        contactInfoDto.setMaritalStatus(command.getMaritalStatus());
 
         contactInfoService.update(contactInfoDto);
     }

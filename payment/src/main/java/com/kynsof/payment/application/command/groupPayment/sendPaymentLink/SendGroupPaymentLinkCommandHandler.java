@@ -2,7 +2,7 @@ package com.kynsof.payment.application.command.groupPayment.sendPaymentLink;
 
 import com.kynsof.payment.domain.dto.GroupPaymentDto;
 import com.kynsof.payment.domain.service.IGroupPaymentService;
-import com.kynsof.payment.infrastructure.service.http.SendNotification;
+import com.kynsof.payment.application.service.http.SendNotification;
 import com.kynsof.share.core.domain.bus.command.ICommandHandler;
 import org.springframework.stereotype.Component;
 

@@ -3,7 +3,7 @@ package com.kynsof.payment.application.command.groupPayment.createGroupPaymentUn
 import com.kynsof.payment.domain.service.IBusiness;
 import com.kynsof.payment.domain.service.IClientService;
 import com.kynsof.payment.domain.service.IGroupPaymentService;
-import com.kynsof.payment.infrastructure.service.http.PatientHttpUUIDService;
+import com.kynsof.payment.application.service.http.PatientHttpUUIDService;
 import com.kynsof.share.core.domain.bus.command.ICommandHandler;
 import org.springframework.stereotype.Component;
 
