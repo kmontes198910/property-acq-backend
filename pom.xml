@@ -27,6 +27,7 @@
         <module>socketService</module>
         <module>payment</module>
         <module>evaluation</module>
+        <module>hospitalization-service</module>
     </modules>
     <build>
 
