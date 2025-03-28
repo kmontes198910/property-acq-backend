@@ -1,4 +1,4 @@
-package com.kynsof.payment.infrastructure.service.http;
+package com.kynsof.payment.application.service.http;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Value;

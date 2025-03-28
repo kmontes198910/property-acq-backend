@@ -1,4 +1,4 @@
-package com.kynsof.payment.infrastructure.service.readExcel;
+package com.kynsof.payment.application.service.readExcel;
 
 import com.kynsof.payment.domain.dto.excel.BillingExcelErrors;
 import com.kynsof.payment.domain.dto.excel.Errors;

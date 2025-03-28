@@ -1,4 +1,4 @@
-package com.kynsof.payment.infrastructure.service.http;
+package com.kynsof.payment.application.service.http;
 
 import com.kynsof.share.core.domain.exception.BusinessNotFoundException;
 import com.kynsof.share.core.domain.exception.DomainErrorMessage;

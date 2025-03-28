@@ -1,4 +1,4 @@
-package com.kynsof.payment.infrastructure.service;
+package com.kynsof.payment.application.service;
 
 import com.kynsof.payment.application.query.business.search.BusinessResponse;
 import com.kynsof.payment.domain.dto.BusinessDto;

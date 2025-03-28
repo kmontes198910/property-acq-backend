@@ -1,4 +1,4 @@
-package com.kynsof.payment.infrastructure.service;
+package com.kynsof.payment.application.service;
 
 import com.kynsof.payment.application.command.groupPayment.createGroupPaymentUnif.CreateBillingPartialRequest;
 import com.kynsof.payment.application.query.groupPayment.getbyid.GroupPaymentResponse;
@@ -13,7 +13,7 @@ import com.kynsof.payment.infrastructure.repositories.command.ClientWriteDataJPA
 import com.kynsof.payment.infrastructure.repositories.command.GroupPaymentWriteDataJPARepository;
 import com.kynsof.payment.infrastructure.repositories.command.PaymentDetailWriteDataJPARepository;
 import com.kynsof.payment.infrastructure.repositories.query.*;
-import com.kynsof.payment.infrastructure.service.http.PatientHttpUUIDService;
+import com.kynsof.payment.application.service.http.PatientHttpUUIDService;
 import com.kynsof.share.core.application.payment.domain.placeToPlay.PaymentServiceStatusResponse;
 import com.kynsof.share.core.application.payment.infrastructure.service.config.PaymentServiceClient;
 import com.kynsof.share.core.domain.exception.BusinessNotFoundException;

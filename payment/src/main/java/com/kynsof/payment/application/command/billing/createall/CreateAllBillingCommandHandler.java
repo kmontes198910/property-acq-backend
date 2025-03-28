@@ -8,7 +8,7 @@ import com.kynsof.payment.domain.dto.enumDto.TypeOperation;
 import com.kynsof.payment.domain.service.IBillingService;
 import com.kynsof.payment.domain.service.IBusiness;
 import com.kynsof.payment.domain.service.IClientService;
-import com.kynsof.payment.infrastructure.service.http.PatientHttpUUIDService;
+import com.kynsof.payment.application.service.http.PatientHttpUUIDService;
 import com.kynsof.share.core.domain.bus.command.ICommandHandler;
 import com.kynsof.share.core.domain.http.entity.PatientHttp;
 import org.springframework.stereotype.Component;

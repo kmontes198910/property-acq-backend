@@ -8,7 +8,7 @@ import com.kynsof.payment.domain.dto.enumDto.Status;
 import com.kynsof.payment.domain.service.IBillingService;
 import com.kynsof.payment.domain.service.IBusiness;
 import com.kynsof.payment.domain.service.IClientService;
-import com.kynsof.payment.infrastructure.service.http.PatientHttpUUIDService;
+import com.kynsof.payment.application.service.http.PatientHttpUUIDService;
 import com.kynsof.share.core.domain.bus.command.ICommandHandler;
 import com.kynsof.share.core.domain.exception.BusinessNotFoundException;
 import com.kynsof.share.core.domain.exception.DomainErrorMessage;

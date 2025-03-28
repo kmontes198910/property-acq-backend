@@ -1,4 +1,4 @@
-package com.kynsof.payment.infrastructure.service.rabbitMQ;
+package com.kynsof.payment.application.service.rabbitMQ;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;

@@ -1,4 +1,4 @@
-package com.kynsof.payment.infrastructure.service;
+package com.kynsof.payment.application.service;
 
 import com.kynsof.payment.application.query.PaymentReconciliationDetails.PaymentReconciliationDetailsResponse;
 import com.kynsof.payment.application.query.PaymentReconciliationHeader.PaymentReconciliationHeaderResponse;

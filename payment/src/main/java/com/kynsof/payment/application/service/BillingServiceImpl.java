@@ -1,4 +1,4 @@
-package com.kynsof.payment.infrastructure.service;
+package com.kynsof.payment.application.service;
 
 import com.kynsof.payment.application.query.billing.getbyid.BillingResponse;
 import com.kynsof.payment.domain.dto.BillingDto;
