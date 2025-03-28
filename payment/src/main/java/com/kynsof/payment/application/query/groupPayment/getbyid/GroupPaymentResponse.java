@@ -28,6 +28,7 @@ public class GroupPaymentResponse implements IResponse {
     private BusinessDto business;
     private String internalReferenceNumber;
     private PaymentType paymentType;
+    private Boolean isReverse;
 
     public GroupPaymentResponse(GroupPaymentDto aggregate) {
         this.id = aggregate.getId();
@@ -43,5 +44,6 @@ public class GroupPaymentResponse implements IResponse {
         this.business = aggregate.getBusiness();
         this.internalReferenceNumber = aggregate.getInternalReferenceNumber();
         this.paymentType = aggregate.getPaymentType();
+        this.isReverse = aggregate.getIsReverse();
     }
 }
