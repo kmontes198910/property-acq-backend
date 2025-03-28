@@ -32,5 +32,5 @@ public class PatientByIdDto implements Serializable {
     private ContactInfoDto contactInfoDto;
     private String profession;
     private String educationalLevel;
-    private int clinicalHistoryNumber;
+    private String clinicalHistoryNumber;
 }

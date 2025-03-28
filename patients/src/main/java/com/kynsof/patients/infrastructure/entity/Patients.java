@@ -37,17 +37,25 @@ public class Patients implements Serializable {
     private String firstName;
 
     private String lastName;
+
     @Enumerated(EnumType.STRING)
     private GenderType gender;
+
     @Enumerated(EnumType.STRING)
     private Status status;
+
     @Enumerated(EnumType.STRING)
     private FamilyRelationship familyRelationship;
+
     private String photo;
+
     private Boolean hasDisability;
+
     @Enumerated(EnumType.STRING)
     private DisabilityType disabilityType;
+
     private Boolean isPregnant;
+
     private int gestationTime = 0;
 
     @OneToOne(mappedBy = "patient", orphanRemoval = true)
@@ -73,8 +81,8 @@ public class Patients implements Serializable {
 
     private String profession;
     private String educationalLevel;
-    @Column(columnDefinition = "integer default 0")
-    private int clinicalHistoryNumber;
+
+    private String clinicalHistoryNumber;
 
     @CreationTimestamp
     @Column(updatable = false)
@@ -88,7 +96,7 @@ public class Patients implements Serializable {
         this.identification = patients.getIdentification();
         this.firstName = patients.getName();
         this.lastName = patients.getLastName();
-        this.gender = patients.getGender() != null ? patients.getGender() : GenderType.UNDEFINED ;
+        this.gender = patients.getGender() != null ? patients.getGender() : GenderType.UNDEFINED;
         this.status = patients.getStatus();
         this.hasDisability = patients.getHasDisability();
         this.isPregnant = patients.getIsPregnant();
@@ -97,7 +105,7 @@ public class Patients implements Serializable {
         this.gestationTime = patients.getGestationTime();
         this.profession = patients.getProfession();
         this.educationalLevel = patients.getEducationalLevel();
-        this.clinicalHistoryNumber = patients.getClinicalHistoryNumber();
+        this.clinicalHistoryNumber = generateClinicalHistoryNumber();
     }
 
     public Patients(DependentPatientDto patients) {
@@ -117,7 +125,7 @@ public class Patients implements Serializable {
     }
 
     public PatientDto toAggregate() {
-        PatientDto patientDto = new PatientDto(id, identification, firstName, lastName, gender, status,  hasDisability, isPregnant,
+        PatientDto patientDto = new PatientDto(id, identification, firstName, lastName, gender, status, hasDisability, isPregnant,
                 photo, disabilityType, gestationTime, profession);
         ContactInfoDto contactInfoDto = contactInformation != null ? contactInformation.toAggregateSimple() : null;
         patientDto.setContactInfo(contactInfoDto);
@@ -128,8 +136,23 @@ public class Patients implements Serializable {
 
     public PatientByIdDto toAggregateById() {
         ContactInfoDto contactInfoDto = contactInformation != null ? contactInformation.toAggregate() : null;
-        return  new PatientByIdDto(id, identification, firstName, lastName, gender, status,
+        return new PatientByIdDto(id, identification, firstName, lastName, gender, status,
                 hasDisability, isPregnant, photo, disabilityType, gestationTime, familyRelationship,
                 contactInfoDto, profession, educationalLevel, clinicalHistoryNumber);
+    }
+
+    // Método estático para generar número de historia clínica de 12 dígitos
+    public  String generateClinicalHistoryNumber() {
+        StringBuilder sb = new StringBuilder();
+
+        // Evitar que empiece con cero
+        sb.append((int) (Math.random() * 9) + 1);
+
+        for (int i = 1; i < 12; i++) {
+            int digit = (int) (Math.random() * 10);
+            sb.append(digit);
+        }
+
+        return sb.toString();
     }
 }

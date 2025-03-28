@@ -46,4 +46,5 @@ public class VitalSignsResponse implements IResponse {
         this.recordedAt = dto.getRecordedAt();
     }
 
+    
 }

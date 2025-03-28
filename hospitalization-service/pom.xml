@@ -134,7 +134,7 @@
                         <manifest>
                             <addClasspath>true</addClasspath>
                             <classpathPrefix>lib/</classpathPrefix>
-                            <mainClass>com.kynsof.evaluation.EvaluationsApplication</mainClass> <!-- Reemplaza con tu clase que contiene el método main -->
+                            <mainClass>com.kynsof.hospitalization-service.HospitalitationServiceApplication</mainClass> <!-- Reemplaza con tu clase que contiene el método main -->
                         </manifest>
                     </archive>
                 </configuration>

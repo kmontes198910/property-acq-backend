@@ -32,7 +32,7 @@ public class PatientByIdResponse implements IResponse {
     private FamilyRelationship familyRelationship;
     private String profession;
     private String educationalLevel;
-    private int clinicalHistoryNumber;
+    private String clinicalHistoryNumber;
 
     public PatientByIdResponse(PatientByIdDto patients) {
         this.id = patients.getId();
