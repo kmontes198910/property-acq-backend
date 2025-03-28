@@ -26,7 +26,7 @@ public class ValidateGroupPaymentStatusTask {
         this.paymentServiceClient = paymentServiceClient;
     }
 
-    @Scheduled(cron = "* */5 * * * *")
+    @Scheduled(cron = "*/30 * * * * *")
     public void updateStatusPayment() {
         List<GroupPayment> groupPayments = this.groupPaymentService.findByStatus(GroupPaymentStatus.PENDING_APPROVED);
         groupPayments.forEach(groupPayment -> {
@@ -35,20 +35,21 @@ public class ValidateGroupPaymentStatusTask {
                 PaymentServiceStatusResponse paymentStatus = paymentServiceClient.validateStatusPayment(
                         groupPayment.getRequestId(), groupPayment.getBusiness().getId());
                 GroupPaymentStatus groupPaymentStatus = GroupPaymentStatus.PENDING_APPROVED;
-                if (paymentStatus.getStatus().equals("APPROVED")) {
+                if (paymentStatus !=null && paymentStatus.getStatus().equals("APPROVED")) {
                     groupPaymentStatus = GroupPaymentStatus.PAYMENT_APPROVED;
                     this.groupPaymentService.update(groupPayment.getId(), paymentStatus.getReference(), paymentStatus.getAuthorization(), groupPayment.getRequestId(),
                             "", groupPaymentStatus
                     );
-                } else if (paymentStatus.getStatus().equals("REJECTED")) {
+                } else if (paymentStatus !=null &&  paymentStatus.getStatus().equals("REJECTED")) {
                     groupPaymentStatus = GroupPaymentStatus.REJECTED;
                     this.groupPaymentService.update(groupPayment.getId(), paymentStatus.getReference(), paymentStatus.getAuthorization(), groupPayment.getRequestId(),
                             "", groupPaymentStatus
                     );
                 }
-                System.err.println(paymentStatus);
+
             } catch (IOException e) {
                 System.out.println("Error while updating JOB group payment " + e.getMessage());
+               // throw new RuntimeException(e);
             }
         });
 

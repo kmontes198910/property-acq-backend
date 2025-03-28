@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -23,7 +24,7 @@ public class GroupPaymentDto {
     private  String processUrl;
     private  GroupPaymentStatus status;
     private  LocalDateTime createdAt;
-    private  double totalAmount;
+    private BigDecimal totalAmount;
     private String internalReferenceNumber;
     private ClientDto client;
     private BusinessDto business;
@@ -32,7 +33,7 @@ public class GroupPaymentDto {
 
     public GroupPaymentDto(UUID id, String requestId, LocalDateTime paymentDate, String authorizationCode,
                            String reference, String processUrl, GroupPaymentStatus status,
-                           LocalDateTime createdAt, double totalAmount) {
+                           LocalDateTime createdAt, BigDecimal totalAmount) {
         this.id = id;
         this.requestId = requestId;
         this.paymentDate = paymentDate;
