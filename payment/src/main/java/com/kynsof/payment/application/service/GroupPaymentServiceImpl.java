@@ -30,6 +30,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -101,9 +103,10 @@ public class GroupPaymentServiceImpl implements IGroupPaymentService {
         Business business = this.businessReadDataJPARepository.findById(businessId).orElseThrow();
         Client patients = this.clientReadDataJPARepository.findById(patientsId).orElseThrow();
 
-        Double totalAmount = billings.stream()
-                .map(Billing::getCost) // Extrae el costo de cada billing
-                .reduce(0.0, Double::sum); // Suma todos los costos
+        BigDecimal totalAmount = billings.stream()
+                .map(b -> BigDecimal.valueOf(b.getCost()))
+                .reduce(BigDecimal.ZERO, BigDecimal::add)
+                .setScale(2, RoundingMode.HALF_UP);// Suma todos los costos
         GroupPayment groupPayment = new GroupPayment(
                 "",
                 null,
