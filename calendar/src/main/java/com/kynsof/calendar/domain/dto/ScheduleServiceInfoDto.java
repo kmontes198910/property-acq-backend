@@ -19,4 +19,7 @@ public class ScheduleServiceInfoDto {
     private Double servicePrice;
     private String latitude;
     private String longitude;
+    private String phone;
+    private String email;
+    private String ruc;
 }

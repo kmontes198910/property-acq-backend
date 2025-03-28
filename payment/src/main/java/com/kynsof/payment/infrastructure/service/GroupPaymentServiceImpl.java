@@ -15,7 +15,7 @@ import com.kynsof.payment.infrastructure.repositories.command.PaymentDetailWrite
 import com.kynsof.payment.infrastructure.repositories.query.*;
 import com.kynsof.payment.infrastructure.service.http.PatientHttpUUIDService;
 import com.kynsof.share.core.application.payment.domain.placeToPlay.PaymentServiceStatusResponse;
-import com.kynsof.share.core.application.payment.infrastructure.service.config.ExternalServiceClient;
+import com.kynsof.share.core.application.payment.infrastructure.service.config.PaymentServiceClient;
 import com.kynsof.share.core.domain.exception.BusinessNotFoundException;
 import com.kynsof.share.core.domain.exception.DomainErrorMessage;
 import com.kynsof.share.core.domain.exception.GlobalBusinessException;
@@ -50,7 +50,7 @@ public class GroupPaymentServiceImpl implements IGroupPaymentService {
     private final ClientReadDataJPARepository clientReadDataJPARepository;
     private final PatientHttpUUIDService patientHttpUUIDService;
     private final ClientWriteDataJPARepository clientWriteDataJPARepository;
-    private final ExternalServiceClient paymentServiceClient;
+    private final PaymentServiceClient paymentServiceClient;
 
     public GroupPaymentServiceImpl(BillingReadDataJPARepository repositoryQuery,
                                    BillingWriteDataJPARepository repositoryCommand,
@@ -59,7 +59,7 @@ public class GroupPaymentServiceImpl implements IGroupPaymentService {
                                    GroupPaymentDetailReadDataJPARepository paymentDetailReadDataJPARepository,
                                    GroupPaymentReadDataJPARepository groupPaymentReadDataJPARepository,
                                    BusinessReadDataJPARepository businessReadDataJPARepository,
-                                   ClientReadDataJPARepository clientReadDataJPARepository, PatientHttpUUIDService patientHttpUUIDService, ClientWriteDataJPARepository clientWriteDataJPARepository, ExternalServiceClient paymentServiceClient) {
+                                   ClientReadDataJPARepository clientReadDataJPARepository, PatientHttpUUIDService patientHttpUUIDService, ClientWriteDataJPARepository clientWriteDataJPARepository, PaymentServiceClient paymentServiceClient) {
         this.repositoryQuery = repositoryQuery;
         this.billingWriteDataJPARepository = repositoryCommand;
         this.groupPaymentWriteDataJPARepository = groupPaymentWriteDataJPARepository;
