@@ -2,6 +2,7 @@ package com.kynsof.hospitalizationService.infrastructure.service.impl;
 
 import com.kynsof.hospitalizationService.application.response.EmergencyCaseResponse;
 import com.kynsof.hospitalizationService.domain.dto.EmergencyCaseDto;
+import com.kynsof.hospitalizationService.domain.exception.EmergencyCaseNotFoundException;
 import com.kynsof.hospitalizationService.domain.service.IEmergencyCaseService;
 import com.kynsof.hospitalizationService.infrastructure.entity.EmergencyCase;
 import com.kynsof.hospitalizationService.infrastructure.repositories.command.EmergencyCaseWriteDataJPARepository;
@@ -21,6 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class EmergencyCaseServiceImpl implements IEmergencyCaseService {
@@ -34,6 +36,7 @@ public class EmergencyCaseServiceImpl implements IEmergencyCaseService {
     }
 
     @Override
+    @Transactional
     public UUID create(EmergencyCaseDto dto) {
         EmergencyCase object = new EmergencyCase(dto);
         this.repositoryCommand.save(object);
@@ -41,9 +44,10 @@ public class EmergencyCaseServiceImpl implements IEmergencyCaseService {
     }
 
     @Override
+    @Transactional
     public UUID update(EmergencyCaseDto dto) {
         if (dto == null || dto.getId() == null) {
-            throw new IllegalArgumentException("Patient DTO or ID cannot be null");
+            throw new IllegalArgumentException("Emergency Case or ID cannot be null");
         }
 
         EmergencyCase update = new EmergencyCase(dto);
@@ -58,7 +62,7 @@ public class EmergencyCaseServiceImpl implements IEmergencyCaseService {
         if (contactInformation.isPresent()) {
             return contactInformation.get().toAggregate();
         }
-        throw new RuntimeException("ContactInfo not found.");
+        throw new EmergencyCaseNotFoundException(id);
     }
 
     @Override
@@ -79,6 +83,7 @@ public class EmergencyCaseServiceImpl implements IEmergencyCaseService {
     }
 
     @Override
+    @Transactional
     public void delete(UUID id) {
         try {
             this.repositoryCommand.deleteById(id);
