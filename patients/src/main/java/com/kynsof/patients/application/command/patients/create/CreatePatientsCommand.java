@@ -21,9 +21,12 @@ public class CreatePatientsCommand implements ICommand {
     private String photo;
     private CreatePatientContactInfoRequest createContactInfoRequest;
     private String profession;
+    private String educationalLevel;
+    private int clinicalHistoryNumber;
 
     public CreatePatientsCommand(UUID id, String identification, String name, String lastName, GenderType gender,
-                                 String photo, CreatePatientContactInfoRequest createContactInfoRequest, String profession) {
+                                 String photo, CreatePatientContactInfoRequest createContactInfoRequest, String profession,
+                                 String educationalLevel, int clinicalHistoryNumber) {
         this.id = id;
         this.identification = identification;
         this.name = name;
@@ -32,6 +35,8 @@ public class CreatePatientsCommand implements ICommand {
         this.photo = photo;
         this.createContactInfoRequest = createContactInfoRequest;
         this.profession = profession;
+        this.educationalLevel = educationalLevel;
+        this.clinicalHistoryNumber = clinicalHistoryNumber;
     }
 
     public static CreatePatientsCommand fromRequest(CreatePatientsRequest request) {
@@ -39,7 +44,9 @@ public class CreatePatientsCommand implements ICommand {
                 request.getLastName(), request.getGender(),
                 request.getImage(),
                 request.getContactInfo(),
-                request.getProfession()
+                request.getProfession(),
+                request.getEducationalLevel(),
+                request.getClinicalHistoryNumber()
         );
     }
 

@@ -44,7 +44,9 @@ public class CreateContactInfoCommandHandler implements ICommandHandler<CreateCo
                     command.getAddress(),
                     command.getBirthdayDate(),
                     Status.ACTIVE,
-                    parroquia
+                    parroquia,
+                    command.getConventionalTelephone(),
+                    command.getMaritalStatus()
             );
             UUID id = contactInfoService.create(create);
             command.setId(id);
@@ -55,6 +57,8 @@ public class CreateContactInfoCommandHandler implements ICommandHandler<CreateCo
             contactInfoDto.setTelephone(command.getTelephone());
             contactInfoDto.setStatus(Status.ACTIVE);
             contactInfoDto.setParroquia(parroquia);
+            contactInfoDto.setConventionalTelephone(command.getConventionalTelephone());
+            contactInfoDto.setMaritalStatus(command.getMaritalStatus());
             contactInfoService.update(contactInfoDto);
             command.setId(contactInfoDto.getId());
         }

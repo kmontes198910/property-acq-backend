@@ -72,6 +72,10 @@ public class Patients implements Serializable {
     private UUID keycloakId;
 
     private String profession;
+    private String educationalLevel;
+    @Column(columnDefinition = "integer default 0")
+    private int clinicalHistoryNumber;
+
     @CreationTimestamp
     @Column(updatable = false)
     private LocalDateTime createdAt;
@@ -92,6 +96,8 @@ public class Patients implements Serializable {
         this.disabilityType = patients.getDisabilityType() != null ? patients.getDisabilityType() : DisabilityType.UNDEFINED;
         this.gestationTime = patients.getGestationTime();
         this.profession = patients.getProfession();
+        this.educationalLevel = patients.getEducationalLevel();
+        this.clinicalHistoryNumber = patients.getClinicalHistoryNumber();
     }
 
     public Patients(DependentPatientDto patients) {
@@ -115,6 +121,8 @@ public class Patients implements Serializable {
                 photo, disabilityType, gestationTime, profession);
         ContactInfoDto contactInfoDto = contactInformation != null ? contactInformation.toAggregateSimple() : null;
         patientDto.setContactInfo(contactInfoDto);
+        patientDto.setEducationalLevel(educationalLevel);
+        patientDto.setClinicalHistoryNumber(clinicalHistoryNumber);
         return patientDto;
     }
 
@@ -122,6 +130,6 @@ public class Patients implements Serializable {
         ContactInfoDto contactInfoDto = contactInformation != null ? contactInformation.toAggregate() : null;
         return  new PatientByIdDto(id, identification, firstName, lastName, gender, status,
                 hasDisability, isPregnant, photo, disabilityType, gestationTime, familyRelationship,
-                contactInfoDto, profession);
+                contactInfoDto, profession, educationalLevel, clinicalHistoryNumber);
     }
 }

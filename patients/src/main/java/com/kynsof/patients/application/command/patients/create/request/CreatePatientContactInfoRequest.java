@@ -18,4 +18,6 @@ public class CreatePatientContactInfoRequest {
     private String address;
     private LocalDate birthdayDate;
     private UUID parroquia;
+    private String conventionalTelephone;
+    private String maritalStatus;
 }
