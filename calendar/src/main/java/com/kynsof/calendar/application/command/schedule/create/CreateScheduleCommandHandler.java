@@ -52,8 +52,9 @@ public class CreateScheduleCommandHandler implements ICommandHandler<CreateSched
         }
         UUID id = UUID.randomUUID();
         int initialStock = command.getStock() == 0 ? 1 : command.getStock();
+        EStatusSchedule scheduleStatus = command.isBloked() ? EStatusSchedule.BLOCKED : EStatusSchedule.AVAILABLE;
         UUID result = service.create(new ScheduleDto(id, _resource, _business, command.getDate(), command.getStartTime(), command.getEndingTime(),
-                initialStock, initialStock, EStatusSchedule.AVAILABLE, _service));
+                initialStock, initialStock, scheduleStatus, _service));
         command.setId(result);
 
         if (command.getUser() != null) {
