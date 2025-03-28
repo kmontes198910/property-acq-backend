@@ -1,12 +1,13 @@
 package com.kynsof.hospitalizationService.infrastructure.service.impl;
 
-import com.kynsof.hospitalizationService.application.response.EmergencyCaseResponse;
-import com.kynsof.hospitalizationService.domain.dto.EmergencyCaseDto;
+import com.kynsof.hospitalizationService.application.response.VitalSignsResponse;
+import com.kynsof.hospitalizationService.domain.dto.VitalSignsDto;
 import com.kynsof.hospitalizationService.domain.dto.exception.EmergencyCaseNotFoundException;
-import com.kynsof.hospitalizationService.domain.service.IEmergencyCaseService;
-import com.kynsof.hospitalizationService.infrastructure.entity.EmergencyCase;
-import com.kynsof.hospitalizationService.infrastructure.repositories.command.EmergencyCaseWriteDataJPARepository;
-import com.kynsof.hospitalizationService.infrastructure.repositories.query.EmergencyCaseReadDataJPARepository;
+import com.kynsof.hospitalizationService.domain.dto.exception.VitalSignsNotFoundException;
+import com.kynsof.hospitalizationService.domain.service.IVitalSignsService;
+import com.kynsof.hospitalizationService.infrastructure.entity.VitalSigns;
+import com.kynsof.hospitalizationService.infrastructure.repositories.command.VitalSignsWriteDataJPARepository;
+import com.kynsof.hospitalizationService.infrastructure.repositories.query.VitalSignsReadDataJPARepository;
 import com.kynsof.share.core.domain.exception.BusinessNotFoundException;
 import com.kynsof.share.core.domain.exception.DomainErrorMessage;
 import com.kynsof.share.core.domain.exception.GlobalBusinessException;
@@ -25,58 +26,57 @@ import java.util.UUID;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
-public class EmergencyCaseServiceImpl implements IEmergencyCaseService {
+public class VitalSignsServiceImpl implements IVitalSignsService {
 
-    private final EmergencyCaseWriteDataJPARepository repositoryCommand;
-    private final EmergencyCaseReadDataJPARepository repositoryQuery;
+    private final VitalSignsWriteDataJPARepository repositoryCommand;
+    private final VitalSignsReadDataJPARepository repositoryQuery;
 
-    public EmergencyCaseServiceImpl(EmergencyCaseWriteDataJPARepository repositoryCommand, EmergencyCaseReadDataJPARepository repositoryQuery) {
+    public VitalSignsServiceImpl(VitalSignsWriteDataJPARepository repositoryCommand, VitalSignsReadDataJPARepository repositoryQuery) {
         this.repositoryCommand = repositoryCommand;
         this.repositoryQuery = repositoryQuery;
     }
 
     @Override
     @Transactional
-    public UUID create(EmergencyCaseDto dto) {
-        EmergencyCase object = new EmergencyCase(dto);
+    public UUID create(VitalSignsDto dto) {
+        VitalSigns object = new VitalSigns(dto);
         this.repositoryCommand.save(object);
         return dto.getId();
     }
 
     @Override
     @Transactional
-    public UUID update(EmergencyCaseDto dto) {
+    public UUID update(VitalSignsDto dto) {
         if (dto == null || dto.getId() == null) {
             throw new IllegalArgumentException("Emergency Case or ID cannot be null");
         }
 
-        EmergencyCase update = new EmergencyCase(dto);
+        VitalSigns update = new VitalSigns(dto);
         this.repositoryCommand.save(update);
         return dto.getId();
     }
 
-
     @Override
-    public EmergencyCaseDto findById(UUID id) {
-        Optional<EmergencyCase> contactInformation = this.repositoryQuery.findById(id);
+    public VitalSignsDto findById(UUID id) {
+        Optional<VitalSigns> contactInformation = this.repositoryQuery.findById(id);
         if (contactInformation.isPresent()) {
             return contactInformation.get().toAggregate();
         }
-        throw new EmergencyCaseNotFoundException(id);
+        throw new VitalSignsNotFoundException(id);
     }
 
     @Override
     public PaginatedResponse search(Pageable pageable, List<FilterCriteria> filterCriteria) {
-        GenericSpecificationsBuilder<EmergencyCase> specifications = new GenericSpecificationsBuilder<>(filterCriteria);
-        Page<EmergencyCase> data = this.repositoryQuery.findAll(specifications, pageable);
+        GenericSpecificationsBuilder<VitalSigns> specifications = new GenericSpecificationsBuilder<>(filterCriteria);
+        Page<VitalSigns> data = this.repositoryQuery.findAll(specifications, pageable);
 
         return getPaginatedResponse(data);
     }
 
-    private PaginatedResponse getPaginatedResponse(Page<EmergencyCase> data) {
-        List<EmergencyCaseResponse> patients = new ArrayList<>();
-        for (EmergencyCase p : data.getContent()) {
-            patients.add(new EmergencyCaseResponse(p.toAggregate()));
+    private PaginatedResponse getPaginatedResponse(Page<VitalSigns> data) {
+        List<VitalSignsResponse> patients = new ArrayList<>();
+        for (VitalSigns p : data.getContent()) {
+            patients.add(new VitalSignsResponse(p.toAggregate()));
         }
         return new PaginatedResponse(patients, data.getTotalPages(), data.getNumberOfElements(),
                 data.getTotalElements(), data.getSize(), data.getNumber());

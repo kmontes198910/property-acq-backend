@@ -1,4 +1,4 @@
-package com.kynsof.hospitalizationService.domain.exception;
+package com.kynsof.hospitalizationService.domain.dto.exception;
 
 import java.util.UUID;
 

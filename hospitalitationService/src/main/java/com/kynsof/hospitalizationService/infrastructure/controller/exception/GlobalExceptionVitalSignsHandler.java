@@ -1,6 +1,6 @@
 package com.kynsof.hospitalizationService.infrastructure.controller.exception;
 
-import com.kynsof.hospitalizationService.domain.dto.exception.EmergencyCaseNotFoundException;
+import com.kynsof.hospitalizationService.domain.dto.exception.VitalSignsNotFoundException;
 import com.kynsof.hospitalizationService.domain.exception.entity.ErrorResponse;
 import java.time.LocalDateTime;
 import org.springframework.http.HttpStatus;
@@ -9,14 +9,14 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 @RestControllerAdvice
-public class GlobalExceptionEmergencyCaseHandler {
+public class GlobalExceptionVitalSignsHandler {
 
-    @ExceptionHandler(EmergencyCaseNotFoundException.class)
+    @ExceptionHandler(VitalSignsNotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    public ErrorResponse handleEmergencyCaseNotFound(EmergencyCaseNotFoundException ex) {
+    public ErrorResponse handleEmergencyCaseNotFound(VitalSignsNotFoundException ex) {
         return new ErrorResponse(
                 HttpStatus.NOT_FOUND.value(),
-                "Emergency Case Not Found.",
+                "Vital Signs Not Found.",
                 ex.getMessage(),
                 LocalDateTime.now().toString()
         );
