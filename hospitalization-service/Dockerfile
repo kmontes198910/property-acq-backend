@@ -25,11 +25,11 @@ FROM gcr.io/distroless/java17-debian11
 ENV TZ="America/Guayaquil"
 
 # Copia el archivo JAR generado en la etapa de construcción
-COPY --from=builder /build/target/evaluation-1.0.0.jar /app/evaluation-1.0.0.jar
+COPY --from=builder /build/target/hospitalization-service-1.0.0.jar /app/hospitalization-service-1.0.0.jar
 
 # Expone el puerto utilizado por la aplicación
 EXPOSE 9902
 
 # Comando de inicio para ejecutar la aplicación
-ENTRYPOINT ["java", "-jar", "/app/evaluation-1.0.0.jar"]
+ENTRYPOINT ["java", "-jar", "/app/hospitalization-service-1.0.0.jar"]
 
