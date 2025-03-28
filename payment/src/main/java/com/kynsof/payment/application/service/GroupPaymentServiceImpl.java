@@ -296,7 +296,7 @@ public class GroupPaymentServiceImpl implements IGroupPaymentService {
     public void reverse(UUID id) {
         GroupPayment groupPayment = this.groupPaymentReadDataJPARepository.findById(id).orElseThrow();
         if (canBeRefunded(groupPayment.getPaymentDate())) {
-            throw new IllegalStateException("El pago solo puede ser reversado antes de las 12:00 PM del mismo día.");
+            throw new BusinessNotFoundException(new GlobalBusinessException(DomainErrorMessage.PAYMENT_NOT_PRESENT, new ErrorField("paymentDate", "El pago solo puede ser reversado antes de las 12:00 PM del mismo día.")));
         }
         try {
             PaymentServiceStatusResponse serviceStatusResponse = paymentServiceClient.
