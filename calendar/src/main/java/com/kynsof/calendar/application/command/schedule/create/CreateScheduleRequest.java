@@ -18,5 +18,5 @@ public class CreateScheduleRequest {
     private LocalTime endingTime;
     private int stock;
     private UUID user;
-    private boolean bloked;
+    private boolean blocked;
 }

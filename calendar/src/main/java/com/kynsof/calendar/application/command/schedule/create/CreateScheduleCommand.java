@@ -48,7 +48,7 @@ public class CreateScheduleCommand implements ICommand {
     public static CreateScheduleCommand fromRequest(CreateScheduleRequest request, String userAgent, String ipAddress, IMediator mediator) {
         return new CreateScheduleCommand(request.getResource(), request.getBusiness(), request.getDate(),
                 request.getStartTime(), request.getEndingTime(), request.getStock(),
-                request.getService(), request.getUser(), ipAddress, userAgent,mediator,request.isBloked() );
+                request.getService(), request.getUser(), ipAddress, userAgent,mediator,request.isBlocked() );
     }
 
     @Override
