@@ -87,10 +87,20 @@ public class GroupPayment {
         dto.setBusiness(business.toAggregate());
         dto.setInternalReferenceNumber(internalReferenceNumber);
         dto.setPaymentType(this.paymentType);
+        dto.setIsReverse(canBeRefunded());
         return dto;
     }
 
     public String generateInternalReference() {
         return "IR-" + UUID.randomUUID().toString().substring(0, 8).toUpperCase();
+    }
+
+    public boolean canBeRefunded() {
+        if (paymentDate == null) return false;
+
+        LocalDateTime now = LocalDateTime.now();
+
+        // Validar que estamos en el mismo día
+        return now.toLocalDate().isEqual(paymentDate.toLocalDate());
     }
 }

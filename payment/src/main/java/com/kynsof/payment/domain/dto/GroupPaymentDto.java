@@ -28,6 +28,7 @@ public class GroupPaymentDto {
     private ClientDto client;
     private BusinessDto business;
     private PaymentType paymentType;
+    private Boolean isReverse;
 
     public GroupPaymentDto(UUID id, String requestId, LocalDateTime paymentDate, String authorizationCode,
                            String reference, String processUrl, GroupPaymentStatus status,
