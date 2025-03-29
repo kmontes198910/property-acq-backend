@@ -47,7 +47,6 @@ public class ConfirmPaymentReceiptCommandHandler implements ICommandHandler<Conf
 
                 if ("APPROVED".equals(paymentStatus.getStatus())) {
                     processApprovedPayment(receipt, paymentStatus, command.getAuthorizationCode());
-                    return;
                 }
             } else if (command.getStatus() == EStatusReceipt.CANCEL || command.getStatus() == EStatusReceipt.REJECTED) {
                 processFailedPayment(receipt, command.getStatus());
