@@ -10,7 +10,7 @@ on:
     branches:
       - 'dev'
     paths:
-      - ci-hospitalization-service-dev.yml
+      - ci-hospitalization-dev.yml
       - 'hospitalization-service/**'
       - 'share/**'
 jobs:
