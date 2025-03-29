@@ -93,6 +93,7 @@ public enum DomainErrorMessage implements IDomainErrorMessage {
     CONSULT_EXTERN_DATE_EXP(1017, Series.DOMAIN_ERROR, "La consulta externa no se puede modificar. La fecha de creación ya pasó.."),
     BILLING_SERVICE_NOT_FOUND(659, Series.DOMAIN_ERROR, "Ya se encuentra registrado un pago con ese código para el paciente."),
     PAYMENT_NOT_PRESENT(2001, Series.DOMAIN_ERROR, "La información de pago no está disponible."),
+    PAYMENT_NOT_REVERSE(2002, Series.DOMAIN_ERROR, "El pago solo puede ser reversado antes de las 12:00 PM del mismo día."),
     ACCOUNT_RECONCILIATION_NOT_FOUND(1018, Series.DOMAIN_ERROR, "Cuadre Contable no encontrado.");
     private static final DomainErrorMessage[] VALUES;
 

@@ -28,6 +28,7 @@ public class ScheduleResponse implements IResponse {
     private LocalTime endingTime;
     private int stock;
     private EStatusSchedule status;
+    private boolean blocked;
 
     public ScheduleResponse(ScheduleDto schedule) {
         this.id = schedule.getId();
@@ -39,6 +40,7 @@ public class ScheduleResponse implements IResponse {
         this.stock = schedule.getStock();
         this.status = schedule.getStatus();
         this.service = new ServicesResponse(schedule.getService());
+        this.blocked = schedule.getStatus().equals(EStatusSchedule.BLOCKED);
     }
 
 }

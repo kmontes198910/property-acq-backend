@@ -9,6 +9,7 @@ import com.kynsof.share.core.domain.bus.query.IResponse;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -23,11 +24,12 @@ public class GroupPaymentResponse implements IResponse {
     private String processUrl;
     private GroupPaymentStatus status;
     private LocalDateTime createdAt;
-    private Double totalAmount;
+    private BigDecimal totalAmount;
     private ClientDto client;
     private BusinessDto business;
     private String internalReferenceNumber;
     private PaymentType paymentType;
+    private Boolean isReverse;
 
     public GroupPaymentResponse(GroupPaymentDto aggregate) {
         this.id = aggregate.getId();
@@ -43,5 +45,6 @@ public class GroupPaymentResponse implements IResponse {
         this.business = aggregate.getBusiness();
         this.internalReferenceNumber = aggregate.getInternalReferenceNumber();
         this.paymentType = aggregate.getPaymentType();
+        this.isReverse = aggregate.getIsReverse();
     }
 }

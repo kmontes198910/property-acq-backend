@@ -10,6 +10,7 @@ import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
@@ -30,7 +31,8 @@ public class GroupPayment {
     private String authorizationCode;
     private String internalReferenceNumber;
     private String reference;
-    private double totalAmount;
+    @Column(precision = 10, scale = 2, nullable = false)
+    private BigDecimal totalAmount = BigDecimal.ZERO;
     private String processUrl;
 
     @Enumerated(EnumType.STRING)
@@ -59,7 +61,7 @@ public class GroupPayment {
     private LocalDateTime updatedAt;
 
     public GroupPayment(String requestId, LocalDateTime paymentDate, String authorizationCode, String reference,
-                        String processUrl, Business business, Client client, Double totalAmount, PaymentType paymentType) {
+                        String processUrl, Business business, Client client, BigDecimal totalAmount, PaymentType paymentType) {
         this.requestId = requestId;
         this.paymentDate = paymentDate;
         this.authorizationCode = authorizationCode;
@@ -87,10 +89,20 @@ public class GroupPayment {
         dto.setBusiness(business.toAggregate());
         dto.setInternalReferenceNumber(internalReferenceNumber);
         dto.setPaymentType(this.paymentType);
+        dto.setIsReverse(canBeRefunded());
         return dto;
     }
 
     public String generateInternalReference() {
         return "IR-" + UUID.randomUUID().toString().substring(0, 8).toUpperCase();
+    }
+
+    public boolean canBeRefunded() {
+        if (paymentDate == null) return false;
+
+        LocalDateTime now = LocalDateTime.now();
+
+        // Validar que estamos en el mismo día
+        return now.toLocalDate().isEqual(paymentDate.toLocalDate());
     }
 }
