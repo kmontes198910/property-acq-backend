@@ -17,8 +17,9 @@ public class RabbitMQConsumer {
     @RabbitListener(queues = "${rabbitmq.queue.name}")
     public void receiveMessage(String message) {
         try {
+            System.err.println(message);
             Person person = objectMapper.readValue(message, Person.class);
-            System.out.println("📥 Evento recibido en PAYMENT: " + person);
+            System.err.println("📥 Evento recibido en PAYMENT: " + person);
         } catch (Exception e) {
             System.err.println("❌ Error procesando el mensaje en PAYMENT: " + e.getMessage());
         }
