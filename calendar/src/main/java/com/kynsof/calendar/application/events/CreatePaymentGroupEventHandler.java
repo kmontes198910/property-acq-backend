@@ -18,8 +18,11 @@ public class CreatePaymentGroupEventHandler {
     @EventListener
     public void onApplicationEvent(CreatePaymentGroupEvent event) {
         try {
+            System.err.println("Creating payment group");
             String groupPaymentId = groupPaymentServiceClient.createCompleted(event.getCreateGroupPayment());
+           System.err.println("Created group payment with id " + groupPaymentId);
             receiptService.updateGroupPaymentId(event.getReceiptId(),groupPaymentId);
+            System.err.println("Updated group payment with id " + groupPaymentId);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
