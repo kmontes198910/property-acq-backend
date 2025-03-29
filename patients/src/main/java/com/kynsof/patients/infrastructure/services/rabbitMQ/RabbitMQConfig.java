@@ -1,4 +1,4 @@
-package com.kynsof.patients.infrastructure.config.RabbitMQ;
+package com.kynsof.patients.infrastructure.services.rabbitMQ;
 
 import org.springframework.amqp.core.Binding;
 import org.springframework.amqp.core.BindingBuilder;
@@ -26,6 +26,12 @@ public class RabbitMQConfig {
     @Value("${rabbitmq.queue.identity.name}")
     private String identityQueue;
 
+    @Value("${rabbitmq.queue.hospitalization.name}")
+    private String hospitalIzationQueue;
+
+    @Value("${rabbitmq.queue.calendar.name}")
+    private String calendarQueue;
+
     @Bean
     public FanoutExchange fanoutExchange() {
         return new FanoutExchange(exchangeName);
@@ -52,6 +58,16 @@ public class RabbitMQConfig {
     }
 
     @Bean
+    public Queue hospitalIzationQueue() {
+        return new Queue(hospitalIzationQueue, true);
+    }
+
+    @Bean
+    public Queue calendarQueue() {
+        return new Queue(calendarQueue, true);
+    }
+
+    @Bean
     public Binding bindTreatmentQueue(FanoutExchange exchange, Queue treatmentQueue) {
         return BindingBuilder.bind(treatmentQueue).to(exchange);
     }
@@ -62,7 +78,17 @@ public class RabbitMQConfig {
     }
 
     @Bean
+    public Binding bindHospitalIzationQueue(FanoutExchange exchange, Queue hospitalIzationQueue) {
+        return BindingBuilder.bind(hospitalIzationQueue).to(exchange);
+    }
+
+    @Bean
     public Binding bindIdentityQueue(FanoutExchange exchange, Queue identityQueue) {
         return BindingBuilder.bind(identityQueue).to(exchange);
+    }
+
+    @Bean
+    public Binding bindCalendarQueue(FanoutExchange exchange, Queue calendarQueue) {
+        return BindingBuilder.bind(calendarQueue).to(exchange);
     }
 }
