@@ -24,16 +24,13 @@ public class ConfirmPaymentReceiptCommandHandler implements ICommandHandler<Conf
 
     private final IReceiptService receiptService;
     private final PaymentServiceClient paymentServiceClient;
-    private final GroupPaymentServiceClient groupPaymentServiceClient;
     private final ApplicationEventPublisher eventPublisher;
 
     public ConfirmPaymentReceiptCommandHandler(IReceiptService receiptService,
                                                PaymentServiceClient paymentServiceClient,
-                                               GroupPaymentServiceClient groupPaymentServiceClient,
                                                ApplicationEventPublisher eventPublisher) {
         this.receiptService = receiptService;
         this.paymentServiceClient = paymentServiceClient;
-        this.groupPaymentServiceClient = groupPaymentServiceClient;
         this.eventPublisher = eventPublisher;
     }
 
@@ -63,7 +60,10 @@ public class ConfirmPaymentReceiptCommandHandler implements ICommandHandler<Conf
         receipt.setReference(paymentStatus.getReference());
         receipt.setAuthorizationCode(authorizationCode);
         receipt.setStatus(EStatusReceipt.PAYMENT);
-        receipt.getSchedule().setStatus(EStatusSchedule.SOLD_OUT);
+        receipt.getSchedule().setStock(receipt.getSchedule().getStock() - 1);
+        if (receipt.getSchedule().getStock() == 0) {
+            receipt.getSchedule().setStatus(EStatusSchedule.SOLD_OUT);
+        }
         receiptService.update(receipt);
 
         CreateGroupPaymentUnifRequest request = buildGroupPaymentRequest(receipt, paymentStatus);
