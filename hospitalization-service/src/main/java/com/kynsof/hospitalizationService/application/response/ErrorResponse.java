@@ -1,5 +1,5 @@
 
-package com.kynsof.hospitalizationService.domain.exception.entity;
+package com.kynsof.hospitalizationService.application.response;
 
 public record ErrorResponse(
     int status,
