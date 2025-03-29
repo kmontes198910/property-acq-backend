@@ -34,7 +34,7 @@ public class ValidateReceiptStatusTask {
         this.eventPublisher = eventPublisher;
     }
 
-    @Scheduled(cron = "*/30 * * * * *")
+    @Scheduled(cron = "* */5 * * * *")
     public void updateStatusPayment() {
         List<ReceiptSummaryDTO> receipts = this.receiptService.findByStatus(EStatusReceipt.PENDING_PAY);
         receipts.forEach(receipt -> {
