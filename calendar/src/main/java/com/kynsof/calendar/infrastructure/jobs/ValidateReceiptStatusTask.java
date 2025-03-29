@@ -26,14 +26,14 @@ public class ValidateReceiptStatusTask {
         this.paymentServiceClient = paymentServiceClient;
     }
 
-    @Scheduled(cron = "0 */1 * * * *")
+    @Scheduled(cron = "*/30 * * * * *")
     public void updateStatusPayment() {
         List<ReceiptSummaryDTO> receipts = this.receiptService.findByStatus(EStatusReceipt.PENDING_PAY);
         receipts.forEach(receipt -> {
             try {
                 PaymentServiceStatusResponse paymentStatus = paymentServiceClient.validateStatusPayment(receipt.getRequestId(), receipt.getBusinessId());
-                System.err.println("Estado del pago:"+paymentStatus);
                 if (paymentStatus != null && !paymentStatus.getStatus().equals("PENDING")) {
+                    System.err.println("Estado del pago:"+paymentStatus);
                     this.receiptService.updatePaymentStatus(receipt.getId(), paymentStatus.getStatus(), paymentStatus.getReference(), paymentStatus.getAuthorization());
                 }
             } catch (IOException e) {
