@@ -1,0 +1,48 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hospitalization
+  namespace: medinec-dev
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: hospitalization
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+  template:
+    metadata:
+      labels:
+        app: hospitalization
+    spec:
+      containers:
+        - name: hospitalization
+          image: kmontes2020/medinec-hospitalization-service-dev:v1
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 9902
+              protocol: TCP
+          envFrom:
+            - secretRef:
+                name: hospitalization-secret
+      imagePullSecrets:
+        - name: dokcer-hub
+      restartPolicy: Always
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: hospitalization-service
+  namespace: medinec-dev
+spec:
+  selector:
+    app: hospitalization
+  ports:
+    - protocol: TCP
+      port: 9902       # Puerto expuesto por el servicio
+      targetPort: 9902 # Puerto del contenedor
+  type: ClusterIP

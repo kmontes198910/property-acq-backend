@@ -1,7 +1,7 @@
 package com.kynsof.hospitalizationService.infrastructure.controller.exception;
 
 import com.kynsof.hospitalizationService.domain.dto.exception.EmergencyCaseNotFoundException;
-import com.kynsof.hospitalizationService.domain.exception.entity.ErrorResponse;
+import com.kynsof.hospitalizationService.application.response.ErrorResponse;
 import java.time.LocalDateTime;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;

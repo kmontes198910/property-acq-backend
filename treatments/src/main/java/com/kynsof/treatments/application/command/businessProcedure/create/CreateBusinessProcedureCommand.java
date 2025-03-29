@@ -20,7 +20,6 @@ public class CreateBusinessProcedureCommand implements ICommand {
     public CreateBusinessProcedureCommand(UUID idBusiness, Set<BusinessProcedurePriceRequest> services, UUID insuranceId) {
         this.idBusiness = idBusiness;
         this.procedurePrices = Set.copyOf(services);
-
         this.insuranceId = insuranceId;
     }
 
