@@ -1,4 +1,4 @@
-package com.kynsof.payment.infrastructure.config.rabbitMq;
+package com.kynsof.payment.application.service.rabbitMQ;
 
 import org.springframework.amqp.core.Binding;
 import org.springframework.amqp.core.BindingBuilder;
