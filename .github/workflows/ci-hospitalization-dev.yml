@@ -1,7 +1,7 @@
-name: ci-hospitalization-service-dev
+name: ci-hospitalization-dev
 
 env:
-  SERVICE_NAME: 'hospitalization-service'
+  SERVICE_NAME: 'hospitalization'
   SERVICE_PATH: 'hospitalization-service'
 
 on:
