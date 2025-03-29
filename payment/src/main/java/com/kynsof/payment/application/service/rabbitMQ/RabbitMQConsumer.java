@@ -18,6 +18,7 @@ public class RabbitMQConsumer {
     public void receiveMessage(String message) {
         try {
             System.err.println(message);
+
             Person person = objectMapper.readValue(message, Person.class);
             System.err.println("📥 Evento recibido en PAYMENT: " + person);
         } catch (Exception e) {
