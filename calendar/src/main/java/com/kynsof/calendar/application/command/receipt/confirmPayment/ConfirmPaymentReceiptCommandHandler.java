@@ -47,6 +47,9 @@ public class ConfirmPaymentReceiptCommandHandler implements ICommandHandler<Conf
                 }
             } else if (command.getStatus() == EStatusReceipt.CANCEL || command.getStatus() == EStatusReceipt.REJECTED) {
                 processFailedPayment(receipt, command.getStatus());
+            }else if(command.getStatus() == EStatusReceipt.PENDING_PAY) {
+                receipt.setStatus(EStatusReceipt.PENDING_PAY);
+                receiptService.update(receipt);
             }
 
         } catch (IOException e) {
