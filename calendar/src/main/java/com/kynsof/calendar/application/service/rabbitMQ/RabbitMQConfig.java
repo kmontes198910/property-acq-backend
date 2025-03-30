@@ -11,17 +11,17 @@ public class RabbitMQConfig {
     private static final String EXCHANGE_NAME = "paciente.exchange";
 
     @Bean
-    public Queue queue() {
+    public Queue calendarnQueue() {
         return new Queue(QUEUE_NAME, true); // Cola durable
     }
 
     @Bean
-    public FanoutExchange exchange() {
-        return new FanoutExchange(EXCHANGE_NAME);
+    public FanoutExchange pacienteExchange() {
+        return new FanoutExchange(EXCHANGE_NAME, true, false);
     }
 
     @Bean
-    public Binding binding(Queue queue, FanoutExchange exchange) {
-        return BindingBuilder.bind(queue).to(exchange);
+    public Binding binding(Queue calendarnQueue, FanoutExchange pacienteExchange) {
+        return BindingBuilder.bind(calendarnQueue).to(pacienteExchange);
     }
 }
