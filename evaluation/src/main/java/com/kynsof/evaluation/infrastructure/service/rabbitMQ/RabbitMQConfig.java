@@ -1,4 +1,4 @@
-package com.kynsof.payment.application.service.rabbitMQ;
+package com.kynsof.evaluation.infrastructure.service.rabbitMQ;
 
 import org.springframework.amqp.core.Binding;
 import org.springframework.amqp.core.BindingBuilder;
@@ -11,11 +11,11 @@ import org.springframework.context.annotation.Configuration;
 public class RabbitMQConfig {
 
     private static final String EXCHANGE_NAME = "paciente.exchange";
-    private static final String PAYMENT_QUEUE_NAME = "paciente.payment";
+    private static final String EVALUATION_QUEUE_NAME = "paciente.evaluation";
 
     @Bean
-    public Queue paymentQueue() {
-        return new Queue(PAYMENT_QUEUE_NAME, true); // Cola durable
+    public Queue evaluationQueue() {
+        return new Queue(EVALUATION_QUEUE_NAME, true); // Cola durable
     }
 
     @Bean
@@ -24,7 +24,7 @@ public class RabbitMQConfig {
     }
 
     @Bean
-    public Binding bindingPaymentQueue(Queue paymentQueue, FanoutExchange pacienteExchange) {
-        return BindingBuilder.bind(paymentQueue).to(pacienteExchange);
+    public Binding bindEvaluationQueue(Queue evaluationQueue, FanoutExchange pacienteExchange) {
+        return BindingBuilder.bind(evaluationQueue).to(pacienteExchange);
     }
 }
