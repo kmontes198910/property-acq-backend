@@ -10,11 +10,17 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class RabbitMQConfig {
 
+    private static final String EXCHANGE_NAME = "paciente.exchange";
     private static final String PAYMENT_QUEUE_NAME = "paciente.payment";
 
     @Bean
     public Queue paymentQueue() {
         return new Queue(PAYMENT_QUEUE_NAME, true); // Cola durable
+    }
+
+    @Bean
+    public FanoutExchange pacienteExchange() {
+        return new FanoutExchange(EXCHANGE_NAME, true, false);
     }
 
     @Bean
