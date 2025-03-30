@@ -13,7 +13,7 @@ public class RabbitMQConsumer {
         this.objectMapper = objectMapper;
     }
 
-    @RabbitListener(queues = "${rabbitmq.queue.treatment.name}")
+    @RabbitListener(queues = "paciente.treatment")
     public void receiveMessage(String message) {
         try {
             Person person = objectMapper.readValue(message, Person.class);
