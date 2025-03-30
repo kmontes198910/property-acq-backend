@@ -19,7 +19,7 @@ public class RabbitMQConsumer {
             System.err.println("📨 Mensaje recibido PAYMENT: " + message);
 
             Person person = objectMapper.readValue(message, Person.class);
-            System.out.println("✅ Procesado correctamente en PAYMENT: " + person);
+            System.err.println("✅ Procesado correctamente en PAYMENT: " + person);
         } catch (Exception e) {
             System.err.println("❌ Error procesando el mensaje en PAYMENT: " + e.getMessage());
         }
