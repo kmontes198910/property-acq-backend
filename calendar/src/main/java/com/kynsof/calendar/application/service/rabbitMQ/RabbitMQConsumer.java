@@ -7,14 +7,13 @@ import org.springframework.stereotype.Service;
 @Service
 public class RabbitMQConsumer {
 
-
     private final ObjectMapper objectMapper;
 
     public RabbitMQConsumer(ObjectMapper objectMapper) {
         this.objectMapper = objectMapper;
     }
 
-    @RabbitListener(queues = "${rabbitmq.queue.name}")
+    @RabbitListener(queues = "paciente.calendar")  // Cola quemada directamente
     public void receiveMessage(String message) {
         try {
             System.err.println(message);
