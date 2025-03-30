@@ -3,7 +3,6 @@ package com.kynsof.patients.infrastructure.services.rabbitMQ;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -12,8 +11,7 @@ public class RabbitMQProducer {
     private final RabbitTemplate rabbitTemplate;
     private final ObjectMapper objectMapper;
 
-    @Value("${rabbitmq.exchange.name}")
-    private String exchangeName;
+    private static final String EXCHANGE_NAME = "paciente.exchange"; // Valor quemado
 
     public RabbitMQProducer(RabbitTemplate rabbitTemplate, ObjectMapper objectMapper) {
         this.rabbitTemplate = rabbitTemplate;
@@ -23,8 +21,8 @@ public class RabbitMQProducer {
     public void sendPersonEvent(Person person) {
         try {
             String message = objectMapper.writeValueAsString(person);
-            rabbitTemplate.convertAndSend(exchangeName, "", message);
-            System.out.println("📤 Evento enviado al exchange '" + exchangeName + "': " + message);
+            rabbitTemplate.convertAndSend(EXCHANGE_NAME, "", message);
+            System.out.println("📤 Evento enviado al exchange '" + EXCHANGE_NAME + "': " + message);
         } catch (JsonProcessingException e) {
             System.err.println("❌ Error al convertir el objeto Person a JSON: " + e.getMessage());
         }

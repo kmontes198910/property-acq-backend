@@ -1,94 +1,54 @@
 package com.kynsof.patients.infrastructure.services.rabbitMQ;
 
-import org.springframework.amqp.core.Binding;
-import org.springframework.amqp.core.BindingBuilder;
-import org.springframework.amqp.core.FanoutExchange;
-import org.springframework.amqp.core.Queue;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.amqp.core.*;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class RabbitMQConfig {
 
-    @Value("${rabbitmq.exchange.name}")
-    private String exchangeName;
+    private static final String EXCHANGE_NAME = "paciente.exchange";
 
-    @Value("${rabbitmq.queue.treatment.name}")
-    private String treatmentQueue;
-
-    @Value("${rabbitmq.queue.payment.name}")
-    private String paymentQueue;
-
-    @Value("${rabbitmq.queue.evaluation.name}")
-    private String evaluationQueue;
-
-    @Value("${rabbitmq.queue.identity.name}")
-    private String identityQueue;
-
-    @Value("${rabbitmq.queue.hospitalization.name}")
-    private String hospitalIzationQueue;
-
-    @Value("${rabbitmq.queue.calendar.name}")
-    private String calendarQueue;
+    private static final String TREATMENT_QUEUE = "paciente.treatment";
+    private static final String PAYMENT_QUEUE = "paciente.payment";
+    private static final String EVALUATION_QUEUE = "paciente.evaluation";
+    private static final String IDENTITY_QUEUE = "paciente.identity";
+    private static final String HOSPITALIZATION_QUEUE = "paciente.hospitalization";
+    private static final String CALENDAR_QUEUE = "paciente.calendar";
 
     @Bean
     public FanoutExchange fanoutExchange() {
-        return new FanoutExchange(exchangeName);
+        return new FanoutExchange(EXCHANGE_NAME);
     }
 
-    @Bean
-    public Queue treatmentQueue() {
-        return new Queue(treatmentQueue, true); // Cola durable
-    }
+    @Bean public Queue treatmentQueue() { return new Queue(TREATMENT_QUEUE, true); }
+    @Bean public Queue paymentQueue() { return new Queue(PAYMENT_QUEUE, true); }
+    @Bean public Queue evaluationQueue() { return new Queue(EVALUATION_QUEUE, true); }
+    @Bean public Queue identityQueue() { return new Queue(IDENTITY_QUEUE, true); }
+    @Bean public Queue hospitalIzationQueue() { return new Queue(HOSPITALIZATION_QUEUE, true); }
+    @Bean public Queue calendarQueue() { return new Queue(CALENDAR_QUEUE, true); }
 
-    @Bean
-    public Queue paymentQueue() {
-        return new Queue(paymentQueue, true);
-    }
-
-    @Bean
-    public Queue evaluationQueue() {
-        return new Queue(evaluationQueue, true);
-    }
-
-    @Bean
-    public Queue identityQueue() {
-        return new Queue(identityQueue, true);
-    }
-
-    @Bean
-    public Queue hospitalIzationQueue() {
-        return new Queue(hospitalIzationQueue, true);
-    }
-
-    @Bean
-    public Queue calendarQueue() {
-        return new Queue(calendarQueue, true);
-    }
-
-    @Bean
-    public Binding bindTreatmentQueue(FanoutExchange exchange, Queue treatmentQueue) {
+    @Bean public Binding bindTreatmentQueue(FanoutExchange exchange, Queue treatmentQueue) {
         return BindingBuilder.bind(treatmentQueue).to(exchange);
     }
 
-    @Bean
-    public Binding bindPaymentQueue(FanoutExchange exchange, Queue paymentQueue) {
+    @Bean public Binding bindPaymentQueue(FanoutExchange exchange, Queue paymentQueue) {
         return BindingBuilder.bind(paymentQueue).to(exchange);
     }
 
-    @Bean
-    public Binding bindHospitalIzationQueue(FanoutExchange exchange, Queue hospitalIzationQueue) {
-        return BindingBuilder.bind(hospitalIzationQueue).to(exchange);
+    @Bean public Binding bindEvaluationQueue(FanoutExchange exchange, Queue evaluationQueue) {
+        return BindingBuilder.bind(evaluationQueue).to(exchange);
     }
 
-    @Bean
-    public Binding bindIdentityQueue(FanoutExchange exchange, Queue identityQueue) {
+    @Bean public Binding bindIdentityQueue(FanoutExchange exchange, Queue identityQueue) {
         return BindingBuilder.bind(identityQueue).to(exchange);
     }
 
-    @Bean
-    public Binding bindCalendarQueue(FanoutExchange exchange, Queue calendarQueue) {
+    @Bean public Binding bindHospitalIzationQueue(FanoutExchange exchange, Queue hospitalIzationQueue) {
+        return BindingBuilder.bind(hospitalIzationQueue).to(exchange);
+    }
+
+    @Bean public Binding bindCalendarQueue(FanoutExchange exchange, Queue calendarQueue) {
         return BindingBuilder.bind(calendarQueue).to(exchange);
     }
 }

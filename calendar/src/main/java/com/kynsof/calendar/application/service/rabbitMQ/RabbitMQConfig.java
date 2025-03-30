@@ -1,30 +1,23 @@
 package com.kynsof.calendar.application.service.rabbitMQ;
 
-import org.springframework.amqp.core.Binding;
-import org.springframework.amqp.core.BindingBuilder;
-import org.springframework.amqp.core.FanoutExchange;
-import org.springframework.amqp.core.Queue;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.amqp.core.*;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class RabbitMQConfig {
 
-    @Value("${rabbitmq.queue.name}")
-    private String queueName;
-
-    @Value("${rabbitmq.exchange.name}")
-    private String exchangeName;
+    private static final String QUEUE_NAME = "paciente.calendar";
+    private static final String EXCHANGE_NAME = "paciente.exchange";
 
     @Bean
     public Queue queue() {
-        return new Queue(queueName, true); // Cola durable
+        return new Queue(QUEUE_NAME, true); // Cola durable
     }
 
     @Bean
     public FanoutExchange exchange() {
-        return new FanoutExchange(exchangeName);
+        return new FanoutExchange(EXCHANGE_NAME);
     }
 
     @Bean
