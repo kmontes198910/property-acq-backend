@@ -14,10 +14,9 @@ public class RabbitMQConfig {
     public Queue treatmentQueue() {
         return new Queue(TREATMENT_QUEUE, true);
     }
-
     @Bean
     public FanoutExchange pacienteExchange() {
-        return new FanoutExchange(EXCHANGE_NAME, true, false);
+        return new FanoutExchange(EXCHANGE_NAME);
     }
 
     @Bean

@@ -20,8 +20,9 @@ public class RabbitMQConfig {
 
     @Bean
     public FanoutExchange pacienteExchange() {
-        return new FanoutExchange(EXCHANGE_NAME, true, false);
+        return new FanoutExchange(EXCHANGE_NAME);
     }
+
 
     @Bean
     public Binding bindEvaluationQueue(Queue evaluationQueue, FanoutExchange pacienteExchange) {
