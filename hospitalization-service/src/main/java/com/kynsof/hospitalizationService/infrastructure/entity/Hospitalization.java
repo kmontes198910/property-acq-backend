@@ -1,6 +1,7 @@
 package com.kynsof.hospitalizationService.infrastructure.entity;
 
 import com.kynsof.hospitalizationService.domain.dto.HospitalizationDto;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -32,7 +33,9 @@ public class Hospitalization {
 
     @OneToOne
     @JoinColumn(name = "emergency_case_id")
-    private EmergencyCase emergencyCase;
+
+    private EmergencyCase emergencyCase; // Relación si proviene de Emergencia
+
 
     @ManyToOne
     @JoinColumn(name = "attending_doctor_id", nullable = false)
@@ -40,6 +43,7 @@ public class Hospitalization {
 
     private LocalDate admissionDate;
     private String assignedRoom;
+
     private String hospitalizationStatus;
 
     public Hospitalization(HospitalizationDto dto) {
@@ -63,5 +67,6 @@ public class Hospitalization {
                 hospitalizationStatus
         );
     }
+
 
 }
