@@ -1,5 +1,6 @@
 package com.kynsof.hospitalizationService.infrastructure.entity;
 
+import com.kynsof.hospitalizationService.domain.dto.HospitalizationDto;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -31,7 +32,7 @@ public class Hospitalization {
 
     @OneToOne
     @JoinColumn(name = "emergency_case_id")
-    private EmergencyCase emergencyCase; // Relación si proviene de Emergencia
+    private EmergencyCase emergencyCase;
 
     @ManyToOne
     @JoinColumn(name = "attending_doctor_id", nullable = false)
@@ -39,5 +40,28 @@ public class Hospitalization {
 
     private LocalDate admissionDate;
     private String assignedRoom;
-    private String hospitalizationStatus; // Activa, Finalizada, En proceso
+    private String hospitalizationStatus;
+
+    public Hospitalization(HospitalizationDto dto) {
+        this.id = dto.getId();
+        this.patient = dto.getPatient() != null ? new Patients(dto.getPatient()) : null;
+        this.emergencyCase = dto.getEmergencyCase() != null ? new EmergencyCase(dto.getEmergencyCase()) : null;
+        this.attendingDoctor = dto.getAttendingDoctor() != null ? new MedicalStaff(dto.getAttendingDoctor()) : null;
+        this.admissionDate = dto.getAdmissionDate();
+        this.assignedRoom = dto.getAssignedRoom();
+        this.hospitalizationStatus = dto.getHospitalizationStatus();
+    }
+
+    public HospitalizationDto toAggregate() {
+        return new HospitalizationDto(
+                id, 
+                patient.toAggregate(), 
+                emergencyCase.toAggregate(), 
+                attendingDoctor.toAggregate(), 
+                admissionDate, 
+                assignedRoom, 
+                hospitalizationStatus
+        );
+    }
+
 }
