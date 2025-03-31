@@ -24,24 +24,24 @@ public class UpdateStatusReceiptCommandHandler implements ICommandHandler<Update
     @Override
     public void handle(UpdateStatusReceiptCommand command) {
         ReceiptDto receiptDto = this.receiptService.findById(command.getId());
-        receiptDto.setStatus(command.getStatus());
 
         ScheduleDto _schedule = serviceSchedule.findById(receiptDto.getSchedule().getId());
         //_schedule.setStatus(EStatusSchedule.ATTENDED);
 
         if (command.getStatus().equals(EStatusReceipt.CANCEL)) {
-            receiptDto.setStatus(EStatusReceipt.CANCEL);
+            receiptService.updateStatus(receiptDto.getId(),EStatusReceipt.CANCEL);
             cleanStock(_schedule);
 
         }
         if (command.getStatus().equals(EStatusReceipt.REJECTED)) {
             cleanStock(_schedule);
-            receiptDto.setStatus(EStatusReceipt.REJECTED);
+            receiptService.updateStatus(receiptDto.getId(),EStatusReceipt.REJECTED);
+        } else {
+            receiptService.updateStatus(receiptDto.getId(), command.getStatus());
         }
 
 
-        receiptService.update(receiptDto);
-        serviceSchedule.update(_schedule);
+      //  serviceSchedule.update(_schedule);
     }
 
     private void cleanStock(ScheduleDto scheduleDto) {

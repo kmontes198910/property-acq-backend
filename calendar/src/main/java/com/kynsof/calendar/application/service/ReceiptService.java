@@ -256,6 +256,14 @@ public class ReceiptService implements IReceiptService {
         receiptRepositoryCommand.save(receipt);
     }
 
+    @Override
+    public void updateStatus(UUID id, EStatusReceipt eStatusReceipt) {
+        Receipt receipt = receiptRepositoryCommand.findById(id).orElse(null);
+        assert receipt != null;
+        receipt.setStatus(eStatusReceipt);
+        receiptRepositoryCommand.save(receipt);
+    }
+
     private void resetSchedule(Receipt receipt) {
         if (receipt.getSchedule() != null) {
             receipt.getSchedule().setStatus(EStatusSchedule.AVAILABLE);
