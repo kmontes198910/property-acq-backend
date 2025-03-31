@@ -30,4 +30,6 @@ public interface IReceiptService {
     void updateGroupPaymentId(UUID id, String groupPaymentId);
 
     void updateStatus(UUID id, EStatusReceipt eStatusReceipt);
+
+    void updateResource(UUID id, UUID resourceId);
 }
