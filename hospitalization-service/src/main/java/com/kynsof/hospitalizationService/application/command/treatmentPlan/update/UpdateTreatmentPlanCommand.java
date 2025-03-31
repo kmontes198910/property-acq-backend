@@ -18,8 +18,9 @@ public class UpdateTreatmentPlanCommand implements ICommand {
     private String dosage;
     private String frequency;
     private Integer daysOfTreatment;
+    private String code;
 
-    public UpdateTreatmentPlanCommand(UUID id, UUID emergencyCase, String medicationName, String administrationRoute, String dosage, String frequency, Integer daysOfTreatment) {
+    public UpdateTreatmentPlanCommand(UUID id, UUID emergencyCase, String medicationName, String administrationRoute, String dosage, String frequency, Integer daysOfTreatment, String code) {
         this.id = id;
         this.emergencyCase = emergencyCase;
         this.medicationName = medicationName;
@@ -27,6 +28,7 @@ public class UpdateTreatmentPlanCommand implements ICommand {
         this.dosage = dosage;
         this.frequency = frequency;
         this.daysOfTreatment = daysOfTreatment;
+        this.code = code;
     }
 
     public static UpdateTreatmentPlanCommand fromRequest(UpdateTreatmentPlanRequest request, UUID id) {
@@ -37,7 +39,8 @@ public class UpdateTreatmentPlanCommand implements ICommand {
                 request.getAdministrationRoute(),
                 request.getDosage(),
                 request.getFrequency(),
-                request.getDaysOfTreatment()
+                request.getDaysOfTreatment(),
+                request.getCode()
         );
     }
 

@@ -30,6 +30,7 @@ public class UpdateTreatmentPlanCommandHandler implements ICommandHandler<Update
         treatmentPlanDto.setDosage(command.getDosage());
         treatmentPlanDto.setFrequency(command.getFrequency());
         treatmentPlanDto.setMedicationName(command.getMedicationName());
+        treatmentPlanDto.setCode(command.getCode());
 
         treatmentPlanService.update(treatmentPlanDto);
     }

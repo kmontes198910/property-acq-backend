@@ -15,19 +15,22 @@ public class CreateDiagnosisCommand implements ICommand {
     private UUID emergencyCase;
     private String diagnosisType;
     private String diagnosisDescription;
+    private String code;
 
-    public CreateDiagnosisCommand(UUID emergencyCase, String diagnosisType, String diagnosisDescription) {
+    public CreateDiagnosisCommand(UUID emergencyCase, String diagnosisType, String diagnosisDescription, String code) {
         this.id = UUID.randomUUID();
         this.emergencyCase = emergencyCase;
         this.diagnosisType = diagnosisType;
         this.diagnosisDescription = diagnosisDescription;
+        this.code = code;
     }
 
     public static CreateDiagnosisCommand fromRequest(CreateDiagnosisRequest request) {
         return new CreateDiagnosisCommand(
                 request.getEmergencyCase(),
                 request.getDiagnosisType(),
-                request.getDiagnosisDescription()
+                request.getDiagnosisDescription(),
+                request.getCode()
         );
     }
 

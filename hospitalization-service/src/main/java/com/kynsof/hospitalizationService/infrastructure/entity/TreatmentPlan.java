@@ -29,6 +29,7 @@ public class TreatmentPlan {
     private EmergencyCase emergencyCase;
 
     private String medicationName;
+    private String code;
     private String administrationRoute;
     private String dosage;
     private String frequency;
@@ -42,10 +43,11 @@ public class TreatmentPlan {
         this.dosage = dto.getDosage();
         this.frequency = dto.getFrequency();
         this.daysOfTreatment = dto.getDaysOfTreatment();
+        this.code = dto.getCode();
     }
 
     public TreatmentPlanDto toAggregate() {
-        return new TreatmentPlanDto(id, emergencyCase.toAggregate(), medicationName, administrationRoute, dosage, frequency, daysOfTreatment);
+        return new TreatmentPlanDto(id, emergencyCase.toAggregate(), medicationName, administrationRoute, dosage, frequency, daysOfTreatment, code);
     }
 
 }

@@ -15,4 +15,5 @@ public class DiagnosisDto {
     private EmergencyCaseDto emergencyCase;
     private String diagnosisType;
     private String diagnosisDescription;
+    private String code;
 }

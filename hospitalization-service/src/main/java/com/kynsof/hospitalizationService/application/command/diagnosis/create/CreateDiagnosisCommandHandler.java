@@ -22,6 +22,6 @@ public class CreateDiagnosisCommandHandler implements ICommandHandler<CreateDiag
     @Override
     public void handle(CreateDiagnosisCommand command) {
         EmergencyCaseDto emergencyCaseDto = this.emergencyCaseService.findById(command.getEmergencyCase());
-        diagnosisService.create(new DiagnosisDto(command.getId(), emergencyCaseDto, command.getDiagnosisType(), command.getDiagnosisDescription()));
+        diagnosisService.create(new DiagnosisDto(command.getId(), emergencyCaseDto, command.getDiagnosisType(), command.getDiagnosisDescription(), command.getCode()));
     }
 }

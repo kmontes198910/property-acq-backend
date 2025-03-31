@@ -17,12 +17,14 @@ public class DiagnosisResponse implements IResponse {
     private EmergencyCaseDto emergencyCase;
     private String diagnosisType;
     private String diagnosisDescription;
+    private String code;
 
     public DiagnosisResponse(DiagnosisDto dto) {
         this.id = dto.getId();
         this.emergencyCase = dto.getEmergencyCase();
         this.diagnosisType = dto.getDiagnosisType();
         this.diagnosisDescription = dto.getDiagnosisDescription();
+        this.code = dto.getCode();
     }
 
 }
