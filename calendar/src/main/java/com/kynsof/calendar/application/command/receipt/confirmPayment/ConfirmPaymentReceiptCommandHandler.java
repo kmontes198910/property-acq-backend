@@ -1,5 +1,6 @@
 package com.kynsof.calendar.application.command.receipt.confirmPayment;
 
+import com.kynsof.calendar.application.events.CreatePaymentGroupEvent;
 import com.kynsof.calendar.domain.dto.ReceiptDto;
 import com.kynsof.calendar.domain.dto.enumType.EStatusReceipt;
 import com.kynsof.calendar.domain.dto.enumType.EStatusSchedule;
@@ -12,102 +13,89 @@ import com.kynsof.share.core.application.payment.infrastructure.service.config.P
 import com.kynsof.share.core.domain.bus.command.ICommandHandler;
 import com.kynsof.share.core.domain.exception.BusinessException;
 import com.kynsof.share.core.domain.exception.DomainErrorMessage;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 @Component
 public class ConfirmPaymentReceiptCommandHandler implements ICommandHandler<ConfirmPaymentReceiptCommand> {
 
-    private final IReceiptService service;
+    private final IReceiptService receiptService;
     private final PaymentServiceClient paymentServiceClient;
-    private final GroupPaymentServiceClient groupPaymentServiceClient;
+    private final ApplicationEventPublisher eventPublisher;
 
-    public ConfirmPaymentReceiptCommandHandler(IReceiptService service, PaymentServiceClient paymentServiceClient, GroupPaymentServiceClient groupPaymentServiceClient) {
-        this.service = service;
+    public ConfirmPaymentReceiptCommandHandler(IReceiptService receiptService,
+                                               PaymentServiceClient paymentServiceClient,
+                                               ApplicationEventPublisher eventPublisher) {
+        this.receiptService = receiptService;
         this.paymentServiceClient = paymentServiceClient;
-        this.groupPaymentServiceClient = groupPaymentServiceClient;
+        this.eventPublisher = eventPublisher;
     }
 
     @Override
     public void handle(ConfirmPaymentReceiptCommand command) {
-        PaymentServiceStatusResponse paymentStatus;
-
         try {
-            ReceiptDto _receipt = this.service.findById(command.getReceiptId());
-            // Llamar al servicio externo para obtener el estado del pago
-            paymentStatus = paymentServiceClient.validateStatusPayment(command.getRequestId(), _receipt.getSchedule().getBusiness().getId());
+            ReceiptDto receipt = receiptService.findById(command.getReceiptId());
+            if (command.getStatus() == EStatusReceipt.PAYMENT) {
+                PaymentServiceStatusResponse paymentStatus = paymentServiceClient.validateStatusPayment(
+                        command.getRequestId(), receipt.getSchedule().getBusiness().getId());
 
-            if (paymentStatus.getStatus().equals("APPROVED")) {
-                _receipt.setReference(paymentStatus.getReference());
-                _receipt.setAuthorizationCode(command.getAuthorizationCode());
-                _receipt.setStatus(EStatusReceipt.PAYMENT);
-                this.service.update(_receipt);
-
-                CreateGroupPaymentUnifRequest request = getCreateGroupPaymentUnifRequest(_receipt, paymentStatus);
-                try {
-                    String groupPaymentId = groupPaymentServiceClient.createCompleted(request);
-                    service.updateGroupPaymentId(_receipt.getId(),groupPaymentId);
-
-                } catch (Exception e) {
-                    System.err.println("Error creating group payment " + e.getMessage());
-                    System.err.println(e.getMessage());
+                if ("APPROVED".equals(paymentStatus.getStatus())) {
+                    processApprovedPayment(receipt, paymentStatus, command.getAuthorizationCode());
                 }
-
+            } else if (command.getStatus() == EStatusReceipt.CANCEL || command.getStatus() == EStatusReceipt.REJECTED) {
+                processFailedPayment(receipt, command.getStatus());
+            }else if(command.getStatus() == EStatusReceipt.PENDING_PAY) {
+                receipt.setStatus(EStatusReceipt.PENDING_PAY);
+                receiptService.update(receipt);
             }
-
-            if (command.getStatus().equals(EStatusReceipt.CANCEL)) {
-                _receipt.getSchedule().setStock(_receipt.getSchedule().getStock() + 1);
-                _receipt.getSchedule().setStatus(EStatusSchedule.AVAILABLE);
-                _receipt.setStatus(command.getStatus());
-            }
-
-            if (command.getStatus().equals(EStatusReceipt.REJECTED)) {
-                _receipt.getSchedule().setStock(_receipt.getSchedule().getStock() + 1);
-                _receipt.getSchedule().setStatus(EStatusSchedule.AVAILABLE);
-                _receipt.setStatus(command.getStatus());
-            }
-
-
-            if (command.getStatus().equals(EStatusReceipt.PAYMENT)) {
-                if (_receipt.getSchedule().getStock() == 0) {
-                    _receipt.getSchedule().setStatus(EStatusSchedule.SOLD_OUT);
-                }
-            }
-            service.update(_receipt);
 
         } catch (IOException e) {
-            System.err.println("Error al consultar el servicio de pagos: " + e.getMessage());
-            throw new BusinessException(DomainErrorMessage.PAYMENT_NOT_FOUND, "Error al consultar el servicio de pagos.");
+            throw new BusinessException(DomainErrorMessage.PAYMENT_NOT_FOUND, "Error al consultar el servicio de pagos: " + e.getMessage());
         } catch (Exception e) {
-
-            System.err.println("Error durante el procesamiento del pago: " + e.getMessage());
-            throw new BusinessException(DomainErrorMessage.PAYMENT_NOT_FOUND, "Error durante el procesamiento del pago.");
+            throw new BusinessException(DomainErrorMessage.PAYMENT_NOT_FOUND, "Error durante el procesamiento del pago: " + e.getMessage());
         }
     }
 
-    private static CreateGroupPaymentUnifRequest getCreateGroupPaymentUnifRequest(ReceiptDto _receipt, PaymentServiceStatusResponse paymentStatus) {
+    private void processApprovedPayment(ReceiptDto receipt, PaymentServiceStatusResponse paymentStatus, String authorizationCode) {
+        receipt.setReference(paymentStatus.getReference());
+        receipt.setAuthorizationCode(authorizationCode);
+        receipt.setStatus(EStatusReceipt.PAYMENT);
+        receipt.getSchedule().setStock(receipt.getSchedule().getStock() - 1);
+        if (receipt.getSchedule().getStock() == 0) {
+            receipt.getSchedule().setStatus(EStatusSchedule.SOLD_OUT);
+        }
+        receiptService.update(receipt);
+
+        CreateGroupPaymentUnifRequest request = buildGroupPaymentRequest(receipt, paymentStatus);
+        eventPublisher.publishEvent(new CreatePaymentGroupEvent(request, receipt.getId()));
+    }
+
+    private void processFailedPayment(ReceiptDto receipt, EStatusReceipt newStatus) {
+        receipt.getSchedule().setStock(receipt.getSchedule().getStock() + 1);
+        receipt.getSchedule().setStatus(EStatusSchedule.AVAILABLE);
+        receipt.setStatus(newStatus);
+        receiptService.update(receipt);
+    }
+
+    private CreateGroupPaymentUnifRequest buildGroupPaymentRequest(ReceiptDto receipt, PaymentServiceStatusResponse paymentStatus) {
+        CreateBillingPartialRequest billing = new CreateBillingPartialRequest();
+        billing.setCode(receipt.getService().getCode());
+        billing.setDescription(receipt.getService().getName());
+        billing.setCost(receipt.getPrice());
+
         CreateGroupPaymentUnifRequest request = new CreateGroupPaymentUnifRequest();
-        request.setClientId(_receipt.getUser().getId());
-        request.setBusinessId(_receipt.getSchedule().getBusiness().getId());
-        request.setUserSystemId(null);
-        request.setUserSystemFullName(null);
+        request.setClientId(receipt.getUser().getId());
+        request.setBusinessId(receipt.getSchedule().getBusiness().getId());
         request.setPaymentType("PLACETOPAY");
         request.setPaymentStatus("PAYMENT_APPROVED");
-        request.setInsuranceId(null);
-        request.setTypeOperation("ExternalConsult");
         request.setAuthorizationCode(paymentStatus.getAuthorization());
         request.setReference(paymentStatus.getReference());
+        request.setTypeOperation("ExternalConsult");
         request.setProforma(false);
-        List<CreateBillingPartialRequest> createBillingPartialRequests = new ArrayList<>();
-        CreateBillingPartialRequest createBillingPartialRequest = new CreateBillingPartialRequest();
-        createBillingPartialRequest.setCode(_receipt.getService().getCode());
-        createBillingPartialRequest.setDescription(_receipt.getService().getName());
-        createBillingPartialRequest.setCost(_receipt.getPrice());
-        createBillingPartialRequests.add(createBillingPartialRequest);
-        request.setBillings(createBillingPartialRequests);
+        request.setBillings(List.of(billing));
         return request;
     }
 }

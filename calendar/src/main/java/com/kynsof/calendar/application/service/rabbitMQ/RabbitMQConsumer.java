@@ -1,4 +1,4 @@
-package com.kynsof.payment.application.service.rabbitMQ;
+package com.kynsof.calendar.application.service.rabbitMQ;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
@@ -13,15 +13,14 @@ public class RabbitMQConsumer {
         this.objectMapper = objectMapper;
     }
 
-    @RabbitListener(queues = "paciente.payment")
+    @RabbitListener(queues = "paciente.calendar")  // Cola quemada directamente
     public void receiveMessage(String message) {
         try {
-            System.err.println("📨 Mensaje recibido PAYMENT: " + message);
-
+            System.err.println(message);
             Person person = objectMapper.readValue(message, Person.class);
-            System.err.println("✅ Procesado correctamente en PAYMENT: " + person);
+            System.err.println("📥 Evento recibido en CALENDAR: " + person);
         } catch (Exception e) {
-            System.err.println("❌ Error procesando el mensaje en PAYMENT: " + e.getMessage());
+            System.err.println("❌ Error procesando el mensaje en CALENDAR: " + e.getMessage());
         }
     }
 }

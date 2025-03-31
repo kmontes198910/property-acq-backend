@@ -13,11 +13,12 @@ public class RabbitMQConsumer {
         this.objectMapper = objectMapper;
     }
 
-    @RabbitListener(queues = "${rabbitmq.queue.treatment.name}")
+    @RabbitListener(queues = "paciente.treatment")
     public void receiveMessage(String message) {
         try {
+            System.err.println("📥 Evento recibido en TREATMENT: " + message);
             Person person = objectMapper.readValue(message, Person.class);
-            System.out.println("📥 Evento recibido en TREATMENT: " + person);
+            System.err.println("📥 Evento recibido en TREATMENT: " + person);
         } catch (Exception e) {
             System.err.println("❌ Error procesando el mensaje en TREATMENT: " + e.getMessage());
         }

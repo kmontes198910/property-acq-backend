@@ -39,11 +39,6 @@ public class UpdateStatusReceiptCommandHandler implements ICommandHandler<Update
             receiptDto.setStatus(EStatusReceipt.REJECTED);
         }
 
-//        if (command.getStatus().equals(EStatusReceipt.CONFIRMED)){
-//            receiptDto.setStatus(EStatusReceipt.CONFIRMED);
-//            businessBalanceService.discountBusinessBalance(receiptDto.getSchedule().getBusiness().getId(), 0.25);
-//        }
-
 
         receiptService.update(receiptDto);
         serviceSchedule.update(_schedule);

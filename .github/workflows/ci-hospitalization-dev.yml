@@ -1,7 +1,7 @@
-name: ci-hospitalization-service-dev
+name: ci-hospitalization-dev
 
 env:
-  SERVICE_NAME: 'hospitalization-service'
+  SERVICE_NAME: 'hospitalization'
   SERVICE_PATH: 'hospitalization-service'
 
 on:
@@ -10,7 +10,7 @@ on:
     branches:
       - 'dev'
     paths:
-      - ci-hospitalization-service-dev.yml
+      - ci-hospitalization-dev.yml
       - 'hospitalization-service/**'
       - 'share/**'
 jobs:
