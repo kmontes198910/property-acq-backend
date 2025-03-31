@@ -20,6 +20,7 @@ public class TreatmentPlanResponse implements IResponse {
     private String dosage;
     private String frequency;
     private Integer daysOfTreatment;
+    private String code;
 
     public TreatmentPlanResponse(TreatmentPlanDto dto) {
         this.id = dto.getId();
@@ -29,6 +30,7 @@ public class TreatmentPlanResponse implements IResponse {
         this.dosage = dto.getDosage();
         this.frequency = dto.getFrequency();
         this.daysOfTreatment = dto.getDaysOfTreatment();
+        this.code = dto.getCode();
     }
 
 }

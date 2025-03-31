@@ -15,4 +15,5 @@ public class CreateTreatmentPlanRequest {
     private String dosage;
     private String frequency;
     private Integer daysOfTreatment;
+    private String code;
 }

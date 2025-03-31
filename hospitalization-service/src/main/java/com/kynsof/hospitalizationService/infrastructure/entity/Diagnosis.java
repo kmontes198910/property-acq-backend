@@ -29,6 +29,7 @@ public class Diagnosis {
     @JoinColumn(name = "emergency_case_id", nullable = false)
     private EmergencyCase emergencyCase;
 
+    private String code;
     private String diagnosisType;
     private String diagnosisDescription;
 
@@ -37,10 +38,11 @@ public class Diagnosis {
         this.emergencyCase = dto.getEmergencyCase() != null ? new EmergencyCase(dto.getEmergencyCase()) : null;
         this.diagnosisType = dto.getDiagnosisType();
         this.diagnosisDescription = dto.getDiagnosisDescription();
+        this.code = dto.getCode();
     }
 
     public DiagnosisDto toAggregate() {
-        return new DiagnosisDto(id, emergencyCase.toAggregate(), diagnosisType, diagnosisDescription);
+        return new DiagnosisDto(id, emergencyCase.toAggregate(), diagnosisType, diagnosisDescription, code);
     }
     
 }

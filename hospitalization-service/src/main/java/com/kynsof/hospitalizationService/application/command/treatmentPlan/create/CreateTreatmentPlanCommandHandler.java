@@ -29,7 +29,8 @@ public class CreateTreatmentPlanCommandHandler implements ICommandHandler<Create
                 command.getAdministrationRoute(), 
                 command.getDosage(), 
                 command.getFrequency(), 
-                command.getDaysOfTreatment()
+                command.getDaysOfTreatment(),
+                command.getCode()
         ));
     }
 }
