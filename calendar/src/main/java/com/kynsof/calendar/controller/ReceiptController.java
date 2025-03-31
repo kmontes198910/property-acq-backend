@@ -1,5 +1,8 @@
 package com.kynsof.calendar.controller;
 
+import com.kynsof.calendar.application.command.receipt.changeResource.ChangeResourceReceiptCommand;
+import com.kynsof.calendar.application.command.receipt.changeResource.ChangeResourceReceiptMessage;
+import com.kynsof.calendar.application.command.receipt.changeResource.ChangeResourceReceiptRequest;
 import com.kynsof.calendar.application.command.receipt.confirmPayment.ConfirmPaymentReceiptCommand;
 import com.kynsof.calendar.application.command.receipt.confirmPayment.ConfirmPaymentReceiptMessage;
 import com.kynsof.calendar.application.command.receipt.confirmPayment.ConfirmPaymentReceiptRequest;
@@ -176,5 +179,21 @@ public class  ReceiptController {
 
         return ResponseEntity.ok(response);
     }
+
+    @PostMapping("change-resource/{receiptId}")
+    public ResponseEntity<?> changeResource(@PathVariable UUID receiptId,
+                                        @RequestBody ChangeResourceReceiptRequest confirmPaymentReceiptRequest,
+                                        ServerHttpRequest request,
+                                        @RequestHeader(value = "User-Agent", required = false,
+                                                defaultValue = "Unknown") String userAgent) {
+
+        String ipAddress = Objects.requireNonNull(request.getRemoteAddress()).getAddress().getHostAddress();
+        ChangeResourceReceiptCommand createCommand = ChangeResourceReceiptCommand.fromRequest(receiptId,
+                confirmPaymentReceiptRequest);
+        ChangeResourceReceiptMessage response = mediator.send(createCommand);
+
+        return ResponseEntity.ok(response);
+    }
+
 
 }
