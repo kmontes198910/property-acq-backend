@@ -18,4 +18,5 @@ public class TreatmentPlanDto {
     private String dosage;
     private String frequency;
     private Integer daysOfTreatment;
+    private String code;
 }

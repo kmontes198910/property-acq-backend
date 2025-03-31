@@ -28,4 +28,6 @@ public interface IReceiptService {
     void updateScheduled(UUID receiptId, UUID scheduledId);
 
     void updateGroupPaymentId(UUID id, String groupPaymentId);
+
+    void updateStatus(UUID id, EStatusReceipt eStatusReceipt);
 }

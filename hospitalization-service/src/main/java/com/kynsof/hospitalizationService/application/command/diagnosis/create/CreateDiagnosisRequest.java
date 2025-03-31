@@ -12,4 +12,5 @@ public class CreateDiagnosisRequest {
     private UUID emergencyCase;
     private String diagnosisType;
     private String diagnosisDescription;
+    private String code;
 }

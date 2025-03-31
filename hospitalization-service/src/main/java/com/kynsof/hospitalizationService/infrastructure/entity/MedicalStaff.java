@@ -1,5 +1,6 @@
 package com.kynsof.hospitalizationService.infrastructure.entity;
 
+import com.kynsof.hospitalizationService.domain.dto.MedicalStaffDto;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -25,4 +26,17 @@ public class MedicalStaff {
     private String lastName;
     private String specialty;
     private String licenseNumber;
+
+    public MedicalStaff(MedicalStaffDto dto) {
+        this.id = dto.getId();
+        this.firstName = dto.getFirstName();
+        this.lastName = dto.getLastName();
+        this.specialty = dto.getSpecialty();
+        this.licenseNumber = dto.getLicenseNumber();
+    }
+
+    public MedicalStaffDto toAggregate() {
+        return new MedicalStaffDto(id, firstName, lastName, specialty, licenseNumber);
+    }
+
 }

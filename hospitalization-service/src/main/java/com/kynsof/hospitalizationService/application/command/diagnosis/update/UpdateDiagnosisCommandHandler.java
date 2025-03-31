@@ -27,6 +27,7 @@ public class UpdateDiagnosisCommandHandler implements ICommandHandler<UpdateDiag
         diagnosisDto.setEmergencyCase(emergencyCaseDto);
         diagnosisDto.setDiagnosisDescription(command.getDiagnosisDescription());
         diagnosisDto.setDiagnosisType(command.getDiagnosisType());
+        diagnosisDto.setCode(command.getCode());
 
         diagnosisService.update(diagnosisDto);
     }

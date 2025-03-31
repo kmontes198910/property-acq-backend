@@ -15,12 +15,14 @@ public class UpdateDiagnosisCommand implements ICommand {
     private UUID emergencyCase;
     private String diagnosisType;
     private String diagnosisDescription;
+    private String code;
 
-    public UpdateDiagnosisCommand(UUID id, UUID emergencyCase, String diagnosisType, String diagnosisDescription) {
+    public UpdateDiagnosisCommand(UUID id, UUID emergencyCase, String diagnosisType, String diagnosisDescription, String code) {
         this.id = id;
         this.emergencyCase = emergencyCase;
         this.diagnosisType = diagnosisType;
         this.diagnosisDescription = diagnosisDescription;
+        this.code = code;
     }
 
     public static UpdateDiagnosisCommand fromRequest(UpdateDiagnosisRequest request, UUID id) {
@@ -28,7 +30,8 @@ public class UpdateDiagnosisCommand implements ICommand {
                 id,
                 request.getEmergencyCase(),
                 request.getDiagnosisType(),
-                request.getDiagnosisDescription()
+                request.getDiagnosisDescription(),
+                request.getCode()
         );
     }
 
