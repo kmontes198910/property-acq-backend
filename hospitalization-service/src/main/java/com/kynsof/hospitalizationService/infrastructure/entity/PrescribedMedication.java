@@ -1,5 +1,6 @@
 package com.kynsof.hospitalizationService.infrastructure.entity;
 
+import com.kynsof.hospitalizationService.domain.dto.PrescribedMedicationDto;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -32,4 +33,19 @@ public class PrescribedMedication {
     private String frequency;
     private String administrationRoute;
     private Integer duration;
+
+    public PrescribedMedication(PrescribedMedicationDto dto) {
+        this.id = dto.getId();
+        this.medicalPrescription = dto.getMedicalPrescription() != null ? new MedicalPrescription(dto.getMedicalPrescription()) : null;
+        this.medicationName = dto.getMedicationName();
+        this.dosage = dto.getDosage();
+        this.frequency = dto.getFrequency();
+        this.administrationRoute = dto.getAdministrationRoute();
+        this.duration = dto.getDuration();
+    }
+
+    public PrescribedMedicationDto toAggregate() {
+        return new PrescribedMedicationDto(id, medicalPrescription.toAggregate(), medicationName, dosage, frequency, administrationRoute, duration);
+    }
+
 }
