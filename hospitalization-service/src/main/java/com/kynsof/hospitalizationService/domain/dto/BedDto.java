@@ -1,5 +1,6 @@
 package com.kynsof.hospitalizationService.domain.dto;
 
+import com.kynsof.hospitalizationService.domain.dto.enun.BedStatus;
 import java.util.UUID;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -14,5 +15,6 @@ public class BedDto {
     private UUID id;
     private String code;
     private String name;
+    private BedStatus status;
     private UbicationDto ubication;
 }

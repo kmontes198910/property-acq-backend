@@ -1,5 +1,6 @@
 package com.kynsof.hospitalizationService.application.command.bed.create;
 
+import com.kynsof.hospitalizationService.domain.dto.enun.BedStatus;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -12,4 +13,5 @@ public class CreateBedRequest {
     private UUID ubication;
     private String code;
     private String name;
+    private BedStatus status;
 }

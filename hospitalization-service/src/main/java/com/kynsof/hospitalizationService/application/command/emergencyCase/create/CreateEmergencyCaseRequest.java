@@ -10,6 +10,7 @@ import java.util.UUID;
 public class CreateEmergencyCaseRequest {
 
     private UUID patient;
+    private UUID bed;
     private String admissionDate;//formato: yyyy-MM-dd
     private String admissionTime;//formato: HH:mm
     private String admissionType;

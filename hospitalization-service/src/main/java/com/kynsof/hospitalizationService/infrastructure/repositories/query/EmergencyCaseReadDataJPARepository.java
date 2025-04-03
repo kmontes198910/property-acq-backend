@@ -21,6 +21,10 @@ public interface EmergencyCaseReadDataJPARepository extends JpaRepository<Emerge
     @Query("SELECT p FROM EmergencyCase p WHERE p.id = :id")
     Optional<EmergencyCase> findByIdForUpdate(@Param("id") UUID id);
 
+    @EntityGraph(attributePaths = {"patient", "beds"})
+    @Query("SELECT p FROM EmergencyCase p WHERE p.id = :id")
+    Optional<EmergencyCase> findByIdWhitBed(@Param("id") UUID id);
+
     @EntityGraph(attributePaths = {"patient"})
     Optional<EmergencyCase> findById(UUID id);
 }

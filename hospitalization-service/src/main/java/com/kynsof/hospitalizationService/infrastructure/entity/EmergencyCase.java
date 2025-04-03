@@ -7,9 +7,11 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.List;
 import java.util.UUID;
 
 import org.hibernate.annotations.DynamicUpdate;
@@ -39,6 +41,9 @@ public class EmergencyCase {
     private LocalTime admissionTime;
     private String admissionType;
     private String status;
+
+    @OneToMany(mappedBy = "emergencyCase", fetch = FetchType.LAZY)
+    private List<EmergencyCaseBed> beds;
 
     public EmergencyCase(EmergencyCaseDto dto) {
         this.id = dto.getId();

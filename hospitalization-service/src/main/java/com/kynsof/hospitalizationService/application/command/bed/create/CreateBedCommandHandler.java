@@ -22,6 +22,6 @@ public class CreateBedCommandHandler implements ICommandHandler<CreateBedCommand
     @Override
     public void handle(CreateBedCommand command) {
         UbicationDto ubicationDto = this.ubicationService.findById(command.getUbication());
-        bedService.create(new BedDto(command.getId(), command.getCode(), command.getName(), ubicationDto));
+        bedService.create(new BedDto(command.getId(), command.getCode(), command.getName(), command.getStatus(), ubicationDto));
     }
 }
