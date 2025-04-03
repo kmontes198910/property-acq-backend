@@ -1,6 +1,7 @@
 package com.kynsof.hospitalizationService.domain.service;
 
 import com.kynsof.hospitalizationService.domain.dto.EmergencyCaseDto;
+import com.kynsof.hospitalizationService.domain.dto.EmergencyCaseUpdateDto;
 import com.kynsof.share.core.domain.request.FilterCriteria;
 import com.kynsof.share.core.domain.response.PaginatedResponse;
 import org.springframework.data.domain.Pageable;
@@ -18,4 +19,6 @@ public interface IEmergencyCaseService {
     EmergencyCaseDto findById(UUID id);
 
     PaginatedResponse search(Pageable pageable, List<FilterCriteria> filterCriteria);
+
+    void simpleUpdate(EmergencyCaseUpdateDto dto);
 }

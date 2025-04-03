@@ -2,6 +2,7 @@ package com.kynsof.hospitalizationService.infrastructure.service.impl;
 
 import com.kynsof.hospitalizationService.application.response.EmergencyCaseResponse;
 import com.kynsof.hospitalizationService.domain.dto.EmergencyCaseDto;
+import com.kynsof.hospitalizationService.domain.dto.EmergencyCaseUpdateDto;
 import com.kynsof.hospitalizationService.domain.dto.exception.EmergencyCaseNotFoundException;
 import com.kynsof.hospitalizationService.domain.service.IEmergencyCaseService;
 import com.kynsof.hospitalizationService.infrastructure.entity.EmergencyCase;
@@ -90,6 +91,24 @@ public class EmergencyCaseServiceImpl implements IEmergencyCaseService {
         } catch (Exception e) {
             throw new BusinessNotFoundException(new GlobalBusinessException(DomainErrorMessage.NOT_DELETE, new ErrorField("id", "Element cannot be deleted has a related element.")));
         }
+    }
+
+    @Override
+    public void simpleUpdate(EmergencyCaseUpdateDto dto) {
+
+        Optional<EmergencyCase> update = this.repositoryQuery.findByIdForUpdate(dto.getId());
+        if (update.isPresent()) {
+            EmergencyCase emergencyCase = update.get();
+            emergencyCase.setAdmissionDate(dto.getAdmissionDate());
+            emergencyCase.setAdmissionTime(dto.getAdmissionTime());
+            emergencyCase.setAdmissionType(dto.getAdmissionType());
+            emergencyCase.setStatus(dto.getStatus());
+
+            this.repositoryCommand.save(emergencyCase);
+        } else {
+            throw new EmergencyCaseNotFoundException(dto.getId());
+        }
+        
     }
 
 }
