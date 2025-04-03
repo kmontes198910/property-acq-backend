@@ -1,6 +1,8 @@
 package com.kynsof.hospitalizationService.domain.service;
 
 import com.kynsof.hospitalizationService.domain.dto.EmergencyCaseDto;
+import com.kynsof.hospitalizationService.domain.dto.EmergencyCaseUpdateDto;
+import com.kynsof.hospitalizationService.domain.dto.command.CreateEmergencyCaseDto;
 import com.kynsof.share.core.domain.request.FilterCriteria;
 import com.kynsof.share.core.domain.response.PaginatedResponse;
 import org.springframework.data.domain.Pageable;
@@ -11,6 +13,8 @@ import java.util.UUID;
 public interface IEmergencyCaseService {
     UUID create(EmergencyCaseDto patients);
 
+    void createWithBed(CreateEmergencyCaseDto patients);
+
     UUID update(EmergencyCaseDto patients);
 
     void delete(UUID id);
@@ -18,4 +22,6 @@ public interface IEmergencyCaseService {
     EmergencyCaseDto findById(UUID id);
 
     PaginatedResponse search(Pageable pageable, List<FilterCriteria> filterCriteria);
+
+    void simpleUpdate(EmergencyCaseUpdateDto dto);
 }

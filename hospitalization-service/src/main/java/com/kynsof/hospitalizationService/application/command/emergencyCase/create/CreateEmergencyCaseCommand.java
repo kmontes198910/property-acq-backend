@@ -17,14 +17,16 @@ public class CreateEmergencyCaseCommand implements ICommand {
     private String admissionTime;//formato: HH:mm
     private String admissionType;
     private String status;
+    private UUID bed;
 
-    public CreateEmergencyCaseCommand(UUID patient, String admissionDate, String admissionTime, String admissionType, String status) {
+    public CreateEmergencyCaseCommand(UUID patient, String admissionDate, String admissionTime, String admissionType, String status, UUID bed) {
         this.id = UUID.randomUUID();
         this.patient = patient;
         this.admissionDate = admissionDate;
         this.admissionTime = admissionTime;
         this.admissionType = admissionType;
         this.status = status;
+        this.bed = bed;
     }
 
     public static CreateEmergencyCaseCommand fromRequest(CreateEmergencyCaseRequest request) {
@@ -33,7 +35,8 @@ public class CreateEmergencyCaseCommand implements ICommand {
                 request.getAdmissionDate(),
                 request.getAdmissionTime(),
                 request.getAdmissionType(),
-                request.getStatus()
+                request.getStatus(),
+                request.getBed()
         );
     }
 

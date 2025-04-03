@@ -2,10 +2,21 @@ package com.kynsof.hospitalizationService.infrastructure.service.impl;
 
 import com.kynsof.hospitalizationService.application.response.EmergencyCaseResponse;
 import com.kynsof.hospitalizationService.domain.dto.EmergencyCaseDto;
+import com.kynsof.hospitalizationService.domain.dto.EmergencyCaseUpdateDto;
+import com.kynsof.hospitalizationService.domain.dto.command.CreateEmergencyCaseDto;
+import com.kynsof.hospitalizationService.domain.dto.enun.BedStatus;
+import com.kynsof.hospitalizationService.domain.dto.exception.BedNotFoundException;
+import com.kynsof.hospitalizationService.domain.dto.exception.BedOccupiedNotFoundException;
 import com.kynsof.hospitalizationService.domain.dto.exception.EmergencyCaseNotFoundException;
 import com.kynsof.hospitalizationService.domain.service.IEmergencyCaseService;
+import com.kynsof.hospitalizationService.infrastructure.entity.Bed;
 import com.kynsof.hospitalizationService.infrastructure.entity.EmergencyCase;
+import com.kynsof.hospitalizationService.infrastructure.entity.EmergencyCaseBed;
+import com.kynsof.hospitalizationService.infrastructure.entity.Patients;
+import com.kynsof.hospitalizationService.infrastructure.repositories.command.BedWriteDataJPARepository;
+import com.kynsof.hospitalizationService.infrastructure.repositories.command.EmergencyCaseBedWriteDataJPARepository;
 import com.kynsof.hospitalizationService.infrastructure.repositories.command.EmergencyCaseWriteDataJPARepository;
+import com.kynsof.hospitalizationService.infrastructure.repositories.query.BedReadDataJPARepository;
 import com.kynsof.hospitalizationService.infrastructure.repositories.query.EmergencyCaseReadDataJPARepository;
 import com.kynsof.share.core.domain.exception.BusinessNotFoundException;
 import com.kynsof.share.core.domain.exception.DomainErrorMessage;
@@ -29,10 +40,20 @@ public class EmergencyCaseServiceImpl implements IEmergencyCaseService {
 
     private final EmergencyCaseWriteDataJPARepository repositoryCommand;
     private final EmergencyCaseReadDataJPARepository repositoryQuery;
+    private final BedReadDataJPARepository bedReadDataJPARepository;
+    private final BedWriteDataJPARepository bedWriteDataJPARepository;
+    private final EmergencyCaseBedWriteDataJPARepository emergencyCaseBedWriteDataJPARepository;
 
-    public EmergencyCaseServiceImpl(EmergencyCaseWriteDataJPARepository repositoryCommand, EmergencyCaseReadDataJPARepository repositoryQuery) {
+    public EmergencyCaseServiceImpl(EmergencyCaseWriteDataJPARepository repositoryCommand, 
+                                    EmergencyCaseReadDataJPARepository repositoryQuery,
+                                    BedReadDataJPARepository bedReadDataJPARepository, 
+                                    EmergencyCaseBedWriteDataJPARepository emergencyCaseBedWriteDataJPARepository,
+                                    BedWriteDataJPARepository bedWriteDataJPARepository) {
         this.repositoryCommand = repositoryCommand;
         this.repositoryQuery = repositoryQuery;
+        this.bedReadDataJPARepository = bedReadDataJPARepository;
+        this.bedWriteDataJPARepository = bedWriteDataJPARepository;
+        this.emergencyCaseBedWriteDataJPARepository = emergencyCaseBedWriteDataJPARepository;
     }
 
     @Override
@@ -41,6 +62,33 @@ public class EmergencyCaseServiceImpl implements IEmergencyCaseService {
         EmergencyCase object = new EmergencyCase(dto);
         this.repositoryCommand.save(object);
         return dto.getId();
+    }
+
+    @Override
+    @Transactional
+    public void createWithBed(CreateEmergencyCaseDto dto) {
+        EmergencyCase emergencyCase = new EmergencyCase();
+        emergencyCase.setId(dto.getId());
+        emergencyCase.setPatient(new Patients(dto.getPatient())); // Asume que Patient existe
+        emergencyCase.setAdmissionDate(dto.getAdmissionDate());
+        emergencyCase.setAdmissionTime(dto.getAdmissionTime());
+        emergencyCase.setAdmissionType(dto.getAdmissionType());
+        emergencyCase.setStatus(dto.getStatus());
+
+        emergencyCase = repositoryCommand.save(emergencyCase); // Guarda primero el caso
+
+        Bed bed = bedReadDataJPARepository.findById(dto.getBed()).orElseThrow(() -> new BedNotFoundException(dto.getBed()));
+        if (bed.getStatus().equals(BedStatus.OCCUPIED)) {
+            throw new BedOccupiedNotFoundException(dto.getBed());
+        }
+        bed.setStatus(BedStatus.OCCUPIED);
+        bedWriteDataJPARepository.save(bed);
+
+        EmergencyCaseBed assignment = new EmergencyCaseBed();
+        assignment.setId(UUID.randomUUID());
+        assignment.setEmergencyCase(emergencyCase);
+        assignment.setBed(bed);
+        emergencyCaseBedWriteDataJPARepository.save(assignment);
     }
 
     @Override
@@ -90,6 +138,24 @@ public class EmergencyCaseServiceImpl implements IEmergencyCaseService {
         } catch (Exception e) {
             throw new BusinessNotFoundException(new GlobalBusinessException(DomainErrorMessage.NOT_DELETE, new ErrorField("id", "Element cannot be deleted has a related element.")));
         }
+    }
+
+    @Override
+    public void simpleUpdate(EmergencyCaseUpdateDto dto) {
+
+        Optional<EmergencyCase> update = this.repositoryQuery.findByIdForUpdate(dto.getId());
+        if (update.isPresent()) {
+            EmergencyCase emergencyCase = update.get();
+            emergencyCase.setAdmissionDate(dto.getAdmissionDate());
+            emergencyCase.setAdmissionTime(dto.getAdmissionTime());
+            emergencyCase.setAdmissionType(dto.getAdmissionType());
+            emergencyCase.setStatus(dto.getStatus());
+
+            this.repositoryCommand.save(emergencyCase);
+        } else {
+            throw new EmergencyCaseNotFoundException(dto.getId());
+        }
+        
     }
 
 }
