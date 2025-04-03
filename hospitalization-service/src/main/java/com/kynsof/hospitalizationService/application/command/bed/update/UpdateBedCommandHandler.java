@@ -27,6 +27,7 @@ public class UpdateBedCommandHandler implements ICommandHandler<UpdateBedCommand
         update.setCode(command.getCode());
         update.setName(command.getName());
         update.setUbication(ubicationDto);
+        update.setStatus(command.getStatus());
         
         bedService.update(update);
     }

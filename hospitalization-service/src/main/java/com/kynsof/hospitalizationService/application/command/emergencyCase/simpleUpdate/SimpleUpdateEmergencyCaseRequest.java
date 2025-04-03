@@ -1,16 +1,11 @@
-package com.kynsof.hospitalizationService.application.command.emergencyCase.create;
+package com.kynsof.hospitalizationService.application.command.emergencyCase.simpleUpdate;
 
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.UUID;
-
 @Getter
 @Setter
-public class CreateEmergencyCaseRequest {
-
-    private UUID patient;
-    private UUID bed;
+public class SimpleUpdateEmergencyCaseRequest {
     private String admissionDate;//formato: yyyy-MM-dd
     private String admissionTime;//formato: HH:mm
     private String admissionType;

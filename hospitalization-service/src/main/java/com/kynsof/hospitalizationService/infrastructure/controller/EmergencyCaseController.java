@@ -5,6 +5,9 @@ import com.kynsof.hospitalizationService.application.command.emergencyCase.creat
 import com.kynsof.hospitalizationService.application.command.emergencyCase.create.CreateEmergencyCaseRequest;
 import com.kynsof.hospitalizationService.application.command.emergencyCase.delete.DeleteEmergencyCaseCommand;
 import com.kynsof.hospitalizationService.application.command.emergencyCase.delete.DeleteEmergencyCaseMessage;
+import com.kynsof.hospitalizationService.application.command.emergencyCase.simpleUpdate.SimpleUpdateEmergencyCaseCommand;
+import com.kynsof.hospitalizationService.application.command.emergencyCase.simpleUpdate.SimpleUpdateEmergencyCaseMessage;
+import com.kynsof.hospitalizationService.application.command.emergencyCase.simpleUpdate.SimpleUpdateEmergencyCaseRequest;
 import com.kynsof.hospitalizationService.application.command.emergencyCase.update.UpdateEmergencyCaseCommand;
 import com.kynsof.hospitalizationService.application.command.emergencyCase.update.UpdateEmergencyCaseMessage;
 import com.kynsof.hospitalizationService.application.command.emergencyCase.update.UpdateEmergencyCaseRequest;
@@ -44,6 +47,14 @@ public class EmergencyCaseController {
 
         UpdateEmergencyCaseCommand command = UpdateEmergencyCaseCommand.fromRequest(request, id);
         UpdateEmergencyCaseMessage response = mediator.send(command);
+        return ResponseEntity.ok(response);
+    }
+
+    @PatchMapping("/simple-update/{id}")
+    public ResponseEntity<?> simpleUpdate(@PathVariable("id") UUID id, @RequestBody SimpleUpdateEmergencyCaseRequest request) {
+
+        SimpleUpdateEmergencyCaseCommand command = SimpleUpdateEmergencyCaseCommand.fromRequest(request, id);
+        SimpleUpdateEmergencyCaseMessage response = mediator.send(command);
         return ResponseEntity.ok(response);
     }
 

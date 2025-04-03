@@ -1,6 +1,7 @@
 package com.kynsof.hospitalizationService.application.response;
 
 import com.kynsof.hospitalizationService.domain.dto.*;
+import com.kynsof.hospitalizationService.domain.dto.enun.BedStatus;
 import com.kynsof.share.core.domain.bus.query.IResponse;
 import java.util.UUID;
 import lombok.AllArgsConstructor;
@@ -17,12 +18,14 @@ public class BedResponse implements IResponse {
     private String code;
     private String name;
     private UbicationDto ubication;
+    private BedStatus status;
 
     public BedResponse(BedDto dto) {
         this.id = dto.getId();
         this.code = dto.getCode();
         this.name = dto.getCode();
         this.ubication = dto.getUbication();
+        this.status = dto.getStatus();
     }
 
 }
