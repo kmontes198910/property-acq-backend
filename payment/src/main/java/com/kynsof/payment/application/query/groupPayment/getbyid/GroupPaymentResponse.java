@@ -41,7 +41,7 @@ public class GroupPaymentResponse implements IResponse {
         this.processUrl = aggregate.getProcessUrl();
         this.status = aggregate.getStatus();
         this.createdAt = aggregate.getCreatedAt();
-        this.totalAmount = aggregate.getTotalAmount();
+        this.totalAmount = aggregate.getTotalAmount().setScale(2, RoundingMode.HALF_UP);
         this.client = aggregate.getClient();
         this.business = aggregate.getBusiness();
         this.internalReferenceNumber = aggregate.getInternalReferenceNumber();
