@@ -12,7 +12,6 @@ public class RabbitMQConfig {
     private static final String TREATMENT_QUEUE = "paciente.treatment";
     private static final String PAYMENT_QUEUE = "paciente.payment";
     private static final String EVALUATION_QUEUE = "paciente.evaluation";
-    //private static final String IDENTITY_QUEUE = "paciente.identity";
     private static final String HOSPITALIZATION_QUEUE = "paciente.hospitalization";
     private static final String CALENDAR_QUEUE = "paciente.calendar";
 
@@ -24,7 +23,6 @@ public class RabbitMQConfig {
     @Bean public Queue treatmentQueue() { return new Queue(TREATMENT_QUEUE, true); }
     @Bean public Queue paymentQueue() { return new Queue(PAYMENT_QUEUE, true); }
     @Bean public Queue evaluationQueue() { return new Queue(EVALUATION_QUEUE, true); }
-  //  @Bean public Queue identityQueue() { return new Queue(IDENTITY_QUEUE, true); }
     @Bean public Queue hospitalIzationQueue() { return new Queue(HOSPITALIZATION_QUEUE, true); }
     @Bean public Queue calendarQueue() { return new Queue(CALENDAR_QUEUE, true); }
 
@@ -39,10 +37,6 @@ public class RabbitMQConfig {
     @Bean public Binding bindEvaluationQueue(FanoutExchange exchange, Queue evaluationQueue) {
         return BindingBuilder.bind(evaluationQueue).to(exchange);
     }
-
-//    @Bean public Binding bindIdentityQueue(FanoutExchange exchange, Queue identityQueue) {
-//        return BindingBuilder.bind(identityQueue).to(exchange);
-//    }
 
     @Bean public Binding bindHospitalIzationQueue(FanoutExchange exchange, Queue hospitalIzationQueue) {
         return BindingBuilder.bind(hospitalIzationQueue).to(exchange);
