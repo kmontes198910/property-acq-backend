@@ -2,7 +2,7 @@ package com.kynsof.patients.controller;
 
 
 import com.kynsof.patients.infrastructure.services.rabbitMQ.Person;
-import com.kynsof.patients.infrastructure.services.rabbitMQ.RabbitMQProducer;
+import com.kynsof.patients.infrastructure.services.rabbitMQ.CreatePatientProducer;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -15,9 +15,9 @@ import java.util.UUID;
 @RequestMapping("/api/patients-events")
 public class PatientEventController {
 
-    private final RabbitMQProducer publisher;
+    private final CreatePatientProducer publisher;
 
-    public PatientEventController(RabbitMQProducer publisher) {
+    public PatientEventController(CreatePatientProducer publisher) {
         this.publisher = publisher;
     }
 
