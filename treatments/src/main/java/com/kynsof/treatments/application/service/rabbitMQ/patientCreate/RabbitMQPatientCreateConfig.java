@@ -1,11 +1,11 @@
-package com.kynsof.treatments.application.service.rabbitMQ;
+package com.kynsof.treatments.application.service.rabbitMQ.patientCreate;
 
 import org.springframework.amqp.core.*;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-public class RabbitMQConfig {
+public class RabbitMQPatientCreateConfig {
 
     private static final String TREATMENT_QUEUE = "paciente.treatment";
     private static final String EXCHANGE_NAME = "paciente.exchange";

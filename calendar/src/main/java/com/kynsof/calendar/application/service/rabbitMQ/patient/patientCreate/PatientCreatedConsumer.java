@@ -1,4 +1,4 @@
-package com.kynsof.calendar.application.service.rabbitMQ;
+package com.kynsof.calendar.application.service.rabbitMQ.patient.patientCreate;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kynsof.calendar.domain.dto.PatientDto;

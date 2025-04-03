@@ -1,8 +1,8 @@
 package com.kynsof.patients.controller;
 
 
-import com.kynsof.patients.infrastructure.services.rabbitMQ.Person;
-import com.kynsof.patients.infrastructure.services.rabbitMQ.CreatePatientProducer;
+import com.kynsof.patients.infrastructure.services.rabbitMQ.patientCreate.Person;
+import com.kynsof.patients.infrastructure.services.rabbitMQ.patientCreate.CreatePatientProducer;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;

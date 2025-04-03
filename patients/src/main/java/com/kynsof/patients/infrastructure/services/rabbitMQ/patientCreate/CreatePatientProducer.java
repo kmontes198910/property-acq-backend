@@ -1,4 +1,4 @@
-package com.kynsof.patients.infrastructure.services.rabbitMQ;
+package com.kynsof.patients.infrastructure.services.rabbitMQ.patientCreate;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;

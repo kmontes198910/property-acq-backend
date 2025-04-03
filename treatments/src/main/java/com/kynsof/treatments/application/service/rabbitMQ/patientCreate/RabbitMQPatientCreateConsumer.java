@@ -1,4 +1,4 @@
-package com.kynsof.treatments.application.service.rabbitMQ;
+package com.kynsof.treatments.application.service.rabbitMQ.patientCreate;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kynsof.treatments.domain.dto.PatientDto;
@@ -10,12 +10,12 @@ import org.springframework.stereotype.Service;
 import java.util.UUID;
 
 @Service
-public class RabbitMQConsumer {
+public class RabbitMQPatientCreateConsumer {
 
     private final ObjectMapper objectMapper;
     private final IPatientsService patientsService;
 
-    public RabbitMQConsumer(ObjectMapper objectMapper, IPatientsService patientsService) {
+    public RabbitMQPatientCreateConsumer(ObjectMapper objectMapper, IPatientsService patientsService) {
         this.objectMapper = objectMapper;
         this.patientsService = patientsService;
     }

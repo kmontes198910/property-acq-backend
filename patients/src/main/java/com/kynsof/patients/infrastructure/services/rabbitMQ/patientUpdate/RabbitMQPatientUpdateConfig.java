@@ -1,19 +1,22 @@
-package com.kynsof.patients.infrastructure.services.rabbitMQ;
+package com.kynsof.patients.infrastructure.services.rabbitMQ.patientUpdate;
 
-import org.springframework.amqp.core.*;
+import org.springframework.amqp.core.Binding;
+import org.springframework.amqp.core.BindingBuilder;
+import org.springframework.amqp.core.FanoutExchange;
+import org.springframework.amqp.core.Queue;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-public class RabbitMQConfig {
+public class RabbitMQPatientUpdateConfig {
 
-    private static final String EXCHANGE_NAME = "paciente.exchange";
+    private static final String EXCHANGE_NAME = "paciente.update.exchange";
 
-    private static final String TREATMENT_QUEUE = "paciente.treatment";
-    private static final String PAYMENT_QUEUE = "paciente.payment";
-    private static final String EVALUATION_QUEUE = "paciente.evaluation";
-    private static final String HOSPITALIZATION_QUEUE = "paciente.hospitalization";
-    private static final String CALENDAR_QUEUE = "paciente.calendar";
+    private static final String TREATMENT_QUEUE = "paciente.update.treatment";
+    private static final String PAYMENT_QUEUE = "paciente.update.payment";
+    private static final String EVALUATION_QUEUE = "paciente.update.evaluation";
+    private static final String HOSPITALIZATION_QUEUE = "paciente.update.hospitalization";
+    private static final String CALENDAR_QUEUE = "paciente.update.calendar";
 
     @Bean
     public FanoutExchange fanoutExchange() {
