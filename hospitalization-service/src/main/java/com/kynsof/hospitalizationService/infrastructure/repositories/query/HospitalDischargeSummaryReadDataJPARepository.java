@@ -12,11 +12,11 @@ import java.util.UUID;
 import org.springframework.data.jpa.repository.EntityGraph;
 
 public interface HospitalDischargeSummaryReadDataJPARepository extends JpaRepository<HospitalDischargeSummary, UUID>, JpaSpecificationExecutor<HospitalDischargeSummary> {
-    @EntityGraph(attributePaths = {"hospitalization"})
+    @EntityGraph(attributePaths = {"hospitalization", "hospitalization.patient", "hospitalization.emergencyCase", "hospitalization.attendingDoctor"})
     @Override
     Page<HospitalDischargeSummary> findAll(Specification specification, Pageable pageable);
 
-    @EntityGraph(attributePaths = {"hospitalization"})
+    @EntityGraph(attributePaths = {"hospitalization", "hospitalization.patient", "hospitalization.emergencyCase", "hospitalization.attendingDoctor"})
     @Override
     Optional<HospitalDischargeSummary> findById(UUID id);
 }
