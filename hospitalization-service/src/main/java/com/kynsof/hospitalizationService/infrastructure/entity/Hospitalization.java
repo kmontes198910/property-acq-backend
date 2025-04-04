@@ -4,6 +4,7 @@ import com.kynsof.hospitalizationService.domain.dto.HospitalizationDto;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
@@ -27,17 +28,15 @@ public class Hospitalization {
     @Column(name="id")
     private UUID id;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "patient_id", nullable = false)
     private Patients patient;
 
     @OneToOne
     @JoinColumn(name = "emergency_case_id")
-
     private EmergencyCase emergencyCase; // Relación si proviene de Emergencia
 
-
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "attending_doctor_id", nullable = false)
     private MedicalStaff attendingDoctor;
 

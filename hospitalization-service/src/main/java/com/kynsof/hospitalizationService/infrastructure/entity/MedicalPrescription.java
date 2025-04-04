@@ -3,6 +3,7 @@ package com.kynsof.hospitalizationService.infrastructure.entity;
 import com.kynsof.hospitalizationService.domain.dto.MedicalPrescriptionDto;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
@@ -25,7 +26,7 @@ public class MedicalPrescription {
     @Column(name="id")
     private UUID id;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "hospitalization_id", nullable = false)
     private Hospitalization hospitalization;
 
