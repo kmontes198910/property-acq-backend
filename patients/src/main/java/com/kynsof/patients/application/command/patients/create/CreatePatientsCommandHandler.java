@@ -8,6 +8,8 @@ import com.kynsof.patients.domain.rules.dependent.DependentMustBeUniqueRule;
 import com.kynsof.patients.domain.service.IContactInfoService;
 import com.kynsof.patients.domain.service.IGeographicLocationService;
 import com.kynsof.patients.domain.service.IPatientsService;
+import com.kynsof.patients.infrastructure.services.rabbitMQ.patientCreate.CreatePatientProducer;
+import com.kynsof.patients.infrastructure.services.rabbitMQ.patientCreate.Person;
 import com.kynsof.share.core.domain.RulesChecker;
 import com.kynsof.share.core.domain.bus.command.ICommandHandler;
 import org.springframework.stereotype.Component;
@@ -20,14 +22,16 @@ public class CreatePatientsCommandHandler implements ICommandHandler<CreatePatie
     private final IPatientsService serviceImpl;
     private final IContactInfoService contactInfoService;
     private final IGeographicLocationService geographicLocationService;
+    private final CreatePatientProducer createPatientProducer;
 
 
     public CreatePatientsCommandHandler(IPatientsService serviceImpl, IContactInfoService contactInfoService,
-                                        IGeographicLocationService geographicLocationService
+                                        IGeographicLocationService geographicLocationService, CreatePatientProducer publisher
     ) {
         this.serviceImpl = serviceImpl;
         this.contactInfoService = contactInfoService;
         this.geographicLocationService = geographicLocationService;
+        this.createPatientProducer = publisher;
     }
 
     @Override
@@ -63,9 +67,27 @@ public class CreatePatientsCommandHandler implements ICommandHandler<CreatePatie
                     command.getCreateContactInfoRequest().getConventionalTelephone(),
                     command.getCreateContactInfoRequest().getMaritalStatus()
             ));
+
         }catch (Exception ignored) {
 
         }
 
+        replicatePerson(command, id);
+    }
+
+    private void replicatePerson(CreatePatientsCommand command, UUID id) {
+        Person person = new Person();
+        person.setId(id.toString());
+        person.setIdentificationNumber(command.getIdentification());
+        person.setFirstName(command.getName());
+        person.setLastName(command.getLastName());
+        person.setEmail(command.getCreateContactInfoRequest().getEmail());
+        person.setImage(command.getPhoto());
+        person.setBirthDate(command.getCreateContactInfoRequest().getBirthdayDate());
+        person.setGender(command.getGender().toString());
+        person.setPhoneNumber(command.getCreateContactInfoRequest().getTelephone());
+        person.setProfession(command.getProfession());
+
+        createPatientProducer.sendPersonEvent(person);
     }
 }

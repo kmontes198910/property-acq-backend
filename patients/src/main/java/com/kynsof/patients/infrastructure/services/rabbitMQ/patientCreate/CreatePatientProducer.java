@@ -1,4 +1,4 @@
-package com.kynsof.patients.infrastructure.services.rabbitMQ;
+package com.kynsof.patients.infrastructure.services.rabbitMQ.patientCreate;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -6,14 +6,14 @@ import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.stereotype.Service;
 
 @Service
-public class RabbitMQProducer {
+public class CreatePatientProducer {
 
     private final RabbitTemplate rabbitTemplate;
     private final ObjectMapper objectMapper;
 
     private static final String EXCHANGE_NAME = "paciente.exchange"; // Valor quemado
 
-    public RabbitMQProducer(RabbitTemplate rabbitTemplate, ObjectMapper objectMapper) {
+    public CreatePatientProducer(RabbitTemplate rabbitTemplate, ObjectMapper objectMapper) {
         this.rabbitTemplate = rabbitTemplate;
         this.objectMapper = objectMapper;
     }

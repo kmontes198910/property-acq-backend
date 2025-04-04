@@ -1,4 +1,4 @@
-package com.kynsof.patients.infrastructure.services.rabbitMQ;
+package com.kynsof.treatments.application.service.rabbitMQ.patientCreate;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

@@ -11,6 +11,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
@@ -84,7 +85,7 @@ public class GroupPayment {
         dto.setStatus(status);
         dto.setId(id);
         dto.setCreatedAt(createdAt);
-        dto.setTotalAmount(totalAmount);
+        dto.setTotalAmount(totalAmount.setScale(2, RoundingMode.HALF_UP) );
         dto.setClient(client.toAggregate());
         dto.setBusiness(business.toAggregate());
         dto.setInternalReferenceNumber(internalReferenceNumber);
