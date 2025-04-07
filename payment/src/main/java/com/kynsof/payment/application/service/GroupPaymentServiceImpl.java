@@ -313,6 +313,23 @@ public class GroupPaymentServiceImpl implements IGroupPaymentService {
         }
     }
 
+    @Override
+    public void findByRequestId(String requestId) {
+        GroupPayment groupPayment = this.groupPaymentReadDataJPARepository.findByRequestId(requestId).orElseThrow();
+        PaymentServiceStatusResponse serviceStatusResponse = null;
+        try {
+            serviceStatusResponse = paymentServiceClient.validateStatusPayment(groupPayment.getRequestId(), groupPayment.getBusiness().getId());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        if (serviceStatusResponse.getStatus().equals("APPROVED")) {
+            groupPayment.setPaymentDate(LocalDateTime.now());
+            groupPayment.setAuthorizationCode(serviceStatusResponse.getAuthorization());
+        }
+        groupPaymentWriteDataJPARepository.save(groupPayment);
+
+    }
+
 
     @Override
     public GroupPaymentDto findById(UUID id) {
