@@ -31,4 +31,6 @@ public interface IGroupPaymentService {
     List<GroupPayment> findByStatus(GroupPaymentStatus groupPaymentStatus);
 
     void reverse(UUID id);
+
+    void findByRequestId(String requestId);
 }
