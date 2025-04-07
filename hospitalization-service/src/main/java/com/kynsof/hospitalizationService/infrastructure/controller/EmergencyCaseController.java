@@ -11,8 +11,10 @@ import com.kynsof.hospitalizationService.application.command.emergencyCase.simpl
 import com.kynsof.hospitalizationService.application.command.emergencyCase.update.UpdateEmergencyCaseCommand;
 import com.kynsof.hospitalizationService.application.command.emergencyCase.update.UpdateEmergencyCaseMessage;
 import com.kynsof.hospitalizationService.application.command.emergencyCase.update.UpdateEmergencyCaseRequest;
+import com.kynsof.hospitalizationService.application.query.emergencyCase.getBedById.GetByIdEmergencyCaseAndBedQuery;
 import com.kynsof.hospitalizationService.application.query.emergencyCase.getById.GetByIdEmergencyCaseQuery;
 import com.kynsof.hospitalizationService.application.query.emergencyCase.search.GetSearchEmergencyCaseQuery;
+import com.kynsof.hospitalizationService.application.response.EmergencyCaseAndBedResponse;
 import com.kynsof.hospitalizationService.application.response.EmergencyCaseResponse;
 import com.kynsof.share.core.domain.request.PageableUtil;
 import com.kynsof.share.core.domain.request.SearchRequest;
@@ -71,6 +73,15 @@ public class EmergencyCaseController {
 
         GetByIdEmergencyCaseQuery query = new GetByIdEmergencyCaseQuery(id);
         EmergencyCaseResponse response = mediator.send(query);
+
+        return ResponseEntity.ok(response);
+    }
+
+    @GetMapping(path = "/and-bed/{id}")
+    public ResponseEntity<?> getByIdAndBed(@PathVariable UUID id) {
+
+        GetByIdEmergencyCaseAndBedQuery query = new GetByIdEmergencyCaseAndBedQuery(id);
+        EmergencyCaseAndBedResponse response = mediator.send(query);
 
         return ResponseEntity.ok(response);
     }

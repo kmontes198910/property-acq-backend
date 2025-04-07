@@ -1,5 +1,7 @@
 package com.kynsof.hospitalizationService.infrastructure.service.impl;
 
+import com.kynsof.hospitalizationService.application.response.BedResponse;
+import com.kynsof.hospitalizationService.application.response.EmergencyCaseAndBedResponse;
 import com.kynsof.hospitalizationService.application.response.EmergencyCaseResponse;
 import com.kynsof.hospitalizationService.domain.dto.EmergencyCaseDto;
 import com.kynsof.hospitalizationService.domain.dto.EmergencyCaseUpdateDto;
@@ -44,11 +46,11 @@ public class EmergencyCaseServiceImpl implements IEmergencyCaseService {
     private final BedWriteDataJPARepository bedWriteDataJPARepository;
     private final EmergencyCaseBedWriteDataJPARepository emergencyCaseBedWriteDataJPARepository;
 
-    public EmergencyCaseServiceImpl(EmergencyCaseWriteDataJPARepository repositoryCommand, 
-                                    EmergencyCaseReadDataJPARepository repositoryQuery,
-                                    BedReadDataJPARepository bedReadDataJPARepository, 
-                                    EmergencyCaseBedWriteDataJPARepository emergencyCaseBedWriteDataJPARepository,
-                                    BedWriteDataJPARepository bedWriteDataJPARepository) {
+    public EmergencyCaseServiceImpl(EmergencyCaseWriteDataJPARepository repositoryCommand,
+            EmergencyCaseReadDataJPARepository repositoryQuery,
+            BedReadDataJPARepository bedReadDataJPARepository,
+            EmergencyCaseBedWriteDataJPARepository emergencyCaseBedWriteDataJPARepository,
+            BedWriteDataJPARepository bedWriteDataJPARepository) {
         this.repositoryCommand = repositoryCommand;
         this.repositoryQuery = repositoryQuery;
         this.bedReadDataJPARepository = bedReadDataJPARepository;
@@ -103,7 +105,6 @@ public class EmergencyCaseServiceImpl implements IEmergencyCaseService {
         return dto.getId();
     }
 
-
     @Override
     public EmergencyCaseDto findById(UUID id) {
         Optional<EmergencyCase> contactInformation = this.repositoryQuery.findById(id);
@@ -155,7 +156,33 @@ public class EmergencyCaseServiceImpl implements IEmergencyCaseService {
         } else {
             throw new EmergencyCaseNotFoundException(dto.getId());
         }
-        
+
+    }
+
+    @Override
+    public EmergencyCaseAndBedResponse getBedByEmergencyCaseId(UUID emergencyCaseId) {
+        EmergencyCase emergencyCase = repositoryQuery.findWithBedsById(emergencyCaseId).orElseThrow(() -> new EmergencyCaseNotFoundException(emergencyCaseId));
+
+        List<BedResponse> beds = new ArrayList<>();
+        for (EmergencyCaseBed bed : emergencyCase.getBeds()) {
+            beds.add(new BedResponse(
+                    bed.getBed().getId(), 
+                    bed.getBed().getCode(), 
+                    bed.getBed().getName(), 
+                    bed.getBed().getUbication().toAggregate(), 
+                    bed.getBed().getStatus())
+            );
+        }
+        return new EmergencyCaseAndBedResponse(new EmergencyCaseDto(
+                emergencyCase.getId(), 
+                emergencyCase.getPatient().toAggregate(), 
+                emergencyCase.getAdmissionDate(), 
+                emergencyCase.getAdmissionTime(), 
+                emergencyCase.getAdmissionType(), 
+                emergencyCase.getStatus()
+                ), 
+                beds
+        );
     }
 
 }

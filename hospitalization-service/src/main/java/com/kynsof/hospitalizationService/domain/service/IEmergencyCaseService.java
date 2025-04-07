@@ -1,5 +1,6 @@
 package com.kynsof.hospitalizationService.domain.service;
 
+import com.kynsof.hospitalizationService.application.response.EmergencyCaseAndBedResponse;
 import com.kynsof.hospitalizationService.domain.dto.EmergencyCaseDto;
 import com.kynsof.hospitalizationService.domain.dto.EmergencyCaseUpdateDto;
 import com.kynsof.hospitalizationService.domain.dto.command.CreateEmergencyCaseDto;
@@ -24,4 +25,6 @@ public interface IEmergencyCaseService {
     PaginatedResponse search(Pageable pageable, List<FilterCriteria> filterCriteria);
 
     void simpleUpdate(EmergencyCaseUpdateDto dto);
+
+    EmergencyCaseAndBedResponse getBedByEmergencyCaseId(UUID emergencyCaseId);
 }
