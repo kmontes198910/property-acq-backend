@@ -32,5 +32,5 @@ public interface IGroupPaymentService {
 
     void reverse(UUID id);
 
-    void findByRequestId(String requestId);
+    void changeStatusByNotification(String requestId);
 }

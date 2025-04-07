@@ -15,7 +15,7 @@ public class NotificationChangeStatusCommandHandler implements ICommandHandler<N
 
     @Override
     public void handle(NotificationChangeStatusCommand command) {
-        this.serviceImpl.findByRequestId(command.getRequestId());
+        this.serviceImpl.changeStatusByNotification(command.getRequestId());
     }
 
 }

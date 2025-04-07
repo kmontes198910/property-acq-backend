@@ -172,7 +172,6 @@ public class GroupPaymentServiceImpl implements IGroupPaymentService {
         groupPayment.setAuthorizationCode(authorizationCode);
         groupPayment.setRequestId(requestId);
         groupPayment.setProcessUrl(processUrl);
-        groupPayment.setStatus(status);
         groupPayment.setPaymentType(PaymentType.PLACETOPAY);
         if (status == GroupPaymentStatus.PAYMENT_APPROVED) {
             PaymentServiceStatusResponse serviceStatusResponse = paymentServiceClient.validateStatusPayment(groupPayment.getRequestId(), groupPayment.getBusiness().getId());
@@ -314,7 +313,7 @@ public class GroupPaymentServiceImpl implements IGroupPaymentService {
     }
 
     @Override
-    public void findByRequestId(String requestId) {
+    public void changeStatusByNotification(String requestId) {
         GroupPayment groupPayment = this.groupPaymentReadDataJPARepository.findByRequestId(requestId).orElseThrow();
         PaymentServiceStatusResponse serviceStatusResponse = null;
         try {
@@ -325,6 +324,12 @@ public class GroupPaymentServiceImpl implements IGroupPaymentService {
         if (serviceStatusResponse.getStatus().equals("APPROVED")) {
             groupPayment.setPaymentDate(LocalDateTime.now());
             groupPayment.setAuthorizationCode(serviceStatusResponse.getAuthorization());
+            groupPayment.setStatus(GroupPaymentStatus.PAYMENT_APPROVED);
+        }
+        if (serviceStatusResponse.getStatus().equals("REJECTED")) {
+            groupPayment.setPaymentDate(LocalDateTime.now());
+            groupPayment.setAuthorizationCode(serviceStatusResponse.getAuthorization());
+            groupPayment.setStatus(GroupPaymentStatus.REJECTED);
         }
         groupPaymentWriteDataJPARepository.save(groupPayment);
 
