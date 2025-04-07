@@ -27,4 +27,7 @@ public interface EmergencyCaseReadDataJPARepository extends JpaRepository<Emerge
 
     @EntityGraph(attributePaths = {"patient"})
     Optional<EmergencyCase> findById(UUID id);
+
+    @EntityGraph(attributePaths = {"patient", "beds", "beds.bed", "beds.bed.ubication"}) // Carga beds y bed en una consulta
+    Optional<EmergencyCase> findWithBedsById(UUID id);
 }

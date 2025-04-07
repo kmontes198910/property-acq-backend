@@ -15,7 +15,8 @@ public class PaymentController {
 
     @PostMapping("/status")
     public ResponseEntity<PaymentStatus> receivePaymentStatus(@RequestBody PaymentStatus paymentStatus) {
-        String url = "http://localhost:5008/placetopay/transactions/notification";
+        //String url = "http://localhost:5008/placetopay/transactions/notification";
+        String url = "http://payment:8080/placetopay/transactions/notification";
         restTemplate.postForEntity(url, paymentStatus, Void.class);
 
         return ResponseEntity.ok(paymentStatus);
