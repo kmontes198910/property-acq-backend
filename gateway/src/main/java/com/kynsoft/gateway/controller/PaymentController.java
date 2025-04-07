@@ -28,7 +28,7 @@ public class PaymentController {
         // Call the notification change status endpoint
         try {
             int requestId = paymentStatus.getRequestId(); // assuming you have this field
-            String notifyUrl = "http://payment-internal-service:9901/notification-change-status/" + requestId;
+            String notifyUrl = "http://payment-internal-service:9901/api/group-payments/notification-change-status/" + requestId;
             restTemplate.getForEntity(notifyUrl, Void.class);
         } catch (Exception e) {
             System.err.println("Error al notificar en el servicio de group payment");
