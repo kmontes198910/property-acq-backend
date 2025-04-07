@@ -5,6 +5,7 @@ import com.kynsof.identity.domain.dto.*;
 import com.kynsof.identity.domain.dto.enumType.GeographicLocationType;
 import com.kynsof.identity.domain.interfaces.service.IGeographicLocationService;
 import com.kynsof.identity.infrastructure.identity.GeographicLocation;
+import com.kynsof.identity.infrastructure.identity.projection.ProvinceCantonParishProjection;
 import com.kynsof.identity.infrastructure.repository.command.GeographicLocationWriteDataJPARepository;
 import com.kynsof.identity.infrastructure.repository.query.GeographicLocationReadDataJPARepository;
 import com.kynsof.share.core.domain.RulesChecker;
@@ -23,8 +24,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 @Service
 public class GeographicLocationServiceImpl implements IGeographicLocationService {
@@ -120,5 +120,73 @@ public class GeographicLocationServiceImpl implements IGeographicLocationService
                 .toList();
         return new PaginatedResponse(responses, data.getTotalPages(), data.getNumberOfElements(),
                 data.getTotalElements(), data.getSize(), data.getNumber());
+    }
+
+    @Override
+    @Cacheable(value = "provinces-cantons-parishes")
+    public List<ProvinceDto> getAllProvincesWithCantonsAndParishes() {
+        List<ProvinceCantonParishProjection> rows = this.repositoryQuery.findProvincesWithCantonsAndParishes();
+
+        // Map para agrupar (ProvinceId -> ProvinceDto)
+        Map<UUID, ProvinceDto> provinceMap = new LinkedHashMap<>();
+
+        for (ProvinceCantonParishProjection row : rows) {
+
+            // --- Provincia ---
+            UUID provId = row.getProvinceId();
+            ProvinceDto provinceDto = provinceMap.get(provId);
+            if (provinceDto == null) {
+                provinceDto = new ProvinceDto(
+                        provId,
+                        row.getProvinceName(),
+                        new ArrayList<>()  // lista vacía de cantones
+                );
+                provinceMap.put(provId, provinceDto);
+            }
+
+            // --- Cantón ---
+            UUID cantonId = row.getCantonId();
+            // Si no hay cantón (NULL), salta a la siguiente fila
+            if (cantonId == null) {
+                continue;
+            }
+
+            // Buscamos el cantón en la lista de cantones de la provincia actual
+            List<CantonDto> cantones = provinceDto.getCantones();
+            CantonDto cantonDto = cantones.stream()
+                    .filter(c -> c.getId().equals(cantonId))
+                    .findFirst()
+                    .orElse(null);
+
+            if (cantonDto == null) {
+                // Aún no existe ese cantón en la lista de la provincia
+                cantonDto = new CantonDto(
+                        cantonId,
+                        row.getCantonName(),
+                        new ArrayList<>() // lista vacía de parroquias
+                );
+                cantones.add(cantonDto);
+            }
+
+            // --- Parroquia ---
+            UUID parishId = row.getParishId();
+            if (parishId == null) {
+                continue;
+            }
+
+            // Evitar duplicados de parroquia
+            boolean parishExists = cantonDto.getParroquias().stream()
+                    .anyMatch(pa -> pa.getId().equals(parishId));
+
+            if (!parishExists) {
+                ParroquiaDto parroquiaDto = new ParroquiaDto(
+                        parishId,
+                        row.getParishName()
+                );
+                cantonDto.getParroquias().add(parroquiaDto);
+            }
+        }
+
+        return new ArrayList<>(provinceMap.values());
     }
 }

@@ -2,6 +2,7 @@ package com.kynsof.identity.domain.interfaces.service;
 
 import com.kynsof.identity.domain.dto.GeographicLocationDto;
 import com.kynsof.identity.domain.dto.LocationHierarchyDto;
+import com.kynsof.identity.domain.dto.ProvinceDto;
 import com.kynsof.share.core.domain.request.FilterCriteria;
 import com.kynsof.share.core.domain.response.PaginatedResponse;
 import org.springframework.data.domain.Pageable;
@@ -18,4 +19,6 @@ public interface IGeographicLocationService {
     LocationHierarchyDto findCantonAndProvinceIdsByParroquiaId(UUID parroquiaId);
 
     PaginatedResponse search(Pageable pageable, List<FilterCriteria> filterCriteria);
+
+    List<ProvinceDto> getAllProvincesWithCantonsAndParishes();
 }

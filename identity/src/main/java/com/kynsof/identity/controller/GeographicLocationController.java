@@ -10,6 +10,8 @@ import com.kynsof.identity.application.query.business.geographiclocation.findcan
 import com.kynsof.identity.application.query.business.geographiclocation.getall.GeographicLocationResponse;
 import com.kynsof.identity.application.query.business.geographiclocation.getbyid.FindByIdGeographicLocationQuery;
 import com.kynsof.identity.application.query.business.geographiclocation.search.GetSearchLocationsQuery;
+import com.kynsof.identity.application.query.geograficLocation.GeograficLocationAllResponse;
+import com.kynsof.identity.application.query.geograficLocation.geograficLocationAllQuery;
 import com.kynsof.share.core.domain.request.PageableUtil;
 import com.kynsof.share.core.domain.request.SearchRequest;
 import com.kynsof.share.core.domain.response.PaginatedResponse;
@@ -71,6 +73,14 @@ public class GeographicLocationController {
         DeleteGeographicLocationsCommand command = new DeleteGeographicLocationsCommand(id);
         DeleteGeographicLocationsMessage response = mediator.send(command);
 
+        return ResponseEntity.ok(response);
+    }
+
+    @GetMapping(path = "/all")
+    public ResponseEntity<?> all() {
+
+        geograficLocationAllQuery query = new geograficLocationAllQuery();
+        GeograficLocationAllResponse response = mediator.send(query);
         return ResponseEntity.ok(response);
     }
 
