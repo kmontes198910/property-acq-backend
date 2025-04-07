@@ -6,10 +6,11 @@ import lombok.Getter;
 @Getter
 public class geograficLocationAllQuery implements IQuery {
 
+  private final String query;
 
+    public geograficLocationAllQuery(String query) {
 
-    public geograficLocationAllQuery() {
-
+        this.query = query;
     }
 
 }

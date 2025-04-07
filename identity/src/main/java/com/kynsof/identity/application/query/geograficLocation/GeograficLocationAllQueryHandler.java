@@ -18,8 +18,7 @@ public class GeograficLocationAllQueryHandler implements IQueryHandler<geografic
 
     @Override
     public GeograficLocationAllResponse handle(geograficLocationAllQuery query) {
-        List<ProvinceDto> response = service.getAllProvincesWithCantonsAndParishes();
-
+        List<ProvinceDto> response = service.getAllProvincesWithCantonsAndParishes(query.getQuery());
         return new GeograficLocationAllResponse(response);
     }
 }

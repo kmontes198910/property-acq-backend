@@ -18,6 +18,7 @@ import com.kynsof.share.core.domain.response.PaginatedResponse;
 import com.kynsof.share.core.domain.rules.ValidateObjectNotNullRule;
 import com.kynsof.share.core.infrastructure.redis.CacheConfig;
 import com.kynsof.share.core.infrastructure.specifications.GenericSpecificationsBuilder;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -123,9 +124,9 @@ public class GeographicLocationServiceImpl implements IGeographicLocationService
     }
 
     @Override
-    @Cacheable(value = "provinces-cantons-parishes")
-    public List<ProvinceDto> getAllProvincesWithCantonsAndParishes() {
-        List<ProvinceCantonParishProjection> rows = this.repositoryQuery.findProvincesWithCantonsAndParishes();
+    @Cacheable(value = "search-locations", key = "#text != null ? #text : ''")
+    public List<ProvinceDto> getAllProvincesWithCantonsAndParishes(String text) {
+        List<ProvinceCantonParishProjection> rows = this.repositoryQuery.findProvincesWithCantonsAndParishes(text);
 
         // Map para agrupar (ProvinceId -> ProvinceDto)
         Map<UUID, ProvinceDto> provinceMap = new LinkedHashMap<>();
@@ -188,5 +189,12 @@ public class GeographicLocationServiceImpl implements IGeographicLocationService
         }
 
         return new ArrayList<>(provinceMap.values());
+    }
+
+    @CacheEvict(value = "search-locations", allEntries = true)
+    public void clearSearchLocationsCache() {
+        // Este método no necesita lógica,
+        // con la anotación @CacheEvict basta para limpiar
+        // todos los entries de la caché "search-locations".
     }
 }
