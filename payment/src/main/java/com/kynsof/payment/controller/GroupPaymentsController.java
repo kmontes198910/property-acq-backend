@@ -9,6 +9,7 @@ import com.kynsof.payment.application.command.groupPayment.createGroupPaymentUni
 import com.kynsof.payment.application.command.groupPayment.delete.DeleteGroupPaymentCommand;
 import com.kynsof.payment.application.command.groupPayment.delete.DeleteGroupPaymentMessage;
 import com.kynsof.payment.application.command.groupPayment.notificationChangeStatus.NotificationChangeStatusCommand;
+import com.kynsof.payment.application.command.groupPayment.notificationChangeStatus.NotificationChangeStatusMessage;
 import com.kynsof.payment.application.command.groupPayment.reversebyId.ReverseByIdGroupPaymentCommand;
 import com.kynsof.payment.application.command.groupPayment.reversebyId.ReverseByIdGroupPaymentResponse;
 import com.kynsof.payment.application.command.groupPayment.sendPaymentLink.SendGroupPaymentLinkCommand;
@@ -116,7 +117,7 @@ public class GroupPaymentsController {
     @GetMapping("/notification-change-status/{rquestId}")
     public ResponseEntity<?> notificationChangeStatus(@PathVariable String rquestId) {
         NotificationChangeStatusCommand command = new NotificationChangeStatusCommand(rquestId);
-        SendGroupPaymentLinkMessage message = mediator.send(command);
+        NotificationChangeStatusMessage message = mediator.send(command);
         return ResponseEntity.ok(message);
     }
 }
