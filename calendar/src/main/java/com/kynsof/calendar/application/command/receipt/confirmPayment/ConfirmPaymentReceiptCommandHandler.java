@@ -72,11 +72,12 @@ public class ConfirmPaymentReceiptCommandHandler implements ICommandHandler<Conf
             receipt.getSchedule().setStatus(EStatusSchedule.SOLD_OUT);
         }
         receiptService.update(receipt);
+        if (receipt.getGroupPaymentId() == null) {
+            CreateGroupPaymentUnifRequest request = buildGroupPaymentRequest(receipt, paymentStatus);
+            eventPublisher.publishEvent(new CreatePaymentGroupEvent(request, receipt.getId()));
+        }
 
-        CreateGroupPaymentUnifRequest request = buildGroupPaymentRequest(receipt, paymentStatus);
-        eventPublisher.publishEvent(new CreatePaymentGroupEvent(request, receipt.getId()));
     }
-
     private void processFailedPayment(ReceiptDto receipt, EStatusReceipt newStatus) {
         receipt.getSchedule().setStock(receipt.getSchedule().getStock() + 1);
         receipt.getSchedule().setStatus(EStatusSchedule.AVAILABLE);
@@ -94,7 +95,7 @@ public class ConfirmPaymentReceiptCommandHandler implements ICommandHandler<Conf
         request.setClientId(receipt.getUser().getId());
         request.setBusinessId(receipt.getSchedule().getBusiness().getId());
         request.setPaymentType("PLACETOPAY");
-        request.setPaymentStatus("PAYMENT_APPROVED");
+        request.setPaymentStatus(paymentStatus != null ? "PAYMENT_APPROVED" : "PENDING_PAID");
         request.setAuthorizationCode(paymentStatus != null ? paymentStatus.getAuthorization() : "");
         request.setReference(paymentStatus != null ? paymentStatus.getReference() : "");
         request.setTypeOperation("ExternalConsult");
