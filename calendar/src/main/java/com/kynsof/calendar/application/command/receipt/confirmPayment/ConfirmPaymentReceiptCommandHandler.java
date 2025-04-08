@@ -47,8 +47,12 @@ public class ConfirmPaymentReceiptCommandHandler implements ICommandHandler<Conf
                 }
             } else if (command.getStatus() == EStatusReceipt.CANCEL || command.getStatus() == EStatusReceipt.REJECTED) {
                 processFailedPayment(receipt, command.getStatus());
-            }else if(command.getStatus() == EStatusReceipt.PENDING_PAY) {
+            } else if (command.getStatus() == EStatusReceipt.PENDING_PAY) {
                 receipt.setStatus(EStatusReceipt.PENDING_PAY);
+                receipt.setRequestId(command.getRequestId());
+                receipt.setReference(command.getReference());
+                CreateGroupPaymentUnifRequest request = buildGroupPaymentRequest(receipt, null);
+                eventPublisher.publishEvent(new CreatePaymentGroupEvent(request, receipt.getId()));
                 receiptService.update(receipt);
             }
 
@@ -91,8 +95,8 @@ public class ConfirmPaymentReceiptCommandHandler implements ICommandHandler<Conf
         request.setBusinessId(receipt.getSchedule().getBusiness().getId());
         request.setPaymentType("PLACETOPAY");
         request.setPaymentStatus("PAYMENT_APPROVED");
-        request.setAuthorizationCode(paymentStatus.getAuthorization());
-        request.setReference(paymentStatus.getReference());
+        request.setAuthorizationCode(paymentStatus != null ? paymentStatus.getAuthorization() : "");
+        request.setReference(paymentStatus != null ? paymentStatus.getReference() : "");
         request.setTypeOperation("ExternalConsult");
         request.setProforma(false);
         request.setBillings(List.of(billing));
