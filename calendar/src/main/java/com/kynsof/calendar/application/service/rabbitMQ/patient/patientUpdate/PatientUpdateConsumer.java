@@ -30,7 +30,7 @@ public class PatientUpdateConsumer {
             patientDto.setId(UUID.fromString(person.getId()));
             patientDto.setIdentification(person.getIdentificationNumber());
             patientDto.setEmail(person.getEmail());
-            patientDto.setName(person.getLastName());
+            patientDto.setName(person.getFirstName());
             patientDto.setStatus(PatientStatus.ACTIVE);
             patientDto.setImage(person.getImage());
             patientDto.setLastName(person.getLastName());
