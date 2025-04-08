@@ -51,7 +51,7 @@ public class ConfirmPaymentReceiptCommandHandler implements ICommandHandler<Conf
                 receipt.setStatus(EStatusReceipt.PENDING_PAY);
                 receipt.setRequestId(command.getRequestId());
                 receipt.setReference(command.getReference());
-                CreateGroupPaymentUnifRequest request = buildGroupPaymentRequest(receipt, null);
+                CreateGroupPaymentUnifRequest request = buildGroupPaymentRequest(receipt, null, command.getReference());
                 eventPublisher.publishEvent(new CreatePaymentGroupEvent(request, receipt.getId()));
                 receiptService.update(receipt);
             }
@@ -73,7 +73,7 @@ public class ConfirmPaymentReceiptCommandHandler implements ICommandHandler<Conf
         }
         receiptService.update(receipt);
         if (receipt.getGroupPaymentId() == null) {
-            CreateGroupPaymentUnifRequest request = buildGroupPaymentRequest(receipt, paymentStatus);
+            CreateGroupPaymentUnifRequest request = buildGroupPaymentRequest(receipt, paymentStatus,paymentStatus.getReference());
             eventPublisher.publishEvent(new CreatePaymentGroupEvent(request, receipt.getId()));
         }
 
@@ -85,7 +85,7 @@ public class ConfirmPaymentReceiptCommandHandler implements ICommandHandler<Conf
         receiptService.update(receipt);
     }
 
-    private CreateGroupPaymentUnifRequest buildGroupPaymentRequest(ReceiptDto receipt, PaymentServiceStatusResponse paymentStatus) {
+    private CreateGroupPaymentUnifRequest buildGroupPaymentRequest(ReceiptDto receipt, PaymentServiceStatusResponse paymentStatus, String reference) {
         CreateBillingPartialRequest billing = new CreateBillingPartialRequest();
         billing.setCode(receipt.getService().getCode());
         billing.setDescription(receipt.getService().getName());
@@ -97,7 +97,7 @@ public class ConfirmPaymentReceiptCommandHandler implements ICommandHandler<Conf
         request.setPaymentType("PLACETOPAY");
         request.setPaymentStatus(paymentStatus != null ? "PAYMENT_APPROVED" : "PENDING_PAID");
         request.setAuthorizationCode(paymentStatus != null ? paymentStatus.getAuthorization() : "");
-        request.setReference(paymentStatus != null ? paymentStatus.getReference() : "");
+        request.setReference(reference);
         request.setTypeOperation("ExternalConsult");
         request.setProforma(false);
         request.setBillings(List.of(billing));
