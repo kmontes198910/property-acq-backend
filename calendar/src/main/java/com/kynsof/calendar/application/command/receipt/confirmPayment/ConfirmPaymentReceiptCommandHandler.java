@@ -101,6 +101,7 @@ public class ConfirmPaymentReceiptCommandHandler implements ICommandHandler<Conf
         request.setTypeOperation("ExternalConsult");
         request.setProforma(false);
         request.setBillings(List.of(billing));
+        request.setRequestId(receipt.getRequestId());
         return request;
     }
 }

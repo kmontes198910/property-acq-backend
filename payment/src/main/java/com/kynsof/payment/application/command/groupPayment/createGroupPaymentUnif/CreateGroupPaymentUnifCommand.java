@@ -27,9 +27,10 @@ public class CreateGroupPaymentUnifCommand implements ICommand {
     private final boolean isProforma;
     private final String authorizationCode;
     private final String reference;
+    private final String requestId;
 
     public CreateGroupPaymentUnifCommand(UUID clientId, UUID businessId, List<CreateBillingPartialRequest> billings, UUID userSystemId,
-                                         String userSystemFullName, PaymentType paymentType, GroupPaymentStatus paymentStatus, String insuranceId, TypeOperation typeOperation, boolean isProforma, String authorizationCode, String reference) {
+                                         String userSystemFullName, PaymentType paymentType, GroupPaymentStatus paymentStatus, String insuranceId, TypeOperation typeOperation, boolean isProforma, String authorizationCode, String reference, String requestId) {
 
         this.clientId = clientId;
         this.businessId = businessId;
@@ -43,6 +44,7 @@ public class CreateGroupPaymentUnifCommand implements ICommand {
         this.isProforma = isProforma;
         this.authorizationCode = authorizationCode;
         this.reference = reference;
+        this.requestId = requestId;
     }
 
 
@@ -59,7 +61,8 @@ public class CreateGroupPaymentUnifCommand implements ICommand {
                 request.getTypeOperation()
                 , request.isProforma(),
                 request.getAuthorizationCode(),
-                request.getReference());
+                request.getReference(),
+                request.getRequestId());
     }
 
     @Override

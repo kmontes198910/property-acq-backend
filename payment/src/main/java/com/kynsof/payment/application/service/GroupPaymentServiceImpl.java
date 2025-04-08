@@ -188,13 +188,14 @@ public class GroupPaymentServiceImpl implements IGroupPaymentService {
 
     @Override
     public void updateAdminSystems(UUID id, String reference, String authorizationCode,
-                                   PaymentType paymentType, GroupPaymentStatus status) {
+                                   PaymentType paymentType, GroupPaymentStatus status, String requestId) {
         GroupPayment groupPayment = this.groupPaymentReadDataJPARepository.findById(id).orElseThrow();
         groupPayment.setStatus(status);
         groupPayment.setReference(reference);
         groupPayment.setAuthorizationCode(authorizationCode);
         groupPayment.setPaymentType(paymentType);
         groupPayment.setStatus(status);
+        groupPayment.setRequestId(requestId);
         if (status == GroupPaymentStatus.PAYMENT_APPROVED) {
             groupPayment.setPaymentDate(LocalDateTime.now());
         }
@@ -218,7 +219,7 @@ public class GroupPaymentServiceImpl implements IGroupPaymentService {
                                               UUID userSystemId, String userSystemFullName, PaymentType paymentType,
                                               GroupPaymentStatus paymentStatus, String insuranceId,
                                               TypeOperation typeOperation, boolean proforma, String authorizationCode,
-                                              String reference) {
+                                              String reference, String requestId) {
         System.err.println("Entro aqui antes de leer el cliente");
         Client client;
         try {
@@ -283,7 +284,8 @@ public class GroupPaymentServiceImpl implements IGroupPaymentService {
                 reference,
                 authorizationCode,
                 paymentType,
-                paymentStatus
+                paymentStatus,
+                requestId
         );
         System.err.println("Actualiza los group payment");
         return groupPaymentId;
