@@ -34,7 +34,7 @@
 //        this.eventPublisher = eventPublisher;
 //    }
 //
-//    @Scheduled(cron = "* */5 * * * *")
+//    @Scheduled(cron = "* */15 * * * *")
 //    public void updateStatusPayment() {
 //        List<ReceiptSummaryDTO> receipts = this.receiptService.findByStatus(EStatusReceipt.PENDING_PAY);
 //        receipts.forEach(receipt -> {
@@ -42,6 +42,7 @@
 //                PaymentServiceStatusResponse paymentStatus = paymentServiceClient.validateStatusPayment(receipt.getRequestId(), receipt.getBusinessId());
 //                if (paymentStatus != null && !paymentStatus.getStatus().equals("PENDING")) {
 //                    System.err.println("Estado del pago:"+paymentStatus);
+//                    //processApprovedPayment( receipt,  paymentStatus,  paymentStatus.getAuthorization());
 //                    this.receiptService.updatePaymentStatus(receipt.getId(), paymentStatus.getStatus(), paymentStatus.getReference(), paymentStatus.getAuthorization());
 //                }
 //            } catch (IOException e) {
@@ -50,35 +51,35 @@
 //        });
 //
 //    }
-//    private void processApprovedPayment(ReceiptDto receipt, PaymentServiceStatusResponse paymentStatus, String authorizationCode) {
-//        receipt.setReference(paymentStatus.getReference());
-//        receipt.setAuthorizationCode(authorizationCode);
-//        receipt.setStatus(EStatusReceipt.PAYMENT);
-//        receipt.getSchedule().setStock(receipt.getSchedule().getStock() - 1);
-//        if (receipt.getSchedule().getStock() == 0) {
-//            receipt.getSchedule().setStatus(EStatusSchedule.SOLD_OUT);
-//        }
-//        receiptService.update(receipt);
-//
-//        CreateGroupPaymentUnifRequest request = buildGroupPaymentRequest(receipt, paymentStatus);
-//        eventPublisher.publishEvent(new CreatePaymentGroupEvent(request, receipt.getId()));
-//    }
-//    private CreateGroupPaymentUnifRequest buildGroupPaymentRequest(ReceiptDto receipt, PaymentServiceStatusResponse paymentStatus) {
-//        CreateBillingPartialRequest billing = new CreateBillingPartialRequest();
-//        billing.setCode(receipt.getService().getCode());
-//        billing.setDescription(receipt.getService().getName());
-//        billing.setCost(receipt.getPrice());
-//
-//        CreateGroupPaymentUnifRequest request = new CreateGroupPaymentUnifRequest();
-//        request.setClientId(receipt.getUser().getId());
-//        request.setBusinessId(receipt.getSchedule().getBusiness().getId());
-//        request.setPaymentType("PLACETOPAY");
-//        request.setPaymentStatus("PAYMENT_APPROVED");
-//        request.setAuthorizationCode(paymentStatus.getAuthorization());
-//        request.setReference(paymentStatus.getReference());
-//        request.setTypeOperation("ExternalConsult");
-//        request.setProforma(false);
-//        request.setBillings(List.of(billing));
-//        return request;
-//    }
+////    private void processApprovedPayment(ReceiptDto receipt, PaymentServiceStatusResponse paymentStatus, String authorizationCode) {
+////        receipt.setReference(paymentStatus.getReference());
+////        receipt.setAuthorizationCode(authorizationCode);
+////        receipt.setStatus(EStatusReceipt.PAYMENT);
+////        receipt.getSchedule().setStock(receipt.getSchedule().getStock() - 1);
+////        if (receipt.getSchedule().getStock() == 0) {
+////            receipt.getSchedule().setStatus(EStatusSchedule.SOLD_OUT);
+////        }
+////        receiptService.update(receipt);
+////
+////        CreateGroupPaymentUnifRequest request = buildGroupPaymentRequest(receipt, paymentStatus);
+////        eventPublisher.publishEvent(new CreatePaymentGroupEvent(request, receipt.getId()));
+////    }
+////    private CreateGroupPaymentUnifRequest buildGroupPaymentRequest(ReceiptDto receipt, PaymentServiceStatusResponse paymentStatus) {
+////        CreateBillingPartialRequest billing = new CreateBillingPartialRequest();
+////        billing.setCode(receipt.getService().getCode());
+////        billing.setDescription(receipt.getService().getName());
+////        billing.setCost(receipt.getPrice());
+////
+////        CreateGroupPaymentUnifRequest request = new CreateGroupPaymentUnifRequest();
+////        request.setClientId(receipt.getUser().getId());
+////        request.setBusinessId(receipt.getSchedule().getBusiness().getId());
+////        request.setPaymentType("PLACETOPAY");
+////        request.setPaymentStatus("PAYMENT_APPROVED");
+////        request.setAuthorizationCode(paymentStatus.getAuthorization());
+////        request.setReference(paymentStatus.getReference());
+////        request.setTypeOperation("ExternalConsult");
+////        request.setProforma(false);
+////        request.setBillings(List.of(billing));
+////        return request;
+////    }
 //}
