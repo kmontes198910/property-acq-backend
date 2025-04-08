@@ -33,10 +33,7 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.UUID;
+import java.util.*;
 
 @Service
 public class GroupPaymentServiceImpl implements IGroupPaymentService {
@@ -220,6 +217,10 @@ public class GroupPaymentServiceImpl implements IGroupPaymentService {
                                               GroupPaymentStatus paymentStatus, String insuranceId,
                                               TypeOperation typeOperation, boolean proforma, String authorizationCode,
                                               String reference, String requestId) {
+        Optional<GroupPayment> groupPayment = this.groupPaymentReadDataJPARepository.findByRequestId(requestId);
+        if (groupPayment.isPresent()) {
+            return groupPayment.get().getId();
+        }
         System.err.println("Entro aqui antes de leer el cliente");
         Client client;
         try {
