@@ -173,8 +173,11 @@ public class GroupPaymentServiceImpl implements IGroupPaymentService {
         if (status == GroupPaymentStatus.PAYMENT_APPROVED) {
             PaymentServiceStatusResponse serviceStatusResponse = paymentServiceClient.validateStatusPayment(groupPayment.getRequestId(), groupPayment.getBusiness().getId());
             if (serviceStatusResponse.getStatus().equals("APPROVED")) {
+                if (authorizationCode.isEmpty()){
+                    throw new BusinessNotFoundException(new GlobalBusinessException(DomainErrorMessage.PAYMENT_NOT_FOUND, new ErrorField("autorization", "El codigo de autorizacion no puede ser vacio")));
+                }
                 groupPayment.setPaymentDate(LocalDateTime.now());
-                groupPayment.setAuthorizationCode(serviceStatusResponse.getAuthorization());
+                groupPayment.setAuthorizationCode(authorizationCode);
             }
         }
         this.groupPaymentWriteDataJPARepository.save(groupPayment);
@@ -194,6 +197,9 @@ public class GroupPaymentServiceImpl implements IGroupPaymentService {
         groupPayment.setStatus(status);
         groupPayment.setRequestId(requestId);
         if (status == GroupPaymentStatus.PAYMENT_APPROVED) {
+            if (authorizationCode.isEmpty()){
+                throw new BusinessNotFoundException(new GlobalBusinessException(DomainErrorMessage.PAYMENT_NOT_FOUND, new ErrorField("autorization", "El codigo de autorizacion no puede ser vacio")));
+            }
             groupPayment.setPaymentDate(LocalDateTime.now());
         }
         this.groupPaymentWriteDataJPARepository.save(groupPayment);
