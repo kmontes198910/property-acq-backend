@@ -33,10 +33,7 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.UUID;
+import java.util.*;
 
 @Service
 public class GroupPaymentServiceImpl implements IGroupPaymentService {
@@ -176,8 +173,11 @@ public class GroupPaymentServiceImpl implements IGroupPaymentService {
         if (status == GroupPaymentStatus.PAYMENT_APPROVED) {
             PaymentServiceStatusResponse serviceStatusResponse = paymentServiceClient.validateStatusPayment(groupPayment.getRequestId(), groupPayment.getBusiness().getId());
             if (serviceStatusResponse.getStatus().equals("APPROVED")) {
+                if (authorizationCode.isEmpty()){
+                    throw new BusinessNotFoundException(new GlobalBusinessException(DomainErrorMessage.PAYMENT_NOT_FOUND, new ErrorField("autorization", "El codigo de autorizacion no puede ser vacio")));
+                }
                 groupPayment.setPaymentDate(LocalDateTime.now());
-                groupPayment.setAuthorizationCode(serviceStatusResponse.getAuthorization());
+                groupPayment.setAuthorizationCode(authorizationCode);
             }
         }
         this.groupPaymentWriteDataJPARepository.save(groupPayment);
@@ -197,6 +197,9 @@ public class GroupPaymentServiceImpl implements IGroupPaymentService {
         groupPayment.setStatus(status);
         groupPayment.setRequestId(requestId);
         if (status == GroupPaymentStatus.PAYMENT_APPROVED) {
+            if (authorizationCode.isEmpty()){
+                throw new BusinessNotFoundException(new GlobalBusinessException(DomainErrorMessage.PAYMENT_NOT_FOUND, new ErrorField("autorization", "El codigo de autorizacion no puede ser vacio")));
+            }
             groupPayment.setPaymentDate(LocalDateTime.now());
         }
         this.groupPaymentWriteDataJPARepository.save(groupPayment);
@@ -220,6 +223,10 @@ public class GroupPaymentServiceImpl implements IGroupPaymentService {
                                               GroupPaymentStatus paymentStatus, String insuranceId,
                                               TypeOperation typeOperation, boolean proforma, String authorizationCode,
                                               String reference, String requestId) {
+        Optional<GroupPayment> groupPayment = this.groupPaymentReadDataJPARepository.findByRequestId(requestId);
+        if (groupPayment.isPresent()) {
+            return groupPayment.get().getId();
+        }
         System.err.println("Entro aqui antes de leer el cliente");
         Client client;
         try {
