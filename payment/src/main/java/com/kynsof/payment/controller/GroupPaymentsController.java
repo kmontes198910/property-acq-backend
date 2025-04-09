@@ -120,4 +120,11 @@ public class GroupPaymentsController {
         NotificationChangeStatusMessage message = mediator.send(command);
         return ResponseEntity.ok(message);
     }
+
+    @GetMapping("/verificate-payment/{rquestId}")
+    public ResponseEntity<?> verificatePayment(@PathVariable String rquestId) {
+        NotificationChangeStatusCommand command = new NotificationChangeStatusCommand(rquestId);
+        NotificationChangeStatusMessage message = mediator.send(command);
+        return ResponseEntity.ok(message);
+    }
 }
