@@ -106,12 +106,12 @@ public class AuthController {
     public ResponseEntity<?> appVersion() {
         return ResponseEntity.ok(ApiResponse.success(appVersion));
     }
-    @PreAuthorize("permitAll()")
+
     @GetMapping("/exist-by-email/{email}")
     @RateLimit(type = RateLimit.RateLimitType.DEFAULT)
-    public Mono<ResponseEntity<?>> existUserByEmail(@PathVariable String email) {
+    public ResponseEntity<?> existUserByEmail(@PathVariable String email) {
         ExistByEmailUserSystemsQuery query = new ExistByEmailUserSystemsQuery(email);
         UserSystemsExistByEmailResponse response = this.mediator.send(query);
-        return Mono.just(ResponseEntity.ok(response));
+        return ResponseEntity.ok(response);
     }
 }
