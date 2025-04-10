@@ -29,7 +29,7 @@ public class SecurityConfig {
     @Autowired
     private JwtAuthenticationConverter jwtAuthenticationConverter;
 
-    private final CorsProperties corsProperties;
+//    private final CorsProperties corsProperties;
     private final RateLimitWebFilter rateLimitWebFilter;
 
     /**
@@ -53,7 +53,8 @@ public class SecurityConfig {
                         // Explicitly permit the authentication endpoint with any method
                         .pathMatchers("/api/auth/authenticate").permitAll()
                         // Explicitly permit the exist-by-email endpoint (GET method)
-                        .pathMatchers(HttpMethod.GET, "/api/auth/exist-by-email/**").permitAll()
+                        .pathMatchers(HttpMethod.GET, "/api/auth/**").permitAll()
+                       // .pathMatchers(HttpMethod.GET, "/api/auth/app-version/**").permitAll()
                         // Then allow all other auth endpoints with POST method
                         .pathMatchers(HttpMethod.POST, "/api/auth/**").permitAll()
                         .pathMatchers(HttpMethod.GET, "/swagger-ui.html", "/swagger-ui/**", "/v3/api-docs.yaml", "/v3/api-docs/**", "/swagger-resources/**", "webjars/**").permitAll()
