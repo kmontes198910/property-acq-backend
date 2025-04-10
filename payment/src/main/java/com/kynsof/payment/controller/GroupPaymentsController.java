@@ -8,6 +8,8 @@ import com.kynsof.payment.application.command.groupPayment.createGroupPaymentUni
 import com.kynsof.payment.application.command.groupPayment.createGroupPaymentUnif.CreateGroupPaymentUnifRequest;
 import com.kynsof.payment.application.command.groupPayment.delete.DeleteGroupPaymentCommand;
 import com.kynsof.payment.application.command.groupPayment.delete.DeleteGroupPaymentMessage;
+import com.kynsof.payment.application.command.groupPayment.notificationChangeStatus.NotificationChangeStatusCommand;
+import com.kynsof.payment.application.command.groupPayment.notificationChangeStatus.NotificationChangeStatusMessage;
 import com.kynsof.payment.application.command.groupPayment.reversebyId.ReverseByIdGroupPaymentCommand;
 import com.kynsof.payment.application.command.groupPayment.reversebyId.ReverseByIdGroupPaymentResponse;
 import com.kynsof.payment.application.command.groupPayment.sendPaymentLink.SendGroupPaymentLinkCommand;
@@ -109,6 +111,20 @@ public class GroupPaymentsController {
 
         SendGroupPaymentLinkCommand command = new SendGroupPaymentLinkCommand(requests.getGroupPaymentId(), requests.getType());
         SendGroupPaymentLinkMessage message = mediator.send(command);
+        return ResponseEntity.ok(message);
+    }
+
+    @GetMapping("/notification-change-status/{rquestId}")
+    public ResponseEntity<?> notificationChangeStatus(@PathVariable String rquestId) {
+        NotificationChangeStatusCommand command = new NotificationChangeStatusCommand(rquestId);
+        NotificationChangeStatusMessage message = mediator.send(command);
+        return ResponseEntity.ok(message);
+    }
+
+    @GetMapping("/verificate-payment/{rquestId}")
+    public ResponseEntity<?> verificatePayment(@PathVariable String rquestId) {
+        NotificationChangeStatusCommand command = new NotificationChangeStatusCommand(rquestId);
+        NotificationChangeStatusMessage message = mediator.send(command);
         return ResponseEntity.ok(message);
     }
 }

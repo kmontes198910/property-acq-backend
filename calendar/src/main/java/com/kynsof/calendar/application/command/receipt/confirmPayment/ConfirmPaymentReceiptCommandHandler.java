@@ -47,8 +47,12 @@ public class ConfirmPaymentReceiptCommandHandler implements ICommandHandler<Conf
                 }
             } else if (command.getStatus() == EStatusReceipt.CANCEL || command.getStatus() == EStatusReceipt.REJECTED) {
                 processFailedPayment(receipt, command.getStatus());
-            }else if(command.getStatus() == EStatusReceipt.PENDING_PAY) {
+            } else if (command.getStatus() == EStatusReceipt.PENDING_PAY) {
                 receipt.setStatus(EStatusReceipt.PENDING_PAY);
+                receipt.setRequestId(command.getRequestId());
+                receipt.setReference(command.getReference());
+                CreateGroupPaymentUnifRequest request = buildGroupPaymentRequest(receipt, null, command.getReference());
+                eventPublisher.publishEvent(new CreatePaymentGroupEvent(request, receipt.getId()));
                 receiptService.update(receipt);
             }
 
@@ -68,11 +72,12 @@ public class ConfirmPaymentReceiptCommandHandler implements ICommandHandler<Conf
             receipt.getSchedule().setStatus(EStatusSchedule.SOLD_OUT);
         }
         receiptService.update(receipt);
+        if (receipt.getGroupPaymentId() == null) {
+            CreateGroupPaymentUnifRequest request = buildGroupPaymentRequest(receipt, paymentStatus,paymentStatus.getReference());
+            eventPublisher.publishEvent(new CreatePaymentGroupEvent(request, receipt.getId()));
+        }
 
-        CreateGroupPaymentUnifRequest request = buildGroupPaymentRequest(receipt, paymentStatus);
-        eventPublisher.publishEvent(new CreatePaymentGroupEvent(request, receipt.getId()));
     }
-
     private void processFailedPayment(ReceiptDto receipt, EStatusReceipt newStatus) {
         receipt.getSchedule().setStock(receipt.getSchedule().getStock() + 1);
         receipt.getSchedule().setStatus(EStatusSchedule.AVAILABLE);
@@ -80,7 +85,7 @@ public class ConfirmPaymentReceiptCommandHandler implements ICommandHandler<Conf
         receiptService.update(receipt);
     }
 
-    private CreateGroupPaymentUnifRequest buildGroupPaymentRequest(ReceiptDto receipt, PaymentServiceStatusResponse paymentStatus) {
+    private CreateGroupPaymentUnifRequest buildGroupPaymentRequest(ReceiptDto receipt, PaymentServiceStatusResponse paymentStatus, String reference) {
         CreateBillingPartialRequest billing = new CreateBillingPartialRequest();
         billing.setCode(receipt.getService().getCode());
         billing.setDescription(receipt.getService().getName());
@@ -90,12 +95,13 @@ public class ConfirmPaymentReceiptCommandHandler implements ICommandHandler<Conf
         request.setClientId(receipt.getUser().getId());
         request.setBusinessId(receipt.getSchedule().getBusiness().getId());
         request.setPaymentType("PLACETOPAY");
-        request.setPaymentStatus("PAYMENT_APPROVED");
-        request.setAuthorizationCode(paymentStatus.getAuthorization());
-        request.setReference(paymentStatus.getReference());
+        request.setPaymentStatus(paymentStatus != null ? "PAYMENT_APPROVED" : "PENDING_PAID");
+        request.setAuthorizationCode(paymentStatus != null ? paymentStatus.getAuthorization() : "");
+        request.setReference(reference);
         request.setTypeOperation("ExternalConsult");
         request.setProforma(false);
         request.setBillings(List.of(billing));
+        request.setRequestId(receipt.getRequestId());
         return request;
     }
 }

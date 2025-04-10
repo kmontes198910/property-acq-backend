@@ -24,11 +24,16 @@ public interface IGroupPaymentService {
 
     void update(UUID id, String reference, String authorizationCode, String requestId, String processUrl, GroupPaymentStatus status) throws IOException;
 
-    void updateAdminSystems(UUID id, String reference, String authorizationCode, PaymentType paymentType, GroupPaymentStatus status);
+    void updateAdminSystems(UUID id, String reference, String authorizationCode, PaymentType paymentType, GroupPaymentStatus status, String requestId);
 
-    UUID createBillingsAndGroupPayment(UUID clientId, UUID businessId, List<CreateBillingPartialRequest> billings, UUID userSystemId, String userSystemFullName, PaymentType paymentType, GroupPaymentStatus paymentStatus, String insuranceId, TypeOperation typeOperation, boolean proforma, String authorizationCode, String reference);
+    UUID createBillingsAndGroupPayment(UUID clientId, UUID businessId, List<CreateBillingPartialRequest> billings,
+                                       UUID userSystemId, String userSystemFullName, PaymentType paymentType,
+                                       GroupPaymentStatus paymentStatus, String insuranceId, TypeOperation typeOperation,
+                                       boolean proforma, String authorizationCode, String reference, String requestId);
 
     List<GroupPayment> findByStatus(GroupPaymentStatus groupPaymentStatus);
 
     void reverse(UUID id);
+
+    void changeStatusByNotification(String requestId);
 }

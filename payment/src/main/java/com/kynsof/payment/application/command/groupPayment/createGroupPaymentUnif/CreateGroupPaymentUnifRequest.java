@@ -24,4 +24,5 @@ public class CreateGroupPaymentUnifRequest {
     private boolean isProforma;
     private String authorizationCode;
     private String reference;
+    private String requestId;
 }

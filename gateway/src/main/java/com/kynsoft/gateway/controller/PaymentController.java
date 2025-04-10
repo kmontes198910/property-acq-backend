@@ -15,8 +15,27 @@ public class PaymentController {
 
     @PostMapping("/status")
     public ResponseEntity<PaymentStatus> receivePaymentStatus(@RequestBody PaymentStatus paymentStatus) {
-        String url = "http://localhost:5008/placetopay/transactions/notification";
-        restTemplate.postForEntity(url, paymentStatus, Void.class);
+        //String url = "http://localhost:5008/placetopay/transactions/notification";
+        try {
+            System.err.println("Notifica place to pay:"+paymentStatus.getStatus().getStatus());
+            System.err.println("Notifica place to pay requestId:"+paymentStatus.getRequestId());
+            System.err.println(paymentStatus);
+            String url = "http://payment:8080/placetopay/transactions/notification";
+            restTemplate.postForEntity(url, paymentStatus, Void.class);
+        }catch (Exception e) {
+            System.err.println("Error al notificar al servicio de payment de place to pay: " + e.getMessage());
+        }
+
+
+        // Call the notification change status endpoint
+        try {
+            int requestId = paymentStatus.getRequestId(); // assuming you have this field
+            String notifyUrl = "http://payment-internal-service:9901/api/group-payments/notification-change-status/" + String.valueOf(requestId);
+            restTemplate.getForEntity(notifyUrl, Void.class);
+        } catch (Exception e) {
+            System.err.println("Error al notificar en el servicio de group payment");
+            System.err.println(e.getMessage());
+        }
 
         return ResponseEntity.ok(paymentStatus);
     }

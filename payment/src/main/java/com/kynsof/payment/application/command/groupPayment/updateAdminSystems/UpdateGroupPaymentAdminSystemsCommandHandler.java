@@ -19,7 +19,7 @@ public class UpdateGroupPaymentAdminSystemsCommandHandler implements ICommandHan
 
          this.serviceImpl.updateAdminSystems(command.getId(), command.getReference(),
                 command.getAuthorizationCode(),command.getPaymentType(),
-                command.getStatus());
+                command.getStatus(), "");
         command.setResult(true);
 
     }

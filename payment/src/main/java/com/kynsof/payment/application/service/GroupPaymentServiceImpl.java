@@ -33,10 +33,7 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.UUID;
+import java.util.*;
 
 @Service
 public class GroupPaymentServiceImpl implements IGroupPaymentService {
@@ -172,13 +169,15 @@ public class GroupPaymentServiceImpl implements IGroupPaymentService {
         groupPayment.setAuthorizationCode(authorizationCode);
         groupPayment.setRequestId(requestId);
         groupPayment.setProcessUrl(processUrl);
-        groupPayment.setStatus(status);
         groupPayment.setPaymentType(PaymentType.PLACETOPAY);
         if (status == GroupPaymentStatus.PAYMENT_APPROVED) {
             PaymentServiceStatusResponse serviceStatusResponse = paymentServiceClient.validateStatusPayment(groupPayment.getRequestId(), groupPayment.getBusiness().getId());
             if (serviceStatusResponse.getStatus().equals("APPROVED")) {
+                if (authorizationCode.isEmpty()) {
+                    throw new BusinessNotFoundException(new GlobalBusinessException(DomainErrorMessage.PAYMENT_NOT_FOUND, new ErrorField("autorization", "El codigo de autorizacion no puede ser vacio")));
+                }
                 groupPayment.setPaymentDate(LocalDateTime.now());
-                groupPayment.setAuthorizationCode(serviceStatusResponse.getAuthorization());
+                groupPayment.setAuthorizationCode(authorizationCode);
             }
         }
         this.groupPaymentWriteDataJPARepository.save(groupPayment);
@@ -189,14 +188,18 @@ public class GroupPaymentServiceImpl implements IGroupPaymentService {
 
     @Override
     public void updateAdminSystems(UUID id, String reference, String authorizationCode,
-                                   PaymentType paymentType, GroupPaymentStatus status) {
+                                   PaymentType paymentType, GroupPaymentStatus status, String requestId) {
         GroupPayment groupPayment = this.groupPaymentReadDataJPARepository.findById(id).orElseThrow();
         groupPayment.setStatus(status);
         groupPayment.setReference(reference);
         groupPayment.setAuthorizationCode(authorizationCode);
         groupPayment.setPaymentType(paymentType);
         groupPayment.setStatus(status);
+        groupPayment.setRequestId(requestId);
         if (status == GroupPaymentStatus.PAYMENT_APPROVED) {
+//            if (authorizationCode.isEmpty()) {
+//                throw new BusinessNotFoundException(new GlobalBusinessException(DomainErrorMessage.PAYMENT_NOT_FOUND, new ErrorField("autorization", "El codigo de autorizacion no puede ser vacio")));
+//            }
             groupPayment.setPaymentDate(LocalDateTime.now());
         }
         this.groupPaymentWriteDataJPARepository.save(groupPayment);
@@ -219,7 +222,13 @@ public class GroupPaymentServiceImpl implements IGroupPaymentService {
                                               UUID userSystemId, String userSystemFullName, PaymentType paymentType,
                                               GroupPaymentStatus paymentStatus, String insuranceId,
                                               TypeOperation typeOperation, boolean proforma, String authorizationCode,
-                                              String reference) {
+                                              String reference, String requestId) {
+        if (requestId != null && requestId.length() > 3) {
+            Optional<GroupPayment> groupPayment = this.groupPaymentReadDataJPARepository.findLastByRequestId(requestId);
+            if (groupPayment.isPresent()) {
+                return groupPayment.get().getId();
+            }
+        }
         System.err.println("Entro aqui antes de leer el cliente");
         Client client;
         try {
@@ -284,7 +293,8 @@ public class GroupPaymentServiceImpl implements IGroupPaymentService {
                 reference,
                 authorizationCode,
                 paymentType,
-                paymentStatus
+                paymentStatus,
+                requestId
         );
         System.err.println("Actualiza los group payment");
         return groupPaymentId;
@@ -311,6 +321,29 @@ public class GroupPaymentServiceImpl implements IGroupPaymentService {
         } catch (IOException e) {
             throw new BusinessNotFoundException(new GlobalBusinessException(DomainErrorMessage.PAYMENT_NOT_PRESENT, new ErrorField("id", "No se puede reversar la transacción.")));
         }
+    }
+
+    @Override
+    public void changeStatusByNotification(String requestId) {
+        GroupPayment groupPayment = this.groupPaymentReadDataJPARepository.findLastByRequestId(requestId).orElseThrow();
+        PaymentServiceStatusResponse serviceStatusResponse = null;
+        try {
+            serviceStatusResponse = paymentServiceClient.validateStatusPayment(groupPayment.getRequestId(), groupPayment.getBusiness().getId());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        if (serviceStatusResponse.getStatus().equals("APPROVED")) {
+            groupPayment.setPaymentDate(LocalDateTime.now());
+            groupPayment.setAuthorizationCode(serviceStatusResponse.getAuthorization());
+            groupPayment.setStatus(GroupPaymentStatus.PAYMENT_APPROVED);
+        }
+        if (serviceStatusResponse.getStatus().equals("REJECTED")) {
+            groupPayment.setPaymentDate(LocalDateTime.now());
+            groupPayment.setAuthorizationCode(serviceStatusResponse.getAuthorization());
+            groupPayment.setStatus(GroupPaymentStatus.REJECTED);
+        }
+        groupPaymentWriteDataJPARepository.save(groupPayment);
+
     }
 
 

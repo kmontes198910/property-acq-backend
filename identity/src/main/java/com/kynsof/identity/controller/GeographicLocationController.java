@@ -10,6 +10,9 @@ import com.kynsof.identity.application.query.business.geographiclocation.findcan
 import com.kynsof.identity.application.query.business.geographiclocation.getall.GeographicLocationResponse;
 import com.kynsof.identity.application.query.business.geographiclocation.getbyid.FindByIdGeographicLocationQuery;
 import com.kynsof.identity.application.query.business.geographiclocation.search.GetSearchLocationsQuery;
+import com.kynsof.identity.application.query.geograficLocation.GeograficLocationAllResponse;
+import com.kynsof.identity.application.query.geograficLocation.geograficLocationAllQuery;
+import com.kynsof.identity.domain.interfaces.service.IGeographicLocationService;
 import com.kynsof.share.core.domain.request.PageableUtil;
 import com.kynsof.share.core.domain.request.SearchRequest;
 import com.kynsof.share.core.domain.response.PaginatedResponse;
@@ -25,10 +28,12 @@ import java.util.UUID;
 public class GeographicLocationController {
 
     private final IMediator mediator;
+    private final IGeographicLocationService service;
 
-    public GeographicLocationController(IMediator mediator) {
+    public GeographicLocationController(IMediator mediator, IGeographicLocationService service) {
 
         this.mediator = mediator;
+        this.service = service;
     }
 
     @PostMapping("")
@@ -72,6 +77,20 @@ public class GeographicLocationController {
         DeleteGeographicLocationsMessage response = mediator.send(command);
 
         return ResponseEntity.ok(response);
+    }
+
+    @GetMapping(path = "/all")
+    public ResponseEntity<?> all(@RequestParam(value = "text", required = false) String text) {
+
+        geograficLocationAllQuery query = new geograficLocationAllQuery(text);
+        GeograficLocationAllResponse response = mediator.send(query);
+        return ResponseEntity.ok(response);
+    }
+
+    @PostMapping("/clear")
+    public ResponseEntity<String> clearSearchCache() {
+        service.clearSearchLocationsCache();
+        return ResponseEntity.ok("Cache search-locations borrada");
     }
 
 }
