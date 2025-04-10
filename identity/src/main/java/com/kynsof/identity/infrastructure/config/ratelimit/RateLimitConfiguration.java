@@ -30,11 +30,11 @@ public class RateLimitConfiguration {
         
         // Password recovery: 3 requests per minute
         limits.put(RateLimit.RateLimitType.PASSWORD_RECOVERY, 
-                Bandwidth.classic(3, Refill.intervally(3, Duration.ofMinutes(1))));
+                Bandwidth.classic(5, Refill.intervally(3, Duration.ofMinutes(1))));
         
         // Password change: 2 requests per minute 
         limits.put(RateLimit.RateLimitType.PASSWORD_CHANGE, 
-                Bandwidth.classic(2, Refill.intervally(2, Duration.ofMinutes(1))));
+                Bandwidth.classic(5, Refill.intervally(2, Duration.ofMinutes(1))));
         
         return limits;
     }
