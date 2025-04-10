@@ -173,7 +173,7 @@ public class GroupPaymentServiceImpl implements IGroupPaymentService {
         if (status == GroupPaymentStatus.PAYMENT_APPROVED) {
             PaymentServiceStatusResponse serviceStatusResponse = paymentServiceClient.validateStatusPayment(groupPayment.getRequestId(), groupPayment.getBusiness().getId());
             if (serviceStatusResponse.getStatus().equals("APPROVED")) {
-                if (authorizationCode.isEmpty()){
+                if (authorizationCode.isEmpty()) {
                     throw new BusinessNotFoundException(new GlobalBusinessException(DomainErrorMessage.PAYMENT_NOT_FOUND, new ErrorField("autorization", "El codigo de autorizacion no puede ser vacio")));
                 }
                 groupPayment.setPaymentDate(LocalDateTime.now());
@@ -197,7 +197,7 @@ public class GroupPaymentServiceImpl implements IGroupPaymentService {
         groupPayment.setStatus(status);
         groupPayment.setRequestId(requestId);
         if (status == GroupPaymentStatus.PAYMENT_APPROVED) {
-            if (authorizationCode.isEmpty()){
+            if (authorizationCode.isEmpty()) {
                 throw new BusinessNotFoundException(new GlobalBusinessException(DomainErrorMessage.PAYMENT_NOT_FOUND, new ErrorField("autorization", "El codigo de autorizacion no puede ser vacio")));
             }
             groupPayment.setPaymentDate(LocalDateTime.now());
@@ -223,9 +223,11 @@ public class GroupPaymentServiceImpl implements IGroupPaymentService {
                                               GroupPaymentStatus paymentStatus, String insuranceId,
                                               TypeOperation typeOperation, boolean proforma, String authorizationCode,
                                               String reference, String requestId) {
-        Optional<GroupPayment> groupPayment = this.groupPaymentReadDataJPARepository.findByRequestId(requestId);
-        if (groupPayment.isPresent()) {
-            return groupPayment.get().getId();
+        if (requestId != null && requestId.length() > 3) {
+            Optional<GroupPayment> groupPayment = this.groupPaymentReadDataJPARepository.findLastByRequestId(requestId);
+            if (groupPayment.isPresent()) {
+                return groupPayment.get().getId();
+            }
         }
         System.err.println("Entro aqui antes de leer el cliente");
         Client client;
@@ -323,7 +325,7 @@ public class GroupPaymentServiceImpl implements IGroupPaymentService {
 
     @Override
     public void changeStatusByNotification(String requestId) {
-        GroupPayment groupPayment = this.groupPaymentReadDataJPARepository.findByRequestId(requestId).orElseThrow();
+        GroupPayment groupPayment = this.groupPaymentReadDataJPARepository.findLastByRequestId(requestId).orElseThrow();
         PaymentServiceStatusResponse serviceStatusResponse = null;
         try {
             serviceStatusResponse = paymentServiceClient.validateStatusPayment(groupPayment.getRequestId(), groupPayment.getBusiness().getId());

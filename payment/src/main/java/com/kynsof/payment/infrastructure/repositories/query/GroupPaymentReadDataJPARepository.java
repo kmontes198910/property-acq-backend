@@ -20,6 +20,6 @@ public interface GroupPaymentReadDataJPARepository extends JpaRepository<GroupPa
     @Query("SELECT g FROM GroupPayment g WHERE g.status = :status")
     List<GroupPayment> findByStatus(@Param("status") GroupPaymentStatus status);
 
-    @Query("SELECT g FROM GroupPayment g WHERE g.requestId = :requestId")
-    Optional<GroupPayment> findByRequestId(String requestId);
+    @Query("SELECT g FROM GroupPayment g WHERE g.requestId = :requestId ORDER BY g.createdAt DESC LIMIT 1")
+    Optional<GroupPayment> findLastByRequestId(@Param("requestId") String requestId);
 }
