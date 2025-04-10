@@ -1,6 +1,5 @@
 package com.kynsof.identity.infrastructure.config;
 
-
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -12,8 +11,7 @@ import org.springframework.web.cors.CorsConfiguration;
 @ConfigurationProperties(prefix = "http")
 public class CorsProperties {
 
-	@Setter
+    @Setter
     private boolean corsEnabled;
-	private final CorsConfiguration cors = new CorsConfiguration();
-
+    private final CorsConfiguration cors = new CorsConfiguration();
 }

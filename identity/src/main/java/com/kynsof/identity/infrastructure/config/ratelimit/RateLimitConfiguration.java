@@ -14,32 +14,19 @@ import java.util.concurrent.ConcurrentHashMap;
 public class RateLimitConfiguration {
 
     /**
-     * Creates a local bucket for rate limiting
-     */
-    @Bean
-    public Bucket localBucket() {
-        // Default limit: 10 requests per minute
-        Bandwidth limit = Bandwidth.classic(10, Refill.intervally(10, Duration.ofMinutes(1)));
-        
-        // Bucket4j creates thread-safe buckets by default
-        return io.github.bucket4j.Bucket4j.builder()
-                .addLimit(limit)
-                .build();
-    }
-    /**
      * Defines bandwidth limits for different rate limit types
      */
     @Bean
     public Map<RateLimit.RateLimitType, Bandwidth> limitDefinitions() {
         Map<RateLimit.RateLimitType, Bandwidth> limits = new ConcurrentHashMap<>();
         
+        // Login: exactly 5 requests per minute, using simple refill for strict control
+        limits.put(RateLimit.RateLimitType.LOGIN, 
+                Bandwidth.simple(25, Duration.ofMinutes(1)));
+        
         // Default: 10 requests per minute
         limits.put(RateLimit.RateLimitType.DEFAULT, 
                 Bandwidth.classic(10, Refill.intervally(10, Duration.ofMinutes(1))));
-        
-        // Login: 5 requests per minute
-        limits.put(RateLimit.RateLimitType.LOGIN, 
-                Bandwidth.classic(5, Refill.intervally(5, Duration.ofMinutes(1))));
         
         // Password recovery: 3 requests per minute
         limits.put(RateLimit.RateLimitType.PASSWORD_RECOVERY, 

@@ -1,6 +1,5 @@
 package com.kynsof.identity.infrastructure.config;
 
-
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.lang.NonNull;
@@ -21,21 +20,20 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 @Component
-public class JwtAuthenticationConverter  implements Converter<Jwt, Mono<AbstractAuthenticationToken>> {
+public class JwtAuthenticationConverter implements Converter<Jwt, Mono<AbstractAuthenticationToken>> {
 
     private final JwtGrantedAuthoritiesConverter jwtGrantedAuthoritiesConverter =
             new JwtGrantedAuthoritiesConverter();
 
-    @Value("${jwt.auth.converter.principle-attribute}")
-    private String principleAttribute = "preferred_username";
+    @Value("${jwt.auth.converter.principle-attribute:preferred_username}")
+    private String principleAttribute;
     
-    @Value("${jwt.auth.converter.resource-id}")
-    private String resourceId = "quipux-gateway";
+    @Value("${jwt.auth.converter.resource-id:medinec-identity}")
+    private String resourceId;
     
     @NonNull
     public Mono<AbstractAuthenticationToken> convert(@NonNull Jwt jwt) {
-
-    	return Mono.fromSupplier(() -> {
+        return Mono.fromSupplier(() -> {
             Collection<GrantedAuthority> authorities = Stream
                     .concat(jwtGrantedAuthoritiesConverter.convert(jwt).stream(), extractResourceRoles(jwt).stream())
                     .toList();
@@ -50,7 +48,6 @@ public class JwtAuthenticationConverter  implements Converter<Jwt, Mono<Abstract
 
     @SuppressWarnings("unchecked")
     private Collection<? extends GrantedAuthority> extractResourceRoles(Jwt jwt) {
-
         Map<String, Object> resourceAccess;
         Map<String, Object> resource;
         Collection<String> resourceRoles;
@@ -65,8 +62,12 @@ public class JwtAuthenticationConverter  implements Converter<Jwt, Mono<Abstract
         }
 
         resource = (Map<String, Object>) resourceAccess.get(resourceId);
-
         resourceRoles = (Collection<String>) resource.get("roles");
+        
+        if (resourceRoles == null) {
+            return Set.of();
+        }
+        
         return resourceRoles
                 .stream()
                 .map(role -> new SimpleGrantedAuthority("ROLE_" + role))
