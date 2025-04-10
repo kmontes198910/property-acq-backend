@@ -8,6 +8,8 @@ import com.kynsof.identity.domain.interfaces.service.IGeographicLocationService;
 import com.kynsof.identity.domain.rules.business.BusinessNameMustBeUniqueRule;
 import com.kynsof.identity.domain.rules.business.BusinessRucCheckingNumberOfCharactersRule;
 import com.kynsof.identity.domain.rules.business.BusinessRucMustBeUniqueRule;
+import com.kynsof.identity.infrastructure.services.rabbitMq.dto.BusinessRabbitMQDto;
+import com.kynsof.identity.infrastructure.services.rabbitMq.eventPublisher.EventPublisherService;
 import com.kynsof.share.core.domain.RulesChecker;
 import com.kynsof.share.core.domain.bus.command.ICommandHandler;
 import com.kynsof.share.utils.ConfigureTimeZone;
@@ -18,14 +20,13 @@ public class CreateBusinessCommandHandler implements ICommandHandler<CreateBusin
 
     private final IBusinessService service;
 
-
-
     private final IGeographicLocationService geographicLocationService;
+    private final EventPublisherService eventPublisherService;
 
-
-    public CreateBusinessCommandHandler(IBusinessService service, IGeographicLocationService geographicLocationService) {
+    public CreateBusinessCommandHandler(IBusinessService service, IGeographicLocationService geographicLocationService, EventPublisherService eventPublisherService) {
         this.service = service;
         this.geographicLocationService = geographicLocationService;
+        this.eventPublisherService = eventPublisherService;
     }
 
     @Override
@@ -54,5 +55,6 @@ public class CreateBusinessCommandHandler implements ICommandHandler<CreateBusin
 
         create.setCreateAt(ConfigureTimeZone.getTimeZone());
         service.create(create);
+        this.eventPublisherService.publishBusinessEvent(new BusinessRabbitMQDto(create.getId(), create.getName()));
     }
 }
