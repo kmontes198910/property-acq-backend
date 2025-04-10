@@ -22,7 +22,7 @@ public class RateLimitConfiguration {
         
         // Login: exactly 5 requests per minute, using simple refill for strict control
         limits.put(RateLimit.RateLimitType.LOGIN, 
-                Bandwidth.simple(25, Duration.ofMinutes(1)));
+                Bandwidth.simple(10, Duration.ofSeconds(30)));
         
         // Default: 10 requests per minute
         limits.put(RateLimit.RateLimitType.DEFAULT, 
