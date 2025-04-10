@@ -1,5 +1,6 @@
 package com.kynsof.identity.controller;
 
+import com.kynsof.identity.infrastructure.config.ratelimit.RateLimit;
 import com.kynsof.identity.application.command.auth.TokenRefreshRequest;
 import com.kynsof.identity.application.command.auth.autenticate.*;
 import com.kynsof.identity.application.command.auth.deletedAccount.DeleteAccountCommand;
@@ -40,6 +41,7 @@ public class AuthController {
     }
     @PreAuthorize("permitAll()")
     @PostMapping("/authenticate")
+    @RateLimit(type = RateLimit.RateLimitType.LOGIN)
     public Mono<ResponseEntity<TokenResponse>> authenticate(@RequestBody LoginRequest loginDTO) {
         AuthenticateCommand authenticateCommand = new AuthenticateCommand(loginDTO.getUsername(), loginDTO.getPassword());
         AuthenticateMessage response = mediator.send(authenticateCommand);
@@ -56,6 +58,7 @@ public class AuthController {
 
     @PreAuthorize("permitAll()")
     @PostMapping("/firsts-change-password")
+    @RateLimit(type = RateLimit.RateLimitType.PASSWORD_CHANGE)
     public Mono<ResponseEntity<?>> firstsChangePassword(@RequestBody FirstsChangePasswordRequest request) {
         FirstsChangePasswordCommand authenticateCommand = FirstsChangePasswordCommand.fromRequest(request);
         FirstsChangePasswordMessage response = mediator.send(authenticateCommand);
@@ -64,6 +67,7 @@ public class AuthController {
 
     // @PreAuthorize("permitAll()")
     @PostMapping("/register")
+    @RateLimit(type = RateLimit.RateLimitType.DEFAULT)
     public ResponseEntity<ApiResponse<String>> registerUser(@RequestBody UserRequest userRequest) {
         RegistryCommand command = new RegistryCommand(userRequest.getUserName(), userRequest.getEmail(), userRequest.getName(),
                 userRequest.getLastName(), userRequest.getPassword(), null);
@@ -82,6 +86,7 @@ public class AuthController {
     }
 
     @PostMapping("/forgot-password")
+    @RateLimit(type = RateLimit.RateLimitType.PASSWORD_RECOVERY)
     public ResponseEntity<ApiResponse<?>> forgotPassword(@RequestParam String email) {
         SendPasswordRecoveryOtpCommand command = new SendPasswordRecoveryOtpCommand(email);
         SendPasswordRecoveryOtpMessage sendPasswordRecoveryOtpMessage = mediator.send(command);
@@ -89,6 +94,7 @@ public class AuthController {
     }
 
     @PostMapping("/change-password")
+    @RateLimit(type = RateLimit.RateLimitType.PASSWORD_CHANGE)
     public ResponseEntity<ApiResponse<?>> changePassword(@RequestBody PasswordChangeRequest request) {
         ForwardPasswordCommand command = new ForwardPasswordCommand(request.getEmail(), request.getNewPassword(),
                 request.getOtp());
@@ -102,6 +108,7 @@ public class AuthController {
     }
 
     @GetMapping("/exist-by-email/{email}")
+    @RateLimit(type = RateLimit.RateLimitType.DEFAULT)
     public ResponseEntity<?> existUserByEmail(@PathVariable String email) {
         ExistByEmailUserSystemsQuery query = new ExistByEmailUserSystemsQuery(email);
         UserSystemsExistByEmailResponse response = this.mediator.send(query);
