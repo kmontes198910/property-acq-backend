@@ -106,7 +106,7 @@ public class AuthController {
     public ResponseEntity<?> appVersion() {
         return ResponseEntity.ok(ApiResponse.success(appVersion));
     }
-
+    @PreAuthorize("permitAll()")
     @GetMapping("/exist-by-email/{email}")
     @RateLimit(type = RateLimit.RateLimitType.DEFAULT)
     public ResponseEntity<?> existUserByEmail(@PathVariable String email) {
