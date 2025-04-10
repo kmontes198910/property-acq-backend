@@ -109,9 +109,9 @@ public class AuthController {
     @PreAuthorize("permitAll()")
     @GetMapping("/exist-by-email/{email}")
     @RateLimit(type = RateLimit.RateLimitType.DEFAULT)
-    public ResponseEntity<?> existUserByEmail(@PathVariable String email) {
+    public Mono<ResponseEntity<?>> existUserByEmail(@PathVariable String email) {
         ExistByEmailUserSystemsQuery query = new ExistByEmailUserSystemsQuery(email);
         UserSystemsExistByEmailResponse response = this.mediator.send(query);
-        return ResponseEntity.ok(response);
+        return Mono.just(ResponseEntity.ok(response));
     }
 }

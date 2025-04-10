@@ -45,13 +45,14 @@ public class SecurityConfig {
     public SecurityWebFilterChain securityWebFilterChain(ServerHttpSecurity http) {
         return http
                 .cors(Customizer.withDefaults())
-                .csrf(ServerHttpSecurity.CsrfSpec::disable)
                 .authorizeExchange(exchanges -> exchanges
                         // Most specific rules first
                         .pathMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                         .pathMatchers(HttpMethod.GET, "/health").permitAll()
                         // Explicitly permit the authentication endpoint with any method
                         .pathMatchers("/api/auth/authenticate").permitAll()
+                        // Explicitly permit the exist-by-email endpoint (GET method)
+                        .pathMatchers(HttpMethod.GET, "/api/auth/exist-by-email/**").permitAll()
                         // Then allow all other auth endpoints with POST method
                         .pathMatchers(HttpMethod.POST, "/api/auth/**").permitAll()
                         .pathMatchers(HttpMethod.GET, "/swagger-ui.html", "/swagger-ui/**", "/v3/api-docs.yaml", "/v3/api-docs/**", "/swagger-resources/**", "webjars/**").permitAll()
