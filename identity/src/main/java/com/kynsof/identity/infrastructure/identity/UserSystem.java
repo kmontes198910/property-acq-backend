@@ -44,7 +44,7 @@ public class UserSystem implements Serializable {
     @Column(nullable = true)
     private UUID selectedBusiness;
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<UserPermissionBusiness> userPermissionBusinesses = new HashSet<>();
 
     @CreationTimestamp
@@ -57,7 +57,7 @@ public class UserSystem implements Serializable {
     @Column(unique = true)
     private UUID keyCloakId;
 
-    @OneToOne(mappedBy = "userSystem", cascade = CascadeType.ALL)
+    @OneToOne(mappedBy = "userSystem", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Wallet wallet;
 
     public UserSystem(UserSystemDto dto) {
