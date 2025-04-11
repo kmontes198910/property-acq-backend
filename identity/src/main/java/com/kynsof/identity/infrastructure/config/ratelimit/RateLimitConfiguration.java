@@ -12,7 +12,7 @@ import java.util.concurrent.ConcurrentHashMap;
 public class RateLimitConfiguration {
 
     private static final int LOGIN_CAPACITY = 5;
-    private static final int DEFAULT_CAPACITY = 10;
+    private static final int DEFAULT_CAPACITY = 100;
     private static final int PASSWORD_RECOVERY_CAPACITY = 3;
     private static final int PASSWORD_CHANGE_CAPACITY = 2;
 
