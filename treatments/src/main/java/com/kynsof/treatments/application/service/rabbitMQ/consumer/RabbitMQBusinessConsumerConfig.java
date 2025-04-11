@@ -5,7 +5,6 @@ import org.springframework.amqp.core.BindingBuilder;
 import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.core.TopicExchange;
 import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -13,16 +12,13 @@ import org.springframework.context.annotation.Configuration;
 public class RabbitMQBusinessConsumerConfig {
 
     //Este valor debe de ser igual al micro que produce
-    @Value("${rabbitmq.exchange.business}")
-    public String BUSINESS_EXCHANGE;
+    public static final String BUSINESS_EXCHANGE = "business.topic.exchange";
 
     //Este valor debe de ser igual al micro que produce
-    @Value("${rabbitmq.routing.key.business}")
-    public String BUSINESS_CREATED_ROUTING_KEY;
+    public static final String BUSINESS_CREATED_ROUTING_KEY = "business.routing.key";
 
     //Este valor es unico para el micro.
-    @Value("${rabbitmq.queues.business}")
-    public String BUSINESS_QUEUE;
+    public static final String BUSINESS_QUEUE = "business.queue.treatments";
 
     @Bean
     public TopicExchange businessExchange() {

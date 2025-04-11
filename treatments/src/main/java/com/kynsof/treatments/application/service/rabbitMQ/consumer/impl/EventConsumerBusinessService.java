@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class EventConsumerBusinessService {
 
-    @RabbitListener(queues = "${rabbitmq.queues.business}")
+    @RabbitListener(queues = "business.queue.treatments")
     public void handleCompanyEvent(BusinessRabbitMQDto event) {
         System.err.println("#################################");
         System.err.println("#################################");
