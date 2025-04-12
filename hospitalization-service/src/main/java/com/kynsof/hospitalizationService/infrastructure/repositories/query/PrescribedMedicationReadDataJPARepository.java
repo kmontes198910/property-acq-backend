@@ -12,11 +12,11 @@ import java.util.UUID;
 import org.springframework.data.jpa.repository.EntityGraph;
 
 public interface PrescribedMedicationReadDataJPARepository extends JpaRepository<PrescribedMedication, UUID>, JpaSpecificationExecutor<PrescribedMedication> {
-    @EntityGraph(attributePaths = {"medicalPrescription"})
+    @EntityGraph(attributePaths = {"medicalPrescription", "medicalPrescription.hospitalization", "medicalPrescription.hospitalization.patient", "medicalPrescription.hospitalization.emergencyCase", "medicalPrescription.hospitalization.attendingDoctor"})
     @Override
     Page<PrescribedMedication> findAll(Specification specification, Pageable pageable);
 
-    @EntityGraph(attributePaths = {"medicalPrescription"})
+    @EntityGraph(attributePaths = {"medicalPrescription", "medicalPrescription.hospitalization", "medicalPrescription.hospitalization.patient", "medicalPrescription.hospitalization.emergencyCase", "medicalPrescription.hospitalization.attendingDoctor"})
     @Override
     Optional<PrescribedMedication> findById(UUID id);
 }
