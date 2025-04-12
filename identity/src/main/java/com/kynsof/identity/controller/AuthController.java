@@ -20,7 +20,10 @@ import com.kynsof.identity.application.query.users.existByEmail.ExistByEmailUser
 import com.kynsof.identity.application.query.users.existByEmail.UserSystemsExistByEmailResponse;
 import com.kynsof.share.core.domain.response.ApiResponse;
 import com.kynsof.share.core.infrastructure.bus.IMediator;
+import io.github.resilience4j.ratelimiter.RateLimiterRegistry;
+import io.github.resilience4j.ratelimiter.RequestNotPermitted;
 import io.github.resilience4j.ratelimiter.annotation.RateLimiter;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -41,13 +44,27 @@ public class AuthController {
 
         this.mediator = mediator;
     }
-    @PreAuthorize("permitAll()")
+//    @PreAuthorize("permitAll()")
+//    //@RateLimiter(name = "emailRateLimit")
+//    @PostMapping("/authenticate")
+//    public Mono<ResponseEntity<TokenResponse>> authenticate(@RequestBody LoginRequest loginDTO) {
+//        AuthenticateCommand authenticateCommand = new AuthenticateCommand(loginDTO.getUsername(), loginDTO.getPassword());
+//        AuthenticateMessage response = mediator.send(authenticateCommand);
+//        return Mono.just(ResponseEntity.ok(response.getTokenResponse()));
+//    }
+
+    @RateLimiter(name = "emailRateLimit", fallbackMethod = "authenticateFallback")
     @PostMapping("/authenticate")
-  //  @RateLimit(type = RateLimit.RateLimitType.LOGIN)
-    public Mono<ResponseEntity<TokenResponse>> authenticate(@RequestBody LoginRequest loginDTO) {
+    public ResponseEntity<TokenResponse> authenticate(@RequestBody LoginRequest loginDTO) {
         AuthenticateCommand authenticateCommand = new AuthenticateCommand(loginDTO.getUsername(), loginDTO.getPassword());
         AuthenticateMessage response = mediator.send(authenticateCommand);
-        return Mono.just(ResponseEntity.ok(response.getTokenResponse()));
+        return ResponseEntity.ok(response.getTokenResponse());
+    }
+
+    public ResponseEntity<?> authenticateFallback(LoginRequest request, Throwable t) {
+
+        return ResponseEntity.status(HttpStatus.TOO_MANY_REQUESTS)
+                .body("Too many request - No further calls are accepted");
     }
 
     //@PreAuthorize("permitAll()")
