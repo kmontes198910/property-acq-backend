@@ -1,4 +1,4 @@
-package com.kynsof.identity.infrastructure.identity.projection;
+package com.kynsof.identity.infrastructure.entities.projection;
 
 import java.util.UUID;
 

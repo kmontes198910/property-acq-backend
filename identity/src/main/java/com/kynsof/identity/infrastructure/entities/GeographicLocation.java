@@ -1,4 +1,4 @@
-package com.kynsof.identity.infrastructure.identity;
+package com.kynsof.identity.infrastructure.entities;
 
 import com.kynsof.identity.domain.dto.GeographicLocationDto;
 import com.kynsof.identity.domain.dto.enumType.GeographicLocationType;

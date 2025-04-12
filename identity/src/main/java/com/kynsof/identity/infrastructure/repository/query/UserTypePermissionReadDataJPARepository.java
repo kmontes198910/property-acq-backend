@@ -1,6 +1,6 @@
 package com.kynsof.identity.infrastructure.repository.query;
 
-import com.kynsof.identity.infrastructure.identity.UserTypePermission;
+import com.kynsof.identity.infrastructure.entities.UserTypePermission;
 import com.kynsof.share.core.domain.EUserType;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

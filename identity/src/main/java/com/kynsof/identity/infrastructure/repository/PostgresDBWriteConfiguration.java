@@ -41,7 +41,7 @@ public class PostgresDBWriteConfiguration {
     public LocalContainerEntityManagerFactoryBean entityManagerFactoryBean(EntityManagerFactoryBuilder builder,
             @Qualifier("writeDataSource") DataSource dataSource) {
         return builder.dataSource(dataSource)
-                .packages("com.kynsof.identity.infrastructure.identity")
+                .packages("com.kynsof.identity.infrastructure.entities")
                 .persistenceUnit("WriteDB").build();
     }
 

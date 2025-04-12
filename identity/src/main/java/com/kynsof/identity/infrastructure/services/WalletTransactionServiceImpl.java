@@ -4,9 +4,9 @@ import com.kynsof.identity.application.query.walletTransaction.search.WalletTran
 import com.kynsof.identity.domain.dto.WalletTransactionDto;
 import com.kynsof.identity.domain.dto.enumType.TransactionType;
 import com.kynsof.identity.domain.interfaces.service.IWalletTransactionService;
-import com.kynsof.identity.infrastructure.identity.Business;
-import com.kynsof.identity.infrastructure.identity.Wallet;
-import com.kynsof.identity.infrastructure.identity.WalletTransaction;
+import com.kynsof.identity.infrastructure.entities.Business;
+import com.kynsof.identity.infrastructure.entities.Wallet;
+import com.kynsof.identity.infrastructure.entities.WalletTransaction;
 import com.kynsof.identity.infrastructure.repository.command.WalletTransactionWriteDataJPARepository;
 import com.kynsof.identity.infrastructure.repository.command.WalletWriteDataJPARepository;
 import com.kynsof.identity.infrastructure.repository.query.WalletTransactionReadDataJPARepository;

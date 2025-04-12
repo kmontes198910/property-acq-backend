@@ -5,7 +5,7 @@ import com.kynsof.identity.domain.dto.BusinessModuleDto;
 import com.kynsof.identity.domain.dto.ModuleDto;
 import com.kynsof.identity.domain.dto.PermissionDto;
 import com.kynsof.identity.domain.interfaces.service.IBusinessModuleService;
-import com.kynsof.identity.infrastructure.identity.BusinessModule;
+import com.kynsof.identity.infrastructure.entities.BusinessModule;
 import com.kynsof.identity.infrastructure.repository.command.BusinessModuleWriteDataJPARepository;
 import com.kynsof.identity.infrastructure.repository.query.BusinessModuleReadDataJPARepository;
 import com.kynsof.share.core.domain.exception.BusinessNotFoundException;

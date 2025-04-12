@@ -4,8 +4,8 @@ import com.kynsof.identity.application.query.business.geographiclocation.getall.
 import com.kynsof.identity.domain.dto.*;
 import com.kynsof.identity.domain.dto.enumType.GeographicLocationType;
 import com.kynsof.identity.domain.interfaces.service.IGeographicLocationService;
-import com.kynsof.identity.infrastructure.identity.GeographicLocation;
-import com.kynsof.identity.infrastructure.identity.projection.ProvinceCantonParishProjection;
+import com.kynsof.identity.infrastructure.entities.GeographicLocation;
+import com.kynsof.identity.infrastructure.entities.projection.ProvinceCantonParishProjection;
 import com.kynsof.identity.infrastructure.repository.command.GeographicLocationWriteDataJPARepository;
 import com.kynsof.identity.infrastructure.repository.query.GeographicLocationReadDataJPARepository;
 import com.kynsof.share.core.domain.RulesChecker;

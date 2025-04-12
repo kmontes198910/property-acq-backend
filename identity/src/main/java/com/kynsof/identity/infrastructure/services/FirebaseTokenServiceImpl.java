@@ -3,7 +3,7 @@ package com.kynsof.identity.infrastructure.services;
 import com.kynsof.identity.application.query.firebaseToken.getbyid.FirebaseTokenResponse;
 import com.kynsof.identity.domain.dto.FirebaseTokenDto;
 import com.kynsof.identity.domain.interfaces.service.IFirebaseTokenService;
-import com.kynsof.identity.infrastructure.identity.FirebaseToken;
+import com.kynsof.identity.infrastructure.entities.FirebaseToken;
 import com.kynsof.identity.infrastructure.repository.command.FirebaseTokenWriteDataJPARepository;
 import com.kynsof.identity.infrastructure.repository.query.FirebaseTokenReadDataJPARepository;
 import com.kynsof.share.core.domain.exception.BusinessNotFoundException;

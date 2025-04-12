@@ -1,4 +1,4 @@
-package com.kynsof.identity.infrastructure.identity;
+package com.kynsof.identity.infrastructure.entities;
 
 import com.kynsof.identity.domain.dto.ModuleDto;
 import com.kynsof.identity.domain.dto.PermissionDto;

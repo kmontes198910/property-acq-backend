@@ -1,6 +1,6 @@
 package com.kynsof.identity.infrastructure.repository.command;
 
-import com.kynsof.identity.infrastructure.identity.Wallet;
+import com.kynsof.identity.infrastructure.entities.Wallet;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.UUID;

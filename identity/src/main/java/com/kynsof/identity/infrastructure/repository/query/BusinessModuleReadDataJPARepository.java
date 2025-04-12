@@ -1,7 +1,7 @@
 package com.kynsof.identity.infrastructure.repository.query;
 
-import com.kynsof.identity.infrastructure.identity.BusinessModule;
-import com.kynsof.identity.infrastructure.identity.ModuleSystem;
+import com.kynsof.identity.infrastructure.entities.BusinessModule;
+import com.kynsof.identity.infrastructure.entities.ModuleSystem;
 import feign.Param;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
