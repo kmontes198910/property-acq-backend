@@ -1,6 +1,5 @@
 package com.kynsof.identity.controller;
 
-import com.kynsof.identity.infrastructure.config.ratelimit.RateLimit;
 import com.kynsof.identity.application.command.auth.TokenRefreshRequest;
 import com.kynsof.identity.application.command.auth.autenticate.*;
 import com.kynsof.identity.application.command.auth.deletedAccount.DeleteAccountCommand;
@@ -21,7 +20,10 @@ import com.kynsof.identity.application.query.users.existByEmail.ExistByEmailUser
 import com.kynsof.identity.application.query.users.existByEmail.UserSystemsExistByEmailResponse;
 import com.kynsof.share.core.domain.response.ApiResponse;
 import com.kynsof.share.core.infrastructure.bus.IMediator;
+import io.github.resilience4j.ratelimiter.annotation.RateLimiter;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -41,7 +43,7 @@ public class AuthController {
     }
     @PreAuthorize("permitAll()")
     @PostMapping("/authenticate")
-    @RateLimit(type = RateLimit.RateLimitType.LOGIN)
+  //  @RateLimit(type = RateLimit.RateLimitType.LOGIN)
     public Mono<ResponseEntity<TokenResponse>> authenticate(@RequestBody LoginRequest loginDTO) {
         AuthenticateCommand authenticateCommand = new AuthenticateCommand(loginDTO.getUsername(), loginDTO.getPassword());
         AuthenticateMessage response = mediator.send(authenticateCommand);
@@ -58,7 +60,7 @@ public class AuthController {
 
     @PreAuthorize("permitAll()")
     @PostMapping("/firsts-change-password")
-    @RateLimit(type = RateLimit.RateLimitType.PASSWORD_CHANGE)
+  //  @RateLimit(type = RateLimit.RateLimitType.PASSWORD_CHANGE)
     public Mono<ResponseEntity<?>> firstsChangePassword(@RequestBody FirstsChangePasswordRequest request) {
         FirstsChangePasswordCommand authenticateCommand = FirstsChangePasswordCommand.fromRequest(request);
         FirstsChangePasswordMessage response = mediator.send(authenticateCommand);
@@ -67,7 +69,7 @@ public class AuthController {
 
     // @PreAuthorize("permitAll()")
     @PostMapping("/register")
-    @RateLimit(type = RateLimit.RateLimitType.DEFAULT)
+  //  @RateLimit(type = RateLimit.RateLimitType.DEFAULT)
     public ResponseEntity<ApiResponse<String>> registerUser(@RequestBody UserRequest userRequest) {
         RegistryCommand command = new RegistryCommand(userRequest.getUserName(), userRequest.getEmail(), userRequest.getName(),
                 userRequest.getLastName(), userRequest.getPassword(), null);
@@ -86,7 +88,7 @@ public class AuthController {
     }
 
     @PostMapping("/forgot-password")
-    @RateLimit(type = RateLimit.RateLimitType.PASSWORD_RECOVERY)
+  //  @RateLimit(type = RateLimit.RateLimitType.PASSWORD_RECOVERY)
     public ResponseEntity<ApiResponse<?>> forgotPassword(@RequestParam String email) {
         SendPasswordRecoveryOtpCommand command = new SendPasswordRecoveryOtpCommand(email);
         SendPasswordRecoveryOtpMessage sendPasswordRecoveryOtpMessage = mediator.send(command);
@@ -94,7 +96,7 @@ public class AuthController {
     }
 
     @PostMapping("/change-password")
-    @RateLimit(type = RateLimit.RateLimitType.PASSWORD_CHANGE)
+  //  @RateLimit(type = RateLimit.RateLimitType.PASSWORD_CHANGE)
     public ResponseEntity<ApiResponse<?>> changePassword(@RequestBody PasswordChangeRequest request) {
         ForwardPasswordCommand command = new ForwardPasswordCommand(request.getEmail(), request.getNewPassword(),
                 request.getOtp());
@@ -108,10 +110,22 @@ public class AuthController {
     }
 
     @GetMapping("/exist-by-email/{email}")
-    @RateLimit(type = RateLimit.RateLimitType.LOGIN)
+    @RateLimiter(name = "emailRateLimit", fallbackMethod = "greetingFallBack")
+    //@RateLimit(type = RateLimit.RateLimitType.DEFAULT)
     public ResponseEntity<UserSystemsExistByEmailResponse> existUserByEmail(@PathVariable String email) {
+        System.out.println("Rate limit accepted");
         ExistByEmailUserSystemsQuery query = new ExistByEmailUserSystemsQuery(email);
         UserSystemsExistByEmailResponse response = mediator.send(query);
         return ResponseEntity.ok(response);
+    }
+    public ResponseEntity greetingFallBack(String name, io.github.resilience4j.ratelimiter.RequestNotPermitted ex) {
+        System.out.println("Rate limit applied no further calls are accepted");
+
+        HttpHeaders responseHeaders = new HttpHeaders();
+        responseHeaders.set("Retry-After", "1"); //retry after one second
+
+        return ResponseEntity.status(HttpStatus.TOO_MANY_REQUESTS)
+                .headers(responseHeaders) //send retry header
+                .body("Too many request - No further calls are accepted");
     }
 }
