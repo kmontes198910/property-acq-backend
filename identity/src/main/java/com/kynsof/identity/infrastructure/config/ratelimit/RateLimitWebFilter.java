@@ -83,7 +83,14 @@ public class RateLimitWebFilter implements WebFilter {
     }
 
     private RateLimit.RateLimitType determineLimitType(ServerWebExchange exchange) {
-        // Por ahora está fijo, pero podrías usar un header personalizado, path, etc.
+        String path = exchange.getRequest().getURI().getPath();
+
+        if (path.contains("/authenticate")) return RateLimit.RateLimitType.LOGIN;
+        if (path.contains("/exist-by-email")) return RateLimit.RateLimitType.LOGIN;
+        if (path.contains("/forgot-password")) return RateLimit.RateLimitType.PASSWORD_RECOVERY;
+        if (path.contains("/change-password") || path.contains("/firsts-change-password"))
+            return RateLimit.RateLimitType.PASSWORD_CHANGE;
+
         return RateLimit.RateLimitType.DEFAULT;
     }
 }

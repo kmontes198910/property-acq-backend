@@ -43,6 +43,10 @@ public class SecurityConfig {
 
     @Bean
     public SecurityWebFilterChain securityWebFilterChain(ServerHttpSecurity http) {
+        String[] AUTH_WHITELIST = {
+                // -- Swagger UI v2
+                "/api/**",
+        };
         return http
                 .cors(Customizer.withDefaults())
                 .csrf(ServerHttpSecurity.CsrfSpec::disable)
@@ -57,6 +61,7 @@ public class SecurityConfig {
                        // .pathMatchers(HttpMethod.GET, "/api/auth/app-version/**").permitAll()
                         // Then allow all other auth endpoints with POST method
                         .pathMatchers(HttpMethod.POST, "/api/auth/**").permitAll()
+                        .pathMatchers(AUTH_WHITELIST).permitAll()
                         .pathMatchers(HttpMethod.GET, "/swagger-ui.html", "/swagger-ui/**", "/v3/api-docs.yaml", "/v3/api-docs/**", "/swagger-resources/**", "webjars/**").permitAll()
                         .anyExchange().authenticated()
                 )
