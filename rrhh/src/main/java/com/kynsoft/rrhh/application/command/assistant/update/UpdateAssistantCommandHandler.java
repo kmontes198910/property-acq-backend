@@ -8,19 +8,25 @@ import com.kynsoft.rrhh.domain.dto.AssistantDto;
 import com.kynsoft.rrhh.domain.interfaces.services.IAssistantService;
 import com.kynsoft.rrhh.domain.rules.assistant.UpdateAssistantEmailMustBeUniqueRule;
 import com.kynsoft.rrhh.domain.rules.assistant.UpdateAssistantIdentificationMustBeUniqueRule;
+import com.kynsoft.rrhh.infrastructure.services.rabbitMQ.Dto.AssistantRabbitMqDto;
+import com.kynsoft.rrhh.infrastructure.services.rabbitMQ.eventPublisher.EventAssistantPublisherService;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 @Component
 public class UpdateAssistantCommandHandler implements ICommandHandler<UpdateAssistantCommand> {
 
     private final IAssistantService service;
+    private final EventAssistantPublisherService eventAssistantPublisherService;
 
 
-    public UpdateAssistantCommandHandler(IAssistantService service) {
+    public UpdateAssistantCommandHandler(IAssistantService service, EventAssistantPublisherService eventAssistantPublisherService) {
         this.service = service;
+        this.eventAssistantPublisherService = eventAssistantPublisherService;
     }
 
     @Override
+    @Transactional
     public void handle(UpdateAssistantCommand command) {
 
         ConsumerUpdate update = new ConsumerUpdate();
@@ -61,6 +67,15 @@ public class UpdateAssistantCommandHandler implements ICommandHandler<UpdateAssi
 
         if (isUpdated) {
             service.update(assistantDto);
+            this.eventAssistantPublisherService.publishEvent(new AssistantRabbitMqDto(
+                    assistantDto.getId(), 
+                    assistantDto.getIdentification(), 
+                    assistantDto.getName(), 
+                    assistantDto.getLastName(), 
+                    "", 
+                    assistantDto.getStatus(), 
+                    assistantDto.getImage()
+            ));
         }
     }
 }

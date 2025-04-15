@@ -18,6 +18,8 @@ import com.kynsoft.rrhh.domain.rules.doctor.DoctorEmailMustBeUniqueRule;
 import com.kynsoft.rrhh.domain.rules.doctor.DoctorIdentificationMustBeUniqueRule;
 import com.kynsoft.rrhh.domain.rules.users.UserSystemEmailValidateRule;
 import com.kynsoft.rrhh.infrastructure.services.UserSystemService;
+import com.kynsoft.rrhh.infrastructure.services.rabbitMQ.Dto.DoctorRabbitMqDto;
+import com.kynsoft.rrhh.infrastructure.services.rabbitMQ.eventPublisher.EventDoctorPublisherService;
 import com.kynsoft.rrhh.infrastructure.util.PasswordGenerator;
 import org.springframework.stereotype.Component;
 
@@ -25,6 +27,7 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 import java.time.LocalDateTime;
 import java.util.UUID;
+import org.springframework.transaction.annotation.Transactional;
 
 @Component
 public class CreateDoctorCommandHandler implements ICommandHandler<CreateDoctorCommand> {
@@ -33,22 +36,27 @@ public class CreateDoctorCommandHandler implements ICommandHandler<CreateDoctorC
     private final IBusinessService businessService;
     private final IUserBusinessRelationService userBusinessRelationService;
     private final UserSystemService userSystemService;
+    private final EventDoctorPublisherService eventDoctorPublisherService;
+
     public CreateDoctorCommandHandler(IDoctorService service, IBusinessService businessService,
                                       IUserBusinessRelationService userBusinessRelationService,
-                                      UserSystemService userSystemService) {
+                                      UserSystemService userSystemService,
+                                      EventDoctorPublisherService eventDoctorPublisherService) {
         this.service = service;
         this.businessService = businessService;
         this.userBusinessRelationService = userBusinessRelationService;
         this.userSystemService = userSystemService;
+        this.eventDoctorPublisherService = eventDoctorPublisherService;
     }
 
     @Override
+    @Transactional
     public void handle(CreateDoctorCommand command) {
-        RulesChecker.checkRule(new UserSystemEmailValidateRule(command.getEmail()));
-        RulesChecker.checkRule(new ValidateObjectNotNullRule<>(command.getStatus(), "Doctor.status", "Doctor status cannot be null."));
-        RulesChecker.checkRule(new DoctorEmailMustBeUniqueRule(this.service, command.getEmail()));
-        RulesChecker.checkRule(new DoctorIdentificationMustBeUniqueRule(this.service, command.getIdentification()));
-        RulesChecker.checkRule(new DoctorCodeMustBeUniqueRule(this.service, command.getCode(), command.getId()));
+//        RulesChecker.checkRule(new UserSystemEmailValidateRule(command.getEmail()));
+//        RulesChecker.checkRule(new ValidateObjectNotNullRule<>(command.getStatus(), "Doctor.status", "Doctor status cannot be null."));
+//        RulesChecker.checkRule(new DoctorEmailMustBeUniqueRule(this.service, command.getEmail()));
+//        RulesChecker.checkRule(new DoctorIdentificationMustBeUniqueRule(this.service, command.getIdentification()));
+//        RulesChecker.checkRule(new DoctorCodeMustBeUniqueRule(this.service, command.getCode(), command.getId()));
 
         BusinessDto businessDto = this.businessService.findById(command.getBusiness());
         DoctorDto doctorSave = new DoctorDto(
@@ -67,13 +75,22 @@ public class CreateDoctorCommandHandler implements ICommandHandler<CreateDoctorC
         );
 
         try {
-            var id = consumeCreateUserSystemService(command);
+            String id = consumeCreateUserSystemService(command);
             command.setId(UUID.fromString(id));
             doctorSave.setId(UUID.fromString(id));
             service.create(doctorSave);
             this.userBusinessRelationService.create(new UserBusinessRelationDto(UUID.randomUUID(),
                     doctorSave,businessDto, "ACTIVE", LocalDateTime.now()));
 
+            this.eventDoctorPublisherService.publishEvent(new DoctorRabbitMqDto(
+                    doctorSave.getId(), 
+                    doctorSave.getIdentification(), 
+                    doctorSave.getName(), 
+                    doctorSave.getLastName(), 
+                    doctorSave.getRegisterNumber(), 
+                    doctorSave.getStatus(), 
+                    doctorSave.getImage()
+            ));
         }catch (Exception exception){
             throw new BusinessException(DomainErrorMessage.DOCTOR_NOT_FOUND, "Ocurrió un error al crear al usuario.");
         }
