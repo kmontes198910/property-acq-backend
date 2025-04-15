@@ -52,11 +52,11 @@ public class CreateDoctorCommandHandler implements ICommandHandler<CreateDoctorC
     @Override
     @Transactional
     public void handle(CreateDoctorCommand command) {
-//        RulesChecker.checkRule(new UserSystemEmailValidateRule(command.getEmail()));
-//        RulesChecker.checkRule(new ValidateObjectNotNullRule<>(command.getStatus(), "Doctor.status", "Doctor status cannot be null."));
-//        RulesChecker.checkRule(new DoctorEmailMustBeUniqueRule(this.service, command.getEmail()));
-//        RulesChecker.checkRule(new DoctorIdentificationMustBeUniqueRule(this.service, command.getIdentification()));
-//        RulesChecker.checkRule(new DoctorCodeMustBeUniqueRule(this.service, command.getCode(), command.getId()));
+        RulesChecker.checkRule(new UserSystemEmailValidateRule(command.getEmail()));
+        RulesChecker.checkRule(new ValidateObjectNotNullRule<>(command.getStatus(), "Doctor.status", "Doctor status cannot be null."));
+        RulesChecker.checkRule(new DoctorEmailMustBeUniqueRule(this.service, command.getEmail()));
+        RulesChecker.checkRule(new DoctorIdentificationMustBeUniqueRule(this.service, command.getIdentification()));
+        RulesChecker.checkRule(new DoctorCodeMustBeUniqueRule(this.service, command.getCode(), command.getId()));
 
         BusinessDto businessDto = this.businessService.findById(command.getBusiness());
         DoctorDto doctorSave = new DoctorDto(
