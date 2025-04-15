@@ -9,13 +9,13 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 @Service
-public class EventPublisherService {
+public class EventBusinessPublisherService {
 
     private final RabbitTemplate rabbitTemplate;
     private final TopicExchange businessExchange;
 
     @Autowired
-    public EventPublisherService(RabbitTemplate rabbitTemplate,
+    public EventBusinessPublisherService(RabbitTemplate rabbitTemplate,
                                  @Qualifier("businessExchange") TopicExchange businessExchange) {
         this.rabbitTemplate = rabbitTemplate;
         this.businessExchange = businessExchange;
