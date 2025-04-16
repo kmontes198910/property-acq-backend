@@ -15,7 +15,7 @@ public class OpenApiConfig {
 
     private Info apiInfo() {
         return new Info()
-                .title("Patients Services")
+                .title("Identity Services")
                 .description("API Documentation Patients Services")
                 .version("1.0.0");
                 /*.license(new License()

@@ -126,11 +126,6 @@
 			<artifactId>spring-boot-starter-security</artifactId>
 		</dependency>
 
-<!--		<dependency>-->
-<!--			<groupId>org.springframework.boot</groupId>-->
-<!--			<artifactId>spring-boot-starter-webflux</artifactId>-->
-<!--		</dependency>-->
-
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
@@ -142,13 +137,6 @@
 			<artifactId>keycloak-admin-client</artifactId>
 			<version>24.0.1</version>
 		</dependency>
-
-<!--		<dependency>-->
-<!--			<groupId>org.springdoc</groupId>-->
-<!--			<artifactId>springdoc-openapi-starter-webflux-ui</artifactId>-->
-<!--			<version>${springdoc-openapi.version}</version>-->
-<!--		</dependency>-->
-
 
 		<dependency>
 			<groupId>org.redisson</groupId>
@@ -192,12 +180,6 @@
 			<artifactId>bcprov-jdk15to18</artifactId>
 			<version>1.78</version>
 		</dependency>
-<!--		<dependency>-->
-<!--			<groupId>io.swagger.core.v3</groupId>-->
-<!--			<artifactId>swagger-models-jakarta</artifactId>-->
-<!--			<version>2.2.20</version>-->
-<!--			<scope>compile</scope>-->
-<!--		</dependency>-->
 
 		<dependency>
 			<groupId>io.github.resilience4j</groupId>
@@ -211,28 +193,6 @@
 			<version>2.2.0</version>
 		</dependency>
 
-		<!--		&lt;!&ndash; Rate Limiting Dependencies &ndash;&gt;-->
-<!--		<dependency>-->
-<!--			<groupId>com.github.vladimir-bukhtoyarov</groupId>-->
-<!--			<artifactId>bucket4j-core</artifactId>-->
-<!--			<version>7.6.0</version>-->
-<!--		</dependency>-->
-<!--		<dependency>-->
-<!--			<groupId>com.github.vladimir-bukhtoyarov</groupId>-->
-<!--			<artifactId>bucket4j-caffeine</artifactId>-->
-<!--			<version>7.6.0</version>-->
-<!--		</dependency>-->
-<!--		<dependency>-->
-<!--			<groupId>com.github.ben-manes.caffeine</groupId>-->
-<!--			<artifactId>caffeine</artifactId>-->
-<!--			<version>3.1.8</version>-->
-<!--		</dependency>-->
-<!--		<dependency>-->
-<!--			<groupId>io.swagger.core.v3</groupId>-->
-<!--			<artifactId>swagger-models-jakarta</artifactId>-->
-<!--			<version>2.2.20</version>-->
-<!--			<scope>compile</scope>-->
-<!--		</dependency>-->
 	</dependencies>
 	<build>
 		<plugins>

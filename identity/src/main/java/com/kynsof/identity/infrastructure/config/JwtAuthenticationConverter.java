@@ -11,7 +11,6 @@ import org.springframework.security.oauth2.jwt.JwtClaimNames;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
 import org.springframework.security.oauth2.server.resource.authentication.JwtGrantedAuthoritiesConverter;
 import org.springframework.stereotype.Component;
-import reactor.core.publisher.Mono;
 
 import java.util.Collection;
 import java.util.Map;
@@ -20,7 +19,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 @Component
-public class JwtAuthenticationConverter implements Converter<Jwt, Mono<AbstractAuthenticationToken>> {
+public class JwtAuthenticationConverter implements Converter<Jwt, AbstractAuthenticationToken> {
 
     private final JwtGrantedAuthoritiesConverter jwtGrantedAuthoritiesConverter =
             new JwtGrantedAuthoritiesConverter();
@@ -31,19 +30,14 @@ public class JwtAuthenticationConverter implements Converter<Jwt, Mono<AbstractA
     @Value("${jwt.auth.converter.resource-id:medinec-identity}")
     private String resourceId;
 
+    @Override
     @NonNull
-    public Mono<AbstractAuthenticationToken> convert(@NonNull Jwt jwt) {
-        return Mono.fromSupplier(() -> {
-            Collection<GrantedAuthority> authorities = Stream
-                    .concat(jwtGrantedAuthoritiesConverter.convert(jwt).stream(), extractResourceRoles(jwt).stream())
-                    .toList();
+    public AbstractAuthenticationToken convert(@NonNull Jwt jwt) {
+        Collection<GrantedAuthority> authorities = Stream
+                .concat(jwtGrantedAuthoritiesConverter.convert(jwt).stream(), extractResourceRoles(jwt).stream())
+                .collect(Collectors.toSet());
 
-            return new JwtAuthenticationToken(
-                    jwt,
-                    authorities,
-                    getPrincipleClaimName(jwt)
-            );
-        });
+        return new JwtAuthenticationToken(jwt, authorities, getPrincipleClaimName(jwt));
     }
 
     @SuppressWarnings("unchecked")

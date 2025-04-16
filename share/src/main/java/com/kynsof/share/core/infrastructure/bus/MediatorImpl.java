@@ -22,20 +22,6 @@
         }
 
         @Override
-        public <M extends ICommandMessage> Mono<M> sendAsync(ICommand command) {
-            return Mono.fromCallable(() -> {
-                commandBus.dispatch(command);
-                return (M) command.getMessage();
-            }).subscribeOn(Schedulers.boundedElastic());
-        }
-
-        @Override
-        public <R extends IResponse> Mono<R> sendAsync(IQuery query) {
-            return Mono.fromCallable(() -> (R) queryBus.ask(query))
-                    .subscribeOn(Schedulers.boundedElastic());
-        }
-
-        @Override
         public <M extends ICommandMessage> M send(ICommand command) {
             commandBus.dispatch(command);
             return (M) command.getMessage();
