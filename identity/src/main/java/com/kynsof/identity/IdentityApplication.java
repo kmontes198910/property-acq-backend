@@ -7,6 +7,7 @@ import org.springframework.cache.annotation.EnableCaching;
 @EnableCaching
 @SpringBootApplication
 public class IdentityApplication {
+    // Starting Identity Application
     public static void main(String[] args) {
         SpringApplication.run(IdentityApplication.class, args);
     }
