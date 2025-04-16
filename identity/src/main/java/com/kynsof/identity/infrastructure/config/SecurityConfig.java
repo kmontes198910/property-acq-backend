@@ -54,10 +54,13 @@ public class SecurityConfig {
     }
 
     @Bean
-    public JwtDecoder jwtDecoder(@Value("${spring.security.oauth2.resourceserver.jwt.jwk-set-uri}") String jwkSetUri) {
+    public JwtDecoder jwtDecoder(@Value("${spring.security.oauth2.resourceserver.jwt.jwk-set-uri:}") String jwkSetUri) {
+        System.err.println("👉 JWK URI in runtime: " + jwkSetUri); // Imprime valor en logs
+
         if (jwkSetUri == null || jwkSetUri.isBlank()) {
             throw new IllegalStateException("The JWK Set URI must be defined for JWT decoding.");
         }
+
         return NimbusJwtDecoder.withJwkSetUri(jwkSetUri).build();
     }
 }
