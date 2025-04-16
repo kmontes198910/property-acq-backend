@@ -2,6 +2,7 @@ package com.kynsof.identity.infrastructure.config;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.convert.converter.Converter;
+import org.springframework.lang.NonNull;
 import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -10,6 +11,7 @@ import org.springframework.security.oauth2.jwt.JwtClaimNames;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
 import org.springframework.security.oauth2.server.resource.authentication.JwtGrantedAuthoritiesConverter;
 import org.springframework.stereotype.Component;
+import reactor.core.publisher.Mono;
 
 import java.util.Collection;
 import java.util.Map;
@@ -18,7 +20,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 @Component
-public class JwtAuthenticationConverter implements Converter<Jwt, AbstractAuthenticationToken> {
+public class JwtAuthenticationConverter implements Converter<Jwt, Mono<AbstractAuthenticationToken>> {
 
     private final JwtGrantedAuthoritiesConverter jwtGrantedAuthoritiesConverter =
             new JwtGrantedAuthoritiesConverter();
@@ -29,13 +31,19 @@ public class JwtAuthenticationConverter implements Converter<Jwt, AbstractAuthen
     @Value("${jwt.auth.converter.resource-id:medinec-identity}")
     private String resourceId;
 
-    @Override
-    public AbstractAuthenticationToken convert(Jwt jwt) {
-        Collection<GrantedAuthority> authorities = Stream
-                .concat(jwtGrantedAuthoritiesConverter.convert(jwt).stream(), extractResourceRoles(jwt).stream())
-                .collect(Collectors.toSet());
+    @NonNull
+    public Mono<AbstractAuthenticationToken> convert(@NonNull Jwt jwt) {
+        return Mono.fromSupplier(() -> {
+            Collection<GrantedAuthority> authorities = Stream
+                    .concat(jwtGrantedAuthoritiesConverter.convert(jwt).stream(), extractResourceRoles(jwt).stream())
+                    .toList();
 
-        return new JwtAuthenticationToken(jwt, authorities, getPrincipleClaimName(jwt));
+            return new JwtAuthenticationToken(
+                    jwt,
+                    authorities,
+                    getPrincipleClaimName(jwt)
+            );
+        });
     }
 
     @SuppressWarnings("unchecked")
@@ -60,7 +68,8 @@ public class JwtAuthenticationConverter implements Converter<Jwt, AbstractAuthen
             return Set.of();
         }
 
-        return resourceRoles.stream()
+        return resourceRoles
+                .stream()
                 .map(role -> new SimpleGrantedAuthority("ROLE_" + role))
                 .collect(Collectors.toSet());
     }
@@ -73,3 +82,4 @@ public class JwtAuthenticationConverter implements Converter<Jwt, AbstractAuthen
         return jwt.getClaim(claimName);
     }
 }
+

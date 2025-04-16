@@ -1,66 +1,64 @@
 package com.kynsof.identity.infrastructure.config;
 
 import lombok.RequiredArgsConstructor;
-import lombok.SneakyThrows;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.Customizer;
-import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
-import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
-import org.springframework.security.oauth2.jwt.JwtDecoder;
-import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
-import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.config.annotation.method.configuration.EnableReactiveMethodSecurity;
+import org.springframework.security.config.annotation.web.reactive.EnableWebFluxSecurity;
+import org.springframework.security.config.web.server.ServerHttpSecurity;
+import org.springframework.security.oauth2.jwt.ReactiveJwtDecoder;
+import org.springframework.security.oauth2.jwt.ReactiveJwtDecoders;
+import org.springframework.security.web.server.SecurityWebFilterChain;
+
 
 @Configuration
-@EnableWebSecurity
-@EnableMethodSecurity
+@EnableWebFluxSecurity
+@EnableReactiveMethodSecurity
 @RequiredArgsConstructor
 public class SecurityConfig {
 
-    private final JwtAuthenticationConverter jwtAuthenticationConverter;
+    @Value("${spring.security.oauth2.resourceserver.jwt.issuer-uri}")
+    private String jwkSetUri;
 
-//    @Value("${spring.security.oauth2.resourceserver.jwt.jwk-set-uri}")
-//    private String jwkSetUri;
+    @Autowired
+    private JwtAuthenticationConverter jwtAuthenticationConverter;
+
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http
+    public SecurityWebFilterChain securityWebFilterChain(ServerHttpSecurity http) {
+        String[] AUTH_WHITELIST = {
+                // -- Swagger UI v2
+                "/api/**",
+        };
+        return http
                 .cors(Customizer.withDefaults())
-                .csrf(AbstractHttpConfigurer::disable)
-                .authorizeHttpRequests(auth -> auth
-                        .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
-                        .requestMatchers("/api/auth/**").permitAll()
-                        // PERMITIR TODOS LOS ENDPOINTS DE SWAGGER
-                        .requestMatchers(
-                                "/swagger-ui.html",
-                                "/swagger-ui/**",
-                                "/v3/api-docs/**",
-                                "/swagger-resources/**",
-                                "/webjars/**",
-                                "/actuator/**"
-                        ).permitAll()
-                        .anyRequest().authenticated()
+                .csrf(ServerHttpSecurity.CsrfSpec::disable)
+                .authorizeExchange(exchanges -> exchanges
+                        .pathMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+                        .pathMatchers(HttpMethod.GET, "/health").permitAll()
+                        .pathMatchers("/api/auth/authenticate").permitAll()
+                        .pathMatchers(HttpMethod.GET, "/api/auth/**").permitAll()
+                        .pathMatchers(HttpMethod.POST, "/api/auth/**").permitAll()
+                        .pathMatchers(AUTH_WHITELIST).permitAll()
+                        .pathMatchers(HttpMethod.GET, "/swagger-ui.html", "/swagger-ui/**", "/v3/api-docs.yaml", "/v3/api-docs/**", "/swagger-resources/**", "webjars/**").permitAll()
+                        .anyExchange().authenticated()
                 )
-                // SOLO aplica JWT a rutas protegidas
                 .oauth2ResourceServer(oauth2 -> oauth2
-                        .jwt(jwt -> jwt.jwtAuthenticationConverter(jwtAuthenticationConverter))
-                );
-
-        return http.build();
+                        .jwt(jwtSpec -> jwtSpec
+                                .jwtDecoder(jwtDecoder())
+                                .jwtAuthenticationConverter(jwtAuthenticationConverter)
+                        )
+                )
+                .build();
     }
-//
-//    @Bean
-//    public JwtDecoder jwtDecoder() {
-////        System.err.println("👉 JWK URI in runtime: " + jwkSetUri); // Imprime valor en logs
-////
-////        if (jwkSetUri == null || jwkSetUri.isBlank()) {
-////            throw new IllegalStateException("The JWK Set URI must be defined for JWT decoding.");
-////        }
-//
-//        return NimbusJwtDecoder.withJwkSetUri("https://sso.kynsoft.net/realms/medinec/protocol/openid-connect/certs").build();
-//    }
+
+    @Bean
+    public ReactiveJwtDecoder jwtDecoder() {
+        return ReactiveJwtDecoders.fromIssuerLocation(jwkSetUri);
+    }
 }
+
