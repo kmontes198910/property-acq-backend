@@ -52,15 +52,15 @@ public class SecurityConfig {
 
         return http.build();
     }
-
-    @Bean
-    public JwtDecoder jwtDecoder() {
-//        System.err.println("👉 JWK URI in runtime: " + jwkSetUri); // Imprime valor en logs
 //
-//        if (jwkSetUri == null || jwkSetUri.isBlank()) {
-//            throw new IllegalStateException("The JWK Set URI must be defined for JWT decoding.");
-//        }
-
-        return NimbusJwtDecoder.withJwkSetUri("https://sso.kynsoft.net/realms/medinec/protocol/openid-connect/certs").build();
-    }
+//    @Bean
+//    public JwtDecoder jwtDecoder() {
+////        System.err.println("👉 JWK URI in runtime: " + jwkSetUri); // Imprime valor en logs
+////
+////        if (jwkSetUri == null || jwkSetUri.isBlank()) {
+////            throw new IllegalStateException("The JWK Set URI must be defined for JWT decoding.");
+////        }
+//
+//        return NimbusJwtDecoder.withJwkSetUri("https://sso.kynsoft.net/realms/medinec/protocol/openid-connect/certs").build();
+//    }
 }
