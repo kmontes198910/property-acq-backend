@@ -30,7 +30,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-import reactor.core.publisher.Mono;
 
 @RestController
 @RequestMapping("/api/auth")
@@ -44,14 +43,6 @@ public class AuthController {
 
         this.mediator = mediator;
     }
-//    @PreAuthorize("permitAll()")
-//    //@RateLimiter(name = "emailRateLimit")
-//    @PostMapping("/authenticate")
-//    public Mono<ResponseEntity<TokenResponse>> authenticate(@RequestBody LoginRequest loginDTO) {
-//        AuthenticateCommand authenticateCommand = new AuthenticateCommand(loginDTO.getUsername(), loginDTO.getPassword());
-//        AuthenticateMessage response = mediator.send(authenticateCommand);
-//        return Mono.just(ResponseEntity.ok(response.getTokenResponse()));
-//    }
 
     @RateLimiter(name = "emailRateLimit", fallbackMethod = "authenticateFallback")
     @PostMapping("/authenticate")
@@ -78,10 +69,10 @@ public class AuthController {
     @PreAuthorize("permitAll()")
     @PostMapping("/firsts-change-password")
   //  @RateLimit(type = RateLimit.RateLimitType.PASSWORD_CHANGE)
-    public Mono<ResponseEntity<?>> firstsChangePassword(@RequestBody FirstsChangePasswordRequest request) {
+    public ResponseEntity<?> firstsChangePassword(@RequestBody FirstsChangePasswordRequest request) {
         FirstsChangePasswordCommand authenticateCommand = FirstsChangePasswordCommand.fromRequest(request);
         FirstsChangePasswordMessage response = mediator.send(authenticateCommand);
-        return Mono.just(ResponseEntity.ok(response.getResult()));
+        return ResponseEntity.ok(response.getResult());
     }
 
     // @PreAuthorize("permitAll()")

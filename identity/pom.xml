@@ -192,17 +192,23 @@
 			<artifactId>bcprov-jdk15to18</artifactId>
 			<version>1.78</version>
 		</dependency>
-		<dependency>
-			<groupId>io.swagger.core.v3</groupId>
-			<artifactId>swagger-models-jakarta</artifactId>
-			<version>2.2.20</version>
-			<scope>compile</scope>
-		</dependency>
+<!--		<dependency>-->
+<!--			<groupId>io.swagger.core.v3</groupId>-->
+<!--			<artifactId>swagger-models-jakarta</artifactId>-->
+<!--			<version>2.2.20</version>-->
+<!--			<scope>compile</scope>-->
+<!--		</dependency>-->
 
 		<dependency>
 			<groupId>io.github.resilience4j</groupId>
 			<artifactId>resilience4j-spring-boot2</artifactId>
 			<version>2.1.0</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springdoc</groupId>
+			<artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+			<version>2.2.0</version>
 		</dependency>
 
 		<!--		&lt;!&ndash; Rate Limiting Dependencies &ndash;&gt;-->
