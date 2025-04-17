@@ -53,7 +53,7 @@ public class AuthController {
      */
     @RateLimiter(name = "authenticationLimit", fallbackMethod = "authenticateFallback")
     @PostMapping("/authenticate")
-    public ResponseEntity<ApiResponse<?>> authenticate(@RequestBody LoginRequest loginDTO) {
+    public ResponseEntity<?> authenticate(@RequestBody LoginRequest loginDTO) {
         AuthenticateCommand authenticateCommand = new AuthenticateCommand(loginDTO.getUsername(), loginDTO.getPassword());
         AuthenticateMessage response = mediator.send(authenticateCommand);
         
@@ -70,8 +70,9 @@ public class AuthController {
                     .body(ApiResponse.fail(apiError));
         }
         
-        // Si no hay error, devolver la respuesta exitosa
-        return ResponseEntity.ok(ApiResponse.success(tokenResponse));
+        // Si no hay error, devolver directamente la estructura del token
+        // sin encapsularla en un ApiResponse
+        return ResponseEntity.ok(tokenResponse);
     }
 
     /**
