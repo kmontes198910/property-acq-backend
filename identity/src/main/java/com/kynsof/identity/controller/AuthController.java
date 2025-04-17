@@ -53,10 +53,25 @@ public class AuthController {
      */
     @RateLimiter(name = "authenticationLimit", fallbackMethod = "authenticateFallback")
     @PostMapping("/authenticate")
-    public ResponseEntity<TokenResponse> authenticate(@RequestBody LoginRequest loginDTO) {
+    public ResponseEntity<ApiResponse<?>> authenticate(@RequestBody LoginRequest loginDTO) {
         AuthenticateCommand authenticateCommand = new AuthenticateCommand(loginDTO.getUsername(), loginDTO.getPassword());
         AuthenticateMessage response = mediator.send(authenticateCommand);
-        return ResponseEntity.ok(response.getTokenResponse());
+        
+        // Verificar si hay errores de autenticación
+        TokenResponse tokenResponse = response.getTokenResponse();
+        if (tokenResponse.getError() != null) {
+            // Si hay error, devolver respuesta de error en el formato estandarizado
+            ApiError apiError = ApiError.withSingleError(
+                tokenResponse.getErrorDescription(),
+                tokenResponse.getErrorField(), 
+                tokenResponse.getErrorMessage()
+            );
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                    .body(ApiResponse.fail(apiError));
+        }
+        
+        // Si no hay error, devolver la respuesta exitosa
+        return ResponseEntity.ok(ApiResponse.success(tokenResponse));
     }
 
     /**

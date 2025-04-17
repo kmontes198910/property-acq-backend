@@ -13,6 +13,7 @@ import com.kynsof.share.core.domain.exception.*;
 import com.kynsof.share.core.domain.response.ErrorField;
 import io.micrometer.common.lang.NonNull;
 import jakarta.ws.rs.core.Response;
+import lombok.extern.slf4j.Slf4j;
 import org.keycloak.admin.client.resource.*;
 import org.keycloak.representations.idm.CredentialRepresentation;
 import org.keycloak.representations.idm.RoleRepresentation;
@@ -30,6 +31,7 @@ import java.util.Collections;
 import java.util.List;
 
 @Service
+@Slf4j
 public class AuthService implements IAuthService {
 
     private final KeycloakProvider keycloakProvider;
@@ -101,18 +103,19 @@ public class AuthService implements IAuthService {
 
     @Override
     public Boolean sendPasswordRecoveryOtp(String email) {
-        UsersResource userResource = keycloakProvider.getRealmResource().users();
-        List<UserRepresentation> users = userResource.searchByEmail(email, true);
+        return keycloakProvider.withUsers(usersResource -> {
+            List<UserRepresentation> users = usersResource.searchByEmail(email, true);
 
-        if (!users.isEmpty()) {
-            UserRepresentation user = users.get(0);
-            String otpCode = otpService.generateOtpCode();
-            otpService.saveOtpCode(email, otpCode);
-            String name = user.getFirstName() + " " + user.getLastName();
-            otpMessageProducer.sendOtpMessage(email,otpCode,name);
-            return true;
-        }
-        throw new UserNotFoundException("User not found", new ErrorField("email", "Email not found"));
+            if (!users.isEmpty()) {
+                UserRepresentation user = users.get(0);
+                String otpCode = otpService.generateOtpCode();
+                otpService.saveOtpCode(email, otpCode);
+                String name = user.getFirstName() + " " + user.getLastName();
+                otpMessageProducer.sendOtpMessage(email, otpCode, name);
+                return true;
+            }
+            throw new UserNotFoundException("User not found", new ErrorField("email", "Email not found"));
+        });
     }
 
     @Override
@@ -121,35 +124,38 @@ public class AuthService implements IAuthService {
             return false;
         }
 
-        UsersResource userResource = keycloakProvider.getRealmResource().users();
-        List<UserRepresentation> users = userResource.searchByEmail(changeRequest.getEmail(), true);
-        if (!users.isEmpty()) {
-            UserRepresentation user = users.get(0);
+        return keycloakProvider.withUsers(usersResource -> {
+            List<UserRepresentation> users = usersResource.searchByEmail(changeRequest.getEmail(), true);
+            if (!users.isEmpty()) {
+                UserRepresentation user = users.get(0);
 
-            CredentialRepresentation credential = new CredentialRepresentation();
-            credential.setType(CredentialRepresentation.PASSWORD);
-            credential.setTemporary(false);
-            credential.setValue(changeRequest.getNewPassword());
+                CredentialRepresentation credential = new CredentialRepresentation();
+                credential.setType(CredentialRepresentation.PASSWORD);
+                credential.setTemporary(false);
+                credential.setValue(changeRequest.getNewPassword());
 
-            userResource.get(user.getId()).resetPassword(credential);
-            return true;
-        }
-        throw new UserNotFoundException("User not found", new ErrorField("email/password", "Change Password not found"));
+                usersResource.get(user.getId()).resetPassword(credential);
+                return true;
+            }
+            throw new UserNotFoundException("User not found", new ErrorField("email/password", "Change Password not found"));
+        });
     }
 
     @Override
     public Boolean changePassword(String userId, String newPassword, boolean temporary) {
-        UserRepresentation user = keycloakProvider.getRealmResource().users().get(userId).toRepresentation();
-        if (user != null) {
-            CredentialRepresentation credential = new CredentialRepresentation();
-            credential.setType(CredentialRepresentation.PASSWORD);
-            credential.setValue(newPassword);
-            credential.setTemporary(temporary); // True si quieres que sea una contraseña temporal
+        return keycloakProvider.withRealm(realmResource -> {
+            UserRepresentation user = realmResource.users().get(userId).toRepresentation();
+            if (user != null) {
+                CredentialRepresentation credential = new CredentialRepresentation();
+                credential.setType(CredentialRepresentation.PASSWORD);
+                credential.setValue(newPassword);
+                credential.setTemporary(temporary);
 
-            keycloakProvider.getRealmResource().users().get(userId).resetPassword(credential);
-            return true;
-        }
-        throw new UserNotFoundException("User not found", new ErrorField("email/password", "Change Password not found"));
+                realmResource.users().get(userId).resetPassword(credential);
+                return true;
+            }
+            throw new UserNotFoundException("User not found", new ErrorField("email/password", "Change Password not found"));
+        });
     }
 
     @Override
@@ -164,59 +170,76 @@ public class AuthService implements IAuthService {
                     HttpMethod.POST,
                     entity,
                     TokenResponse.class);
+            
+            // Si la autenticación es exitosa, significa que la contraseña antigua es válida
+            // por lo que procedemos a cambiar la contraseña
+            if (response.getStatusCode() == HttpStatus.OK) {
+                return changePassword(userId, newPassword, false);
+            }
+            
+            return false;
         } catch (HttpClientErrorException e) {
             if (e.getStatusCode() == HttpStatus.BAD_REQUEST) {
                 String errorResponse = e.getResponseBodyAsString();
                 if (errorResponse.contains("invalid_grant")) {
+                    // Si la contraseña antigua es inválida, podría ser el primer inicio de sesión
+                    // con una contraseña temporal, entonces procedemos a cambiarla
                     changePassword(userId, newPassword, false);
                     return true;
                 }
             }
+            log.error("Error al cambiar contraseña por primera vez: {}", e.getMessage());
+            return false;
+        } catch (Exception ex) {
+            log.error("Error inesperado al cambiar contraseña por primera vez: {}", ex.getMessage());
+            return false;
         }
-
-        return false;
     }
 
     @Override
     public Boolean delete(String userId) {
-        UsersResource usersResource = keycloakProvider.getRealmResource().users();
-        UserRepresentation user = usersResource.get(userId).toRepresentation();
-        if (user == null) {
-            throw new UserNotFoundException("User not found", new ErrorField("userId", "User not found with the provided ID"));
-        }
+        return keycloakProvider.withUsers(usersResource -> {
+            try {
+                UserRepresentation user = usersResource.get(userId).toRepresentation();
+                if (user == null) {
+                    throw new UserNotFoundException("User not found", new ErrorField("userId", "User not found with the provided ID"));
+                }
 
-        try {
-            usersResource.get(userId).remove();
-            return true;
-        } catch (Exception e) {
-            throw new RuntimeException("Failed to delete user", e);
-        }
+                usersResource.get(userId).remove();
+                log.info("Usuario con ID {} eliminado correctamente", userId);
+                return true;
+            } catch (Exception e) {
+                log.error("Error al eliminar usuario con ID {}: {}", userId, e.getMessage());
+                throw new RuntimeException("Failed to delete user", e);
+            }
+        });
     }
 
     @Override
     public void updateUser(String userId, UserRequest userRequest) {
-        try {
-            UserResource userResource = keycloakProvider.getUserResource().get(userId);
-            UserRepresentation user = userResource.toRepresentation();
-//            if (userRequest.getUserName() != null) {
-//                user.setUsername(userRequest.getUserName());
-//            }
-            if (userRequest.getName() != null && !userRequest.getName().equals(user.getFirstName())) {
-                user.setFirstName(userRequest.getName());
-            }
-            if (userRequest.getLastName() != null && !userRequest.getLastName().equals(user.getLastName())) {
-                user.setLastName(userRequest.getLastName());
-            }
-            if (userRequest.getEmail() != null && !userRequest.getEmail().equals(user.getEmail())) {
-                user.setEmail(userRequest.getEmail());
-                //       user.setEmailVerified(true);
-            }
+        keycloakProvider.withUsers(usersResource -> {
+            try {
+                UserResource userResource = usersResource.get(userId);
+                UserRepresentation user = userResource.toRepresentation();
 
-            //     user.setEnabled(true);
-            userResource.update(user);
-        } catch (Exception e) {
-            throw new RuntimeException("Failed to update user.", e);
-        }
+                if (userRequest.getName() != null && !userRequest.getName().equals(user.getFirstName())) {
+                    user.setFirstName(userRequest.getName());
+                }
+                if (userRequest.getLastName() != null && !userRequest.getLastName().equals(user.getLastName())) {
+                    user.setLastName(userRequest.getLastName());
+                }
+                if (userRequest.getEmail() != null && !userRequest.getEmail().equals(user.getEmail())) {
+                    user.setEmail(userRequest.getEmail());
+                }
+
+                userResource.update(user);
+                log.info("Usuario con ID {} actualizado correctamente", userId);
+                return null;
+            } catch (Exception e) {
+                log.error("Error al actualizar usuario con ID {}: {}", userId, e.getMessage());
+                throw new RuntimeException("Failed to update user.", e);
+            }
+        });
     }
 
     private HttpHeaders createHeaders() {
@@ -261,30 +284,33 @@ public class AuthService implements IAuthService {
     }
 
     private String createUser(String firstName, String lastName, String email, String username, String password, String role) {
-        UsersResource usersResource = keycloakProvider.getUserResource();
+        return keycloakProvider.withUsers(usersResource -> {
+            UserRepresentation userRepresentation = new UserRepresentation();
+            userRepresentation.setFirstName(firstName);
+            userRepresentation.setLastName(lastName);
+            userRepresentation.setEmail(email);
+            userRepresentation.setUsername(email);
+            userRepresentation.setEnabled(true);
+            userRepresentation.setEmailVerified(true);
 
-        UserRepresentation userRepresentation = new UserRepresentation();
-        userRepresentation.setFirstName(firstName);
-        userRepresentation.setLastName(lastName);
-        userRepresentation.setEmail(email);
-        userRepresentation.setUsername(email);
-        userRepresentation.setEnabled(true);
-        userRepresentation.setEmailVerified(true);
+            Response response = usersResource.create(userRepresentation);
 
-        Response response = usersResource.create(userRepresentation);
-
-        if (response.getStatus() == 201) {
-            String userId = extractUserIdFromLocation(response.getLocation().getPath());
-            setNewUserPassword(password, userId, usersResource);
-            List<String> roles = new ArrayList<>();
-            roles.add(role);
-            assignRolesToUser(roles, userId);
-            return userId;
-        } else if (response.getStatus() == 409) {
-            throw new AlreadyExistsException("User already exists", new ErrorField("email", "Email is already in use"));
-        } else {
-            throw new RuntimeException("Failed to create user");
-        }
+            if (response.getStatus() == 201) {
+                String userId = extractUserIdFromLocation(response.getLocation().getPath());
+                setNewUserPassword(password, userId, usersResource);
+                List<String> roles = new ArrayList<>();
+                roles.add(role);
+                assignRolesToUser(roles, userId);
+                log.info("Usuario creado correctamente con ID: {}", userId);
+                return userId;
+            } else if (response.getStatus() == 409) {
+                log.warn("Intento de crear usuario con email duplicado: {}", email);
+                throw new AlreadyExistsException("User already exists", new ErrorField("email", "Email is already in use"));
+            } else {
+                log.error("Error al crear usuario. Código de respuesta: {}", response.getStatus());
+                throw new RuntimeException("Failed to create user");
+            }
+        });
     }
 
     private String extractUserIdFromLocation(String path) {
@@ -304,32 +330,34 @@ public class AuthService implements IAuthService {
             return;
         }
 
-        try {
-            UsersResource usersResource = keycloakProvider.getUserResource();
-            RealmResource realmResource = keycloakProvider.getRealmResource();
-            String clientId = realmResource.clients().findByClientId(keycloakProvider.getClient_id()).get(0).getId();
-            ClientResource clientResource = realmResource.clients().get(clientId);
-            List<RoleRepresentation> roleRepresentations = new ArrayList<>();
+        keycloakProvider.withRealm(realmResource -> {
+            try {
+                UsersResource usersResource = realmResource.users();
+                String clientId = realmResource.clients().findByClientId(keycloakProvider.getClient_id()).get(0).getId();
+                ClientResource clientResource = realmResource.clients().get(clientId);
+                List<RoleRepresentation> roleRepresentations = new ArrayList<>();
 
-            RolesResource rolesResource = clientResource.roles();
-            for (String roleName : roles) {
-                RoleRepresentation role = rolesResource.get(roleName).toRepresentation();
-                if (role != null) {
-                    roleRepresentations.add(role);
-                } else {
-                    System.err.println("Role not found: " + roleName);
+                RolesResource rolesResource = clientResource.roles();
+                for (String roleName : roles) {
+                    RoleRepresentation role = rolesResource.get(roleName).toRepresentation();
+                    if (role != null) {
+                        roleRepresentations.add(role);
+                    } else {
+                        log.warn("Rol no encontrado: {}", roleName);
+                    }
                 }
-            }
 
-            if (!roleRepresentations.isEmpty()) {
-                usersResource.get(userId).roles().clientLevel(clientId).add(roleRepresentations);
-            } else {
-                System.err.println("No roles to assign to user: " + userId);
+                if (!roleRepresentations.isEmpty()) {
+                    usersResource.get(userId).roles().clientLevel(clientId).add(roleRepresentations);
+                    log.info("Roles asignados correctamente al usuario con ID: {}", userId);
+                } else {
+                    log.warn("No hay roles para asignar al usuario con ID: {}", userId);
+                }
+                return null;
+            } catch (Exception e) {
+                log.error("Error al asignar roles al usuario con ID {}: {}", userId, e.getMessage());
+                return null;
             }
-        } catch (Exception e) {
-            System.err.println("Error assigning roles to user: " + e.getMessage());
-            e.printStackTrace();
-        }
-
+        });
     }
 }
