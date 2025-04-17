@@ -9,6 +9,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.UUID;
@@ -17,7 +18,7 @@ import java.util.UUID;
 @AllArgsConstructor
 @Getter
 @Setter
-public class ScheduleResponse implements IResponse {
+public class ScheduleResponse implements IResponse, Serializable {
 
     private UUID id;
     private ResourceResponse resource;

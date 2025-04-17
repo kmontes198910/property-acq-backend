@@ -6,6 +6,7 @@ import com.kynsof.calendar.application.query.schedule.getAvailabilityByRangeDate
 import com.kynsof.calendar.domain.dto.*;
 import com.kynsof.calendar.domain.dto.enumType.EStatusSchedule;
 import com.kynsof.calendar.domain.service.IScheduleService;
+import com.kynsof.calendar.infrastructure.config.CalendarCacheConfig;
 import com.kynsof.calendar.infrastructure.entity.Resource;
 import com.kynsof.calendar.infrastructure.entity.Schedule;
 import com.kynsof.calendar.infrastructure.entity.Services;
@@ -20,6 +21,8 @@ import com.kynsof.share.core.domain.response.PaginatedResponse;
 import com.kynsof.share.core.infrastructure.specifications.GenericSpecificationsBuilder;
 import com.kynsof.share.core.infrastructure.specifications.LogicalOperation;
 import com.kynsof.share.core.infrastructure.specifications.SearchOperation;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -43,13 +46,18 @@ public class ScheduleServiceImpl implements IScheduleService {
     }
 
     @Override
+    @Cacheable(cacheNames = CalendarCacheConfig.SCHEDULE_AVAILABILITY_CACHE, 
+               key = "'availableDates:' + #serviceId + ':' + #startDate + ':' + #endDate", 
+               unless = "#result == null || #result.isEmpty()")
     public List<LocalDate> findDistinctAvailableDatesByServiceIdAndDateRange(UUID serviceId, LocalDate startDate, LocalDate endDate) {
         return repositoryQuery.findDistinctAvailableDatesByServiceIdAndDateRange(serviceId, startDate, endDate);
     }
 
     @Override
+    @Cacheable(cacheNames = CalendarCacheConfig.SCHEDULE_AVAILABILITY_CACHE, 
+               key = "'search:' + #pageable.pageNumber + ':' + #pageable.pageSize + ':' + #filterCriteria?.hashCode()", 
+               unless = "#result == null")
     public PaginatedResponse search(Pageable pageable, List<FilterCriteria> filterCriteria) {
-        // Convierte y valida los filtros antes de construir especificaciones
         filterCriteria.forEach(filter -> {
             if ("status".equals(filter.getKey()) && filter.getValue() instanceof String) {
                 convertEnumFilter(filter, EStatusSchedule.class);
@@ -62,11 +70,12 @@ public class ScheduleServiceImpl implements IScheduleService {
     }
 
     @Override
+    @Cacheable(cacheNames = CalendarCacheConfig.SCHEDULE_AVAILABILITY_CACHE, 
+               key = "'resourcesAvailability:' + #reservationRequest.serviceId + ':' + #reservationRequest.businessId + ':' + #reservationRequest.startDate + ':' + #reservationRequest.endDate", 
+               unless = "#result == null")
     public PaginatedResponse getResourcesWithContinuousAvailability(ReservationRequestDto reservationRequest, Pageable pageable) {
-        // Generar el rango de fechas solicitado
         List<LocalDate> requestedDates = generateDateRange(reservationRequest.getStartDate(), reservationRequest.getEndDate());
 
-        // Obtener los recursos y los horarios con disponibilidad
         List<Object[]> results = repositoryQuery.findResourcesAndSchedulesForServiceWithFullAvailability(
                 reservationRequest.getServiceId(),
                 reservationRequest.getBusinessId(),
@@ -77,14 +86,12 @@ public class ScheduleServiceImpl implements IScheduleService {
                 pageable
         );
 
-        // Mapeo de los resultados (Object[]) a una estructura usable (ResourceWithSchedulesResponse)
         Map<UUID, ResourceWithSchedulesResponse> resourceMap = new HashMap<>();
 
         for (Object[] result : results) {
             Resource resource = (Resource) result[0];
             Schedule schedule = (Schedule) result[1];
 
-            // Si el recurso ya está en el mapa, agregarle el nuevo horario
             resourceMap.computeIfAbsent(resource.getId(), key -> new ResourceWithSchedulesResponse(
                     resource.getId(),
                     resource.getName(),
@@ -93,15 +100,12 @@ public class ScheduleServiceImpl implements IScheduleService {
             )).getSchedules().add(new ScheduleSimpleResponse(schedule.toAggregate()));
         }
 
-        // Convertir el mapa a una lista de respuestas
         List<ResourceWithSchedulesResponse> responses = new ArrayList<>(resourceMap.values());
 
-        // Aplicar la paginación a nivel de código, ya que el repositorio devuelve una lista sin paginar
         int start = (int) pageable.getOffset();
         int end = Math.min((start + pageable.getPageSize()), responses.size());
         List<ResourceWithSchedulesResponse> paginatedResponses = responses.subList(start, end);
 
-        // Retornar la respuesta paginada
         return new PaginatedResponse(
                 paginatedResponses,
                 pageable.getPageNumber(),
@@ -116,10 +120,9 @@ public class ScheduleServiceImpl implements IScheduleService {
         List<LocalDate> dates = new ArrayList<>();
         LocalDate currentDate = startDate;
 
-        // Agregar fechas al rango hasta que se alcance la fecha de fin
         while (!currentDate.isAfter(endDate)) {
             dates.add(currentDate);
-            currentDate = currentDate.plusDays(1); // Avanzar un día
+            currentDate = currentDate.plusDays(1);
         }
 
         return dates;
@@ -142,6 +145,9 @@ public class ScheduleServiceImpl implements IScheduleService {
     }
 
     @Override
+    @Cacheable(cacheNames = CalendarCacheConfig.SCHEDULE_AVAILABILITY_CACHE, 
+               key = "'scheduleById:' + #id", 
+               unless = "#result == null")
     public ScheduleDto findById(UUID id) {
         return repositoryQuery.findById(id)
                 .map(Schedule::toAggregate)
@@ -151,6 +157,7 @@ public class ScheduleServiceImpl implements IScheduleService {
     }
 
     @Override
+    @CacheEvict(cacheNames = CalendarCacheConfig.SCHEDULE_AVAILABILITY_CACHE, allEntries = true)
     public void delete(UUID id) {
         try {
             repositoryCommand.deleteById(id);
@@ -162,11 +169,13 @@ public class ScheduleServiceImpl implements IScheduleService {
     }
 
     @Override
+    @CacheEvict(cacheNames = CalendarCacheConfig.SCHEDULE_AVAILABILITY_CACHE, allEntries = true)
     public void delete(Schedule schedule) {
         repositoryCommand.delete(schedule);
     }
 
     @Override
+    @CacheEvict(cacheNames = CalendarCacheConfig.SCHEDULE_AVAILABILITY_CACHE, allEntries = true)
     public UUID create(ScheduleDto schedule) {
         List<Schedule> overlappingSchedules = repositoryQuery.findOverlappingSchedules(
                 schedule.getResource().getId(),
@@ -180,12 +189,10 @@ public class ScheduleServiceImpl implements IScheduleService {
         } else {
             return overlappingSchedules.get(0).getId();
         }
-//        throw new BusinessNotFoundException(
-//                new GlobalBusinessException(DomainErrorMessage.SCHEDULED_TASK_ALREADY_EXISTS,
-//                        new ErrorField("id", "A scheduled task for this service already exists.")));
     }
 
     @Override
+    @CacheEvict(cacheNames = CalendarCacheConfig.SCHEDULE_AVAILABILITY_CACHE, allEntries = true)
     public void createAll(List<ScheduleDto> schedules) {
         List<Schedule> entities = schedules.stream()
                 .map(Schedule::new)
@@ -195,11 +202,15 @@ public class ScheduleServiceImpl implements IScheduleService {
 
     @Override
     @Transactional
+    @CacheEvict(cacheNames = CalendarCacheConfig.SCHEDULE_AVAILABILITY_CACHE, allEntries = true)
     public void update(ScheduleDto schedule) {
         repositoryCommand.save(new Schedule(schedule));
     }
 
     @Override
+    @Cacheable(value = CalendarCacheConfig.SCHEDULE_AVAILABILITY_CACHE,
+            key = "'search:' + #pageable.pageNumber + ':' + #pageable.pageSize + ':' + #pageable.sort + ':' + T(java.util.Objects).hash(#filterCriteria)",
+            unless = "#result == null")
     public List<AvailableDateDto> getAvailableDatesAndSlots(UUID resourceId, UUID businessId, LocalDate startDate, LocalDate endDate) {
         return repositoryQuery.findAvailableSchedulesByResourceAndBusinessAndDateRange(resourceId, businessId, startDate, endDate).stream()
                 .collect(Collectors.groupingBy(ScheduleAvailabilityDto::getDate))
@@ -224,6 +235,9 @@ public class ScheduleServiceImpl implements IScheduleService {
 
     @Override
     @Transactional(readOnly = true)
+    @Cacheable(cacheNames = CalendarCacheConfig.SCHEDULE_AVAILABILITY_CACHE, 
+               key = "'availableServices:' + #pageable.pageNumber + ':' + #pageable.pageSize + ':' + #filterCriteria?.hashCode()", 
+               unless = "#result == null")
     public PaginatedResponse getUniqueAvailableServices(Pageable pageable, List<FilterCriteria> filterCriteria) {
 
         filterCriteria.add(new FilterCriteria("stock", SearchOperation.GREATER_THAN, 0, LogicalOperation.AND));
