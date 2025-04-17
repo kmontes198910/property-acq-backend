@@ -27,14 +27,14 @@ public class RabbitMQDoctorConsumerConfig {
 
     // Cada microservicio debe usar un nombre de cola ÚNICO
     @Bean
-    public Queue doctorQueueQueue() {
+    public Queue doctorQueue() {
         // Configurar la cola como durable, no exclusiva y no auto-eliminar
         return new Queue(DOCTOR_QUEUE, true, false, false);
     }
 
     @Bean
     public Binding doctorQueueBinding() {
-        return BindingBuilder.bind(doctorQueueQueue())
+        return BindingBuilder.bind(doctorQueue())
                            .to(doctorExchange())
                            .with(DOCTOR_CREATED_ROUTING_KEY);
     }
