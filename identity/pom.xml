@@ -100,10 +100,6 @@
 			<version>0.0.1-SNAPSHOT</version>
 			<scope>compile</scope>
 		</dependency>
-		<dependency>
-			<groupId> org.springframework.data</groupId>
-			<artifactId>spring-data-envers</artifactId>
-	 </dependency>
 
 		<!--Keycloack-->
 		<dependency>
@@ -141,44 +137,12 @@
 		<dependency>
 			<groupId>org.redisson</groupId>
 			<artifactId>redisson</artifactId>
-			<version>3.32.0</version> <!-- Verifica siempre la última versión -->
+			<version>3.32.0</version>
 		</dependency>
-        <dependency>
-            <groupId>org.springframework.amqp</groupId>
-            <artifactId>spring-rabbit</artifactId>
-        </dependency>
-		<!-- Firma electrónica -->
+
 		<dependency>
-			<groupId>com.itextpdf</groupId>
-			<artifactId>itext-core</artifactId>
-			<version>8.0.2</version>
-			<type>pom</type>
-		</dependency>
-		<!-- Individual iText modules if needed -->
-		<dependency>
-			<groupId>com.itextpdf</groupId>
-			<artifactId>kernel</artifactId>
-			<version>8.0.2</version>
-		</dependency>
-		<dependency>
-			<groupId>com.itextpdf</groupId>
-			<artifactId>io</artifactId>
-			<version>8.0.2</version>
-		</dependency>
-		<dependency>
-			<groupId>com.itextpdf</groupId>
-			<artifactId>layout</artifactId>
-			<version>8.0.2</version>
-		</dependency>
-		<dependency>
-			<groupId>com.itextpdf</groupId>
-			<artifactId>sign</artifactId>
-			<version>8.0.2</version>
-		</dependency>
-		<dependency>
-			<groupId>org.bouncycastle</groupId>
-			<artifactId>bcprov-jdk15to18</artifactId>
-			<version>1.78</version>
+			<groupId>org.springframework.amqp</groupId>
+			<artifactId>spring-rabbit</artifactId>
 		</dependency>
 
 		<dependency>
@@ -193,6 +157,7 @@
 			<version>2.2.0</version>
 		</dependency>
 
+	
 	</dependencies>
 	<build>
 		<plugins>
