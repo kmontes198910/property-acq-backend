@@ -47,7 +47,9 @@ public class Business implements Serializable {
         this.longitude = business.getLongitude();
         this.logo = business.getLogo();
         this.address = business.getAddress();
-
+        this.email = business.getEmail();
+        this.ruc = business.getRuc();
+        this.phone = business.getPhone();
     }
 
     public BusinessDto toAggregate () {
