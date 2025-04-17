@@ -22,13 +22,14 @@ public class RabbitMQDoctorConsumerConfig {
 
     @Bean
     public TopicExchange businessExchange() {
-        return new TopicExchange(DOCTOR_EXCHANGE);
+        return new TopicExchange(DOCTOR_EXCHANGE, true, false);
     }
 
     // Cada microservicio debe usar un nombre de cola ÚNICO
     @Bean
     public Queue businessCreatedQueue() {
-        return new Queue(DOCTOR_QUEUE, true);
+        // Configurar la cola como durable, no exclusiva y no auto-eliminar
+        return new Queue(DOCTOR_QUEUE, true, false, false);
     }
 
     @Bean
