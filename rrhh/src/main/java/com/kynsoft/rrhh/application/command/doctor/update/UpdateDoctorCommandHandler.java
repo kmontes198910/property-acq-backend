@@ -11,21 +11,28 @@ import com.kynsoft.rrhh.domain.rules.doctor.DoctorCodeMustBeUniqueRule;
 import com.kynsoft.rrhh.domain.rules.doctor.UpdateDoctorEmailMustBeUniqueRule;
 import com.kynsoft.rrhh.domain.rules.doctor.UpdateDoctorIdentificationMustBeUniqueRule;
 import com.kynsoft.rrhh.domain.rules.users.UserSystemEmailValidateRule;
+import com.kynsoft.rrhh.infrastructure.services.rabbitMQ.Dto.DoctorRabbitMqDto;
+import com.kynsoft.rrhh.infrastructure.services.rabbitMQ.eventPublisher.EventDoctorPublisherService;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
+import org.springframework.transaction.annotation.Transactional;
 
 @Component
 public class UpdateDoctorCommandHandler implements ICommandHandler<UpdateDoctorCommand> {
 
     private final IDoctorService service;
+    private final EventDoctorPublisherService eventDoctorPublisherService;
 
-    public UpdateDoctorCommandHandler(IDoctorService service) {
+    public UpdateDoctorCommandHandler(IDoctorService service,
+            EventDoctorPublisherService eventDoctorPublisherService) {
         this.service = service;
+        this.eventDoctorPublisherService = eventDoctorPublisherService;
     }
 
     @Override
+    @Transactional
     public void handle(UpdateDoctorCommand command) {
         RulesChecker.checkRule(new UserSystemEmailValidateRule(command.getEmail()));
         RulesChecker.checkRule(new DoctorCodeMustBeUniqueRule(this.service, command.getCode(), command.getId()));
@@ -60,8 +67,16 @@ public class UpdateDoctorCommandHandler implements ICommandHandler<UpdateDoctorC
         doctorSave.setExpress(command.isExpress());
 
         service.update(doctorSave);
+        this.eventDoctorPublisherService.publishEvent(new DoctorRabbitMqDto(
+                doctorSave.getId(),
+                doctorSave.getIdentification(),
+                doctorSave.getName(),
+                doctorSave.getLastName(),
+                doctorSave.getRegisterNumber(),
+                doctorSave.getStatus(),
+                doctorSave.getImage()
+        ));
 
     }
-
 
 }
