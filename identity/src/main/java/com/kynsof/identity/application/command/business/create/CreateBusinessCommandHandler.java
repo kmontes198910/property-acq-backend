@@ -34,9 +34,9 @@ public class CreateBusinessCommandHandler implements ICommandHandler<CreateBusin
     @Transactional
     public void handle(CreateBusinessCommand command) {
 
-//        RulesChecker.checkRule(new BusinessRucCheckingNumberOfCharactersRule(command.getRuc()));
-//        RulesChecker.checkRule(new BusinessRucMustBeUniqueRule(this.service, command.getRuc(), command.getId()));
-//        RulesChecker.checkRule(new BusinessNameMustBeUniqueRule(this.service, command.getName(), command.getId()));
+        RulesChecker.checkRule(new BusinessRucCheckingNumberOfCharactersRule(command.getRuc()));
+        RulesChecker.checkRule(new BusinessRucMustBeUniqueRule(this.service, command.getRuc(), command.getId()));
+        RulesChecker.checkRule(new BusinessNameMustBeUniqueRule(this.service, command.getName(), command.getId()));
 
         GeographicLocationDto location = this.geographicLocationService.findById(command.getGeographicLocation());
 
