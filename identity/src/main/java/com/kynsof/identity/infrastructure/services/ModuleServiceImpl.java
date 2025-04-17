@@ -18,7 +18,6 @@ import com.kynsof.share.core.domain.response.ErrorField;
 import com.kynsof.share.core.domain.response.PaginatedResponse;
 import com.kynsof.share.core.infrastructure.specifications.GenericSpecificationsBuilder;
 import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cache.annotation.Caching;
 import org.springframework.data.domain.Page;
@@ -109,7 +108,10 @@ public class ModuleServiceImpl implements IModuleService {
     }
 
     @Override
-    @Cacheable(value = IdentityCacheConfig.MODULE_CACHE, key = "'search:' + #pageable.pageNumber + ':' + #pageable.pageSize + ':' + #filterCriteria", unless = "#result == null")
+    // Modificando la anotación de caché para evitar usar FilterCriteria directamente como clave
+    @Cacheable(value = IdentityCacheConfig.MODULE_CACHE, 
+               key = "'search:' + #pageable.pageNumber + ':' + #pageable.pageSize + ':' + T(java.util.Objects).hash(#filterCriteria)", 
+               unless = "#result == null")
     public PaginatedResponse search(Pageable pageable, List<FilterCriteria> filterCriteria) {
         var specifications = new GenericSpecificationsBuilder<ModuleResponse>(filterCriteria);
         var data = repositoryQuery.findAll(specifications, pageable);

@@ -106,6 +106,9 @@ public class BusinessServiceImpl implements IBusinessService {
     }
 
     @Override
+    @Cacheable(value = IdentityCacheConfig.BUSINESS_CACHE,
+            key = "'search:' + #pageable.pageNumber + ':' + #pageable.pageSize + ':' + T(java.util.Objects).hash(#filterCriteria)",
+            unless = "#result == null")
     public PaginatedResponse search(Pageable pageable, List<FilterCriteria> filterCriteria) {
         filterCreteria(filterCriteria);
         GenericSpecificationsBuilder<Business> specifications = new GenericSpecificationsBuilder<>(filterCriteria);
