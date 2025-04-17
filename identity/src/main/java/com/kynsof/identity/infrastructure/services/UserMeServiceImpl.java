@@ -3,6 +3,7 @@ package com.kynsof.identity.infrastructure.services;
 import com.kynsof.identity.application.query.users.userMe.BusinessPermissionResponse;
 import com.kynsof.identity.application.query.users.userMe.UserMeResponse;
 import com.kynsof.identity.domain.interfaces.service.IUserMeService;
+import com.kynsof.identity.infrastructure.config.IdentityCacheConfig;
 import com.kynsof.identity.infrastructure.entities.UserPermissionBusiness;
 import com.kynsof.identity.infrastructure.entities.UserSystem;
 import com.kynsof.identity.infrastructure.repository.query.BusinessModuleReadDataJPARepository;
@@ -13,6 +14,7 @@ import com.kynsof.share.core.domain.exception.BusinessNotFoundException;
 import com.kynsof.share.core.domain.exception.DomainErrorMessage;
 import com.kynsof.share.core.domain.exception.GlobalBusinessException;
 import com.kynsof.share.core.domain.response.ErrorField;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -33,21 +35,21 @@ public class UserMeServiceImpl implements IUserMeService {
     }
 
     @Override
-   // @Cacheable(cacheNames = CacheConfig.USER_CACHE, unless = "#result == null", key = "#userId")
+    @Cacheable(value = IdentityCacheConfig.USER_INFO_CACHE, key = "#userId", unless = "#result == null")
     public UserMeResponse getUserInfo(UUID userId) {
         var userSystem = repositoryQuery.findByKeyCloakId(userId)
                 .orElseThrow(() -> new BusinessNotFoundException(new GlobalBusinessException(
                         DomainErrorMessage.USER_NOT_FOUND, new ErrorField("id", DomainErrorMessage.USER_NOT_FOUND.getReasonPhrase()))));
 
         if (userSystem.getUserType().equals(EUserType.SUPER_ADMIN)) {
-            List<BusinessPermissionResponse> businessPermissionResponses =getAllBusinessesWithPermissions();
-            return createUserMeResponse(userSystem,businessPermissionResponses );
+            List<BusinessPermissionResponse> businessPermissionResponses = getAllBusinessesWithPermissions();
+            return createUserMeResponse(userSystem, businessPermissionResponses);
         }
 
         var userPermissions = userPermissionBusinessReadDataJPARepository.findUserPermissionBusinessByUserId(userSystem.getId());
         var businessResponses = groupUserPermissionsByBusiness(userPermissions);
 
-        return createUserMeResponse(userSystem,    new ArrayList<>(businessResponses.values()));
+        return createUserMeResponse(userSystem, new ArrayList<>(businessResponses.values()));
     }
 
     private Map<UUID, BusinessPermissionResponse> groupUserPermissionsByBusiness(List<UserPermissionBusiness> userPermissions) {
@@ -84,6 +86,7 @@ public class UserMeServiceImpl implements IUserMeService {
         );
     }
 
+  //  @Cacheable(value = IdentityCacheConfig.USER_INFO_CACHE, unless = "#result == null")
     public List<BusinessPermissionResponse> getAllBusinessesWithPermissions() {
         List<Object[]> results = businessModuleReadDataJPARepository.findAllBusinessesWithPermissions();
         Map<UUID, BusinessPermissionResponse> responseMap = new HashMap<>();
@@ -94,11 +97,10 @@ public class UserMeServiceImpl implements IUserMeService {
             String permissionCode = (String) result[2];
             double balance = (double) result[3];
 
-            responseMap.computeIfAbsent(businessId, id -> new BusinessPermissionResponse(id,balance, businessName, new ArrayList<>()))
+            responseMap.computeIfAbsent(businessId, id -> new BusinessPermissionResponse(id, balance, businessName, new ArrayList<>()))
                     .getPermissions().add(permissionCode);
         }
 
         return new ArrayList<>(responseMap.values());
-
     }
 }

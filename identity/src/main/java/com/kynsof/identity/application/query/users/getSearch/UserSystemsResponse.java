@@ -8,13 +8,14 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.UUID;
 
 @AllArgsConstructor
 @Getter
 @Setter
-public class UserSystemsResponse implements IResponse {
+public class UserSystemsResponse implements IResponse, Serializable {
 
     private UUID id;
     private String userName;

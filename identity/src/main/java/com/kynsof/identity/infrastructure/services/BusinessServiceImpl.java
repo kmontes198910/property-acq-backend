@@ -2,13 +2,11 @@ package com.kynsof.identity.infrastructure.services;
 
 import com.kynsof.identity.application.query.business.search.BusinessResponse;
 import com.kynsof.identity.domain.dto.BusinessDto;
-import com.kynsof.identity.domain.dto.ModuleDto;
 import com.kynsof.identity.domain.dto.enumType.EBusinessStatus;
 import com.kynsof.identity.domain.interfaces.service.IBusinessService;
+import com.kynsof.identity.infrastructure.config.IdentityCacheConfig;
 import com.kynsof.identity.infrastructure.entities.Business;
-import com.kynsof.identity.infrastructure.entities.ModuleSystem;
 import com.kynsof.identity.infrastructure.repository.command.BusinessWriteDataJPARepository;
-import com.kynsof.identity.infrastructure.repository.query.BusinessModuleReadDataJPARepository;
 import com.kynsof.identity.infrastructure.repository.query.BusinessReadDataJPARepository;
 import com.kynsof.share.core.domain.exception.BusinessNotFoundException;
 import com.kynsof.share.core.domain.exception.DomainErrorMessage;
@@ -18,56 +16,82 @@ import com.kynsof.share.core.domain.response.ErrorField;
 import com.kynsof.share.core.domain.response.PaginatedResponse;
 import com.kynsof.share.core.infrastructure.specifications.GenericSpecificationsBuilder;
 import com.kynsof.share.utils.ConfigureTimeZone;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
 public class BusinessServiceImpl implements IBusinessService {
 
     private final BusinessWriteDataJPARepository repositoryCommand;
-
     private final BusinessReadDataJPARepository repositoryQuery;
 
-    private final BusinessModuleReadDataJPARepository businessModuleReadDataJPARepository;
-
-    public BusinessServiceImpl(BusinessWriteDataJPARepository repositoryCommand, BusinessReadDataJPARepository repositoryQuery, BusinessModuleReadDataJPARepository businessModuleReadDataJPARepository) {
+    public BusinessServiceImpl(BusinessWriteDataJPARepository repositoryCommand,
+                             BusinessReadDataJPARepository repositoryQuery) {
         this.repositoryCommand = repositoryCommand;
         this.repositoryQuery = repositoryQuery;
-        this.businessModuleReadDataJPARepository = businessModuleReadDataJPARepository;
     }
 
     @Override
-    public void create(BusinessDto object) {
-        this.repositoryCommand.save(new Business(object));
+    @Transactional
+    @Caching(evict = {
+            @CacheEvict(value = {
+                    IdentityCacheConfig.BUSINESS_CACHE
+            }, allEntries = true)
+    })
+    public UUID create(BusinessDto object) {
+        object.setStatus(EBusinessStatus.ACTIVE);
+        Business businessEntity = new Business(object);
+        Business savedEntity = this.repositoryCommand.save(businessEntity);
+        return savedEntity.getId();
     }
 
     @Override
+    @Transactional
+    @Caching(evict = {
+            @CacheEvict(value = {
+                    IdentityCacheConfig.BUSINESS_CACHE
+            }, allEntries = true)
+    })
     public void update(BusinessDto objectDto) {
         Business update = new Business(objectDto);
-        update.setUpdatedAt(LocalDateTime.now());
+        update.setUpdatedAt(ConfigureTimeZone.getTimeZone());
         this.repositoryCommand.save(update);
     }
 
     @Override
+    @Transactional
+    @Caching(evict = {
+            @CacheEvict(value = {
+                    IdentityCacheConfig.BUSINESS_CACHE
+            }, allEntries = true)
+    })
     public void delete(UUID id) {
+        try {
+            this.repositoryCommand.deleteById(id);
+        } catch (Exception e) {
+            throw new BusinessNotFoundException(new GlobalBusinessException(DomainErrorMessage.NOT_DELETE,
+                    new ErrorField("id", "Element cannot be deleted has a related element.")));
+        }
+    }
 
-        BusinessDto objectDelete = this.findById(id);
-        objectDelete.setStatus(EBusinessStatus.INACTIVE);
-
-        objectDelete.setDeleteAt(ConfigureTimeZone.getTimeZone());
-        objectDelete.setDeleted(true);
-        objectDelete.setName(objectDelete.getName() + "-" + UUID.randomUUID());
-        objectDelete.setRuc(objectDelete.getRuc() + "-" + UUID.randomUUID());
-
-        this.repositoryCommand.save(new Business(objectDelete));
+    @Override
+    @Cacheable(value = IdentityCacheConfig.BUSINESS_CACHE, key = "#id", unless = "#result == null")
+    public BusinessDto findById(UUID id) {
+        Optional<Business> object = this.repositoryQuery.findById(id);
+        if (object.isPresent()) {
+            return object.get().toAggregate();
+        }
+        throw new BusinessNotFoundException(new GlobalBusinessException(DomainErrorMessage.BUSINESS_NOT_FOUND,
+                new ErrorField("id", "Business not found.")));
     }
 
     @Override
@@ -79,32 +103,6 @@ public class BusinessServiceImpl implements IBusinessService {
         }
 
         throw new BusinessNotFoundException(new GlobalBusinessException(DomainErrorMessage.BUSINESS_NOT_FOUND, new ErrorField("id", "Business not found.")));
-    }
-
-    // @Cacheable(cacheNames = CacheConfig.BUSINESS_CACHE, unless = "#result == null")
-    @Override
-    public BusinessDto findById(UUID id) {
-        Optional<Business> object = this.repositoryQuery.findById(id);
-        if (object.isPresent()) {
-            BusinessDto businessDto = object.get().toAggregate();
-
-            List<ModuleSystem> moduleSystems = businessModuleReadDataJPARepository.findModulesByBusinessId(id);
-            List<ModuleDto> moduleDtoList = moduleSystems.stream()
-                    .map(moduleSystem -> new ModuleDto(
-                    moduleSystem.getId(),
-                    moduleSystem.getName(),
-                    moduleSystem.getImage(),
-                    moduleSystem.getDescription(),
-                    new ArrayList<>()
-            )
-                    )
-                    .collect(Collectors.toList());
-
-            businessDto.setModuleDtoList(moduleDtoList);
-            return businessDto;
-        } else {
-            throw new BusinessNotFoundException(new GlobalBusinessException(DomainErrorMessage.BUSINESS_NOT_FOUND, new ErrorField("Business.id", "Business not found.")));
-        }
     }
 
     @Override
