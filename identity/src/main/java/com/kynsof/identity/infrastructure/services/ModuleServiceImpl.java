@@ -108,9 +108,9 @@ public class ModuleServiceImpl implements IModuleService {
     }
 
     @Override
-    // Modificando la anotación de caché para evitar usar FilterCriteria directamente como clave
+    // Modificando la anotación de caché para incluir también el ordenamiento en la clave
     @Cacheable(value = IdentityCacheConfig.MODULE_CACHE, 
-               key = "'search:' + #pageable.pageNumber + ':' + #pageable.pageSize + ':' + T(java.util.Objects).hash(#filterCriteria)", 
+               key = "'search:' + #pageable.pageNumber + ':' + #pageable.pageSize + ':' + #pageable.sort + ':' + T(java.util.Objects).hash(#filterCriteria)", 
                unless = "#result == null")
     public PaginatedResponse search(Pageable pageable, List<FilterCriteria> filterCriteria) {
         var specifications = new GenericSpecificationsBuilder<ModuleResponse>(filterCriteria);

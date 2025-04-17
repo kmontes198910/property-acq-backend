@@ -123,7 +123,7 @@ public class UserSystemServiceImpl implements IUserSystemService {
 
     @Override
     @Cacheable(value = IdentityCacheConfig.USER_SYSTEM_CACHE,
-            key = "'search:' + #pageable.pageNumber + ':' + #pageable.pageSize + ':' + T(java.util.Objects).hash(#filterCriteria)",
+            key = "'search:' + #pageable.pageNumber + ':' + #pageable.pageSize + ':' + #pageable.sort + ':' + T(java.util.Objects).hash(#filterCriteria)",
             unless = "#result == null")
     public PaginatedResponse search(Pageable pageable, List<FilterCriteria> filterCriteria) {
         filterCriteria(filterCriteria);
