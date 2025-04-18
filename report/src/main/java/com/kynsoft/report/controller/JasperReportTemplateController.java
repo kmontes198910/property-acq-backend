@@ -17,15 +17,12 @@ import com.kynsoft.report.applications.command.jasperReportTemplate.update.Updat
 import com.kynsoft.report.applications.query.jasperreporttemplate.getbyid.FindJasperReportTemplateByIdQuery;
 import com.kynsoft.report.applications.query.jasperreporttemplate.getbyid.JasperReportTemplateResponse;
 import com.kynsoft.report.applications.query.jasperreporttemplate.search.GetJasperReportTemplateQuery;
-import com.kynsoft.report.domain.dto.JasperReportTemplateType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.IOException;
-import java.util.Optional;
 import java.util.UUID;
 
 @RestController
