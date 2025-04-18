@@ -12,18 +12,18 @@ import org.springframework.stereotype.Service;
 public class EventPatientPublisherService {
 
     private final RabbitTemplate rabbitTemplate;
-    private final TopicExchange assistantExchange;
+    private final TopicExchange patientExchange;
 
     @Autowired
     public EventPatientPublisherService(RabbitTemplate rabbitTemplate,
-                                 @Qualifier("patientExchange") TopicExchange assistantExchange) {
+                                 @Qualifier("patientExchange") TopicExchange patientExchange) {
         this.rabbitTemplate = rabbitTemplate;
-        this.assistantExchange = assistantExchange;
+        this.patientExchange = patientExchange;
     }
 
     public void publishEvent(RabbitMQPatientDto event) {
         rabbitTemplate.convertAndSend(
-                assistantExchange.getName(),
+                patientExchange.getName(),
                 RabbitMQPatientConfig.PATIENT_CREATED_ROUTING_KEY,
                 event
         );
