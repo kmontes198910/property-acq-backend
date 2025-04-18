@@ -4,6 +4,7 @@ import com.kynsof.identity.application.query.users.getSearch.UserSystemsResponse
 import com.kynsof.identity.domain.dto.UserStatus;
 import com.kynsof.identity.domain.dto.UserSystemDto;
 import com.kynsof.identity.domain.interfaces.service.IUserSystemService;
+import com.kynsof.identity.infrastructure.config.IdentityCacheConfig;
 import com.kynsof.identity.infrastructure.entities.UserSystem;
 import com.kynsof.identity.infrastructure.repository.command.UserSystemsWriteDataJPARepository;
 import com.kynsof.identity.infrastructure.repository.query.UserSystemReadDataJPARepository;
@@ -16,7 +17,9 @@ import com.kynsof.share.core.domain.response.ErrorField;
 import com.kynsof.share.core.domain.response.PaginatedResponse;
 import com.kynsof.share.core.infrastructure.specifications.GenericSpecificationsBuilder;
 import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -32,13 +35,22 @@ public class UserSystemServiceImpl implements IUserSystemService {
     private final UserSystemsWriteDataJPARepository repositoryCommand;
     private final UserSystemReadDataJPARepository repositoryQuery;
 
-    public UserSystemServiceImpl(UserSystemReadDataJPARepository repositoryQuery, UserSystemsWriteDataJPARepository repositoryCommand) {
+    public UserSystemServiceImpl(UserSystemReadDataJPARepository repositoryQuery,
+                                  UserSystemsWriteDataJPARepository repositoryCommand) {
         this.repositoryQuery = repositoryQuery;
         this.repositoryCommand = repositoryCommand;
     }
 
     @Override
     @Transactional
+    @Caching(evict = {
+            @CacheEvict(value = {
+                    IdentityCacheConfig.USER_INFO_CACHE,
+                    IdentityCacheConfig.USER_SYSTEM_CACHE,
+                    IdentityCacheConfig.USER_SYSTEM_EMAIL_CACHE,
+                    IdentityCacheConfig.USER_EXISTS_CACHE
+            }, allEntries = true)
+    })
     public UUID create(UserSystemDto userSystemDto) {
         var data = new UserSystem(userSystemDto);
         var userSystem = repositoryCommand.save(data);
@@ -47,7 +59,14 @@ public class UserSystemServiceImpl implements IUserSystemService {
 
     @Override
     @Transactional
-    @CacheEvict(value = "userExistsCache", key = "#userSystemDto.email")
+    @Caching(evict = {
+            @CacheEvict(value = {
+                    IdentityCacheConfig.USER_INFO_CACHE,
+                    IdentityCacheConfig.USER_SYSTEM_CACHE,
+                    IdentityCacheConfig.USER_SYSTEM_EMAIL_CACHE,
+                    IdentityCacheConfig.USER_EXISTS_CACHE
+            }, allEntries = true)
+    })
     public void update(UserSystemDto userSystemDto) {
         var update = new UserSystem(userSystemDto);
         repositoryCommand.save(update);
@@ -55,12 +74,28 @@ public class UserSystemServiceImpl implements IUserSystemService {
 
     @Override
     @Transactional
+    @Caching(evict = {
+            @CacheEvict(value = {
+                    IdentityCacheConfig.USER_INFO_CACHE,
+                    IdentityCacheConfig.USER_SYSTEM_CACHE,
+                    IdentityCacheConfig.USER_SYSTEM_EMAIL_CACHE,
+                    IdentityCacheConfig.USER_EXISTS_CACHE
+            }, allEntries = true)
+    })
     public void delete(UserSystemDto userSystemDto) {
         repositoryCommand.deleteById(userSystemDto.getId());
     }
 
     @Override
     @Transactional
+    @Caching(evict = {
+            @CacheEvict(value = {
+                    IdentityCacheConfig.USER_INFO_CACHE,
+                    IdentityCacheConfig.USER_SYSTEM_CACHE,
+                    IdentityCacheConfig.USER_SYSTEM_EMAIL_CACHE,
+                    IdentityCacheConfig.USER_EXISTS_CACHE
+            }, allEntries = true)
+    })
     public void deleteAll(List<UUID> users) {
         var delete = users.stream()
                 .map(this::findById)
@@ -78,6 +113,7 @@ public class UserSystemServiceImpl implements IUserSystemService {
     }
 
     @Override
+    @Cacheable(value = IdentityCacheConfig.USER_SYSTEM_CACHE, key = "#id", unless = "#result == null")
     public UserSystemDto findById(UUID id) {
         return repositoryQuery.findById(id)
                 .map(UserSystem::toAggregate)
@@ -86,6 +122,9 @@ public class UserSystemServiceImpl implements IUserSystemService {
     }
 
     @Override
+    @Cacheable(value = IdentityCacheConfig.USER_SYSTEM_CACHE,
+            key = "'search:' + #pageable.pageNumber + ':' + #pageable.pageSize + ':' + #pageable.sort + ':' + T(java.util.Objects).hash(#filterCriteria)",
+            unless = "#result == null")
     public PaginatedResponse search(Pageable pageable, List<FilterCriteria> filterCriteria) {
         filterCriteria(filterCriteria);
         var specifications = new GenericSpecificationsBuilder<UserSystem>(filterCriteria);
@@ -132,6 +171,7 @@ public class UserSystemServiceImpl implements IUserSystemService {
     }
 
     @Override
+    @Cacheable(value = IdentityCacheConfig.USER_SYSTEM_EMAIL_CACHE, key = "#email", unless = "#result == null")
     public UserSystemDto findByEmail(String email) {
         return repositoryQuery.findByEmail(email)
                 .map(UserSystem::toAggregate)
@@ -139,24 +179,21 @@ public class UserSystemServiceImpl implements IUserSystemService {
     }
 
     @Override
-    @Cacheable(value = "userExistsCache", key = "#email")
+    @Cacheable(value = IdentityCacheConfig.USER_EXISTS_CACHE, key = "#email")
     public boolean existsByEmailAndStatus(String email) {
         return this.repositoryQuery.existsByEmailAndStatus(email, UserStatus.ACTIVE);
     }
 
     @Override
     public PaginatedResponse getUsersByBusiness(UUID businessId, String email, String name, String lastName, Pageable pageable) {
-        // Validación del businessId para evitar consultas innecesarias
         if (businessId == null) {
             throw new IllegalArgumentException("El businessId no puede ser nulo.");
         }
 
-        // Normalización de los filtros para evitar búsquedas incorrectas
         String filteredEmail = (email != null && !email.trim().isEmpty()) ? email.trim() : null;
         String filteredName = (name != null && !name.trim().isEmpty()) ? name.trim() : null;
         String filteredLastName = (lastName != null && !lastName.trim().isEmpty()) ? lastName.trim() : null;
 
-        // Ejecutar la consulta con los filtros opcionales
         Page<UserSystem> usersPage = this.repositoryQuery.findUsersByBusinessAndFilters(
                 businessId,
                 filteredEmail,
@@ -165,12 +202,10 @@ public class UserSystemServiceImpl implements IUserSystemService {
                 pageable
         );
 
-        // Convertir a DTOs
         List<UserSystemDto> usersDtoList = usersPage.getContent().stream()
                 .map(UserSystem::toAggregate)
                 .collect(Collectors.toList());
 
-        // Construir y devolver la respuesta paginada
         return new PaginatedResponse(
                 usersDtoList,
                 usersPage.getTotalPages(),

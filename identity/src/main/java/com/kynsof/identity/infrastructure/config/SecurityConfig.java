@@ -6,59 +6,71 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.oauth2.jwt.JwtDecoder;
+import org.springframework.security.oauth2.jwt.JwtDecoders;
+import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
+import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.config.Customizer;
-import org.springframework.security.config.annotation.method.configuration.EnableReactiveMethodSecurity;
-import org.springframework.security.config.annotation.web.reactive.EnableWebFluxSecurity;
-import org.springframework.security.config.web.server.ServerHttpSecurity;
-import org.springframework.security.oauth2.jwt.ReactiveJwtDecoder;
-import org.springframework.security.oauth2.jwt.ReactiveJwtDecoders;
-import org.springframework.security.web.server.SecurityWebFilterChain;
-
 
 @Configuration
-@EnableWebFluxSecurity
-@EnableReactiveMethodSecurity
+@EnableWebSecurity
+@EnableMethodSecurity
 @RequiredArgsConstructor
 public class SecurityConfig {
 
     @Value("${spring.security.oauth2.resourceserver.jwt.issuer-uri}")
+    private String issuerUri;
+
+    @Value("${spring.security.oauth2.resourceserver.jwt.jwk-set-uri}")
     private String jwkSetUri;
 
     @Autowired
     private JwtAuthenticationConverter jwtAuthenticationConverter;
 
-
     @Bean
-    public SecurityWebFilterChain securityWebFilterChain(ServerHttpSecurity http) {
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         String[] AUTH_WHITELIST = {
-                // -- Swagger UI v2
-                "/api/**",
+            // -- Swagger UI v3 (OpenAPI)
+            "/v3/api-docs/**",
+            "/swagger-ui/**",
+            "/swagger-ui.html",
+            "/webjars/**",
+            "/swagger-resources/**",
+            // -- API endpoints that no requieren autenticación
+            "/api/auth/authenticate",
+            "/api/auth/**",
+            "/health"
         };
-        return http
-                .cors(Customizer.withDefaults())
-                .csrf(ServerHttpSecurity.CsrfSpec::disable)
-                .authorizeExchange(exchanges -> exchanges
-                        .pathMatchers(HttpMethod.OPTIONS, "/**").permitAll()
-                        .pathMatchers(HttpMethod.GET, "/health").permitAll()
-                        .pathMatchers("/api/auth/authenticate").permitAll()
-                        .pathMatchers(HttpMethod.GET, "/api/auth/**").permitAll()
-                        .pathMatchers(HttpMethod.POST, "/api/auth/**").permitAll()
-                        .pathMatchers(AUTH_WHITELIST).permitAll()
-                        .pathMatchers(HttpMethod.GET, "/swagger-ui.html", "/swagger-ui/**", "/v3/api-docs.yaml", "/v3/api-docs/**", "/swagger-resources/**", "webjars/**").permitAll()
-                        .anyExchange().authenticated()
+
+        http
+            .cors(Customizer.withDefaults())
+            .csrf(csrf -> csrf.disable())
+            .authorizeHttpRequests(authz -> authz
+                .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+                .requestMatchers(AUTH_WHITELIST).permitAll()
+                .anyRequest().authenticated()
+            )
+            .oauth2ResourceServer(oauth2 -> oauth2
+                .jwt(jwt -> jwt
+                    .decoder(jwtDecoder())
+                    .jwtAuthenticationConverter(jwtAuthenticationConverter)
                 )
-                .oauth2ResourceServer(oauth2 -> oauth2
-                        .jwt(jwtSpec -> jwtSpec
-                                .jwtDecoder(jwtDecoder())
-                                .jwtAuthenticationConverter(jwtAuthenticationConverter)
-                        )
-                )
-                .build();
+            );
+
+        return http.build();
     }
 
     @Bean
-    public ReactiveJwtDecoder jwtDecoder() {
-        return ReactiveJwtDecoders.fromIssuerLocation(jwkSetUri);
+    public JwtDecoder jwtDecoder() {
+        if (jwkSetUri != null && !jwkSetUri.isEmpty()) {
+            return NimbusJwtDecoder.withJwkSetUri(jwkSetUri).build();
+        } else if (issuerUri != null && !issuerUri.isEmpty()) {
+            return JwtDecoders.fromIssuerLocation(issuerUri);
+        }
+        throw new IllegalStateException("Either jwk-set-uri or issuer-uri must be configured for JWT decoding");
     }
 }
 

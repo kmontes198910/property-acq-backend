@@ -10,6 +10,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -45,10 +46,10 @@ public class BusinessByIdResponse implements IResponse, Serializable {
         this.address = object.getAddress() != null ? object.getAddress() : null;
         this.phone = object.getPhone();
         this.email = object.getEmail();
-        modules = object.getModuleDtoList().stream()
+        modules = object.getModuleDtoList() !=null ? object.getModuleDtoList().stream()
                 .map(moduleDto ->
                         new ModuleResponse(moduleDto.getId(), moduleDto.getName()))
-                .toList();
+                .toList(): new ArrayList<>();
     }
 
     public BusinessByIdResponse(UUID id, String name) {

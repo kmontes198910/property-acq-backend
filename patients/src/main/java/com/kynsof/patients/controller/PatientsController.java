@@ -29,19 +29,20 @@ import com.kynsof.share.core.domain.http.entity.PatientHttp;
 import com.kynsof.share.core.domain.request.PageableUtil;
 import com.kynsof.share.core.domain.request.SearchRequest;
 import com.kynsof.share.core.domain.response.ApiResponse;
+import com.kynsof.share.core.domain.response.ApiError;
 import com.kynsof.share.core.domain.response.PaginatedResponse;
 import com.kynsof.share.core.infrastructure.bus.IMediator;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/patients")
+@Slf4j
 public class PatientsController {
 
     private final IMediator mediator;
@@ -60,7 +61,7 @@ public class PatientsController {
     }
 
     @PatchMapping("/admin/updated/{patientId}")
-    public ResponseEntity<?> create(@PathVariable UUID patientId, @RequestBody CreatePatientsAdminRequest request) {
+    public ResponseEntity<?> updatePatientAdmin(@PathVariable UUID patientId, @RequestBody CreatePatientsAdminRequest request) {
         CreatePatientAdminCommand createCommand = CreatePatientAdminCommand.fromRequest(patientId, request);
         CreatePatientAdminMessage response = mediator.send(createCommand);
 
@@ -157,11 +158,35 @@ public class PatientsController {
     }
 
     @GetMapping("/me")
-    public ResponseEntity<ApiResponse<?>> me(@AuthenticationPrincipal Jwt jwt) {
+    public ResponseEntity<ApiResponse<?>> me(@RequestHeader(value = "X-User-Id", required = false) String userId,
+                                            @RequestHeader(value = "X-User-Email", required = false) String userEmail,
+                                            @RequestHeader(value = "X-User-Roles", required = false) String userRoles) {
+        
+        // Priorizar el ID enviado por el gateway, si está presente
+        String patientId = (userId != null && !userId.isEmpty()) ? userId : null;
+        
+        if (patientId == null) {
+            return ResponseEntity.badRequest().body(ApiResponse.fail(new ApiError("No se pudo identificar al usuario")));
+        }
 
-        String patientId = jwt.getClaim("sub");
-        FindPatientsByKeyCloakIdQuery query = new FindPatientsByKeyCloakIdQuery(UUID.fromString(patientId));
-        FindPatientsByKeyCloakIdResponse response = mediator.send(query);
-        return ResponseEntity.ok(ApiResponse.success(response));
+        // Registrar información adicional recibida desde el gateway (opcional, solo para depuración)
+        if (userEmail != null || userRoles != null) {
+            log.debug("Información adicional del usuario - Email: {}, Roles: {}", 
+                      userEmail != null ? userEmail : "N/A", 
+                      userRoles != null ? userRoles : "N/A");
+        }
+
+        try {
+            UUID patientUuid = UUID.fromString(patientId);
+            FindPatientsByKeyCloakIdQuery query = new FindPatientsByKeyCloakIdQuery(patientUuid);
+            FindPatientsByKeyCloakIdResponse response = mediator.send(query);
+            return ResponseEntity.ok(ApiResponse.success(response));
+        } catch (IllegalArgumentException e) {
+            log.error("Error al convertir el ID del paciente a UUID: {}", patientId, e);
+            return ResponseEntity.badRequest().body(ApiResponse.fail(new ApiError("El formato del ID de usuario no es válido")));
+        } catch (Exception e) {
+            log.error("Error al obtener información del paciente con ID: {}", patientId, e);
+            return ResponseEntity.status(500).body(ApiResponse.fail(new ApiError("Error al obtener información del paciente")));
+        }
     }
 }

@@ -4,16 +4,24 @@ import com.kynsof.share.core.domain.bus.command.ICommand;
 import com.kynsof.share.core.domain.bus.command.ICommandMessage;
 import com.kynsof.share.core.domain.bus.query.IQuery;
 import com.kynsof.share.core.domain.bus.query.IResponse;
-import reactor.core.publisher.Mono;
 
+/**
+ * Interfaz que define el patrón Mediator para el manejo de comandos y consultas
+ */
 public interface IMediator {
-    // Reactive methods for WebFlux compatibility
-    <M extends ICommandMessage> Mono<M> sendAsync(ICommand command);
-    
-    <R extends IResponse> Mono<R> sendAsync(IQuery query);
-    
-    // Original methods for backward compatibility
+    /**
+     * Envía un comando 
+     * @param command Comando a ejecutar
+     * @return Mensaje de respuesta del comando
+     * @param <M> Tipo de mensaje de respuesta
+     */
     <M extends ICommandMessage> M send(ICommand command);
-    
+
+    /**
+     * Envía una consulta
+     * @param query Consulta a ejecutar
+     * @return Respuesta de la consulta
+     * @param <R> Tipo de respuesta
+     */
     <R extends IResponse> R send(IQuery query);
 }

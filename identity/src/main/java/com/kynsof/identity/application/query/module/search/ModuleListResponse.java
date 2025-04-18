@@ -6,13 +6,14 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.UUID;
 
 @AllArgsConstructor
 @Getter
 @Setter
-public class ModuleListResponse implements IResponse {
+public class ModuleListResponse implements IResponse, Serializable {
     private UUID id;
     private String name;
     private String description;

@@ -4,13 +4,14 @@ import com.kynsof.identity.domain.dto.enumType.EBusinessStatus;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
 @Getter
 @Setter
-public class BusinessDto {
+public class BusinessDto  implements Serializable {
     private UUID id;
     private String name;
     private String latitude;

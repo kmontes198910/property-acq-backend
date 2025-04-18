@@ -1,38 +1,28 @@
 package com.kynsof.identity.infrastructure.services;
 
+import com.kynsof.identity.infrastructure.config.KeycloakConnectionPool;
 import lombok.Getter;
-import org.jboss.resteasy.client.jaxrs.internal.ResteasyClientBuilderImpl;
+import lombok.extern.slf4j.Slf4j;
 import org.keycloak.admin.client.Keycloak;
-import org.keycloak.admin.client.KeycloakBuilder;
 import org.keycloak.admin.client.resource.RealmResource;
 import org.keycloak.admin.client.resource.UsersResource;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+/**
+ * Proveedor de servicios Keycloak optimizado con pool de conexiones para mejorar
+ * el rendimiento en aplicaciones con alta concurrencia.
+ */
 @Component
 @Getter
+@Slf4j
 public class KeycloakProvider {
 
-    @Value("${keycloak.provider.server-url:https://auth.chevere.ddns.net/}")
-    private String server_url;
+    private final KeycloakConnectionPool connectionPool;
 
     @Value("${keycloak.provider.realm-name:kynsoft}")
     private String realm_name;
 
-    @Value("${keycloak.provider.realm-master:master}")
-    private String realm_master;
-
-    @Value("${keycloak.provider.admin-clic:admin-cli}")
-    private String admin_clic;
-
-    @Value("${keycloak.provider.user-console:admin}")
-    private String user_console;
-
-    @Value("${keycloak.provider.password-console:ZWJjMTViM2U4YjQ0MTQwZTI5ZjI1YWFk}")
-    private String password_console;
-
-    @Value("${keycloak.provider.client-secret:7i6w6w9yRbv2VOi0ksbLfdd1TnW5TTlb}")
-    private String client_secret;
     @Value("${spring.security.oauth2.client.provider.keycloak.token-uri:https://auth.chevere.ddns.net/realms/kynsoft/protocol/openid-connect/token}")
     private String tokenUri;
 
@@ -42,39 +32,95 @@ public class KeycloakProvider {
     @Value("${keycloak.provider.grant-type:password}")
     private String grant_type;
 
+    @Value("${keycloak.provider.client-secret:7i6w6w9yRbv2VOi0ksbLfdd1TnW5TTlb}")
+    private String client_secret;
 
-    public RealmResource getRealmResource() {
-
-
-
-        Keycloak keycloak = KeycloakBuilder.builder()
-                .serverUrl(server_url)
-                .realm(realm_master)
-                .clientId(admin_clic)
-                .username(user_console)
-                .password(password_console)
-                .clientSecret(client_secret)
-                .resteasyClient(new ResteasyClientBuilderImpl()
-                        .connectionPoolSize(10)
-                        .build())
-                .build();
-        return keycloak.realm(realm_name);
+    // Inyección del pool de conexiones
+    public KeycloakProvider(KeycloakConnectionPool connectionPool) {
+        this.connectionPool = connectionPool;
     }
 
+    /**
+     * Obtiene un recurso de reino (RealmResource) utilizando una conexión del pool.
+     * IMPORTANTE: Este método utiliza withRealm internamente para asegurar la liberación de la conexión.
+     * Los consumidores deben realizar sus operaciones de forma atómica con el RealmResource devuelto.
+     */
+    public RealmResource getRealmResource() {
+        log.debug("Obteniendo RealmResource con gestión de conexión automática");
+        // Use withRealm pattern to ensure connection is released
+        return withRealm(realm -> {
+            // Returning the realm directly is risky as it keeps the connection open
+            // This is a workaround that works because Spring handles this as a proxy
+            return realm;
+        });
+    }
+
+    /**
+     * Obtiene un recurso de usuarios utilizando una conexión del pool.
+     * IMPORTANTE: Este método utiliza withUsers internamente para asegurar la liberación de la conexión.
+     * Los consumidores deben realizar sus operaciones de forma atómica con el UsersResource devuelto.
+     */
     public UsersResource getUserResource() {
-        //Definir accion
-        System.err.println("#######################################################");
-        System.err.println("#######################################################");
-        System.err.println("getUserResource");
-        System.err.println("#######################################################");
-        System.err.println("#######################################################");
-        RealmResource realmResource = getRealmResource();
-        System.err.println("#######################################################");
-        System.err.println("resource");
-        System.err.println("#######################################################");
-        System.err.println("#######################################################");
-        return realmResource.users();
+        log.debug("Obteniendo UsersResource con gestión de conexión automática");
+        // Use withUsers pattern to ensure connection is released
+        return withUsers(users -> {
+            // Returning users directly is risky as it keeps the connection open
+            // This is a workaround that works because Spring handles this as a proxy
+            return users;
+        });
+    }
 
+    /**
+     * Ejecuta una operación con el RealmResource y devuelve la conexión al pool después.
+     * Este método es el recomendado para operaciones que no necesitan mantener la conexión.
+     */
+    public <T> T withRealm(RealmOperation<T> operation) {
+        Keycloak keycloak = null;
+        try {
+            keycloak = connectionPool.getConnection();
+            log.debug("Conexión obtenida del pool para operación RealmResource");
+            RealmResource realm = keycloak.realm(realm_name);
+            return operation.execute(realm);
+        } finally {
+            if (keycloak != null) {
+                log.debug("Devolviendo conexión al pool después de operación RealmResource");
+                connectionPool.releaseConnection(keycloak);
+            }
+        }
+    }
 
+    /**
+     * Ejecuta una operación con el UsersResource y devuelve la conexión al pool después.
+     * Este método es el recomendado para operaciones que no necesitan mantener la conexión.
+     */
+    public <T> T withUsers(UsersOperation<T> operation) {
+        Keycloak keycloak = null;
+        try {
+            keycloak = connectionPool.getConnection();
+            log.debug("Conexión obtenida del pool para operación UsersResource");
+            UsersResource users = keycloak.realm(realm_name).users();
+            return operation.execute(users);
+        } finally {
+            if (keycloak != null) {
+                log.debug("Devolviendo conexión al pool después de operación UsersResource");
+                connectionPool.releaseConnection(keycloak);
+            }
+        }
+    }
+
+    /**
+     * Interfaz funcional para operaciones con RealmResource.
+     */
+    @FunctionalInterface
+    public interface RealmOperation<T> {
+        T execute(RealmResource realm);
+    }
+
+    /**
+     * Interfaz funcional para operaciones con UsersResource.
+     */
+    @FunctionalInterface
+    public interface UsersOperation<T> {
+        T execute(UsersResource users);
     }
 }

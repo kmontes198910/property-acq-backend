@@ -6,6 +6,7 @@ import com.kynsof.identity.domain.dto.ModuleDto;
 import com.kynsof.identity.domain.dto.moduleDto.ModuleDataDto;
 import com.kynsof.identity.domain.dto.moduleDto.ModuleNodeDto;
 import com.kynsof.identity.domain.interfaces.service.IModuleService;
+import com.kynsof.identity.infrastructure.config.IdentityCacheConfig;
 import com.kynsof.identity.infrastructure.entities.ModuleSystem;
 import com.kynsof.identity.infrastructure.repository.command.ModuleWriteDataJPARepository;
 import com.kynsof.identity.infrastructure.repository.query.ModuleReadDataJPARepository;
@@ -16,7 +17,9 @@ import com.kynsof.share.core.domain.request.FilterCriteria;
 import com.kynsof.share.core.domain.response.ErrorField;
 import com.kynsof.share.core.domain.response.PaginatedResponse;
 import com.kynsof.share.core.infrastructure.specifications.GenericSpecificationsBuilder;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -24,50 +27,67 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
 public class ModuleServiceImpl implements IModuleService {
 
-    private final ModuleWriteDataJPARepository commandRepository;
-    private final ModuleReadDataJPARepository queryRepository;
+    private final ModuleWriteDataJPARepository repositoryCommand;
+    private final ModuleReadDataJPARepository repositoryQuery;
 
-    @Autowired
-    public ModuleServiceImpl(ModuleWriteDataJPARepository commandRepository, ModuleReadDataJPARepository queryRepository) {
-        this.commandRepository = commandRepository;
-        this.queryRepository = queryRepository;
+    public ModuleServiceImpl(ModuleWriteDataJPARepository repositoryCommand,
+                             ModuleReadDataJPARepository repositoryQuery) {
+        this.repositoryCommand = repositoryCommand;
+        this.repositoryQuery = repositoryQuery;
     }
 
     @Override
     @Transactional
+    @Caching(evict = {
+            @CacheEvict(value = {
+                    IdentityCacheConfig.MODULE_CACHE
+            }, allEntries = true)
+    })
     public void create(ModuleDto object) {
-        commandRepository.save(new ModuleSystem(object));
+        ModuleSystem moduleEntity = new ModuleSystem(object);
+        this.repositoryCommand.save(moduleEntity);
     }
 
     @Override
-    @Transactional
-    public void update(ModuleDto object) {
-        var update = new ModuleSystem(object);
+    @Caching(evict = {
+            @CacheEvict(value = {
+                    IdentityCacheConfig.MODULE_CACHE
+            }, allEntries = true)
+    })
+    public void update(ModuleDto objectDto) {
+        ModuleSystem update = new ModuleSystem(objectDto);
         update.setUpdatedAt(LocalDateTime.now());
-        commandRepository.save(update);
+        this.repositoryCommand.save(update);
     }
 
     @Override
-    @Transactional
-    public void delete(ModuleDto delete) {
-        var moduleSystem = new ModuleSystem(delete);
-        moduleSystem.setName(delete.getName() + "-" + UUID.randomUUID());
-        commandRepository.save(moduleSystem);
+    @Caching(evict = {
+            @CacheEvict(value = {
+                    IdentityCacheConfig.MODULE_CACHE
+            }, allEntries = true)
+    })
+    public void delete(ModuleDto moduleDto) {
+        try {
+            this.repositoryCommand.deleteById(moduleDto.getId());
+        } catch (Exception e) {
+            throw new BusinessNotFoundException(new GlobalBusinessException(DomainErrorMessage.NOT_DELETE,
+                    new ErrorField("id", "Element cannot be deleted has a related element.")));
+        }
     }
 
     @Override
     @Transactional
     public void deleteAll(List<UUID> modules) {
-        var delete = modules.stream()
+        modules.stream()
                 .map(this::findById)
                 .map(this::createDeactivatedModule)
-                .toList();
-        commandRepository.saveAll(delete);
+                .forEach(repositoryCommand::save);
     }
 
     private ModuleSystem createDeactivatedModule(ModuleDto moduleDto) {
@@ -77,35 +97,26 @@ public class ModuleServiceImpl implements IModuleService {
     }
 
     @Override
+    @Cacheable(value = IdentityCacheConfig.MODULE_CACHE, key = "#id", unless = "#result == null")
     public ModuleDto findById(UUID id) {
-        return queryRepository.findById(id)
-                .map(ModuleSystem::toAggregate)
-                .orElseThrow(() -> new BusinessNotFoundException(new GlobalBusinessException(
-                        DomainErrorMessage.MODULE_NOT_FOUND, new ErrorField("id", "Module not found."))));
+        Optional<ModuleSystem> object = this.repositoryQuery.findById(id);
+        if (object.isPresent()) {
+            return object.get().toAggregate();
+        }
+        throw new BusinessNotFoundException(new GlobalBusinessException(DomainErrorMessage.MODULE_NOT_FOUND,
+                new ErrorField("id", "Module not found.")));
     }
 
     @Override
+    // Modificando la anotación de caché para incluir también el ordenamiento en la clave
+    @Cacheable(value = IdentityCacheConfig.MODULE_CACHE, 
+               key = "'search:' + #pageable.pageNumber + ':' + #pageable.pageSize + ':' + #pageable.sort + ':' + T(java.util.Objects).hash(#filterCriteria)", 
+               unless = "#result == null")
     public PaginatedResponse search(Pageable pageable, List<FilterCriteria> filterCriteria) {
-     //   filterCriteria(filterCriteria);
         var specifications = new GenericSpecificationsBuilder<ModuleResponse>(filterCriteria);
-        var data = queryRepository.findAll(specifications, pageable);
+        var data = repositoryQuery.findAll(specifications, pageable);
         return getPaginatedResponse(data);
     }
-
-
-//    private void filterCriteria(List<FilterCriteria> filterCriteria) {
-//        for (FilterCriteria filter : filterCriteria) {
-//
-//            if ("status".equals(filter.getKey()) && filter.getValue() instanceof String) {
-//                try {
-//                    Status enumValue = Status.valueOf((String) filter.getValue());
-//                    filter.setValue(enumValue);
-//                } catch (IllegalArgumentException e) {
-//                    System.err.println("Valor inválido para el tipo Enum Status: " + filter.getValue());
-//                }
-//            }
-//        }
-//    }
 
     private PaginatedResponse getPaginatedResponse(Page<ModuleSystem> data) {
         var moduleListResponses = data.getContent().stream()
@@ -117,7 +128,7 @@ public class ModuleServiceImpl implements IModuleService {
 
     @Override
     public List<ModuleNodeDto> buildStructure() {
-        var modules = queryRepository.findAll();
+        var modules = repositoryQuery.findAll();
         return modules.stream().map(this::createModuleNode).toList();
     }
 
@@ -140,6 +151,6 @@ public class ModuleServiceImpl implements IModuleService {
 
     @Override
     public Long countByNameAndNotId(String name, UUID id) {
-        return queryRepository.countByNameAndNotId(name, id);
+        return repositoryQuery.countByNameAndNotId(name, id);
     }
 }
