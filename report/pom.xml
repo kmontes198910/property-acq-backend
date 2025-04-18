@@ -259,7 +259,19 @@
             <artifactId>jasperreports-fonts</artifactId>
             <version>7.0.1</version>
         </dependency>
-
+        <!-- Dependencia para el compilador JavaScript -->
+        <dependency>
+            <groupId>net.sf.jasperreports</groupId>
+            <artifactId>jasperreports-javascript</artifactId>
+            <version>7.0.1</version>
+        </dependency>
+        <!-- Groovy para compilación de Jasper Reports -->
+        <dependency>
+            <groupId>org.codehaus.groovy</groupId>
+            <artifactId>groovy-all</artifactId>
+            <version>3.0.20</version>
+            <type>pom</type>
+        </dependency>
 
         <!-- Add Apache FOP for PDF rendering -->
         <dependency>

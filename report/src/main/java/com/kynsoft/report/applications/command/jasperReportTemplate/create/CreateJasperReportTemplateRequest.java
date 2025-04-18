@@ -18,9 +18,6 @@ public class CreateJasperReportTemplateRequest {
     private String name;
     private String description;
     private JasperReportTemplateType type;
-    private String file;
-    private String parameters;
+    private String fileBase64;  // El archivo en formato base64
     private UUID dbConection;
-    private String query;
-    private Status status;
 }
