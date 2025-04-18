@@ -2,6 +2,7 @@ package com.kynsoft.report.applications.command.jasperReportTemplate.create;
 
 
 import com.kynsof.share.core.application.FileServices.IFileUploadService;
+import com.kynsof.share.core.application.FileServices.UploadResponse;
 import com.kynsof.share.core.domain.bus.command.ICommandHandler;
 import com.kynsoft.report.domain.dto.DBConnectionDto;
 import com.kynsoft.report.domain.dto.JasperReportTemplateDto;
@@ -10,12 +11,13 @@ import com.kynsoft.report.domain.services.IDBConnectionService;
 import com.kynsoft.report.domain.services.IJasperReportTemplateService;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperCompileManager;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.util.JRSaver;
 import org.springframework.stereotype.Component;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.nio.file.Path;
-import java.nio.file.Paths;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
 import java.util.UUID;
 
 @Component
@@ -42,68 +44,42 @@ public class CreateJasperReportTemplateCommandHandler implements ICommandHandler
                 throw new RuntimeException("El archivo JRXML está vacío o no se proporcionó.");
             }
 
-            Path jarPath = Paths.get("").toAbsolutePath(); // Obtiene la ruta de ejecución del JAR
-            System.out.println("El JAR se está ejecutando en: " + jarPath);
-            String jrxmlFilePath = jarPath + File.separator + "receta.jrxml";
-            String jasperFilePath = jarPath + File.separator + "receta.jasper";
-
-            try (FileOutputStream fos = new FileOutputStream(jrxmlFilePath)) {
-                fos.write(jrxmlBytes);
-                fos.flush();
-            }
-
-            // Compilar y guardar el reporte .jasper
+            // Configuración para el compilador de Jasper
+            System.setProperty("net.sf.jasperreports.compiler.class", "net.sf.jasperreports.engine.design.JRJdtCompiler");
+            System.setProperty("net.sf.jasperreports.compiler.useThreadContextClassLoader", "true");
+            
+            // Establecer el class loader adecuado
+            Thread.currentThread().setContextClassLoader(this.getClass().getClassLoader());
+            
+            // Compilar el reporte desde un InputStream directamente a un objeto JasperReport
+            InputStream jrxmlInputStream = new ByteArrayInputStream(jrxmlBytes);
+            JasperReport jasperReport;
             try {
-                System.setProperty("net.sf.jasperreports.compiler.class", "net.sf.jasperreports.engine.design.JRJdtCompiler");
-                JasperCompileManager.compileReportToFile(jrxmlFilePath, jasperFilePath);
-//                JasperReport jasperReport = JasperCompileManager.compileReport(jrxmlFilePath);
-//                JRSaver.saveObject(jasperReport, jasperFilePath);
-
-                System.err.println("Reporte compilado correctamente en: " + jasperFilePath);
+                jasperReport = JasperCompileManager.compileReport(jrxmlInputStream);
+                System.err.println("Reporte compilado correctamente en memoria");
             } catch (JRException e) {
                 e.printStackTrace();
-                System.err.println();
                 throw new RuntimeException("Error al compilar el reporte: " + e.getMessage());
             }
-//            // Establece el thread context class loader
-//            Thread.currentThread().setContextClassLoader(this.getClass().getClassLoader());
-//
-//            // Configura para usar el compilador Eclipse (JDT)
-//            System.setProperty("net.sf.jasperreports.compiler.useThreadContextClassLoader", "true");
-//            System.setProperty("net.sf.jasperreports.compiler.class", "net.sf.jasperreports.engine.design.JRJdtCompiler");
-//            InputStream jrxmlInputStream = new ByteArrayInputStream(jrxmlBytes);
-//            JasperReport jasperReport = JasperCompileManager.compileReport(jrxmlInputStream);
 
+            // Convertir el JasperReport a bytes para almacenamiento o transferencia
+            ByteArrayOutputStream jasperOutputStream = new ByteArrayOutputStream();
+            JRSaver.saveObject(jasperReport, jasperOutputStream);
+            byte[] jasperBytes = jasperOutputStream.toByteArray();
 
+            // Imprimir información de depuración
+            System.out.println("Archivo Jasper compilado correctamente. Tamaño: " + jasperBytes.length + " bytes");
 
-            // 4️⃣ Convertir `JasperReport` a bytes
-//            ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-//            ObjectOutputStream objectOutputStream = new ObjectOutputStream(outputStream);
-//            objectOutputStream.writeObject(jasperReport);
-//            objectOutputStream.flush();
-//            byte[] jasperBytes = outputStream.toByteArray();
-//            objectOutputStream.close();
-//            outputStream.close();
-
-            // ✅ Log para depuración
-            System.out.println("Archivo Jasper compilado correctamente.");
-
-            // 5️⃣ Llamar al endpoint `/upload` para subir el archivo compilado a S3
-            //  uploadJasperToS3(jasperBytes, command.getCode());
-
-
-            // 5️⃣ Guardar la referencia en base de datos (si aplica)
-            // UploadResponse result=  uploadJasperToS3(jasperBytes, command.getCode());
-         //   UploadResponse result = fileUploadService.uploadJasperToS3(jasperBytes, command.getCode(),
-                //    "jasper-reports/");
-
-           // System.err.println("Url del Jasper: " + result.getUrl());
+            // Guardar el reporte en la base de datos sin subir a S3 por ahora
+            // En un futuro, descomentar esta línea si se implementa la subida a S3:
+           UploadResponse result = fileUploadService.uploadJasperToS3(jasperBytes, command.getCode(), "jasper-reports/");
+            
             JasperReportTemplateDto templateDto = new JasperReportTemplateDto(
                     UUID.randomUUID(),
                     command.getCode(),
                     command.getName(),
                     command.getDescription(),
-                    "result.getUrl()",
+                    "local://jasper-reports/" + command.getCode() + ".jasper", // Usar una URL local por ahora
                     command.getType(),
                     dbConnectionDto,
                     Status.ACTIVE
@@ -111,52 +87,11 @@ public class CreateJasperReportTemplateCommandHandler implements ICommandHandler
 
             service.create(templateDto);
 
-            System.err.println("OK");
+            System.err.println("Template guardado con éxito");
         } catch (Exception e) {
-            System.err.println(e.getMessage());
+            System.err.println("Error al crear plantilla: " + e.getMessage());
+            e.printStackTrace();
             throw new RuntimeException(e);
-
         }
-
     }
-//
-//    private UploadResponse uploadJasperToS3(byte[] jasperBytes, String fileName) {
-//        RestTemplate restTemplate = new RestTemplate();
-//
-//        // Crear el cuerpo de la solicitud multipart
-//        MultiValueMap<String, Object> body = new LinkedMultiValueMap<>();
-//        body.add("fileService", new ByteArrayResource(jasperBytes) {
-//            @Override
-//            public String getFilename() {
-//                return fileName + ".jasper";
-//            }
-//        });
-//        body.add("folderPath", "jasper-reports/");
-//        body.add("objectId", fileName);
-//
-//        // Crear la cabecera con tipo de contenido multipart/form-data
-//        HttpHeaders headers = new HttpHeaders();
-//        headers.setContentType(MediaType.MULTIPART_FORM_DATA);
-//
-//        HttpEntity<MultiValueMap<String, Object>> requestEntity = new HttpEntity<>(body, headers);
-//
-//        // URL del servicio donde subimos el archivo
-//        String uploadUrl = "http://localhost:8097/api/files/upload";
-//
-//        // Enviar la petición y obtener la respuesta bloqueante
-//        ResponseEntity<Map> response = restTemplate.exchange(
-//                uploadUrl, HttpMethod.POST, requestEntity, Map.class
-//        );
-//
-//        // Extraer solo `data` y mapear a `UploadResponse`
-//        if (response.getBody() != null) {
-//            Map<String, Object> bodyResponse = (Map<String, Object>) response.getBody().get("body");
-//            if (bodyResponse != null && bodyResponse.containsKey("data")) {
-//                Map<String, Object> data = (Map<String, Object>) bodyResponse.get("data");
-//                return new UploadResponse((String) data.get("url"), (String) data.get("id")); // ✅ Mapea a `UploadResponse`
-//            }
-//        }
-//
-//        throw new RuntimeException("❌ No se pudo extraer `url` e `id` de la respuesta");
-//    }
 }

@@ -86,13 +86,6 @@ public class JasperReportTemplateController {
                 });
     }
 
-//    @PostMapping("")
-//    public ResponseEntity<?> create(@RequestBody CreateJasperReportTemplateRequest request) {
-//        CreateJasperReportTemplateCommand createCommand = CreateJasperReportTemplateCommand.fromRequest(request);
-//        CreateJasperReportTemplateMessage response = mediator.send(createCommand);
-//
-//        return ResponseEntity.ok(response);
-//    }
 
     @GetMapping(path = "/{id}")
     public ResponseEntity<?> getById(@PathVariable UUID id) {
