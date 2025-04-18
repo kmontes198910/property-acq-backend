@@ -9,7 +9,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-public class RabbitMQConsumerConfig {
+public class RabbitMQConsumerBusinessConfig {
 
     //Este valor debe de ser igual al micro que produce
     public static final String BUSINESS_EXCHANGE = "business.topic.exchange";
