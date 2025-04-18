@@ -38,10 +38,10 @@ RUN apt-get update && \
 # Copia el JAR generado desde la etapa de construcción
 COPY --from=builder /build/target/report-1.0.0.jar /app/report-1.0.0.jar
 
-# Copia los recursos necesarios para JasperReports
-COPY --from=builder /build/src/main/resources/templates /app/resources/templates
-COPY --from=builder /build/receta.jrxml /app/receta.jrxml
-COPY --from=builder /build/receta.jasper /app/receta.jasper
+## Copia los recursos necesarios para JasperReports
+#COPY --from=builder /build/src/main/resources/templates /app/resources/templates
+#COPY --from=builder /build/receta.jrxml /app/receta.jrxml
+#COPY --from=builder /build/receta.jasper /app/receta.jasper
 
 # Crea directorios necesarios para la aplicación
 RUN mkdir -p /app/temp /app/jasper-output
