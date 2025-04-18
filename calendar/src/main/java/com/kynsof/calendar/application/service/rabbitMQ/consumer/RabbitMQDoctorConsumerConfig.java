@@ -21,20 +21,20 @@ public class RabbitMQDoctorConsumerConfig {
     public static final String DOCTOR_QUEUE = "doctor.queue.calendar";
 
     @Bean
-    public TopicExchange businessExchange() {
+    public TopicExchange doctorExchange() {
         return new TopicExchange(DOCTOR_EXCHANGE);
     }
 
     // Cada microservicio debe usar un nombre de cola ÚNICO
     @Bean
-    public Queue businessCreatedQueue() {
+    public Queue doctorCreatedQueue() {
         return new Queue(DOCTOR_QUEUE, true);
     }
 
     @Bean
-    public Binding businessCreatedBinding() {
-        return BindingBuilder.bind(businessCreatedQueue())
-                           .to(businessExchange())
+    public Binding doctorCreatedBinding() {
+        return BindingBuilder.bind(doctorCreatedQueue())
+                           .to(doctorExchange())
                            .with(DOCTOR_CREATED_ROUTING_KEY);
     }
 
