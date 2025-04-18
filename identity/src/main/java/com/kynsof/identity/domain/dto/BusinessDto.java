@@ -28,13 +28,14 @@ public class BusinessDto  implements Serializable {
     private double balance;
     private String phone;
     private String email;
+    private String webSite;
 
     private GeographicLocationDto geographicLocationDto;
     private List<ModuleDto> moduleDtoList;
 
     public BusinessDto(UUID id, String name, String latitude, String longitude, String description, String logo,
                        String ruc, EBusinessStatus status, GeographicLocationDto geographicLocationDto, String address,
-                       String phone, String email) {
+                       String phone, String email, String webSite) {
         this.id = id;
         this.name = name;
         this.latitude = latitude;
@@ -47,6 +48,7 @@ public class BusinessDto  implements Serializable {
         this.address = address;
         this.phone = phone;
         this.email = email;
+        this.webSite = webSite;
     }
 
 }

@@ -47,12 +47,14 @@ public class UpdateBusinessCommandHandler implements ICommandHandler<UpdateBusin
         UpdateIfNotNull.updateIfNotNull(updateBusiness::setLongitude, command.getLongitude());
         UpdateIfNotNull.updateIfNotNull(updateBusiness::setLatitude, command.getLatitude());
         UpdateIfNotNull.updateIfNotNull(updateBusiness::setAddress, command.getAddress());
-        
+
         updateBusiness.setGeographicLocationDto(location);
-        
+
         UpdateIfNotNull.updateIfNotNull(updateBusiness::setLogo, command.getLogo());
         updateBusiness.setPhone(command.getPhone());
         updateBusiness.setEmail(command.getEmail());
+        updateBusiness.setWebSite(command.getWebSite());
+
         service.update(updateBusiness);
         eventPublisherService.publishBusinessEvent(new BusinessRabbitMQDto(
                 updateBusiness.getId(),

@@ -35,6 +35,7 @@ public class Business {
     private double balance;
     private String phone;
     private String email;
+    private String webSite;
 
     @OneToMany(mappedBy = "business")
     private Set<UserPermissionBusiness> userPermissionBusinesses = new HashSet<>();
@@ -62,6 +63,7 @@ public class Business {
         this.balance = business.getBalance();
         this.phone = business.getPhone();
         this.email = business.getEmail();
+        this.webSite = business.getWebSite();
     }
 
     public BusinessDto toAggregate () {
@@ -77,7 +79,8 @@ public class Business {
                 geographicLocation != null ? geographicLocation.toAggregate() : null,
                 address,
                 phone,
-                email
+                email,
+                webSite
         );
         businessDto.setBalance(balance);
         businessDto.setCreateAt(createdAt);

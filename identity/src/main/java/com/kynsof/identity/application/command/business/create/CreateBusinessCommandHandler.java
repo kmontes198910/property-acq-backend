@@ -52,7 +52,8 @@ public class CreateBusinessCommandHandler implements ICommandHandler<CreateBusin
                 location,
                 command.getAddress(),
                 command.getPhone(),
-                command.getEmail()
+                command.getEmail(),
+                command.getWebSite()
         );
 
         create.setCreateAt(ConfigureTimeZone.getTimeZone());

@@ -18,5 +18,5 @@ public class CreateBusinessRequest {
     private UUID geographicLocation;
     private String phone;
     private String email;
-
+    private String webSite;
 }
