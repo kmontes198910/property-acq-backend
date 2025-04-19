@@ -14,10 +14,16 @@ import java.util.UUID;
 public class DeleteFileCommand implements ICommand {
 
     private UUID id;
+    private boolean result;
+
+    public DeleteFileCommand(UUID id) {
+        this.id = id;
+        this.result = false;
+    }
 
     @Override
     public ICommandMessage getMessage() {
-        return new DeleteFileMessage(id);
+        return new DeleteFileMessage(result);
     }
 
 }

@@ -36,13 +36,31 @@ public class AFileServiceImpl implements IAFileService {
 
     @Override
     public UUID create(AFileDto object) {
+        // Verificar si ya existe un ID en el DTO
+        if (object.getId() == null) {
+            // Asignar un nuevo UUID a la entidad antes de persistirla
+            object.setId(UUID.randomUUID());
+        }
+        
         AFile file = this.commandRepository.save(new AFile(object));
         return file.getId();
     }
 
     @Override
     public void update(AFileDto object) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        Optional<AFile> existingFile = this.queryRepository.findById(object.getId());
+        if (existingFile.isPresent()) {
+            AFile file = existingFile.get();
+            file.setName(object.getName());
+            file.setUrl(object.getUrl());
+            file.setObjectId(object.getObjectId());
+            file.setObjectType(object.getObjectType());
+            file.setMimeType(object.getMimeType());
+            file.setSize(object.getSize());
+            this.commandRepository.save(file);
+        } else {
+            throw new BusinessNotFoundException(new GlobalBusinessException(DomainErrorMessage.OBJECT_NOT_FOUNT, new ErrorField("id", "No se encontró el archivo con el ID proporcionado.")));
+        }
     }
 
     @Override

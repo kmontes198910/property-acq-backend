@@ -8,12 +8,12 @@ import java.util.UUID;
 @Getter
 public class DeleteFileMessage implements ICommandMessage {
 
-    private final UUID id;
+    private final boolean result;
 
     private final String command = "DELETE_FILE";
 
-    public DeleteFileMessage(UUID id) {
-        this.id = id;
+    public DeleteFileMessage(boolean result) {
+        this.result = result;
     }
 
 }

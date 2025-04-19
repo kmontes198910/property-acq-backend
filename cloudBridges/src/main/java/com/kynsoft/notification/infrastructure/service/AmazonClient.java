@@ -11,6 +11,7 @@ import org.springframework.web.multipart.MultipartFile;
 import software.amazon.awssdk.auth.credentials.AwsBasicCredentials;
 import software.amazon.awssdk.auth.credentials.StaticCredentialsProvider;
 import software.amazon.awssdk.awscore.exception.AwsServiceException;
+import software.amazon.awssdk.core.ResponseBytes;
 import software.amazon.awssdk.core.exception.SdkClientException;
 import software.amazon.awssdk.core.sync.RequestBody;
 import software.amazon.awssdk.regions.Region;
@@ -141,9 +142,118 @@ public class AmazonClient implements IAmazonClient {
 
     @Override
     public AFileDto loadFile(String url) {
-        String filename = url.replace(this.cloudfrontDomain, "");
-
-        return new AFileDto(filename, url);
+        try {
+            // Extraer la clave del objeto a partir de la URL
+            String objectKey = url.replace(this.cloudfrontDomain, "");
+            
+            System.out.println("DEBUG - Cargando archivo desde S3 - Bucket: " + this.bucketName + ", Key: " + objectKey);
+            
+            // Crear la solicitud para obtener el objeto
+            GetObjectRequest getObjectRequest = GetObjectRequest.builder()
+                .bucket(this.bucketName)
+                .key(objectKey)
+                .build();
+            
+            // Obtener el objeto de S3 directamente como un array de bytes
+            ResponseBytes<GetObjectResponse> objectBytes = s3Client.getObjectAsBytes(getObjectRequest);
+            
+            // Obtener los metadatos y el contenido
+            GetObjectResponse objectResponse = objectBytes.response();
+            String contentType = objectResponse.contentType();
+            byte[] content = objectBytes.asByteArray();
+            
+            System.out.println("DEBUG - Contenido recibido de S3: " + content.length + " bytes");
+            System.out.println("DEBUG - Tipo de contenido: " + contentType);
+            
+            // Crear el DTO con la información necesaria
+            AFileDto fileDto = new AFileDto();
+            fileDto.setUrl(url);
+            
+            // Establecer el nombre del archivo extrayéndolo de la clave
+            String fileName = objectKey;
+            int lastSlashIndex = objectKey.lastIndexOf('/');
+            if (lastSlashIndex >= 0) {
+                fileName = objectKey.substring(lastSlashIndex + 1);
+            }
+            fileDto.setName(fileName);
+            System.out.println("DEBUG - Nombre de archivo detectado: " + fileName);
+            
+            // Establecer el tipo MIME
+            if (contentType == null || contentType.isEmpty()) {
+                // Intentar inferir el tipo MIME a partir de la extensión
+                contentType = inferContentType(fileName);
+                System.out.println("DEBUG - Tipo MIME inferido: " + contentType);
+            }
+            fileDto.setMimeType(contentType);
+            
+            // Establecer el tamaño
+            fileDto.setSize((long) content.length);
+            
+            // NO codificar los bytes en Base64, devolverlos tal cual
+            // Esto evita problemas de doble codificación
+            fileDto.setFileContent(java.util.Base64.getEncoder().encodeToString(content));
+            
+            // Verificar que el contenido no esté vacío
+            if (content.length > 0) {
+                System.out.println("DEBUG - Primeros bytes (HEX): " + bytesToHex(content, 16));
+            }
+            
+            System.out.println("DEBUG - Archivo cargado exitosamente - Nombre: " + fileName + 
+                              ", Tamaño: " + content.length + " bytes, Tipo: " + contentType);
+            
+            return fileDto;
+        } catch (NoSuchKeyException e) {
+            System.err.println("ERROR - El archivo no existe en S3: " + e.getMessage());
+            return null;
+        } catch (Exception e) {
+            System.err.println("ERROR - Error al cargar el archivo desde S3: " + e.getMessage());
+            e.printStackTrace();
+            return null;
+        }
+    }
+    
+    /**
+     * Convierte bytes a representación hexadecimal (para depuración)
+     */
+    private String bytesToHex(byte[] bytes, int limit) {
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < Math.min(bytes.length, limit); i++) {
+            sb.append(String.format("%02X ", bytes[i] & 0xFF));
+        }
+        if (bytes.length > limit) {
+            sb.append("...");
+        }
+        return sb.toString();
+    }
+    
+    /**
+     * Infiere el tipo de contenido basado en la extensión del archivo
+     */
+    private String inferContentType(String fileName) {
+        if (fileName == null) {
+            return "application/octet-stream";
+        }
+        
+        String lowerCaseName = fileName.toLowerCase();
+        if (lowerCaseName.endsWith(".pdf")) {
+            return "application/pdf";
+        } else if (lowerCaseName.endsWith(".jpg") || lowerCaseName.endsWith(".jpeg")) {
+            return "image/jpeg";
+        } else if (lowerCaseName.endsWith(".png")) {
+            return "image/png";
+        } else if (lowerCaseName.endsWith(".gif")) {
+            return "image/gif";
+        } else if (lowerCaseName.endsWith(".doc")) {
+            return "application/msword";
+        } else if (lowerCaseName.endsWith(".docx")) {
+            return "application/vnd.openxmlformats-officedocument.wordprocessingml.document";
+        } else if (lowerCaseName.endsWith(".xls")) {
+            return "application/vnd.ms-excel";
+        } else if (lowerCaseName.endsWith(".xlsx")) {
+            return "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+        } else {
+            return "application/octet-stream";
+        }
     }
 
     public List<FileInfoDto> listAllFiles(String bucketName) {
