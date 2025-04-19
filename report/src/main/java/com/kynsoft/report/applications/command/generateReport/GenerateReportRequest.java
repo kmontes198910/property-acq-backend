@@ -16,4 +16,7 @@ public class GenerateReportRequest {
         private String reportFormatType;
         private Map<String, Object> parameters;
         private int CantCopy;
+        private boolean enableCache = true; // Habilitado por defecto
+        private String cacheKey; // Clave de caché personalizada (opcional)
+        private boolean forceRefresh = false; // Forzar actualización ignorando caché
 }

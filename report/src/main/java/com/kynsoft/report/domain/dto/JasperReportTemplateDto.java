@@ -1,7 +1,6 @@
 package com.kynsoft.report.domain.dto;
 
 import com.kynsoft.report.domain.dto.status.Status;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -11,7 +10,6 @@ import java.util.UUID;
 
 @Getter
 @Setter
-@AllArgsConstructor
 @NoArgsConstructor
 public class JasperReportTemplateDto {
     private  UUID id;
@@ -19,6 +17,7 @@ public class JasperReportTemplateDto {
     private  String templateName;
     private  String templateDescription;
     private  String templateContentUrl;
+    private  String jasperContentBase64;
     private  JasperReportTemplateType type;
     private LocalDateTime createdAt;
     private DBConnectionDto dbConection;
@@ -44,7 +43,21 @@ public class JasperReportTemplateDto {
         this.templateContentUrl = templateContentUrl;
         this.type = type;
         this.dbConection = dbConection;
-
+        this.status = status;
+    }
+    
+    public JasperReportTemplateDto(UUID id, String templateCode, String templateName, String templateDescription,
+                                  String templateContentUrl, String jasperContentBase64, JasperReportTemplateType type,
+                                  LocalDateTime createdAt, DBConnectionDto dbConection, Status status) {
+        this.id = id;
+        this.templateCode = templateCode;
+        this.templateName = templateName;
+        this.templateDescription = templateDescription;
+        this.templateContentUrl = templateContentUrl;
+        this.jasperContentBase64 = jasperContentBase64;
+        this.type = type;
+        this.createdAt = createdAt;
+        this.dbConection = dbConection;
         this.status = status;
     }
 }

@@ -26,6 +26,10 @@ public class JasperReportTemplate extends BaseEntity {
     private String templateName;
     private String templateDescription;
     private String templateContentUrl;
+    
+    @Column(columnDefinition = "TEXT")
+    private String jasperContentBase64;
+    
     @Enumerated(EnumType.STRING)
     private JasperReportTemplateType type;
 
@@ -51,17 +55,16 @@ public class JasperReportTemplate extends BaseEntity {
         this.templateName = jasperReportTemplateDto.getTemplateName();
         this.templateDescription = jasperReportTemplateDto.getTemplateDescription();
         this.templateContentUrl = jasperReportTemplateDto.getTemplateContentUrl();
+        this.jasperContentBase64 = jasperReportTemplateDto.getJasperContentBase64();
         this.type = jasperReportTemplateDto.getType();
-       // this.parameters = jasperReportTemplateDto.getParameters();
         this.dbConection = jasperReportTemplateDto.getDbConection() != null ? new DBConection(jasperReportTemplateDto.getDbConection()) : null;
-      //  this.query = jasperReportTemplateDto.getQuery();
         this.status = jasperReportTemplateDto.getStatus();
     }
 
-    public JasperReportTemplateDto toAggregate () {
+    public JasperReportTemplateDto toAggregate() {
         String templateContentUrlS = templateContentUrl != null ? templateContentUrl : null;
         DBConnectionDto conectionDto = dbConection != null ? dbConection.toAggregate() : null;
-        return new JasperReportTemplateDto(id, templateCode, templateName, templateDescription, templateContentUrlS, type, createdAt, conectionDto,status);
+        return new JasperReportTemplateDto(id, templateCode, templateName, templateDescription, templateContentUrlS, jasperContentBase64, type, createdAt, conectionDto, status);
     }
 
 }
