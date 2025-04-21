@@ -18,6 +18,7 @@ import org.springframework.stereotype.Component;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
+import java.util.Base64;
 import java.util.UUID;
 
 @Component
@@ -69,24 +70,26 @@ public class CreateJasperReportTemplateCommandHandler implements ICommandHandler
 
             // Imprimir información de depuración
             System.out.println("Archivo Jasper compilado correctamente. Tamaño: " + jasperBytes.length + " bytes");
-
-            // Guardar el reporte en la base de datos sin subir a S3 por ahora
-            // En un futuro, descomentar esta línea si se implementa la subida a S3:
-           UploadResponse result = fileUploadService.uploadJasperToS3(jasperBytes, command.getCode(), "jasper-reports/");
             
+            // Convertir los bytes del jasper a Base64 para almacenamiento en la base de datos
+            String jasperBase64 = Base64.getEncoder().encodeToString(jasperBytes);
+            System.out.println("Archivo Jasper convertido a Base64. Tamaño: " + jasperBase64.length() + " caracteres");
+
+
             JasperReportTemplateDto templateDto = new JasperReportTemplateDto(
                     UUID.randomUUID(),
                     command.getCode(),
                     command.getName(),
                     command.getDescription(),
-                    "local://jasper-reports/" + command.getCode() + ".jasper", // Usar una URL local por ahora
+                   "", // Usar la URL real del archivo subido
+                    jasperBase64, // Guardar el archivo .jasper en formato Base64
                     command.getType(),
+                    null, // createdAt será establecido por la base de datos
                     dbConnectionDto,
                     Status.ACTIVE
             );
 
             service.create(templateDto);
-
             System.err.println("Template guardado con éxito");
         } catch (Exception e) {
             System.err.println("Error al crear plantilla: " + e.getMessage());

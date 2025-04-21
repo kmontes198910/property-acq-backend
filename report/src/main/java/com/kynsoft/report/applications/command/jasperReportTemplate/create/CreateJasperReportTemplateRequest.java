@@ -1,7 +1,6 @@
 package com.kynsoft.report.applications.command.jasperReportTemplate.create;
 
 import com.kynsoft.report.domain.dto.JasperReportTemplateType;
-import com.kynsoft.report.domain.dto.status.Status;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -18,9 +17,6 @@ public class CreateJasperReportTemplateRequest {
     private String name;
     private String description;
     private JasperReportTemplateType type;
-    private String file;
-    private String parameters;
+    private String fileBase64;  // El archivo en formato base64
     private UUID dbConection;
-    private String query;
-    private Status status;
 }

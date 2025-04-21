@@ -7,6 +7,7 @@ import com.kynsoft.report.domain.dto.status.Status;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.Base64;
 import java.util.UUID;
 
 @Getter
@@ -24,7 +25,7 @@ public class CreateJasperReportTemplateCommand implements ICommand {
     private Status status;
 
     public CreateJasperReportTemplateCommand(String code, String name, String description, JasperReportTemplateType type,
-                                             byte[] file,  UUID dbConection) {
+                                             byte[] file, UUID dbConection) {
         this.id = UUID.randomUUID();
         this.code = code;
         this.name = name;
@@ -32,6 +33,20 @@ public class CreateJasperReportTemplateCommand implements ICommand {
         this.type = type;
         this.file = file;
         this.dbConection = dbConection;
+    }
+    
+    // Nuevo método para crear el comando a partir de la solicitud con base64
+    public static CreateJasperReportTemplateCommand fromRequest(CreateJasperReportTemplateRequest request) {
+        byte[] fileBytes = Base64.getDecoder().decode(request.getFileBase64());
+        
+        return new CreateJasperReportTemplateCommand(
+            request.getCode(),
+            request.getName(),
+            request.getDescription(),
+            request.getType(),
+            fileBytes,
+            request.getDbConection()
+        );
     }
 
     @Override
