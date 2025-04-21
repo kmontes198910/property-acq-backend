@@ -20,7 +20,7 @@ public class PatientCreatedConsumer {
         this.patientsService = patientsService;
     }
 
-    @RabbitListener(queues = "paciente.calendar")  // Cola quemada directamente
+//    @RabbitListener(queues = "paciente.calendar")  // Cola quemada directamente
     public void receiveMessage(String message) {
         try {
             System.err.println(message);

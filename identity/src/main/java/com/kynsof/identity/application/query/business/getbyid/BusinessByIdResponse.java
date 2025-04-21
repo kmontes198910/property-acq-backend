@@ -29,6 +29,8 @@ public class BusinessByIdResponse implements IResponse, Serializable {
     private EBusinessStatus status;
     private String phone;
     private String email;
+    private String webSite;
+    private String storageCapacity;
 
     private GeographicLocationResponse geolocation;
     private List<ModuleResponse> modules;
@@ -46,6 +48,8 @@ public class BusinessByIdResponse implements IResponse, Serializable {
         this.address = object.getAddress() != null ? object.getAddress() : null;
         this.phone = object.getPhone();
         this.email = object.getEmail();
+        this.webSite = object.getWebSite();
+        this.storageCapacity = object.getStorageCapacity();
         modules = object.getModuleDtoList() !=null ? object.getModuleDtoList().stream()
                 .map(moduleDto ->
                         new ModuleResponse(moduleDto.getId(), moduleDto.getName()))

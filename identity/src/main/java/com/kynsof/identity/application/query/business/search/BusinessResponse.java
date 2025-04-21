@@ -16,6 +16,7 @@ import java.util.UUID;
 @Getter
 @Setter
 public class BusinessResponse implements IResponse, Serializable {
+
     private UUID id;
     private String name;
     private String latitude;
@@ -29,6 +30,8 @@ public class BusinessResponse implements IResponse, Serializable {
     private Double balance;
     private String phone;
     private String email;
+    private String webSite;
+    private String storageCapacity;
 
     private GeographicLocationResponse geolocation;
 
@@ -47,8 +50,8 @@ public class BusinessResponse implements IResponse, Serializable {
         this.balance = object.getBalance();
         this.phone = object.getPhone();
         this.email = object.getEmail();
+        this.webSite = object.getWebSite();
+        this.storageCapacity = object.getStorageCapacity();
     }
-
-
 
 }

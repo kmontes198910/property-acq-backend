@@ -52,6 +52,7 @@ public class Patient {
         this.lastName = patients.getLastName();
         this.status = patients.getStatus();
         this.image = patients.getImage();
+        this.profession = patients.getProfession();
     }
 
     public PatientDto toAggregate() {
