@@ -22,6 +22,7 @@ public class FileResponse implements IResponse {
     private String userName;
     private String mimeType;
     private Long fileSize;  // Cambiado de size a fileSize para coincidir con el JSON
+    private String secureViewUrl;
     private UUID objectId;
     private String objectType;
     private UUID businessId;
@@ -64,5 +65,6 @@ public class FileResponse implements IResponse {
         this.businessId = aFileDto.getBusinessId();
         this.createdAt = aFileDto.getCreatedAt();
         this.updatedAt = aFileDto.getUpdatedAt();
+        this.secureViewUrl = aFileDto.getSecureViewUrl();
     }
 }
