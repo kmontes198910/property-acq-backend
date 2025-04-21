@@ -31,6 +31,7 @@ public class BusinessResponse implements IResponse, Serializable {
     private String phone;
     private String email;
     private String webSite;
+    private String storageCapacity;
 
     private GeographicLocationResponse geolocation;
 
@@ -50,6 +51,7 @@ public class BusinessResponse implements IResponse, Serializable {
         this.phone = object.getPhone();
         this.email = object.getEmail();
         this.webSite = object.getWebSite();
+        this.storageCapacity = object.getStorageCapacity();
     }
 
 }

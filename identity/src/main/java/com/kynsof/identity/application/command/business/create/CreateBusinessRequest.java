@@ -19,4 +19,5 @@ public class CreateBusinessRequest {
     private String phone;
     private String email;
     private String webSite;
+    private String storageCapacity;
 }

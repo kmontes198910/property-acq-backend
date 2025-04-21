@@ -36,6 +36,7 @@ public class Business {
     private String phone;
     private String email;
     private String webSite;
+    private String storageCapacity;
 
     @OneToMany(mappedBy = "business")
     private Set<UserPermissionBusiness> userPermissionBusinesses = new HashSet<>();
@@ -64,6 +65,7 @@ public class Business {
         this.phone = business.getPhone();
         this.email = business.getEmail();
         this.webSite = business.getWebSite();
+        this.storageCapacity = business.getStorageCapacity();
     }
 
     public BusinessDto toAggregate () {
@@ -80,7 +82,8 @@ public class Business {
                 address,
                 phone,
                 email,
-                webSite
+                webSite,
+                storageCapacity
         );
         businessDto.setBalance(balance);
         businessDto.setCreateAt(createdAt);

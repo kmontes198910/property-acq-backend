@@ -30,6 +30,7 @@ public class BusinessByIdResponse implements IResponse, Serializable {
     private String phone;
     private String email;
     private String webSite;
+    private String storageCapacity;
 
     private GeographicLocationResponse geolocation;
     private List<ModuleResponse> modules;
@@ -48,6 +49,7 @@ public class BusinessByIdResponse implements IResponse, Serializable {
         this.phone = object.getPhone();
         this.email = object.getEmail();
         this.webSite = object.getWebSite();
+        this.storageCapacity = object.getStorageCapacity();
         modules = object.getModuleDtoList() !=null ? object.getModuleDtoList().stream()
                 .map(moduleDto ->
                         new ModuleResponse(moduleDto.getId(), moduleDto.getName()))
