@@ -1,0 +1,22 @@
+package com.kynsoft.finamer.propertyacqcenter.infrastructure.entity.enums;
+
+public enum DocumentType {
+    ARTICLES_OF_ORGANIZATION,
+    OPERATING_AGREEMENT,
+    CERTIFICATE_OF_FORMATION,
+    CERTIFICATE_OF_GOOD_STANDING,
+    BYLAWS,
+    EIN_CONFIRMATION,
+    FEDERAL_TAX_ID,
+    STATE_TAX_ID,
+    ANNUAL_REPORT,
+    INSURANCE_POLICY,
+    DEED,
+    PROPERTY_APPRAISAL,
+    PURCHASE_AGREEMENT,
+    LOAN_DOCUMENT,
+    BANK_STATEMENT,
+    TAX_RETURN,
+    RESOLUTION,
+    OTHER
+}
