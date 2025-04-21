@@ -64,6 +64,7 @@ public class AFileServiceImpl implements IAFileService {
             file.setObjectType(object.getObjectType());
             file.setMimeType(object.getMimeType());
             file.setSize(object.getSize());
+            file.setSecureViewUrl(object.getSecureViewUrl());
             this.commandRepository.save(file);
         } else {
             throw new BusinessNotFoundException(new GlobalBusinessException(DomainErrorMessage.OBJECT_NOT_FOUNT, new ErrorField("id", "No se encontró el archivo con el ID proporcionado.")));

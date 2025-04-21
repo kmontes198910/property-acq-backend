@@ -4,7 +4,6 @@ import com.kynsof.share.core.domain.bus.query.IResponse;
 import com.kynsoft.notification.domain.dto.AFileDto;
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.beans.factory.annotation.Value;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -15,13 +14,12 @@ public class FileResponse implements IResponse {
     private UUID id;
     private String name;
     private String url;
-    private String viewUrl;
     private String objetId;
     private String path;
     private String userId;
     private String userName;
     private String mimeType;
-    private Long fileSize;  // Cambiado de size a fileSize para coincidir con el JSON
+    private Long fileSize;
     private String secureViewUrl;
     private UUID objectId;
     private String objectType;
@@ -37,12 +35,13 @@ public class FileResponse implements IResponse {
         this.userId = aFileDto.getUserId();
         this.userName = aFileDto.getUserName();
         this.mimeType = aFileDto.getMimeType();
-        this.fileSize = aFileDto.getSize();  // Mapear size del DTO a fileSize en la respuesta
+        this.fileSize = aFileDto.getSize();
         this.objectId = aFileDto.getObjectId();
         this.objectType = aFileDto.getObjectType();
         this.businessId = aFileDto.getBusinessId();
         this.createdAt = aFileDto.getCreatedAt();
         this.updatedAt = aFileDto.getUpdatedAt();
+        this.url = aFileDto.getUrl();
         this.secureViewUrl = aFileDto.getSecureViewUrl();
     }
 }

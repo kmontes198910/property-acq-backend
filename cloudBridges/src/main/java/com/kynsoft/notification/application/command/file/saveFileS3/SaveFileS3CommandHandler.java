@@ -67,7 +67,7 @@ public class SaveFileS3CommandHandler implements ICommandHandler<SaveFileS3Comma
             // Generar un UUID para el archivo
             UUID fileUuid = UUID.randomUUID();
             fileDto.setId(fileUuid);
-
+            fileDto.setUrl(fileUrl);
             fileDto.setSize(fileSize);
             fileDto.setName(command.getName());
             fileDto.setMimeType(file.getContentType());
