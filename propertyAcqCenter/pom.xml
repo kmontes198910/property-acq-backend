@@ -8,7 +8,7 @@
         <version>3.2.6</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
-    <groupId>com.kynsoft.finamer</groupId>
+    <groupId>com.kynsoft</groupId>
     <artifactId>propertyAcqCenter</artifactId>
     <version>1.0.0</version>
     <name>propertyAcqCenter</name>
