@@ -70,6 +70,6 @@ public class SaveFileS3Command implements ICommand {
 
     @Override
     public ICommandMessage getMessage() {
-        return new SaveFileS3Message(fileId, url, viewUrl, fileSize);
+        return new SaveFileS3Message(fileId, viewUrl, fileSize);
     }
 }
