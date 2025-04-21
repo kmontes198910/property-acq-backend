@@ -29,31 +29,9 @@ public class FileResponse implements IResponse {
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
-    // URL base para los endpoints seguros (se inyecta desde configuración)
-    private static String baseApiUrl;
-
-    @Value("${app.api.base-url:http://localhost:8080}")
-    public void setBaseApiUrl(String url) {
-        FileResponse.baseApiUrl = url;
-    }
-
-    public FileResponse() {
-    }
-
     public FileResponse(AFileDto aFileDto) {
         this.id = aFileDto.getId();
         this.name = aFileDto.getName();
-        
-        // Generar URLs seguras usando el ID del archivo
-        if (baseApiUrl != null) {
-            this.url = baseApiUrl + "/api/secure/files/" + aFileDto.getId();
-            this.viewUrl = baseApiUrl + "/api/secure/files/view/" + aFileDto.getId();
-        } else {
-            // Fallback a la URL del servicio original (solo para debug)
-            this.url = aFileDto.getUrl();
-            this.viewUrl = aFileDto.getUrl();
-        }
-        
         this.objetId = aFileDto.getObjetId();
         this.path = aFileDto.getPath();
         this.userId = aFileDto.getUserId();
