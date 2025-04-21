@@ -25,6 +25,7 @@ public class AFileDto {
     private UUID objectId;
     private String objectType;
     private String fileContent;
+    private String secureViewUrl;
     private UUID businessId; // Campo para almacenar la empresa (ID de negocio)
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;

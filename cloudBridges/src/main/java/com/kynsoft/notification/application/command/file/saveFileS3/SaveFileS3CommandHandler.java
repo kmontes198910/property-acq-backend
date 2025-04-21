@@ -33,9 +33,6 @@ public class SaveFileS3CommandHandler implements ICommandHandler<SaveFileS3Comma
     // Tamaño máximo de archivo (10 MB)
     private static final long MAX_FILE_SIZE = 10 * 1024 * 1024;
 
-    @Value("${app.api.base-url:http://localhost:8080}")
-    private String baseApiUrl;
-
     @Value("${app.secure-files.download-path:/api/secure/files/}")
     private String secureFilesPath;
 
@@ -70,8 +67,7 @@ public class SaveFileS3CommandHandler implements ICommandHandler<SaveFileS3Comma
             // Generar un UUID para el archivo
             UUID fileUuid = UUID.randomUUID();
             fileDto.setId(fileUuid);
-            
-            fileDto.setUrl(fileUrl);
+
             fileDto.setSize(fileSize);
             fileDto.setName(command.getName());
             fileDto.setMimeType(file.getContentType());
@@ -111,8 +107,10 @@ public class SaveFileS3CommandHandler implements ICommandHandler<SaveFileS3Comma
             logger.info("Archivo guardado en base de datos con ID: {}", id);
 
             // Generar la URL segura para el cliente (no exponer la URL de S3)
-            String secureUrl = baseApiUrl + secureFilesPath + id;
-            String secureViewUrl = baseApiUrl + secureViewPath + id;
+            String secureUrl = secureFilesPath + id;
+            String secureViewUrl = secureViewPath + id;
+            fileDto.setSecureViewUrl(secureViewUrl);
+            fileService.update(fileDto);
             command.setFileId(id);
             command.setUrl(secureUrl);
             command.setViewUrl(secureViewUrl);
