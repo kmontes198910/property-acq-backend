@@ -104,7 +104,8 @@ public class FileRecordController {
                     fileUploadDto.getObjectId(),
                     fileUploadDto.getFolderPath(),
                     userId,
-                    userName
+                    userName,
+                    fileUploadDto.getBusinessId()
             );
 
         } catch (IllegalArgumentException e) {
@@ -163,7 +164,8 @@ public class FileRecordController {
             String objectId,
             String folderPath,
             String userId,
-            String userName) {
+            String userName,
+            UUID businessId) {
 
         String valueId = Optional.ofNullable(objectId).orElse("");
         String folder = Optional.ofNullable(folderPath).filter(f -> !f.isEmpty()).orElse("");
@@ -198,7 +200,8 @@ public class FileRecordController {
                     valueId,
                     folder,
                     userId,
-                    userName
+                    userName,
+                    businessId
             );
 
             // Ejecutar comando

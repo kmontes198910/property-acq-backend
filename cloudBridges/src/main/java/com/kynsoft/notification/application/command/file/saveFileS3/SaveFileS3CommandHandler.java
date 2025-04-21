@@ -76,6 +76,7 @@ public class SaveFileS3CommandHandler implements ICommandHandler<SaveFileS3Comma
             fileDto.setName(command.getName());
             fileDto.setMimeType(file.getContentType());
             fileDto.setPath(command.getFolderPath());
+            fileDto.setBusinessId(command.getBusinessId());
 
             // Añadimos la información del usuario
             fileDto.setUserId(command.getUserId());
