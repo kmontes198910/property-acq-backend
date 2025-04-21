@@ -38,9 +38,10 @@ public class FileCustomRepository {
             Long count = ((Number) t.get("count")).longValue();
             Long totalSize = ((Number) t.get("totalSize")).longValue();
             // Convertir a GB dividiendo por 1024^3
-            Double totalSizeGB = totalSize / (1024.0 * 1024.0 * 1024.0);
+            // Convertir bytes a megabits
+            Double totalSizeMb = (totalSize * 8.0) / (1024.0 * 1024.0);
             
-            dtoList.add(new FilePathCountDto(path, count, totalSizeGB));
+            dtoList.add(new FilePathCountDto(path, count, totalSizeMb));
         }
         
         return dtoList;

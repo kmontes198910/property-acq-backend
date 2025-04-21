@@ -97,7 +97,7 @@ public class FileController {
             String objectId,
             String folderPath,
             String userId,
-            String userName) {
+            String userName ) {
 
         String valueId = Optional.ofNullable(objectId).orElse("");
         String folder = Optional.ofNullable(folderPath).filter(f -> !f.isEmpty()).orElse("");
@@ -132,7 +132,8 @@ public class FileController {
                     valueId,
                     folder,
                     userId,
-                    userName
+                    userName,
+                    null // businessId se puede establecer aquí si es necesario
             );
 
             // Ejecutar comando

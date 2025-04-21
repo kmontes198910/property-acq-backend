@@ -10,5 +10,5 @@ import lombok.NoArgsConstructor;
 public class FilePathCountDto {
     private String path;
     private Long count;
-    private Double totalDiskSpaceInGB;
+    private Double totalSizeMb;
 }
