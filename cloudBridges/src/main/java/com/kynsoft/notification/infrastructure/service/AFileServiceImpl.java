@@ -10,6 +10,7 @@ import com.kynsof.share.core.infrastructure.specifications.GenericSpecifications
 import com.kynsoft.notification.application.query.file.countbypath.FileCountByPathResponse;
 import com.kynsoft.notification.application.query.file.search.FileResponse;
 import com.kynsoft.notification.domain.dto.AFileDto;
+import com.kynsoft.notification.domain.dto.FileMimeTypeCountDto;
 import com.kynsoft.notification.domain.dto.FilePathCountDto;
 import com.kynsoft.notification.domain.service.IAFileService;
 import com.kynsoft.notification.infrastructure.entity.AFile;
@@ -131,6 +132,11 @@ public class AFileServiceImpl implements IAFileService {
     @Override
     public List<FilePathCountDto> getFilePathCount(UUID businessId) {
         return this.customRepository.countByPathAndBusinessId(businessId);
+    }
+
+    @Override
+    public List<FileMimeTypeCountDto> getFileMimeTypeCount(UUID businessId) {
+        return this.customRepository.countByMimeTypeAndBusinessId(businessId);
     }
 
     private PaginatedResponse getPaginatedResponse(Page<AFile> data) {

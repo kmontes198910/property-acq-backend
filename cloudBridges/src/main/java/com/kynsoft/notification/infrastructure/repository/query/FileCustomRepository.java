@@ -1,6 +1,7 @@
 package com.kynsoft.notification.infrastructure.repository.query;
 
 import com.kynsoft.notification.domain.dto.FilePathCountDto;
+import com.kynsoft.notification.domain.dto.FileMimeTypeCountDto;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -63,5 +64,32 @@ public class FileCustomRepository {
         query.setParameter("businessId", businessId);
         
         return (Long) query.getSingleResult();
+    }
+
+    @SuppressWarnings("unchecked")
+    public List<FileMimeTypeCountDto> countByMimeTypeAndBusinessId(UUID businessId) {
+        String jpql = "SELECT a.mimeType as mimeType, COUNT(a) as count, SUM(a.size) as totalSize " +
+                      "FROM AFile a " +
+                      "WHERE a.businessId = :businessId " +
+                      "GROUP BY a.mimeType " +
+                      "ORDER BY COUNT(a) DESC";
+        
+        Query query = entityManager.createQuery(jpql, Tuple.class);
+        query.setParameter("businessId", businessId);
+        
+        List<Tuple> results = query.getResultList();
+        List<FileMimeTypeCountDto> dtoList = new ArrayList<>();
+        
+        for (Tuple t : results) {
+            String mimeType = (String) t.get("mimeType");
+            Long count = ((Number) t.get("count")).longValue();
+            Long totalSize = ((Number) t.get("totalSize")).longValue();
+            // Convertir bytes a megabits
+            Double totalSizeMb = (totalSize * 8.0) / (1024.0 * 1024.0);
+            
+            dtoList.add(new FileMimeTypeCountDto(mimeType, count, totalSizeMb));
+        }
+        
+        return dtoList;
     }
 }
