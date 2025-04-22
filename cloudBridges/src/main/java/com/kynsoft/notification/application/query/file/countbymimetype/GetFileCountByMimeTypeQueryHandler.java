@@ -1,8 +1,8 @@
 package com.kynsoft.notification.application.query.file.countbymimetype;
 
+import com.kynsof.share.core.domain.bus.query.IQueryHandler;
 import com.kynsoft.notification.domain.dto.FileMimeTypeCountDto;
 import com.kynsoft.notification.domain.service.IAFileService;
-import com.kynsof.share.core.domain.bus.query.IQueryHandler;
 import org.springframework.stereotype.Component;
 
 import java.util.List;

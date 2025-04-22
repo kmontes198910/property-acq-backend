@@ -1,24 +1,21 @@
 package com.kynsoft.notification.controller;
 
 import com.kynsof.share.core.domain.response.ApiError;
-import com.kynsof.share.core.domain.response.ApiResponse;
 import com.kynsof.share.core.infrastructure.bus.IMediator;
 import com.kynsoft.notification.application.query.file.countbymimetype.FileCountByMimeTypeResponse;
 import com.kynsoft.notification.application.query.file.countbymimetype.GetFileCountByMimeTypeQuery;
 import com.kynsoft.notification.application.query.file.countbypath.FileCountByPathResponse;
 import com.kynsoft.notification.application.query.file.countbypath.GetFileCountByPathQuery;
-
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
-import io.swagger.v3.oas.annotations.media.Content;
-import io.swagger.v3.oas.annotations.media.Schema;
-import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.UUID;
 
