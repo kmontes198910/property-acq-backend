@@ -21,5 +21,6 @@ public interface IAFileService {
     FileCountByPathResponse countByPath(UUID businessId);
     List<FilePathCountDto> getFilePathCount(UUID businessId);
     Double calculateTotalDiskSpaceInGB(UUID businessId);
+    Double calculateTotalDiskSpaceInMB(UUID businessId);
     List<FileMimeTypeCountDto> getFileMimeTypeCount(UUID businessId);
 }

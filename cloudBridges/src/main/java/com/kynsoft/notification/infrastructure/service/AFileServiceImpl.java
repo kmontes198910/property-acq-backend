@@ -118,16 +118,30 @@ public class AFileServiceImpl implements IAFileService {
     }
 
     @Override
+    public Double calculateTotalDiskSpaceInMB(UUID businessId) {
+        // Obtener el tamaño total en bytes
+        Long totalSizeInBytes = this.customRepository.calculateTotalSizeByBusinessId(businessId);
+        
+        // Convertir bytes a megabytes (1 MB = 1,048,576 bytes)
+        final double BYTES_IN_MB = 1_048_576.0;
+        
+        // Calcular y redondear a 2 decimales
+        double totalSizeInMB = totalSizeInBytes / BYTES_IN_MB;
+        return Math.round(totalSizeInMB * 100.0) / 100.0;
+    }
+
+    // Mantener el método original para compatibilidad con código existente
+    @Override
     public Double calculateTotalDiskSpaceInGB(UUID businessId) {
         // Obtener el tamaño total en bytes
         Long totalSizeInBytes = this.customRepository.calculateTotalSizeByBusinessId(businessId);
         
-        // Convertir bytes a gigabytes (1 GB = 1,073,741,824 bytes)
-        final double BYTES_IN_GB = 1_073_741_824.0;
+        // Convertir bytes a megabytes (1 MB = 1,048,576 bytes)
+        final double BYTES_IN_MB = 1_048_576.0;
         
         // Calcular y redondear a 2 decimales
-        double totalSizeInGB = totalSizeInBytes / BYTES_IN_GB;
-        return Math.round(totalSizeInGB * 100.0) / 100.0;
+        double totalSizeInMB = totalSizeInBytes / BYTES_IN_MB;
+        return Math.round(totalSizeInMB * 100.0) / 100.0;
     }
 
     @Override
