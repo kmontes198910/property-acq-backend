@@ -10,6 +10,7 @@ import com.kynsof.share.core.infrastructure.specifications.GenericSpecifications
 import com.kynsoft.notification.application.query.file.countbypath.FileCountByPathResponse;
 import com.kynsoft.notification.application.query.file.search.FileResponse;
 import com.kynsoft.notification.domain.dto.AFileDto;
+import com.kynsoft.notification.domain.dto.FileMimeTypeCountDto;
 import com.kynsoft.notification.domain.dto.FilePathCountDto;
 import com.kynsoft.notification.domain.service.IAFileService;
 import com.kynsoft.notification.infrastructure.entity.AFile;
@@ -63,6 +64,7 @@ public class AFileServiceImpl implements IAFileService {
             file.setObjectType(object.getObjectType());
             file.setMimeType(object.getMimeType());
             file.setSize(object.getSize());
+            file.setSecureViewUrl(object.getSecureViewUrl());
             this.commandRepository.save(file);
         } else {
             throw new BusinessNotFoundException(new GlobalBusinessException(DomainErrorMessage.OBJECT_NOT_FOUNT, new ErrorField("id", "No se encontró el archivo con el ID proporcionado.")));
@@ -116,21 +118,40 @@ public class AFileServiceImpl implements IAFileService {
     }
 
     @Override
+    public Double calculateTotalDiskSpaceInMB(UUID businessId) {
+        // Obtener el tamaño total en bytes
+        Long totalSizeInBytes = this.customRepository.calculateTotalSizeByBusinessId(businessId);
+        
+        // Convertir bytes a megabytes (1 MB = 1,048,576 bytes)
+        final double BYTES_IN_MB = 1_048_576.0;
+        
+        // Calcular y redondear a 2 decimales
+        double totalSizeInMB = totalSizeInBytes / BYTES_IN_MB;
+        return Math.round(totalSizeInMB * 100.0) / 100.0;
+    }
+
+    // Mantener el método original para compatibilidad con código existente
+    @Override
     public Double calculateTotalDiskSpaceInGB(UUID businessId) {
         // Obtener el tamaño total en bytes
         Long totalSizeInBytes = this.customRepository.calculateTotalSizeByBusinessId(businessId);
         
-        // Convertir bytes a gigabytes (1 GB = 1,073,741,824 bytes)
-        final double BYTES_IN_GB = 1_073_741_824.0;
+        // Convertir bytes a megabytes (1 MB = 1,048,576 bytes)
+        final double BYTES_IN_MB = 1_048_576.0;
         
         // Calcular y redondear a 2 decimales
-        double totalSizeInGB = totalSizeInBytes / BYTES_IN_GB;
-        return Math.round(totalSizeInGB * 100.0) / 100.0;
+        double totalSizeInMB = totalSizeInBytes / BYTES_IN_MB;
+        return Math.round(totalSizeInMB * 100.0) / 100.0;
     }
 
     @Override
     public List<FilePathCountDto> getFilePathCount(UUID businessId) {
         return this.customRepository.countByPathAndBusinessId(businessId);
+    }
+
+    @Override
+    public List<FileMimeTypeCountDto> getFileMimeTypeCount(UUID businessId) {
+        return this.customRepository.countByMimeTypeAndBusinessId(businessId);
     }
 
     private PaginatedResponse getPaginatedResponse(Page<AFile> data) {

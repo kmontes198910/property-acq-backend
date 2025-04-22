@@ -2,10 +2,12 @@ package com.kynsoft.notification.controller;
 
 import com.kynsoft.notification.domain.dto.AFileDto;
 import com.kynsoft.notification.domain.service.IAFileService;
+import com.kynsoft.notification.infrastructure.config.CloudBridgesCacheConfig;
 import com.kynsoft.notification.infrastructure.service.AmazonClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
@@ -33,8 +35,10 @@ public class SecureFileController {
 
     /**
      * Endpoint para visualizar archivos desde la base de datos
+     * Implementa caché para mejorar el rendimiento de archivos frecuentemente accedidos
      */
     @GetMapping("/view/{id}")
+    @Cacheable(value = CloudBridgesCacheConfig.SECURE_FILE_CACHE, key = "#id", unless = "#result == null")
     public ResponseEntity<Resource> viewSecureFile(
             @PathVariable UUID id,
             @RequestHeader(value = "X-User-Id", required = false) String userId,

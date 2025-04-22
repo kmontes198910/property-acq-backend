@@ -1,4 +1,4 @@
-package com.kynsoft.finamer.propertyacqcenter;
+package com.kynsoft.propertyacqcenter;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

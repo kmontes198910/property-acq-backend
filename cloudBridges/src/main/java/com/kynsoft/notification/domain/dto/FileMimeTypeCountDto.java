@@ -4,13 +4,11 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.io.Serializable;
-
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class FilePathCountDto implements Serializable {
-    private String path;
+public class FileMimeTypeCountDto {
+    private String mimeType;
     private Long count;
     private Double totalSizeMb;
 }

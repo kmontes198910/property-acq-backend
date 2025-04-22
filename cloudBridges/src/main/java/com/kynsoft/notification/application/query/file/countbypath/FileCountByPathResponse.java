@@ -7,13 +7,14 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.UUID;
 
 @Getter
 @Setter
 @NoArgsConstructor
-public class FileCountByPathResponse implements IResponse {
+public class FileCountByPathResponse implements IResponse, Serializable {
     private UUID businessId;
     private List<FilePathCountDto> pathCounts;
     private Long totalCount;

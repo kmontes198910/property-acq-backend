@@ -28,41 +28,7 @@ public class SaveFileS3Command implements ICommand {
     private Long fileSize;
     private UUID businessId; // Campo para almacenar el ID de negocio
 
-    /**
-     * Constructor para compatibilidad con código existente (sin datos de usuario)
-     * @param multipartFile Archivo a subir
-     * @param fileName Nombre del archivo
-     * @param objectId ID del objeto relacionado
-     * @param folderPath Ruta de la carpeta donde se guardará
-     */
-    public SaveFileS3Command(MultipartFile multipartFile, String fileName, String objectId, String folderPath) {
-        this.multipartFile = Objects.requireNonNull(multipartFile, "El archivo no puede ser nulo");
-        this.fileName = Objects.requireNonNull(fileName, "El nombre de archivo no puede ser nulo");
-        this.objectId = objectId; // Puede ser nulo
-        this.folderPath = folderPath; // Puede ser nulo
-        this.userId = null;
-        this.userName = null;
-        this.fileSize = multipartFile.getSize(); // Capturar el tamaño automáticamente
-    }
 
-    /**
-     * Constructor completo con información del usuario
-     * @param multipartFile Archivo a subir
-     * @param fileName Nombre del archivo
-     * @param objectId ID del objeto relacionado
-     * @param folderPath Ruta de la carpeta donde se guardará
-     * @param userId ID del usuario que sube el archivo
-     * @param userName Nombre del usuario que sube el archivo
-     */
-    public SaveFileS3Command(MultipartFile multipartFile, String fileName, String objectId, String folderPath, String userId, String userName) {
-        this.multipartFile = Objects.requireNonNull(multipartFile, "El archivo no puede ser nulo");
-        this.fileName = Objects.requireNonNull(fileName, "El nombre de archivo no puede ser nulo");
-        this.objectId = objectId; // Puede ser nulo
-        this.folderPath = folderPath; // Puede ser nulo
-        this.userId = userId;
-        this.userName = userName;
-        this.fileSize = multipartFile.getSize(); // Capturar el tamaño automáticamente
-    }
 
     /**
      * Constructor completo con información del usuario y empresa
@@ -104,6 +70,6 @@ public class SaveFileS3Command implements ICommand {
 
     @Override
     public ICommandMessage getMessage() {
-        return new SaveFileS3Message(fileId, url, viewUrl, fileSize);
+        return new SaveFileS3Message(fileId, viewUrl, fileSize);
     }
 }

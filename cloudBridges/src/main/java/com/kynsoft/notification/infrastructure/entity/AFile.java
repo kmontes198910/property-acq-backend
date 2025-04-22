@@ -29,6 +29,7 @@ public class AFile extends BaseEntity {
     private String userName;
     private String mimeType;
     private Long size;
+    private String secureViewUrl;
     
     @Column(name = "object_id")
     private UUID objectId;
@@ -58,6 +59,12 @@ public class AFile extends BaseEntity {
         this.objectId = file.getObjectId();
         this.objectType = file.getObjectType();
         this.businessId = file.getBusinessId();
+        this.secureViewUrl = file.getSecureViewUrl();
+    }
+
+    @Override
+    public UUID getId() {
+        return super.getId();
     }
 
     public AFileDto toAggregate() {
@@ -69,6 +76,7 @@ public class AFile extends BaseEntity {
         dto.setBusinessId(businessId);
         dto.setCreatedAt(createdAt);
         dto.setUpdatedAt(updatedAt);
+        dto.setSecureViewUrl(secureViewUrl);
         return dto;
     }
 }
