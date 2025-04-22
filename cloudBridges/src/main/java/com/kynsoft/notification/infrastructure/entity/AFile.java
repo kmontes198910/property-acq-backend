@@ -62,6 +62,11 @@ public class AFile extends BaseEntity {
         this.secureViewUrl = file.getSecureViewUrl();
     }
 
+    @Override
+    public UUID getId() {
+        return super.getId();
+    }
+
     public AFileDto toAggregate() {
         AFileDto dto = new AFileDto(id, name, url, objetId, path, userId, userName);
         dto.setMimeType(mimeType);
