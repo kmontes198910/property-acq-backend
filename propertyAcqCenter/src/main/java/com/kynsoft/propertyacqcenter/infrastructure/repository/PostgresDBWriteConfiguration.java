@@ -19,7 +19,7 @@ import javax.sql.DataSource;
 @Configuration
 @EnableTransactionManagement
 @EnableJpaRepositories(entityManagerFactoryRef = "writeEntityManagerFactory", transactionManagerRef = "writeTransactionManager", basePackages = {
-        "com.kynsof.identity.infrastructure.repository.command" })
+        "com.kynsoft.propertyacqcenter.infrastructure.repository.command" })
 public class PostgresDBWriteConfiguration {
 
     @Primary
@@ -41,7 +41,7 @@ public class PostgresDBWriteConfiguration {
     public LocalContainerEntityManagerFactoryBean entityManagerFactoryBean(EntityManagerFactoryBuilder builder,
             @Qualifier("writeDataSource") DataSource dataSource) {
         return builder.dataSource(dataSource)
-                .packages("com.kynsof.identity.infrastructure.entities")
+                .packages("com.kynsoft.propertyacqcenter.infrastructure.entity")
                 .persistenceUnit("WriteDB").build();
     }
 

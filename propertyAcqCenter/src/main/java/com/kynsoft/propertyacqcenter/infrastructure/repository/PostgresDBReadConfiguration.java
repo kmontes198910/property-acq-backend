@@ -18,7 +18,7 @@ import javax.sql.DataSource;
 @Configuration
 @EnableTransactionManagement
 @EnableJpaRepositories(entityManagerFactoryRef = "readEntityManagerFactory", transactionManagerRef = "readTransactionManager", basePackages = {
-        "com.kynsof.identity.infrastructure.repository.query" })
+        "com.kynsoft.propertyacqcenter.infrastructure.repository.query" })
 public class PostgresDBReadConfiguration {
 
     @Bean(name = "readDataSourceProperties")
@@ -37,7 +37,7 @@ public class PostgresDBReadConfiguration {
     public LocalContainerEntityManagerFactoryBean entityManagerFactoryBean(EntityManagerFactoryBuilder builder,
             @Qualifier("readDataSource") DataSource dataSource) {
         return builder.dataSource(dataSource)
-                .packages("com.kynsof.identity.infrastructure.entities")
+                .packages("com.kynsoft.propertyacqcenter.infrastructure.entity")
                 .persistenceUnit("ReadDB").build();
     }
 
