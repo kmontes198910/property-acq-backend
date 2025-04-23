@@ -10,19 +10,10 @@ public class OpenApiConfig {
 
     @Bean
     public OpenAPI openAPI() {
-        return new OpenAPI().info(apiInfo());
-    }
-
-    private Info apiInfo() {
-        return new Info()
-                .title("Treatments Services")
-                .description("API Documentation Treatments Services")
-                .version("1.0.0");
-                /*.license(new License()
-                        .name(openApiProperties.getLicense())
-                        .url(openApiProperties.getLicenseUrl()))
-                .termsOfService(openApiProperties.getTermsOfService())
-                .contact(openApiProperties.getContact())
-                .extensions(openApiProperties.getExtensions());*/
+        return new OpenAPI()
+                .info(new Info()
+                        .title("API de Tratamientos")
+                        .description("API para gestionar tratamientos médicos")
+                        .version("1.0.0"));
     }
 }
