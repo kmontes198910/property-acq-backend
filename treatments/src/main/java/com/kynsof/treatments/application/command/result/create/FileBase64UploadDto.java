@@ -7,13 +7,18 @@ import lombok.Setter;
 
 import java.util.UUID;
 
-@Getter
+/**
+ * DTO para la carga de archivos en formato base64
+ */
 @Setter
-@NoArgsConstructor
+@Getter
 @AllArgsConstructor
-public class CreateResultRequest {
-    private String type;
-    private UUID externalConsultationId;
+@NoArgsConstructor
+public   class FileBase64UploadDto {
     private String base64Content;
     private String fileName;
+    private String objectId;
+    private String folderPath;
+    private UUID businessId;
+
 }

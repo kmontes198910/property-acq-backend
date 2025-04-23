@@ -13,15 +13,18 @@ public class CreateResultCommand implements ICommand {
 
     private UUID id;
     private String type;
+    private String base64Content;
+    private String fileName;
     private String url;
     private String uploadedById;
     private String uploadedByUsername;
     private final UUID externalConsultationId;
 
-    public CreateResultCommand(String type, String url, String uploadedById,
+    public CreateResultCommand(String type, String base64Content, String fileName, String uploadedById,
                                String uploadedByUsername, UUID externalConsultationId) {
         this.type = type;
-        this.url = url;
+        this.base64Content = base64Content;
+        this.fileName = fileName;
         this.uploadedById = uploadedById;
         this.uploadedByUsername = uploadedByUsername;
         this.externalConsultationId = externalConsultationId;
@@ -30,7 +33,8 @@ public class CreateResultCommand implements ICommand {
     public static CreateResultCommand fromRequest(CreateResultRequest request, String userId, String username) {
         return new CreateResultCommand(
                 request.getType(),
-                request.getUrl(),
+                request.getBase64Content(),
+                request.getFileName(),
                 userId,
                 username,
                 request.getExternalConsultationId()
