@@ -1,4 +1,4 @@
-package com.kynsoft.propertyacqcenter.infrastructure.entity.enums;
+package com.kynsoft.propertyacqcenter.domain.enums;
 
 public enum DocumentType {
     ARTICLES_OF_ORGANIZATION,
