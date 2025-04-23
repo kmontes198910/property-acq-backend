@@ -36,12 +36,8 @@ public class ResultController {
             @RequestBody CreateResultRequest request,
             @RequestHeader("X-User-Id") String userId,
             @RequestHeader("X-User-Name") String username) {
-        
-        // Establecer los valores de usuario desde los headers
-        request.setUploadedById(userId);
-        request.setUploadedByUsername(username);
-        
-        CreateResultCommand command = CreateResultCommand.fromRequest(request);
+
+        CreateResultCommand command = CreateResultCommand.fromRequest(request,userId,username);
         CreateResultMessage resultMessage = mediator.send(command);
         
         return ResponseEntity.ok(resultMessage);

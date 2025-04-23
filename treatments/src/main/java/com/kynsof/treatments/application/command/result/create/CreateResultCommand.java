@@ -18,8 +18,8 @@ public class CreateResultCommand implements ICommand {
     private String uploadedByUsername;
     private final UUID externalConsultationId;
 
-    public CreateResultCommand(String type, String url, String uploadedById, 
-                              String uploadedByUsername, UUID externalConsultationId) {
+    public CreateResultCommand(String type, String url, String uploadedById,
+                               String uploadedByUsername, UUID externalConsultationId) {
         this.type = type;
         this.url = url;
         this.uploadedById = uploadedById;
@@ -27,12 +27,12 @@ public class CreateResultCommand implements ICommand {
         this.externalConsultationId = externalConsultationId;
     }
 
-    public static CreateResultCommand fromRequest(CreateResultRequest request) {
+    public static CreateResultCommand fromRequest(CreateResultRequest request, String userId, String username) {
         return new CreateResultCommand(
                 request.getType(),
                 request.getUrl(),
-                request.getUploadedById(),
-                request.getUploadedByUsername(),
+                userId,
+                username,
                 request.getExternalConsultationId()
         );
     }

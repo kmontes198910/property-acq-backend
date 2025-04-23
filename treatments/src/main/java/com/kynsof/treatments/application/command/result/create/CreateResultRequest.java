@@ -14,7 +14,5 @@ import java.util.UUID;
 public class CreateResultRequest {
     private String type;
     private String url;
-    private String uploadedById;
-    private String uploadedByUsername;
     private UUID externalConsultationId;
 }
