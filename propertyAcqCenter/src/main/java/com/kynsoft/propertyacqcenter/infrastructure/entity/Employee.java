@@ -94,12 +94,12 @@ public class Employee {
         this.employeeNumber = dto.getEmployeeNumber();
         this.salary = dto.getSalary();
         this.active = dto.getActive() != null ? dto.getActive() : true;
-        this.business = dto.getBusiness() != null ? new Business(dto.getBusiness().getId(), dto.getBusiness().getName()) : null;
+        this.business = dto.getBusiness() != null ? new Business(dto.getBusiness()) : null;
         this.createdBy = dto.getCreatedBy();
         this.updatedBy = dto.getUpdatedBy();
     }
     
-    public EmployeeDto toDto() {
+    public EmployeeDto toAggregate() {
         return EmployeeDto.builder()
                 .id(this.id)
                 .firstName(this.firstName)
