@@ -3,7 +3,6 @@ package com.kynsof.treatments.domain.service;
 import com.kynsof.share.core.domain.request.FilterCriteria;
 import com.kynsof.share.core.domain.response.PaginatedResponse;
 import com.kynsof.treatments.domain.dto.ExternalConsultationDto;
-import com.kynsof.treatments.domain.dto.LabOrderDto;
 import org.springframework.data.domain.Pageable;
 
 import java.util.Date;

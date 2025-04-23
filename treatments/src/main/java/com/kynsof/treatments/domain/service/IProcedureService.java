@@ -19,8 +19,6 @@ public interface IProcedureService {
     ProcedureDto findById(UUID code);
 
     ProcedureDto findByCode(String code);
-
-   // PaginatedResponse findAll(Pageable pageable, String name, String code, String type);
     
     PaginatedResponse search(Pageable pageable, List<FilterCriteria> filterCriteria);
 

@@ -13,7 +13,6 @@ import com.kynsof.treatments.application.command.patientVaccine.update.UpdatePat
 import com.kynsof.treatments.application.query.patientVaccine.getById.FindByIdPatientVaccineQuery;
 import com.kynsof.treatments.application.query.patientVaccine.getall.PatientVaccineResponse;
 import com.kynsof.treatments.application.query.patientVaccine.search.GetSearchPatientsVaccineQuery;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

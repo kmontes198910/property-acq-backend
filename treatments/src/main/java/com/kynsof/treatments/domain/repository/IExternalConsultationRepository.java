@@ -1,6 +1,5 @@
 package com.kynsof.treatments.domain.repository;
 
-import com.kynsof.treatments.domain.dto.enumDto.MedicalExamCategory;
 import com.kynsof.treatments.infrastructure.entity.ExternalConsultation;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
