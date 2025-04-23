@@ -27,7 +27,7 @@ public class ResultFileUploadServiceImpl implements IResultFileUploadService {
 
     private final RestTemplate restTemplate;
     
-    @Value("${services.file-service.url:http://localhost:8097}")
+    @Value("${services.cloudBridges-service.url:http://localhost:8097}")
     private String fileServiceUrl;
     
     @Override
