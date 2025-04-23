@@ -3,6 +3,8 @@ package com.kynsof.treatments;
 import org.springframework.amqp.rabbit.annotation.EnableRabbit;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.builder.SpringApplicationBuilder;
+import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
@@ -10,10 +12,15 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @SpringBootApplication
 @EnableScheduling
 @EnableRabbit
-public class TreatmentsApplication {
+public class TreatmentsApplication extends SpringBootServletInitializer {
 
-    public static void main(String[] args) {
-        SpringApplication.run(TreatmentsApplication.class, args);
+    @Override
+    protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
+        return application.sources(TreatmentsApplication.class);
     }
 
+    public static void main(String[] args) {
+        System.setProperty("spring.main.web-application-type", "servlet");
+        SpringApplication.run(TreatmentsApplication.class, args);
+    }
 }
