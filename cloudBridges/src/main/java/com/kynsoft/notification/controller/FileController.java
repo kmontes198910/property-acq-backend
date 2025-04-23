@@ -1,36 +1,18 @@
 package com.kynsoft.notification.controller;
 
-import com.kynsof.share.core.domain.request.PageableUtil;
-import com.kynsof.share.core.domain.request.SearchRequest;
 import com.kynsof.share.core.domain.response.ApiError;
 import com.kynsof.share.core.domain.response.ApiResponse;
-import com.kynsof.share.core.domain.response.PaginatedResponse;
 import com.kynsof.share.core.infrastructure.bus.IMediator;
-import com.kynsoft.notification.application.command.file.deleteFileS3.DeleteFileS3Command;
-import com.kynsoft.notification.application.command.file.deleteFileS3.DeleteFileS3Message;
 import com.kynsoft.notification.application.command.file.saveFileS3.SaveFileS3Command;
 import com.kynsoft.notification.application.command.file.saveFileS3.SaveFileS3Message;
-import com.kynsoft.notification.application.query.file.search.GetSearchAFileQuery;
-import com.kynsoft.notification.domain.dto.AFileDto;
-import com.kynsoft.notification.domain.dto.FileBase64UploadDto;
-import com.kynsoft.notification.domain.dto.FileInfoDto;
-import com.kynsoft.notification.domain.service.IAFileService;
-import com.kynsoft.notification.infrastructure.service.AmazonClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Pageable;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
-import java.util.Base64;
-import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/files")

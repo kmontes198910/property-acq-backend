@@ -1,5 +1,6 @@
 package com.kynsoft.notification.controller;
 
+import com.kynsoft.notification.config.CacheableFileData;
 import com.kynsoft.notification.domain.dto.AFileDto;
 import com.kynsoft.notification.domain.service.IAFileService;
 import com.kynsoft.notification.infrastructure.config.CloudBridgesCacheConfig;
@@ -33,25 +34,20 @@ public class SecureFileController {
         this.amazonClient = amazonClient;
     }
 
-    /**
-     * Endpoint para visualizar archivos desde la base de datos
-     * Implementa caché para mejorar el rendimiento de archivos frecuentemente accedidos
-     */
-    @GetMapping("/view/{id}")
-    @Cacheable(value = CloudBridgesCacheConfig.SECURE_FILE_CACHE, key = "#id", unless = "#result == null")
-    public ResponseEntity<Resource> viewSecureFile(
-            @PathVariable UUID id,
-            @RequestHeader(value = "X-User-Id", required = false) String userId,
-            @RequestHeader(value = "X-User-Name", required = false) String userName) {
 
+    /**
+     * Método que obtiene y cachea los datos del archivo
+     */
+    @Cacheable(value = CloudBridgesCacheConfig.SECURE_FILE_CACHE, key = "#id", unless = "#result == null")
+    public CacheableFileData getFileData(UUID id) {
         try {
-            logger.info("Solicitud de visualización para archivo con ID: {}", id);
+            logger.info("Obteniendo datos para archivo con ID: {}", id);
             
             // 1. Buscar el archivo en la base de datos
             AFileDto fileRecord = fileService.findById(id);
             if (fileRecord == null) {
                 logger.warn("Archivo con ID {} no encontrado en la base de datos", id);
-                return ResponseEntity.notFound().build();
+                return null;
             }
             
             // 2. Obtener la URL del archivo
@@ -60,26 +56,12 @@ public class SecureFileController {
             
             // 3. Cargar el archivo desde S3
             AFileDto fileContent = amazonClient.loadFile(fileUrl);
-            if (fileContent == null) {
+            if (fileContent == null || fileContent.getFileContent() == null) {
                 logger.error("No se pudo cargar el archivo desde S3: {}", fileUrl);
-                return ResponseEntity.notFound().build();
+                return null;
             }
             
-            if (fileContent.getFileContent() == null) {
-                logger.error("El contenido del archivo es nulo");
-                return ResponseEntity.notFound().build();
-            }
-            
-            // Imprimir información de depuración
-            logger.info("Datos del PDF - Nombre: {}, Tamaño: {} bytes, MIME: {}", 
-                       fileContent.getName(), 
-                       fileContent.getFileContent().length(),
-                       fileContent.getMimeType());
-            
-            // 4. Preparar las cabeceras HTTP
-            HttpHeaders headers = new HttpHeaders();
-            
-            // Asegurarse de que tenemos un tipo MIME válido
+            // 4. Asegurarse de que tenemos un tipo MIME válido
             String mimeType = fileContent.getMimeType();
             if (mimeType == null || mimeType.isEmpty()) {
                 mimeType = determineContentType(fileContent.getName());
@@ -92,21 +74,50 @@ public class SecureFileController {
                 logger.info("Aplicando tipo MIME forzado para PDF");
             }
             
-            headers.setContentType(MediaType.parseMediaType(mimeType));
+            // 5. Decodificar el contenido
+            byte[] fileBytes = Base64.getDecoder().decode(fileContent.getFileContent());
+            logger.info("Tamaño del archivo decodificado: {} bytes", fileBytes.length);
+            
+            return new CacheableFileData(fileBytes, fileContent.getName(), mimeType);
+        } catch (Exception e) {
+            logger.error("Error al procesar la solicitud de datos: {}", e.getMessage(), e);
+            return null;
+        }
+    }
+
+    /**
+     * Endpoint para visualizar archivos desde la base de datos
+     * Usa el método cacheado para obtener los datos del archivo
+     */
+    @GetMapping("/view/{id}")
+    public ResponseEntity<Resource> viewSecureFile(
+            @PathVariable UUID id,
+            @RequestHeader(value = "X-User-Id", required = false) String userId,
+            @RequestHeader(value = "X-User-Name", required = false) String userName) {
+
+        try {
+            logger.info("Solicitud de visualización para archivo con ID: {}", id);
+            
+            // Obtener datos cacheados
+            CacheableFileData fileData = getFileData(id);
+            if (fileData == null) {
+                return ResponseEntity.notFound().build();
+            }
+            
+            // Preparar las cabeceras HTTP
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.parseMediaType(fileData.getMimeType()));
             
             // Para visualización en el navegador
-            headers.set(HttpHeaders.CONTENT_DISPOSITION, "inline; filename=\"" + fileContent.getName() + "\"");
+            headers.set(HttpHeaders.CONTENT_DISPOSITION, "inline; filename=\"" + fileData.getFileName() + "\"");
             
-            // 5. Crear el recurso con el contenido del archivo
-            byte[] fileBytes = Base64.getDecoder().decode(fileContent.getFileContent());
-            ByteArrayResource resource = new ByteArrayResource(fileBytes);
+            // Crear el recurso con el contenido del archivo
+            ByteArrayResource resource = new ByteArrayResource(fileData.getFileBytes());
             
-            logger.info("Tamaño final del archivo decodificado: {} bytes", fileBytes.length);
-            
-            // 6. Devolver la respuesta
+            // Devolver la respuesta
             return ResponseEntity.ok()
                     .headers(headers)
-                    .contentLength(fileBytes.length)
+                    .contentLength(fileData.getFileBytes().length)
                     .body(resource);
             
         } catch (Exception e) {

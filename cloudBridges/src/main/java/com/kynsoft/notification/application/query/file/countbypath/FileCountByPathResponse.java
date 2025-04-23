@@ -2,7 +2,6 @@ package com.kynsoft.notification.application.query.file.countbypath;
 
 import com.kynsof.share.core.domain.bus.query.IResponse;
 import com.kynsoft.notification.domain.dto.FilePathCountDto;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
