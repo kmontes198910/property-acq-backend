@@ -20,6 +20,6 @@ public interface BankAccountReadDataJPARepository extends JpaRepository<BankAcco
     
     List<BankAccount> findByLegalEntityId(UUID legalEntityId);
     
-    @Query("SELECT b FROM BankAccount b WHERE b.legalEntity.id = :legalEntityId AND b.isPrimary = true")
-    Optional<BankAccount> findPrimaryBankAccountByLegalEntityId(@Param("legalEntityId") UUID legalEntityId);
+//    @Query("SELECT b FROM BankAccount b WHERE b.legalEntity.id = :legalEntityId AND b.isPrimary = true")
+//    Optional<BankAccount> findPrimaryBankAccountByLegalEntityId(@Param("legalEntityId") UUID legalEntityId);
 }
