@@ -23,4 +23,14 @@ public class CompanyTypeDto {
     private Boolean isActive;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
+
+    public CompanyTypeDto(UUID id, String name, String code, String description, String examples, Boolean isActive) {
+        this.id = id;
+        this.name = name;
+        this.code = code;
+        this.description = description;
+        this.examples = examples;
+        this.isActive = isActive;
+    }
+
 }

@@ -1,8 +1,8 @@
 package com.kynsoft.propertyacqcenter.infrastructure.entity;
 
 import com.kynsoft.propertyacqcenter.domain.dto.DocumentDto;
-import com.kynsoft.propertyacqcenter.infrastructure.entity.enums.DocumentType;
-import com.kynsoft.propertyacqcenter.infrastructure.entity.enums.DocumentStatus;
+import com.kynsoft.propertyacqcenter.domain.enums.DocumentType;
+import com.kynsoft.propertyacqcenter.domain.enums.DocumentStatus;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;

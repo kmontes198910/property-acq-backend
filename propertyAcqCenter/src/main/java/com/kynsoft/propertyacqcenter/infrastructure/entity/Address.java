@@ -1,7 +1,7 @@
 package com.kynsoft.propertyacqcenter.infrastructure.entity;
 
 import com.kynsoft.propertyacqcenter.domain.dto.AddressDto;
-import com.kynsoft.propertyacqcenter.infrastructure.entity.enums.AddressType;
+import com.kynsoft.propertyacqcenter.domain.enums.AddressType;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;

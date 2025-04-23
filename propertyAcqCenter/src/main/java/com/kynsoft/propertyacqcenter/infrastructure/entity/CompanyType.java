@@ -9,9 +9,6 @@ import org.hibernate.annotations.UpdateTimestamp;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-/**
- * Entidad que representa los tipos de empresas inmobiliarias
- */
 @Entity
 @Table(name = "company_types")
 @Getter
@@ -47,11 +44,7 @@ public class CompanyType {
     @UpdateTimestamp
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
-    
-    /**
-     * Método para convertir la entidad a DTO
-     * @return CompanyTypeDto con los datos de esta entidad
-     */
+
     public CompanyTypeDto toAggregate() {
         return CompanyTypeDto.builder()
                 .id(this.id)
@@ -64,11 +57,7 @@ public class CompanyType {
                 .updatedAt(this.updatedAt)
                 .build();
     }
-    
-    /**
-     * Constructor a partir de un DTO
-     * @param dto CompanyTypeDto con los datos a utilizar
-     */
+
     public CompanyType(CompanyTypeDto dto) {
         this.id = dto.getId();
         this.name = dto.getName();

@@ -1,6 +1,6 @@
 package com.kynsoft.propertyacqcenter.domain.dto;
 
-import com.kynsoft.propertyacqcenter.infrastructure.entity.enums.ContactRole;
+import com.kynsoft.propertyacqcenter.domain.enums.ContactRole;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
