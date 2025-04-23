@@ -1,7 +1,7 @@
 package com.kynsoft.propertyacqcenter.infrastructure.entity;
 
 import com.kynsoft.propertyacqcenter.domain.dto.ContactPersonDto;
-import com.kynsoft.propertyacqcenter.infrastructure.entity.enums.ContactRole;
+import com.kynsoft.propertyacqcenter.domain.enums.ContactRole;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;

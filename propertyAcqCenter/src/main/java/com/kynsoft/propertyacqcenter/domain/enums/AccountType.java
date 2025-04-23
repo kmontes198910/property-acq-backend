@@ -8,5 +8,7 @@ public enum AccountType {
     BUSINESS_CHECKING,
     BUSINESS_SAVINGS,
     MERCHANT_SERVICES,
-    TRUST
+    TRUST,
+    BROKERAGE,
+    OTHER
 }

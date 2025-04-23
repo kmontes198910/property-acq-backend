@@ -1,7 +1,7 @@
 package com.kynsoft.propertyacqcenter.domain.dto;
 
-import com.kynsoft.propertyacqcenter.infrastructure.entity.enums.DocumentStatus;
-import com.kynsoft.propertyacqcenter.infrastructure.entity.enums.DocumentType;
+import com.kynsoft.propertyacqcenter.domain.enums.DocumentStatus;
+import com.kynsoft.propertyacqcenter.domain.enums.DocumentType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

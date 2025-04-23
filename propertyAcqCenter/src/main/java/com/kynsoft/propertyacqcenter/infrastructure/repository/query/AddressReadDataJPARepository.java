@@ -1,7 +1,7 @@
 package com.kynsoft.propertyacqcenter.infrastructure.repository.query;
 
 import com.kynsoft.propertyacqcenter.infrastructure.entity.Address;
-import com.kynsoft.propertyacqcenter.infrastructure.entity.enums.AddressType;
+import com.kynsoft.propertyacqcenter.domain.enums.AddressType;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;

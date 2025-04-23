@@ -1,7 +1,7 @@
 package com.kynsoft.propertyacqcenter.infrastructure.repository.query;
 
 import com.kynsoft.propertyacqcenter.infrastructure.entity.ContactPerson;
-import com.kynsoft.propertyacqcenter.infrastructure.entity.enums.ContactRole;
+import com.kynsoft.propertyacqcenter.domain.enums.ContactRole;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;

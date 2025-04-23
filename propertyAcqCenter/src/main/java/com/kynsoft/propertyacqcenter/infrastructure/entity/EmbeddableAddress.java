@@ -1,6 +1,6 @@
 package com.kynsoft.propertyacqcenter.infrastructure.entity;
 
-import com.kynsoft.propertyacqcenter.infrastructure.entity.enums.AddressType;
+import com.kynsoft.propertyacqcenter.domain.enums.AddressType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 import jakarta.persistence.EnumType;

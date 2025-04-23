@@ -16,4 +16,10 @@ public class BusinessDto {
     private String name;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
+
+    public BusinessDto(UUID id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+
 }

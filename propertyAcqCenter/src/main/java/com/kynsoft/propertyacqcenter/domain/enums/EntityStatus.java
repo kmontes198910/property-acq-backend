@@ -1,4 +1,4 @@
-package com.kynsoft.propertyacqcenter.infrastructure.entity.enums;
+package com.kynsoft.propertyacqcenter.domain.enums;
 
 public enum EntityStatus {
     ACTIVE,

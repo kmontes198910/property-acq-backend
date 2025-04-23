@@ -5,9 +5,6 @@ import lombok.*;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-/**
- * DTO que representa los tipos de construcción
- */
 @Getter
 @Setter
 @NoArgsConstructor
