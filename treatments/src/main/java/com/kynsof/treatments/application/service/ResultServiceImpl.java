@@ -39,6 +39,8 @@ public class ResultServiceImpl implements IResultService {
         result.setUrl(resultDto.getUrl());
         result.setUploadedById(resultDto.getUploadedById());
         result.setUploadedByUsername(resultDto.getUploadedByUsername());
+        result.setFileName(resultDto.getFileName());
+        result.setFileType(resultDto.getFileType());
         result.setExternalConsultation(new ExternalConsultation(externalConsultation));
         
         Result savedResult = repositoryCommand.save(result);
@@ -63,8 +65,13 @@ public class ResultServiceImpl implements IResultService {
     public void delete(UUID id) {
         Result result = repositoryQuery.findById(id)
                 .orElseThrow(() -> new RuntimeException("Result not found with ID: " + id));
-
-        repositoryCommand.delete(result);
+        
+        // Desasociar la relación con externalConsultation antes de eliminar
+        result.setExternalConsultation(null);
+        repositoryCommand.save(result);
+        
+        // Ahora eliminar el registro
+        repositoryCommand.deleteById(id);
     }
 
     @Override
@@ -95,7 +102,7 @@ public class ResultServiceImpl implements IResultService {
         for (Result o : data.getContent()) {
             resultResponses.add(new ResultResponse(o.getId(), o.getType(), o.getUrl(), o.getUploadedById(),
                     o.getUploadedByUsername(), o.getExternalConsultation() != null ? o.getExternalConsultation().getId() : null,
-                    o.getCreatedAt(), o.getUpdatedAt()));
+                    o.getCreatedAt(), o.getUpdatedAt(), o.getFileName(), o.getFileType()));
         }
         return new PaginatedResponse(resultResponses, data.getTotalPages(), data.getNumberOfElements(),
                 data.getTotalElements(), data.getSize(), data.getNumber());

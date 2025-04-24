@@ -19,8 +19,10 @@ import com.kynsof.treatments.application.query.result.getById.GetResultByIdQuery
 import com.kynsof.treatments.application.query.result.search.GetSearchResultQuery;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.UUID;
 
@@ -31,15 +33,18 @@ public class ResultController {
 
     private final IMediator mediator;
 
-    @PostMapping
+    @PostMapping("/upload")
     public ResponseEntity<?> createResult(
-            @RequestBody CreateResultRequest request,
+            @RequestPart("file") MultipartFile file,
+            @RequestPart("type") String type,
+            @RequestPart("externalConsultationId") String externalConsultationId,
             @RequestHeader("X-User-Id") String userId,
             @RequestHeader("X-User-Name") String username) {
 
-        CreateResultCommand command = CreateResultCommand.fromRequest(request,userId,username);
-        CreateResultMessage resultMessage = mediator.send(command);
-        
+       CreateResultCommand command = CreateResultCommand.fromRequestWithFile(
+               type,externalConsultationId, file, userId, username);
+       CreateResultMessage resultMessage = mediator.send(command);
+
         return ResponseEntity.ok(resultMessage);
     }
 

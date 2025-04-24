@@ -30,7 +30,9 @@ public class GetResultsByExternalConsultationIdQueryHandler implements IQueryHan
                                 resultDto.getUploadedByUsername(),
                                 resultDto.getExternalConsultation().getId(),
                                 null,
-                                null
+                                null,
+                                resultDto.getFileName(),
+                                resultDto.getFileType() // Mapeo del tipo de archivo
                         ))
                         .collect(Collectors.toList())
         );

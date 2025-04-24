@@ -22,4 +22,6 @@ public class ResultResponse implements IResponse {
     private UUID externalConsultationId;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
+    private String fileName;
+    private String fileType; // Añadido campo para el tipo de archivo
 }

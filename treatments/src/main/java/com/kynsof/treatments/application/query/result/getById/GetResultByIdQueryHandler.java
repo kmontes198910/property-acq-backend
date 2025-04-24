@@ -25,7 +25,9 @@ public class GetResultByIdQueryHandler implements IQueryHandler<GetResultByIdQue
                 resultDto.getUploadedByUsername(),
                 resultDto.getExternalConsultation() != null ? resultDto.getExternalConsultation().getId() : null,
                 null, // createdAt - se obtendrá del servicio
-                null  // updatedAt - se obtendrá del servicio
+                null  // updatedAt - se obtendrá del servicio,
+                ,resultDto.getFileName(),
+                resultDto.getFileType() // Mapeo del tipo de archivo
         );
     }
 }

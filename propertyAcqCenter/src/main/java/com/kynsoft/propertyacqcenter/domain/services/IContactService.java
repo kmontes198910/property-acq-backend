@@ -1,5 +1,7 @@
 package com.kynsoft.propertyacqcenter.domain.services;
 
+import com.kynsof.share.core.domain.request.FilterCriteria;
+import com.kynsof.share.core.domain.response.PaginatedResponse;
 import com.kynsoft.propertyacqcenter.domain.dto.ContactDto;
 import org.springframework.data.domain.Pageable;
 
@@ -50,7 +52,7 @@ public interface IContactService {
      * @param filterCriteria criterios de filtrado
      * @return Lista de ContactDto que coinciden con los criterios
      */
-    List<ContactDto> search(Pageable pageable, List<Object> filterCriteria);
+    PaginatedResponse search(Pageable pageable, List<FilterCriteria> filterCriteria);
     
     /**
      * Busca todos los contactos asociados a una entidad legal
