@@ -39,6 +39,8 @@ public class ResultServiceImpl implements IResultService {
         result.setUrl(resultDto.getUrl());
         result.setUploadedById(resultDto.getUploadedById());
         result.setUploadedByUsername(resultDto.getUploadedByUsername());
+        result.setFileName(resultDto.getFileName());
+        result.setFileType(resultDto.getFileType());
         result.setExternalConsultation(new ExternalConsultation(externalConsultation));
         
         Result savedResult = repositoryCommand.save(result);
