@@ -65,8 +65,13 @@ public class ResultServiceImpl implements IResultService {
     public void delete(UUID id) {
         Result result = repositoryQuery.findById(id)
                 .orElseThrow(() -> new RuntimeException("Result not found with ID: " + id));
-
-        repositoryCommand.delete(result);
+        
+        // Desasociar la relación con externalConsultation antes de eliminar
+        result.setExternalConsultation(null);
+        repositoryCommand.save(result);
+        
+        // Ahora eliminar el registro
+        repositoryCommand.deleteById(id);
     }
 
     @Override
