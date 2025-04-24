@@ -1,0 +1,21 @@
+package com.kynsoft.propertyacqcenter.application.command.employee.create;
+
+import lombok.Getter;
+
+import java.time.LocalDate;
+import java.util.UUID;
+
+@Getter
+public class CreateEmployeeRequest {
+    private String firstName;
+    private String lastName;
+    private String email;
+    private String phoneNumber;
+    private LocalDate hireDate;
+    private String position;
+    private String department;
+    private String employeeNumber;
+    private Double salary;
+    private Boolean active;
+    private UUID business;
+}
