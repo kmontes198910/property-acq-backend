@@ -1,16 +1,25 @@
 package com.kynsoft.propertyacqcenter.infrastructure.services;
 
+import com.kynsof.share.core.domain.request.FilterCriteria;
+import com.kynsof.share.core.domain.response.PaginatedResponse;
+import com.kynsof.share.core.infrastructure.specifications.GenericSpecificationsBuilder;
+import com.kynsoft.propertyacqcenter.application.response.ContactResponse;
 import com.kynsoft.propertyacqcenter.domain.dto.ContactDto;
+import com.kynsoft.propertyacqcenter.domain.dto.exception.ContactNotFoundException;
+import com.kynsoft.propertyacqcenter.domain.services.IBusinessService;
 import com.kynsoft.propertyacqcenter.domain.services.IContactService;
+import com.kynsoft.propertyacqcenter.infrastructure.entity.Business;
 import com.kynsoft.propertyacqcenter.infrastructure.entity.Contact;
 import com.kynsoft.propertyacqcenter.infrastructure.entity.LegalEntity;
 import com.kynsoft.propertyacqcenter.infrastructure.repository.command.ContactWriteDataJPARepository;
 import com.kynsoft.propertyacqcenter.infrastructure.repository.query.ContactReadDataJPARepository;
 import com.kynsoft.propertyacqcenter.infrastructure.repository.query.LegalEntityReadDataJPARepository;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -22,14 +31,16 @@ public class ContactServiceImpl implements IContactService {
     private final ContactReadDataJPARepository repositoryQuery;
     private final ContactWriteDataJPARepository repositoryCommand;
     private final LegalEntityReadDataJPARepository legalEntityRepository;
+    private final IBusinessService businessService;
 
     public ContactServiceImpl(
             ContactReadDataJPARepository repositoryQuery,
             ContactWriteDataJPARepository repositoryCommand,
-            LegalEntityReadDataJPARepository legalEntityRepository) {
+            LegalEntityReadDataJPARepository legalEntityRepository, IBusinessService businessService) {
         this.repositoryQuery = repositoryQuery;
         this.repositoryCommand = repositoryCommand;
         this.legalEntityRepository = legalEntityRepository;
+        this.businessService = businessService;
     }
 
     @Override
@@ -52,6 +63,12 @@ public class ContactServiceImpl implements IContactService {
         if (contactDto.getLegalEntityId() != null) {
             Optional<LegalEntity> legalEntity = legalEntityRepository.findById(contactDto.getLegalEntityId());
             legalEntity.ifPresent(contact::setLegalEntity);
+        }
+
+        // Establecer relación con Business si existe ID
+        if (contactDto.getBusinessId() != null) {
+            Business business = new Business(businessService.findById(contactDto.getBusinessId()));
+            contact.setBusiness(business);
         }
         
         // Guardar la entidad y devolver su ID
@@ -91,6 +108,19 @@ public class ContactServiceImpl implements IContactService {
                 // Si se quiere eliminar la relación
                 contact.setLegalEntity(null);
             }
+
+            // Actualizar relación con Business si cambia
+            if (contactDto.getBusinessId() != null) {
+                // Si el ID de LegalEntity ha cambiado, o no tenía antes
+                if (contact.getBusiness() == null ||
+                        !contact.getBusiness().getId().equals(contactDto.getBusinessId())) {
+                    Business business = new Business(businessService.findById(contactDto.getBusinessId()));
+                    contact.setBusiness(business);
+                }
+            } else {
+                // Si se quiere eliminar la relación
+                contact.setLegalEntity(null);
+            }
             
             // Guardar los cambios
             repositoryCommand.save(contact);
@@ -100,6 +130,7 @@ public class ContactServiceImpl implements IContactService {
     @Override
     @Transactional
     public void delete(UUID id) {
+        this.findById(id);
         repositoryCommand.deleteById(id);
     }
 
@@ -107,24 +138,24 @@ public class ContactServiceImpl implements IContactService {
     public ContactDto findById(UUID id) {
         return repositoryQuery.findById(id)
                 .map(Contact::toAggregate)
-                .orElse(null);
+                .orElseThrow(()-> new ContactNotFoundException(id.toString(), "ID"));
     }
 
     @Override
     public ContactDto findByEmail(String email) {
         return repositoryQuery.findByEmail(email)
                 .map(Contact::toAggregate)
-                .orElse(null);
+                .orElseThrow(()-> new ContactNotFoundException(email, "email"));
     }
 
     @Override
-    public List<ContactDto> search(Pageable pageable, List<Object> filterCriteria) {
+    public PaginatedResponse search(Pageable pageable, List<FilterCriteria> filterCriteria) {
         // Implementación genérica que devuelve todos los contactos con paginación
         // Se puede mejorar añadiendo filtros específicos según los criterios
-        return repositoryQuery.findAll(pageable)
-                .stream()
-                .map(Contact::toAggregate)
-                .collect(Collectors.toList());
+        GenericSpecificationsBuilder<Contact> specifications = new GenericSpecificationsBuilder<>(filterCriteria);
+        Page<Contact> data = this.repositoryQuery.findAll(specifications, pageable);
+
+        return getPaginatedResponse(data);
     }
 
     @Override
@@ -133,5 +164,14 @@ public class ContactServiceImpl implements IContactService {
                 .stream()
                 .map(Contact::toAggregate)
                 .collect(Collectors.toList());
+    }
+
+    private PaginatedResponse getPaginatedResponse(Page<Contact> data) {
+        List<ContactResponse> objects = new ArrayList<>();
+        for (Contact p : data.getContent()) {
+            objects.add(new ContactResponse(p.toAggregate()));
+        }
+        return new PaginatedResponse(objects, data.getTotalPages(), data.getNumberOfElements(),
+                data.getTotalElements(), data.getSize(), data.getNumber());
     }
 }
