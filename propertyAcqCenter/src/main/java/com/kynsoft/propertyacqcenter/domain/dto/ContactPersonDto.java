@@ -40,4 +40,30 @@ public class ContactPersonDto {
     private LocalDateTime updatedAt;
     private UUID createdBy;
     private UUID updatedBy;
+
+    public ContactPersonDto(UUID id, UUID legalEntityId, String firstName, String lastName, ContactRole role, String email, String phone, String cellPhone, String title, LocalDate dateOfBirth, String personalTaxId, String nationality, String personalAddress, String city, String state, String zipCode, String personalEmail, Boolean isPrimary, Double ownershipPercentage, Boolean signatureAuthority, String notes, UUID createdBy, UUID updatedBy) {
+        this.id = id;
+        this.legalEntityId = legalEntityId;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.role = role;
+        this.email = email;
+        this.phone = phone;
+        this.cellPhone = cellPhone;
+        this.title = title;
+        this.dateOfBirth = dateOfBirth;
+        this.personalTaxId = personalTaxId;
+        this.nationality = nationality;
+        this.personalAddress = personalAddress;
+        this.city = city;
+        this.state = state;
+        this.zipCode = zipCode;
+        this.personalEmail = personalEmail;
+        this.isPrimary = isPrimary;
+        this.ownershipPercentage = ownershipPercentage;
+        this.signatureAuthority = signatureAuthority;
+        this.notes = notes;
+        this.createdBy = createdBy;
+        this.updatedBy = updatedBy;
+    }
 }
