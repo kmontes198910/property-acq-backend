@@ -27,7 +27,23 @@ public class ContactDto {
     private LocalDateTime updatedAt;
     private UUID legalEntityId;
     private UUID businessId;
-    
+
+    public ContactDto(UUID id, String firstName, String lastName, String email, String phoneNumber, String position, String department, String category, String company, String notes, Boolean isActive, UUID legalEntityId, UUID businessId) {
+        this.id = id;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.phoneNumber = phoneNumber;
+        this.position = position;
+        this.department = department;
+        this.category = category;
+        this.company = company;
+        this.notes = notes;
+        this.isActive = isActive;
+        this.legalEntityId = legalEntityId;
+        this.businessId = businessId;
+    }
+
     /**
      * Obtiene el nombre completo del contacto
      * @return Cadena con el nombre y apellido concatenados
