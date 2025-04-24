@@ -22,4 +22,16 @@ public class ConstructionTypeDto {
     private Boolean isActive;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
+
+    public ConstructionTypeDto(UUID id, String name, String description, String code, Boolean isSpecialized, String specializationArea, Boolean requiresLicense, Boolean isActive) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
+        this.code = code;
+        this.isSpecialized = isSpecialized;
+        this.specializationArea = specializationArea;
+        this.requiresLicense = requiresLicense;
+        this.isActive = isActive;
+    }
+
 }
