@@ -1,5 +1,7 @@
 package com.kynsoft.propertyacqcenter.domain.services;
 
+import com.kynsof.share.core.domain.request.FilterCriteria;
+import com.kynsof.share.core.domain.response.PaginatedResponse;
 import com.kynsoft.propertyacqcenter.domain.dto.LegalEntityDto;
 import org.springframework.data.domain.Pageable;
 
@@ -17,5 +19,5 @@ public interface ILegalEntityService {
     
     LegalEntityDto findByTaxId(String taxId);
     
-    List<LegalEntityDto> search(Pageable pageable, List<Object> filterCriteria);
+    PaginatedResponse search(Pageable pageable, List<FilterCriteria> filterCriteria);
 }
