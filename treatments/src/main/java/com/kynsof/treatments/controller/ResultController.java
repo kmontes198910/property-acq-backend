@@ -45,7 +45,7 @@ public class ResultController {
                type,externalConsultationId, file, userId, username);
        CreateResultMessage resultMessage = mediator.send(command);
 
-        return ResponseEntity.ok("resultMessage");
+        return ResponseEntity.ok(resultMessage);
     }
 
     @PatchMapping("/{id}")
