@@ -14,6 +14,4 @@ import java.util.UUID;
 public class CreateResultRequest {
     private String type;
     private UUID externalConsultationId;
-    private String base64Content;
-    private String fileName;
 }

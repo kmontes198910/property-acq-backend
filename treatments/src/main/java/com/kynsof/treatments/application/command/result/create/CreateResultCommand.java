@@ -4,7 +4,10 @@ import com.kynsof.share.core.domain.bus.command.ICommand;
 import com.kynsof.share.core.domain.bus.command.ICommandMessage;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.util.Base64;
 import java.util.UUID;
 
 @Getter
@@ -30,14 +33,20 @@ public class CreateResultCommand implements ICommand {
         this.externalConsultationId = externalConsultationId;
     }
 
-    public static CreateResultCommand fromRequest(CreateResultRequest request, String userId, String username) {
+    public static CreateResultCommand fromRequestWithFile(String type, String externalConsultationId, MultipartFile file, String userId, String username) {
+        String base64Content = null;
+        try {
+            base64Content = Base64.getEncoder().encodeToString(file.getBytes());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
         return new CreateResultCommand(
-                request.getType(),
-                request.getBase64Content(),
-                request.getFileName(),
+                type,
+                base64Content,
+                file.getOriginalFilename(), // Usar el nombre original del archivo
                 userId,
                 username,
-                request.getExternalConsultationId()
+                UUID.fromString(externalConsultationId)
         );
     }
 
