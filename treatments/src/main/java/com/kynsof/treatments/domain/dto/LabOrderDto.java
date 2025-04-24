@@ -1,5 +1,6 @@
 package com.kynsof.treatments.domain.dto;
 
+import com.kynsof.treatments.application.query.services.replicate.ServicesResponse;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -21,6 +22,7 @@ public class LabOrderDto {
     private Date consultationTime;
     private List<ExamDto> labTests;
     private BusinessDto business;
+    private ServicesResponse especialty;
     
     // Constructor que toma un ExternalConsultationDto y extrae solo los exámenes de tipo LAB_TESTS
     public LabOrderDto(ExternalConsultationDto consultationDto) {
@@ -30,7 +32,7 @@ public class LabOrderDto {
         this.doctor = consultationDto.getDoctor();
         this.consultationTime = consultationDto.getConsultationTime();
         this.business = consultationDto.getBusiness();
-        
+        this.especialty = new ServicesResponse(consultationDto.getService());
         // Filtrar solo los exámenes de tipo LAB_TESTS
         if (consultationDto.getExams() != null) {
             this.labTests = consultationDto.getExams().stream()
