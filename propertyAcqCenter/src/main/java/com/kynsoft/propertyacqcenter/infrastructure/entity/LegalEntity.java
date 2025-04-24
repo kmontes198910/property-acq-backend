@@ -5,6 +5,7 @@ import com.kynsoft.propertyacqcenter.domain.dto.LegalEntityDto;
 import com.kynsoft.propertyacqcenter.domain.enums.EntityStatus;
 import com.kynsoft.propertyacqcenter.domain.enums.EntityType;
 import jakarta.persistence.*;
+import java.time.LocalDate;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -44,7 +45,7 @@ public class LegalEntity {
     private String formationState;
 
     @Column(name = "formation_date")
-    private LocalDateTime formationDate;
+    private LocalDate formationDate;
 
     @Column(name = "fiscal_year_end")
     private String fiscalYearEnd;
@@ -68,7 +69,7 @@ public class LegalEntity {
     private Integer employeeCount;
     
     @Column(name = "date_of_last_annual_report")
-    private LocalDateTime dateOfLastAnnualReport;
+    private LocalDate dateOfLastAnnualReport;
     
     @Column(name = "parent_entity_id")
     private UUID parentEntityId;

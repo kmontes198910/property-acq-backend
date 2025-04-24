@@ -2,6 +2,7 @@ package com.kynsoft.propertyacqcenter.domain.dto;
 
 import com.kynsoft.propertyacqcenter.domain.enums.EntityStatus;
 import com.kynsoft.propertyacqcenter.domain.enums.EntityType;
+import java.time.LocalDate;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -22,7 +23,7 @@ public class LegalEntityDto {
     private EntityType entityType;
     private BusinessDto business;
     private String formationState;
-    private LocalDateTime formationDate;
+    private LocalDate formationDate;
     private String fiscalYearEnd;
     private String businessDescription;
     private String registrationNumber;
@@ -30,7 +31,7 @@ public class LegalEntityDto {
     private String industry;
     private Double annualRevenue;
     private Integer employeeCount;
-    private LocalDateTime dateOfLastAnnualReport;
+    private LocalDate dateOfLastAnnualReport;
     private UUID parentEntityId;
     private String notes;
     private EntityStatus status;
