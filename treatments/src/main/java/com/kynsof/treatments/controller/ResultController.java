@@ -33,7 +33,7 @@ public class ResultController {
 
     private final IMediator mediator;
 
-    @PostMapping()
+    @PostMapping("/upload")
     public ResponseEntity<?> createResult(
             @RequestPart("file") MultipartFile file,
             @RequestPart("type") String type,
