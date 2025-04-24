@@ -2,10 +2,10 @@ package com.kynsof.treatments.application.service.rabbitMQ.Dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.UUID;
-import lombok.NoArgsConstructor;
 
 @Getter
 @Setter

@@ -14,14 +14,14 @@ import com.kynsof.treatments.infrastructure.entity.Medicines;
 import com.kynsof.treatments.infrastructure.entity.Procedure;
 import com.kynsof.treatments.infrastructure.repositories.command.MedicinesWriteDataJPARepository;
 import com.kynsof.treatments.infrastructure.repositories.query.MedicinesReadDataJPARepository;
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.*;
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
