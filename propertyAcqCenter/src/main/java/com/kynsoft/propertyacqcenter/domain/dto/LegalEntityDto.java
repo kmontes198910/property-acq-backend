@@ -2,6 +2,7 @@ package com.kynsoft.propertyacqcenter.domain.dto;
 
 import com.kynsoft.propertyacqcenter.domain.enums.EntityStatus;
 import com.kynsoft.propertyacqcenter.domain.enums.EntityType;
+import java.time.LocalDate;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -22,7 +23,7 @@ public class LegalEntityDto {
     private EntityType entityType;
     private BusinessDto business;
     private String formationState;
-    private LocalDateTime formationDate;
+    private LocalDate formationDate;
     private String fiscalYearEnd;
     private String businessDescription;
     private String registrationNumber;
@@ -30,7 +31,7 @@ public class LegalEntityDto {
     private String industry;
     private Double annualRevenue;
     private Integer employeeCount;
-    private LocalDateTime dateOfLastAnnualReport;
+    private LocalDate dateOfLastAnnualReport;
     private UUID parentEntityId;
     private String notes;
     private EntityStatus status;
@@ -42,4 +43,28 @@ public class LegalEntityDto {
     private LocalDateTime updatedAt;
     private UUID createdBy;
     private UUID updatedBy;
+
+    public LegalEntityDto(UUID id, String name, String taxId, EntityType entityType, BusinessDto business, String formationState, LocalDate formationDate, String fiscalYearEnd, String businessDescription, String registrationNumber, String website, String industry, Double annualRevenue, Integer employeeCount, LocalDate dateOfLastAnnualReport, UUID parentEntityId, String notes, EntityStatus status, UUID createdBy, UUID updatedBy) {
+        this.id = id;
+        this.name = name;
+        this.taxId = taxId;
+        this.entityType = entityType;
+        this.business = business;
+        this.formationState = formationState;
+        this.formationDate = formationDate;
+        this.fiscalYearEnd = fiscalYearEnd;
+        this.businessDescription = businessDescription;
+        this.registrationNumber = registrationNumber;
+        this.website = website;
+        this.industry = industry;
+        this.annualRevenue = annualRevenue;
+        this.employeeCount = employeeCount;
+        this.dateOfLastAnnualReport = dateOfLastAnnualReport;
+        this.parentEntityId = parentEntityId;
+        this.notes = notes;
+        this.status = status;
+        this.createdBy = createdBy;
+        this.updatedBy = updatedBy;
+    }
+
 }

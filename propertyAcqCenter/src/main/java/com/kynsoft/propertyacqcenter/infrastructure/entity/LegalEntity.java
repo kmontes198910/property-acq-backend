@@ -5,12 +5,12 @@ import com.kynsoft.propertyacqcenter.domain.dto.LegalEntityDto;
 import com.kynsoft.propertyacqcenter.domain.enums.EntityStatus;
 import com.kynsoft.propertyacqcenter.domain.enums.EntityType;
 import jakarta.persistence.*;
+import java.time.LocalDate;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -45,7 +45,7 @@ public class LegalEntity {
     private String formationState;
 
     @Column(name = "formation_date")
-    private LocalDateTime formationDate;
+    private LocalDate formationDate;
 
     @Column(name = "fiscal_year_end")
     private String fiscalYearEnd;
@@ -69,7 +69,7 @@ public class LegalEntity {
     private Integer employeeCount;
     
     @Column(name = "date_of_last_annual_report")
-    private LocalDateTime dateOfLastAnnualReport;
+    private LocalDate dateOfLastAnnualReport;
     
     @Column(name = "parent_entity_id")
     private UUID parentEntityId;
@@ -81,21 +81,17 @@ public class LegalEntity {
     @Column(name = "status", nullable = false)
     private EntityStatus status;
 
-    @OneToMany(mappedBy = "legalEntity", cascade = CascadeType.ALL, orphanRemoval = true)
-    @Builder.Default
-    private List<Address> addresses = new ArrayList<>();
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "legalEntity", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Address> addresses;
 
-    @OneToMany(mappedBy = "legalEntity", cascade = CascadeType.ALL, orphanRemoval = true)
-    @Builder.Default
-    private List<ContactPerson> contactPersons = new ArrayList<>();
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "legalEntity", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ContactPerson> contactPersons;
 
-    @OneToMany(mappedBy = "legalEntity", cascade = CascadeType.ALL, orphanRemoval = true)
-    @Builder.Default
-    private List<BankAccount> bankAccounts = new ArrayList<>();
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "legalEntity", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<BankAccount> bankAccounts;
 
-    @OneToMany(mappedBy = "legalEntity", cascade = CascadeType.ALL, orphanRemoval = true)
-    @Builder.Default
-    private List<Document> documents = new ArrayList<>();
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "legalEntity", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Document> documents;
 
     @CreationTimestamp
     @Column(name = "created_at", updatable = false)
@@ -135,6 +131,32 @@ public class LegalEntity {
     }
 
     public LegalEntityDto toAggregate() {
+        return LegalEntityDto.builder()
+                .id(this.id)
+                .name(this.name)
+                .taxId(this.taxId)
+                .entityType(this.entityType)
+                .formationState(this.formationState)
+                .formationDate(this.formationDate)
+                .fiscalYearEnd(this.fiscalYearEnd)
+                .businessDescription(this.businessDescription)
+                .registrationNumber(this.registrationNumber)
+                .website(this.website)
+                .industry(this.industry)
+                .annualRevenue(this.annualRevenue)
+                .employeeCount(this.employeeCount)
+                .dateOfLastAnnualReport(this.dateOfLastAnnualReport)
+                .parentEntityId(this.parentEntityId)
+                .notes(this.notes)
+                .status(this.status)
+                .createdAt(this.createdAt)
+                .updatedAt(this.updatedAt)
+                .createdBy(this.createdBy)
+                .updatedBy(this.updatedBy)
+                .build();
+    }
+
+    public LegalEntityDto toAggregateFindById() {
         return LegalEntityDto.builder()
                 .id(this.id)
                 .name(this.name)
