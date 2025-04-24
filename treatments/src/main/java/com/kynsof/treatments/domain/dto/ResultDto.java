@@ -18,4 +18,5 @@ public class ResultDto {
     private String uploadedById;
     private String uploadedByUsername;
     private ExternalConsultationDto externalConsultation;
+    private String fileName;
 }

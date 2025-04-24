@@ -30,6 +30,7 @@ public class Result {
     private String type;
     
     private String url;
+    private String fileName;
     
     @Column(nullable = false)
     private String uploadedById;
@@ -50,6 +51,7 @@ public class Result {
         this.type = resultDto.getType();
         this.url = resultDto.getUrl();
         this.uploadedById = resultDto.getUploadedById();
+        this.fileName = resultDto.getFileName();
         this.uploadedByUsername = resultDto.getUploadedByUsername();
         this.externalConsultation = resultDto.getExternalConsultation() != null ? 
                 new ExternalConsultation(resultDto.getExternalConsultation()) : null;
@@ -63,7 +65,8 @@ public class Result {
                 url,
                 uploadedById,
                 uploadedByUsername,
-                null
+                null,
+                fileName
         );
     }
 }

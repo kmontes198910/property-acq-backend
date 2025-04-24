@@ -95,7 +95,7 @@ public class ResultServiceImpl implements IResultService {
         for (Result o : data.getContent()) {
             resultResponses.add(new ResultResponse(o.getId(), o.getType(), o.getUrl(), o.getUploadedById(),
                     o.getUploadedByUsername(), o.getExternalConsultation() != null ? o.getExternalConsultation().getId() : null,
-                    o.getCreatedAt(), o.getUpdatedAt()));
+                    o.getCreatedAt(), o.getUpdatedAt(), o.getFileName()));
         }
         return new PaginatedResponse(resultResponses, data.getTotalPages(), data.getNumberOfElements(),
                 data.getTotalElements(), data.getSize(), data.getNumber());

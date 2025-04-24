@@ -43,6 +43,7 @@ public class CreateResultCommandHandler implements ICommandHandler<CreateResultC
         ResultDto resultDto = new ResultDto();
         resultDto.setId(resultId);
         resultDto.setType(command.getType());
+        resultDto.setFileName(command.getFileName());
         resultDto.setUrl(command.getUrl());
         resultDto.setUploadedById(command.getUploadedById());
         resultDto.setUploadedByUsername(command.getUploadedByUsername());
