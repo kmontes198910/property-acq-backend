@@ -37,6 +37,8 @@ public class Result {
     
     @Column(nullable = false)
     private String uploadedByUsername;
+
+    private String fileType; // Añadido campo para el tipo de archivo
     
     @CreationTimestamp
     @Column(nullable = false, updatable = false)
@@ -52,6 +54,7 @@ public class Result {
         this.url = resultDto.getUrl();
         this.uploadedById = resultDto.getUploadedById();
         this.fileName = resultDto.getFileName();
+        this.fileType = resultDto.getFileType(); // Asignar el tipo de archivo
         this.uploadedByUsername = resultDto.getUploadedByUsername();
         this.externalConsultation = resultDto.getExternalConsultation() != null ? 
                 new ExternalConsultation(resultDto.getExternalConsultation()) : null;
@@ -66,7 +69,8 @@ public class Result {
                 uploadedById,
                 uploadedByUsername,
                 null,
-                fileName
+                fileName,
+                fileType
         );
     }
 }

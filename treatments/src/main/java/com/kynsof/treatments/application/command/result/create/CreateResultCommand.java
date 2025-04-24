@@ -21,13 +21,15 @@ public class CreateResultCommand implements ICommand {
     private String url;
     private String uploadedById;
     private String uploadedByUsername;
+    private String fileType; // Añadido campo para el tipo de archivo
     private final UUID externalConsultationId;
 
-    public CreateResultCommand(String type, String base64Content, String fileName, String uploadedById,
+    public CreateResultCommand(String type, String base64Content, String fileName, String fileType, String uploadedById,
                                String uploadedByUsername, UUID externalConsultationId) {
         this.type = type;
         this.base64Content = base64Content;
         this.fileName = fileName;
+        this.fileType = fileType;
         this.uploadedById = uploadedById;
         this.uploadedByUsername = uploadedByUsername;
         this.externalConsultationId = externalConsultationId;
@@ -44,6 +46,7 @@ public class CreateResultCommand implements ICommand {
                 type,
                 base64Content,
                 file.getOriginalFilename(), // Usar el nombre original del archivo
+                file.getContentType(),      // Capturar el tipo MIME del archivo
                 userId,
                 username,
                 UUID.fromString(externalConsultationId)

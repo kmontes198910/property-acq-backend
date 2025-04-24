@@ -19,4 +19,5 @@ public class ResultDto {
     private String uploadedByUsername;
     private ExternalConsultationDto externalConsultation;
     private String fileName;
+    private String fileType; // Añadido campo para el tipo de archivo
 }
