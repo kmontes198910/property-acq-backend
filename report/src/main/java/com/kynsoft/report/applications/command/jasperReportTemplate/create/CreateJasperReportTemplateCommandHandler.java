@@ -29,12 +29,11 @@ public class CreateJasperReportTemplateCommandHandler implements ICommandHandler
 
     private final IJasperReportTemplateService service;
     private final IDBConnectionService connectionService;
-    private final IFileUploadService fileUploadService;
 
-    public CreateJasperReportTemplateCommandHandler(IJasperReportTemplateService service, IDBConnectionService conectionService, IFileUploadService fileUploadService) {
+    public CreateJasperReportTemplateCommandHandler(IJasperReportTemplateService service,
+                                                    IDBConnectionService conectionService) {
         this.service = service;
         this.connectionService = conectionService;
-        this.fileUploadService = fileUploadService;
     }
 
     @Override

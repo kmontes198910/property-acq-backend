@@ -7,6 +7,7 @@ import com.kynsoft.report.domain.dto.status.Status;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.Base64;
 import java.util.UUID;
 
 @Getter
@@ -19,13 +20,15 @@ public class UpdateJasperReportTemplateCommand implements ICommand {
     private String description;
     private JasperReportTemplateType type;
     private String file;
+    private String fileBase64; // Nuevo campo para el archivo en base64
+    private byte[] fileBytes; // Bytes del archivo para compilación
     private String parameters;
     private UUID dbConection;
     private String query;
     private Status status;
 
     public UpdateJasperReportTemplateCommand(UUID id, String code, String name, String description,
-                                             JasperReportTemplateType type, String file, String parameters,
+                                             JasperReportTemplateType type, String file, String fileBase64, String parameters,
                                              UUID dbConection, String query, Status status) {
         this.id = id;
         this.code = code;
@@ -33,6 +36,10 @@ public class UpdateJasperReportTemplateCommand implements ICommand {
         this.description = description;
         this.type = type;
         this.file = file;
+        this.fileBase64 = fileBase64;
+        if (fileBase64 != null && !fileBase64.isEmpty()) {
+            this.fileBytes = Base64.getDecoder().decode(fileBase64);
+        }
         this.parameters = parameters;
         this.dbConection = dbConection;
         this.query = query;
@@ -42,11 +49,12 @@ public class UpdateJasperReportTemplateCommand implements ICommand {
     public static UpdateJasperReportTemplateCommand fromRequest(UpdateJasperReportTemplateRequest request, UUID id) {
         return new UpdateJasperReportTemplateCommand(
                 id,
-                request.getCode(), 
-                request.getName(), 
-                request.getDescription(), 
-                request.getType(), 
+                request.getCode(),
+                request.getName(),
+                request.getDescription(),
+                request.getType(),
                 request.getFile(),
+                request.getFileBase64(),
                 request.getParameters(),
                 request.getDbConection(),
                 request.getQuery(),
