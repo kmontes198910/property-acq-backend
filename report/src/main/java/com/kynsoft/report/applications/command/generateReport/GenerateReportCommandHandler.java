@@ -266,6 +266,14 @@ public class GenerateReportCommandHandler implements ICommandHandler<GenerateRep
 
     private Connection createConnection(JasperReportTemplateDto reportTemplateDto) throws SQLException, ClassNotFoundException {
         DBConnectionDto dbConnection = reportTemplateDto.getDbConection();
+        
+        // Normalizar la URL de conexión a minúsculas para evitar problemas con el driver JDBC
+        if (dbConnection.getUrl() != null) {
+            String normalizedUrl = dbConnection.getUrl().toLowerCase();
+            dbConnection.setUrl(normalizedUrl);
+            logger.debug("URL de conexión normalizada: {}", normalizedUrl);
+        }
+        
         Class.forName(POSTGRESQL_DRIVER);
         
         // Configurar propiedades de conexión para optimizar rendimiento
