@@ -33,7 +33,7 @@ public class CreateResultCommandHandler implements ICommandHandler<CreateResultC
                 command.getBase64Content(),
                 command.getFileName(),
                 resultId.toString(),
-                "resultados/" + command.getExternalConsultationId(),
+                "Laboratorio",
                 command.getUploadedById(),
                 command.getUploadedByUsername(),
                 externalConsultation.getBusiness().getId()
