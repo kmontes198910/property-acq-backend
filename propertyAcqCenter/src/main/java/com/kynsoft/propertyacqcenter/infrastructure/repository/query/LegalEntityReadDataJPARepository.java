@@ -10,10 +10,16 @@ import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 import java.util.UUID;
+import org.springframework.data.jpa.repository.EntityGraph;
 
 @Repository
 public interface LegalEntityReadDataJPARepository extends JpaRepository<LegalEntity, UUID>, JpaSpecificationExecutor<LegalEntity> {
+    @Override
     Page<LegalEntity> findAll(Specification<LegalEntity> specification, Pageable pageable);
-    
+
     Optional<LegalEntity> findByTaxId(String taxId);
+
+    @EntityGraph(attributePaths = {"business"})
+    @Override
+    Optional<LegalEntity> findById(UUID id);
 }
