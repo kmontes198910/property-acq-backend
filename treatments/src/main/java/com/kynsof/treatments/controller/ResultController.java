@@ -38,11 +38,12 @@ public class ResultController {
             @RequestPart("file") MultipartFile file,
             @RequestPart("type") String type,
             @RequestPart("externalConsultationId") String externalConsultationId,
+            @RequestParam(value = "folderPath", required = false) String folderPath,
             @RequestHeader("X-User-Id") String userId,
             @RequestHeader("X-User-Name") String username) {
 
        CreateResultCommand command = CreateResultCommand.fromRequestWithFile(
-               type,externalConsultationId, file, userId, username);
+               type,externalConsultationId, file, userId, username, folderPath);
        CreateResultMessage resultMessage = mediator.send(command);
 
         return ResponseEntity.ok(resultMessage);

@@ -23,24 +23,24 @@ public class CreateResultCommandHandler implements ICommandHandler<CreateResultC
     public void handle(CreateResultCommand command) {
         UUID resultId = UUID.randomUUID();
         command.setId(resultId);
-        
+
         ExternalConsultationDto externalConsultation = externalConsultationService
                 .findById(command.getExternalConsultationId());
-        
+
         // Si hay contenido base64 para cargar, llamamos al servicio de carga de archivos
         if (command.getBase64Content() != null && !command.getBase64Content().isEmpty()) {
             String fileUrl = resultFileUploadService.uploadFile(
-                command.getBase64Content(),
-                command.getFileName(),
-                resultId.toString(),
-                "Laboratorio",
-                command.getUploadedById(),
-                command.getUploadedByUsername(),
-                externalConsultation.getBusiness().getId()
+                    command.getBase64Content(),
+                    command.getFileName(),
+                    resultId.toString(),
+                    command.getFinalFolderPath(),
+                    command.getUploadedById(),
+                    command.getUploadedByUsername(),
+                    externalConsultation.getBusiness().getId()
             );
             command.setUrl(fileUrl);
         }
-        
+
         ResultDto resultDto = new ResultDto();
         resultDto.setId(resultId);
         resultDto.setType(command.getType());
@@ -49,7 +49,7 @@ public class CreateResultCommandHandler implements ICommandHandler<CreateResultC
         resultDto.setUrl(command.getUrl());
         resultDto.setUploadedById(command.getUploadedById());
         resultDto.setUploadedByUsername(command.getUploadedByUsername());
-        
+
         resultService.save(resultDto, externalConsultation);
     }
 }
