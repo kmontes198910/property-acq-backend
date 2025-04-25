@@ -5,13 +5,14 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.io.Serializable;
 import java.util.UUID;
 
 @Setter
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserSystemDto {
+public class UserSystemDto implements Serializable {
     private UUID id;
     private String identification;
     private String code;

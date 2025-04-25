@@ -10,9 +10,12 @@ import com.kynsof.share.core.infrastructure.specifications.GenericSpecifications
 import com.kynsoft.rrhh.application.query.doctor.getbyid.DoctorResponse;
 import com.kynsoft.rrhh.domain.dto.DoctorDto;
 import com.kynsoft.rrhh.domain.interfaces.services.IDoctorService;
+import com.kynsoft.rrhh.infrastructure.config.RRHHCacheConfig;
 import com.kynsoft.rrhh.infrastructure.identity.Doctor;
 import com.kynsoft.rrhh.infrastructure.repository.command.DoctorWriteDataJPARepository;
 import com.kynsoft.rrhh.infrastructure.repository.query.DoctorReadDataJPARepository;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -36,11 +39,13 @@ public class DoctorServiceImpl implements IDoctorService {
     }
 
     @Override
+    @CacheEvict(value = {RRHHCacheConfig.DOCTORS_CACHE, RRHHCacheConfig.DOCTORS_BY_ID_CACHE}, allEntries = true)
     public void create(DoctorDto object) {
         this.repositoryCommand.save(new Doctor(object));
     }
 
     @Override
+    @CacheEvict(value = {RRHHCacheConfig.DOCTORS_CACHE, RRHHCacheConfig.DOCTORS_BY_ID_CACHE}, allEntries = true)
     public void update(DoctorDto object) {
         Doctor update = new Doctor(object);
         update.setUpdatedAt(LocalDateTime.now());
@@ -48,11 +53,13 @@ public class DoctorServiceImpl implements IDoctorService {
     }
 
     @Override
+    @CacheEvict(value = {RRHHCacheConfig.DOCTORS_CACHE, RRHHCacheConfig.DOCTORS_BY_ID_CACHE}, allEntries = true)
     public void delete(DoctorDto object) {
         this.repositoryCommand.save(new Doctor(object));
     }
 
     @Override
+    @Cacheable(value = RRHHCacheConfig.DOCTORS_BY_ID_CACHE, key = "#id")
     public DoctorDto findById(UUID id) {
 
         Optional<Doctor> object = this.repositoryQuery.findById(id);
@@ -65,9 +72,11 @@ public class DoctorServiceImpl implements IDoctorService {
     }
 
     @Override
+    @Cacheable(value = RRHHCacheConfig.DOCTOR_SEARCH_CACHE,
+            key = "'search:' + #pageable.pageNumber + ':' + #pageable.pageSize + ':' + #pageable.sort + ':' + T(java.util.Objects).hash(#filterCriteria)",
+            unless = "#result == null")
     public PaginatedResponse search(Pageable pageable, List<FilterCriteria> filterCriteria) {
         GenericSpecificationsBuilder<Doctor> specifications = new GenericSpecificationsBuilder<>(filterCriteria);
-        //Page<UserBusinessRelation> responses =  this.userBusinessRelationReadDataJPARepository.findAll(specifications, pageable);
         Page<Doctor> data = this.repositoryQuery.findAll(specifications, pageable);
         return getPaginatedResponse(data);
     }
@@ -107,6 +116,7 @@ public class DoctorServiceImpl implements IDoctorService {
     }
 
     @Override
+    @Cacheable(value = RRHHCacheConfig.DOCTORS_CACHE)
     public List<DoctorDto> findAllToReplicate() {
         List<Doctor> objects = this.repositoryQuery.findAll();
         List<DoctorDto> objectDtos = new ArrayList<>();
