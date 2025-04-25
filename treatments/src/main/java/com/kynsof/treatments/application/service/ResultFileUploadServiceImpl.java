@@ -1,21 +1,22 @@
 package com.kynsof.treatments.application.service;
 
 import com.kynsof.share.core.domain.response.ApiResponse;
-import com.kynsof.treatments.application.command.result.create.FileBase64UploadDto;
 import com.kynsof.treatments.domain.service.IResultFileUploadService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
+import org.springframework.core.io.ByteArrayResource;
+import org.springframework.http.*;
 import org.springframework.stereotype.Service;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import java.util.Base64;
 import java.util.Map;
+import java.util.UUID;
 
 /**
  * Implementación del servicio para cargar archivos de resultados
@@ -29,59 +30,98 @@ public class ResultFileUploadServiceImpl implements IResultFileUploadService {
     
     @Value("${services.cloudBridges-service.url:http://localhost:8097}")
     private String fileServiceUrl;
-    
     @Override
-    public String uploadFile(String base64Content, String fileName, String objectId, 
-                           String folderPath, String uploadedById, String uploadedByUsername) {
+    public String uploadFile(MultipartFile file, String fileName, String objectId,
+                             String folderPath, String uploadedById, String uploadedByUsername, UUID businessId) {
         try {
-            // Crear el DTO para la carga del archivo
-            FileBase64UploadDto fileUploadDto = new FileBase64UploadDto();
-            fileUploadDto.setBase64Content(base64Content);
-            fileUploadDto.setFileName(fileName);
-            fileUploadDto.setObjectId(objectId);
-            fileUploadDto.setFolderPath(folderPath);
-            
-            // Configurar los headers para la solicitud
+            log.info("Iniciando carga de archivo: {}, folderPath: {}, objectId: {}",
+                    fileName, folderPath, objectId);
+
+            // Crear los headers
             HttpHeaders headers = new HttpHeaders();
-            headers.setContentType(MediaType.APPLICATION_JSON);
-            if (uploadedById != null) {
+            headers.setContentType(MediaType.MULTIPART_FORM_DATA);
+
+            if (uploadedById != null && !uploadedById.isEmpty()) {
                 headers.set("X-User-Id", uploadedById);
+                log.debug("Añadido X-User-Id: {}", uploadedById);
             }
-            if (uploadedByUsername != null) {
+
+            if (uploadedByUsername != null && !uploadedByUsername.isEmpty()) {
                 headers.set("X-User-Name", uploadedByUsername);
+                log.debug("Añadido X-User-Name: {}", uploadedByUsername);
             }
-            
-            // Crear la entidad de la solicitud
-            HttpEntity<FileBase64UploadDto> requestEntity = new HttpEntity<>(fileUploadDto, headers);
-            
-            // Realizar la llamada al servicio
-            String endpoint = fileServiceUrl + "/api/file-record";
-            ResponseEntity<ApiResponse> response = restTemplate.postForEntity(
-                    endpoint,
+
+            // Convertir MultipartFile a ByteArrayResource para evitar problemas de serialización
+            ByteArrayResource fileAsResource = new ByteArrayResource(file.getBytes()) {
+                @Override
+                public String getFilename() {
+                    return file.getOriginalFilename();
+                }
+            };
+
+            // Construir formulario multipart
+            MultiValueMap<String, Object> formData = new LinkedMultiValueMap<>();
+            formData.add("file", fileAsResource);
+
+            // Construir URL base
+            String endpoint = fileServiceUrl + "/api/file-record/upload";
+
+            UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(endpoint);
+            if (objectId != null && !objectId.isEmpty()) {
+                builder.queryParam("objectId", objectId);
+            }
+            if (folderPath != null && !folderPath.isEmpty()) {
+                builder.queryParam("folderPath", folderPath);
+            }
+            if (businessId != null) {
+                builder.queryParam("businessId", businessId.toString());
+            }
+
+            String finalUrl = builder.toUriString();
+            log.info("Enviando solicitud a: {}", finalUrl);
+
+            // Enviar request
+            HttpEntity<MultiValueMap<String, Object>> requestEntity = new HttpEntity<>(formData, headers);
+
+            ResponseEntity<ApiResponse> response = restTemplate.exchange(
+                    finalUrl,
+                    HttpMethod.POST,
                     requestEntity,
                     ApiResponse.class
             );
-            
-            // Procesar la respuesta
-            if (response.getStatusCode().is2xxSuccessful() && response.getBody() != null && response.getBody().getData() != null) {
-                // Extraer la URL del archivo cargado desde la respuesta
+
+            log.info("Respuesta recibida con estado: {}", response.getStatusCode());
+
+            if (response.getStatusCode().is2xxSuccessful() &&
+                response.getBody() != null &&
+                response.getBody().getData() != null) {
+
                 Object data = response.getBody().getData();
-                if (data instanceof java.util.Map) {
+                log.debug("Respuesta recibida: {}", data);
+
+                if (data instanceof Map) {
                     @SuppressWarnings("unchecked")
-                    java.util.Map<String, Object> dataMap = (java.util.Map<String, Object>) data;
-                    return (String) dataMap.get("viewUrl");
+                    Map<String, Object> dataMap = (Map<String, Object>) data;
+                    String url = (String) dataMap.getOrDefault("viewUrl", dataMap.get("url"));
+                    if (url != null) {
+                        log.info("Archivo cargado exitosamente: {}", url);
+                        return url;
+                    }
                 }
             }
-            
+
+            log.error("No se pudo obtener la URL del archivo. Estado: {}, Cuerpo: {}",
+                    response.getStatusCode(), response.getBody());
             throw new RuntimeException("No se pudo obtener la URL del archivo cargado");
-            
+
         } catch (Exception e) {
+            log.error("Error al cargar archivo {}: {}", fileName, e.getMessage(), e);
             throw new RuntimeException("Error al cargar el archivo: " + e.getMessage(), e);
         }
     }
     
     @Override
-    public boolean deleteFile(String fileId) {
+    public void deleteFile(String fileId) {
         try {
             log.info("Eliminando archivo con ID: {}", fileId);
             
@@ -101,11 +141,10 @@ public class ResultFileUploadServiceImpl implements IResultFileUploadService {
             );
             
             // Verificar si la eliminación fue exitosa
-            return response.getStatusCode().is2xxSuccessful();
-            
+            response.getStatusCode().is2xxSuccessful();
+
         } catch (Exception e) {
             log.error("Error al eliminar el archivo con ID {}: {}", fileId, e.getMessage(), e);
-            return false;
         }
     }
 }

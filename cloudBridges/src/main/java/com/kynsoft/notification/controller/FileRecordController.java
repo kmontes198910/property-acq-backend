@@ -63,13 +63,55 @@ public class FileRecordController {
     }
 
     /**
+     * Endpoint para cargar archivos usando MultipartFile
+     * @param file Archivo a cargar
+     * @param objectId ID del objeto relacionado (opcional)
+     * @param folderPath Ruta de carpeta donde se guardará el archivo (opcional)
+     * @param userId ID del usuario que realiza la carga (opcional)
+     * @param userName Nombre del usuario que realiza la carga (opcional)
+     * @param businessId ID del negocio (opcional)
+     * @return Respuesta con la información del archivo cargado
+     */
+    @PostMapping(value = "/upload")
+    public ResponseEntity<?> uploadFile(
+            @RequestPart("file") MultipartFile file,
+            @RequestParam(value = "objectId", required = false) String objectId,
+            @RequestParam(value = "folderPath", required = false) String folderPath,
+            @RequestHeader(value = "X-User-Id", required = false) String userId,
+            @RequestHeader(value = "X-User-Name", required = false) String userName,
+            @RequestParam(value = "businessId", required = false) UUID businessId) {
+
+        logger.info("Recibida solicitud para cargar archivo con nombre: {}, folderPath: {}, objectId: {}",
+                file.getOriginalFilename(), folderPath, objectId);
+
+        try {
+            // Procesar la carga del archivo directamente
+            return processFileUpload(
+                    file,
+                    objectId,
+                    folderPath,
+                    userId,
+                    userName,
+                    businessId
+            );
+        } catch (Exception e) {
+            logger.error("Error al procesar archivo: {}", e.getMessage(), e);
+            return ResponseEntity.badRequest().body(
+                    ApiResponse.fail(new ApiError(500, "Error al procesar archivo: " + e.getMessage()))
+            );
+        }
+    }
+
+    /**
      * Endpoint para cargar archivos en formato base64 a través del cuerpo JSON
      * @param fileUploadDto DTO con el contenido base64 del archivo y metadatos
      * @param userId ID del usuario que realiza la carga (opcional)
      * @param userName Nombre del usuario que realiza la carga (opcional)
      * @return Respuesta con la información del archivo cargado
+     * @deprecated Usar uploadFile con MultipartFile en su lugar
      */
-    @PostMapping(value = "", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @Deprecated
+    @PostMapping(value = "/base64", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ApiResponse<?>> uploadBase64File(
             @RequestBody FileBase64UploadDto fileUploadDto,
             @RequestHeader(value = "X-User-Id", required = false) String userId,
