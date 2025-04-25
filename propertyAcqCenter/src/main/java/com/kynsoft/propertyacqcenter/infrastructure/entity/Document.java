@@ -4,6 +4,7 @@ import com.kynsoft.propertyacqcenter.domain.dto.DocumentDto;
 import com.kynsoft.propertyacqcenter.domain.enums.DocumentType;
 import com.kynsoft.propertyacqcenter.domain.enums.DocumentStatus;
 import jakarta.persistence.*;
+import java.time.LocalDate;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -48,20 +49,20 @@ public class Document {
     private String contentType;
 
     @Column(name = "expiration_date")
-    private LocalDateTime expirationDate;
+    private LocalDate expirationDate;
     
     @Column(name = "issued_by")
     private String issuedBy;
     
     @Column(name = "issuing_date")
-    private LocalDateTime issuingDate;
+    private LocalDate issuingDate;
     
     @Enumerated(EnumType.STRING)
     @Column(name = "document_status")
     private DocumentStatus documentStatus;
     
     @Column(name = "verification_date")
-    private LocalDateTime verificationDate;
+    private LocalDate verificationDate;
     
     @Column(name = "verified_by")
     private UUID verifiedBy;
@@ -79,7 +80,7 @@ public class Document {
     private Boolean renewalRequired;
     
     @Column(name = "renewal_date")
-    private LocalDateTime renewalDate;
+    private LocalDate renewalDate;
     
     @Column(name = "tags")
     private String tags;
@@ -101,9 +102,9 @@ public class Document {
     @Column(name = "updated_by")
     private UUID updatedBy;
 
-    public Document(DocumentDto dto, LegalEntity legalEntity) {
+    public Document(DocumentDto dto) {
         this.id = dto.getId() != null ? dto.getId() : UUID.randomUUID();
-        this.legalEntity = legalEntity;
+        this.legalEntity = dto.getLegalEntity() != null ? new LegalEntity(dto.getLegalEntity()) : null;
         this.fileName = dto.getFileName();
         this.filePath = dto.getFilePath();
         this.documentType = dto.getDocumentType();
@@ -130,7 +131,36 @@ public class Document {
     public DocumentDto toAggregate() {
         return DocumentDto.builder()
                 .id(this.id)
-                .legalEntityId(this.legalEntity != null ? this.legalEntity.getId() : null)
+                .fileName(this.fileName)
+                .filePath(this.filePath)
+                .documentType(this.documentType)
+                .description(this.description)
+                .fileSize(this.fileSize)
+                .contentType(this.contentType)
+                .expirationDate(this.expirationDate)
+                .issuedBy(this.issuedBy)
+                .issuingDate(this.issuingDate)
+                .documentStatus(this.documentStatus)
+                .verificationDate(this.verificationDate)
+                .verifiedBy(this.verifiedBy)
+                .documentNumber(this.documentNumber)
+                .isOriginal(this.isOriginal)
+                .version(this.version)
+                .renewalRequired(this.renewalRequired)
+                .renewalDate(this.renewalDate)
+                .tags(this.tags)
+                .notes(this.notes)
+                .createdAt(this.createdAt)
+                .updatedAt(this.updatedAt)
+                .createdBy(this.createdBy)
+                .updatedBy(this.updatedBy)
+                .build();
+    }
+
+    public DocumentDto toAggregateFindById() {
+        return DocumentDto.builder()
+                .id(this.id)
+                .legalEntity(this.legalEntity.toAggregate())
                 .fileName(this.fileName)
                 .filePath(this.filePath)
                 .documentType(this.documentType)
