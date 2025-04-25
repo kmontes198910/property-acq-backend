@@ -1,5 +1,9 @@
 package com.kynsof.treatments.domain.service;
 
+import org.springframework.web.multipart.MultipartFile;
+
+import java.util.UUID;
+
 /**
  * Interfaz para el servicio de carga de archivos de resultados
  */
@@ -16,14 +20,13 @@ public interface IResultFileUploadService {
      * @param uploadedByUsername Nombre del usuario que carga el archivo
      * @return URL del archivo cargado
      */
-    String uploadFile(String base64Content, String fileName, String objectId, 
-                     String folderPath, String uploadedById, String uploadedByUsername);
+    String uploadFile(MultipartFile base64Content, String fileName, String objectId,
+                      String folderPath, String uploadedById, String uploadedByUsername, UUID businessId);
     
     /**
      * Elimina un archivo por su ID
      *
      * @param fileId ID del archivo a eliminar
-     * @return true si se eliminó correctamente, false en caso contrario
      */
-    boolean deleteFile(String fileId);
+    void deleteFile(String fileId);
 }

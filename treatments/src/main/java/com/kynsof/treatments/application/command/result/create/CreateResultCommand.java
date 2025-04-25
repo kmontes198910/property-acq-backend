@@ -16,7 +16,7 @@ public class CreateResultCommand implements ICommand {
 
     private UUID id;
     private String type;
-    private String base64Content;
+    private MultipartFile base64Content;
     private String fileName;
     private String url;
     private String uploadedById;
@@ -24,7 +24,7 @@ public class CreateResultCommand implements ICommand {
     private String fileType; // Añadido campo para el tipo de archivo
     private final UUID externalConsultationId;
 
-    public CreateResultCommand(String type, String base64Content, String fileName, String fileType, String uploadedById,
+    public CreateResultCommand(String type, MultipartFile base64Content, String fileName, String fileType, String uploadedById,
                                String uploadedByUsername, UUID externalConsultationId) {
         this.type = type;
         this.base64Content = base64Content;
@@ -36,15 +36,15 @@ public class CreateResultCommand implements ICommand {
     }
 
     public static CreateResultCommand fromRequestWithFile(String type, String externalConsultationId, MultipartFile file, String userId, String username) {
-        String base64Content = null;
-        try {
-            base64Content = Base64.getEncoder().encodeToString(file.getBytes());
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+//        String base64Content = null;
+//        try {
+//            base64Content = Base64.getEncoder().encodeToString(file.getBytes());
+//        } catch (IOException e) {
+//            throw new RuntimeException(e);
+//        }
         return new CreateResultCommand(
                 type,
-                base64Content,
+                file,
                 file.getOriginalFilename(), // Usar el nombre original del archivo
                 file.getContentType(),      // Capturar el tipo MIME del archivo
                 userId,

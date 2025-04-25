@@ -35,7 +35,8 @@ public class CreateResultCommandHandler implements ICommandHandler<CreateResultC
                 resultId.toString(),
                 "resultados/" + command.getExternalConsultationId(),
                 command.getUploadedById(),
-                command.getUploadedByUsername()
+                command.getUploadedByUsername(),
+                externalConsultation.getBusiness().getId()
             );
             command.setUrl(fileUrl);
         }
