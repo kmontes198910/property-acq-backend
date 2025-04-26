@@ -4,7 +4,6 @@ import com.kynsof.calendar.domain.dto.ServiceTypeDto;
 import com.kynsof.calendar.domain.service.IServiceTypeService;
 import com.kynsof.share.core.domain.RulesChecker;
 import com.kynsof.share.core.domain.bus.command.ICommandHandler;
-import com.kynsof.share.core.domain.kafka.entity.ServiceTypeKafka;
 import com.kynsof.share.core.domain.rules.ValidateObjectNotNullRule;
 import com.kynsof.share.utils.UpdateIfNotNull;
 import org.springframework.stereotype.Component;
