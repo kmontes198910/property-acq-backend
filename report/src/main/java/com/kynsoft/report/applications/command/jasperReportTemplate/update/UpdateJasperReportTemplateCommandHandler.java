@@ -32,11 +32,14 @@ public class UpdateJasperReportTemplateCommandHandler implements ICommandHandler
     
     private final IJasperReportTemplateService service;
     private final IDBConnectionService conectionService;
+    private final IFileUploadService fileUploadService;
 
     public UpdateJasperReportTemplateCommandHandler(IJasperReportTemplateService service, 
-                                                  IDBConnectionService conectionService) {
+                                                  IDBConnectionService conectionService,
+                                                  IFileUploadService fileUploadService) {
         this.service = service;
         this.conectionService = conectionService;
+        this.fileUploadService = fileUploadService;
     }
 
     @Override
@@ -44,14 +47,29 @@ public class UpdateJasperReportTemplateCommandHandler implements ICommandHandler
         RulesChecker.checkRule(new ValidateObjectNotNullRule<>(command.getId(), "id", "JasperReportTemplate ID cannot be null."));
         JasperReportTemplateDto update = this.service.findById(command.getId());
         
+        // Normalizar la conexión de base de datos si existe
+        DBConnectionDto dbConnectionDto = null;
+        if (command.getDbConection() != null) {
+            dbConnectionDto = this.conectionService.findById(command.getDbConection());
+            // Normalizar la URL de la conexión
+            if (dbConnectionDto != null && dbConnectionDto.getUrl() != null) {
+                String normalizedUrl = dbConnectionDto.getUrl().toLowerCase();
+                dbConnectionDto.setUrl(normalizedUrl);
+            }
+        }
+        
         // Actualizar los campos básicos
         update.setTemplateContentUrl(command.getFile());
         UpdateIfNotNull.updateIfNotNull(update::setTemplateCode, command.getCode());
         UpdateIfNotNull.updateIfNotNull(update::setTemplateDescription, command.getDescription());
         UpdateIfNotNull.updateIfNotNull(update::setTemplateName, command.getName());
         update.setType(command.getType());
-        this.updateConection(update::setDbConection, command.getDbConection(), 
-                          update.getDbConection() != null ? update.getDbConection().getId() : null);
+        
+        // Actualizar la conexión solo si hay cambios
+        if (dbConnectionDto != null) {
+            update.setDbConection(dbConnectionDto);
+        }
+        
         updateStatus(update::setStatus, command.getStatus(), update.getStatus());
 
         // Si hay un nuevo archivo, compilarlo y actualizarlo
@@ -68,23 +86,29 @@ public class UpdateJasperReportTemplateCommandHandler implements ICommandHandler
                 
                 // Compilar el reporte
                 InputStream jrxmlInputStream = new ByteArrayInputStream(command.getFileBytes());
-                JasperReport jasperReport = JasperCompileManager.compileReport(jrxmlInputStream);
-                logger.info("Reporte compilado correctamente en memoria");
-                
+                JasperReport jasperReport;
+                try {
+                    jasperReport = JasperCompileManager.compileReport(jrxmlInputStream);
+                    logger.info("Reporte compilado correctamente en memoria");
+                } catch (JRException e) {
+                    logger.error("Error al compilar el reporte", e);
+                    throw new RuntimeException("Error al compilar el reporte: " + e.getMessage(), e);
+                }
+
                 // Convertir el JasperReport a bytes para almacenamiento
                 ByteArrayOutputStream jasperOutputStream = new ByteArrayOutputStream();
                 JRSaver.saveObject(jasperReport, jasperOutputStream);
                 byte[] jasperBytes = jasperOutputStream.toByteArray();
                 
+                // Imprimir información de depuración
+                logger.info("Archivo Jasper compilado correctamente. Tamaño: {} bytes", jasperBytes.length);
+                
                 // Convertir a Base64 para guardar en la base de datos
                 String jasperBase64 = Base64.getEncoder().encodeToString(jasperBytes);
-                logger.info("Archivo Jasper actualizado y convertido a Base64. Tamaño: {} caracteres", jasperBase64.length());
+              //  logger.info("Archivo Jasper convertido a Base64. Tamaño: {} caracteres", jasperBase64);
                 
                 // Actualizar el campo jasperContentBase64 con el nuevo contenido
                 update.setJasperContentBase64(jasperBase64);
-            } catch (JRException e) {
-                logger.error("Error al compilar el reporte Jasper", e);
-                throw new RuntimeException("Error al compilar el reporte Jasper: " + e.getMessage(), e);
             } catch (Exception e) {
                 logger.error("Error inesperado al procesar el archivo", e);
                 throw new RuntimeException("Error al procesar el archivo: " + e.getMessage(), e);
