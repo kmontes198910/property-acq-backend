@@ -19,6 +19,7 @@ public class UpdateJasperReportTemplateRequest {
     private String description;
     private JasperReportTemplateType type;
     private String file;
+    private String fileBase64; // Nuevo campo para el archivo en formato base64
     private String parameters;
     private UUID dbConection;
     private String query;

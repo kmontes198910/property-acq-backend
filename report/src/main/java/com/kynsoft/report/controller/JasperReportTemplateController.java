@@ -45,11 +45,7 @@ public class JasperReportTemplateController {
                     ApiResponse.fail(new ApiError("El archivo en base64 es requerido"))
                 );
             }
-            
-            // Verificar los datos recibidos (para depuración)
-            System.out.println("Request received: " + request.getCode());
-            System.out.println("Base64 file size: " + request.getFileBase64().length() + " characters");
-            
+
             // Crear el comando a partir de la solicitud
             CreateJasperReportTemplateCommand createCommand = CreateJasperReportTemplateCommand.fromRequest(request);
             
