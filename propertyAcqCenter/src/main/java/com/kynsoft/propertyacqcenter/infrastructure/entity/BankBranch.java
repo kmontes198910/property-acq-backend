@@ -1,5 +1,6 @@
 package com.kynsoft.propertyacqcenter.infrastructure.entity;
 
+import com.kynsoft.propertyacqcenter.domain.dto.embedded.BankBranchDto;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 import jakarta.persistence.Embedded;
@@ -24,4 +25,11 @@ public class BankBranch {
     
     @Column(name = "branch_phone")
     private String phone;
+
+    public BankBranch(BankBranchDto dto) {
+        this.name = dto.getName();
+        this.address = new EmbeddableAddress(dto.getAddress());
+        this.phone = dto.getPhone();
+    }
+
 }
