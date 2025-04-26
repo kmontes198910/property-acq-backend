@@ -1,5 +1,6 @@
 package com.kynsoft.propertyacqcenter.infrastructure.entity;
 
+import com.kynsoft.propertyacqcenter.domain.dto.embedded.InternationalBankingDetailsDto;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 import lombok.AllArgsConstructor;
@@ -23,4 +24,11 @@ public class InternationalBankingDetails {
 
     @Column(name = "account_currency")
     private String currency;
+
+    public InternationalBankingDetails(InternationalBankingDetailsDto dto) {
+        this.swiftCode = dto.getSwiftCode();
+        this.iban = dto.getIban();
+        this.currency = dto.getCurrency();
+    }
+
 }

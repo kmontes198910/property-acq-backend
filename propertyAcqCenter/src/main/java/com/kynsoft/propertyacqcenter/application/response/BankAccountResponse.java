@@ -1,5 +1,7 @@
-package com.kynsoft.propertyacqcenter.domain.dto;
+package com.kynsoft.propertyacqcenter.application.response;
 
+import com.kynsof.share.core.domain.bus.query.IResponse;
+import com.kynsoft.propertyacqcenter.domain.dto.*;
 import com.kynsoft.propertyacqcenter.domain.dto.embedded.BankBranchDto;
 import com.kynsoft.propertyacqcenter.domain.dto.embedded.BankContactDto;
 import com.kynsoft.propertyacqcenter.domain.dto.embedded.InternationalBankingDetailsDto;
@@ -17,9 +19,8 @@ import java.util.UUID;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class BankAccountDto {
+public class BankAccountResponse implements IResponse {
     private UUID id;
-    private LegalEntityDto legalEntity;//
     private String bankName;//
     private String accountNumber;//
     private String routingNumber;//
@@ -37,22 +38,23 @@ public class BankAccountDto {
     private InternationalBankingDetailsDto internationalDetails;
     private BankBranchDto branchInfo;
 
-    public BankAccountDto(UUID id, LegalEntityDto legalEntity, String bankName, String accountNumber, String routingNumber, AccountType accountType, String accountNickname, LocalDate openingDate, String onlineBankingUrl, String notes, UUID createdBy, UUID updatedBy, BankContactDto contactDetails, InternationalBankingDetailsDto internationalDetails, BankBranchDto branchInfo) {
-        this.id = id;
-        this.legalEntity = legalEntity;
-        this.bankName = bankName;
-        this.accountNumber = accountNumber;
-        this.routingNumber = routingNumber;
-        this.accountType = accountType;
-        this.accountNickname = accountNickname;
-        this.openingDate = openingDate;
-        this.onlineBankingUrl = onlineBankingUrl;
-        this.notes = notes;
-        this.createdBy = createdBy;
-        this.updatedBy = updatedBy;
-        this.contactDetails = contactDetails;
-        this.internationalDetails = internationalDetails;
-        this.branchInfo = branchInfo;
+    public BankAccountResponse(BankAccountDto dto) {
+        this.id = dto.getId();
+        this.bankName = dto.getBankName();
+        this.accountNumber = dto.getAccountNumber();
+        this.routingNumber = dto.getRoutingNumber();
+        this.accountType = dto.getAccountType();
+        this.accountNickname = dto.getAccountNickname();
+        this.openingDate = dto.getOpeningDate();
+        this.onlineBankingUrl = dto.getOnlineBankingUrl();
+        this.notes = dto.getNotes();
+        this.createdAt = dto.getCreatedAt();
+        this.updatedAt = dto.getUpdatedAt();
+        this.createdBy = dto.getCreatedBy();
+        this.updatedBy = dto.getUpdatedBy();
+        this.contactDetails = dto.getContactDetails();
+        this.internationalDetails = dto.getInternationalDetails();
+        this.branchInfo = dto.getBranchInfo();
     }
 
 }
