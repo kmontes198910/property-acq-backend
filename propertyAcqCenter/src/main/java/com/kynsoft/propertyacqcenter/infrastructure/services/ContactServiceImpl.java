@@ -6,14 +6,10 @@ import com.kynsof.share.core.infrastructure.specifications.GenericSpecifications
 import com.kynsoft.propertyacqcenter.application.response.ContactResponse;
 import com.kynsoft.propertyacqcenter.domain.dto.ContactDto;
 import com.kynsoft.propertyacqcenter.domain.dto.exception.ContactNotFoundException;
-import com.kynsoft.propertyacqcenter.domain.services.IBusinessService;
 import com.kynsoft.propertyacqcenter.domain.services.IContactService;
-import com.kynsoft.propertyacqcenter.infrastructure.entity.Business;
 import com.kynsoft.propertyacqcenter.infrastructure.entity.Contact;
-import com.kynsoft.propertyacqcenter.infrastructure.entity.LegalEntity;
 import com.kynsoft.propertyacqcenter.infrastructure.repository.command.ContactWriteDataJPARepository;
 import com.kynsoft.propertyacqcenter.infrastructure.repository.query.ContactReadDataJPARepository;
-import com.kynsoft.propertyacqcenter.infrastructure.repository.query.LegalEntityReadDataJPARepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -30,17 +26,11 @@ public class ContactServiceImpl implements IContactService {
 
     private final ContactReadDataJPARepository repositoryQuery;
     private final ContactWriteDataJPARepository repositoryCommand;
-    private final LegalEntityReadDataJPARepository legalEntityRepository;
-    private final IBusinessService businessService;
 
-    public ContactServiceImpl(
-            ContactReadDataJPARepository repositoryQuery,
-            ContactWriteDataJPARepository repositoryCommand,
-            LegalEntityReadDataJPARepository legalEntityRepository, IBusinessService businessService) {
+    public ContactServiceImpl(ContactReadDataJPARepository repositoryQuery,
+                              ContactWriteDataJPARepository repositoryCommand) {
         this.repositoryQuery = repositoryQuery;
         this.repositoryCommand = repositoryCommand;
-        this.legalEntityRepository = legalEntityRepository;
-        this.businessService = businessService;
     }
 
     @Override
@@ -58,19 +48,7 @@ public class ContactServiceImpl implements IContactService {
         
         // Convertir DTO a entidad
         Contact contact = new Contact(contactDto);
-        
-        // Establecer relación con LegalEntity si existe ID
-        if (contactDto.getLegalEntityId() != null) {
-            Optional<LegalEntity> legalEntity = legalEntityRepository.findById(contactDto.getLegalEntityId());
-            legalEntity.ifPresent(contact::setLegalEntity);
-        }
 
-        // Establecer relación con Business si existe ID
-        if (contactDto.getBusinessId() != null) {
-            Business business = new Business(businessService.findById(contactDto.getBusinessId()));
-            contact.setBusiness(business);
-        }
-        
         // Guardar la entidad y devolver su ID
         contact = repositoryCommand.save(contact);
         return contact.getId();
@@ -83,7 +61,7 @@ public class ContactServiceImpl implements IContactService {
         Optional<Contact> existingContact = repositoryQuery.findById(contactDto.getId());
         if (existingContact.isPresent()) {
             Contact contact = existingContact.get();
-            
+
             // Actualizar propiedades del contacto
             contact.setFirstName(contactDto.getFirstName());
             contact.setLastName(contactDto.getLastName());
@@ -95,33 +73,7 @@ public class ContactServiceImpl implements IContactService {
             contact.setCompany(contactDto.getCompany());
             contact.setNotes(contactDto.getNotes());
             contact.setIsActive(contactDto.getIsActive());
-            
-            // Actualizar relación con LegalEntity si cambia
-            if (contactDto.getLegalEntityId() != null) {
-                // Si el ID de LegalEntity ha cambiado, o no tenía antes
-                if (contact.getLegalEntity() == null || 
-                        !contact.getLegalEntity().getId().equals(contactDto.getLegalEntityId())) {
-                    legalEntityRepository.findById(contactDto.getLegalEntityId())
-                            .ifPresent(contact::setLegalEntity);
-                }
-            } else {
-                // Si se quiere eliminar la relación
-                contact.setLegalEntity(null);
-            }
 
-            // Actualizar relación con Business si cambia
-            if (contactDto.getBusinessId() != null) {
-                // Si el ID de LegalEntity ha cambiado, o no tenía antes
-                if (contact.getBusiness() == null ||
-                        !contact.getBusiness().getId().equals(contactDto.getBusinessId())) {
-                    Business business = new Business(businessService.findById(contactDto.getBusinessId()));
-                    contact.setBusiness(business);
-                }
-            } else {
-                // Si se quiere eliminar la relación
-                contact.setLegalEntity(null);
-            }
-            
             // Guardar los cambios
             repositoryCommand.save(contact);
         }
@@ -137,14 +89,14 @@ public class ContactServiceImpl implements IContactService {
     @Override
     public ContactDto findById(UUID id) {
         return repositoryQuery.findById(id)
-                .map(Contact::toAggregate)
+                .map(Contact::toAggregateSimple)
                 .orElseThrow(()-> new ContactNotFoundException(id.toString(), "ID"));
     }
 
     @Override
     public ContactDto findByEmail(String email) {
         return repositoryQuery.findByEmail(email)
-                .map(Contact::toAggregate)
+                .map(Contact::toAggregateSimple)
                 .orElseThrow(()-> new ContactNotFoundException(email, "email"));
     }
 

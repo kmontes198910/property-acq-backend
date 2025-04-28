@@ -87,8 +87,26 @@ public class Contact {
                 .isActive(this.isActive)
                 .createdAt(this.createdAt)
                 .updatedAt(this.updatedAt)
-                .legalEntityId(this.legalEntity != null ? this.legalEntity.getId() : null)
-                .businessId(this.business != null ? this.business.getId() : null)
+                .build();
+    }
+
+    public ContactDto toAggregateSimple() {
+        return ContactDto.builder()
+                .id(this.id)
+                .firstName(this.firstName)
+                .lastName(this.lastName)
+                .email(this.email)
+                .phoneNumber(this.phoneNumber)
+                .position(this.position)
+                .department(this.department)
+                .category(this.category)
+                .company(this.company)
+                .notes(this.notes)
+                .isActive(this.isActive)
+                .createdAt(this.createdAt)
+                .updatedAt(this.updatedAt)
+                .legalEntity(this.legalEntity != null ? this.legalEntity.toAggregateFindById() : null)
+                .business(this.business != null ? this.business.toAggregate() : null)
                 .build();
     }
     
@@ -110,6 +128,8 @@ public class Contact {
         this.isActive = dto.getIsActive();
         this.createdAt = dto.getCreatedAt();
         this.updatedAt = dto.getUpdatedAt();
+        this.business = new Business(dto.getBusiness());
+        this.legalEntity = new LegalEntity(dto.getLegalEntity());
         // Las relaciones con LegalEntity y Business deben ser establecidas externamente
     }
 }

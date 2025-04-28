@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import org.springframework.data.jpa.repository.EntityGraph;
 
 @Repository
 public interface ContactReadDataJPARepository extends JpaRepository<Contact, UUID>, JpaSpecificationExecutor<Contact> {
@@ -49,5 +50,10 @@ public interface ContactReadDataJPARepository extends JpaRepository<Contact, UUI
      */
     List<Contact> findByIsActiveTrue();
 
+    @Override
     Page<Contact> findAll(Specification<Contact> specification, Pageable pageable);
+
+    @EntityGraph(attributePaths = {"business", "legalEntity"})
+    @Override
+    Optional<Contact> findById(UUID id);
 }
