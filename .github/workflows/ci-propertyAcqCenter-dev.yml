@@ -1,7 +1,7 @@
 name: ci-propertyAcqCenter-dev
 
 env:
-  SERVICE_NAME: 'propertyAcqCenter'
+  SERVICE_NAME: 'property-acq-center'
   SERVICE_PATH: 'propertyAcqCenter'
 
 on:
@@ -35,7 +35,7 @@ jobs:
             "PACKAGE_TOKEN=${{secrets.PACKAGE_TOKEN}}"
           context: "{{defaultContext}}:${{ env.SERVICE_PATH }}"
           push: true
-          tags: kmontes2020/medinec-calendar-dev:v1
+          tags: kmontes2020/medinec-property-acq-center-dev:v1
 
   deploy:
     needs: build-push

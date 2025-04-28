@@ -9,5 +9,4 @@ public class PropertyAcqCenterApplication {
     public static void main(String[] args) {
         SpringApplication.run(PropertyAcqCenterApplication.class, args);
     }
-
 }

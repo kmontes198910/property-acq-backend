@@ -1,0 +1,49 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: property-acq-center
+  namespace: medinec-dev
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      workload.user.cattle.io/workloadselector: apps.deployment-medinec-property-acq-center
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+  template:
+    metadata:
+      labels:
+        app: property-acq-center
+        workload.user.cattle.io/workloadselector: apps.deployment-medinec-property-acq-center
+    spec:
+      containers:
+        - name: property-acq-center
+          image: kmontes2020/medinec-property-acq-center-dev:v1
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 9901
+              protocol: TCP
+          envFrom:
+            - secretRef:
+                name: property-acq-center-secret
+      imagePullSecrets:
+        - name: dokcer-hub
+      restartPolicy: Always
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: property-acq-center-service
+  namespace: medinec-dev
+spec:
+  selector:
+    app: property-acq-center
+  ports:
+    - protocol: TCP
+      port: 9901           # Puerto externo expuesto por el servicio
+      targetPort: 9901   # Puerto donde está escuchando el contenedor
+  type: ClusterIP        # Tipo de servicio (puedes cambiar a NodePort o LoadBalancer si es necesario)
