@@ -98,8 +98,28 @@ public class Employee {
         this.createdBy = dto.getCreatedBy();
         this.updatedBy = dto.getUpdatedBy();
     }
-    
+
     public EmployeeDto toAggregate() {
+        return EmployeeDto.builder()
+                .id(this.id)
+                .firstName(this.firstName)
+                .lastName(this.lastName)
+                .email(this.email)
+                .phoneNumber(this.phoneNumber)
+                .hireDate(this.hireDate)
+                .position(this.position)
+                .department(this.department)
+                .employeeNumber(this.employeeNumber)
+                .salary(this.salary)
+                .active(this.active)
+                .createdAt(this.createdAt)
+                .updatedAt(this.updatedAt)
+                .createdBy(this.createdBy)
+                .updatedBy(this.updatedBy)
+                .build();
+    }
+
+    public EmployeeDto toAggregateSimple() {
         return EmployeeDto.builder()
                 .id(this.id)
                 .firstName(this.firstName)

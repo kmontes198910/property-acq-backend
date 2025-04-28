@@ -56,7 +56,7 @@ public class EmployeeServiceImpl implements IEmployeeService {
     public EmployeeDto findById(UUID id) {
         Optional<Employee> entity = repositoryQuery.findById(id);
         if(entity.isPresent()) {
-            return entity.get().toAggregate();
+            return entity.get().toAggregateSimple();
         } else {
             throw new EmployeeNotFoundException(id.toString(), "ID");
         }
