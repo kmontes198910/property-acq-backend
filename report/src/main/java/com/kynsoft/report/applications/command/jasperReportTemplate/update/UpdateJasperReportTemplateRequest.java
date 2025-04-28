@@ -13,7 +13,7 @@ import java.util.UUID;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class UpdateJasperReportTemplateRequest {
+public class    UpdateJasperReportTemplateRequest {
     private String code;
     private String name;
     private String description;

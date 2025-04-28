@@ -65,9 +65,9 @@ public class ReportController {
                 .body(response.getResult());
     }
     
-    @Cacheable(value = "reportCache", key = "#cacheKey", 
-            condition = "#request.enableCache == true && !#request.forceRefresh", 
-            unless = "#result == null")
+//    @Cacheable(value = "reportCache", key = "#cacheKey",
+//            condition = "#request.enableCache == true && !#request.forceRefresh",
+//            unless = "#result == null")
     private ResponseEntity<byte[]> generateReportInternal(GenerateReportRequest request, String cacheKey) {
         return generateReportDirect(request);
     }
