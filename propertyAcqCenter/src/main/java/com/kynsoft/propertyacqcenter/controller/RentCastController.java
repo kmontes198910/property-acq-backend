@@ -1,6 +1,14 @@
-package com.kynsof.identity.controller;
+package com.kynsoft.propertyacqcenter.controller;
 
-import com.kynsof.identity.infrastructure.services.test.*;
+import com.kynsof.share.core.infrastructure.bus.IMediator;
+import com.kynsoft.propertyacqcenter.application.command.property.createFromRentCast.CreateRentCastPropertyCommand;
+import com.kynsoft.propertyacqcenter.application.command.property.createFromRentCast.CreateRentCastPropertyMessage;
+import com.kynsoft.propertyacqcenter.application.response.rentcast.EstimatedValueResponse;
+import com.kynsoft.propertyacqcenter.application.response.rentcast.PropertyResponse;
+import com.kynsoft.propertyacqcenter.application.response.rentcast.RentEstimateResponse;
+import com.kynsoft.propertyacqcenter.application.response.rentcast.SaleListingResponse;
+import com.kynsoft.propertyacqcenter.domain.services.IRentCastService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
@@ -11,8 +19,11 @@ public class RentCastController {
 
     private final IRentCastService rentCastService;
 
-    public RentCastController(IRentCastService rentCastService) {
+    private final IMediator mediator;
+
+    public RentCastController(IRentCastService rentCastService, IMediator mediator) {
         this.rentCastService = rentCastService;
+        this.mediator = mediator;
     }
 
     /**
@@ -35,15 +46,36 @@ public class RentCastController {
     }
 
     @GetMapping("/sale")
-    public List<SaleListingDto> getSaleListings(
+    public List<SaleListingResponse> getSaleListings(
             @RequestParam String city,
             @RequestParam String state
     ) {
         return rentCastService.getSaleListings(city, state);
     }
 
+    /**
+     * Endpoint para crear propiedades a partir de la respuesta de RentCast.
+     * Ejemplo: POST /api/rentcast/property/create
+     */
+    @PostMapping("/property/create")
+    public ResponseEntity<?> createRentCastProperty(@RequestBody List<PropertyResponse> propertyResponse) {
+        CreateRentCastPropertyCommand command = new CreateRentCastPropertyCommand(propertyResponse);
+        CreateRentCastPropertyMessage message = this.mediator.send(command);
+        return ResponseEntity.ok(message);
+    }
+
+    /**
+     * Endpoint para PROBAR
+     */
+    @GetMapping("/sales/prueba")
+    public List<SaleListingResponse> salesDetailsPrueba() {
+        return rentCastService.getSaleListings("", "");
+    }
+
     @GetMapping("/property/fake")
-    public List<PropertyResponse> getFakeProperty(@RequestParam String address) {
+    public List<PropertyResponse> getFakeProperty(
+//            @RequestParam String address
+    ) {
         PropertyResponse property = new PropertyResponse();
 
         property.setId("2537-Nw-116th-Ter,-Coral-Springs,-FL-33065");
@@ -128,11 +160,25 @@ public class RentCastController {
         owner.setMailingAddress(mailingAddress);
         property.setOwner(owner);
 
+        property.setHistory(Map.of(
+                "2017-10-19", new PropertyResponse.History() {{
+                    setEvent("Sale");
+                    setDate("2017-10-19T00:00:00.000Z");
+                    setPrice(185000);
+                }}, "2004-06-16", new PropertyResponse.History() {{
+                    setEvent("Sale");
+                    setDate("2004-06-16T00:00:00.000Z");
+                    setPrice(95000);
+                }}
+        ));
+
         return Collections.singletonList(property);
     }
 
     @GetMapping("/value/fake")
-    public EstimatedValueResponse getFakeEstimatedValue(@RequestParam String address) {
+    public EstimatedValueResponse getFakeEstimatedValue(
+//            @RequestParam String address
+    ) {
         EstimatedValueResponse response = new EstimatedValueResponse();
         response.setPrice(554000);
         response.setPriceRangeLow(358000);
@@ -277,13 +323,13 @@ public class RentCastController {
     }
 
     @GetMapping("/sale/fake")
-    public List<SaleListingDto> getFakeSaleListings(
-            @RequestParam String city,
-            @RequestParam String state
+    public List<SaleListingResponse> getFakeSaleListings(
+//            @RequestParam String city,
+//            @RequestParam String state
     ) {
-        List<SaleListingDto> listings = new ArrayList<>();
+        List<SaleListingResponse> listings = new ArrayList<>();
 
-        SaleListingDto listing1 = new SaleListingDto();
+        SaleListingResponse listing1 = new SaleListingResponse();
         listing1.setId("8330-Nw-24th-St,-Unit-8330,-Coral-Springs,-FL-33065");
         listing1.setFormattedAddress("8330 Nw 24th St, Unit 8330, Coral Springs, FL 33065");
         listing1.setAddressLine1("8330 Nw 24th St");
@@ -301,7 +347,7 @@ public class RentCastController {
         listing1.setLotSize(null);
         listing1.setYearBuilt(1991);
 
-        SaleListingDto.HoaDto hoa = new SaleListingDto.HoaDto();
+        SaleListingResponse.HoaDto hoa = new SaleListingResponse.HoaDto();
         hoa.setFee(605.0);
         listing1.setHoa(hoa);
 
@@ -315,14 +361,14 @@ public class RentCastController {
         listing1.setMlsName("MiamiMLS");
         listing1.setMlsNumber("A11724562");
 
-        SaleListingDto.ListingAgentDto agent = new SaleListingDto.ListingAgentDto();
+        SaleListingResponse.ListingAgentDto agent = new SaleListingResponse.ListingAgentDto();
         agent.setName("Grayson Adler");
         agent.setPhone("9542968044");
         agent.setEmail("grayson@firstfloridarealty.com");
         agent.setWebsite("http://www.firstfloridarealty.com");
         listing1.setListingAgent(agent);
 
-        SaleListingDto.ListingOfficeDto office = new SaleListingDto.ListingOfficeDto();
+        SaleListingResponse.ListingOfficeDto office = new SaleListingResponse.ListingOfficeDto();
         office.setName("COMPASS");
         office.setPhone("3058512820");
         office.setEmail("brokerfl@compass.com");

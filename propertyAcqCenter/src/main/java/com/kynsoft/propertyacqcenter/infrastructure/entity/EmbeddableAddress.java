@@ -25,10 +25,22 @@ public class EmbeddableAddress {
     private String state;
     private String zipCode;
     private String country;
+    private Double latitude;
+    private Double longitude;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "address_type", nullable = false)
+    @Column(name = "address_type")
     private AddressType addressType;
+
+    public EmbeddableAddress(String streetAddress1, String streetAddress2, String city, String state, String zipCode, String country, AddressType addressType) {
+        this.streetAddress1 = streetAddress1;
+        this.streetAddress2 = streetAddress2;
+        this.city = city;
+        this.state = state;
+        this.zipCode = zipCode;
+        this.country = country;
+        this.addressType = addressType;
+    }
 
     public EmbeddableAddress(EmbeddableAddressDto dto) {
         this.streetAddress1 = dto.getStreetAddress1();
@@ -38,6 +50,21 @@ public class EmbeddableAddress {
         this.zipCode = dto.getZipCode();
         this.country = dto.getCountry();
         this.addressType = dto.getAddressType();
+        this.latitude = dto.getLatitude();
+        this.longitude = dto.getLongitude();
     }
 
+    public EmbeddableAddressDto toAggregate() {
+        return EmbeddableAddressDto.builder()
+                .streetAddress1(streetAddress1)
+                .streetAddress2(streetAddress2)
+                .city(city)
+                .state(state)
+                .zipCode(zipCode)
+                .country(country)
+                .addressType(addressType)
+                .latitude(latitude)
+                .longitude(longitude)
+                .build();
+    }
 }

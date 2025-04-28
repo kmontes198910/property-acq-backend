@@ -1,20 +1,19 @@
-package com.kynsof.identity.infrastructure.services.test;
+package com.kynsoft.propertyacqcenter.application.response.rentcast;
 
 import lombok.Data;
-
 import java.util.List;
 
 @Data
-public class RentEstimateResponse {
-    private Integer rent;
-    private Integer rentRangeLow;
-    private Integer rentRangeHigh;
+public class EstimatedValueResponse {
+    private Integer price;
+    private Integer priceRangeLow;
+    private Integer priceRangeHigh;
     private Double latitude;
     private Double longitude;
-    private List<ComparableRentProperty> comparables;
+    private List<ComparableProperty> comparables;
 
     @Data
-    public static class ComparableRentProperty {
+    public static class ComparableProperty {
         private String id;
         private String formattedAddress;
         private String addressLine1;
