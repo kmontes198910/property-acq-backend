@@ -17,6 +17,6 @@ public class CreateContactRequest {
     private String company;
     private String notes;
     private Boolean isActive;
-    private UUID legalEntityId;
-    private UUID businessId;
+    private UUID legalEntity;
+    private UUID business;
 }

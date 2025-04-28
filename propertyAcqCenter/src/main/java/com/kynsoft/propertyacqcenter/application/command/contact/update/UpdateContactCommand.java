@@ -22,8 +22,8 @@ public class UpdateContactCommand implements ICommand {
     private String company;
     private String notes;
     private Boolean isActive;
-    private UUID legalEntityId;
-    private UUID businessId;
+    private UUID legalEntity;
+    private UUID business;
 
     public static UpdateContactCommand fromRequest(UUID id, UpdateContactRequest request) {
         return new UpdateContactCommand(
@@ -38,8 +38,8 @@ public class UpdateContactCommand implements ICommand {
                 request.getCompany(),
                 request.getNotes(),
                 request.getIsActive(),
-                request.getLegalEntityId(),
-                request.getBusinessId()
+                request.getLegalEntity(),
+                request.getBusiness()
         );
     }
 
