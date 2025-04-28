@@ -20,4 +20,16 @@ public class EmbeddableAddressDto {
     private String zipCode; // address_zip_code
     private String country;
     private AddressType addressType;
+    private Double latitude;
+    private Double longitude;
+
+    public EmbeddableAddressDto(String streetAddress1, String streetAddress2, String city, String state, String zipCode, String country, AddressType addressType) {
+        this.streetAddress1 = streetAddress1;
+        this.streetAddress2 = streetAddress2;
+        this.city = city;
+        this.state = state;
+        this.zipCode = zipCode;
+        this.country = country;
+        this.addressType = addressType;
+    }
 }

@@ -1,8 +1,8 @@
-package com.kynsof.identity.infrastructure.services.test;
+package com.kynsoft.propertyacqcenter.application.response.rentcast;
 import lombok.Data;
 
 @Data
-public class SaleListingDto {
+public class SaleListingResponse {
     private String id;
     private String formattedAddress;
     private String addressLine1;

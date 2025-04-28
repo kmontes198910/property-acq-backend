@@ -1,4 +1,4 @@
-package com.kynsof.identity.infrastructure.services.test;
+package com.kynsoft.propertyacqcenter.application.response.rentcast;
 
 import lombok.Data;
 import java.util.List;
@@ -28,9 +28,11 @@ public class PropertyResponse {
     private String zoning;
     private String lastSaleDate;
     private int lastSalePrice;
+    private HOA hoa;
     private Features features;
     private Map<String, TaxAssessment> taxAssessments;
     private Map<String, PropertyTax> propertyTaxes;
+    private Map<String, History> history;
     private Owner owner;
     private boolean ownerOccupied;
 
@@ -54,6 +56,8 @@ public class PropertyResponse {
     public static class TaxAssessment {
         private int year;
         private int value;
+        private Integer land;
+        private Integer improvements;
     }
 
     @Data
@@ -65,6 +69,7 @@ public class PropertyResponse {
     @Data
     public static class Owner {
         private List<String> names;
+        private String type;
         private MailingAddress mailingAddress;
     }
 
@@ -77,5 +82,17 @@ public class PropertyResponse {
         private String city;
         private String state;
         private String zipCode;
+    }
+
+    @Data
+    public static class HOA {
+        private Integer fee;
+    }
+
+    @Data
+    public static class History {
+        private String event;
+        private String date;
+        private Integer price;
     }
 }
