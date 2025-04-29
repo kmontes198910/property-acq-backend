@@ -9,35 +9,28 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
-@Table(name = "doctors")
+@Table(name = "patients")
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
 @Setter
-public class DoctorEntity {
-    
+public class Patient {
+
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
-    
-    @Column(name = "name", nullable = false)
-    private String name;
-    
-    @Column(name = "last_name", nullable = false)
-    private String lastName;
-    
-    @Column(name = "identification", nullable = false, unique = true)
     private String identification;
-    
-    @Column(name = "register_number", nullable = false, unique = true)
-    private String registerNumber;
-    
+    private String email;
+    private String name;
+    private String lastName;
+    private String image;
+    private String profession;
+
     @CreationTimestamp
     @Column(updatable = false)
     private LocalDateTime createdAt;
-    
+
     @UpdateTimestamp
     private LocalDateTime updatedAt;
-    
+
 }

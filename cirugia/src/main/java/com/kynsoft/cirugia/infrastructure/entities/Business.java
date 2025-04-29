@@ -15,20 +15,23 @@ import java.util.UUID;
 @AllArgsConstructor
 @Getter
 @Setter
-public class BusinessEntity {
-    
+public class Business {
+
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
-    
-    @Column(name = "name", nullable = false)
     private String name;
-    
+    private String latitude;
+    private String longitude;
+    private String address;
+    private String logo;
+    private String phone;
+    private String email;
+    private String ruc;
     @CreationTimestamp
     @Column(updatable = false)
     private LocalDateTime createdAt;
-    
+
     @UpdateTimestamp
     private LocalDateTime updatedAt;
-    
+
 }
