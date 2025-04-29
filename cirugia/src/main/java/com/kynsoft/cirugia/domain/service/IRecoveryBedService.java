@@ -1,8 +1,8 @@
-package com.kynsoft.cirugia.domain.interfaces;
+package com.kynsoft.cirugia.domain.service;
 
 import com.kynsof.share.core.domain.request.FilterCriteria;
 import com.kynsof.share.core.domain.response.PaginatedResponse;
-import com.kynsoft.cirugia.domain.model.RecoveryBed;
+import com.kynsoft.cirugia.domain.dto.RecoveryBed;
 import org.springframework.data.domain.Pageable;
 
 import java.util.List;

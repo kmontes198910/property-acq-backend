@@ -1,4 +1,4 @@
-package com.kynsoft.cirugia.domain.model.constants;
+package com.kynsoft.cirugia.domain.enums;
 
 public class RecoveryBedConstants {
     

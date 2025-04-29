@@ -2,8 +2,8 @@ package com.kynsoft.cirugia.application.query.surgery.getbyid;
 
 import com.kynsof.share.core.domain.bus.query.IQueryHandler;
 import com.kynsoft.cirugia.application.query.SurgeryResponse;
-import com.kynsoft.cirugia.domain.interfaces.ISurgeryService;
-import com.kynsoft.cirugia.domain.model.Surgery;
+import com.kynsoft.cirugia.domain.service.ISurgeryService;
+import com.kynsoft.cirugia.domain.dto.Surgery;
 import org.springframework.stereotype.Component;
 
 import java.util.Optional;

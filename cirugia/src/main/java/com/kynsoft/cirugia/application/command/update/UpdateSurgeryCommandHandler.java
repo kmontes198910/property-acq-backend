@@ -1,8 +1,8 @@
 package com.kynsoft.cirugia.application.command.update;
 
 import com.kynsof.share.core.domain.bus.command.ICommandHandler;
-import com.kynsoft.cirugia.domain.interfaces.ISurgeryService;
-import com.kynsoft.cirugia.domain.model.Surgery;
+import com.kynsoft.cirugia.domain.service.ISurgeryService;
+import com.kynsoft.cirugia.domain.dto.Surgery;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

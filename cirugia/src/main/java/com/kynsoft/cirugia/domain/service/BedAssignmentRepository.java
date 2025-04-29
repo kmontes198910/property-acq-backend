@@ -1,6 +1,6 @@
-package com.kynsoft.cirugia.domain.interfaces;
+package com.kynsoft.cirugia.domain.service;
 
-import com.kynsoft.cirugia.domain.model.BedAssignment;
+import com.kynsoft.cirugia.domain.dto.BedAssignment;
 
 import java.time.LocalDateTime;
 import java.util.List;

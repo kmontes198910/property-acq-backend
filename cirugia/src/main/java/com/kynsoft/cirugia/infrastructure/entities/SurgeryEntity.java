@@ -16,9 +16,8 @@ import java.util.UUID;
 @Getter
 @Setter
 public class SurgeryEntity {
-    
+
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
     @Column(name = "recovery_bed_id")
@@ -51,7 +50,6 @@ public class SurgeryEntity {
     @Column(name = "status", nullable = false)
     private String status;
 
-
     @CreationTimestamp
     @Column(updatable = false)
     private LocalDateTime createdAt;
@@ -61,23 +59,23 @@ public class SurgeryEntity {
 
     @Column(name = "business_id", nullable = false)
     private UUID businessId;
-    
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "patient_id", referencedColumnName = "id", insertable = false, updatable = false)
-    private PatientEntity patient;
-    
+    private Patient patient;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "doctor_id", referencedColumnName = "id", insertable = false, updatable = false)
-    private DoctorEntity doctor;
-    
+    private Doctor doctor;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "specialty_id", referencedColumnName = "id", insertable = false, updatable = false)
     private SpecialtyEntity specialty;
-    
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "business_id", referencedColumnName = "id", insertable = false, updatable = false)
-    private BusinessEntity business;
-    
+    private Business business;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "recovery_bed_id", referencedColumnName = "id", insertable = false, updatable = false)
     private RecoveryBedEntity recoveryBed;

@@ -75,7 +75,7 @@ public class BedAssignmentEntity {
     
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "patient_id", referencedColumnName = "id", insertable = false, updatable = false)
-    private PatientEntity patient;
+    private Patient patient;
     
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "bed_id", referencedColumnName = "id", insertable = false, updatable = false)
@@ -87,5 +87,5 @@ public class BedAssignmentEntity {
     
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "business_id", referencedColumnName = "id", insertable = false, updatable = false)
-    private BusinessEntity business;
+    private Business business;
 }

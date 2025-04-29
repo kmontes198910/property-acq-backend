@@ -67,7 +67,7 @@ public class RecoveryBedEntity {
     
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "business_id", referencedColumnName = "id", insertable = false, updatable = false)
-    private BusinessEntity business;
+    private Business business;
     
     @OneToMany(mappedBy = "recoveryBed")
     private List<SurgeryEntity> surgeries;

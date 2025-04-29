@@ -1,7 +1,7 @@
 package com.kynsoft.cirugia.application.command.changestatus;
 
 import com.kynsof.share.core.domain.bus.command.ICommandHandler;
-import com.kynsoft.cirugia.domain.model.Surgery;
+import com.kynsoft.cirugia.domain.dto.Surgery;
 import com.kynsoft.cirugia.infrastructure.entities.SurgeryEntity;
 import com.kynsoft.cirugia.infrastructure.repository.command.SurgeryWriteRepository;
 import com.kynsoft.cirugia.infrastructure.repository.query.SurgeryReadRepository;
