@@ -2,7 +2,7 @@ package com.kynsoft.cirugia.application.query.surgery.search;
 
 import com.kynsof.share.core.domain.bus.query.IQueryHandler;
 import com.kynsof.share.core.domain.response.PaginatedResponse;
-import com.kynsoft.cirugia.domain.interfaces.ISurgeryService;
+import com.kynsoft.cirugia.domain.service.ISurgeryService;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 import lombok.extern.slf4j.Slf4j;

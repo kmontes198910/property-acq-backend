@@ -1,8 +1,8 @@
-package com.kynsoft.cirugia.domain.interfaces;
+package com.kynsoft.cirugia.domain.service;
 
 import com.kynsof.share.core.domain.request.FilterCriteria;
 import com.kynsof.share.core.domain.response.PaginatedResponse;
-import com.kynsoft.cirugia.domain.model.Surgery;
+import com.kynsoft.cirugia.domain.dto.Surgery;
 import org.springframework.data.domain.Pageable;
 
 import java.time.LocalDateTime;

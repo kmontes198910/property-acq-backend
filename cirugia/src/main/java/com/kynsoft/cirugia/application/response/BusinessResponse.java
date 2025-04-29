@@ -1,24 +1,18 @@
-package com.kynsoft.cirugia.infrastructure.entities;
+package com.kynsoft.cirugia.application.response;
 
+import com.kynsof.share.core.domain.bus.query.IResponse;
 import com.kynsoft.cirugia.domain.dto.BusinessDto;
-import jakarta.persistence.*;
 import lombok.*;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
 
-import java.time.LocalDateTime;
 import java.util.UUID;
 
-@Entity
-@Table(name = "businesses")
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
 @Setter
-public class Business {
+public class BusinessResponse implements IResponse {
 
-    @Id
     private UUID id;
     private String name;
     private String latitude;
@@ -29,14 +23,7 @@ public class Business {
     private String email;
     private String ruc;
 
-    @CreationTimestamp
-    @Column(updatable = false)
-    private LocalDateTime createdAt;
-
-    @UpdateTimestamp
-    private LocalDateTime updatedAt;
-
-    public Business(BusinessDto dto) {
+    public BusinessResponse(BusinessDto dto) {
         this.id = dto.getId();
         this.name = dto.getName();
         this.latitude = dto.getLatitude();
@@ -48,7 +35,4 @@ public class Business {
         this.ruc = dto.getRuc();
     }
 
-    public BusinessDto toAggregate() {
-        return new BusinessDto(id, name, latitude, longitude, address, logo, phone, email, ruc);
-    }
 }

@@ -1,6 +1,6 @@
-package com.kynsoft.cirugia.domain.interfaces;
+package com.kynsoft.cirugia.domain.service;
 
-import com.kynsoft.cirugia.domain.model.RecoveryBed;
+import com.kynsoft.cirugia.domain.dto.RecoveryBed;
 
 import java.util.List;
 import java.util.Optional;

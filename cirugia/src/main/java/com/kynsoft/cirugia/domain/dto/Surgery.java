@@ -1,4 +1,4 @@
-package com.kynsoft.cirugia.domain.model;
+package com.kynsoft.cirugia.domain.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
