@@ -79,4 +79,13 @@ public class SurgeryEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "recovery_bed_id", referencedColumnName = "id", insertable = false, updatable = false)
     private RecoveryBedEntity recoveryBed;
+
+    @Column(name = "created_by")
+    private UUID createdBy;
+
+    @Column(name = "updated_by")
+    private UUID updatedBy;
+
+    @OneToOne(mappedBy = "surgery", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private PreOperativeEntity preOperative;
 }
