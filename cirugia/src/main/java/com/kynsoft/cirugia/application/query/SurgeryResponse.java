@@ -7,7 +7,6 @@ import lombok.Getter;
 @Getter
 public class SurgeryResponse implements IResponse {
     private final Surgery surgery;
-
     public SurgeryResponse(Surgery surgery) {
         this.surgery = surgery;
     }

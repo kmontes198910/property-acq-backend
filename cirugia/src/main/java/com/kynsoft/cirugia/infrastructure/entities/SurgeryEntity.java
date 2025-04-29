@@ -20,77 +20,65 @@ public class SurgeryEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
-    
+
+    @Column(name = "recovery_bed_id")
+    private UUID recoveryBedId;
+
     @Column(name = "patient_id", nullable = false)
     private UUID patientId;
-    
+
     @Column(name = "doctor_id", nullable = false)
     private UUID doctorId;
-    
+
     @Column(name = "specialty_id", nullable = false)
     private UUID specialtyId;
-    
+
     @Column(name = "surgery_type", nullable = false)
     private String surgeryType;
-    
+
     @Column(name = "description")
     private String description;
-    
+
     @Column(name = "scheduled_date", nullable = false)
     private LocalDateTime scheduledDate;
-    
+
     @Column(name = "performed_date")
     private LocalDateTime performedDate;
-    
+
     @Column(name = "estimated_duration_minutes")
     private Integer estimatedDurationMinutes;
-    
+
     @Column(name = "status", nullable = false)
     private String status;
-    
-    @Column(name = "preoperative_notes", columnDefinition = "TEXT")
-    private String preoperativeNotes;
-    
-    @Column(name = "postoperative_notes", columnDefinition = "TEXT")
-    private String postoperativeNotes;
-    
-    @Column(name = "complexity_level")
-    private String complexityLevel;
-    
-    @Column(name = "room_id")
-    private UUID roomId;
-    
-    @Column(name = "requires_hospitalization")
-    private Boolean requiresHospitalization;
-    
-    @Column(name = "admission_reason", columnDefinition = "TEXT")
-    private String admissionReason;
-    
-    @Column(name = "current_illness_history", columnDefinition = "TEXT")
-    private String currentIllnessHistory;
-    
-    @Column(name = "physical_examination", columnDefinition = "TEXT")
-    private String physicalExamination;
-    
-    @Column(name = "operating_room_entry_date")
-    private LocalDateTime operatingRoomEntryDate;
+
 
     @CreationTimestamp
     @Column(updatable = false)
     private LocalDateTime createdAt;
 
-
     @UpdateTimestamp
     private LocalDateTime updatedAt;
 
-    
-    @Column(name = "created_by")
-    private UUID createdBy;
-    
-    @Column(name = "updated_by")
-    private UUID updatedBy;
-    
     @Column(name = "business_id", nullable = false)
     private UUID businessId;
-
+    
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "patient_id", referencedColumnName = "id", insertable = false, updatable = false)
+    private PatientEntity patient;
+    
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "doctor_id", referencedColumnName = "id", insertable = false, updatable = false)
+    private DoctorEntity doctor;
+    
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "specialty_id", referencedColumnName = "id", insertable = false, updatable = false)
+    private SpecialtyEntity specialty;
+    
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "business_id", referencedColumnName = "id", insertable = false, updatable = false)
+    private BusinessEntity business;
+    
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "recovery_bed_id", referencedColumnName = "id", insertable = false, updatable = false)
+    private RecoveryBedEntity recoveryBed;
 }

@@ -11,7 +11,6 @@ import java.util.Optional;
 import java.util.UUID;
 
 public interface ISurgeryService {
-    
     // Métodos básicos CRUD
     UUID createSurgery(Surgery surgery);
     void updateSurgery(Surgery surgery);

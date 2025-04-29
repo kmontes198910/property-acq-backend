@@ -66,7 +66,7 @@ public class SurgeryServiceImpl implements ISurgeryService {
                 .orElseThrow(() -> new BusinessNotFoundException(
                     new GlobalBusinessException(DomainErrorMessage.BUSINESS_NOT_FOUND, 
                     new ErrorField("id", "Surgery not found with ID: " + surgery.getId()))));
-        
+
         // Update fields from surgery
         entity.setPatientId(surgery.getPatientId());
         entity.setDoctorId(surgery.getDoctorId());
@@ -75,15 +75,6 @@ public class SurgeryServiceImpl implements ISurgeryService {
         entity.setDescription(surgery.getDescription());
         entity.setScheduledDate(surgery.getScheduledDate());
         entity.setEstimatedDurationMinutes(surgery.getEstimatedDurationMinutes());
-        entity.setComplexityLevel(surgery.getComplexityLevel());
-        entity.setRoomId(surgery.getRoomId());
-        entity.setRequiresHospitalization(surgery.getRequiresHospitalization());
-        entity.setAdmissionReason(surgery.getAdmissionReason());
-        entity.setCurrentIllnessHistory(surgery.getCurrentIllnessHistory());
-        entity.setPhysicalExamination(surgery.getPhysicalExamination());
-        entity.setPreoperativeNotes(surgery.getPreoperativeNotes());
-        entity.setPostoperativeNotes(surgery.getPostoperativeNotes());
-        entity.setUpdatedBy(surgery.getUpdatedBy());
         entity.setUpdatedAt(LocalDateTime.now());
         
         surgeryWriteRepository.save(entity);
@@ -101,17 +92,11 @@ public class SurgeryServiceImpl implements ISurgeryService {
                     new ErrorField("id", "Surgery not found with ID: " + surgeryId))));
         
         entity.setStatus(status);
-        entity.setUpdatedBy(updatedBy);
         entity.setUpdatedAt(LocalDateTime.now());
         
-        // If the status is COMPLETED, set the performed date
+        // Si el estado es COMPLETED, establecer la fecha de realización
         if (status.equals("COMPLETED")) {
             entity.setPerformedDate(LocalDateTime.now());
-        }
-        
-        // If the status is IN_PROGRESS, set the operating room entry date
-        if (status.equals("IN_PROGRESS")) {
-            entity.setOperatingRoomEntryDate(LocalDateTime.now());
         }
         
         surgeryWriteRepository.save(entity);
@@ -227,19 +212,8 @@ public class SurgeryServiceImpl implements ISurgeryService {
                 .performedDate(entity.getPerformedDate())
                 .estimatedDurationMinutes(entity.getEstimatedDurationMinutes())
                 .status(entity.getStatus())
-                .preoperativeNotes(entity.getPreoperativeNotes())
-                .postoperativeNotes(entity.getPostoperativeNotes())
-                .complexityLevel(entity.getComplexityLevel())
-                .roomId(entity.getRoomId())
-                .requiresHospitalization(entity.getRequiresHospitalization())
-                .admissionReason(entity.getAdmissionReason())
-                .currentIllnessHistory(entity.getCurrentIllnessHistory())
-                .physicalExamination(entity.getPhysicalExamination())
-                .operatingRoomEntryDate(entity.getOperatingRoomEntryDate())
                 .createdAt(entity.getCreatedAt())
                 .updatedAt(entity.getUpdatedAt())
-                .createdBy(entity.getCreatedBy())
-                .updatedBy(entity.getUpdatedBy())
                 .businessId(entity.getBusinessId())
                 .build();
     }
@@ -256,17 +230,6 @@ public class SurgeryServiceImpl implements ISurgeryService {
                 .performedDate(surgery.getPerformedDate())
                 .estimatedDurationMinutes(surgery.getEstimatedDurationMinutes())
                 .status(surgery.getStatus())
-                .preoperativeNotes(surgery.getPreoperativeNotes())
-                .postoperativeNotes(surgery.getPostoperativeNotes())
-                .complexityLevel(surgery.getComplexityLevel())
-                .roomId(surgery.getRoomId())
-                .requiresHospitalization(surgery.getRequiresHospitalization())
-                .admissionReason(surgery.getAdmissionReason())
-                .currentIllnessHistory(surgery.getCurrentIllnessHistory())
-                .physicalExamination(surgery.getPhysicalExamination())
-                .operatingRoomEntryDate(surgery.getOperatingRoomEntryDate())
-                .createdBy(surgery.getCreatedBy())
-                .updatedBy(surgery.getUpdatedBy())
                 .businessId(surgery.getBusinessId())
                 .build();
     }

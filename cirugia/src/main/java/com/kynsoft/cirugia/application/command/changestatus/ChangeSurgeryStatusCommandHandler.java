@@ -29,18 +29,13 @@ public class ChangeSurgeryStatusCommandHandler implements ICommandHandler<Change
                 .orElseThrow(() -> new RuntimeException("Surgery not found with ID: " + command.getSurgeryId()));
         
         entity.setStatus(command.getStatus());
-        entity.setUpdatedBy(command.getUpdatedBy());
         entity.setUpdatedAt(LocalDateTime.now());
         
         // If the status is COMPLETED, set the performed date
         if (command.getStatus().equals("COMPLETED")) {
             entity.setPerformedDate(LocalDateTime.now());
         }
-        
-        // If the status is IN_PROGRESS, set the operating room entry date
-        if (command.getStatus().equals("IN_PROGRESS")) {
-            entity.setOperatingRoomEntryDate(LocalDateTime.now());
-        }
+
         
         entity = surgeryWriteRepository.save(entity);
         command.setId(entity.getId()); // Assign the generated ID from the database to the command
