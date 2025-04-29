@@ -1,5 +1,6 @@
 package com.kynsoft.cirugia.infrastructure.entities;
 
+import com.kynsoft.cirugia.domain.dto.DoctorDto;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
@@ -30,5 +31,17 @@ public class Doctor {
 
     @UpdateTimestamp
     private LocalDateTime updatedAt;
+
+    public Doctor(DoctorDto dto) {
+        this.id = dto.getId();
+        this.name = dto.getName();
+        this.lastName = dto.getLastName();
+        this.identification = dto.getIdentification();
+        this.registerNumber = dto.getRegisterNumber();
+    }
+
+    public DoctorDto toAggregate() {
+        return new DoctorDto(id, name, lastName, identification, registerNumber);
+    }
 
 }
