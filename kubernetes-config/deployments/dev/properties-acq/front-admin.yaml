@@ -6,23 +6,15 @@ metadata:
   labels:
     app: property-acq-dev-client
 spec:
-  replicas: 2                       # Alta disponibilidad
+  replicas: 2
   selector:
     matchLabels:
-      app: property-acq-dev-client  # Debe coincidir con template.labels
-  strategy:
-    rollingUpdate:
-      maxSurge: 25%
-      maxUnavailable: 25%
-    type: RollingUpdate
+      app: property-acq-dev-client
   template:
     metadata:
       labels:
         app: property-acq-dev-client
     spec:
-      securityContext:
-        seccompProfile:
-          type: RuntimeDefault
       containers:
         - name: property-acq-dev-client
           image: kmontes2020/property-acq-client-dev:v1
@@ -30,67 +22,70 @@ spec:
           ports:
             - containerPort: 3000
               name: http
+              protocol: TCP
           env:
             - name: AUTH_ORIGIN
-              value: "https://property-acq-dev.kynsoft.net"
+              value: https://property-acq-dev.kynsoft.net
             - name: VITE_APP_BASE_URL
-              value: "http://gateway-service:8080"
+              value: http://gateway-service:8080
             - name: NUXT_PUBLIC_SOCKET_URL
-              value: "https://socket-property-acq-dev.kynsoft.net/ws"
-            # Secretos
+              value: https://socket-property-acq-dev.kynsoft.net/ws
             - name: AUTH_SECRET
-              valueFrom:
-                secretKeyRef:
-                  name: property-acq-secrets
-                  key: AUTH_SECRET
+              value: https://socket-property-acq-dev.kynsoft.net/ws
             - name: VITE_APP_CLIENT_ID
-              valueFrom:
-                secretKeyRef:
-                  name: property-acq-secrets
-                  key: VITE_APP_CLIENT_ID
+              value: https://socket-property-acq-dev.kynsoft.net/ws
             - name: VITE_APP_CLIENT_SECRET
-              valueFrom:
-                secretKeyRef:
-                  name: property-acq-secrets
-                  key: VITE_APP_CLIENT_SECRET
-          readinessProbe:
-            httpGet:
-              path: /
-              port: http
-            initialDelaySeconds: 5
-            periodSeconds: 10
+              value: https://socket-property-acq-dev.kynsoft.net/ws
+          resources:
+            limits:
+              cpu: 500m
+              memory: 256Mi
+            requests:
+              cpu: 100m
+              memory: 128Mi
           livenessProbe:
             httpGet:
               path: /
               port: http
-            initialDelaySeconds: 30
+              scheme: HTTP
+            initialDelaySeconds: 60
             periodSeconds: 30
-          resources:
-            requests:
-              cpu: 100m
-              memory: 128Mi
-            limits:
-              cpu: 500m
-              memory: 256Mi
+            timeoutSeconds: 2
+            failureThreshold: 5
+          readinessProbe:
+            httpGet:
+              path: /
+              port: http
+              scheme: HTTP
+            initialDelaySeconds: 15
+            periodSeconds: 10
+            timeoutSeconds: 2
+            failureThreshold: 3
           securityContext:
-            runAsNonRoot: true
             runAsUser: 1000
+            runAsNonRoot: true
             readOnlyRootFilesystem: true
             allowPrivilegeEscalation: false
+      restartPolicy: Always
       imagePullSecrets:
         - name: docker-hub
+      securityContext:
+        seccompProfile:
+          type: RuntimeDefault
 ---
-
 apiVersion: v1
 kind: Service
 metadata:
   name: property-acq-dev-client
   namespace: property-acq-dev
+  labels:
+    app: property-acq-dev-client
 spec:
-  type: ClusterIP
   selector:
     app: property-acq-dev-client
   ports:
-    - port: 3000
-      targetPort: http
-      protocol: TCP
+    - protocol: TCP
+      port: 80
+      targetPort: 3000
+      name: http
+  type: ClusterIP
