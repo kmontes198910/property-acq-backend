@@ -41,7 +41,7 @@ public class CreateLegalEntityCommandHandler implements ICommandHandler<CreateLe
                 command.getDateOfLastAnnualReport(), 
                 command.getParentEntityId(), 
                 command.getNotes(), 
-                EntityStatus.ACTIVE, 
+                command.getStatus(), 
                 null, 
                 null
         ));

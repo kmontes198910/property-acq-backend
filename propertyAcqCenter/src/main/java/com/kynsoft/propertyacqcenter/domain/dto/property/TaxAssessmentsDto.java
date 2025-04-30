@@ -1,4 +1,4 @@
-package com.kynsoft.propertyacqcenter.domain.dto;
+package com.kynsoft.propertyacqcenter.domain.dto.property;
 
 import lombok.*;
 
@@ -16,5 +16,4 @@ public class TaxAssessmentsDto {
     private int value;
     private Integer land;
     private Integer improvements;
-    private UUID property;
 }

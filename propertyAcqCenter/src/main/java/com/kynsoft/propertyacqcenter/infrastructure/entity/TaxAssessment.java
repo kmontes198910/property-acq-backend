@@ -1,6 +1,6 @@
 package com.kynsoft.propertyacqcenter.infrastructure.entity;
 
-import com.kynsoft.propertyacqcenter.domain.dto.TaxAssessmentsDto;
+import com.kynsoft.propertyacqcenter.domain.dto.property.TaxAssessmentsDto;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
