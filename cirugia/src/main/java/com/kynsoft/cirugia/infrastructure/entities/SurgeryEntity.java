@@ -94,5 +94,4 @@ public class SurgeryEntity {
 
     @UpdateTimestamp
     private LocalDateTime updatedAt;
-
 }
