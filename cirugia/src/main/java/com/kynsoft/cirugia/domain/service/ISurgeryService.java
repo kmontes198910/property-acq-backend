@@ -5,6 +5,7 @@ import com.kynsof.share.core.domain.response.PaginatedResponse;
 import com.kynsoft.cirugia.domain.dto.Surgery;
 import org.springframework.data.domain.Pageable;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -21,7 +22,6 @@ public interface ISurgeryService {
     Optional<Surgery> getSurgeryById(UUID id);
     List<Surgery> listSurgeriesByBusiness(UUID businessId);
     List<Surgery> listSurgeriesByPatient(UUID patientId);
-    List<Surgery> listSurgeriesByDateRange(LocalDateTime startDate, LocalDateTime endDate, UUID businessId);
     
     // Método de búsqueda paginada
     PaginatedResponse search(Pageable pageable, List<FilterCriteria> filterCriteria);

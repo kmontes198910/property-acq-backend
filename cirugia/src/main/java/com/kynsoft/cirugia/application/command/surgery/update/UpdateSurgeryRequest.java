@@ -5,7 +5,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.UUID;
 
 @Data
@@ -17,15 +18,12 @@ public class UpdateSurgeryRequest {
     private UUID patientId;
     private UUID doctorId;
     private UUID specialtyId;
+    private UUID recoveryBedEntityId;
+    private UUID operatingRoomId;
     private String surgeryType;
-    private String description;
-    private LocalDateTime scheduledDate;
-    private Integer estimatedDurationMinutes;
-    private String complexityLevel;
-    private UUID roomId;
+    private LocalDate scheduledDate;
+    private LocalTime startTime;
+    private LocalTime endingTime;
     private Boolean requiresHospitalization;
-    private String admissionReason;
-    private String currentIllnessHistory;
-    private String physicalExamination;
     private UUID updatedBy;
 }

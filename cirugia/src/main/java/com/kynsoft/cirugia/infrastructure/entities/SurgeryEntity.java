@@ -5,7 +5,9 @@ import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.UUID;
 
 @Entity
@@ -21,34 +23,70 @@ public class SurgeryEntity {
     private UUID id;
 
     @Column(name = "recovery_bed_id")
-    private UUID recoveryBedId;
+    private UUID recoveryBedEntityId;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "recovery_bed_id", referencedColumnName = "id", insertable = false, updatable = false)
+    private RecoveryBedEntity recoveryBed;
+
+    @Column(name = "operating_room_id")
+    private UUID operatingRoomId;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "operating_room_id", referencedColumnName = "id", insertable = false, updatable = false)
+    private OperatingRoomEntity operatingRoom;
 
     @Column(name = "patient_id", nullable = false)
     private UUID patientId;
+    
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "patient_id", referencedColumnName = "id", insertable = false, updatable = false)
+    private Patient patient;
 
     @Column(name = "doctor_id", nullable = false)
     private UUID doctorId;
+    
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "doctor_id", referencedColumnName = "id", insertable = false, updatable = false)
+    private Doctor doctor;
 
     @Column(name = "specialty_id", nullable = false)
     private UUID specialtyId;
+    
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "specialty_id", referencedColumnName = "id", insertable = false, updatable = false)
+    private SpecialtyEntity specialty;
 
     @Column(name = "surgery_type", nullable = false)
     private String surgeryType;
 
-    @Column(name = "description")
-    private String description;
-
     @Column(name = "scheduled_date", nullable = false)
-    private LocalDateTime scheduledDate;
+    private LocalDate scheduledDate;
+    
+    @Column(name = "start_time")
+    private LocalTime startTime;
+    
+    @Column(name = "ending_time")
+    private LocalTime endingTime;
 
-    @Column(name = "performed_date")
-    private LocalDateTime performedDate;
-
-    @Column(name = "estimated_duration_minutes")
-    private Integer estimatedDurationMinutes;
+    @Column(name = "requires_hospitalization")
+    private Boolean requiresHospitalization;
 
     @Column(name = "status", nullable = false)
     private String status;
+
+    @Column(name = "business_id", nullable = false)
+    private UUID businessId;
+    
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "business_id", referencedColumnName = "id", insertable = false, updatable = false)
+    private Business business;
+
+    @Column(name = "created_by")
+    private UUID createdBy;
+
+    @Column(name = "updated_by")
+    private UUID updatedBy;
 
     @CreationTimestamp
     @Column(updatable = false)
@@ -57,35 +95,4 @@ public class SurgeryEntity {
     @UpdateTimestamp
     private LocalDateTime updatedAt;
 
-    @Column(name = "business_id", nullable = false)
-    private UUID businessId;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "patient_id", referencedColumnName = "id", insertable = false, updatable = false)
-    private Patient patient;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "doctor_id", referencedColumnName = "id", insertable = false, updatable = false)
-    private Doctor doctor;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "specialty_id", referencedColumnName = "id", insertable = false, updatable = false)
-    private SpecialtyEntity specialty;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "business_id", referencedColumnName = "id", insertable = false, updatable = false)
-    private Business business;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "recovery_bed_id", referencedColumnName = "id", insertable = false, updatable = false)
-    private RecoveryBedEntity recoveryBed;
-
-    @Column(name = "created_by")
-    private UUID createdBy;
-
-    @Column(name = "updated_by")
-    private UUID updatedBy;
-
-    @OneToOne(mappedBy = "surgery", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private PreOperativeEntity preOperative;
 }

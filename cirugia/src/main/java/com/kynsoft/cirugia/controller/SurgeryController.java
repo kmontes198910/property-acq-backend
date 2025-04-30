@@ -10,8 +10,6 @@ import com.kynsoft.cirugia.application.query.surgery.getbyid.GetSurgeryByIdQuery
 import com.kynsoft.cirugia.application.query.surgery.listbybusiness.ListSurgeriesByBusinessQuery;
 import com.kynsoft.cirugia.application.query.surgery.listbypatient.ListSurgeriesByPatientQuery;
 import com.kynsoft.cirugia.application.query.surgery.search.SearchSurgeriesQuery;
-import com.kynsoft.cirugia.application.query.surgery.listbydaterange.ListSurgeriesByDateRangeRequest;
-import com.kynsoft.cirugia.application.query.surgery.listbydaterange.ListSurgeriesByDateRangeQuery;
 import com.kynsoft.cirugia.application.command.surgery.create.CreateSurgeryCommand;
 import com.kynsoft.cirugia.application.command.surgery.create.CreateSurgeryRequest;
 import com.kynsoft.cirugia.application.command.surgery.update.UpdateSurgeryCommand;
@@ -66,16 +64,6 @@ public class SurgeryController {
         return ResponseEntity.ok(response);
     }
 
-    @PostMapping("/date-range")
-    public ResponseEntity<SurgeryListResponse> listByDateRange(@RequestBody ListSurgeriesByDateRangeRequest request) {
-        ListSurgeriesByDateRangeQuery query = new ListSurgeriesByDateRangeQuery(
-                request.getStartDate(), 
-                request.getEndDate(), 
-                request.getBusinessId()
-        );
-        SurgeryListResponse response = mediator.send(query);
-        return ResponseEntity.ok(response);
-    }
 
     @PostMapping
     public ResponseEntity<?> createSurgery(@RequestBody CreateSurgeryRequest request) {

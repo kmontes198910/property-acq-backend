@@ -25,21 +25,16 @@ public class UpdateSurgeryCommandHandler implements ICommandHandler<UpdateSurger
                 .patientId(command.getPatientId())
                 .doctorId(command.getDoctorId())
                 .specialtyId(command.getSpecialtyId())
+                .recoveryBedEntityId(command.getRecoveryBedEntityId())
+                .operatingRoomId(command.getOperatingRoomId())
                 .surgeryType(command.getSurgeryType())
-                .description(command.getDescription())
                 .scheduledDate(command.getScheduledDate())
-                .estimatedDurationMinutes(command.getEstimatedDurationMinutes())
-                .complexityLevel(command.getComplexityLevel())
-                .roomId(command.getRoomId())
+                .startTime(command.getStartTime())
+                .endingTime(command.getEndingTime())
                 .requiresHospitalization(command.getRequiresHospitalization())
-                .admissionReason(command.getAdmissionReason())
-                .currentIllnessHistory(command.getCurrentIllnessHistory())
-                .physicalExamination(command.getPhysicalExamination())
                 .updatedBy(command.getUpdatedBy())
                 .build();
         
         surgeryService.updateSurgery(surgery);
-        
-
     }
 }

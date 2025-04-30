@@ -26,17 +26,14 @@ public class CreateSurgeryCommandHandler implements ICommandHandler<CreateSurger
                 .patientId(command.getPatientId())
                 .doctorId(command.getDoctorId())
                 .specialtyId(command.getSpecialtyId())
+                .recoveryBedEntityId(command.getRecoveryBedEntityId())
+                .operatingRoomId(command.getOperatingRoomId())
                 .surgeryType(command.getSurgeryType())
-                .description(command.getDescription())
                 .scheduledDate(command.getScheduledDate())
-                .estimatedDurationMinutes(command.getEstimatedDurationMinutes())
-                .status("SCHEDULED") // Estado predeterminado para una nueva cirugía
-                .complexityLevel(command.getComplexityLevel())
-                .roomId(command.getRoomId())
+                .startTime(command.getStartTime())
+                .endingTime(command.getEndingTime())
                 .requiresHospitalization(command.getRequiresHospitalization())
-                .admissionReason(command.getAdmissionReason())
-                .currentIllnessHistory(command.getCurrentIllnessHistory())
-                .physicalExamination(command.getPhysicalExamination())
+                .status("SCHEDULED") // Estado predeterminado para una nueva cirugía
                 .businessId(command.getBusinessId())
                 .createdBy(command.getCreatedBy())
                 .build();
