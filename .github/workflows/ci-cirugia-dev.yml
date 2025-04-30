@@ -1,4 +1,4 @@
-name: ci-propertyAcqCenter-dev
+name: ci-cirugia-dev
 
 env:
   SERVICE_NAME: 'cirugia'
