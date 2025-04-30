@@ -1,4 +1,4 @@
-package com.kynsoft.cirugia.application.command.update;
+package com.kynsoft.cirugia.application.command.surgery.update;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

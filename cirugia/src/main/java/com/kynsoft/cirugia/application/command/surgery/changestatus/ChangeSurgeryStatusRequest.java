@@ -1,4 +1,4 @@
-package com.kynsoft.cirugia.application.command.delete;
+package com.kynsoft.cirugia.application.command.surgery.changestatus;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -11,6 +11,8 @@ import java.util.UUID;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class DeleteSurgeryRequest {
+public class ChangeSurgeryStatusRequest {
     private UUID surgeryId;
+    private String status;
+    private UUID updatedBy;
 }

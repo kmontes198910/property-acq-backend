@@ -1,4 +1,4 @@
-package com.kynsoft.cirugia.application.command.delete;
+package com.kynsoft.cirugia.application.command.surgery.delete;
 
 import com.kynsof.share.core.domain.bus.command.ICommandHandler;
 import com.kynsoft.cirugia.infrastructure.repository.command.SurgeryWriteRepository;

@@ -1,4 +1,4 @@
-package com.kynsoft.cirugia.application.command.update;
+package com.kynsoft.cirugia.application.command.surgery.update;
 
 import com.kynsof.share.core.domain.bus.command.ICommand;
 import com.kynsof.share.core.domain.bus.command.ICommandMessage;

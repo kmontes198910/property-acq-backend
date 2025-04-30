@@ -1,4 +1,4 @@
-package com.kynsoft.cirugia.application.command.update;
+package com.kynsoft.cirugia.application.command.surgery.delete;
 
 import com.kynsof.share.core.domain.bus.command.ICommandMessage;
 import lombok.Getter;
@@ -6,10 +6,10 @@ import lombok.Getter;
 import java.util.UUID;
 
 @Getter
-public class UpdateSurgeryMessage implements ICommandMessage {
+public class DeleteSurgeryMessage implements ICommandMessage {
     private final UUID id;
 
-    public UpdateSurgeryMessage(UUID id) {
+    public DeleteSurgeryMessage(UUID id) {
         this.id = id;
     }
 }

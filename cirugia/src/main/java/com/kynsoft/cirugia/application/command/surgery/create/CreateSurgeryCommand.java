@@ -1,4 +1,4 @@
-package com.kynsoft.cirugia.application.command.create;
+package com.kynsoft.cirugia.application.command.surgery.create;
 
 import com.kynsof.share.core.domain.bus.command.ICommand;
 import com.kynsof.share.core.domain.bus.command.ICommandMessage;

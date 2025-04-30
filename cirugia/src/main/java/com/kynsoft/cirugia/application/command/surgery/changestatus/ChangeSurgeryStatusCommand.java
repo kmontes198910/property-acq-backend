@@ -1,4 +1,4 @@
-package com.kynsoft.cirugia.application.command.changestatus;
+package com.kynsoft.cirugia.application.command.surgery.changestatus;
 
 import com.kynsof.share.core.domain.bus.command.ICommand;
 import com.kynsof.share.core.domain.bus.command.ICommandMessage;

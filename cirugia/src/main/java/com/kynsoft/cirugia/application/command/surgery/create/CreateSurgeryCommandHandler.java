@@ -1,4 +1,4 @@
-package com.kynsoft.cirugia.application.command.update;
+package com.kynsoft.cirugia.application.command.surgery.create;
 
 import com.kynsof.share.core.domain.bus.command.ICommandHandler;
 import com.kynsoft.cirugia.domain.service.ISurgeryService;
@@ -8,20 +8,21 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.UUID;
+
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class UpdateSurgeryCommandHandler implements ICommandHandler<UpdateSurgeryCommand> {
+public class CreateSurgeryCommandHandler implements ICommandHandler<CreateSurgeryCommand> {
 
     private final ISurgeryService surgeryService;
 
     @Override
     @Transactional
-    public void handle(UpdateSurgeryCommand command) {
-        log.info("Updating surgery with ID: {}", command.getSurgeryId());
-        
+    public void handle(CreateSurgeryCommand command) {
+        log.info("Creating new surgery for patient: {}", command.getPatientId());
+
         Surgery surgery = Surgery.builder()
-                .id(command.getSurgeryId())
                 .patientId(command.getPatientId())
                 .doctorId(command.getDoctorId())
                 .specialtyId(command.getSpecialtyId())
@@ -29,17 +30,20 @@ public class UpdateSurgeryCommandHandler implements ICommandHandler<UpdateSurger
                 .description(command.getDescription())
                 .scheduledDate(command.getScheduledDate())
                 .estimatedDurationMinutes(command.getEstimatedDurationMinutes())
+                .status("SCHEDULED") // Estado predeterminado para una nueva cirugía
                 .complexityLevel(command.getComplexityLevel())
                 .roomId(command.getRoomId())
                 .requiresHospitalization(command.getRequiresHospitalization())
                 .admissionReason(command.getAdmissionReason())
                 .currentIllnessHistory(command.getCurrentIllnessHistory())
                 .physicalExamination(command.getPhysicalExamination())
-                .updatedBy(command.getUpdatedBy())
+                .businessId(command.getBusinessId())
+                .createdBy(command.getCreatedBy())
                 .build();
-        
-        surgeryService.updateSurgery(surgery);
-        
 
+        UUID surgeryId = surgeryService.createSurgery(surgery);
+
+        // Asignamos el ID generado al mensaje de respuesta
+        command.setId(surgeryId);
     }
 }
