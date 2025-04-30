@@ -44,11 +44,107 @@ public class RentCastServiceMockImpl {
         return List.of(this.createMockProperty());
     }
 
-    public EstimatedValueResponse getEstimatedValueDetail(String address) {
-        return null;
+    public EstimatedValueDto getRentEstimateDetail() {
+        EstimatedValueDto estimatedValueDto = new EstimatedValueDto();
+        UUID id = UUID.randomUUID();
+        estimatedValueDto.setId(id);
+        estimatedValueDto.setPrice(1670);
+        estimatedValueDto.setPriceRangeLow(1630);
+        estimatedValueDto.setPriceRangeHigh(1710);
+        estimatedValueDto.setLatitude(29.475962);
+        estimatedValueDto.setLongitude(-98.351442);
+
+        List<ComparablePropertyDto> comparables = new ArrayList<>();
+        comparables.add(new ComparablePropertyDto(
+                UUID.randomUUID(), 
+                id,
+                "5711 Leon Pl, San Antonio, TX 78244", 
+                "5711 Leon Pl", 
+                null, 
+                "San Antonio", 
+                "TX", 
+                "78244", 
+                "Bexar", 
+                29.481808, 
+                -98.346176, 
+                PropertyType.APARTMENT, 
+                4, 
+                2.0, 
+                1627, 
+                4617, 
+                2021, 
+                1690, 
+                "Standard", 
+                "2024-04-03T00:00:00.000Z", 
+                "2024-05-26T00:00:00.000Z", 
+                "2024-05-25T13:11:55.018Z", 
+                111, 
+                0.5139, 
+                88, 
+                0.9879
+        ));
+        comparables.add(new ComparablePropertyDto(
+                UUID.randomUUID(), 
+                id,
+                "5726 Leon Pl, San Antonio, TX 78244", 
+                "5726 Leon Pl", 
+                null, 
+                "San Antonio", 
+                "TX", 
+                "78244", 
+                "Bexar", 
+                29.482164, 
+                -98.345566, 
+                PropertyType.APARTMENT, 
+                4, 
+                2.0, 
+                1627, 
+                4966, 
+                2020, 
+                1650, 
+                "Standard", 
+                "2024-04-03T00:00:00.000Z", 
+                "2024-05-26T00:00:00.000Z", 
+                "2024-05-25T13:11:55.018Z", 
+                365, 
+                0.5561, 
+                113, 
+                0.9872
+        ));
+        comparables.add(new ComparablePropertyDto(
+                UUID.randomUUID(), 
+                id,
+                "5713 Verracio Ct, San Antonio, TX 78244", 
+                "5713 Verracio Ct", 
+                null, 
+                "San Antonio", 
+                "TX", 
+                "78244", 
+                "Bexar", 
+                29.481749, 
+                -98.345222, 
+                PropertyType.APARTMENT, 
+                4, 
+                2.0, 
+                1627, 
+                4922, 
+                2021, 
+                1725, 
+                "Standard", 
+                "2024-04-03T00:00:00.000Z", 
+                "2024-05-26T00:00:00.000Z", 
+                "2024-05-25T13:11:55.018Z", 
+                152, 
+                0.5482, 
+                259, 
+                0.9869
+        ));
+
+        estimatedValueDto.setComparables(comparables);
+        return estimatedValueDto;
     }
 
-    public EstimatedValueDto getRentEstimateDetail() {
+    public EstimatedValueDto getEstimatedValueDetail() {
         EstimatedValueDto estimatedValueDto = new EstimatedValueDto();
         UUID id = UUID.randomUUID();
         estimatedValueDto.setId(id);
@@ -150,7 +246,6 @@ public class RentCastServiceMockImpl {
 
     public List<SaleListingResponse> getSaleListings(String city, String state) {
         return null;
-
     }
 
     private PropertyDto createMockProperty() {

@@ -86,80 +86,12 @@ public class RentCastController {
 
     @GetMapping("/value/fake")
     public EstimatedValueDto getFakeEstimatedValue() {
-        return this.mock.getRentEstimateDetail();
+        return this.mock.getEstimatedValueDetail();
     }
 
     @GetMapping("/rent/fake")
-    public RentEstimateResponse getFakeRentEstimate() {
-        RentEstimateResponse response = new RentEstimateResponse();
-        response.setRent(2750);
-        response.setRentRangeLow(1980);
-        response.setRentRangeHigh(3520);
-        response.setLatitude(26.2625752);
-        response.setLongitude(-80.2809417);
-
-        List<RentEstimateResponse.ComparableRentProperty> comparables = new ArrayList<>();
-
-        RentEstimateResponse.ComparableRentProperty p1 = new RentEstimateResponse.ComparableRentProperty();
-        p1.setId("11612-Nw-25th-Ct,-Unit-202,-Coral-Springs,-FL-33065");
-        p1.setFormattedAddress("11612 Nw 25th Ct, Unit 202, Coral Springs, FL 33065");
-        p1.setAddressLine1("11612 Nw 25th Ct");
-        p1.setAddressLine2("Unit 202");
-        p1.setCity("Coral Springs");
-        p1.setState("FL");
-        p1.setZipCode("33065");
-        p1.setCounty("Broward");
-        p1.setLatitude(26.262924);
-        p1.setLongitude(-80.281952);
-        p1.setPropertyType("Apartment");
-        p1.setBedrooms(2);
-        p1.setBathrooms(2.0);
-        p1.setSquareFootage(830);
-        p1.setLotSize(58586);
-        p1.setYearBuilt(1984);
-        p1.setPrice(2100);
-        p1.setListingType("Standard");
-        p1.setListedDate("2024-12-04T00:00:00.000Z");
-        p1.setRemovedDate(null);
-        p1.setLastSeenDate("2025-04-01T05:05:51.846Z");
-        p1.setDaysOnMarket(119);
-        p1.setDistance(0.0672);
-        p1.setDaysOld(1);
-        p1.setCorrelation(0.9967);
-        comparables.add(p1);
-
-        RentEstimateResponse.ComparableRentProperty p2 = new RentEstimateResponse.ComparableRentProperty();
-        p2.setId("11605-Nw-25th-St,-Coral-Springs,-FL-33065");
-        p2.setFormattedAddress("11605 Nw 25th St, Coral Springs, FL 33065");
-        p2.setAddressLine1("11605 Nw 25th St");
-        p2.setAddressLine2(null);
-        p2.setCity("Coral Springs");
-        p2.setState("FL");
-        p2.setZipCode("33065");
-        p2.setCounty("Broward");
-        p2.setLatitude(26.261981);
-        p2.setLongitude(-80.281545);
-        p2.setPropertyType("Single Family");
-        p2.setBedrooms(3);
-        p2.setBathrooms(2.0);
-        p2.setSquareFootage(1346);
-        p2.setLotSize(5400);
-        p2.setYearBuilt(1981);
-        p2.setPrice(3100);
-        p2.setListingType("Standard");
-        p2.setListedDate("2024-12-10T00:00:00.000Z");
-        p2.setRemovedDate("2025-01-03T00:00:00.000Z");
-        p2.setLastSeenDate("2025-01-02T04:17:04.830Z");
-        p2.setDaysOnMarket(24);
-        p2.setDistance(0.0556);
-        p2.setDaysOld(90);
-        p2.setCorrelation(0.9964);
-        comparables.add(p2);
-
-        // Puedes seguir agregando más comparables como p3, p4, etc. si deseas completar la lista
-
-        response.setComparables(comparables);
-        return response;
+    public EstimatedValueDto getFakeRentEstimate() {
+        return this.mock.getRentEstimateDetail();
     }
 
     @GetMapping("/sale/fake")
