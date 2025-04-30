@@ -7,7 +7,10 @@ import com.kynsoft.propertyacqcenter.application.response.rentcast.EstimatedValu
 import com.kynsoft.propertyacqcenter.application.response.rentcast.PropertyResponse;
 import com.kynsoft.propertyacqcenter.application.response.rentcast.RentEstimateResponse;
 import com.kynsoft.propertyacqcenter.application.response.rentcast.SaleListingResponse;
+import com.kynsoft.propertyacqcenter.domain.dto.property.PropertyDto;
+import com.kynsoft.propertyacqcenter.domain.dto.valueEstimate.EstimatedValueDto;
 import com.kynsoft.propertyacqcenter.domain.services.IRentCastService;
+import com.kynsoft.propertyacqcenter.infrastructure.services.RentCastServiceMockImpl;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,9 +24,12 @@ public class RentCastController {
 
     private final IMediator mediator;
 
-    public RentCastController(IRentCastService rentCastService, IMediator mediator) {
+    private final RentCastServiceMockImpl mock;
+
+    public RentCastController(IRentCastService rentCastService, IMediator mediator, RentCastServiceMockImpl mock) {
         this.rentCastService = rentCastService;
         this.mediator = mediator;
+        this.mock = mock;
     }
 
     /**
@@ -73,180 +79,14 @@ public class RentCastController {
     }
 
     @GetMapping("/property/fake")
-    public List<PropertyResponse> getFakeProperty(
-//            @RequestParam String address
-    ) {
-        PropertyResponse property = new PropertyResponse();
-
-        property.setId("2537-Nw-116th-Ter,-Coral-Springs,-FL-33065");
-        property.setFormattedAddress("2537 Nw 116th Ter, Coral Springs, FL 33065");
-        property.setAddressLine1("2537 Nw 116th Ter");
-        property.setCity("Coral Springs");
-        property.setState("FL");
-        property.setZipCode("33065");
-        property.setCounty("Broward");
-        property.setLatitude(26.262567);
-        property.setLongitude(-80.280893);
-        property.setPropertyType("Single Family");
-        property.setBedrooms(4);
-        property.setBathrooms(2);
-        property.setSquareFootage(2047);
-        property.setLotSize(13733);
-        property.setYearBuilt(1974);
-        property.setAssessorID("48-41-20-03-1810");
-        property.setLegalDescription("CORAL SPRINGS COUNTRY CLUB WEST 70-41 B LOT 9 BLK H");
-        property.setSubdivision("CORAL SPRINGS COUNTRY CLUB WEST");
-        property.setZoning("RS-3");
-        property.setLastSaleDate("1980-04-01T00:00:00.000Z");
-        property.setLastSalePrice(53714);
-        property.setOwnerOccupied(true);
-
-        // Features
-        PropertyResponse.Features features = new PropertyResponse.Features();
-        features.setCooling(true);
-        features.setCoolingType("Central");
-        features.setExteriorType("Stucco");
-        features.setFloorCount(1);
-        features.setFoundationType("Slab / Mat / Raft");
-        features.setGarage(true);
-        features.setGarageSpaces(2);
-        features.setGarageType("Garage");
-        features.setPool(true);
-        features.setPoolType("Pool and Hot Tub / Spa");
-        features.setRoofType("Tile");
-        features.setUnitCount(1);
-        property.setFeatures(features);
-
-        // Tax Assessments
-        Map<String, PropertyResponse.TaxAssessment> assessments = new HashMap<>();
-        PropertyResponse.TaxAssessment a2021 = new PropertyResponse.TaxAssessment();
-        a2021.setYear(2021);
-        a2021.setValue(310630);
-        assessments.put("2021", a2021);
-
-        PropertyResponse.TaxAssessment a2024 = new PropertyResponse.TaxAssessment();
-        a2024.setYear(2024);
-        a2024.setValue(339410);
-        assessments.put("2024", a2024);
-
-        property.setTaxAssessments(assessments);
-
-        // Property Taxes
-        Map<String, PropertyResponse.PropertyTax> taxes = new HashMap<>();
-        PropertyResponse.PropertyTax t2022 = new PropertyResponse.PropertyTax();
-        t2022.setYear(2022);
-        t2022.setTotal(6644);
-        taxes.put("2022", t2022);
-
-        PropertyResponse.PropertyTax t2024 = new PropertyResponse.PropertyTax();
-        t2024.setYear(2024);
-        t2024.setTotal(7212);
-        taxes.put("2024", t2024);
-
-        property.setPropertyTaxes(taxes);
-
-        // Owner
-        PropertyResponse.Owner owner = new PropertyResponse.Owner();
-        owner.setNames(Collections.singletonList("JAMES HANSON"));
-
-        PropertyResponse.MailingAddress mailingAddress = new PropertyResponse.MailingAddress();
-        mailingAddress.setId("2537-Nw-116th-Ter,-Coral-Springs,-FL-33065");
-        mailingAddress.setFormattedAddress("2537 Nw 116th Ter, Coral Springs, FL 33065");
-        mailingAddress.setAddressLine1("2537 Nw 116th Ter");
-        mailingAddress.setCity("Coral Springs");
-        mailingAddress.setState("FL");
-        mailingAddress.setZipCode("33065");
-
-        owner.setMailingAddress(mailingAddress);
-        property.setOwner(owner);
-
-        property.setHistory(Map.of(
-                "2017-10-19", new PropertyResponse.History() {{
-                    setEvent("Sale");
-                    setDate("2017-10-19T00:00:00.000Z");
-                    setPrice(185000);
-                }}, "2004-06-16", new PropertyResponse.History() {{
-                    setEvent("Sale");
-                    setDate("2004-06-16T00:00:00.000Z");
-                    setPrice(95000);
-                }}
-        ));
-
-        return Collections.singletonList(property);
+    public List<PropertyDto> getFakeProperty() {
+        
+        return this.mock.getPropertyDetails();
     }
 
     @GetMapping("/value/fake")
-    public EstimatedValueResponse getFakeEstimatedValue(
-//            @RequestParam String address
-    ) {
-        EstimatedValueResponse response = new EstimatedValueResponse();
-        response.setPrice(554000);
-        response.setPriceRangeLow(358000);
-        response.setPriceRangeHigh(750000);
-        response.setLatitude(26.2625752);
-        response.setLongitude(-80.2809417);
-
-        List<EstimatedValueResponse.ComparableProperty> comparables = new ArrayList<>();
-
-        EstimatedValueResponse.ComparableProperty c1 = new EstimatedValueResponse.ComparableProperty();
-        c1.setId("2537-Nw-116th-Ter,-Coral-Springs,-FL-33065");
-        c1.setFormattedAddress("2537 Nw 116th Ter, Coral Springs, FL 33065");
-        c1.setAddressLine1("2537 Nw 116th Ter");
-        c1.setCity("Coral Springs");
-        c1.setState("FL");
-        c1.setZipCode("33065");
-        c1.setCounty("Broward");
-        c1.setLatitude(26.262506);
-        c1.setLongitude(-80.2809);
-        c1.setPropertyType("Single Family");
-        c1.setBedrooms(4);
-        c1.setBathrooms(2.0);
-        c1.setSquareFootage(2047);
-        c1.setLotSize(13733);
-        c1.setYearBuilt(1974);
-        c1.setPrice(570500);
-        c1.setListingType("Standard");
-        c1.setListedDate("2025-02-28T00:00:00.000Z");
-        c1.setRemovedDate(null);
-        c1.setLastSeenDate("2025-04-01T12:55:05.069Z");
-        c1.setDaysOnMarket(33);
-        c1.setDistance(0.0054);
-        c1.setDaysOld(1);
-        c1.setCorrelation(0.9997);
-        comparables.add(c1);
-
-        // Ejemplo de un segundo comparable. Puedes agregar más si deseas.
-        EstimatedValueResponse.ComparableProperty c2 = new EstimatedValueResponse.ComparableProperty();
-        c2.setId("2620-Nw-115th-Ter,-Coral-Springs,-FL-33065");
-        c2.setFormattedAddress("2620 Nw 115th Ter, Coral Springs, FL 33065");
-        c2.setAddressLine1("2620 Nw 115th Ter");
-        c2.setCity("Coral Springs");
-        c2.setState("FL");
-        c2.setZipCode("33065");
-        c2.setCounty("Broward");
-        c2.setLatitude(26.264272);
-        c2.setLongitude(-80.280577);
-        c2.setPropertyType("Single Family");
-        c2.setBedrooms(5);
-        c2.setBathrooms(3.0);
-        c2.setSquareFootage(3000);
-        c2.setLotSize(20422);
-        c2.setYearBuilt(1973);
-        c2.setPrice(799000);
-        c2.setListingType("Standard");
-        c2.setListedDate("2025-03-27T00:00:00.000Z");
-        c2.setRemovedDate(null);
-        c2.setLastSeenDate("2025-04-01T10:39:26.994Z");
-        c2.setDaysOnMarket(6);
-        c2.setDistance(0.1195);
-        c2.setDaysOld(1);
-        c2.setCorrelation(0.994);
-        comparables.add(c2);
-
-        // Puedes seguir agregando más comparables si lo necesitas
-        response.setComparables(comparables);
-
-        return response;
+    public EstimatedValueDto getFakeEstimatedValue() {
+        return this.mock.getRentEstimateDetail();
     }
 
     @GetMapping("/rent/fake")
