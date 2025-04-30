@@ -1,8 +1,6 @@
 package com.kynsoft.propertyacqcenter.infrastructure.services;
 
-import com.kynsoft.propertyacqcenter.application.response.rentcast.EstimatedValueResponse;
 import com.kynsoft.propertyacqcenter.domain.enums.PropertyType;
-import com.kynsoft.propertyacqcenter.application.response.rentcast.SaleListingResponse;
 import com.kynsoft.propertyacqcenter.domain.dto.property.FeaturesDto;
 import com.kynsoft.propertyacqcenter.domain.dto.property.HoaDto;
 import com.kynsoft.propertyacqcenter.domain.dto.property.OwnerDto;
@@ -11,8 +9,13 @@ import com.kynsoft.propertyacqcenter.domain.dto.property.PropertyDto;
 import com.kynsoft.propertyacqcenter.domain.dto.property.PropertyTaxDto;
 import com.kynsoft.propertyacqcenter.domain.dto.property.SaleHistoryDto;
 import com.kynsoft.propertyacqcenter.domain.dto.property.TaxAssessmentsDto;
+import com.kynsoft.propertyacqcenter.domain.dto.property.saleListing.ListingAgentDto;
+import com.kynsoft.propertyacqcenter.domain.dto.property.saleListing.ListingHistoryDto;
+import com.kynsoft.propertyacqcenter.domain.dto.property.saleListing.ListingOfficeDto;
+import com.kynsoft.propertyacqcenter.domain.dto.property.saleListing.SaleListingDto;
 import com.kynsoft.propertyacqcenter.domain.dto.valueEstimate.ComparablePropertyDto;
 import com.kynsoft.propertyacqcenter.domain.dto.valueEstimate.EstimatedValueDto;
+import com.kynsoft.propertyacqcenter.domain.enums.Status;
 import com.kynsoft.propertyacqcenter.infrastructure.repository.command.PropertyWriteDataJPARepository;
 import com.kynsoft.propertyacqcenter.infrastructure.repository.query.PropertyReadDataJPARepository;
 import org.springframework.beans.factory.annotation.Value;
@@ -244,8 +247,72 @@ public class RentCastServiceMockImpl {
         return estimatedValueDto;
     }
 
-    public List<SaleListingResponse> getSaleListings(String city, String state) {
-        return null;
+    public List<SaleListingDto> getSaleListings() {
+        List<SaleListingDto> saleListingDtos = new ArrayList<>();
+        SaleListingDto property = new SaleListingDto();
+
+        // Configurar datos básicos
+        property.setId("3821-Hargis-St,-Austin,-TX-78723");
+        property.setFormattedAddress("3821 Hargis St, Austin, TX 78723");
+        property.setAddressLine1("3821 Hargis St");
+        property.setCity("Austin");
+        property.setState("TX");
+        property.setZipCode("78723");
+        property.setCounty("Travis");
+        property.setLatitude(30.290643);
+        property.setLongitude(-97.701547);
+        property.setPropertyType(PropertyType.APARTMENT);
+        property.setBedrooms(4);
+        property.setBathrooms(2);
+        property.setSquareFootage(2345);
+        property.setLotSize(3284);
+        property.setYearBuilt(2008);
+
+        // Configurar HOA
+        HoaDto hoa = new HoaDto();
+        hoa.setFee(65);
+        property.setHoa(hoa);
+
+        // Configurar estado y precio
+        property.setStatus(Status.ACTIVE);
+        property.setPrice(899000);
+        property.setListingType("Standard");
+        property.setListedDate(LocalDateTime.parse("2024-06-24T00:00:00.000"));
+        property.setCreatedDate(LocalDateTime.parse("2021-06-25T00:00:00.000"));
+        property.setLastSeenDate(LocalDateTime.parse("2024-09-30T13:11:47.157"));
+        property.setDaysOnMarket(99);
+        property.setMlsName("UnlockMLS");
+        property.setMlsNumber("5519228");
+
+        // Configurar agente
+        ListingAgentDto agent = new ListingAgentDto();
+        agent.setName("Jennifer Welch");
+        agent.setPhone("5124313110");
+        agent.setEmail("jennifer@gottesmanresidential.com");
+        agent.setWebsite("https://www.gottesmanresidential.com");
+        property.setListingAgent(agent);
+
+        // Configurar oficina
+        ListingOfficeDto office = new ListingOfficeDto();
+        office.setName("Gottesman Residential R.E.");
+        office.setPhone("5124512422");
+        office.setEmail("nataliem@gottesmanresidential.com");
+        office.setWebsite("https://www.gottesmanresidential.com");
+        property.setListingOffice(office);
+
+        // Configurar historial
+        Map<String, ListingHistoryDto> history = new HashMap<>();
+        ListingHistoryDto listing = new ListingHistoryDto();
+        listing.setEvent("Sale Listing");
+        listing.setPrice(899000);
+        listing.setListingType("Standard");
+        listing.setListedDate(LocalDateTime.parse("2024-06-24T00:00:00.000"));
+        listing.setDaysOnMarket(99);
+        history.put("2024-06-24", listing);
+        property.setHistory(history);
+
+        saleListingDtos.add(property);
+        return saleListingDtos;
     }
 
     private PropertyDto createMockProperty() {
