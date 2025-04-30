@@ -2,7 +2,10 @@ package com.kynsoft.cirugia.application.response;
 
 import com.kynsof.share.core.domain.bus.query.IResponse;
 import com.kynsoft.cirugia.domain.dto.DoctorDto;
+import com.kynsoft.cirugia.infrastructure.entities.Doctor;
 import lombok.*;
+
+import java.io.Serializable;
 import java.util.UUID;
 
 @Builder
@@ -10,7 +13,7 @@ import java.util.UUID;
 @AllArgsConstructor
 @Getter
 @Setter
-public class DoctorResponse implements IResponse {
+public class DoctorResponse implements IResponse, Serializable {
 
     private UUID id;
     private String name;
@@ -26,4 +29,12 @@ public class DoctorResponse implements IResponse {
         this.registerNumber = dto.getRegisterNumber();
     }
 
+
+    public DoctorResponse(Doctor doctor) {
+        this.id = doctor.getId();
+        this.name = doctor.getName();
+        this.lastName = doctor.getLastName();
+        this.identification = doctor.getIdentification();
+        this.registerNumber = doctor.getRegisterNumber();
+    }
 }

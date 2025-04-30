@@ -3,6 +3,7 @@ package com.kynsoft.cirugia.domain.service;
 import com.kynsof.share.core.domain.request.FilterCriteria;
 import com.kynsof.share.core.domain.response.PaginatedResponse;
 import com.kynsoft.cirugia.domain.dto.Surgery;
+import com.kynsoft.cirugia.infrastructure.entities.SurgeryEntity;
 import org.springframework.data.domain.Pageable;
 
 import java.time.LocalDate;
@@ -20,6 +21,10 @@ public interface ISurgeryService {
     
     // Métodos de consulta
     Optional<Surgery> getSurgeryById(UUID id);
+    
+    // Nuevo método para obtener la entidad completa con relaciones
+    Optional<SurgeryEntity> getSurgeryEntityById(UUID id);
+    
     List<Surgery> listSurgeriesByBusiness(UUID businessId);
     List<Surgery> listSurgeriesByPatient(UUID patientId);
     

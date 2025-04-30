@@ -178,7 +178,8 @@ public class SurgeryServiceImpl implements ISurgeryService {
     private PaginatedResponse getPaginatedResponse(Page<SurgeryEntity> data) {
         List<SurgeryResponse> surgeryResponses = new ArrayList<>();
         for (SurgeryEntity entity : data.getContent()) {
-            surgeryResponses.add(new SurgeryResponse(mapToDomain(entity)));
+            // Usar el nuevo constructor que mapea directamente desde SurgeryEntity
+            surgeryResponses.add(new SurgeryResponse(entity));
         }
         return new PaginatedResponse(
             surgeryResponses, 
@@ -230,5 +231,13 @@ public class SurgeryServiceImpl implements ISurgeryService {
                 .createdBy(surgery.getCreatedBy())
                 .updatedBy(surgery.getUpdatedBy())
                 .build();
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    @Cacheable(cacheNames = SurgeryCacheConfig.SURGERY_SERVICE_CACHE, key = "'entity:' + #id", unless = "#result == null")
+    public Optional<SurgeryEntity> getSurgeryEntityById(UUID id) {
+        log.info("Finding surgery entity with ID: {}", id);
+        return surgeryReadRepository.findById(id);
     }
 }
