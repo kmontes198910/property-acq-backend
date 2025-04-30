@@ -7,6 +7,7 @@ import org.keycloak.admin.client.Keycloak;
 import org.keycloak.admin.client.KeycloakBuilder;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+import org.springframework.scheduling.annotation.Scheduled;
 
 // Importaciones actualizadas para compatibilidad con Jakarta EE
 import jakarta.annotation.PostConstruct;
@@ -275,5 +276,58 @@ public class KeycloakConnectionPool {
             "KeycloakConnectionPool - Conexiones activas: %d, Conexiones en el pool: %d, Tamaño máximo: %d",
             activeConnections.get(), connectionPool.size(), poolSize
         );
+    }
+
+    /**
+     * Devuelve el número de conexiones activas (en uso)
+     */
+    public int getActiveConnectionCount() {
+        return activeConnections.get() - connectionPool.size();
+    }
+
+    /**
+     * Devuelve el número de conexiones disponibles en el pool
+     */
+    public int getAvailableConnectionCount() {
+        return connectionPool.size();
+    }
+
+    /**
+     * Limpia las conexiones inactivas después de un tiempo
+     */
+    @Scheduled(fixedRate = 600000) // Cada 10 minutos
+    public void cleanupIdleConnections() {
+        log.info("Iniciando limpieza de conexiones inactivas de Keycloak");
+        
+        int initialSize = connectionPool.size();
+        int closedConnections = 0;
+        
+        // Crear una lista para almacenar conexiones a validar
+        BlockingQueue<Keycloak> tempQueue = new ArrayBlockingQueue<>(connectionPool.size());
+        Keycloak connection;
+        
+        // Sacar todas las conexiones del pool para validarlas
+        while ((connection = connectionPool.poll()) != null) {
+            if (enableValidation && !isConnectionValid(connection)) {
+                // Si la conexión no es válida, cerrarla
+                log.info("Cerrando conexión inválida");
+                closeConnection(connection);
+                activeConnections.decrementAndGet();
+                closedConnections++;
+            } else {
+                // Si es válida, la añadimos a la cola temporal
+                tempQueue.offer(connection);
+            }
+        }
+        
+        // Devolver las conexiones válidas al pool
+        int returnedConnections = 0;
+        while ((connection = tempQueue.poll()) != null) {
+            connectionPool.offer(connection);
+            returnedConnections++;
+        }
+        
+        log.info("Limpieza completada: {} conexiones eliminadas, {} conexiones válidas devueltas al pool", 
+                closedConnections, returnedConnections);
     }
 }

@@ -1,6 +1,5 @@
 package com.kynsoft.cirugia.controller;
 
-import com.kynsof.share.core.domain.request.FilterCriteria;
 import com.kynsof.share.core.domain.request.PageableUtil;
 import com.kynsof.share.core.domain.request.SearchRequest;
 import com.kynsof.share.core.domain.response.PaginatedResponse;
@@ -13,19 +12,18 @@ import com.kynsoft.cirugia.application.query.surgery.listbypatient.ListSurgeries
 import com.kynsoft.cirugia.application.query.surgery.search.SearchSurgeriesQuery;
 import com.kynsoft.cirugia.application.query.surgery.listbydaterange.ListSurgeriesByDateRangeRequest;
 import com.kynsoft.cirugia.application.query.surgery.listbydaterange.ListSurgeriesByDateRangeQuery;
-import com.kynsoft.cirugia.application.command.create.CreateSurgeryCommand;
-import com.kynsoft.cirugia.application.command.create.CreateSurgeryRequest;
-import com.kynsoft.cirugia.application.command.update.UpdateSurgeryCommand;
-import com.kynsoft.cirugia.application.command.update.UpdateSurgeryRequest;
-import com.kynsoft.cirugia.application.command.changestatus.ChangeSurgeryStatusCommand;
-import com.kynsoft.cirugia.application.command.changestatus.ChangeSurgeryStatusRequest;
-import com.kynsoft.cirugia.application.command.delete.DeleteSurgeryCommand;
+import com.kynsoft.cirugia.application.command.surgery.create.CreateSurgeryCommand;
+import com.kynsoft.cirugia.application.command.surgery.create.CreateSurgeryRequest;
+import com.kynsoft.cirugia.application.command.surgery.update.UpdateSurgeryCommand;
+import com.kynsoft.cirugia.application.command.surgery.update.UpdateSurgeryRequest;
+import com.kynsoft.cirugia.application.command.surgery.changestatus.ChangeSurgeryStatusCommand;
+import com.kynsoft.cirugia.application.command.surgery.changestatus.ChangeSurgeryStatusRequest;
+import com.kynsoft.cirugia.application.command.surgery.delete.DeleteSurgeryCommand;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.UUID;
 
 @RestController

@@ -1,4 +1,4 @@
-package com.kynsoft.propertyacqcenter.infrastructure.repository;
+package com.kynsoft.cirugia.infrastructure.repository;
 
 import jakarta.persistence.EntityManagerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;

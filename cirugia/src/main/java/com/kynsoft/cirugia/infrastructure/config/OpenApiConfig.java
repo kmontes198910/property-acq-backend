@@ -7,33 +7,37 @@ import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.info.License;
 import io.swagger.v3.oas.models.security.SecurityRequirement;
 import io.swagger.v3.oas.models.security.SecurityScheme;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class OpenApiConfig {
 
+    @Value("${spring.application.name:Cirugía}")
+    private String applicationName;
+
     @Bean
     public OpenAPI customOpenAPI() {
         return new OpenAPI()
-                .addSecurityItem(new SecurityRequirement().addList("bearerAuth"))
-                .components(new Components()
-                        .addSecuritySchemes("bearerAuth",
-                                new SecurityScheme()
-                                        .name("bearerAuth")
-                                        .type(SecurityScheme.Type.HTTP)
-                                        .scheme("bearer")
-                                        .bearerFormat("JWT")))
                 .info(new Info()
-                        .title("API de Cirugía")
-                        .description("API para la gestión de cirugías en Medinec")
+                        .title("API de " + applicationName)
+                        .description("API para la gestión de cirugías y salas quirúrgicas")
                         .version("1.0.0")
                         .contact(new Contact()
                                 .name("Kynsoft")
                                 .email("info@kynsoft.com")
-                                .url("https://kynsoft.com"))
+                                .url("https://www.kynsoft.com"))
                         .license(new License()
-                                .name("Licencia Privada")
-                                .url("https://kynsoft.com/licenses")));
+                                .name("Privativa")
+                                .url("https://www.kynsoft.com/license")))
+                .addSecurityItem(new SecurityRequirement().addList("bearer-jwt"))
+                .components(new Components()
+                        .addSecuritySchemes("bearer-jwt", new SecurityScheme()
+                                .type(SecurityScheme.Type.HTTP)
+                                .scheme("bearer")
+                                .bearerFormat("JWT")
+                                .in(SecurityScheme.In.HEADER)
+                                .name("Authorization")));
     }
 }
