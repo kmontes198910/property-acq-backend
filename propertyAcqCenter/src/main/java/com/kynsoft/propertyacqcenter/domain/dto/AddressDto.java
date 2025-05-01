@@ -19,7 +19,7 @@ import lombok.Setter;
 @Getter
 public class AddressDto {
     private UUID id;
-    private UUID legalEntityId;
+    private LegalEntityDto legalEntity;
     private AddressType addressType;
     private String streetAddress1;
     private String streetAddress2;
