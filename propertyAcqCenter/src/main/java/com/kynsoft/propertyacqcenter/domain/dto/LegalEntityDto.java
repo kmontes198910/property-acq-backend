@@ -36,7 +36,7 @@ public class LegalEntityDto {
     private String notes;
     private EntityStatus status;
     private List<AddressDto> addresses;
-    private List<ContactPersonDto> contactPersons;
+    private List<CompanyDto> contactPersons;
     private List<BankAccountDto> bankAccounts;
     private List<DocumentDto> documents;
     private LocalDateTime createdAt;

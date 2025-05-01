@@ -1,4 +1,4 @@
-package com.kynsoft.propertyacqcenter.application.command.contactPerson.create;
+package com.kynsoft.propertyacqcenter.application.command.company.create;
 
 import com.kynsof.share.core.domain.bus.command.ICommand;
 import com.kynsof.share.core.domain.bus.command.ICommandMessage;
@@ -9,7 +9,7 @@ import java.time.LocalDate;
 import java.util.UUID;
 
 @Getter
-public class CreateContactPersonCommand implements ICommand {
+public class CreateCompanyCommand implements ICommand {
 
     private UUID id;
     private UUID legalEntityId;
@@ -34,7 +34,7 @@ public class CreateContactPersonCommand implements ICommand {
     private String notes;
     private UUID createdBy;
 
-    public CreateContactPersonCommand(UUID legalEntityId, String firstName, String lastName, ContactRole role, String email, String phone, String cellPhone, String title, LocalDate dateOfBirth, String personalTaxId, String nationality, String personalAddress, String city, String state, String zipCode, String personalEmail, Boolean isPrimary, Double ownershipPercentage, Boolean signatureAuthority, String notes, UUID createdBy) {
+    public CreateCompanyCommand(UUID legalEntityId, String firstName, String lastName, ContactRole role, String email, String phone, String cellPhone, String title, LocalDate dateOfBirth, String personalTaxId, String nationality, String personalAddress, String city, String state, String zipCode, String personalEmail, Boolean isPrimary, Double ownershipPercentage, Boolean signatureAuthority, String notes, UUID createdBy) {
         this.id = UUID.randomUUID();
         this.legalEntityId = legalEntityId;
         this.firstName = firstName;
@@ -59,8 +59,8 @@ public class CreateContactPersonCommand implements ICommand {
         this.createdBy = createdBy;
     }
 
-    public static CreateContactPersonCommand fromRequest(CreateContactPersonRequest request) {
-        return new CreateContactPersonCommand(
+    public static CreateCompanyCommand fromRequest(CreateCompanyRequest request) {
+        return new CreateCompanyCommand(
                 request.getLegalEntityId(),
                 request.getFirstName(),
                 request.getLastName(),
@@ -87,6 +87,6 @@ public class CreateContactPersonCommand implements ICommand {
 
     @Override
     public ICommandMessage getMessage() {
-        return new CreateContactPersonMessage(id);
+        return new CreateCompanyMessage(id);
     }
 }

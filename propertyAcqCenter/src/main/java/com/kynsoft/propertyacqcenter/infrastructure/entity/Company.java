@@ -1,6 +1,6 @@
 package com.kynsoft.propertyacqcenter.infrastructure.entity;
 
-import com.kynsoft.propertyacqcenter.domain.dto.ContactPersonDto;
+import com.kynsoft.propertyacqcenter.domain.dto.CompanyDto;
 import com.kynsoft.propertyacqcenter.domain.enums.ContactRole;
 import jakarta.persistence.*;
 import lombok.*;
@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
-@Table(name = "contact_persons")
+@Table(name = "company")
 @Getter
 @Setter
 @NoArgsConstructor
@@ -100,7 +100,7 @@ public class Company {
     @Column(name = "updated_by")
     private UUID updatedBy;
 
-    public Company(ContactPersonDto dto, LegalEntity legalEntity) {
+    public Company(CompanyDto dto, LegalEntity legalEntity) {
         this.id = dto.getId() != null ? dto.getId() : UUID.randomUUID();
         this.legalEntity = legalEntity;
         this.firstName = dto.getFirstName();
@@ -126,8 +126,8 @@ public class Company {
         this.updatedBy = dto.getUpdatedBy();
     }
 
-    public ContactPersonDto toAggregate() {
-        return ContactPersonDto.builder()
+    public CompanyDto toAggregate() {
+        return CompanyDto.builder()
                 .id(this.id)
                 .legalEntityId(this.legalEntity != null ? this.legalEntity.getId() : null)
                 .firstName(this.firstName)

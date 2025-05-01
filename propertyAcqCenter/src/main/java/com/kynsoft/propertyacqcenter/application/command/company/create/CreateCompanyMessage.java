@@ -1,4 +1,4 @@
-package com.kynsoft.propertyacqcenter.application.command.contactPerson.create;
+package com.kynsoft.propertyacqcenter.application.command.company.create;
 
 import com.kynsof.share.core.domain.bus.command.ICommandMessage;
 import lombok.AllArgsConstructor;
@@ -8,7 +8,7 @@ import java.util.UUID;
 
 @Getter
 @AllArgsConstructor
-public class CreateContactPersonMessage implements ICommandMessage {
+public class CreateCompanyMessage implements ICommandMessage {
     private final UUID id;
     private final String command = "CREATE_CONTACT_PERSON";
 }

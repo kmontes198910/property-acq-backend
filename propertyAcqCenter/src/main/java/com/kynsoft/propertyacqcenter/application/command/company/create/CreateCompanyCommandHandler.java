@@ -1,22 +1,22 @@
-package com.kynsoft.propertyacqcenter.application.command.contactPerson.update;
+package com.kynsoft.propertyacqcenter.application.command.company.create;
 
 import com.kynsof.share.core.domain.bus.command.ICommandHandler;
-import com.kynsoft.propertyacqcenter.domain.dto.ContactPersonDto;
+import com.kynsoft.propertyacqcenter.domain.dto.CompanyDto;
 import com.kynsoft.propertyacqcenter.domain.services.IContactPersonService;
 import org.springframework.stereotype.Component;
 
 @Component
-public class UpdateContactPersonCommandHandler implements ICommandHandler<UpdateContactPersonCommand> {
+public class CreateCompanyCommandHandler implements ICommandHandler<CreateCompanyCommand> {
 
     private final IContactPersonService contactPersonService;
 
-    public UpdateContactPersonCommandHandler(IContactPersonService contactPersonService) {
+    public CreateCompanyCommandHandler(IContactPersonService contactPersonService) {
         this.contactPersonService = contactPersonService;
     }
 
     @Override
-    public void handle(UpdateContactPersonCommand command) {
-        this.contactPersonService.update(new ContactPersonDto(
+    public void handle(CreateCompanyCommand command) {
+        CompanyDto contactPersonDto = new CompanyDto(
                 command.getId(),
                 command.getLegalEntityId(),
                 command.getFirstName(),
@@ -38,8 +38,10 @@ public class UpdateContactPersonCommandHandler implements ICommandHandler<Update
                 command.getOwnershipPercentage(),
                 command.getSignatureAuthority(),
                 command.getNotes(),
-                null,
-                command.getUpdatedBy()
-        ));
+                command.getCreatedBy(),
+                null
+        );
+
+        this.contactPersonService.create(contactPersonDto);
     }
 }

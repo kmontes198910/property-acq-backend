@@ -1,10 +1,8 @@
 package com.kynsoft.propertyacqcenter.application.command.contact.update;
 
 import com.kynsof.share.core.domain.bus.command.ICommandHandler;
-import com.kynsoft.propertyacqcenter.domain.dto.BusinessDto;
 import com.kynsoft.propertyacqcenter.domain.dto.ContactDto;
 import com.kynsoft.propertyacqcenter.domain.dto.LegalEntityDto;
-import com.kynsoft.propertyacqcenter.domain.services.IBusinessService;
 import com.kynsoft.propertyacqcenter.domain.services.IContactService;
 import com.kynsoft.propertyacqcenter.domain.services.ILegalEntityService;
 import org.springframework.stereotype.Component;
@@ -13,18 +11,15 @@ import org.springframework.stereotype.Component;
 public class UpdateContactCommandHandler implements ICommandHandler<UpdateContactCommand> {
 
     private final IContactService contactService;
-    private final IBusinessService businessService;
     private final ILegalEntityService legalEntityService;
 
-    public UpdateContactCommandHandler(IContactService contactService, IBusinessService businessService, ILegalEntityService legalEntityService) {
+    public UpdateContactCommandHandler(IContactService contactService, ILegalEntityService legalEntityService) {
         this.contactService = contactService;
         this.legalEntityService = legalEntityService;
-        this.businessService = businessService;
     }
 
     @Override
     public void handle(UpdateContactCommand command) {
-        BusinessDto businessDto = this.businessService.findById(command.getBusiness());
         LegalEntityDto legalEntityDto = this.legalEntityService.findById(command.getLegalEntity());
         this.contactService.update(new ContactDto(
                 command.getId(),
@@ -38,8 +33,7 @@ public class UpdateContactCommandHandler implements ICommandHandler<UpdateContac
                 command.getCompany(),
                 command.getNotes(),
                 command.getIsActive(),
-                legalEntityDto,
-                businessDto
+                legalEntityDto
         ));
     }
 }

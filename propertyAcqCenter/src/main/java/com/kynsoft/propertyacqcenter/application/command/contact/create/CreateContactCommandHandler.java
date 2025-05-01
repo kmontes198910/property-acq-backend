@@ -4,7 +4,6 @@ import com.kynsof.share.core.domain.bus.command.ICommandHandler;
 import com.kynsoft.propertyacqcenter.domain.dto.BusinessDto;
 import com.kynsoft.propertyacqcenter.domain.dto.ContactDto;
 import com.kynsoft.propertyacqcenter.domain.dto.LegalEntityDto;
-import com.kynsoft.propertyacqcenter.domain.services.IBusinessService;
 import com.kynsoft.propertyacqcenter.domain.services.IContactService;
 import com.kynsoft.propertyacqcenter.domain.services.ILegalEntityService;
 import org.springframework.stereotype.Component;
@@ -13,18 +12,15 @@ import org.springframework.stereotype.Component;
 public class CreateContactCommandHandler implements ICommandHandler<CreateContactCommand> {
 
     private final IContactService contactService;
-    private final IBusinessService businessService;
     private final ILegalEntityService legalEntityService;
 
-    public CreateContactCommandHandler(IContactService contactService, IBusinessService businessService, ILegalEntityService legalEntityService) {
+    public CreateContactCommandHandler(IContactService contactService, ILegalEntityService legalEntityService) {
         this.contactService = contactService;
         this.legalEntityService = legalEntityService;
-        this.businessService = businessService;
     }
 
     @Override
     public void handle(CreateContactCommand command) {
-        BusinessDto businessDto = this.businessService.findById(command.getBusiness());
         LegalEntityDto legalEntityDto = this.legalEntityService.findById(command.getLegalEntity());
 
         ContactDto contactDto = ContactDto.builder()
@@ -40,7 +36,6 @@ public class CreateContactCommandHandler implements ICommandHandler<CreateContac
                 .notes(command.getNotes())
                 .isActive(command.getIsActive())
                 .legalEntity(legalEntityDto)
-                .business(businessDto)
                 .build();
 
         this.contactService.create(contactDto);

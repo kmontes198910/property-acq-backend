@@ -16,15 +16,15 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Repository
-public interface ContactPersonReadDataJPARepository extends JpaRepository<Company, UUID>, JpaSpecificationExecutor<Company> {
+public interface CompanyReadDataJPARepository extends JpaRepository<Company, UUID>, JpaSpecificationExecutor<Company> {
     Page<Company> findAll(Specification<Company> specification, Pageable pageable);
     
     List<Company> findByLegalEntityId(UUID legalEntityId);
     
-    @Query("SELECT c FROM ContactPerson c WHERE c.legalEntity.id = :legalEntityId AND c.isPrimary = true")
+    @Query("SELECT c FROM Company c WHERE c.legalEntity.id = :legalEntityId AND c.isPrimary = true")
     Optional<Company> findPrimaryContactByLegalEntityId(@Param("legalEntityId") UUID legalEntityId);
     
-    @Query("SELECT c FROM ContactPerson c WHERE c.legalEntity.id = :legalEntityId AND c.role = :role")
+    @Query("SELECT c FROM Company c WHERE c.legalEntity.id = :legalEntityId AND c.role = :role")
     List<Company> findByLegalEntityIdAndRole(
             @Param("legalEntityId") UUID legalEntityId, 
             @Param("role") ContactRole role);

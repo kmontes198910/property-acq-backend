@@ -1,4 +1,4 @@
-package com.kynsoft.propertyacqcenter.application.command.contactPerson.update;
+package com.kynsoft.propertyacqcenter.application.command.company.update;
 
 import com.kynsoft.propertyacqcenter.domain.enums.ContactRole;
 import lombok.Getter;
@@ -7,7 +7,7 @@ import java.time.LocalDate;
 import java.util.UUID;
 
 @Getter
-public class UpdateContactPersonRequest {
+public class UpdateCompanyRequest {
 
     private UUID legalEntityId;
     private String firstName;

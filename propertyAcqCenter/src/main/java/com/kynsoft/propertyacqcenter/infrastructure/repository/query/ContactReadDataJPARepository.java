@@ -53,7 +53,7 @@ public interface ContactReadDataJPARepository extends JpaRepository<Contact, UUI
     @Override
     Page<Contact> findAll(Specification<Contact> specification, Pageable pageable);
 
-    @EntityGraph(attributePaths = {"business", "legalEntity"})
+    @EntityGraph(attributePaths = {"legalEntity", "legalEntity.business"})
     @Override
     Optional<Contact> findById(UUID id);
 }

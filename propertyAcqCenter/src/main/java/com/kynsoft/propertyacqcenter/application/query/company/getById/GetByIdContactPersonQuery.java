@@ -1,4 +1,4 @@
-package com.kynsoft.propertyacqcenter.application.query.contactPerson.getById;
+package com.kynsoft.propertyacqcenter.application.query.company.getById;
 
 import com.kynsof.share.core.domain.bus.query.IQuery;
 import lombok.AllArgsConstructor;

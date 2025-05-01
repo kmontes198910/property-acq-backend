@@ -26,9 +26,8 @@ public class ContactDto {
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
     private LegalEntityDto legalEntity;
-    private BusinessDto business;
 
-    public ContactDto(UUID id, String firstName, String lastName, String email, String phoneNumber, String position, String department, String category, String company, String notes, Boolean isActive, LegalEntityDto legalEntity, BusinessDto business) {
+    public ContactDto(UUID id, String firstName, String lastName, String email, String phoneNumber, String position, String department, String category, String company, String notes, Boolean isActive, LegalEntityDto legalEntity) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -40,7 +39,6 @@ public class ContactDto {
         this.company = company;
         this.notes = notes;
         this.isActive = isActive;
-        this.business = business;
         this.legalEntity = legalEntity;
     }
 

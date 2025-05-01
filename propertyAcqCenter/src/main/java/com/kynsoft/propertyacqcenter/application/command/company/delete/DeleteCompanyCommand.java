@@ -1,4 +1,4 @@
-package com.kynsoft.propertyacqcenter.application.command.contactPerson.delete;
+package com.kynsoft.propertyacqcenter.application.command.company.delete;
 
 import com.kynsof.share.core.domain.bus.command.ICommand;
 import com.kynsof.share.core.domain.bus.command.ICommandMessage;
@@ -9,12 +9,12 @@ import java.util.UUID;
 
 @Getter
 @AllArgsConstructor
-public class DeleteContactPersonCommand implements ICommand {
+public class DeleteCompanyCommand implements ICommand {
 
     private final UUID id;
 
     @Override
     public ICommandMessage getMessage() {
-        return new DeleteContactPersonMessage(id);
+        return new DeleteCompanyMessage(id);
     }
 }

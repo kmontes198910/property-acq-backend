@@ -1,4 +1,4 @@
-package com.kynsoft.propertyacqcenter.application.command.contactPerson.update;
+package com.kynsoft.propertyacqcenter.application.command.company.update;
 
 import com.kynsof.share.core.domain.bus.command.ICommandMessage;
 import lombok.AllArgsConstructor;
@@ -8,7 +8,7 @@ import java.util.UUID;
 
 @Getter
 @AllArgsConstructor
-public class UpdateContactPersonMessage implements ICommandMessage {
+public class UpdateCompanyMessage implements ICommandMessage {
 
     private final String command = "UPDATE_CONTACT_PERSON";
 
