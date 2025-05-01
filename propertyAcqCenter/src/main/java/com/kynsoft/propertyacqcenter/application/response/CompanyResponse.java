@@ -2,6 +2,8 @@ package com.kynsoft.propertyacqcenter.application.response;
 
 import com.kynsof.share.core.domain.bus.query.IResponse;
 import com.kynsoft.propertyacqcenter.domain.dto.CompanyDto;
+import com.kynsoft.propertyacqcenter.domain.dto.CompanyTypeDto;
+import com.kynsoft.propertyacqcenter.domain.dto.LegalEntityDto;
 import com.kynsoft.propertyacqcenter.domain.enums.ContactRole;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -9,13 +11,16 @@ import lombok.Getter;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.UUID;
+import lombok.Setter;
 
 @Getter
+@Setter
 @AllArgsConstructor
 public class CompanyResponse implements IResponse {
 
     private UUID id;
-    private UUID legalEntityId;
+    private LegalEntityDto legalEntity;
+    private CompanyTypeDto companyType;
     private String firstName;
     private String lastName;
     private ContactRole role;
@@ -42,7 +47,8 @@ public class CompanyResponse implements IResponse {
 
     public CompanyResponse(CompanyDto contactPersonDto) {
         this.id = contactPersonDto.getId();
-        this.legalEntityId = contactPersonDto.getLegalEntityId();
+        this.legalEntity = contactPersonDto.getLegalEntity();
+        this.companyType = contactPersonDto.getCompanyType();
         this.firstName = contactPersonDto.getFirstName();
         this.lastName = contactPersonDto.getLastName();
         this.role = contactPersonDto.getRole();

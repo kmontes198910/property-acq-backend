@@ -9,6 +9,7 @@ import java.util.UUID;
 @Getter
 public class CreateCompanyRequest {
     private UUID legalEntityId;
+    private UUID companyType;
     private String firstName;
     private String lastName;
     private ContactRole role;

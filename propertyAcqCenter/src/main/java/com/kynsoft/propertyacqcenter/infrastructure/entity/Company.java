@@ -28,6 +28,10 @@ public class Company {
     @JoinColumn(name = "legal_entity_id", nullable = false)
     private LegalEntity legalEntity;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "company_type_id", nullable = false)
+    private CompanyType companyType;
+
     @Column(name = "first_name", nullable = false)
     private String firstName;
 
@@ -100,9 +104,10 @@ public class Company {
     @Column(name = "updated_by")
     private UUID updatedBy;
 
-    public Company(CompanyDto dto, LegalEntity legalEntity) {
+    public Company(CompanyDto dto) {
         this.id = dto.getId() != null ? dto.getId() : UUID.randomUUID();
-        this.legalEntity = legalEntity;
+        this.legalEntity = dto.getLegalEntity() != null ? new LegalEntity(dto.getLegalEntity()) : null;
+        this.companyType = dto.getCompanyType() != null ? new CompanyType(dto.getCompanyType()) : null;
         this.firstName = dto.getFirstName();
         this.lastName = dto.getLastName();
         this.role = dto.getRole();
@@ -126,10 +131,40 @@ public class Company {
         this.updatedBy = dto.getUpdatedBy();
     }
 
+    public CompanyDto toAggregateSimple() {
+        return CompanyDto.builder()
+                .id(this.id)
+                .legalEntity(this.legalEntity != null ? this.legalEntity.toAggregateFindById() : null)
+                .companyType(this.companyType != null ? this.companyType.toAggregate() : null)
+                .firstName(this.firstName)
+                .lastName(this.lastName)
+                .role(this.role)
+                .email(this.email)
+                .phone(this.phone)
+                .cellPhone(this.cellPhone)
+                .title(this.title)
+                .dateOfBirth(this.dateOfBirth)
+                .personalTaxId(this.personalTaxId)
+                .nationality(this.nationality)
+                .personalAddress(this.personalAddress)
+                .city(this.city)
+                .state(this.state)
+                .zipCode(this.zipCode)
+                .personalEmail(this.personalEmail)
+                .isPrimary(this.isPrimary)
+                .ownershipPercentage(this.ownershipPercentage)
+                .signatureAuthority(this.signatureAuthority)
+                .notes(this.notes)
+                .createdAt(this.createdAt)
+                .updatedAt(this.updatedAt)
+                .createdBy(this.createdBy)
+                .updatedBy(this.updatedBy)
+                .build();
+    }
+
     public CompanyDto toAggregate() {
         return CompanyDto.builder()
                 .id(this.id)
-                .legalEntityId(this.legalEntity != null ? this.legalEntity.getId() : null)
                 .firstName(this.firstName)
                 .lastName(this.lastName)
                 .role(this.role)
