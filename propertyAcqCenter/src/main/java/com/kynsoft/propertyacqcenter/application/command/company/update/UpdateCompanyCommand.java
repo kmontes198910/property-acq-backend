@@ -8,13 +8,16 @@ import lombok.Getter;
 
 import java.time.LocalDate;
 import java.util.UUID;
+import lombok.Setter;
 
 @Getter
+@Setter
 @AllArgsConstructor
 public class UpdateCompanyCommand implements ICommand {
 
     private UUID id;
     private UUID legalEntityId;
+    private UUID companyType;
     private String firstName;
     private String lastName;
     private ContactRole role;
@@ -40,6 +43,7 @@ public class UpdateCompanyCommand implements ICommand {
         return new UpdateCompanyCommand(
                 id,
                 request.getLegalEntityId(),
+                request.getCompanyType(),
                 request.getFirstName(),
                 request.getLastName(),
                 request.getRole(),

@@ -10,6 +10,7 @@ import java.util.UUID;
 public class UpdateCompanyRequest {
 
     private UUID legalEntityId;
+    private UUID companyType;
     private String firstName;
     private String lastName;
     private ContactRole role;

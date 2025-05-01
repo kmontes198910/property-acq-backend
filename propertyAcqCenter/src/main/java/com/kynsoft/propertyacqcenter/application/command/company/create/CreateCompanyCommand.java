@@ -7,12 +7,15 @@ import lombok.Getter;
 
 import java.time.LocalDate;
 import java.util.UUID;
+import lombok.Setter;
 
 @Getter
+@Setter
 public class CreateCompanyCommand implements ICommand {
 
     private UUID id;
     private UUID legalEntityId;
+    private UUID companyType;
     private String firstName;
     private String lastName;
     private ContactRole role;
@@ -34,9 +37,10 @@ public class CreateCompanyCommand implements ICommand {
     private String notes;
     private UUID createdBy;
 
-    public CreateCompanyCommand(UUID legalEntityId, String firstName, String lastName, ContactRole role, String email, String phone, String cellPhone, String title, LocalDate dateOfBirth, String personalTaxId, String nationality, String personalAddress, String city, String state, String zipCode, String personalEmail, Boolean isPrimary, Double ownershipPercentage, Boolean signatureAuthority, String notes, UUID createdBy) {
+    public CreateCompanyCommand(UUID legalEntityId, UUID companyType, String firstName, String lastName, ContactRole role, String email, String phone, String cellPhone, String title, LocalDate dateOfBirth, String personalTaxId, String nationality, String personalAddress, String city, String state, String zipCode, String personalEmail, Boolean isPrimary, Double ownershipPercentage, Boolean signatureAuthority, String notes, UUID createdBy) {
         this.id = UUID.randomUUID();
         this.legalEntityId = legalEntityId;
+        this.companyType = companyType;
         this.firstName = firstName;
         this.lastName = lastName;
         this.role = role;
@@ -62,6 +66,7 @@ public class CreateCompanyCommand implements ICommand {
     public static CreateCompanyCommand fromRequest(CreateCompanyRequest request) {
         return new CreateCompanyCommand(
                 request.getLegalEntityId(),
+                request.getCompanyType(),
                 request.getFirstName(),
                 request.getLastName(),
                 request.getRole(),

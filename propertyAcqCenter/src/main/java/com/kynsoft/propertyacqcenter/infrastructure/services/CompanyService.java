@@ -6,8 +6,6 @@ import com.kynsof.share.core.infrastructure.specifications.GenericSpecifications
 import com.kynsoft.propertyacqcenter.application.response.CompanyResponse;
 import com.kynsoft.propertyacqcenter.domain.dto.CompanyDto;
 import com.kynsoft.propertyacqcenter.domain.dto.exception.CompanyNotFoundException;
-import com.kynsoft.propertyacqcenter.domain.services.IContactPersonService;
-import com.kynsoft.propertyacqcenter.domain.services.ILegalEntityService;
 import com.kynsoft.propertyacqcenter.infrastructure.entity.Company;
 import com.kynsoft.propertyacqcenter.infrastructure.entity.LegalEntity;
 import org.springframework.data.domain.Page;
@@ -20,30 +18,24 @@ import java.util.Optional;
 import java.util.UUID;
 import com.kynsoft.propertyacqcenter.infrastructure.repository.query.CompanyReadDataJPARepository;
 import com.kynsoft.propertyacqcenter.infrastructure.repository.command.CompanyWriteDataJPARepository;
+import com.kynsoft.propertyacqcenter.domain.services.ICompanyService;
+import com.kynsoft.propertyacqcenter.infrastructure.entity.CompanyType;
 
 @Service
-public class ContactPersonService implements IContactPersonService {
+public class CompanyService implements ICompanyService {
 
     private final CompanyWriteDataJPARepository repositoryCommand;
 
     private final CompanyReadDataJPARepository repositoryQuery;
 
-    private final ILegalEntityService legalEntityService;
-
-    public ContactPersonService(CompanyWriteDataJPARepository repositoryCommand, CompanyReadDataJPARepository repositoryQuery, ILegalEntityService legalEntityService) {
+    public CompanyService(CompanyWriteDataJPARepository repositoryCommand, CompanyReadDataJPARepository repositoryQuery) {
         this.repositoryCommand = repositoryCommand;
         this.repositoryQuery = repositoryQuery;
-        this.legalEntityService = legalEntityService;
     }
 
     @Override
     public UUID create(CompanyDto contactPersonDto) {
-        //manejar la excepcion en caso de que legalEntityId no venga en el dto
-        LegalEntity legalEntity = contactPersonDto.getLegalEntityId() != null
-                ? new LegalEntity(legalEntityService.findById(contactPersonDto.getLegalEntityId()))
-                : null;
-        Company contactPerson = new Company(contactPersonDto, legalEntity);
-        return repositoryCommand.save(contactPerson).getId();
+        return repositoryCommand.save(new Company(contactPersonDto)).getId();
     }
 
     @Override
@@ -51,14 +43,6 @@ public class ContactPersonService implements IContactPersonService {
         Optional<Company> contactPerson = this.repositoryQuery.findById(contactPersonDto.getId());
         if (contactPerson.isPresent()) {
             Company oldContact = contactPerson.get();
-            if (contactPersonDto.getLegalEntityId() != null) {
-                // Si el ID de LegalEntity ha cambiado, o no tenía antes
-                if (oldContact.getLegalEntity() == null ||
-                        !oldContact.getLegalEntity().getId().equals(contactPersonDto.getLegalEntityId())) {
-                    LegalEntity legalEntity = new LegalEntity(legalEntityService.findById(contactPersonDto.getLegalEntityId()));
-                    oldContact.setLegalEntity(legalEntity);
-                }
-            }
             // Actualizar los demás campos
             oldContact.setFirstName(contactPersonDto.getFirstName());
             oldContact.setLastName(contactPersonDto.getLastName());
@@ -80,6 +64,8 @@ public class ContactPersonService implements IContactPersonService {
             oldContact.setSignatureAuthority(contactPersonDto.getSignatureAuthority());
             oldContact.setNotes(contactPersonDto.getNotes());
             oldContact.setUpdatedBy(contactPersonDto.getUpdatedBy());
+            oldContact.setLegalEntity(new LegalEntity(contactPersonDto.getLegalEntity()));
+            oldContact.setCompanyType(new CompanyType(contactPersonDto.getCompanyType()));
 
             // Guardar los cambios
             repositoryCommand.save(oldContact);
@@ -91,7 +77,7 @@ public class ContactPersonService implements IContactPersonService {
     @Override
     public CompanyDto findById(UUID id) {
         return this.repositoryQuery.findById(id)
-                .map(Company::toAggregate)
+                .map(Company::toAggregateSimple)
                 .orElseThrow(() -> new CompanyNotFoundException(id.toString(), "ID"));
     }
 

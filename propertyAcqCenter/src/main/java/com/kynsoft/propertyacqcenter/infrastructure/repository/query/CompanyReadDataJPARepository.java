@@ -14,11 +14,17 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import org.springframework.data.jpa.repository.EntityGraph;
 
 @Repository
 public interface CompanyReadDataJPARepository extends JpaRepository<Company, UUID>, JpaSpecificationExecutor<Company> {
+    @Override
     Page<Company> findAll(Specification<Company> specification, Pageable pageable);
-    
+
+    @EntityGraph(attributePaths = {"legalEntity", "legalEntity.business", "companyType"})
+    @Override
+    Optional<Company> findById(UUID id);
+
     List<Company> findByLegalEntityId(UUID legalEntityId);
     
     @Query("SELECT c FROM Company c WHERE c.legalEntity.id = :legalEntityId AND c.isPrimary = true")

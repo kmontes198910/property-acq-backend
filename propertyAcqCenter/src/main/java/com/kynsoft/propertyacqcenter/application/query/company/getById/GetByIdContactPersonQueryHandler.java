@@ -2,15 +2,15 @@ package com.kynsoft.propertyacqcenter.application.query.company.getById;
 
 import com.kynsof.share.core.domain.bus.query.IQueryHandler;
 import com.kynsoft.propertyacqcenter.application.response.CompanyResponse;
-import com.kynsoft.propertyacqcenter.domain.services.IContactPersonService;
 import org.springframework.stereotype.Component;
+import com.kynsoft.propertyacqcenter.domain.services.ICompanyService;
 
 @Component
 public class GetByIdContactPersonQueryHandler implements IQueryHandler<GetByIdContactPersonQuery, CompanyResponse> {
 
-    private final IContactPersonService contactPersonService;
+    private final ICompanyService contactPersonService;
 
-    public GetByIdContactPersonQueryHandler(IContactPersonService contactPersonService) {
+    public GetByIdContactPersonQueryHandler(ICompanyService contactPersonService) {
         this.contactPersonService = contactPersonService;
     }
 

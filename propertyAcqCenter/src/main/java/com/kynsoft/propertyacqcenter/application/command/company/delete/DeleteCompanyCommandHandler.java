@@ -1,15 +1,15 @@
 package com.kynsoft.propertyacqcenter.application.command.company.delete;
 
 import com.kynsof.share.core.domain.bus.command.ICommandHandler;
-import com.kynsoft.propertyacqcenter.domain.services.IContactPersonService;
 import org.springframework.stereotype.Component;
+import com.kynsoft.propertyacqcenter.domain.services.ICompanyService;
 
 @Component
 public class DeleteCompanyCommandHandler implements ICommandHandler<DeleteCompanyCommand> {
 
-    private final IContactPersonService contactPersonService;
+    private final ICompanyService contactPersonService;
 
-    public DeleteCompanyCommandHandler(IContactPersonService contactPersonService) {
+    public DeleteCompanyCommandHandler(ICompanyService contactPersonService) {
         this.contactPersonService = contactPersonService;
     }
 

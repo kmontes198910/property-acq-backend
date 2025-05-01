@@ -16,7 +16,8 @@ import java.util.UUID;
 @AllArgsConstructor
 public class CompanyDto {
     private UUID id;
-    private UUID legalEntityId;
+    private LegalEntityDto legalEntity;
+    private CompanyTypeDto companyType;
     private String firstName;
     private String lastName;
     private ContactRole role;
@@ -41,9 +42,10 @@ public class CompanyDto {
     private UUID createdBy;
     private UUID updatedBy;
 
-    public CompanyDto(UUID id, UUID legalEntityId, String firstName, String lastName, ContactRole role, String email, String phone, String cellPhone, String title, LocalDate dateOfBirth, String personalTaxId, String nationality, String personalAddress, String city, String state, String zipCode, String personalEmail, Boolean isPrimary, Double ownershipPercentage, Boolean signatureAuthority, String notes, UUID createdBy, UUID updatedBy) {
+    public CompanyDto(UUID id, LegalEntityDto legalEntity, CompanyTypeDto companyType, String firstName, String lastName, ContactRole role, String email, String phone, String cellPhone, String title, LocalDate dateOfBirth, String personalTaxId, String nationality, String personalAddress, String city, String state, String zipCode, String personalEmail, Boolean isPrimary, Double ownershipPercentage, Boolean signatureAuthority, String notes, UUID createdBy, UUID updatedBy) {
         this.id = id;
-        this.legalEntityId = legalEntityId;
+        this.legalEntity = legalEntity;
+        this.companyType = companyType;
         this.firstName = firstName;
         this.lastName = lastName;
         this.role = role;
