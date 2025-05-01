@@ -24,6 +24,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -71,10 +72,15 @@ public class SurgeryServiceImpl implements ISurgeryService {
         entity.setPatientId(surgery.getPatientId());
         entity.setDoctorId(surgery.getDoctorId());
         entity.setSpecialtyId(surgery.getSpecialtyId());
+        entity.setRecoveryBedEntityId(surgery.getRecoveryBedEntityId());
+        entity.setOperatingRoomId(surgery.getOperatingRoomId());
         entity.setSurgeryType(surgery.getSurgeryType());
-        entity.setDescription(surgery.getDescription());
         entity.setScheduledDate(surgery.getScheduledDate());
-        entity.setEstimatedDurationMinutes(surgery.getEstimatedDurationMinutes());
+        entity.setStartTime(surgery.getStartTime());
+        entity.setEndingTime(surgery.getEndingTime());
+        entity.setRequiresHospitalization(surgery.getRequiresHospitalization());
+        entity.setBusinessId(surgery.getBusinessId());
+        entity.setUpdatedBy(surgery.getUpdatedBy());
         entity.setUpdatedAt(LocalDateTime.now());
         
         surgeryWriteRepository.save(entity);
@@ -92,12 +98,8 @@ public class SurgeryServiceImpl implements ISurgeryService {
                     new ErrorField("id", "Surgery not found with ID: " + surgeryId))));
         
         entity.setStatus(status);
+        entity.setUpdatedBy(updatedBy);
         entity.setUpdatedAt(LocalDateTime.now());
-        
-        // Si el estado es COMPLETED, establecer la fecha de realización
-        if (status.equals("COMPLETED")) {
-            entity.setPerformedDate(LocalDateTime.now());
-        }
         
         surgeryWriteRepository.save(entity);
     }
@@ -158,18 +160,6 @@ public class SurgeryServiceImpl implements ISurgeryService {
                 .collect(Collectors.toList());
     }
 
-    @Override
-    @Transactional(readOnly = true)
-    @Cacheable(cacheNames = SurgeryCacheConfig.SURGERY_SERVICE_CACHE, 
-              key = "'dateRange:' + #startDate + ':' + #endDate + ':' + #businessId", 
-              unless = "#result == null")
-    public List<Surgery> listSurgeriesByDateRange(LocalDateTime startDate, LocalDateTime endDate, UUID businessId) {
-        log.info("Listing surgeries between {} and {} for business: {}", startDate, endDate, businessId);
-        return surgeryReadRepository.findByScheduledDateBetweenAndBusinessId(startDate, endDate, businessId)
-                .stream()
-                .map(this::mapToDomain)
-                .collect(Collectors.toList());
-    }
 
     @Override
     @Transactional(readOnly = true)
@@ -188,7 +178,8 @@ public class SurgeryServiceImpl implements ISurgeryService {
     private PaginatedResponse getPaginatedResponse(Page<SurgeryEntity> data) {
         List<SurgeryResponse> surgeryResponses = new ArrayList<>();
         for (SurgeryEntity entity : data.getContent()) {
-            surgeryResponses.add(new SurgeryResponse(mapToDomain(entity)));
+            // Usar el nuevo constructor que mapea directamente desde SurgeryEntity
+            surgeryResponses.add(new SurgeryResponse(entity));
         }
         return new PaginatedResponse(
             surgeryResponses, 
@@ -206,31 +197,47 @@ public class SurgeryServiceImpl implements ISurgeryService {
                 .patientId(entity.getPatientId())
                 .doctorId(entity.getDoctorId())
                 .specialtyId(entity.getSpecialtyId())
+                .recoveryBedEntityId(entity.getRecoveryBedEntityId())
+                .operatingRoomId(entity.getOperatingRoomId())
                 .surgeryType(entity.getSurgeryType())
-                .description(entity.getDescription())
                 .scheduledDate(entity.getScheduledDate())
-                .performedDate(entity.getPerformedDate())
-                .estimatedDurationMinutes(entity.getEstimatedDurationMinutes())
+                .startTime(entity.getStartTime())
+                .endingTime(entity.getEndingTime())
+                .requiresHospitalization(entity.getRequiresHospitalization())
                 .status(entity.getStatus())
                 .createdAt(entity.getCreatedAt())
                 .updatedAt(entity.getUpdatedAt())
+                .createdBy(entity.getCreatedBy())
+                .updatedBy(entity.getUpdatedBy())
                 .businessId(entity.getBusinessId())
                 .build();
     }
     
     private SurgeryEntity mapToEntity(Surgery surgery) {
         return SurgeryEntity.builder()
-                .id(surgery.getId())
+                .id(surgery.getId() != null ? surgery.getId() : UUID.randomUUID())
                 .patientId(surgery.getPatientId())
                 .doctorId(surgery.getDoctorId())
                 .specialtyId(surgery.getSpecialtyId())
+                .recoveryBedEntityId(surgery.getRecoveryBedEntityId())
+                .operatingRoomId(surgery.getOperatingRoomId())
                 .surgeryType(surgery.getSurgeryType())
-                .description(surgery.getDescription())
                 .scheduledDate(surgery.getScheduledDate())
-                .performedDate(surgery.getPerformedDate())
-                .estimatedDurationMinutes(surgery.getEstimatedDurationMinutes())
-                .status(surgery.getStatus())
+                .startTime(surgery.getStartTime())
+                .endingTime(surgery.getEndingTime())
+                .requiresHospitalization(surgery.getRequiresHospitalization())
+                .status(surgery.getStatus() != null ? surgery.getStatus() : "SCHEDULED")
                 .businessId(surgery.getBusinessId())
+                .createdBy(surgery.getCreatedBy())
+                .updatedBy(surgery.getUpdatedBy())
                 .build();
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    @Cacheable(cacheNames = SurgeryCacheConfig.SURGERY_SERVICE_CACHE, key = "'entity:' + #id", unless = "#result == null")
+    public Optional<SurgeryEntity> getSurgeryEntityById(UUID id) {
+        log.info("Finding surgery entity with ID: {}", id);
+        return surgeryReadRepository.findById(id);
     }
 }
