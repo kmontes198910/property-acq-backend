@@ -3,6 +3,7 @@ package com.kynsoft.cirugia.infrastructure.services;
 import com.kynsof.share.core.domain.exception.BusinessNotFoundException;
 import com.kynsof.share.core.domain.exception.DomainErrorMessage;
 import com.kynsof.share.core.domain.exception.GlobalBusinessException;
+import com.kynsof.share.core.domain.http.entity.DoctorHttp;
 import com.kynsof.share.core.domain.request.FilterCriteria;
 import com.kynsof.share.core.domain.response.ErrorField;
 import com.kynsof.share.core.domain.response.PaginatedResponse;
@@ -14,6 +15,7 @@ import com.kynsoft.cirugia.domain.service.IDoctorService;
 import com.kynsoft.cirugia.infrastructure.entities.Doctor;
 import com.kynsoft.cirugia.infrastructure.repository.command.DoctorWriteDataJPARepository;
 import com.kynsoft.cirugia.infrastructure.repository.query.DoctorReadDataJPARepository;
+import com.kynsoft.cirugia.infrastructure.services.http.DoctorHttpUUIDService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -26,10 +28,14 @@ public class DoctorServiceImpl implements IDoctorService {
 
     private final DoctorWriteDataJPARepository repositoryCommand;
     private final DoctorReadDataJPARepository repositoryQuery;
+    private final DoctorHttpUUIDService doctorHttpUUIDService;
 
-    public DoctorServiceImpl(DoctorWriteDataJPARepository repositoryCommand, DoctorReadDataJPARepository repositoryQuery) {
+    public DoctorServiceImpl(DoctorWriteDataJPARepository repositoryCommand, 
+                             DoctorReadDataJPARepository repositoryQuery,
+                             DoctorHttpUUIDService doctorHttpUUIDService) {
         this.repositoryCommand = repositoryCommand;
         this.repositoryQuery = repositoryQuery;
+        this.doctorHttpUUIDService = doctorHttpUUIDService;
     }
 
     @Override
@@ -58,8 +64,17 @@ public class DoctorServiceImpl implements IDoctorService {
         Optional<Doctor> patient = this.repositoryQuery.findById(id);
         if (patient.isPresent()) {
             return patient.get().toAggregate();
+        } else {
+            DoctorHttp doctorHttp = this.doctorHttpUUIDService.sendGetHttpRequest(id);
+            DoctorDto doctorDto = new DoctorDto(
+                    doctorHttp.getId(),
+                    doctorHttp.getName(),
+                    doctorHttp.getLastName(),
+                    doctorHttp.getIdentification(),
+                    doctorHttp.getRegisterNumber());
+            this.repositoryCommand.save(new Doctor(doctorDto));
+            return doctorDto;
         }
-        throw new DoctorNotFoundException(id);
     }
 
     @Override
