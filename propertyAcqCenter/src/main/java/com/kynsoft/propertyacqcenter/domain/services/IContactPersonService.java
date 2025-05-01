@@ -2,7 +2,7 @@ package com.kynsoft.propertyacqcenter.domain.services;
 
 import com.kynsof.share.core.domain.request.FilterCriteria;
 import com.kynsof.share.core.domain.response.PaginatedResponse;
-import com.kynsoft.propertyacqcenter.domain.dto.ContactPersonDto;
+import com.kynsoft.propertyacqcenter.domain.dto.CompanyDto;
 import org.springframework.data.domain.Pageable;
 
 import java.util.List;
@@ -10,11 +10,11 @@ import java.util.UUID;
 
 public interface IContactPersonService {
 
-    UUID create(ContactPersonDto contactPersonDto);
+    UUID create(CompanyDto contactPersonDto);
 
-    void update(ContactPersonDto contactPersonDto);
+    void update(CompanyDto contactPersonDto);
 
-    ContactPersonDto findById(UUID id);
+    CompanyDto findById(UUID id);
 
     void delete(UUID id);
 

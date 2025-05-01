@@ -13,7 +13,7 @@ import java.util.UUID;
  * Entidad que representa los diferentes tipos de construcción
  */
 @Entity
-@Table(name = "construction_types")
+@Table(name = "sub_company_type")
 @Getter
 @Setter
 @NoArgsConstructor

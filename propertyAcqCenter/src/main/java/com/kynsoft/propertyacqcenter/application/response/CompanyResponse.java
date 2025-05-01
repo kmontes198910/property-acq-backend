@@ -1,7 +1,7 @@
 package com.kynsoft.propertyacqcenter.application.response;
 
 import com.kynsof.share.core.domain.bus.query.IResponse;
-import com.kynsoft.propertyacqcenter.domain.dto.ContactPersonDto;
+import com.kynsoft.propertyacqcenter.domain.dto.CompanyDto;
 import com.kynsoft.propertyacqcenter.domain.enums.ContactRole;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -12,7 +12,7 @@ import java.util.UUID;
 
 @Getter
 @AllArgsConstructor
-public class ContactPersonResponse implements IResponse {
+public class CompanyResponse implements IResponse {
 
     private UUID id;
     private UUID legalEntityId;
@@ -40,7 +40,7 @@ public class ContactPersonResponse implements IResponse {
     private UUID createdBy;
     private UUID updatedBy;
 
-    public ContactPersonResponse(ContactPersonDto contactPersonDto) {
+    public CompanyResponse(CompanyDto contactPersonDto) {
         this.id = contactPersonDto.getId();
         this.legalEntityId = contactPersonDto.getLegalEntityId();
         this.firstName = contactPersonDto.getFirstName();

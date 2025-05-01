@@ -63,11 +63,7 @@ public class Contact {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "legal_entity_id")
     private LegalEntity legalEntity;
-    
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "business_id")
-    private Business business;
-    
+
     /**
      * Método para convertir la entidad a DTO
      * @return ContactDto con los datos de esta entidad
@@ -106,7 +102,6 @@ public class Contact {
                 .createdAt(this.createdAt)
                 .updatedAt(this.updatedAt)
                 .legalEntity(this.legalEntity != null ? this.legalEntity.toAggregateFindById() : null)
-                .business(this.business != null ? this.business.toAggregate() : null)
                 .build();
     }
     
@@ -128,7 +123,6 @@ public class Contact {
         this.isActive = dto.getIsActive();
         this.createdAt = dto.getCreatedAt();
         this.updatedAt = dto.getUpdatedAt();
-        this.business = new Business(dto.getBusiness());
         this.legalEntity = new LegalEntity(dto.getLegalEntity());
         // Las relaciones con LegalEntity y Business deben ser establecidas externamente
     }

@@ -1,4 +1,4 @@
-package com.kynsoft.propertyacqcenter.application.query.contactPerson.search;
+package com.kynsoft.propertyacqcenter.application.query.company.search;
 
 import com.kynsof.share.core.domain.bus.query.IQuery;
 import com.kynsof.share.core.domain.request.FilterCriteria;

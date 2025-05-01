@@ -1,4 +1,4 @@
-package com.kynsoft.propertyacqcenter.application.command.contactPerson.create;
+package com.kynsoft.propertyacqcenter.application.command.company.create;
 
 import com.kynsoft.propertyacqcenter.domain.enums.ContactRole;
 import lombok.Getter;
@@ -7,7 +7,7 @@ import java.time.LocalDate;
 import java.util.UUID;
 
 @Getter
-public class CreateContactPersonRequest {
+public class CreateCompanyRequest {
     private UUID legalEntityId;
     private String firstName;
     private String lastName;

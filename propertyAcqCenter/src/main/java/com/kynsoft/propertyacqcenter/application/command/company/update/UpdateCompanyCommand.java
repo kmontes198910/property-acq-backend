@@ -1,4 +1,4 @@
-package com.kynsoft.propertyacqcenter.application.command.contactPerson.update;
+package com.kynsoft.propertyacqcenter.application.command.company.update;
 
 import com.kynsof.share.core.domain.bus.command.ICommand;
 import com.kynsof.share.core.domain.bus.command.ICommandMessage;
@@ -11,7 +11,7 @@ import java.util.UUID;
 
 @Getter
 @AllArgsConstructor
-public class UpdateContactPersonCommand implements ICommand {
+public class UpdateCompanyCommand implements ICommand {
 
     private UUID id;
     private UUID legalEntityId;
@@ -36,8 +36,8 @@ public class UpdateContactPersonCommand implements ICommand {
     private String notes;
     private UUID updatedBy;
 
-    public static UpdateContactPersonCommand fromRequest(UUID id, UpdateContactPersonRequest request) {
-        return new UpdateContactPersonCommand(
+    public static UpdateCompanyCommand fromRequest(UUID id, UpdateCompanyRequest request) {
+        return new UpdateCompanyCommand(
                 id,
                 request.getLegalEntityId(),
                 request.getFirstName(),
@@ -65,6 +65,6 @@ public class UpdateContactPersonCommand implements ICommand {
 
     @Override
     public ICommandMessage getMessage() {
-        return new UpdateContactPersonMessage(id);
+        return new UpdateCompanyMessage(id);
     }
 }

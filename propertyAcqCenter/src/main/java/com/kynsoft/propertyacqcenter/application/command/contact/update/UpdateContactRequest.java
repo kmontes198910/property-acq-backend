@@ -18,5 +18,4 @@ public class UpdateContactRequest {
     private String notes;
     private Boolean isActive;
     private UUID legalEntity;
-    private UUID business;
 }
