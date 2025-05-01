@@ -85,7 +85,7 @@ public class LegalEntity {
     private List<Address> addresses;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "legalEntity", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<ContactPerson> contactPersons;
+    private List<Contact> contactPersons;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "legalEntity", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<BankAccount> bankAccounts;
