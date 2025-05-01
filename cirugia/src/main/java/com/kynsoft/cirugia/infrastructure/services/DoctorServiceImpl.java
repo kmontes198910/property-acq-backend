@@ -10,7 +10,6 @@ import com.kynsof.share.core.domain.response.PaginatedResponse;
 import com.kynsof.share.core.infrastructure.specifications.GenericSpecificationsBuilder;
 import com.kynsoft.cirugia.application.response.DoctorResponse;
 import com.kynsoft.cirugia.domain.dto.DoctorDto;
-import com.kynsoft.cirugia.domain.dto.exception.DoctorNotFoundException;
 import com.kynsoft.cirugia.domain.service.IDoctorService;
 import com.kynsoft.cirugia.infrastructure.entities.Doctor;
 import com.kynsoft.cirugia.infrastructure.repository.command.DoctorWriteDataJPARepository;
