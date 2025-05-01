@@ -18,7 +18,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class ContactPerson {
+public class Company {
 
     @Id
     @Column(name = "id", nullable = false)
@@ -100,7 +100,7 @@ public class ContactPerson {
     @Column(name = "updated_by")
     private UUID updatedBy;
 
-    public ContactPerson(ContactPersonDto dto, LegalEntity legalEntity) {
+    public Company(ContactPersonDto dto, LegalEntity legalEntity) {
         this.id = dto.getId() != null ? dto.getId() : UUID.randomUUID();
         this.legalEntity = legalEntity;
         this.firstName = dto.getFirstName();

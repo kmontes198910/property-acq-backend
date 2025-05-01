@@ -8,7 +8,7 @@ import com.kynsoft.propertyacqcenter.domain.dto.ContactPersonDto;
 import com.kynsoft.propertyacqcenter.domain.dto.exception.ContactPersonNotFoundException;
 import com.kynsoft.propertyacqcenter.domain.services.IContactPersonService;
 import com.kynsoft.propertyacqcenter.domain.services.ILegalEntityService;
-import com.kynsoft.propertyacqcenter.infrastructure.entity.ContactPerson;
+import com.kynsoft.propertyacqcenter.infrastructure.entity.Company;
 import com.kynsoft.propertyacqcenter.infrastructure.entity.LegalEntity;
 import com.kynsoft.propertyacqcenter.infrastructure.repository.command.ContactPersonWriteDataJPARepository;
 import com.kynsoft.propertyacqcenter.infrastructure.repository.query.ContactPersonReadDataJPARepository;
@@ -42,15 +42,15 @@ public class ContactPersonService implements IContactPersonService {
         LegalEntity legalEntity = contactPersonDto.getLegalEntityId() != null
                 ? new LegalEntity(legalEntityService.findById(contactPersonDto.getLegalEntityId()))
                 : null;
-        ContactPerson contactPerson = new ContactPerson(contactPersonDto, legalEntity);
+        Company contactPerson = new Company(contactPersonDto, legalEntity);
         return repositoryCommand.save(contactPerson).getId();
     }
 
     @Override
     public void update(ContactPersonDto contactPersonDto) {
-        Optional<ContactPerson> contactPerson = this.repositoryQuery.findById(contactPersonDto.getId());
+        Optional<Company> contactPerson = this.repositoryQuery.findById(contactPersonDto.getId());
         if (contactPerson.isPresent()) {
-            ContactPerson oldContact = contactPerson.get();
+            Company oldContact = contactPerson.get();
             if (contactPersonDto.getLegalEntityId() != null) {
                 // Si el ID de LegalEntity ha cambiado, o no tenía antes
                 if (oldContact.getLegalEntity() == null ||
@@ -91,7 +91,7 @@ public class ContactPersonService implements IContactPersonService {
     @Override
     public ContactPersonDto findById(UUID id) {
         return this.repositoryQuery.findById(id)
-                .map(ContactPerson::toAggregate)
+                .map(Company::toAggregate)
                 .orElseThrow(() -> new ContactPersonNotFoundException(id.toString(), "ID"));
     }
 
@@ -103,15 +103,15 @@ public class ContactPersonService implements IContactPersonService {
 
     @Override
     public PaginatedResponse search(Pageable pageable, List<FilterCriteria> filterCriteria) {
-        GenericSpecificationsBuilder<ContactPerson> specifications = new GenericSpecificationsBuilder<>(filterCriteria);
-        Page<ContactPerson> data = this.repositoryQuery.findAll(specifications, pageable);
+        GenericSpecificationsBuilder<Company> specifications = new GenericSpecificationsBuilder<>(filterCriteria);
+        Page<Company> data = this.repositoryQuery.findAll(specifications, pageable);
 
         return getPaginatedResponse(data);
     }
 
-    private PaginatedResponse getPaginatedResponse(Page<ContactPerson> data) {
+    private PaginatedResponse getPaginatedResponse(Page<Company> data) {
         List<ContactPersonResponse> objects = new ArrayList<>();
-        for (ContactPerson p : data.getContent()) {
+        for (Company p : data.getContent()) {
             objects.add(new ContactPersonResponse(p.toAggregate()));
         }
         return new PaginatedResponse(objects, data.getTotalPages(), data.getNumberOfElements(),

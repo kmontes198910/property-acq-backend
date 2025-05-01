@@ -19,7 +19,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class ConstructionType {
+public class SubCompanyType {
 
     @Id
     @Column(name = "id", nullable = false)
@@ -77,7 +77,7 @@ public class ConstructionType {
      * Constructor a partir de un DTO
      * @param dto ConstructionTypeDto con los datos a utilizar
      */
-    public ConstructionType(ConstructionTypeDto dto) {
+    public SubCompanyType(ConstructionTypeDto dto) {
         this.id = dto.getId();
         this.name = dto.getName();
         this.description = dto.getDescription();

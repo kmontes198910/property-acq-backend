@@ -7,7 +7,7 @@ import com.kynsoft.propertyacqcenter.application.response.ConstructionTypeRespon
 import com.kynsoft.propertyacqcenter.domain.dto.ConstructionTypeDto;
 import com.kynsoft.propertyacqcenter.domain.dto.exception.ConstructionTypeNotFoundException;
 import com.kynsoft.propertyacqcenter.domain.services.IConstructionTypeService;
-import com.kynsoft.propertyacqcenter.infrastructure.entity.ConstructionType;
+import com.kynsoft.propertyacqcenter.infrastructure.entity.SubCompanyType;
 import com.kynsoft.propertyacqcenter.infrastructure.repository.command.ConstructionTypeWriteDataJPARepository;
 import com.kynsoft.propertyacqcenter.infrastructure.repository.query.ConstructionTypeReadDataJPARepository;
 import org.springframework.data.domain.Pageable;
@@ -36,13 +36,13 @@ public class ConstructionTypeServiceImpl implements IConstructionTypeService {
     @Override
     @Transactional
     public UUID create(ConstructionTypeDto object) {
-        return repositoryCommand.save(new ConstructionType(object)).getId();
+        return repositoryCommand.save(new SubCompanyType(object)).getId();
     }
 
     @Override
     @Transactional
     public void update(ConstructionTypeDto object) {
-        ConstructionType update = this.findByIdSimple(object.getId());
+        SubCompanyType update = this.findByIdSimple(object.getId());
 
         update.setCode(object.getCode());
         update.setDescription(object.getDescription());
@@ -65,15 +65,15 @@ public class ConstructionTypeServiceImpl implements IConstructionTypeService {
 
     @Override
     public ConstructionTypeDto findById(UUID id) {
-        Optional<ConstructionType> entity = repositoryQuery.findById(id);
+        Optional<SubCompanyType> entity = repositoryQuery.findById(id);
         if (entity.isPresent()) {
             return entity.get().toAggregate();
         }
         throw new ConstructionTypeNotFoundException(id);
     }
 
-    private ConstructionType findByIdSimple(UUID id) {
-        Optional<ConstructionType> entity = repositoryQuery.findById(id);
+    private SubCompanyType findByIdSimple(UUID id) {
+        Optional<SubCompanyType> entity = repositoryQuery.findById(id);
         if (entity.isPresent()) {
             return entity.get();
         }
@@ -82,15 +82,15 @@ public class ConstructionTypeServiceImpl implements IConstructionTypeService {
 
     @Override
     public PaginatedResponse search(Pageable pageable, List<FilterCriteria> filterCriteria) {
-        GenericSpecificationsBuilder<ConstructionType> specifications = new GenericSpecificationsBuilder<>(filterCriteria);
-        Page<ConstructionType> data = this.repositoryQuery.findAll(specifications, pageable);
+        GenericSpecificationsBuilder<SubCompanyType> specifications = new GenericSpecificationsBuilder<>(filterCriteria);
+        Page<SubCompanyType> data = this.repositoryQuery.findAll(specifications, pageable);
 
         return getPaginatedResponse(data);
     }
 
-    private PaginatedResponse getPaginatedResponse(Page<ConstructionType> data) {
+    private PaginatedResponse getPaginatedResponse(Page<SubCompanyType> data) {
         List<ConstructionTypeResponse> objects = new ArrayList<>();
-        for (ConstructionType p : data.getContent()) {
+        for (SubCompanyType p : data.getContent()) {
             objects.add(new ConstructionTypeResponse(p.toAggregate()));
         }
         return new PaginatedResponse(objects, data.getTotalPages(), data.getNumberOfElements(),

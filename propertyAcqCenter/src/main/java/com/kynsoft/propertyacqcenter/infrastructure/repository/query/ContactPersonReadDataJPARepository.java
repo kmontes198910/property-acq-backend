@@ -1,6 +1,6 @@
 package com.kynsoft.propertyacqcenter.infrastructure.repository.query;
 
-import com.kynsoft.propertyacqcenter.infrastructure.entity.ContactPerson;
+import com.kynsoft.propertyacqcenter.infrastructure.entity.Company;
 import com.kynsoft.propertyacqcenter.domain.enums.ContactRole;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -16,16 +16,16 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Repository
-public interface ContactPersonReadDataJPARepository extends JpaRepository<ContactPerson, UUID>, JpaSpecificationExecutor<ContactPerson> {
-    Page<ContactPerson> findAll(Specification<ContactPerson> specification, Pageable pageable);
+public interface ContactPersonReadDataJPARepository extends JpaRepository<Company, UUID>, JpaSpecificationExecutor<Company> {
+    Page<Company> findAll(Specification<Company> specification, Pageable pageable);
     
-    List<ContactPerson> findByLegalEntityId(UUID legalEntityId);
+    List<Company> findByLegalEntityId(UUID legalEntityId);
     
     @Query("SELECT c FROM ContactPerson c WHERE c.legalEntity.id = :legalEntityId AND c.isPrimary = true")
-    Optional<ContactPerson> findPrimaryContactByLegalEntityId(@Param("legalEntityId") UUID legalEntityId);
+    Optional<Company> findPrimaryContactByLegalEntityId(@Param("legalEntityId") UUID legalEntityId);
     
     @Query("SELECT c FROM ContactPerson c WHERE c.legalEntity.id = :legalEntityId AND c.role = :role")
-    List<ContactPerson> findByLegalEntityIdAndRole(
+    List<Company> findByLegalEntityIdAndRole(
             @Param("legalEntityId") UUID legalEntityId, 
             @Param("role") ContactRole role);
 }

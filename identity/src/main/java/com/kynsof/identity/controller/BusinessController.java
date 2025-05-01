@@ -10,6 +10,8 @@ import com.kynsof.identity.application.command.business.update.UpdateBusinessMes
 import com.kynsof.identity.application.command.business.update.UpdateBusinessRequest;
 import com.kynsof.identity.application.query.business.getbyid.BusinessByIdResponse;
 import com.kynsof.identity.application.query.business.getbyid.FindBusinessByIdQuery;
+import com.kynsof.identity.application.query.business.getbyid.httpReplicate.BusinessHttp;
+import com.kynsof.identity.application.query.business.getbyid.httpReplicate.FindBusinessByIdReplicateHttpQuery;
 import com.kynsof.identity.application.query.business.search.GetSearchBusinessQuery;
 import com.kynsof.share.core.domain.request.PageableUtil;
 import com.kynsof.share.core.domain.request.SearchRequest;
@@ -54,6 +56,15 @@ public class BusinessController {
 
         FindBusinessByIdQuery query = new FindBusinessByIdQuery(id);
         BusinessByIdResponse response = mediator.send(query);
+
+        return ResponseEntity.ok(response);
+    }
+
+    @GetMapping(path = "/http/replicate/{id}")
+    public ResponseEntity<?> getByIdHttpReplicate(@PathVariable UUID id) {
+
+        FindBusinessByIdReplicateHttpQuery query = new FindBusinessByIdReplicateHttpQuery(id);
+        BusinessHttp response = mediator.send(query);
 
         return ResponseEntity.ok(response);
     }
