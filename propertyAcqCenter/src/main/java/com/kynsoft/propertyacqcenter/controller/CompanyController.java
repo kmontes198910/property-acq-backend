@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/api/contact-person")
+@RequestMapping("/api/company")
 public class CompanyController {
 
     private final IMediator mediator;

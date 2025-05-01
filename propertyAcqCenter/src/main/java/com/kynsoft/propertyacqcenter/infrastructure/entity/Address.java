@@ -66,9 +66,9 @@ public class Address {
     @Column(name = "updated_by")
     private UUID updatedBy;
 
-    public Address(AddressDto dto, LegalEntity legalEntity) {
+    public Address(AddressDto dto) {
         this.id = dto.getId() != null ? dto.getId() : UUID.randomUUID();
-        this.legalEntity = legalEntity;
+        this.legalEntity = dto.getLegalEntity() != null ? new LegalEntity(dto.getLegalEntity()) : null;
         this.addressType = dto.getAddressType();
         this.streetAddress1 = dto.getStreetAddress1();
         this.streetAddress2 = dto.getStreetAddress2();
@@ -84,7 +84,25 @@ public class Address {
     public AddressDto toAggregate() {
         return AddressDto.builder()
                 .id(this.id)
-                .legalEntityId(this.legalEntity != null ? this.legalEntity.getId() : null)
+                .addressType(this.addressType)
+                .streetAddress1(this.streetAddress1)
+                .streetAddress2(this.streetAddress2)
+                .city(this.city)
+                .state(this.state)
+                .zipCode(this.zipCode)
+                .country(this.country)
+                .isPrimary(this.isPrimary)
+                .createdAt(this.createdAt)
+                .updatedAt(this.updatedAt)
+                .createdBy(this.createdBy)
+                .updatedBy(this.updatedBy)
+                .build();
+    }
+
+    public AddressDto toAggregateSimple() {
+        return AddressDto.builder()
+                .id(this.id)
+                .legalEntity(this.legalEntity != null ? this.legalEntity.toAggregateFindById() : null)
                 .addressType(this.addressType)
                 .streetAddress1(this.streetAddress1)
                 .streetAddress2(this.streetAddress2)
