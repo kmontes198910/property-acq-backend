@@ -10,6 +10,8 @@ import com.kynsoft.propertyacqcenter.domain.services.IBusinessService;
 import com.kynsoft.propertyacqcenter.infrastructure.entity.Business;
 import com.kynsoft.propertyacqcenter.infrastructure.repository.command.BusinessWriteDataJPARepository;
 import com.kynsoft.propertyacqcenter.infrastructure.repository.query.BusinessReadDataJPARepository;
+import com.kynsoft.propertyacqcenter.infrastructure.services.http.BusinessHttpUUIDService;
+import com.kynsoft.propertyacqcenter.infrastructure.services.http.dto.BusinessHttp;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,11 +28,14 @@ public class BusinessServiceImpl implements IBusinessService {
 
     private final BusinessReadDataJPARepository repositoryQuery;
     private final BusinessWriteDataJPARepository repositoryCommand;
+    private final BusinessHttpUUIDService businessHttpUUIDService;
 
     public BusinessServiceImpl(BusinessReadDataJPARepository repositoryQuery, 
-                               BusinessWriteDataJPARepository repositoryCommand) {
+                               BusinessWriteDataJPARepository repositoryCommand,
+                               BusinessHttpUUIDService businessHttpUUIDService) {
         this.repositoryQuery = repositoryQuery;
         this.repositoryCommand = repositoryCommand;
+        this.businessHttpUUIDService = businessHttpUUIDService;
     }
 
     @Override
@@ -59,8 +64,15 @@ public class BusinessServiceImpl implements IBusinessService {
         Optional<Business> entity = repositoryQuery.findById(id);
         if (entity.isPresent()) {
             return entity.get().toAggregate();
+        } else {
+            BusinessHttp response = this.businessHttpUUIDService.sendGetHttpRequest(id);
+            BusinessDto businessDto = new BusinessDto(
+                    response.getId(), 
+                    response.getName()
+            );
+            this.repositoryCommand.save(new Business(businessDto));
+            return businessDto;
         }
-        throw new BusinessNotFoundException(id);
     }
 
     @Override
