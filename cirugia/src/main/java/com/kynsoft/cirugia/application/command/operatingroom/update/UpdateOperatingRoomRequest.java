@@ -27,5 +27,4 @@ public class UpdateOperatingRoomRequest {
     private String status;
     private LocalDateTime lastMaintenanceDate;
     private LocalDateTime nextMaintenanceDate;
-    private UUID updatedBy;
 }
