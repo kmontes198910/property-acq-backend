@@ -10,6 +10,7 @@ import com.kynsoft.cirugia.infrastructure.config.SurgeryCacheConfig;
 import com.kynsoft.cirugia.infrastructure.entities.RecoveryBedEntity;
 import com.kynsoft.cirugia.infrastructure.repository.command.RecoveryBedWriteRepository;
 import com.kynsoft.cirugia.infrastructure.repository.query.RecoveryBedReadRepository;
+import com.kynsoft.cirugia.application.query.recoverybed.getbyid.RecoveryBedResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.annotation.CacheEvict;
@@ -139,12 +140,14 @@ public class RecoveryBedServiceImpl implements IRecoveryBedService {
     }
 
     private PaginatedResponse getPaginatedResponse(Page<RecoveryBedEntity> data) {
-        List<RecoveryBed> recoveryBeds = new ArrayList<>();
+        List<RecoveryBedResponse> recoveryBedResponses = new ArrayList<>();
         for (RecoveryBedEntity entity : data.getContent()) {
-            recoveryBeds.add(mapToDomain(entity));
+            // Convertir a objeto de dominio y luego a response
+            RecoveryBed recoveryBed = mapToDomain(entity);
+            recoveryBedResponses.add(new RecoveryBedResponse(recoveryBed));
         }
         return new PaginatedResponse(
-            recoveryBeds, 
+            recoveryBedResponses, 
             data.getTotalPages(), 
             data.getNumberOfElements(),
             data.getTotalElements(), 
@@ -165,7 +168,6 @@ public class RecoveryBedServiceImpl implements IRecoveryBedService {
                 .room(entity.getRoom())
                 .hasMonitor(entity.getHasMonitor())
                 .hasOxygenSupply(entity.getHasOxygenSupply())
-                .lastMaintenanceDate(entity.getLastMaintenanceDate())
                 .createdAt(entity.getCreatedAt())
                 .updatedAt(entity.getUpdatedAt())
                 .createdBy(entity.getCreatedBy())
@@ -185,7 +187,6 @@ public class RecoveryBedServiceImpl implements IRecoveryBedService {
                 .room(recoveryBed.getRoom())
                 .hasMonitor(recoveryBed.getHasMonitor())
                 .hasOxygenSupply(recoveryBed.getHasOxygenSupply())
-                .lastMaintenanceDate(recoveryBed.getLastMaintenanceDate())
                 .createdAt(recoveryBed.getCreatedAt())
                 .updatedAt(recoveryBed.getUpdatedAt())
                 .createdBy(recoveryBed.getCreatedBy())

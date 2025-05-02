@@ -37,5 +37,11 @@ public class Diagnosis {
     @UpdateTimestamp
     private LocalDateTime updatedAt;
 
+    @Column(name = "created_by")
+    private UUID createdBy;
+
+    @Column(name = "updated_by")
+    private UUID updatedBy;
+
 
 }
