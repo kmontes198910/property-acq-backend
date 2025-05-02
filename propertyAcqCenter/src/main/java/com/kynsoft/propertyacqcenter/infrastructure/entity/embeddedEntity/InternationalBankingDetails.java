@@ -1,4 +1,4 @@
-package com.kynsoft.propertyacqcenter.infrastructure.entity;
+package com.kynsoft.propertyacqcenter.infrastructure.entity.embeddedEntity;
 
 import com.kynsoft.propertyacqcenter.domain.dto.embedded.InternationalBankingDetailsDto;
 import jakarta.persistence.Column;
