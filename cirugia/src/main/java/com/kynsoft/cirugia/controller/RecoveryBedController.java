@@ -74,7 +74,7 @@ public class RecoveryBedController {
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
-    @PutMapping("/{id}")
+    @PatchMapping("/{id}")
     public ResponseEntity<RecoveryBedResponse> update(@PathVariable UUID id, @RequestBody UpdateRecoveryBedRequest request,
                                                       @RequestHeader(value = USER_ID_HEADER, required = false) String userId,
                                                       @RequestHeader(value = USER_NAME_HEADER, required = false) String userName) {
