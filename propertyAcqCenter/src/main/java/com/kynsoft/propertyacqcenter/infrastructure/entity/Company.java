@@ -43,11 +43,11 @@ public class Company {
     @Column(name = "notes", columnDefinition = "TEXT")
     private String notes;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "legalEntity", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Address> addresses;
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "company", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<CompanyAddress> addresses;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "legalEntity", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Contact> contactPersons;
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "company", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<CompanyContact> contacts;
 
 
     @CreationTimestamp
