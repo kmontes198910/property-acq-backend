@@ -21,7 +21,7 @@ public class UpdateAddressCommandHandler implements ICommandHandler<UpdateAddres
     @Override
     public void handle(UpdateAddressCommand command) {
         LegalEntityDto legalEntityDto = this.legalEntityService.findById(command.getLegalEntity());
-        addressService.create(new AddressDto(
+        addressService.update(new AddressDto(
                 command.getId(), 
                 legalEntityDto, 
                 command.getAddressType(), 

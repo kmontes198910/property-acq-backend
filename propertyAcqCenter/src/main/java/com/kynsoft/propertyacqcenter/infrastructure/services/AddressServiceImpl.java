@@ -5,7 +5,7 @@ import com.kynsof.share.core.domain.response.PaginatedResponse;
 import com.kynsof.share.core.infrastructure.specifications.GenericSpecificationsBuilder;
 import com.kynsoft.propertyacqcenter.application.response.AddressResponse;
 import com.kynsoft.propertyacqcenter.domain.dto.AddressDto;
-import com.kynsoft.propertyacqcenter.domain.dto.exception.BusinessNotFoundException;
+import com.kynsoft.propertyacqcenter.domain.dto.exception.AddressNotFoundException;
 import com.kynsoft.propertyacqcenter.domain.services.IAddressService;
 import com.kynsoft.propertyacqcenter.infrastructure.entity.Address;
 import com.kynsoft.propertyacqcenter.infrastructure.entity.LegalEntity;
@@ -43,7 +43,7 @@ public class AddressServiceImpl implements IAddressService {
     @Override
     @Transactional
     public void update(AddressDto object) {
-        Address update = new Address(object);
+        Address update = new Address(this.findById(object.getId()));
         update.setAddressType(object.getAddressType());
         update.setCity(object.getCity());
         update.setCountry(object.getCountry());
@@ -71,7 +71,7 @@ public class AddressServiceImpl implements IAddressService {
         if (entity.isPresent()) {
             return entity.get().toAggregateSimple();
         }
-        throw new BusinessNotFoundException(id);
+        throw new AddressNotFoundException(id);
     }
 
     @Override
