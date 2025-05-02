@@ -2,7 +2,6 @@ package com.kynsoft.cirugia.application.command.recoverybed.update;
 
 import com.kynsof.share.core.domain.bus.command.ICommand;
 import com.kynsof.share.core.domain.bus.command.ICommandMessage;
-import com.kynsoft.cirugia.application.query.recoverybed.getbyid.RecoveryBedResponse;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -25,7 +24,7 @@ public class UpdateRecoveryBedCommand implements ICommand {
     private LocalDateTime lastMaintenanceDate;
     private UUID updatedBy;
     
-    public static UpdateRecoveryBedCommand fromRequest(UpdateRecoveryBedRequest request, UUID id) {
+    public static UpdateRecoveryBedCommand fromRequest(UpdateRecoveryBedRequest request, UUID id, String userId) {
         UpdateRecoveryBedCommand command = new UpdateRecoveryBedCommand();
         command.setId(id);
         command.setBedNumber(request.getBedNumber());
@@ -38,7 +37,7 @@ public class UpdateRecoveryBedCommand implements ICommand {
         command.setHasMonitor(request.getHasMonitor());
         command.setHasOxygenSupply(request.getHasOxygenSupply());
         command.setLastMaintenanceDate(request.getLastMaintenanceDate());
-        command.setUpdatedBy(request.getUpdatedBy());
+        command.setUpdatedBy(UUID.fromString(userId));
         return command;
     }
     

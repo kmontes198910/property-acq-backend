@@ -19,5 +19,4 @@ public class CreateRecoveryBedRequest {
     private Boolean hasMonitor;
     private Boolean hasOxygenSupply;
     private LocalDateTime lastMaintenanceDate;
-    private UUID createdBy;
 }

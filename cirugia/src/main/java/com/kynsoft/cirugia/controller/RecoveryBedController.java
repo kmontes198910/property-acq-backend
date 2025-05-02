@@ -32,6 +32,8 @@ import java.util.UUID;
 public class RecoveryBedController {
 
     private final IMediator mediator;
+    private static final String USER_ID_HEADER = "X-User-ID";
+    private static final String USER_NAME_HEADER = "X-User-Name";
 
     @GetMapping("/{id}")
     public ResponseEntity<RecoveryBedResponse> getById(@PathVariable UUID id) {
@@ -64,15 +66,19 @@ public class RecoveryBedController {
     }
 
     @PostMapping
-    public ResponseEntity<RecoveryBedResponse> create(@RequestBody CreateRecoveryBedRequest request) {
-        CreateRecoveryBedCommand command = CreateRecoveryBedCommand.fromRequest(request);
+    public ResponseEntity<RecoveryBedResponse> create(@RequestBody CreateRecoveryBedRequest request,
+                                                      @RequestHeader(value = USER_ID_HEADER, required = false) String userId,
+                                                      @RequestHeader(value = USER_NAME_HEADER, required = false) String userName) {
+        CreateRecoveryBedCommand command = CreateRecoveryBedCommand.fromRequest(request, userId);
         RecoveryBedResponse response = mediator.send(command);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<RecoveryBedResponse> update(@PathVariable UUID id, @RequestBody UpdateRecoveryBedRequest request) {
-        UpdateRecoveryBedCommand command = UpdateRecoveryBedCommand.fromRequest(request, id);
+    public ResponseEntity<RecoveryBedResponse> update(@PathVariable UUID id, @RequestBody UpdateRecoveryBedRequest request,
+                                                      @RequestHeader(value = USER_ID_HEADER, required = false) String userId,
+                                                      @RequestHeader(value = USER_NAME_HEADER, required = false) String userName) {
+        UpdateRecoveryBedCommand command = UpdateRecoveryBedCommand.fromRequest(request, id, userId);
         RecoveryBedResponse response = mediator.send(command);
         return ResponseEntity.ok(response);
     }

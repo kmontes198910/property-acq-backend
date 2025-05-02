@@ -2,7 +2,6 @@ package com.kynsoft.cirugia.application.command.recoverybed.create;
 
 import com.kynsof.share.core.domain.bus.command.ICommand;
 import com.kynsof.share.core.domain.bus.command.ICommandMessage;
-import com.kynsoft.cirugia.application.query.recoverybed.getbyid.RecoveryBedResponse;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -29,7 +28,7 @@ public class CreateRecoveryBedCommand implements ICommand {
         this.id = UUID.randomUUID();
     }
     
-    public static CreateRecoveryBedCommand fromRequest(CreateRecoveryBedRequest request) {
+    public static CreateRecoveryBedCommand fromRequest(CreateRecoveryBedRequest request, String userId) {
         CreateRecoveryBedCommand command = new CreateRecoveryBedCommand();
         command.setBedNumber(request.getBedNumber());
         command.setLocation(request.getLocation());
@@ -41,7 +40,7 @@ public class CreateRecoveryBedCommand implements ICommand {
         command.setHasMonitor(request.getHasMonitor());
         command.setHasOxygenSupply(request.getHasOxygenSupply());
         command.setLastMaintenanceDate(request.getLastMaintenanceDate());
-        command.setCreatedBy(request.getCreatedBy());
+        command.setCreatedBy(UUID.fromString(userId));
         return command;
     }
     
