@@ -4,11 +4,12 @@ import com.kynsof.share.core.domain.bus.query.IResponse;
 import com.kynsoft.cirugia.domain.dto.RecoveryBed;
 import lombok.Getter;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Getter
-public class RecoveryBedResponse implements IResponse {
+public class RecoveryBedResponse implements IResponse, Serializable {
     private final UUID id;
     private final String bedNumber;
     private final String location;
