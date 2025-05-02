@@ -89,7 +89,7 @@ public class UpdateOperatingRoomCommand implements ICommand {
                 request.getHasLaserEquipment(),
                 request.getHasRoboticsSystem(),
                 request.getSpecialFeatures(),
-                request.getStatus(),
+                request.getStatus().toString(),
                 request.getLastMaintenanceDate(),
                 request.getNextMaintenanceDate(),
                 UUID.fromString(userUuid)

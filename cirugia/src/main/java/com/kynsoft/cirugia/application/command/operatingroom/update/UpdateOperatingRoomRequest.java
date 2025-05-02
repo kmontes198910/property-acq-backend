@@ -1,5 +1,6 @@
 package com.kynsoft.cirugia.application.command.operatingroom.update;
 
+import com.kynsoft.cirugia.domain.enums.OperatingRoomStatus;
 import lombok.Data;
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -24,7 +25,7 @@ public class UpdateOperatingRoomRequest {
     private Boolean hasLaserEquipment;
     private Boolean hasRoboticsSystem;
     private String specialFeatures;
-    private String status;
+    private OperatingRoomStatus status;
     private LocalDateTime lastMaintenanceDate;
     private LocalDateTime nextMaintenanceDate;
 }
