@@ -70,7 +70,7 @@ public class CreateOperatingRoomCommand implements ICommand {
         this.createdBy = createdBy;
     }
 
-    public static CreateOperatingRoomCommand fromRequest(CreateOperatingRoomRequest request) {
+    public static CreateOperatingRoomCommand fromRequest(CreateOperatingRoomRequest request, String userId) {
         return new CreateOperatingRoomCommand(
                 request.getRoomNumber(),
                 request.getName(),
@@ -93,7 +93,7 @@ public class CreateOperatingRoomCommand implements ICommand {
                 request.getLastMaintenanceDate(),
                 request.getNextMaintenanceDate(),
                 request.getBusinessId(),
-                request.getCreatedBy()
+               UUID.fromString(userId)
         );
     }
 

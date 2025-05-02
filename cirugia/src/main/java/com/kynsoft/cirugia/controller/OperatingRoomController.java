@@ -126,13 +126,12 @@ public class OperatingRoomController {
         if (userId != null) {
             try {
                 UUID userUuid = UUID.fromString(userId);
-                request.setCreatedBy(userUuid);
             } catch (IllegalArgumentException e) {
                 log.warn("Invalid user ID format in header: {}", userId);
             }
         }
         
-        CreateOperatingRoomCommand command = CreateOperatingRoomCommand.fromRequest(request);
+        CreateOperatingRoomCommand command = CreateOperatingRoomCommand.fromRequest(request, userId);
         mediator.send(command);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }

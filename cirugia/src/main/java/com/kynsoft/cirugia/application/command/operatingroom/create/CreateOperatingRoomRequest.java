@@ -27,5 +27,4 @@ public class CreateOperatingRoomRequest {
     private LocalDateTime lastMaintenanceDate;
     private LocalDateTime nextMaintenanceDate;
     private UUID businessId;
-    private UUID createdBy;
 }
