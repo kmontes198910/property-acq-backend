@@ -36,7 +36,7 @@ public class RecoveryBedController {
     private static final String USER_NAME_HEADER = "X-User-Name";
 
     @GetMapping("/{id}")
-    public ResponseEntity<RecoveryBedResponse> getById(@PathVariable UUID id) {
+    public ResponseEntity<?> getById(@PathVariable UUID id) {
         RecoveryBedResponse response = mediator.send(new GetRecoveryBedByIdQuery(id));
         return ResponseEntity.ok(response);
     }

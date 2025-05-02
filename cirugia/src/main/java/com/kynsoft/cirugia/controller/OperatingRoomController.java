@@ -54,7 +54,7 @@ public class OperatingRoomController {
         @ApiResponse(responseCode = "500", description = "Error interno del servidor")
     })
     @GetMapping("/{id}")
-    public ResponseEntity<OperatingRoomResponse> getById(
+    public ResponseEntity<?> getById(
             @Parameter(description = "ID de la sala quirúrgica", required = true)
             @PathVariable UUID id,
             @Parameter(description = "ID del usuario que realiza la petición")
