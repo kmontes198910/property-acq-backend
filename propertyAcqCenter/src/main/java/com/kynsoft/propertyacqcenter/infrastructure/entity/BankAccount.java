@@ -68,8 +68,8 @@ public class BankAccount {
     @OneToMany(mappedBy = "bankAccount", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<BankSignatory> signatories;
 
-    @Lob
-    @Column(name = "notes")
+
+    @Column(name = "notes",columnDefinition = "TEXT")
     private String notes;
 
     @CreationTimestamp
