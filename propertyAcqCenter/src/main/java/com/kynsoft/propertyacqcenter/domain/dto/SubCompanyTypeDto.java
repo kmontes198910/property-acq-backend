@@ -10,9 +10,10 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class ConstructionTypeDto {
+public class SubCompanyTypeDto {
     
     private UUID id;
+    private CompanyTypeDto companyType;
     private String name;
     private String description;
     private String code;
@@ -23,8 +24,9 @@ public class ConstructionTypeDto {
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
-    public ConstructionTypeDto(UUID id, String name, String description, String code, Boolean isSpecialized, String specializationArea, Boolean requiresLicense, Boolean isActive) {
+    public SubCompanyTypeDto(UUID id, CompanyTypeDto companyType, String name, String description, String code, Boolean isSpecialized, String specializationArea, Boolean requiresLicense, Boolean isActive) {
         this.id = id;
+        this.companyType = companyType;
         this.name = name;
         this.description = description;
         this.code = code;

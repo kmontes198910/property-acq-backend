@@ -3,7 +3,6 @@ package com.kynsoft.propertyacqcenter.domain.dto;
 import com.kynsoft.propertyacqcenter.domain.enums.AddressType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
@@ -11,7 +10,6 @@ import java.util.UUID;
 import lombok.Getter;
 import lombok.Setter;
 
-@Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor

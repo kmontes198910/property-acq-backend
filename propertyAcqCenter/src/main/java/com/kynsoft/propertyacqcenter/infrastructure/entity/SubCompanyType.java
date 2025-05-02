@@ -1,6 +1,6 @@
 package com.kynsoft.propertyacqcenter.infrastructure.entity;
 
-import com.kynsoft.propertyacqcenter.domain.dto.ConstructionTypeDto;
+import com.kynsoft.propertyacqcenter.domain.dto.SubCompanyTypeDto;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
@@ -24,6 +24,10 @@ public class SubCompanyType {
     @Id
     @Column(name = "id", nullable = false)
     private UUID id;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "company_type_id", nullable = false)
+    private CompanyType companyType;
 
     @Column(name = "name", nullable = false)
     private String name;
@@ -58,10 +62,26 @@ public class SubCompanyType {
      * Método para convertir la entidad a DTO
      * @return ConstructionTypeDto con los datos de esta entidad
      */
-    public ConstructionTypeDto toAggregate() {
-        return ConstructionTypeDto.builder()
+    public SubCompanyTypeDto toAggregate() {
+        return SubCompanyTypeDto.builder()
                 .id(this.id)
                 .name(this.name)
+                .description(this.description)
+                .code(this.code)
+                .isSpecialized(this.isSpecialized)
+                .specializationArea(this.specializationArea)
+                .requiresLicense(this.requiresLicense)
+                .isActive(this.isActive)
+                .createdAt(this.createdAt)
+                .updatedAt(this.updatedAt)
+                .build();
+    }
+
+    public SubCompanyTypeDto toAggregateSimple() {
+        return SubCompanyTypeDto.builder()
+                .id(this.id)
+                .name(this.name)
+                .companyType(companyType != null ? companyType.toAggregate() : null)
                 .description(this.description)
                 .code(this.code)
                 .isSpecialized(this.isSpecialized)
@@ -77,8 +97,9 @@ public class SubCompanyType {
      * Constructor a partir de un DTO
      * @param dto ConstructionTypeDto con los datos a utilizar
      */
-    public SubCompanyType(ConstructionTypeDto dto) {
+    public SubCompanyType(SubCompanyTypeDto dto) {
         this.id = dto.getId();
+        this.companyType = dto.getCompanyType() != null ? new CompanyType(dto.getCompanyType()) : null;
         this.name = dto.getName();
         this.description = dto.getDescription();
         this.code = dto.getCode();

@@ -1,4 +1,4 @@
-package com.kynsoft.propertyacqcenter.application.command.constructionType.delete;
+package com.kynsoft.propertyacqcenter.application.command.subCompanyType.delete;
 
 import com.kynsof.share.core.domain.bus.command.ICommand;
 import com.kynsof.share.core.domain.bus.command.ICommandMessage;
@@ -11,13 +11,13 @@ import java.util.UUID;
 @Getter
 @Setter
 @AllArgsConstructor
-public class DeleteConstructionTypeCommand implements ICommand {
+public class DeleteSubCompanyTypeCommand implements ICommand {
 
     private UUID id;
 
     @Override
     public ICommandMessage getMessage() {
-        return new DeleteConstructionTypeMessage(id);
+        return new DeleteSubCompanyTypeMessage(id);
     }
 
 }

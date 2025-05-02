@@ -1,4 +1,4 @@
-package com.kynsoft.propertyacqcenter.application.command.constructionType.update;
+package com.kynsoft.propertyacqcenter.application.command.subCompanyType.update;
 
 import com.kynsof.share.core.domain.bus.command.ICommand;
 import com.kynsof.share.core.domain.bus.command.ICommandMessage;
@@ -9,9 +9,10 @@ import java.util.UUID;
 
 @Getter
 @Setter
-public class UpdateConstructionTypeCommand implements ICommand {
+public class UpdateSubCompanyTypeCommand implements ICommand {
 
     private UUID id;
+    private UUID companyType;
     private String name;
     private String description;
     private String code;
@@ -20,10 +21,11 @@ public class UpdateConstructionTypeCommand implements ICommand {
     private Boolean requiresLicense;
     private Boolean isActive;
 
-    public UpdateConstructionTypeCommand(UUID id, String name, String description, String code, 
+    public UpdateSubCompanyTypeCommand(UUID id, UUID companyType, String name, String description, String code, 
                                          Boolean isSpecialized, String specializationArea, 
                                          Boolean requiresLicense, Boolean isActive) {
         this.id = id;
+        this.companyType = companyType;
         this.name = name;
         this.description = description;
         this.code = code;
@@ -33,9 +35,10 @@ public class UpdateConstructionTypeCommand implements ICommand {
         this.isActive = isActive;
     }
 
-    public static UpdateConstructionTypeCommand fromRequest(UpdateConstructionTypeRequest request, UUID id) {
-        return new UpdateConstructionTypeCommand(
+    public static UpdateSubCompanyTypeCommand fromRequest(UpdateSubCompanyTypeRequest request, UUID id) {
+        return new UpdateSubCompanyTypeCommand(
                 id,
+                request.getCompanyType(),
                 request.getName(),
                 request.getDescription(),
                 request.getCode(),
@@ -48,6 +51,6 @@ public class UpdateConstructionTypeCommand implements ICommand {
 
     @Override
     public ICommandMessage getMessage() {
-        return new UpdateConstructionTypeMessage(id);
+        return new UpdateSubCompanyTypeMessage(id);
     }
 }
