@@ -1,4 +1,4 @@
-package com.kynsoft.propertyacqcenter.application.query.constructionType.getById;
+package com.kynsoft.propertyacqcenter.application.query.subCompanyType.getById;
 
 import com.kynsof.share.core.domain.bus.query.IQuery;
 import lombok.AllArgsConstructor;
@@ -10,6 +10,6 @@ import java.util.UUID;
 @Getter
 @Setter
 @AllArgsConstructor
-public class GetByIdConstructionTypeQuery implements IQuery {
+public class GetByIdSubCompanyTypeQuery implements IQuery {
     private UUID id;
 }

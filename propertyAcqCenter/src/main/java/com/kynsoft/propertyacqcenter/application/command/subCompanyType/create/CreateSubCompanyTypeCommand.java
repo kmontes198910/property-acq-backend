@@ -1,4 +1,4 @@
-package com.kynsoft.propertyacqcenter.application.command.constructionType.create;
+package com.kynsoft.propertyacqcenter.application.command.subCompanyType.create;
 
 import com.kynsof.share.core.domain.bus.command.ICommand;
 import com.kynsof.share.core.domain.bus.command.ICommandMessage;
@@ -9,10 +9,11 @@ import java.util.UUID;
 
 @Getter
 @Setter
-public class CreateConstructionTypeCommand implements ICommand {
+public class CreateSubCompanyTypeCommand implements ICommand {
 
     private UUID id;
     private String name;
+    private UUID companyType;
     private String description;
     private String code;
     private Boolean isSpecialized;
@@ -20,11 +21,12 @@ public class CreateConstructionTypeCommand implements ICommand {
     private Boolean requiresLicense;
     private Boolean isActive;
 
-    public CreateConstructionTypeCommand(String name, String description, String code, 
+    public CreateSubCompanyTypeCommand(UUID companyType, String name, String description, String code, 
                                          Boolean isSpecialized, String specializationArea, 
                                          Boolean requiresLicense, Boolean isActive) {
         this.id = UUID.randomUUID();
         this.name = name;
+        this.companyType = companyType;
         this.description = description;
         this.code = code;
         this.isSpecialized = isSpecialized;
@@ -33,8 +35,9 @@ public class CreateConstructionTypeCommand implements ICommand {
         this.isActive = isActive;
     }
 
-    public static CreateConstructionTypeCommand fromRequest(CreateConstructionTypeRequest request) {
-        return new CreateConstructionTypeCommand(
+    public static CreateSubCompanyTypeCommand fromRequest(CreateSubCompanyTypeRequest request) {
+        return new CreateSubCompanyTypeCommand(
+                request.getCompanyType(),
                 request.getName(),
                 request.getDescription(),
                 request.getCode(),
@@ -47,6 +50,6 @@ public class CreateConstructionTypeCommand implements ICommand {
 
     @Override
     public ICommandMessage getMessage() {
-        return new CreateConstructionTypeMessage(id);
+        return new CreateSubCompanyTypeMessage(id);
     }
 }

@@ -3,13 +3,10 @@ package com.kynsoft.propertyacqcenter.infrastructure.services;
 import com.kynsof.share.core.domain.request.FilterCriteria;
 import com.kynsof.share.core.domain.response.PaginatedResponse;
 import com.kynsof.share.core.infrastructure.specifications.GenericSpecificationsBuilder;
-import com.kynsoft.propertyacqcenter.application.response.ConstructionTypeResponse;
-import com.kynsoft.propertyacqcenter.domain.dto.ConstructionTypeDto;
+import com.kynsoft.propertyacqcenter.application.response.SubCompanyTypeResponse;
+import com.kynsoft.propertyacqcenter.domain.dto.SubCompanyTypeDto;
 import com.kynsoft.propertyacqcenter.domain.dto.exception.ConstructionTypeNotFoundException;
-import com.kynsoft.propertyacqcenter.domain.services.IConstructionTypeService;
 import com.kynsoft.propertyacqcenter.infrastructure.entity.SubCompanyType;
-import com.kynsoft.propertyacqcenter.infrastructure.repository.command.ConstructionTypeWriteDataJPARepository;
-import com.kynsoft.propertyacqcenter.infrastructure.repository.query.ConstructionTypeReadDataJPARepository;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,28 +17,31 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import org.springframework.data.domain.Page;
+import com.kynsoft.propertyacqcenter.domain.services.ISubCompanyTypeService;
+import com.kynsoft.propertyacqcenter.infrastructure.repository.query.SubCompanyTypeReadDataJPARepository;
+import com.kynsoft.propertyacqcenter.infrastructure.repository.command.SubCompanyTypeWriteDataJPARepository;
 
 @Service
-public class ConstructionTypeServiceImpl implements IConstructionTypeService {
+public class SubCompanyTypeServiceImpl implements ISubCompanyTypeService {
 
-    private final ConstructionTypeReadDataJPARepository repositoryQuery;
-    private final ConstructionTypeWriteDataJPARepository repositoryCommand;
+    private final SubCompanyTypeReadDataJPARepository repositoryQuery;
+    private final SubCompanyTypeWriteDataJPARepository repositoryCommand;
 
-    public ConstructionTypeServiceImpl(ConstructionTypeReadDataJPARepository repositoryQuery, 
-                                       ConstructionTypeWriteDataJPARepository repositoryCommand) {
+    public SubCompanyTypeServiceImpl(SubCompanyTypeReadDataJPARepository repositoryQuery, 
+                                       SubCompanyTypeWriteDataJPARepository repositoryCommand) {
         this.repositoryQuery = repositoryQuery;
         this.repositoryCommand = repositoryCommand;
     }
 
     @Override
     @Transactional
-    public UUID create(ConstructionTypeDto object) {
+    public UUID create(SubCompanyTypeDto object) {
         return repositoryCommand.save(new SubCompanyType(object)).getId();
     }
 
     @Override
     @Transactional
-    public void update(ConstructionTypeDto object) {
+    public void update(SubCompanyTypeDto object) {
         SubCompanyType update = this.findByIdSimple(object.getId());
 
         update.setCode(object.getCode());
@@ -64,10 +64,10 @@ public class ConstructionTypeServiceImpl implements IConstructionTypeService {
     }
 
     @Override
-    public ConstructionTypeDto findById(UUID id) {
+    public SubCompanyTypeDto findById(UUID id) {
         Optional<SubCompanyType> entity = repositoryQuery.findById(id);
         if (entity.isPresent()) {
-            return entity.get().toAggregate();
+            return entity.get().toAggregateSimple();
         }
         throw new ConstructionTypeNotFoundException(id);
     }
@@ -89,9 +89,9 @@ public class ConstructionTypeServiceImpl implements IConstructionTypeService {
     }
 
     private PaginatedResponse getPaginatedResponse(Page<SubCompanyType> data) {
-        List<ConstructionTypeResponse> objects = new ArrayList<>();
+        List<SubCompanyTypeResponse> objects = new ArrayList<>();
         for (SubCompanyType p : data.getContent()) {
-            objects.add(new ConstructionTypeResponse(p.toAggregate()));
+            objects.add(new SubCompanyTypeResponse(p.toAggregate()));
         }
         return new PaginatedResponse(objects, data.getTotalPages(), data.getNumberOfElements(),
                 data.getTotalElements(), data.getSize(), data.getNumber());

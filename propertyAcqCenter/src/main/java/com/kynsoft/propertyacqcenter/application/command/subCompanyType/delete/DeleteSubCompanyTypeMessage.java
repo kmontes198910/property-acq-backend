@@ -1,4 +1,4 @@
-package com.kynsoft.propertyacqcenter.application.command.constructionType.delete;
+package com.kynsoft.propertyacqcenter.application.command.subCompanyType.delete;
 
 import com.kynsof.share.core.domain.bus.command.ICommandMessage;
 import lombok.Getter;
@@ -6,13 +6,13 @@ import lombok.Getter;
 import java.util.UUID;
 
 @Getter
-public class DeleteConstructionTypeMessage implements ICommandMessage {
+public class DeleteSubCompanyTypeMessage implements ICommandMessage {
 
     private final UUID id;
 
     private final String command = "DELETE_CONSTRUCTION_TYPE";
 
-    public DeleteConstructionTypeMessage(UUID id) {
+    public DeleteSubCompanyTypeMessage(UUID id) {
         this.id = id;
     }
 
