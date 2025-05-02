@@ -4,11 +4,12 @@ import com.kynsof.share.core.domain.bus.query.IResponse;
 import com.kynsoft.cirugia.domain.dto.OperatingRoom;
 import lombok.Getter;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Getter
-public class OperatingRoomResponse implements IResponse {
+public class OperatingRoomResponse implements IResponse, Serializable {
     private final UUID id;
     private final String roomNumber;           // Número de identificación del salón quirúrgico
     private final String name;                 // Nombre del salón quirúrgico (opcional)
