@@ -38,12 +38,12 @@ public class MedicalTeamEntity {
 
     @Column(name = "specialty_code")
     private String specialtyCode;
+    
+    @Column(name = "speciality_type")
+    private String specialityType;
 
     @Column(name = "role")
     private String role;
-
-    @Column(name = "business_id")
-    private UUID businessId;
 
     @Column(name = "created_at")
     private LocalDateTime createdAt;
@@ -56,12 +56,8 @@ public class MedicalTeamEntity {
 
     @Column(name = "updated_by")
     private UUID updatedBy;
-    
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "surgery_id", referencedColumnName = "id", insertable = false, updatable = false)
     private SurgeryEntity surgery;
-    
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "business_id", referencedColumnName = "id", insertable = false, updatable = false)
-    private Business business;
 }

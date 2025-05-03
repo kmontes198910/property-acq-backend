@@ -18,6 +18,6 @@ public class CreateMedicalTeamRequest {
     private String memberLastName;
     private String specialtyName;
     private String specialtyCode;
+    private String specialityType;
     private String role;
-    private UUID businessId;
 }

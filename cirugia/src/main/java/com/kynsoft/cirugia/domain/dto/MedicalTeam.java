@@ -21,8 +21,8 @@ public class MedicalTeam {
     private String memberLastName;
     private String specialtyName;
     private String specialtyCode;
+    private String specialityType;
     private String role;
-    private UUID businessId;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
     private UUID createdBy;

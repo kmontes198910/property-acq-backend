@@ -5,6 +5,7 @@ import com.kynsof.share.core.domain.request.SearchRequest;
 import com.kynsof.share.core.domain.response.PaginatedResponse;
 import com.kynsof.share.core.infrastructure.bus.IMediator;
 import com.kynsoft.cirugia.application.command.medicalteam.create.CreateMedicalTeamCommand;
+import com.kynsoft.cirugia.application.command.medicalteam.create.CreateMedicalTeamMessage;
 import com.kynsoft.cirugia.application.command.medicalteam.create.CreateMedicalTeamRequest;
 import com.kynsoft.cirugia.application.command.medicalteam.delete.DeleteMedicalTeamCommand;
 import com.kynsoft.cirugia.application.query.medicalteam.search.SearchMedicalTeamsQuery;
@@ -48,7 +49,7 @@ public class MedicalTeamController {
         @ApiResponse(responseCode = "500", description = "Error interno del servidor")
     })
     @PostMapping
-    public ResponseEntity<UUID> createMedicalTeam(
+    public ResponseEntity<?> createMedicalTeam(
             @Parameter(description = "Datos del miembro del equipo médico", required = true)
             @RequestBody CreateMedicalTeamRequest request,
             @RequestHeader(value = USER_ID_HEADER, required = false) String userId,
@@ -66,8 +67,8 @@ public class MedicalTeamController {
 
         assert userId != null;
         CreateMedicalTeamCommand command = CreateMedicalTeamCommand.fromRequest(request,UUID.fromString(userId));
-        mediator.send(command);
-        return ResponseEntity.status(HttpStatus.CREATED).body(command.getId());
+        CreateMedicalTeamMessage response =mediator.send(command);
+        return ResponseEntity.ok(response);
     }
     
     /**
