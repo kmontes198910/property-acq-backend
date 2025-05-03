@@ -26,7 +26,7 @@ public class ChangeOperatingRoomStatusCommand implements ICommand {
     public static ChangeOperatingRoomStatusCommand fromRequest(ChangeOperatingRoomStatusRequest request) {
         return new ChangeOperatingRoomStatusCommand(
                 request.getOperatingRoomId(),
-                request.getStatus(),
+                request.getStatus().toString(),
                 request.getUpdatedBy()
         );
     }

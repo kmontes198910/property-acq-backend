@@ -69,7 +69,7 @@ public class UpdateOperatingRoomCommand implements ICommand {
         this.updatedBy = updatedBy;
     }
 
-    public static UpdateOperatingRoomCommand fromRequest(UpdateOperatingRoomRequest request) {
+    public static UpdateOperatingRoomCommand fromRequest(UpdateOperatingRoomRequest request, String userUuid) {
         return new UpdateOperatingRoomCommand(
                 request.getOperatingRoomId(),
                 request.getRoomNumber(),
@@ -89,10 +89,10 @@ public class UpdateOperatingRoomCommand implements ICommand {
                 request.getHasLaserEquipment(),
                 request.getHasRoboticsSystem(),
                 request.getSpecialFeatures(),
-                request.getStatus(),
+                request.getStatus().toString(),
                 request.getLastMaintenanceDate(),
                 request.getNextMaintenanceDate(),
-                request.getUpdatedBy()
+                UUID.fromString(userUuid)
         );
     }
 

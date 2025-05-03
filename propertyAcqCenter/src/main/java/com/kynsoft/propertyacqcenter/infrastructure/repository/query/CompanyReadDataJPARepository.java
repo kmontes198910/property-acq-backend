@@ -21,17 +21,9 @@ public interface CompanyReadDataJPARepository extends JpaRepository<Company, UUI
     @Override
     Page<Company> findAll(Specification<Company> specification, Pageable pageable);
 
-    @EntityGraph(attributePaths = {"legalEntity", "legalEntity.business", "companyType"})
+    @EntityGraph(attributePaths = { "companyType"})
     @Override
     Optional<Company> findById(UUID id);
 
-    List<Company> findByLegalEntityId(UUID legalEntityId);
-    
-    @Query("SELECT c FROM Company c WHERE c.legalEntity.id = :legalEntityId AND c.isPrimary = true")
-    Optional<Company> findPrimaryContactByLegalEntityId(@Param("legalEntityId") UUID legalEntityId);
-    
-    @Query("SELECT c FROM Company c WHERE c.legalEntity.id = :legalEntityId AND c.role = :role")
-    List<Company> findByLegalEntityIdAndRole(
-            @Param("legalEntityId") UUID legalEntityId, 
-            @Param("role") ContactRole role);
+
 }

@@ -43,28 +43,12 @@ public class CompanyService implements ICompanyService {
         Optional<Company> contactPerson = this.repositoryQuery.findById(contactPersonDto.getId());
         if (contactPerson.isPresent()) {
             Company oldContact = contactPerson.get();
-            // Actualizar los demás campos
-            oldContact.setFirstName(contactPersonDto.getFirstName());
-            oldContact.setLastName(contactPersonDto.getLastName());
-            oldContact.setRole(contactPersonDto.getRole());
-            oldContact.setEmail(contactPersonDto.getEmail());
-            oldContact.setPhone(contactPersonDto.getPhone());
-            oldContact.setCellPhone(contactPersonDto.getCellPhone());
+
             oldContact.setTitle(contactPersonDto.getTitle());
-            oldContact.setDateOfBirth(contactPersonDto.getDateOfBirth());
-            oldContact.setPersonalTaxId(contactPersonDto.getPersonalTaxId());
-            oldContact.setNationality(contactPersonDto.getNationality());
-            oldContact.setPersonalAddress(contactPersonDto.getPersonalAddress());
-            oldContact.setCity(contactPersonDto.getCity());
-            oldContact.setState(contactPersonDto.getState());
-            oldContact.setZipCode(contactPersonDto.getZipCode());
-            oldContact.setPersonalEmail(contactPersonDto.getPersonalEmail());
-            oldContact.setIsPrimary(contactPersonDto.getIsPrimary());
             oldContact.setOwnershipPercentage(contactPersonDto.getOwnershipPercentage());
             oldContact.setSignatureAuthority(contactPersonDto.getSignatureAuthority());
             oldContact.setNotes(contactPersonDto.getNotes());
             oldContact.setUpdatedBy(contactPersonDto.getUpdatedBy());
-            oldContact.setLegalEntity(new LegalEntity(contactPersonDto.getLegalEntity()));
             oldContact.setCompanyType(new CompanyType(contactPersonDto.getCompanyType()));
 
             // Guardar los cambios

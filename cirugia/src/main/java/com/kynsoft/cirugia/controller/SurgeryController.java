@@ -72,7 +72,7 @@ public class SurgeryController {
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
-    @PutMapping("/{id}")
+    @PatchMapping("/{id}")
     public ResponseEntity<?> updateSurgery(
             @PathVariable UUID id,
             @RequestBody UpdateSurgeryRequest request) {

@@ -54,7 +54,7 @@ public class OperatingRoomController {
         @ApiResponse(responseCode = "500", description = "Error interno del servidor")
     })
     @GetMapping("/{id}")
-    public ResponseEntity<OperatingRoomResponse> getById(
+    public ResponseEntity<?> getById(
             @Parameter(description = "ID de la sala quirúrgica", required = true)
             @PathVariable UUID id,
             @Parameter(description = "ID del usuario que realiza la petición")
@@ -126,13 +126,12 @@ public class OperatingRoomController {
         if (userId != null) {
             try {
                 UUID userUuid = UUID.fromString(userId);
-                request.setCreatedBy(userUuid);
             } catch (IllegalArgumentException e) {
                 log.warn("Invalid user ID format in header: {}", userId);
             }
         }
         
-        CreateOperatingRoomCommand command = CreateOperatingRoomCommand.fromRequest(request);
+        CreateOperatingRoomCommand command = CreateOperatingRoomCommand.fromRequest(request, userId);
         mediator.send(command);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
@@ -153,20 +152,13 @@ public class OperatingRoomController {
             @RequestBody UpdateOperatingRoomRequest request,
             @RequestHeader(value = USER_ID_HEADER, required = false) String userId,
             @RequestHeader(value = USER_NAME_HEADER, required = false) String userName) {
-        
+
         logUserInfo(userId, userName);
         request.setOperatingRoomId(id);
-        
-        if (userId != null) {
-            try {
-                UUID userUuid = UUID.fromString(userId);
-                request.setUpdatedBy(userUuid);
-            } catch (IllegalArgumentException e) {
-                log.warn("Invalid user ID format in header: {}", userId);
-            }
-        }
-        
-        UpdateOperatingRoomCommand command = UpdateOperatingRoomCommand.fromRequest(request);
+
+
+
+        UpdateOperatingRoomCommand command = UpdateOperatingRoomCommand.fromRequest(request, userId);
         mediator.send(command);
         return ResponseEntity.ok().build();
     }

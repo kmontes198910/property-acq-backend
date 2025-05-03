@@ -22,7 +22,6 @@ public class CreateSurgeryRequest {
     private UUID recoveryBedEntityId;
     private UUID businessId;
     private String surgeryType;
-    private UUID operatingRoomId;
     private Boolean requiresHospitalization;
     private LocalDate scheduledDate;
     private LocalTime startTime;
