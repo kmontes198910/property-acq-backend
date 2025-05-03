@@ -26,7 +26,7 @@ public class CreateSurgeryCommandHandler implements ICommandHandler<CreateSurger
                 .patientId(command.getPatientId())
                 .doctorId(command.getDoctorId())
                 .specialtyId(command.getSpecialtyId())
-                .recoveryBedEntityId(command.getRecoveryBedEntityId())
+                .operatingRoomId(command.getOperatingRoomId())
                 .surgeryType(command.getSurgeryType())
                 .scheduledDate(command.getScheduledDate())
                 .startTime(command.getStartTime())

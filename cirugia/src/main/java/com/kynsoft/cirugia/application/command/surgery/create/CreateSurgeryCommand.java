@@ -16,7 +16,7 @@ public class CreateSurgeryCommand implements ICommand {
     private UUID patientId;
     private UUID doctorId;
     private UUID specialtyId;
-    private UUID recoveryBedEntityId;
+    private UUID operatingRoomId;
     private UUID businessId;
     private String surgeryType;
     private Boolean requiresHospitalization;
@@ -25,7 +25,7 @@ public class CreateSurgeryCommand implements ICommand {
     private LocalTime endingTime;
     private UUID createdBy;
 
-    public CreateSurgeryCommand(UUID patientId, UUID doctorId, UUID specialtyId, UUID recoveryBedEntityId, 
+    public CreateSurgeryCommand(UUID patientId, UUID doctorId, UUID specialtyId, UUID operatingRoomId,
                                UUID businessId, String surgeryType,
                                Boolean requiresHospitalization, LocalDate scheduledDate, 
                                LocalTime startTime, LocalTime endingTime, UUID createdBy) {
@@ -33,7 +33,7 @@ public class CreateSurgeryCommand implements ICommand {
         this.patientId = patientId;
         this.doctorId = doctorId;
         this.specialtyId = specialtyId;
-        this.recoveryBedEntityId = recoveryBedEntityId;
+        this.operatingRoomId = operatingRoomId;
         this.businessId = businessId;
         this.surgeryType = surgeryType;
         this.requiresHospitalization = requiresHospitalization;
@@ -48,7 +48,7 @@ public class CreateSurgeryCommand implements ICommand {
                 request.getPatientId(),
                 request.getDoctorId(),
                 request.getSpecialtyId(),
-                request.getRecoveryBedEntityId(),
+                request.getOperatingRoomId(),
                 request.getBusinessId(),
                 request.getSurgeryType(),
                 request.getRequiresHospitalization(),
