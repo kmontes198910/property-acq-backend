@@ -49,8 +49,8 @@ public class MedicalTeamController {
     public ResponseEntity<?> createMedicalTeam(
             @Parameter(description = "Datos del miembro del equipo médico", required = true)
             @RequestBody CreateMedicalTeamRequest request,
-            @RequestHeader(value = USER_ID_HEADER, required = false) String userId,
-            @RequestHeader(value = USER_NAME_HEADER, required = false) String userName) {
+            @RequestHeader(value = USER_ID_HEADER, required = true) String userId ,
+            @RequestHeader(value = USER_NAME_HEADER, required = true) String userName) {
 
         logUserInfo(userId, userName);
         if (userId != null) {
