@@ -25,8 +25,8 @@ public class CreateMedicalTeamCommand implements ICommand {
     private LocalDateTime createdAt;
 
     public CreateMedicalTeamCommand(UUID surgeryId, UUID memberId, String memberName, String memberLastName,
-                                   String specialtyName, String specialtyCode, String role, 
-                                   UUID businessId, UUID createdBy) {
+                                    String specialtyName, String specialtyCode, String role,
+                                    UUID businessId, UUID createdBy) {
         this.id = UUID.randomUUID();
         this.surgeryId = surgeryId;
         this.memberId = memberId;
@@ -40,7 +40,7 @@ public class CreateMedicalTeamCommand implements ICommand {
         this.createdAt = LocalDateTime.now();
     }
 
-    public static CreateMedicalTeamCommand fromRequest(CreateMedicalTeamRequest request) {
+    public static CreateMedicalTeamCommand fromRequest(CreateMedicalTeamRequest request, UUID createdBy) {
         return new CreateMedicalTeamCommand(
                 request.getSurgeryId(),
                 request.getMemberId(),
@@ -50,7 +50,7 @@ public class CreateMedicalTeamCommand implements ICommand {
                 request.getSpecialtyCode(),
                 request.getRole(),
                 request.getBusinessId(),
-                request.getCreatedBy()
+                createdBy
         );
     }
 

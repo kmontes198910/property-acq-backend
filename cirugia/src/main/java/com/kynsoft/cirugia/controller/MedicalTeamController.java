@@ -53,18 +53,19 @@ public class MedicalTeamController {
             @RequestBody CreateMedicalTeamRequest request,
             @RequestHeader(value = USER_ID_HEADER, required = false) String userId,
             @RequestHeader(value = USER_NAME_HEADER, required = false) String userName) {
-        
+
         logUserInfo(userId, userName);
         if (userId != null) {
             try {
                 UUID userUuid = UUID.fromString(userId);
-                request.setCreatedBy(userUuid);
+
             } catch (IllegalArgumentException e) {
                 log.warn("Invalid user ID format in header: {}", userId);
             }
         }
-        
-        CreateMedicalTeamCommand command = CreateMedicalTeamCommand.fromRequest(request);
+
+        assert userId != null;
+        CreateMedicalTeamCommand command = CreateMedicalTeamCommand.fromRequest(request,UUID.fromString(userId));
         mediator.send(command);
         return ResponseEntity.status(HttpStatus.CREATED).body(command.getId());
     }
