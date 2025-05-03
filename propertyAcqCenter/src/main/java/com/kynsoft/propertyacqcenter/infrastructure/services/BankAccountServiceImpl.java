@@ -76,7 +76,7 @@ public class BankAccountServiceImpl implements IBankAccountService {
     public BankAccountDto findById(UUID id) {
         Optional<BankAccount> entity = repositoryQuery.findById(id);
         if (entity.isPresent()) {
-            return entity.get().toAggregate();
+            return entity.get().toAggregateSimple();
         }
         throw new BankAccountNotFoundException(id);
     }

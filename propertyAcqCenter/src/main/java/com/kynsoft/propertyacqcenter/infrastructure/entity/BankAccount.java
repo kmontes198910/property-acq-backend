@@ -127,11 +127,35 @@ public class BankAccount {
         );
     }
 
-    
     public BankAccountDto toAggregate() {
         return BankAccountDto.builder()
                 .id(this.id)
                 .bankName(bankName)
+                .accountNumber(accountNumber)
+                .routingNumber(routingNumber)
+                .accountType(accountType)
+                .accountNickname(accountNickname)
+                .openingDate(openingDate)
+                .onlineBankingUrl(onlineBankingUrl)
+                .notes(notes)
+                .createdAt(this.createdAt)
+                .updatedAt(this.updatedAt)
+                .createdBy(this.createdBy)
+                .updatedBy(this.updatedBy)
+                .contactDetails(contactDetails != null ? new BankContactDto(contactDetails.getName(), contactDetails.getPhone(), contactDetails.getEmail()) : null)
+                .internationalDetails(internationalDetails != null ? new InternationalBankingDetailsDto(internationalDetails.getSwiftCode(), internationalDetails.getIban(), internationalDetails.getCurrency()) : null)
+                .branchInfo(branchInfo != null ? new BankBranchDto(
+                        branchInfo.getName(), 
+                        branchInfo.getAddress() != null ? new EmbeddableAddressDto(notes, notes, notes, notes, notes, notes, AddressType.PROPERTY) : null, 
+                        branchInfo.getPhone()) : null)
+                .build();
+    }
+
+    public BankAccountDto toAggregateSimple() {
+        return BankAccountDto.builder()
+                .id(this.id)
+                .bankName(bankName)
+                .legalEntity(legalEntity.toAggregateFindById())
                 .accountNumber(accountNumber)
                 .routingNumber(routingNumber)
                 .accountType(accountType)
