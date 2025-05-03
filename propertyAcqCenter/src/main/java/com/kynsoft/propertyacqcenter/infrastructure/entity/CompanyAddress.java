@@ -1,6 +1,5 @@
 package com.kynsoft.propertyacqcenter.infrastructure.entity;
 
-import com.kynsoft.propertyacqcenter.domain.dto.AddressDto;
 import com.kynsoft.propertyacqcenter.domain.enums.AddressType;
 import jakarta.persistence.*;
 import lombok.*;
@@ -65,6 +64,5 @@ public class CompanyAddress {
 
     @Column(name = "updated_by")
     private UUID updatedBy;
-
 
 }

@@ -1,57 +1,51 @@
 package com.kynsoft.propertyacqcenter.application.command.company.create;
 
 import com.kynsof.share.core.domain.bus.command.ICommandHandler;
+import com.kynsoft.propertyacqcenter.domain.dto.BusinessDto;
 import com.kynsoft.propertyacqcenter.domain.dto.CompanyDto;
 import com.kynsoft.propertyacqcenter.domain.dto.CompanyTypeDto;
-import com.kynsoft.propertyacqcenter.domain.dto.LegalEntityDto;
+import com.kynsoft.propertyacqcenter.domain.dto.SubCompanyTypeDto;
+import com.kynsoft.propertyacqcenter.domain.services.IBusinessService;
 import org.springframework.stereotype.Component;
 import com.kynsoft.propertyacqcenter.domain.services.ICompanyService;
 import com.kynsoft.propertyacqcenter.domain.services.ICompanyTypeService;
-import com.kynsoft.propertyacqcenter.domain.services.ILegalEntityService;
+import com.kynsoft.propertyacqcenter.domain.services.ISubCompanyTypeService;
 
 @Component
 public class CreateCompanyCommandHandler implements ICommandHandler<CreateCompanyCommand> {
 
     private final ICompanyService contactPersonService;
-    private final ILegalEntityService legalEntityService;
+    private final IBusinessService businessService;
     private final ICompanyTypeService companyTypeService;
+    private final ISubCompanyTypeService subCompanyTypeService;
 
     public CreateCompanyCommandHandler(ICompanyService contactPersonService,
-                                       ILegalEntityService legalEntityService,
-                                       ICompanyTypeService companyTypeService) {
+                                       IBusinessService businessService,
+                                       ICompanyTypeService companyTypeService,
+                                       ISubCompanyTypeService subCompanyTypeService) {
         this.contactPersonService = contactPersonService;
-        this.legalEntityService = legalEntityService;
+        this.businessService = businessService;
         this.companyTypeService = companyTypeService;
+        this.subCompanyTypeService = subCompanyTypeService;
     }
 
     @Override
     public void handle(CreateCompanyCommand command) {
-        LegalEntityDto legalEntityDto = this.legalEntityService.findById(command.getLegalEntityId());
+        BusinessDto businessDto = this.businessService.findById(command.getBusiness());
         CompanyTypeDto companyTypeDto = this.companyTypeService.findById(command.getCompanyType());
+        SubCompanyTypeDto subCompanyTypeDto = this.subCompanyTypeService.findById(command.getSubCompanyType());
         CompanyDto contactPersonDto = new CompanyDto(
-                command.getId(),
-                legalEntityDto,
-                companyTypeDto,
-                command.getFirstName(),
-                command.getLastName(),
-                command.getRole(),
-                command.getEmail(),
-                command.getPhone(),
-                command.getCellPhone(),
-                command.getTitle(),
-                command.getDateOfBirth(),
-                command.getPersonalTaxId(),
-                command.getNationality(),
-                command.getPersonalAddress(),
-                command.getCity(),
-                command.getState(),
-                command.getZipCode(),
-                command.getPersonalEmail(),
-                command.getIsPrimary(),
-                command.getOwnershipPercentage(),
-                command.getSignatureAuthority(),
-                command.getNotes(),
-                command.getCreatedBy(),
+                command.getId(), 
+                businessDto, 
+                companyTypeDto, 
+                subCompanyTypeDto, 
+                command.getTitle(), 
+                command.getOwnershipPercentage(), 
+                command.getSignatureAuthority(), 
+                command.getNotes(), 
+                null, 
+                null, 
+                null, 
                 null
         );
 
