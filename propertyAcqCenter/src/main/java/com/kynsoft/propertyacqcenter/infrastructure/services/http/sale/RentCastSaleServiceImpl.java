@@ -1,10 +1,10 @@
-package com.kynsoft.propertyacqcenter.infrastructure.services.http.rentEstimate;
+package com.kynsoft.propertyacqcenter.infrastructure.services.http.sale;
 
 import com.kynsof.share.core.domain.exception.BusinessNotFoundException;
 import com.kynsof.share.core.domain.exception.DomainErrorMessage;
 import com.kynsof.share.core.domain.exception.GlobalBusinessException;
 import com.kynsof.share.core.domain.response.ErrorField;
-import com.kynsoft.propertyacqcenter.infrastructure.services.http.estimate.dto.EstimatedValueDto;
+import com.kynsoft.propertyacqcenter.domain.dto.property.saleListing.SaleListingDto;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -15,7 +15,7 @@ import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.web.client.RestClientException;
 
 @Service
-public class RentCastRentEstimateServiceImpl {
+public class RentCastSaleServiceImpl {
 
     //TODO: esta api debe de ser cambiada por la real a consumir.
     @Value("${rentcast.api.key:http://localhost:8097/api/rentcast/mock}")
@@ -23,14 +23,14 @@ public class RentCastRentEstimateServiceImpl {
 
     private final RestTemplate restTemplate;
 
-    public RentCastRentEstimateServiceImpl(RestTemplate restTemplate) {
+    public RentCastSaleServiceImpl(RestTemplate restTemplate) {
         this.restTemplate = restTemplate;
     }
 
     //TODO: La response de este metodo, lo vamos a trasformar en la capa de application.
-    public EstimatedValueDto getRentEstimate(String address) {
+    public List<SaleListingDto> getRentEstimate(String address) {
         try {
-            String url = apiKey + "/rent/fake";
+            String url = apiKey + "/sale/fake";
 
             // Crear cabeceras para la solicitud
             HttpHeaders headers = new HttpHeaders();
@@ -40,12 +40,12 @@ public class RentCastRentEstimateServiceImpl {
             HttpEntity<UUID> entity = new HttpEntity<>(UUID.randomUUID(), headers);
 
             // Usar ParameterizedTypeReference para especificar el tipo genérico
-            ParameterizedTypeReference<EstimatedValueDto> responseType
-                    = new ParameterizedTypeReference<EstimatedValueDto>() {
+            ParameterizedTypeReference<List<SaleListingDto>> responseType
+                    = new ParameterizedTypeReference<List<SaleListingDto>>() {
             };
 
             // Enviar la solicitud POST al endpoint del controlador
-            ResponseEntity<EstimatedValueDto> response = restTemplate.exchange(
+            ResponseEntity<List<SaleListingDto>> response = restTemplate.exchange(
                     url,
                     HttpMethod.GET,
                     entity,
