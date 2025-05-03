@@ -1,26 +1,22 @@
-package com.kynsoft.propertyacqcenter.infrastructure.services;
+package com.kynsoft.propertyacqcenter.infrastructure.services.mock;
 
 import com.kynsoft.propertyacqcenter.domain.enums.PropertyType;
-import com.kynsoft.propertyacqcenter.domain.dto.property.FeaturesDto;
-import com.kynsoft.propertyacqcenter.domain.dto.property.HoaDto;
-import com.kynsoft.propertyacqcenter.domain.dto.property.OwnerDto;
-import com.kynsoft.propertyacqcenter.domain.dto.property.PropertyAddressDto;
-import com.kynsoft.propertyacqcenter.domain.dto.property.PropertyDto;
-import com.kynsoft.propertyacqcenter.domain.dto.property.PropertyTaxDto;
-import com.kynsoft.propertyacqcenter.domain.dto.property.SaleHistoryDto;
-import com.kynsoft.propertyacqcenter.domain.dto.property.TaxAssessmentsDto;
+import com.kynsoft.propertyacqcenter.infrastructure.services.http.property.dto.FeaturesDto;
+import com.kynsoft.propertyacqcenter.infrastructure.services.http.property.dto.HoaDto;
+import com.kynsoft.propertyacqcenter.infrastructure.services.http.property.dto.OwnerDto;
+import com.kynsoft.propertyacqcenter.infrastructure.services.http.property.dto.PropertyAddressDto;
+import com.kynsoft.propertyacqcenter.infrastructure.services.http.property.dto.PropertyDto;
+import com.kynsoft.propertyacqcenter.infrastructure.services.http.property.dto.PropertyTaxDto;
+import com.kynsoft.propertyacqcenter.infrastructure.services.http.property.dto.SaleHistoryDto;
+import com.kynsoft.propertyacqcenter.infrastructure.services.http.property.dto.TaxAssessmentsDto;
 import com.kynsoft.propertyacqcenter.domain.dto.property.saleListing.ListingAgentDto;
 import com.kynsoft.propertyacqcenter.domain.dto.property.saleListing.ListingHistoryDto;
 import com.kynsoft.propertyacqcenter.domain.dto.property.saleListing.ListingOfficeDto;
 import com.kynsoft.propertyacqcenter.domain.dto.property.saleListing.SaleListingDto;
-import com.kynsoft.propertyacqcenter.domain.dto.valueEstimate.ComparablePropertyDto;
-import com.kynsoft.propertyacqcenter.domain.dto.valueEstimate.EstimatedValueDto;
+import com.kynsoft.propertyacqcenter.infrastructure.services.http.estimateValue.dto.ComparablePropertyDto;
+import com.kynsoft.propertyacqcenter.infrastructure.services.http.estimateValue.dto.EstimatedValueDto;
 import com.kynsoft.propertyacqcenter.domain.enums.Status;
-import com.kynsoft.propertyacqcenter.infrastructure.repository.command.PropertyWriteDataJPARepository;
-import com.kynsoft.propertyacqcenter.infrastructure.repository.query.PropertyReadDataJPARepository;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
 
 import java.time.LocalDateTime;
 import java.util.*;
@@ -28,19 +24,7 @@ import java.util.*;
 @Service
 public class RentCastServiceMockImpl {
 
-    private final PropertyWriteDataJPARepository repositoryCommand;
-
-    private final PropertyReadDataJPARepository repositoryQuery;
-
-    @Value("${rentcast.api.key}")
-    private String apiKey;
-
-    private final String BASE_URL = "https://api.rentcast.io/v1";
-    private final RestTemplate restTemplate = new RestTemplate();
-
-    public RentCastServiceMockImpl(PropertyWriteDataJPARepository repositoryCommand, PropertyReadDataJPARepository repositoryQuery) {
-        this.repositoryCommand = repositoryCommand;
-        this.repositoryQuery = repositoryQuery;
+    public RentCastServiceMockImpl() {
     }
 
     public List<PropertyDto> getPropertyDetails() {
@@ -342,7 +326,7 @@ public class RentCastServiceMockImpl {
         property.setZoning("RH");
 
         // Configurar fecha de última venta
-        property.setLastSaleDate(LocalDateTime.parse("2025-04-29T12:36:08.365"));
+        property.setLastSaleDate("2025-04-29T12:36:08.365");
         property.setLastSalePrice(185000);
 
         // Configurar HOA
@@ -389,8 +373,8 @@ public class RentCastServiceMockImpl {
         property.setPropertyTaxes(propertyTaxes);
 
         Map<String, SaleHistoryDto> history = new HashMap<>();
-        history.put("2004-06-16", new SaleHistoryDto("Sale", LocalDateTime.parse("2025-04-29T12:36:08.365"), 95000));
-        history.put("2017-10-19", new SaleHistoryDto("Sale", LocalDateTime.parse("2025-04-29T12:36:08.365"), 185000));
+        history.put("2004-06-16", new SaleHistoryDto("Sale", "2025-04-29T12:36:08.365", 95000));
+        history.put("2017-10-19", new SaleHistoryDto("Sale", "2025-04-29T12:36:08.365", 185000));
         property.setHistory(history);
 
         OwnerDto owner = new OwnerDto();

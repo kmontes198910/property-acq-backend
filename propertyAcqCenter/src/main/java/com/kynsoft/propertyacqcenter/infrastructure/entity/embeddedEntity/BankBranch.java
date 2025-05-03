@@ -1,6 +1,7 @@
-package com.kynsoft.propertyacqcenter.infrastructure.entity;
+package com.kynsoft.propertyacqcenter.infrastructure.entity.embeddedEntity;
 
 import com.kynsoft.propertyacqcenter.domain.dto.embedded.BankBranchDto;
+import com.kynsoft.propertyacqcenter.infrastructure.entity.EmbeddableAddress;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 import jakarta.persistence.Embedded;

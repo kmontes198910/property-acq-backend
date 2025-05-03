@@ -2,7 +2,7 @@ package com.kynsoft.propertyacqcenter.domain.services;
 
 import com.kynsof.share.core.domain.request.FilterCriteria;
 import com.kynsof.share.core.domain.response.PaginatedResponse;
-import com.kynsoft.propertyacqcenter.domain.dto.property.PropertyDto;
+import com.kynsoft.propertyacqcenter.infrastructure.services.http.property.dto.PropertyDto;
 import org.springframework.data.domain.Pageable;
 
 import java.util.List;

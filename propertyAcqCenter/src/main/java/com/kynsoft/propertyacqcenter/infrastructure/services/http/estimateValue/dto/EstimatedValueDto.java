@@ -1,4 +1,4 @@
-package com.kynsoft.propertyacqcenter.domain.dto.valueEstimate;
+package com.kynsoft.propertyacqcenter.infrastructure.services.http.estimateValue.dto;
 
 import java.util.List;
 import java.util.UUID;

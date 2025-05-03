@@ -1,5 +1,8 @@
 package com.kynsoft.propertyacqcenter.infrastructure.entity;
 
+import com.kynsoft.propertyacqcenter.infrastructure.entity.embeddedEntity.InternationalBankingDetails;
+import com.kynsoft.propertyacqcenter.infrastructure.entity.embeddedEntity.BankBranch;
+import com.kynsoft.propertyacqcenter.infrastructure.entity.embeddedEntity.BankContact;
 import com.kynsoft.propertyacqcenter.domain.dto.BankAccountDto;
 import com.kynsoft.propertyacqcenter.domain.dto.embedded.BankBranchDto;
 import com.kynsoft.propertyacqcenter.domain.dto.embedded.BankContactDto;
