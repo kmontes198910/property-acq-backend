@@ -1,10 +1,12 @@
 package com.kynsoft.cirugia.application.query.medicalteam;
 
+import com.kynsof.share.core.domain.bus.query.IResponse;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
@@ -13,7 +15,7 @@ import java.util.UUID;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class MedicalTeamSearchResponse {
+public class MedicalTeamSearchResponse implements IResponse, Serializable {
     private UUID id;
     private UUID surgeryId;
     private UUID memberId;
@@ -21,8 +23,8 @@ public class MedicalTeamSearchResponse {
     private String memberLastName;
     private String specialtyName;
     private String specialtyCode;
+    private String specialityType;
     private String role;
-    private UUID businessId;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
     

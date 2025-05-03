@@ -14,8 +14,6 @@ public interface MedicalTeamReadRepository extends JpaRepository<MedicalTeamEnti
     List<MedicalTeamEntity> findBySurgeryId(UUID surgeryId);
     
     List<MedicalTeamEntity> findByMemberId(UUID memberId);
-    
-    List<MedicalTeamEntity> findByBusinessId(UUID businessId);
-    
+
     List<MedicalTeamEntity> findByRole(String role);
 }

@@ -31,8 +31,8 @@ public class CreateMedicalTeamCommandHandler implements ICommandHandler<CreateMe
                 .memberLastName(command.getMemberLastName())
                 .specialtyName(command.getSpecialtyName())
                 .specialtyCode(command.getSpecialtyCode())
+                .specialityType(command.getSpecialityType())
                 .role(command.getRole())
-                .businessId(command.getBusinessId())
                 .createdAt(LocalDateTime.now())
                 .createdBy(command.getCreatedBy())
                 .build();

@@ -5,20 +5,18 @@ import com.kynsof.share.core.domain.request.SearchRequest;
 import com.kynsof.share.core.domain.response.PaginatedResponse;
 import com.kynsof.share.core.infrastructure.bus.IMediator;
 import com.kynsoft.cirugia.application.command.medicalteam.create.CreateMedicalTeamCommand;
+import com.kynsoft.cirugia.application.command.medicalteam.create.CreateMedicalTeamMessage;
 import com.kynsoft.cirugia.application.command.medicalteam.create.CreateMedicalTeamRequest;
 import com.kynsoft.cirugia.application.command.medicalteam.delete.DeleteMedicalTeamCommand;
 import com.kynsoft.cirugia.application.query.medicalteam.search.SearchMedicalTeamsQuery;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
-import io.swagger.v3.oas.annotations.media.Content;
-import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -48,25 +46,26 @@ public class MedicalTeamController {
         @ApiResponse(responseCode = "500", description = "Error interno del servidor")
     })
     @PostMapping
-    public ResponseEntity<UUID> createMedicalTeam(
+    public ResponseEntity<?> createMedicalTeam(
             @Parameter(description = "Datos del miembro del equipo médico", required = true)
             @RequestBody CreateMedicalTeamRequest request,
-            @RequestHeader(value = USER_ID_HEADER, required = false) String userId,
-            @RequestHeader(value = USER_NAME_HEADER, required = false) String userName) {
-        
+            @RequestHeader(value = USER_ID_HEADER, required = true) String userId ,
+            @RequestHeader(value = USER_NAME_HEADER, required = true) String userName) {
+
         logUserInfo(userId, userName);
         if (userId != null) {
             try {
                 UUID userUuid = UUID.fromString(userId);
-                request.setCreatedBy(userUuid);
+
             } catch (IllegalArgumentException e) {
                 log.warn("Invalid user ID format in header: {}", userId);
             }
         }
-        
-        CreateMedicalTeamCommand command = CreateMedicalTeamCommand.fromRequest(request);
-        mediator.send(command);
-        return ResponseEntity.status(HttpStatus.CREATED).body(command.getId());
+
+        assert userId != null;
+        CreateMedicalTeamCommand command = CreateMedicalTeamCommand.fromRequest(request,UUID.fromString(userId));
+        CreateMedicalTeamMessage response =mediator.send(command);
+        return ResponseEntity.ok(response);
     }
     
     /**

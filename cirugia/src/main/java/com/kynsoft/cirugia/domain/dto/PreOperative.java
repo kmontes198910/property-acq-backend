@@ -13,14 +13,11 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 public class PreOperative {
-
     private UUID id;
     private UUID surgeryId;
     private String admissionReason;
     private String currentDiseaseHistory;
     private String physicalExamination;
-    private LocalDateTime surgeryRoomDate;
-    private UUID businessId;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
     private UUID createdBy;

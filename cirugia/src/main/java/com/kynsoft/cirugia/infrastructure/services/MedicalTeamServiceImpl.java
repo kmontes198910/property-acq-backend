@@ -1,4 +1,4 @@
-package com.kynsoft.cirugia.infrastructure.service;
+package com.kynsoft.cirugia.infrastructure.services;
 
 import com.kynsof.share.core.domain.exception.BusinessException;
 import com.kynsof.share.core.domain.exception.BusinessNotFoundException;
@@ -25,9 +25,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -41,7 +39,7 @@ public class MedicalTeamServiceImpl implements IMedicalTeamService {
 
     @Override
     @Transactional
-    @CacheEvict(cacheNames = SurgeryCacheConfig.SURGERY_SERVICE_CACHE, allEntries = true)
+    @CacheEvict(cacheNames = SurgeryCacheConfig.TEAM_MEDICAL_CACHE, allEntries = true)
     public UUID createMedicalTeam(MedicalTeam medicalTeam) {
         log.info("Creating medical team member with ID: {}", medicalTeam.getId());
 
@@ -58,7 +56,7 @@ public class MedicalTeamServiceImpl implements IMedicalTeamService {
     
     @Override
     @Transactional
-    @CacheEvict(cacheNames = SurgeryCacheConfig.SURGERY_SERVICE_CACHE, allEntries = true)
+    @CacheEvict(cacheNames = SurgeryCacheConfig.TEAM_MEDICAL_CACHE, allEntries = true)
     public void deleteMedicalTeam(UUID id) {
         log.info("Deleting medical team member with ID: {}", id);
         
@@ -76,71 +74,11 @@ public class MedicalTeamServiceImpl implements IMedicalTeamService {
                 "Medical team member cannot be deleted as it has related elements: " + e.getMessage());
         }
     }
-    
-    @Override
-    @Transactional(readOnly = true)
-    @Cacheable(cacheNames = SurgeryCacheConfig.SURGERY_SERVICE_CACHE, key = "#id", unless = "#result == null")
-    public Optional<MedicalTeam> getMedicalTeamById(UUID id) {
-        log.info("Finding medical team member with ID: {}", id);
-        return medicalTeamReadRepository.findById(id)
-                .map(this::mapToDomain);
-    }
-    
-    @Override
-    @Transactional(readOnly = true)
-    @Cacheable(cacheNames = SurgeryCacheConfig.SURGERY_SERVICE_CACHE, 
-              key = "'medicalTeams:surgeryId:' + #surgeryId", 
-              unless = "#result == null")
-    public List<MedicalTeam> listMedicalTeamsBySurgery(UUID surgeryId) {
-        log.info("Listing medical team members for surgery: {}", surgeryId);
-        return medicalTeamReadRepository.findBySurgeryId(surgeryId)
-                .stream()
-                .map(this::mapToDomain)
-                .collect(Collectors.toList());
-    }
-    
-    @Override
-    @Transactional(readOnly = true)
-    @Cacheable(cacheNames = SurgeryCacheConfig.SURGERY_SERVICE_CACHE, 
-              key = "'medicalTeams:memberId:' + #memberId", 
-              unless = "#result == null")
-    public List<MedicalTeam> listMedicalTeamsByMember(UUID memberId) {
-        log.info("Listing medical team entries for member: {}", memberId);
-        return medicalTeamReadRepository.findByMemberId(memberId)
-                .stream()
-                .map(this::mapToDomain)
-                .collect(Collectors.toList());
-    }
-    
-    @Override
-    @Transactional(readOnly = true)
-    @Cacheable(cacheNames = SurgeryCacheConfig.SURGERY_SERVICE_CACHE, 
-              key = "'medicalTeams:businessId:' + #businessId", 
-              unless = "#result == null")
-    public List<MedicalTeam> listMedicalTeamsByBusiness(UUID businessId) {
-        log.info("Listing medical team members for business: {}", businessId);
-        return medicalTeamReadRepository.findByBusinessId(businessId)
-                .stream()
-                .map(this::mapToDomain)
-                .collect(Collectors.toList());
-    }
-    
-    @Override
-    @Transactional(readOnly = true)
-    @Cacheable(cacheNames = SurgeryCacheConfig.SURGERY_SERVICE_CACHE, 
-              key = "'medicalTeams:role:' + #role", 
-              unless = "#result == null")
-    public List<MedicalTeam> listMedicalTeamsByRole(String role) {
-        log.info("Listing medical team members with role: {}", role);
-        return medicalTeamReadRepository.findByRole(role)
-                .stream()
-                .map(this::mapToDomain)
-                .collect(Collectors.toList());
-    }
+
 
     @Override
     @Transactional(readOnly = true)
-    @Cacheable(cacheNames = SurgeryCacheConfig.SURGERY_SERVICE_CACHE,
+    @Cacheable(cacheNames = SurgeryCacheConfig.TEAM_MEDICAL_CACHE,
             key = "'medicalTeams:search:' + #pageable.pageNumber + ':' + #pageable.pageSize + ':' + #pageable.sort + ':' + T(java.util.Objects).hash(#filterCriteria)",
             unless = "#result == null")
     public PaginatedResponse search(Pageable pageable, List<FilterCriteria> filterCriteria) {
@@ -162,8 +100,8 @@ public class MedicalTeamServiceImpl implements IMedicalTeamService {
                         .memberLastName(entity.getMemberLastName())
                         .specialtyName(entity.getSpecialtyName())
                         .specialtyCode(entity.getSpecialtyCode())
+                        .specialityType(entity.getSpecialityType())
                         .role(entity.getRole())
-                        .businessId(entity.getBusinessId())
                         .createdAt(entity.getCreatedAt())
                         .updatedAt(entity.getUpdatedAt())
                         .build())
@@ -190,8 +128,8 @@ public class MedicalTeamServiceImpl implements IMedicalTeamService {
                 .memberLastName(entity.getMemberLastName())
                 .specialtyName(entity.getSpecialtyName())
                 .specialtyCode(entity.getSpecialtyCode())
+                .specialityType(entity.getSpecialityType())
                 .role(entity.getRole())
-                .businessId(entity.getBusinessId())
                 .createdAt(entity.getCreatedAt())
                 .updatedAt(entity.getUpdatedAt())
                 .createdBy(entity.getCreatedBy())
@@ -208,8 +146,8 @@ public class MedicalTeamServiceImpl implements IMedicalTeamService {
                 .memberLastName(medicalTeam.getMemberLastName())
                 .specialtyName(medicalTeam.getSpecialtyName())
                 .specialtyCode(medicalTeam.getSpecialtyCode())
+                .specialityType(medicalTeam.getSpecialityType())
                 .role(medicalTeam.getRole())
-                .businessId(medicalTeam.getBusinessId())
                 .createdAt(medicalTeam.getCreatedAt())
                 .updatedAt(medicalTeam.getUpdatedAt())
                 .createdBy(medicalTeam.getCreatedBy())
