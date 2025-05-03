@@ -4,6 +4,9 @@ import com.kynsof.share.core.domain.request.PageableUtil;
 import com.kynsof.share.core.domain.request.SearchRequest;
 import com.kynsof.share.core.domain.response.PaginatedResponse;
 import com.kynsof.share.core.infrastructure.bus.IMediator;
+import com.kynsoft.cirugia.application.command.surgery.changestatus.ChangeSurgeryStatusMessage;
+import com.kynsoft.cirugia.application.command.surgery.create.CreateSurgeryMessage;
+import com.kynsoft.cirugia.application.command.surgery.update.UpdateSurgeryMessage;
 import com.kynsoft.cirugia.application.query.SurgeryListResponse;
 import com.kynsoft.cirugia.application.query.SurgeryResponse;
 import com.kynsoft.cirugia.application.query.surgery.getbyid.GetSurgeryByIdQuery;
@@ -18,7 +21,6 @@ import com.kynsoft.cirugia.application.command.surgery.changestatus.ChangeSurger
 import com.kynsoft.cirugia.application.command.surgery.changestatus.ChangeSurgeryStatusRequest;
 import com.kynsoft.cirugia.application.command.surgery.delete.DeleteSurgeryCommand;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -29,6 +31,8 @@ import java.util.UUID;
 public class SurgeryController {
 
     private final IMediator mediator;
+    private static final String USER_ID_HEADER = "X-User-ID";
+    private static final String USER_NAME_HEADER = "X-User-Name";
 
     public SurgeryController(IMediator mediator) {
         this.mediator = mediator;
@@ -66,10 +70,12 @@ public class SurgeryController {
 
 
     @PostMapping
-    public ResponseEntity<?> createSurgery(@RequestBody CreateSurgeryRequest request) {
-        CreateSurgeryCommand command = CreateSurgeryCommand.fromRequest(request);
-        mediator.send(command);
-        return ResponseEntity.status(HttpStatus.CREATED).build();
+    public ResponseEntity<?> createSurgery(@RequestBody CreateSurgeryRequest request,
+                                            @RequestHeader(USER_ID_HEADER) String userId,
+                                            @RequestHeader(USER_NAME_HEADER) String userName) {
+        CreateSurgeryCommand command = CreateSurgeryCommand.fromRequest(request, UUID.fromString(userId));
+        CreateSurgeryMessage response =mediator.send(command);
+        return ResponseEntity.ok(response);
     }
 
     @PatchMapping("/{id}")
@@ -78,8 +84,8 @@ public class SurgeryController {
             @RequestBody UpdateSurgeryRequest request) {
         request.setSurgeryId(id);
         UpdateSurgeryCommand command = UpdateSurgeryCommand.fromRequest(request);
-        mediator.send(command);
-        return ResponseEntity.ok().build();
+        UpdateSurgeryMessage response =mediator.send(command);
+        return ResponseEntity.ok(response);
     }
 
     @PatchMapping("/{id}/status")
@@ -88,8 +94,8 @@ public class SurgeryController {
             @RequestBody ChangeSurgeryStatusRequest request) {
         request.setSurgeryId(id);
         ChangeSurgeryStatusCommand command = ChangeSurgeryStatusCommand.fromRequest(request);
-        mediator.send(command);
-        return ResponseEntity.ok().build();
+        ChangeSurgeryStatusMessage response = mediator.send(command);
+        return ResponseEntity.ok(response);
     }
 
     @DeleteMapping("/{id}")

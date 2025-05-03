@@ -43,7 +43,7 @@ public class CreateSurgeryCommand implements ICommand {
         this.createdBy = createdBy;
     }
 
-    public static CreateSurgeryCommand fromRequest(CreateSurgeryRequest request) {
+    public static CreateSurgeryCommand fromRequest(CreateSurgeryRequest request, UUID createdBy) {
         return new CreateSurgeryCommand(
                 request.getPatientId(),
                 request.getDoctorId(),
@@ -55,7 +55,7 @@ public class CreateSurgeryCommand implements ICommand {
                 request.getScheduledDate(),
                 request.getStartTime(),
                 request.getEndingTime(),
-                UUID.randomUUID() // createdBy, como no existe en el request se genera un UUID
+               createdBy
         );
     }
 
