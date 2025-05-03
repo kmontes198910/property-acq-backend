@@ -18,7 +18,6 @@ import com.kynsoft.propertyacqcenter.infrastructure.services.http.estimate.dto.E
 import com.kynsoft.propertyacqcenter.domain.enums.Status;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
 import java.util.*;
 
 @Service
@@ -261,9 +260,9 @@ public class RentCastServiceMockImpl {
         property.setStatus(Status.ACTIVE);
         property.setPrice(899000);
         property.setListingType("Standard");
-        property.setListedDate(LocalDateTime.parse("2024-06-24T00:00:00.000"));
-        property.setCreatedDate(LocalDateTime.parse("2021-06-25T00:00:00.000"));
-        property.setLastSeenDate(LocalDateTime.parse("2024-09-30T13:11:47.157"));
+        property.setListedDate("2024-06-24T00:00:00.000");
+        property.setCreatedDate("2021-06-25T00:00:00.000");
+        property.setLastSeenDate("2024-09-30T13:11:47.157");
         property.setDaysOnMarket(99);
         property.setMlsName("UnlockMLS");
         property.setMlsNumber("5519228");
@@ -290,7 +289,7 @@ public class RentCastServiceMockImpl {
         listing.setEvent("Sale Listing");
         listing.setPrice(899000);
         listing.setListingType("Standard");
-        listing.setListedDate(LocalDateTime.parse("2024-06-24T00:00:00.000"));
+        listing.setListedDate("2024-06-24T00:00:00.000");
         listing.setDaysOnMarket(99);
         history.put("2024-06-24", listing);
         property.setHistory(history);

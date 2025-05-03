@@ -1,4 +1,4 @@
-package com.kynsoft.propertyacqcenter.application.query.estimateValue.getRentEstimateExternalService;
+package com.kynsoft.propertyacqcenter.application.query.restEstimate.getRentEstimateExternalService;
 
 import com.kynsof.share.core.domain.bus.query.IQueryHandler;
 import com.kynsoft.propertyacqcenter.application.response.estimateValue.EstimatedValueResponse;
