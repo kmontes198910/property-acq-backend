@@ -1,8 +1,8 @@
 package com.kynsoft.propertyacqcenter.application.response.estimateValue;
 
 import com.kynsof.share.core.domain.bus.query.IResponse;
-import com.kynsoft.propertyacqcenter.infrastructure.services.http.estimateValue.dto.ComparablePropertyDto;
-import com.kynsoft.propertyacqcenter.infrastructure.services.http.estimateValue.dto.EstimatedValueDto;
+import com.kynsoft.propertyacqcenter.infrastructure.services.http.estimate.dto.ComparablePropertyDto;
+import com.kynsoft.propertyacqcenter.infrastructure.services.http.estimate.dto.EstimatedValueDto;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;

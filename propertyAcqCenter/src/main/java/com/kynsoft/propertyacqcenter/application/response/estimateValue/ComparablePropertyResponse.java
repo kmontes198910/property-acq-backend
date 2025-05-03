@@ -2,7 +2,7 @@ package com.kynsoft.propertyacqcenter.application.response.estimateValue;
 
 import com.kynsof.share.core.domain.bus.query.IResponse;
 import com.kynsoft.propertyacqcenter.domain.enums.PropertyType;
-import com.kynsoft.propertyacqcenter.infrastructure.services.http.estimateValue.dto.ComparablePropertyDto;
+import com.kynsoft.propertyacqcenter.infrastructure.services.http.estimate.dto.ComparablePropertyDto;
 import java.util.UUID;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

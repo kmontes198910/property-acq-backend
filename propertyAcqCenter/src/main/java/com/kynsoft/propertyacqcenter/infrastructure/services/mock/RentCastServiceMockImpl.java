@@ -13,8 +13,8 @@ import com.kynsoft.propertyacqcenter.domain.dto.property.saleListing.ListingAgen
 import com.kynsoft.propertyacqcenter.domain.dto.property.saleListing.ListingHistoryDto;
 import com.kynsoft.propertyacqcenter.domain.dto.property.saleListing.ListingOfficeDto;
 import com.kynsoft.propertyacqcenter.domain.dto.property.saleListing.SaleListingDto;
-import com.kynsoft.propertyacqcenter.infrastructure.services.http.estimateValue.dto.ComparablePropertyDto;
-import com.kynsoft.propertyacqcenter.infrastructure.services.http.estimateValue.dto.EstimatedValueDto;
+import com.kynsoft.propertyacqcenter.infrastructure.services.http.estimate.dto.ComparablePropertyDto;
+import com.kynsoft.propertyacqcenter.infrastructure.services.http.estimate.dto.EstimatedValueDto;
 import com.kynsoft.propertyacqcenter.domain.enums.Status;
 import org.springframework.stereotype.Service;
 
