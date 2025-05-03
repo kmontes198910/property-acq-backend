@@ -2,7 +2,7 @@ package com.kynsoft.propertyacqcenter.controller;
 
 import com.kynsof.share.core.infrastructure.bus.IMediator;
 import com.kynsoft.propertyacqcenter.application.query.estimateValue.getEstimateValueExternalService.GetEstimateValueExternalServiceQuery;
-import com.kynsoft.propertyacqcenter.application.query.estimateValue.getRentEstimateExternalService.GetRentEstimateExternalServiceQuery;
+import com.kynsoft.propertyacqcenter.application.query.restEstimate.getRentEstimateExternalService.GetRentEstimateExternalServiceQuery;
 import com.kynsoft.propertyacqcenter.application.query.property.getPropertyDetailsExternalService.GetPropertyDetailsExternalServiceQuery;
 import com.kynsoft.propertyacqcenter.application.response.estimateValue.EstimatedValueResponse;
 import com.kynsoft.propertyacqcenter.application.response.property.PropertyDasboardResponse;
@@ -20,21 +20,19 @@ public class RentCastController {
 
     private final IRentCastService rentCastService;
     private final IMediator mediator;
-    private final RentCastPropertyServiceImpl resCastPropertyServiceImpl;
 
-    public RentCastController(IRentCastService rentCastService,
-                              RentCastPropertyServiceImpl resCastPropertyServiceImpl,
-                              IMediator mediator) {
+    public RentCastController(IRentCastService rentCastService, IMediator mediator) {
         this.rentCastService = rentCastService;
-        this.resCastPropertyServiceImpl = resCastPropertyServiceImpl;
         this.mediator = mediator;
     }
 
     /**
      * Endpoint para obtener los detalles de una propiedad por dirección.
-     * Ejemplo: GET /api/rentcast/property?address=2537 NW 116 Terrace, Coral Spring, Florida
+     * Ejemplo: GET /api/rentcast/property?address=2537 NW 116 Terrace, Coral
+     * Spring, Florida
+     *
      * @param address
-     * @return 
+     * @return
      */
     @GetMapping("/property")
     public ResponseEntity<PropertyDasboardResponse> getPropertyDetails(@RequestParam String address) {
@@ -61,10 +59,7 @@ public class RentCastController {
     }
 
     @GetMapping("/sale")
-    public List<SaleListingResponse> getSaleListings(
-            @RequestParam String city,
-            @RequestParam String state
-    ) {
+    public List<SaleListingResponse> getSaleListings(@RequestParam String city, @RequestParam String state) {
         return rentCastService.getSaleListings(city, state);
     }
 }
