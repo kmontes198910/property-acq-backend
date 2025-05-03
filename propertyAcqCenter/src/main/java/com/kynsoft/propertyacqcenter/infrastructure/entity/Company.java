@@ -49,6 +49,9 @@ public class Company {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "company", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<CompanyContact> contacts;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "business_id")
+    private Business business;
 
     @CreationTimestamp
     @Column(name = "created_at", updatable = false)
