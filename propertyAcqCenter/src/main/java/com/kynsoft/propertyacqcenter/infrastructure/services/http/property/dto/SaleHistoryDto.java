@@ -1,15 +1,16 @@
-package com.kynsoft.propertyacqcenter.domain.dto.property;
+package com.kynsoft.propertyacqcenter.infrastructure.services.http.property.dto;
 
-import java.time.LocalDateTime;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Setter
 @Getter
 @AllArgsConstructor
+@NoArgsConstructor
 public class SaleHistoryDto {
     private String event;
-    private LocalDateTime date;
+    private String date;//LocalDateTime
     private double price;
 }

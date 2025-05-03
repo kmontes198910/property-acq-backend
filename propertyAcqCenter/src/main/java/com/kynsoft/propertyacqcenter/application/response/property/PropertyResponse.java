@@ -1,6 +1,11 @@
 package com.kynsoft.propertyacqcenter.application.response.property;
 
-import com.kynsoft.propertyacqcenter.domain.dto.property.*;
+import com.kynsoft.propertyacqcenter.infrastructure.services.http.property.dto.FeaturesDto;
+import com.kynsoft.propertyacqcenter.infrastructure.services.http.property.dto.OwnerDto;
+import com.kynsoft.propertyacqcenter.infrastructure.services.http.property.dto.HoaDto;
+import com.kynsoft.propertyacqcenter.infrastructure.services.http.property.dto.PropertyTaxDto;
+import com.kynsoft.propertyacqcenter.infrastructure.services.http.property.dto.TaxAssessmentsDto;
+import com.kynsoft.propertyacqcenter.infrastructure.services.http.property.dto.SaleHistoryDto;
 import com.kynsoft.propertyacqcenter.domain.enums.PropertyType;
 import java.time.LocalDateTime;
 import java.util.Map;

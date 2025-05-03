@@ -1,10 +1,12 @@
-package com.kynsoft.propertyacqcenter.domain.dto.property;
+package com.kynsoft.propertyacqcenter.infrastructure.services.http.property.dto;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter
 @Setter
+@NoArgsConstructor
 public class FeaturesDto {
     private String architectureType;
     private boolean cooling;

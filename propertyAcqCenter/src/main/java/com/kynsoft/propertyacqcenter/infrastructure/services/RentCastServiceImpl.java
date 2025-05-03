@@ -1,5 +1,9 @@
 package com.kynsoft.propertyacqcenter.infrastructure.services;
 
+import com.kynsof.share.core.domain.exception.BusinessNotFoundException;
+import com.kynsof.share.core.domain.exception.DomainErrorMessage;
+import com.kynsof.share.core.domain.exception.GlobalBusinessException;
+import com.kynsof.share.core.domain.response.ErrorField;
 import com.kynsoft.propertyacqcenter.application.response.rentcast.EstimatedValueResponse;
 import com.kynsoft.propertyacqcenter.application.response.rentcast.PropertyResponse;
 import com.kynsoft.propertyacqcenter.application.response.rentcast.RentEstimateResponse;
@@ -9,9 +13,7 @@ import com.kynsoft.propertyacqcenter.domain.enums.PropertyType;
 import com.kynsoft.propertyacqcenter.domain.services.IRentCastService;
 import com.kynsoft.propertyacqcenter.application.response.rentcast.SaleListingResponse;
 import com.kynsoft.propertyacqcenter.infrastructure.entity.*;
-import com.kynsoft.propertyacqcenter.infrastructure.repository.command.PropertyWriteDataJPARepository;
-import com.kynsoft.propertyacqcenter.infrastructure.repository.query.PropertyReadDataJPARepository;
-import org.springframework.beans.factory.annotation.Value;
+import com.kynsoft.propertyacqcenter.infrastructure.services.http.property.dto.PropertyDto;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
@@ -21,23 +23,19 @@ import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.time.OffsetDateTime;
 import java.util.*;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.web.client.RestClientException;
 
 @Service
 public class RentCastServiceImpl implements IRentCastService {
 
-    private final PropertyWriteDataJPARepository repositoryCommand;
-
-    private final PropertyReadDataJPARepository repositoryQuery;
-
-    @Value("${rentcast.api.key}")
+    @Value("${rentcast.api.key:http://localhost:8097/api/rentcast/mock}")
     private String apiKey;
 
-    private final String BASE_URL = "https://api.rentcast.io/v1";
-    private final RestTemplate restTemplate = new RestTemplate();
+    private final RestTemplate restTemplate;
 
-    public RentCastServiceImpl(PropertyWriteDataJPARepository repositoryCommand, PropertyReadDataJPARepository repositoryQuery) {
-        this.repositoryCommand = repositoryCommand;
-        this.repositoryQuery = repositoryQuery;
+    public RentCastServiceImpl(RestTemplate restTemplate) {
+    this.restTemplate = restTemplate;
     }
 
     private HttpEntity<String> createHttpEntity() {
@@ -51,35 +49,27 @@ public class RentCastServiceImpl implements IRentCastService {
     }
 
     @Override
-    public List<PropertyResponse> getPropertyDetails(String address) {
+    public List<PropertyDto> getPropertyDetails(String address) {
         try {
-            String cleanedAddress = address.trim(); // Elimina espacios al inicio/final
-            String encodedAddress = URLEncoder.encode(cleanedAddress, StandardCharsets.UTF_8);
+            String url = apiKey + "/property/fake";
 
-            //verdadero
-            //String url = BASE_URL + "/properties?address=" + encodedAddress;
+            // Crear cabeceras para la solicitud
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.APPLICATION_JSON);
 
-            //probar el servicio que esta en RentCastController /property/fake
-            String url = "http://localhost:8097/api/rentcast/property/fake";
+            // Crear la entidad de la solicitud con el cuerpo (request) y las cabeceras
+            HttpEntity<UUID> entity = new HttpEntity<>(UUID.randomUUID(), headers);
 
-            ResponseEntity<PropertyResponse[]> response = restTemplate.exchange(
-                    url,
-                    HttpMethod.GET,
-                    createHttpEntity(),
-                    PropertyResponse[].class
-            );
+            // Enviar la solicitud POST al endpoint del controlador
+            ResponseEntity<List> response = restTemplate.exchange(
+                    url, HttpMethod.GET, entity, List.class);
 
-            PropertyResponse[] body = response.getBody();
-
-            if (body == null || body.length == 0) {
-                return Collections.emptyList(); // o lanza una excepción personalizada si prefieres
+            if (!HttpStatus.OK.equals(response.getStatusCode())) {
+                throw new BusinessNotFoundException(new GlobalBusinessException(DomainErrorMessage.BUSINESS_NOT_FOUND, new ErrorField("id", DomainErrorMessage.BUSINESS_NOT_FOUND.getReasonPhrase())));
             }
-
-            return Arrays.asList(body);
-
-        } catch (Exception e) {
-            // Puedes loguear aquí si lo deseas
-            throw new RuntimeException("Error fetching property details from RentCast API", e);
+            return response.getBody();
+        } catch (RestClientException e) {
+            throw new BusinessNotFoundException(new GlobalBusinessException(DomainErrorMessage.BUSINESS_NOT_FOUND, new ErrorField("id", DomainErrorMessage.BUSINESS_NOT_FOUND.getReasonPhrase())));
         }
     }
 
@@ -221,7 +211,7 @@ public class RentCastServiceImpl implements IRentCastService {
                     .build();
 
             // Persistir la entidad en la base de datos
-            property = repositoryCommand.save(property);
+            //property = repositoryCommand.save(property);
             ids.add(property.getId());
         }
 
