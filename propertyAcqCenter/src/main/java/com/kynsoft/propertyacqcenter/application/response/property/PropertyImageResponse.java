@@ -1,4 +1,4 @@
-package com.kynsoft.propertyacqcenter.domain.dto.property;
+package com.kynsoft.propertyacqcenter.application.response.property;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -9,7 +9,8 @@ import lombok.Setter;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class PropertyTaxDto {
-    private int year;
-    private double total;
+public class PropertyImageResponse {
+
+    private String id;
+    private String url;
 }

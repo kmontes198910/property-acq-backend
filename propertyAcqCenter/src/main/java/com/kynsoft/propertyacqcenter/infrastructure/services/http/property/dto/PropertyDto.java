@@ -1,20 +1,19 @@
-package com.kynsoft.propertyacqcenter.domain.dto.property;
+package com.kynsoft.propertyacqcenter.infrastructure.services.http.property.dto;
 
 import com.kynsoft.propertyacqcenter.domain.enums.PropertyType;
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Map;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Data
-@Builder
 @Setter
+@Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class PropertyDto {
+public class PropertyDto implements Serializable {
 
     private String id;
     private String formattedAddress;
@@ -36,7 +35,7 @@ public class PropertyDto {
     private String legalDescription;
     private String subdivision;
     private String zoning;
-    private LocalDateTime lastSaleDate;
+    private String lastSaleDate;//LocalDateTime
     private double lastSalePrice;
     private HoaDto hoa;
     private FeaturesDto features;

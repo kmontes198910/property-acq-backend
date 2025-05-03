@@ -1,4 +1,4 @@
-package com.kynsoft.propertyacqcenter.domain.dto.property;
+package com.kynsoft.propertyacqcenter.infrastructure.services.http.property.dto;
 
 import lombok.*;
 

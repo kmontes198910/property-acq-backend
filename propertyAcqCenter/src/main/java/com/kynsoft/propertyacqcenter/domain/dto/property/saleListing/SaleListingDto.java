@@ -1,6 +1,6 @@
 package com.kynsoft.propertyacqcenter.domain.dto.property.saleListing;
 
-import com.kynsoft.propertyacqcenter.domain.dto.property.*;
+import com.kynsoft.propertyacqcenter.infrastructure.services.http.property.dto.HoaDto;
 import com.kynsoft.propertyacqcenter.domain.enums.PropertyType;
 import com.kynsoft.propertyacqcenter.domain.enums.Status;
 import java.time.LocalDateTime;
