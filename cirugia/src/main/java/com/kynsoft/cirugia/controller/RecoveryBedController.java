@@ -66,12 +66,12 @@ public class RecoveryBedController {
     }
 
     @PostMapping
-    public ResponseEntity<RecoveryBedResponse> create(@RequestBody CreateRecoveryBedRequest request,
+    public ResponseEntity<?> create(@RequestBody CreateRecoveryBedRequest request,
                                                       @RequestHeader(value = USER_ID_HEADER, required = false) String userId,
                                                       @RequestHeader(value = USER_NAME_HEADER, required = false) String userName) {
         CreateRecoveryBedCommand command = CreateRecoveryBedCommand.fromRequest(request, userId);
         RecoveryBedResponse response = mediator.send(command);
-        return ResponseEntity.status(HttpStatus.CREATED).body(response);
+        return ResponseEntity.ok(response);
     }
 
     @PatchMapping("/{id}")

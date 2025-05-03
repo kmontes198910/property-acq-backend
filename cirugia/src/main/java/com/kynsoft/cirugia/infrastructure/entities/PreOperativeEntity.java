@@ -32,12 +32,6 @@ public class PreOperativeEntity {
     @Column(name = "physical_examination", columnDefinition = "TEXT")
     private String physicalExamination;
 
-    @Column(name = "surgery_room_date")
-    private LocalDateTime surgeryRoomDate;
-
-    @Column(name = "business_id", nullable = false)
-    private UUID businessId;
-
     @CreationTimestamp
     @Column(updatable = false)
     private LocalDateTime createdAt;
@@ -54,8 +48,4 @@ public class PreOperativeEntity {
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "surgery_id", referencedColumnName = "id", insertable = false, updatable = false)
     private SurgeryEntity surgery;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "business_id", referencedColumnName = "id", insertable = false, updatable = false)
-    private Business business;
 }
