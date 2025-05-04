@@ -16,5 +16,4 @@ public class CreateDiagnosisRequest {
     private String description;
     private String type;
     private UUID surgeryId;
-    private UUID createdBy;
 }

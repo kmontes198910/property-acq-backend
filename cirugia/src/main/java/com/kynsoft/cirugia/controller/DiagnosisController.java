@@ -5,9 +5,8 @@ import com.kynsof.share.core.domain.request.SearchRequest;
 import com.kynsof.share.core.domain.response.PaginatedResponse;
 import com.kynsof.share.core.infrastructure.bus.IMediator;
 import com.kynsoft.cirugia.application.command.diagnosis.create.CreateDiagnosisCommand;
+import com.kynsoft.cirugia.application.command.diagnosis.create.CreateDiagnosisMessage;
 import com.kynsoft.cirugia.application.command.diagnosis.create.CreateDiagnosisRequest;
-import com.kynsoft.cirugia.application.command.diagnosis.update.UpdateDiagnosisCommand;
-import com.kynsoft.cirugia.application.command.diagnosis.update.UpdateDiagnosisRequest;
 import com.kynsoft.cirugia.application.command.diagnosis.delete.DeleteDiagnosisCommand;
 import com.kynsoft.cirugia.application.query.diagnosis.getbyid.GetDiagnosisByIdQuery;
 import com.kynsoft.cirugia.application.query.diagnosis.getbyid.DiagnosisResponse;
@@ -27,6 +26,8 @@ import java.util.UUID;
 public class DiagnosisController {
 
     private final IMediator mediator;
+    private static final String USER_ID_HEADER = "X-User-ID";
+    private static final String USER_NAME_HEADER = "X-User-Name";
 
     @GetMapping("/{id}")
     public ResponseEntity<DiagnosisResponse> getById(@PathVariable UUID id) {
@@ -43,17 +44,13 @@ public class DiagnosisController {
     }
 
     @PostMapping
-    public ResponseEntity<?> create(@RequestBody CreateDiagnosisRequest request) {
-        CreateDiagnosisCommand command = CreateDiagnosisCommand.fromRequest(request);
-        mediator.send(command);
-        return ResponseEntity.status(HttpStatus.CREATED).build();
-    }
-
-    @PutMapping("/{id}")
-    public ResponseEntity<?> update(@PathVariable UUID id, @RequestBody UpdateDiagnosisRequest request) {
-        UpdateDiagnosisCommand command = UpdateDiagnosisCommand.fromRequest(request, id);
-        mediator.send(command);
-        return ResponseEntity.ok().build();
+    @ResponseStatus(HttpStatus.CREATED)
+    public ResponseEntity<?> create(@RequestBody CreateDiagnosisRequest request,
+                                    @RequestHeader(value = USER_ID_HEADER) String userId,
+                                    @RequestHeader(value = USER_NAME_HEADER) String userName) {
+        CreateDiagnosisCommand command = CreateDiagnosisCommand.fromRequest(request, UUID.fromString(userId));
+        CreateDiagnosisMessage resposne = mediator.send(command);
+        return ResponseEntity.ok(resposne);
     }
 
     @DeleteMapping("/{id}")
