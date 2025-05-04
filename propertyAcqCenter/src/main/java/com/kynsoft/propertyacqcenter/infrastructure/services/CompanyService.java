@@ -7,7 +7,6 @@ import com.kynsoft.propertyacqcenter.application.response.CompanyResponse;
 import com.kynsoft.propertyacqcenter.domain.dto.CompanyDto;
 import com.kynsoft.propertyacqcenter.domain.dto.exception.CompanyNotFoundException;
 import com.kynsoft.propertyacqcenter.infrastructure.entity.Company;
-import com.kynsoft.propertyacqcenter.infrastructure.entity.LegalEntity;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;

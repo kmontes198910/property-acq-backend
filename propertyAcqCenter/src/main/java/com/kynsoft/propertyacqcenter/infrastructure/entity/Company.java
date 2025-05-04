@@ -1,13 +1,11 @@
 package com.kynsoft.propertyacqcenter.infrastructure.entity;
 
 import com.kynsoft.propertyacqcenter.domain.dto.CompanyDto;
-import com.kynsoft.propertyacqcenter.domain.enums.ContactRole;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
@@ -35,11 +33,13 @@ public class Company {
 
     @Column(name = "title")
     private String title;
+
     @Column(name = "ownership_percentage")
     private Double ownershipPercentage;
     
     @Column(name = "signature_authority")
     private Boolean signatureAuthority;
+
     @Column(name = "notes", columnDefinition = "TEXT")
     private String notes;
 
@@ -70,6 +70,8 @@ public class Company {
     public Company(CompanyDto dto) {
         this.id = dto.getId() != null ? dto.getId() : UUID.randomUUID();
         this.companyType = dto.getCompanyType() != null ? new CompanyType(dto.getCompanyType()) : null;
+        this.business = dto.getBusiness() != null ? new Business(dto.getBusiness()) : null;
+        this.subCompanyType = dto.getSubCompanyType() != null ? new SubCompanyType(dto.getSubCompanyType()) : null;
         this.title = dto.getTitle();
         this.ownershipPercentage = dto.getOwnershipPercentage();
         this.signatureAuthority = dto.getSignatureAuthority();
@@ -81,7 +83,9 @@ public class Company {
     public CompanyDto toAggregateSimple() {
         return CompanyDto.builder()
                 .id(this.id)
+                .business(business != null ? this.business.toAggregate() : null)
                 .companyType(this.companyType != null ? this.companyType.toAggregate() : null)
+                .subCompanyType(subCompanyType != null ? this.subCompanyType.toAggregateSimple() : null)
                 .title(this.title)
                 .ownershipPercentage(this.ownershipPercentage)
                 .signatureAuthority(this.signatureAuthority)

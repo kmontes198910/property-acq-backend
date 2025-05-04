@@ -1,6 +1,6 @@
 package com.kynsoft.propertyacqcenter.infrastructure.entity;
 
-import com.kynsoft.propertyacqcenter.domain.dto.AddressDto;
+import com.kynsoft.propertyacqcenter.domain.dto.CompanyAddressDto;
 import com.kynsoft.propertyacqcenter.domain.enums.AddressType;
 import jakarta.persistence.*;
 import lombok.*;
@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
-@Table(name = "addresses")
+@Table(name = "company_addresses")
 @Getter
 @Setter
 @NoArgsConstructor
@@ -66,5 +66,56 @@ public class CompanyAddress {
     @Column(name = "updated_by")
     private UUID updatedBy;
 
+    public CompanyAddress(CompanyAddressDto dto) {
+        this.id = dto.getId();
+        this.company = dto.getCompany() != null ? new Company(dto.getCompany()) : null;
+        this.addressType = dto.getAddressType();
+        this.streetAddress1 = dto.getStreetAddress1();
+        this.streetAddress2 = dto.getStreetAddress2();
+        this.city = dto.getCity();
+        this.state = dto.getState();
+        this.zipCode = dto.getZipCode();
+        this.country = dto.getCountry();
+        this.isPrimary = dto.getIsPrimary();
+        this.createdBy = dto.getCreatedBy();
+        this.updatedBy = dto.getUpdatedBy();
+    }
+
+    public CompanyAddressDto toAggregateSimple() {
+        return CompanyAddressDto.builder()
+                .id(this.id)
+                .company(company != null ? this.company.toAggregate() : null)
+                .addressType(addressType)
+                .streetAddress1(streetAddress1)
+                .streetAddress2(streetAddress2)
+                .city(city)
+                .state(state)
+                .zipCode(zipCode)
+                .country(country)
+                .isPrimary(isPrimary)
+                .createdAt(this.createdAt)
+                .updatedAt(this.updatedAt)
+                .createdBy(this.createdBy)
+                .updatedBy(this.updatedBy)
+                .build();
+    }
+
+    public CompanyAddressDto toAggregate() {
+        return CompanyAddressDto.builder()
+                .id(this.id)
+                .addressType(addressType)
+                .streetAddress1(streetAddress1)
+                .streetAddress2(streetAddress2)
+                .city(city)
+                .state(state)
+                .zipCode(zipCode)
+                .country(country)
+                .isPrimary(isPrimary)
+                .createdAt(this.createdAt)
+                .updatedAt(this.updatedAt)
+                .createdBy(this.createdBy)
+                .updatedBy(this.updatedBy)
+                .build();
+    }
 
 }

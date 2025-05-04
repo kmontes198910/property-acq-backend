@@ -1,34 +1,17 @@
 package com.kynsoft.propertyacqcenter.application.command.company.update;
 
-import com.kynsoft.propertyacqcenter.domain.enums.ContactRole;
 import lombok.Getter;
 
-import java.time.LocalDate;
 import java.util.UUID;
 
 @Getter
 public class UpdateCompanyRequest {
 
-    private UUID legalEntityId;
+    private UUID business;
     private UUID companyType;
-    private String firstName;
-    private String lastName;
-    private ContactRole role;
-    private String email;
-    private String phone;
-    private String cellPhone;
+    private UUID subCompanyType;
     private String title;
-    private LocalDate dateOfBirth;
-    private String personalTaxId;
-    private String nationality;
-    private String personalAddress;
-    private String city;
-    private String state;
-    private String zipCode;
-    private String personalEmail;
-    private Boolean isPrimary;
     private Double ownershipPercentage;
     private Boolean signatureAuthority;
     private String notes;
-    private UUID updatedBy;
 }
