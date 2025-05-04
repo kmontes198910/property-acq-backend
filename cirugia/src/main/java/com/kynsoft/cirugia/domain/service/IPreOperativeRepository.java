@@ -6,7 +6,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 public interface IPreOperativeRepository {
-    PreOperative save(PreOperative preOperative);
+    PreOperative create(PreOperative preOperative);
     Optional<PreOperative> findById(String id);
     Optional<PreOperative> findBySurgeryId(UUID surgeryId);
     void deleteById(String id);

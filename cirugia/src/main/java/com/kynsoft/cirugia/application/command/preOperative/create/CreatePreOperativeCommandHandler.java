@@ -33,7 +33,7 @@ public class CreatePreOperativeCommandHandler implements ICommandHandler<CreateP
                 .createdBy(command.getCreatedBy())
                 .build();
         
-        preOperativeRepository.save(preOperative);
+        preOperativeRepository.create(preOperative);
         command.setId(id);
         log.info("PreOperative created with ID: {}", preOperative.getId());
     }

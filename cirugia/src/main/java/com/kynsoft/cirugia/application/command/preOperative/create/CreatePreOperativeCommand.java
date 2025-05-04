@@ -23,12 +23,12 @@ public class CreatePreOperativeCommand implements ICommand {
     
     public static CreatePreOperativeCommand fromRequest(CreatePreOperativeRequest request, String userId) {
         return CreatePreOperativeCommand.builder()
-                .id(request.getId())
+                .id(UUID.randomUUID())
                 .surgeryId(request.getSurgeryId())
                 .admissionReason(request.getAdmissionReason())
                 .currentDiseaseHistory(request.getCurrentDiseaseHistory())
                 .physicalExamination(request.getPhysicalExamination())
-                .createdBy(userId != null ? UUID.fromString(userId) : request.getCreatedBy())
+                .createdBy(UUID.fromString(userId))
                 .build();
     }
 

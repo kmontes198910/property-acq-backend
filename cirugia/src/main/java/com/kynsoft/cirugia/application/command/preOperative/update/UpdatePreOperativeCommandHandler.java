@@ -36,7 +36,7 @@ public class UpdatePreOperativeCommandHandler implements ICommandHandler<UpdateP
             preOperative.setUpdatedAt(LocalDateTime.now());
             preOperative.setUpdatedBy(command.getUpdatedBy());
             
-            preOperativeRepository.save(preOperative);
+            preOperativeRepository.create(preOperative);
             log.info("PreOperative updated successfully");
         } else {
             log.error("PreOperative with ID {} not found", command.getId());

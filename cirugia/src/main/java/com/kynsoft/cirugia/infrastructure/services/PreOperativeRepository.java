@@ -3,26 +3,30 @@ package com.kynsoft.cirugia.infrastructure.services;
 import com.kynsoft.cirugia.domain.dto.PreOperative;
 import com.kynsoft.cirugia.domain.service.IPreOperativeRepository;
 import com.kynsoft.cirugia.infrastructure.entities.PreOperativeEntity;
+import com.kynsoft.cirugia.infrastructure.repository.command.PreOperativetWriteRepository;
+import com.kynsoft.cirugia.infrastructure.repository.query.PreOperativeReadRepository;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
-import jakarta.persistence.EntityManager;
 import jakarta.persistence.NoResultException;
-import jakarta.persistence.TypedQuery;
 import java.time.LocalDateTime;
 import java.util.Optional;
 import java.util.UUID;
 
 @Repository
+@Transactional
 public class PreOperativeRepository implements IPreOperativeRepository {
 
-    private final EntityManager entityManager;
+    private final PreOperativetWriteRepository preOperativeWriteRepository;
+    private final PreOperativeReadRepository preOperativeReadRepository;
 
-    public PreOperativeRepository(EntityManager entityManager) {
-        this.entityManager = entityManager;
+    public PreOperativeRepository(PreOperativetWriteRepository writeRepository, PreOperativeReadRepository readRepository) {
+        this.preOperativeWriteRepository = writeRepository;
+        this.preOperativeReadRepository = readRepository;
     }
 
     @Override
-    public PreOperative save(PreOperative preOperative) {
+    public PreOperative create(PreOperative preOperative) {
         if (preOperative.getId() == null) {
             preOperative.setId(UUID.randomUUID());
             preOperative.setCreatedAt(LocalDateTime.now());
@@ -30,40 +34,33 @@ public class PreOperativeRepository implements IPreOperativeRepository {
         preOperative.setUpdatedAt(LocalDateTime.now());
         
         PreOperativeEntity entity = mapToEntity(preOperative);
-        entityManager.merge(entity);
-        entityManager.flush();
-        return mapToDto(entity);
+        return mapToDto(preOperativeWriteRepository.save(entity));
     }
 
     @Override
     public Optional<PreOperative> findById(String id) {
         try {
-            PreOperativeEntity entity = entityManager.find(PreOperativeEntity.class, UUID.fromString(id));
-            return Optional.ofNullable(entity).map(this::mapToDto);
-        } catch (Exception e) {
+            return preOperativeReadRepository.findById(UUID.fromString(id))
+                   .map(this::mapToDto);
+        } catch (IllegalArgumentException e) {
             return Optional.empty();
         }
     }
 
     @Override
     public Optional<PreOperative> findBySurgeryId(UUID surgeryId) {
-        try {
-            TypedQuery<PreOperativeEntity> query = entityManager.createQuery(
-                    "SELECT p FROM PreOperativeEntity p WHERE p.surgeryId = :surgeryId", 
-                    PreOperativeEntity.class);
-            query.setParameter("surgeryId", surgeryId);
-            PreOperativeEntity entity = query.getSingleResult();
-            return Optional.ofNullable(entity).map(this::mapToDto);
-        } catch (NoResultException e) {
-            return Optional.empty();
-        }
+        return preOperativeReadRepository.findBySurgeryId(surgeryId)
+               .map(this::mapToDto);
     }
 
     @Override
     public void deleteById(String id) {
-        PreOperativeEntity entity = entityManager.find(PreOperativeEntity.class, UUID.fromString(id));
-        if (entity != null) {
-            entityManager.remove(entity);
+        try {
+            UUID uuid = UUID.fromString(id);
+            preOperativeWriteRepository.findById(uuid)
+                .ifPresent(preOperativeWriteRepository::delete);
+        } catch (IllegalArgumentException ignored) {
+            // UUID inválido, no se realiza acción
         }
     }
 

@@ -2,8 +2,10 @@ package com.kynsoft.cirugia.controller;
 
 import com.kynsof.share.core.infrastructure.bus.IMediator;
 import com.kynsoft.cirugia.application.command.preOperative.create.CreatePreOperativeCommand;
+import com.kynsoft.cirugia.application.command.preOperative.create.CreatePreOperativeMessage;
 import com.kynsoft.cirugia.application.command.preOperative.create.CreatePreOperativeRequest;
 import com.kynsoft.cirugia.application.command.preOperative.update.UpdatePreOperativeCommand;
+import com.kynsoft.cirugia.application.command.preOperative.update.UpdatePreOperativeMessage;
 import com.kynsoft.cirugia.application.command.preOperative.update.UpdatePreOperativeRequest;
 import com.kynsoft.cirugia.application.query.preoperative.getBySurgeryId.GetPreOperativeBySurgeryIdQuery;
 import com.kynsoft.cirugia.application.query.preoperative.getBySurgeryId.GetPreOperativeBySurgeryIdResponse;
@@ -18,7 +20,7 @@ import java.util.UUID;
 
 @Slf4j
 @RestController
-@RequestMapping("/api/v1/preoperatives")
+@RequestMapping("/api/preoperatives")
 @Tag(name = "PreOperative", description = "Endpoints para gestionar registros preoperatorios")
 public class PreOperativeController {
 
@@ -31,26 +33,24 @@ public class PreOperativeController {
     }
 
     @PostMapping
-    @ResponseStatus(HttpStatus.CREATED)
     @Operation(summary = "Crear un nuevo registro preoperatorio", description = "Crea un nuevo registro preoperatorio asociado a una cirugía")
-    public void create(@RequestBody CreatePreOperativeRequest request,
-                      @RequestHeader(value = USER_ID_HEADER, required = false) String userId,
-                      @RequestHeader(value = USER_NAME_HEADER, required = false) String userName) {
+    public ResponseEntity<?> create(@RequestBody CreatePreOperativeRequest request,
+                      @RequestHeader(value = USER_ID_HEADER) String userId) {
         log.info("Creating new PreOperative for surgery ID: {}", request.getSurgeryId());
         CreatePreOperativeCommand command = CreatePreOperativeCommand.fromRequest(request, userId);
-        mediator.send(command);
+        CreatePreOperativeMessage response = mediator.send(command);
+        return ResponseEntity.ok(response);
     }
 
-    @PutMapping("/{id}")
-    @ResponseStatus(HttpStatus.OK)
+    @PatchMapping("/{id}")
     @Operation(summary = "Actualizar un registro preoperatorio", description = "Actualiza los datos de un registro preoperatorio existente")
-    public void update(@PathVariable("id") UUID id, 
+    public ResponseEntity<?> update(@PathVariable("id") UUID id,
                       @RequestBody UpdatePreOperativeRequest request,
-                      @RequestHeader(value = USER_ID_HEADER, required = false) String userId,
-                      @RequestHeader(value = USER_NAME_HEADER, required = false) String userName) {
+                      @RequestHeader(value = USER_ID_HEADER, required = false) String userId) {
         log.info("Updating PreOperative with ID: {}", id);
         UpdatePreOperativeCommand command = UpdatePreOperativeCommand.fromRequest(request, id, userId);
-        mediator.send(command);
+        UpdatePreOperativeMessage response =mediator.send(command);
+        return ResponseEntity.ok(response);
     }
 
     @GetMapping("/surgery/{surgeryId}")

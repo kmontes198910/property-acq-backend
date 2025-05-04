@@ -28,7 +28,7 @@ public class UpdatePreOperativeCommand implements ICommand {
                 .admissionReason(request.getAdmissionReason())
                 .currentDiseaseHistory(request.getCurrentDiseaseHistory())
                 .physicalExamination(request.getPhysicalExamination())
-                .updatedBy(userId != null ? UUID.fromString(userId) : request.getUpdatedBy())
+                .updatedBy( UUID.fromString(userId))
                 .build();
     }
 
