@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import jakarta.persistence.NoResultException;
+import jakarta.persistence.TypedQuery;
 import java.time.LocalDateTime;
 import java.util.Optional;
 import java.util.UUID;
@@ -17,12 +18,12 @@ import java.util.UUID;
 @Transactional
 public class PreOperativeRepository implements IPreOperativeRepository {
 
-    private final PreOperativetWriteRepository preOperativeWriteRepository;
+    private final PreOperativetWriteRepository preOperativetWriteRepository;
     private final PreOperativeReadRepository preOperativeReadRepository;
 
-    public PreOperativeRepository(PreOperativetWriteRepository writeRepository, PreOperativeReadRepository readRepository) {
-        this.preOperativeWriteRepository = writeRepository;
-        this.preOperativeReadRepository = readRepository;
+    public PreOperativeRepository(PreOperativetWriteRepository entityManager, PreOperativeReadRepository preOperativeReadRepository) {
+        this.preOperativetWriteRepository = entityManager;
+        this.preOperativeReadRepository = preOperativeReadRepository;
     }
 
     @Override
@@ -34,33 +35,37 @@ public class PreOperativeRepository implements IPreOperativeRepository {
         preOperative.setUpdatedAt(LocalDateTime.now());
         
         PreOperativeEntity entity = mapToEntity(preOperative);
-        return mapToDto(preOperativeWriteRepository.save(entity));
+        preOperativetWriteRepository.save(entity);
+        preOperativetWriteRepository.flush();
+        return mapToDto(entity);
     }
 
     @Override
     public Optional<PreOperative> findById(String id) {
         try {
-            return preOperativeReadRepository.findById(UUID.fromString(id))
-                   .map(this::mapToDto);
-        } catch (IllegalArgumentException e) {
+            Optional<PreOperativeEntity> entity = preOperativeReadRepository.findById( UUID.fromString(id));
+            return Optional.ofNullable(entity.get()).map(this::mapToDto);
+        } catch (Exception e) {
             return Optional.empty();
         }
     }
 
     @Override
     public Optional<PreOperative> findBySurgeryId(UUID surgeryId) {
-        return preOperativeReadRepository.findBySurgeryId(surgeryId)
-               .map(this::mapToDto);
+        try {
+            Optional<PreOperativeEntity> entity = preOperativeReadRepository.findBySurgeryId(surgeryId);
+
+            return Optional.ofNullable(entity.get()).map(this::mapToDto);
+        } catch (NoResultException e) {
+            return Optional.empty();
+        }
     }
 
     @Override
     public void deleteById(String id) {
-        try {
-            UUID uuid = UUID.fromString(id);
-            preOperativeWriteRepository.findById(uuid)
-                .ifPresent(preOperativeWriteRepository::delete);
-        } catch (IllegalArgumentException ignored) {
-            // UUID inválido, no se realiza acción
+        Optional<PreOperativeEntity> entity = preOperativetWriteRepository.findById(UUID.fromString(id));
+        if (entity != null) {
+            preOperativetWriteRepository.delete(entity.get());
         }
     }
 

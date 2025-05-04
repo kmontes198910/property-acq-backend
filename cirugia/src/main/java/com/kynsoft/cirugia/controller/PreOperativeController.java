@@ -33,6 +33,7 @@ public class PreOperativeController {
     }
 
     @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
     @Operation(summary = "Crear un nuevo registro preoperatorio", description = "Crea un nuevo registro preoperatorio asociado a una cirugía")
     public ResponseEntity<?> create(@RequestBody CreatePreOperativeRequest request,
                       @RequestHeader(value = USER_ID_HEADER) String userId) {
@@ -43,6 +44,7 @@ public class PreOperativeController {
     }
 
     @PatchMapping("/{id}")
+    @ResponseStatus(HttpStatus.OK)
     @Operation(summary = "Actualizar un registro preoperatorio", description = "Actualiza los datos de un registro preoperatorio existente")
     public ResponseEntity<?> update(@PathVariable("id") UUID id,
                       @RequestBody UpdatePreOperativeRequest request,
