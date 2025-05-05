@@ -4,12 +4,10 @@ import com.kynsof.share.core.infrastructure.bus.IMediator;
 import com.kynsoft.propertyacqcenter.application.query.estimateValue.getEstimateValueExternalService.GetEstimateValueExternalServiceQuery;
 import com.kynsoft.propertyacqcenter.application.query.restEstimate.getRentEstimateExternalService.GetRentEstimateExternalServiceQuery;
 import com.kynsoft.propertyacqcenter.application.query.property.getPropertyDetailsExternalService.GetPropertyDetailsExternalServiceQuery;
-import com.kynsoft.propertyacqcenter.application.response.estimateValue.EstimatedValueResponse;
-import com.kynsoft.propertyacqcenter.application.response.property.PropertyDasboardResponse;
+import com.kynsoft.propertyacqcenter.application.response.rentcast.EstimatedValueResponse;
 import com.kynsoft.propertyacqcenter.application.response.rentcast.PropertyResponse;
 import com.kynsoft.propertyacqcenter.application.response.rentcast.SaleListingResponse;
 import com.kynsoft.propertyacqcenter.domain.services.IRentCastService;
-import com.kynsoft.propertyacqcenter.infrastructure.services.http.property.RentCastPropertyServiceImpl;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
