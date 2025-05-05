@@ -1,14 +1,7 @@
 package com.kynsoft.propertyacqcenter.infrastructure.services.mock;
 
+import com.kynsoft.propertyacqcenter.application.response.rentcast.PropertyResponse;
 import com.kynsoft.propertyacqcenter.domain.enums.PropertyType;
-import com.kynsoft.propertyacqcenter.infrastructure.services.http.property.dto.FeaturesDto;
-import com.kynsoft.propertyacqcenter.infrastructure.services.http.property.dto.HoaDto;
-import com.kynsoft.propertyacqcenter.infrastructure.services.http.property.dto.OwnerDto;
-import com.kynsoft.propertyacqcenter.infrastructure.services.http.property.dto.PropertyAddressDto;
-import com.kynsoft.propertyacqcenter.infrastructure.services.http.property.dto.PropertyDto;
-import com.kynsoft.propertyacqcenter.infrastructure.services.http.property.dto.PropertyTaxDto;
-import com.kynsoft.propertyacqcenter.infrastructure.services.http.property.dto.SaleHistoryDto;
-import com.kynsoft.propertyacqcenter.infrastructure.services.http.property.dto.TaxAssessmentsDto;
 import com.kynsoft.propertyacqcenter.domain.dto.property.saleListing.ListingAgentDto;
 import com.kynsoft.propertyacqcenter.domain.dto.property.saleListing.ListingHistoryDto;
 import com.kynsoft.propertyacqcenter.domain.dto.property.saleListing.ListingOfficeDto;
@@ -26,7 +19,7 @@ public class RentCastServiceMockImpl {
     public RentCastServiceMockImpl() {
     }
 
-    public List<PropertyDto> getPropertyDetails() {
+    public List<PropertyResponse> getPropertyDetails() {
         return List.of(this.createMockProperty());
     }
 
@@ -252,9 +245,9 @@ public class RentCastServiceMockImpl {
         property.setYearBuilt(2008);
 
         // Configurar HOA
-        HoaDto hoa = new HoaDto();
-        hoa.setFee(65);
-        property.setHoa(hoa);
+//        HoaDto hoa = new HoaDto();
+//        hoa.setFee(65);
+//        property.setHoa(hoa);
 
         // Configurar estado y precio
         property.setStatus(Status.ACTIVE);
@@ -298,13 +291,12 @@ public class RentCastServiceMockImpl {
         return saleListingDtos;
     }
 
-    private PropertyDto createMockProperty() {
+    private PropertyResponse createMockProperty() {
         // Crear la propiedad principal
-        PropertyDto property = new PropertyDto();
+        PropertyResponse property = new PropertyResponse();
 
         // Configurar datos básicos de la propiedad
-        UUID id = UUID.randomUUID();
-        property.setId(id.toString());
+        property.setId("5500-Grand-Lake-Dr,-San-Antonio,-TX-78244");
         property.setFormattedAddress("5500 Grand Lake Dr, San Antonio, TX 78244");
         property.setAddressLine1("5500 Grand Lake Dr");
         property.setCity("San Antonio");
@@ -313,7 +305,7 @@ public class RentCastServiceMockImpl {
         property.setCounty("Bexar");
         property.setLatitude(29.476011);
         property.setLongitude(-98.351454);
-        property.setPropertyType(PropertyType.APARTMENT);
+        property.setPropertyType(PropertyType.APARTMENT.name());
         property.setBedrooms(3);
         property.setBathrooms(2);
         property.setSquareFootage(1878);
@@ -329,58 +321,51 @@ public class RentCastServiceMockImpl {
         property.setLastSalePrice(185000);
 
         // Configurar HOA
-        HoaDto hoa = new HoaDto();
+        PropertyResponse.HOA hoa = new PropertyResponse.HOA();
         hoa.setFee(175);
         property.setHoa(hoa);
 
         // Configurar características
-        FeaturesDto features = new FeaturesDto();
-        features.setArchitectureType("Contemporary");
+        PropertyResponse.Features features = new PropertyResponse.Features();
         features.setCooling(true);
         features.setCoolingType("Central");
         features.setExteriorType("Wood");
-        features.setFireplace(true);
-        features.setFireplaceType("Masonry");
         features.setFloorCount(1);
         features.setFoundationType("Slab / Mat / Raft");
         features.setGarage(true);
         features.setGarageSpaces(2);
         features.setGarageType("Garage");
-        features.setHeating(true);
-        features.setHeatingType("Forced Air");
         features.setPool(true);
         features.setPoolType("Concrete");
         features.setRoofType("Asphalt");
-        features.setRoomCount(5);
         features.setUnitCount(1);
-        features.setViewType("City");
         property.setFeatures(features);
 
-        Map<String, TaxAssessmentsDto> taxAssessments = new HashMap<>();
-        taxAssessments.put("2019", new TaxAssessmentsDto(id, 2019, 135430, 23450, 111980));
-        taxAssessments.put("2020", new TaxAssessmentsDto(id, 2020, 142610, 23450, 119160));
-        taxAssessments.put("2021", new TaxAssessmentsDto(id, 2021, 197600, 49560, 148040));
-        taxAssessments.put("2022", new TaxAssessmentsDto(id, 2022, 225790, 59380, 166410));
+        Map<String, PropertyResponse.TaxAssessment> taxAssessments = new HashMap<>();
+        taxAssessments.put("2019", new PropertyResponse.TaxAssessment(2019, 135430, 23450, 111980));
+        taxAssessments.put("2020", new PropertyResponse.TaxAssessment(2020, 142610, 23450, 119160));
+        taxAssessments.put("2021", new PropertyResponse.TaxAssessment(2021, 197600, 49560, 148040));
+        taxAssessments.put("2022", new PropertyResponse.TaxAssessment(2022, 225790, 59380, 166410));
         property.setTaxAssessments(taxAssessments);
 
-        Map<String, PropertyTaxDto> propertyTaxes = new HashMap<>();
-        propertyTaxes.put("2019", new PropertyTaxDto());
-        propertyTaxes.put("2020", new PropertyTaxDto(2020, 3023));
-        propertyTaxes.put("2021", new PropertyTaxDto(2021, 3455));
-        propertyTaxes.put("2022", new PropertyTaxDto(2022, 4091));
-        propertyTaxes.put("2023", new PropertyTaxDto(2023, 4201));
+        Map<String, PropertyResponse.PropertyTax> propertyTaxes = new HashMap<>();
+        propertyTaxes.put("2019", new PropertyResponse.PropertyTax(0, 0));
+        propertyTaxes.put("2020", new PropertyResponse.PropertyTax(2020, 3023));
+        propertyTaxes.put("2021", new PropertyResponse.PropertyTax(2021, 3455));
+        propertyTaxes.put("2022", new PropertyResponse.PropertyTax(2022, 4091));
+        propertyTaxes.put("2023", new PropertyResponse.PropertyTax(2023, 4201));
         property.setPropertyTaxes(propertyTaxes);
 
-        Map<String, SaleHistoryDto> history = new HashMap<>();
-        history.put("2004-06-16", new SaleHistoryDto("Sale", "2025-04-29T12:36:08.365", 95000));
-        history.put("2017-10-19", new SaleHistoryDto("Sale", "2025-04-29T12:36:08.365", 185000));
+        Map<String, PropertyResponse.History> history = new HashMap<>();
+        history.put("2004-06-16", new PropertyResponse.History("Sale", "2025-04-29T12:36:08.365", 95000));
+        history.put("2017-10-19", new PropertyResponse.History("Sale", "2025-04-29T12:36:08.365", 185000));
         property.setHistory(history);
 
-        OwnerDto owner = new OwnerDto();
+        PropertyResponse.Owner owner = new PropertyResponse.Owner();
         owner.setNames(List.of("Michael Smith"));
         owner.setType("Individual");
 
-        PropertyAddressDto mailingAddress = new PropertyAddressDto();
+        PropertyResponse.MailingAddress mailingAddress = new PropertyResponse.MailingAddress();
         mailingAddress.setId("149-Weaver-Blvd,---264,-Weaverville,-NC-28787");
         mailingAddress.setFormattedAddress("149 Weaver Blvd, # 264, Weaverville, NC 28787");
         mailingAddress.setAddressLine1("149 Weaver Blvd");

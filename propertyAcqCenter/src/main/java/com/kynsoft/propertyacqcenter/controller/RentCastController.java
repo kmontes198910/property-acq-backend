@@ -1,11 +1,14 @@
 package com.kynsoft.propertyacqcenter.controller;
 
 import com.kynsof.share.core.infrastructure.bus.IMediator;
+import com.kynsoft.propertyacqcenter.application.query.dashboardRequest.GetDashboardInfoQuery;
 import com.kynsoft.propertyacqcenter.application.query.estimateValue.getEstimateValueExternalService.GetEstimateValueExternalServiceQuery;
 import com.kynsoft.propertyacqcenter.application.query.restEstimate.getRentEstimateExternalService.GetRentEstimateExternalServiceQuery;
 import com.kynsoft.propertyacqcenter.application.query.property.getPropertyDetailsExternalService.GetPropertyDetailsExternalServiceQuery;
+import com.kynsoft.propertyacqcenter.application.response.dashboardInfo.DashboardInfoResponse;
 import com.kynsoft.propertyacqcenter.application.response.rentcast.EstimatedValueResponse;
 import com.kynsoft.propertyacqcenter.application.response.rentcast.PropertyResponse;
+import com.kynsoft.propertyacqcenter.application.response.rentcast.RentEstimateResponse;
 import com.kynsoft.propertyacqcenter.application.response.rentcast.SaleListingResponse;
 import com.kynsoft.propertyacqcenter.domain.services.IRentCastService;
 import org.springframework.web.bind.annotation.*;
@@ -41,6 +44,14 @@ public class RentCastController {
         return ResponseEntity.ok(response);
     }
 
+    @GetMapping("/dashboard-info")
+    public ResponseEntity<DashboardInfoResponse> getDashboardInfo(@RequestParam String address) {
+        GetDashboardInfoQuery query = new GetDashboardInfoQuery(address);
+        DashboardInfoResponse response = mediator.send(query);
+
+        return ResponseEntity.ok(response);
+    }
+
     @GetMapping("/value/details")
     public ResponseEntity<EstimatedValueResponse> valueDetails(@RequestParam String address) {
         GetEstimateValueExternalServiceQuery query = new GetEstimateValueExternalServiceQuery(address);
@@ -50,9 +61,9 @@ public class RentCastController {
     }
 
     @GetMapping("/rent/details")
-    public ResponseEntity<EstimatedValueResponse> rentDetails(@RequestParam String address) {
+    public ResponseEntity<RentEstimateResponse> rentDetails(@RequestParam String address) {
         GetRentEstimateExternalServiceQuery query = new GetRentEstimateExternalServiceQuery(address);
-        EstimatedValueResponse response = mediator.send(query);
+        RentEstimateResponse response = mediator.send(query);
 
         return ResponseEntity.ok(response);
     }

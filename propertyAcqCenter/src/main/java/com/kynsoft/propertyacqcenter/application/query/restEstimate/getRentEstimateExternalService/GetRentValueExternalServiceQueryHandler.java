@@ -1,12 +1,12 @@
 package com.kynsoft.propertyacqcenter.application.query.restEstimate.getRentEstimateExternalService;
 
 import com.kynsof.share.core.domain.bus.query.IQueryHandler;
-import com.kynsoft.propertyacqcenter.application.response.estimateValue.EstimatedValueResponse;
+import com.kynsoft.propertyacqcenter.application.response.rentcast.RentEstimateResponse;
 import com.kynsoft.propertyacqcenter.infrastructure.services.http.rentEstimate.RentCastRentEstimateServiceImpl;
 import org.springframework.stereotype.Component;
 
 @Component
-public class GetRentValueExternalServiceQueryHandler implements IQueryHandler<GetRentEstimateExternalServiceQuery, EstimatedValueResponse>{
+public class GetRentValueExternalServiceQueryHandler implements IQueryHandler<GetRentEstimateExternalServiceQuery, RentEstimateResponse>{
 
     private final RentCastRentEstimateServiceImpl resCastRentEstimateServiceImpl;
 
@@ -15,8 +15,8 @@ public class GetRentValueExternalServiceQueryHandler implements IQueryHandler<Ge
     }
 
     @Override
-    public EstimatedValueResponse handle(GetRentEstimateExternalServiceQuery query) {
+    public RentEstimateResponse handle(GetRentEstimateExternalServiceQuery query) {
 
-        return new EstimatedValueResponse(this.resCastRentEstimateServiceImpl.getRentEstimate(query.getAddress()));
+        return this.resCastRentEstimateServiceImpl.getRentEstimate(query.getAddress());
     }
 }
