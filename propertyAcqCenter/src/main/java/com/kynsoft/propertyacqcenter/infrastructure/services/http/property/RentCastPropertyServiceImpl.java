@@ -4,6 +4,7 @@ import com.kynsof.share.core.domain.exception.BusinessNotFoundException;
 import com.kynsof.share.core.domain.exception.DomainErrorMessage;
 import com.kynsof.share.core.domain.exception.GlobalBusinessException;
 import com.kynsof.share.core.domain.response.ErrorField;
+import com.kynsoft.propertyacqcenter.application.response.rentcast.PropertyResponse;
 import com.kynsoft.propertyacqcenter.infrastructure.services.http.property.dto.PropertyDto;
 import com.kynsoft.propertyacqcenter.infrastructure.services.mock.RentCastServiceMockImpl;
 import java.net.URLEncoder;
@@ -46,7 +47,7 @@ public class RentCastPropertyServiceImpl {
     }
 
     //TODO: La response de este metodo, lo vamos a trasformar en la capa de application.
-    public List<PropertyDto> getPropertyDetails(String address) {
+    public List<PropertyResponse> getPropertyDetails(String address) {
         try {
             String cleanedAddress = address.trim(); // Elimina espacios al inicio/final
             String encodedAddress = URLEncoder.encode(cleanedAddress, StandardCharsets.UTF_8);
@@ -63,12 +64,12 @@ public class RentCastPropertyServiceImpl {
             HttpEntity<UUID> entity = new HttpEntity<>(UUID.randomUUID(), headers);
 
             // Usar ParameterizedTypeReference para especificar el tipo genérico
-            ParameterizedTypeReference<List<PropertyDto>> responseType
-                    = new ParameterizedTypeReference<List<PropertyDto>>() {
+            ParameterizedTypeReference<List<PropertyResponse>> responseType
+                    = new ParameterizedTypeReference<List<PropertyResponse>>() {
             };
 
             // Enviar la solicitud POST al endpoint del controlador
-            ResponseEntity<List<PropertyDto>> response = restTemplate.exchange(
+            ResponseEntity<List<PropertyResponse>> response = restTemplate.exchange(
                     url,
                     HttpMethod.GET,
                     createHttpEntity(),
@@ -83,10 +84,11 @@ public class RentCastPropertyServiceImpl {
             }
             return response.getBody();
         } catch (RestClientException e) {
-            throw new BusinessNotFoundException(new GlobalBusinessException(
-                    DomainErrorMessage.BUSINESS_NOT_FOUND,
-                    new ErrorField("id", DomainErrorMessage.BUSINESS_NOT_FOUND.getReasonPhrase())
-            ));
+            throw new RuntimeException(e);
+//            throw new BusinessNotFoundException(new GlobalBusinessException(
+//                    DomainErrorMessage.BUSINESS_NOT_FOUND,
+//                    new ErrorField("id", DomainErrorMessage.BUSINESS_NOT_FOUND.getReasonPhrase())
+//            ));
         }
     }
 }
