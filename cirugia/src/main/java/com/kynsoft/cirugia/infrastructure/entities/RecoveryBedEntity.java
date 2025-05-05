@@ -45,8 +45,9 @@ public class RecoveryBedEntity {
     
     @Column(name = "has_oxygen_supply")
     private Boolean hasOxygenSupply;
+    @Column(name = "last_maintenance_date")
+    private LocalDateTime lastMaintenanceDate;
 
-    
     @CreationTimestamp
     @Column(updatable = false)
     private LocalDateTime createdAt;

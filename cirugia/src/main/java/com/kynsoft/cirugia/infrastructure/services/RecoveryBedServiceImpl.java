@@ -187,6 +187,7 @@ public class RecoveryBedServiceImpl implements IRecoveryBedService {
                 .room(recoveryBed.getRoom())
                 .hasMonitor(recoveryBed.getHasMonitor())
                 .hasOxygenSupply(recoveryBed.getHasOxygenSupply())
+                .lastMaintenanceDate(recoveryBed.getLastMaintenanceDate())
                 .createdAt(recoveryBed.getCreatedAt())
                 .updatedAt(recoveryBed.getUpdatedAt())
                 .createdBy(recoveryBed.getCreatedBy())
