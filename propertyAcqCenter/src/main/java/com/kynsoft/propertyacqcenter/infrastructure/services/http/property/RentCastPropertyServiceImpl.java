@@ -53,9 +53,10 @@ public class RentCastPropertyServiceImpl {
             String encodedAddress = URLEncoder.encode(cleanedAddress, StandardCharsets.UTF_8);
 
             //verdadero
-            String url = BASE_URL + "/properties?address=" + encodedAddress;
+            String url = BASE_URL + "/properties?address=" + cleanedAddress;
             //String url = BASE_URL + "/property/fake";
 
+            System.err.println("Url: " + url);
             // Crear cabeceras para la solicitud
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.APPLICATION_JSON);
