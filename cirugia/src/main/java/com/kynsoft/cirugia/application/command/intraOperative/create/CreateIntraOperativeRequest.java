@@ -15,9 +15,6 @@ import java.util.UUID;
 @AllArgsConstructor
 public class CreateIntraOperativeRequest {
     private UUID surgeryId;
-    private LocalDate date;
-    private LocalTime startTime;
-    private LocalTime endTime;
     private String procedureType;
     private String anesthesiaType;
     private String projectedProcedure;

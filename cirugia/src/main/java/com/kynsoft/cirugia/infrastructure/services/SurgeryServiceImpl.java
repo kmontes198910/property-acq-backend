@@ -72,14 +72,11 @@ public class SurgeryServiceImpl implements ISurgeryService {
         entity.setPatientId(surgery.getPatientId());
         entity.setDoctorId(surgery.getDoctorId());
         entity.setSpecialtyId(surgery.getSpecialtyId());
-        entity.setRecoveryBedEntityId(surgery.getRecoveryBedEntityId());
-        entity.setOperatingRoomId(surgery.getOperatingRoomId());
         entity.setSurgeryType(surgery.getSurgeryType());
         entity.setScheduledDate(surgery.getScheduledDate());
         entity.setStartTime(surgery.getStartTime());
         entity.setEndingTime(surgery.getEndingTime());
         entity.setRequiresHospitalization(surgery.getRequiresHospitalization());
-        entity.setBusinessId(surgery.getBusinessId());
         entity.setUpdatedBy(surgery.getUpdatedBy());
         entity.setUpdatedAt(LocalDateTime.now());
         
@@ -127,8 +124,7 @@ public class SurgeryServiceImpl implements ISurgeryService {
 
     @Override
     @Transactional(readOnly = true)
-    @Cacheable(cacheNames = SurgeryCacheConfig.SURGERY_SERVICE_CACHE, key = "#id", unless = "#result == null")
-    public Optional<Surgery> getSurgeryById(UUID id) {
+     public Optional<Surgery> getSurgeryById(UUID id) {
         log.info("Finding surgery with ID: {}", id);
         return surgeryReadRepository.findById(id)
                 .map(this::mapToDomain);
@@ -235,7 +231,6 @@ public class SurgeryServiceImpl implements ISurgeryService {
 
     @Override
     @Transactional(readOnly = true)
-    @Cacheable(cacheNames = SurgeryCacheConfig.SURGERY_SERVICE_CACHE, key = "'entity:' + #id", unless = "#result == null")
     public Optional<SurgeryEntity> getSurgeryEntityById(UUID id) {
         log.info("Finding surgery entity with ID: {}", id);
         return surgeryReadRepository.findById(id);

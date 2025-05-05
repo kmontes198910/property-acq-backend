@@ -27,7 +27,6 @@ public class CreateIntraOperativeCommandHandler implements ICommandHandler<Creat
                 .surgeryId(command.getSurgeryId())
                 .date(command.getDate())
                 .startTime(command.getStartTime())
-                .endTime(command.getEndTime())
                 .procedureType(command.getProcedureType())
                 .anesthesiaType(command.getAnesthesiaType())
                 .projectedProcedure(command.getProjectedProcedure())

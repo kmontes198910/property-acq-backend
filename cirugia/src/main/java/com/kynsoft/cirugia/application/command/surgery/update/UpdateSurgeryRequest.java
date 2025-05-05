@@ -18,12 +18,9 @@ public class UpdateSurgeryRequest {
     private UUID patientId;
     private UUID doctorId;
     private UUID specialtyId;
-    private UUID recoveryBedEntityId;
-    private UUID operatingRoomId;
     private String surgeryType;
     private LocalDate scheduledDate;
     private LocalTime startTime;
     private LocalTime endingTime;
     private Boolean requiresHospitalization;
-    private UUID updatedBy;
 }

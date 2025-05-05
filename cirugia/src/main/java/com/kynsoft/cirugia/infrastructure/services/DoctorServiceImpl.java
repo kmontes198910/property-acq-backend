@@ -11,18 +11,23 @@ import com.kynsof.share.core.infrastructure.specifications.GenericSpecifications
 import com.kynsoft.cirugia.application.response.DoctorResponse;
 import com.kynsoft.cirugia.domain.dto.DoctorDto;
 import com.kynsoft.cirugia.domain.service.IDoctorService;
+import com.kynsoft.cirugia.infrastructure.config.SurgeryCacheConfig;
 import com.kynsoft.cirugia.infrastructure.entities.Doctor;
 import com.kynsoft.cirugia.infrastructure.repository.command.DoctorWriteDataJPARepository;
 import com.kynsoft.cirugia.infrastructure.repository.query.DoctorReadDataJPARepository;
 import com.kynsoft.cirugia.infrastructure.services.http.DoctorHttpUUIDService;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.*;
 
 @Service
+@Transactional(readOnly = true)
 public class DoctorServiceImpl implements IDoctorService {
 
     private final DoctorWriteDataJPARepository repositoryCommand;
@@ -38,11 +43,15 @@ public class DoctorServiceImpl implements IDoctorService {
     }
 
     @Override
+    @Transactional
+    @CacheEvict(value = SurgeryCacheConfig.TEAM_MEDICAL_CACHE, allEntries = true)
     public void create(DoctorDto object) {
         this.repositoryCommand.save(new Doctor(object));
     }
 
     @Override
+    @Transactional
+    @CacheEvict(value = SurgeryCacheConfig.TEAM_MEDICAL_CACHE, allEntries = true)
     public void update(DoctorDto objectDto) {
         Doctor update = new Doctor(objectDto);
         update.setUpdatedAt(LocalDateTime.now());
@@ -50,6 +59,8 @@ public class DoctorServiceImpl implements IDoctorService {
     }
 
     @Override
+    @Transactional
+    @CacheEvict(value = SurgeryCacheConfig.TEAM_MEDICAL_CACHE, allEntries = true)
     public void delete(UUID id) {
         try {
             this.repositoryCommand.deleteById(id);
@@ -59,6 +70,7 @@ public class DoctorServiceImpl implements IDoctorService {
     }
 
     @Override
+    @Cacheable(value = SurgeryCacheConfig.TEAM_MEDICAL_CACHE, key = "#id")
     public DoctorDto findById(UUID id) {
         Optional<Doctor> patient = this.repositoryQuery.findById(id);
         if (patient.isPresent()) {
@@ -77,6 +89,9 @@ public class DoctorServiceImpl implements IDoctorService {
     }
 
     @Override
+    @Cacheable(value = SurgeryCacheConfig.TEAM_MEDICAL_CACHE, 
+            key = "'search:' + #pageable.pageNumber + ':' + #pageable.pageSize + ':' + #pageable.sort + ':' + T(java.util.Objects).hash(#filterCriteria)",
+            unless = "#result == null")
     public PaginatedResponse search(Pageable pageable, List<FilterCriteria> filterCriteria) {
         GenericSpecificationsBuilder<Doctor> specifications = new GenericSpecificationsBuilder<>(filterCriteria);
         Page<Doctor> data = this.repositoryQuery.findAll(specifications, pageable);

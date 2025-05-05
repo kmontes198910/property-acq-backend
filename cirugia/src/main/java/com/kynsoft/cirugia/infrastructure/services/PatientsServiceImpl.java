@@ -3,6 +3,7 @@ package com.kynsoft.cirugia.infrastructure.services;
 import com.kynsof.share.core.domain.exception.BusinessNotFoundException;
 import com.kynsof.share.core.domain.exception.DomainErrorMessage;
 import com.kynsof.share.core.domain.exception.GlobalBusinessException;
+import com.kynsof.share.core.domain.http.entity.PatientHttp;
 import com.kynsof.share.core.domain.response.ErrorField;
 import com.kynsoft.cirugia.domain.dto.PatientDto;
 import com.kynsoft.cirugia.domain.dto.exception.PatientNotFoundException;
@@ -10,6 +11,7 @@ import com.kynsoft.cirugia.domain.service.IPatientsService;
 import com.kynsoft.cirugia.infrastructure.entities.Patient;
 import com.kynsoft.cirugia.infrastructure.repository.command.PatientsWriteDataJPARepository;
 import com.kynsoft.cirugia.infrastructure.repository.query.PatientsReadDataJPARepository;
+import com.kynsoft.cirugia.infrastructure.services.http.PatientHttpUUIDService;
 import jakarta.persistence.EntityNotFoundException;
 import java.util.Optional;
 import org.springframework.stereotype.Service;
@@ -22,10 +24,12 @@ public class PatientsServiceImpl implements IPatientsService {
     private final PatientsWriteDataJPARepository repositoryCommand;
 
     private final PatientsReadDataJPARepository repositoryQuery;
+    private final PatientHttpUUIDService patientHttpUUIDService;
 
-    public PatientsServiceImpl(PatientsWriteDataJPARepository repositoryCommand, PatientsReadDataJPARepository repositoryQuery) {
+    public PatientsServiceImpl(PatientsWriteDataJPARepository repositoryCommand, PatientsReadDataJPARepository repositoryQuery, PatientHttpUUIDService patientHttpUUIDService) {
         this.repositoryCommand = repositoryCommand;
         this.repositoryQuery = repositoryQuery;
+        this.patientHttpUUIDService = patientHttpUUIDService;
     }
 
     @Override
@@ -57,11 +61,33 @@ public class PatientsServiceImpl implements IPatientsService {
     
     @Override
     public PatientDto findById(UUID id) {
-        Optional<Patient> entity = repositoryQuery.findById(id);
-        if (entity.isPresent()) {
-            return entity.get().toAggregate();
-        }
-        throw new PatientNotFoundException(id);
+        return repositoryQuery.findById(id)
+                .map(Patient::toAggregate)
+                .orElseGet(() -> { // Si no se encuentra, lo buscamos en el servicio externo
+                    PatientHttp patient = patientHttpUUIDService.sendGetHttpRequest(id);
+
+                    if (patient == null) {
+                        throw new BusinessNotFoundException(new GlobalBusinessException(
+                                DomainErrorMessage.PATIENTS_NOT_FOUND,
+                                new ErrorField("id", "Patient not found in external service.")
+                        ));
+                    }
+
+                    PatientDto patientDto = new PatientDto(
+                            patient.getId(),
+                            patient.getIdentification(),
+                            patient.getEmail(),
+                            patient.getName(),
+                            patient.getLastName(),
+                            "",
+                            patient.getProfession()
+                    );
+
+                    // Guardamos en la base de datos
+                    repositoryCommand.save(new Patient(patientDto));
+
+                    return patientDto;
+                });
     }
 
     @Override

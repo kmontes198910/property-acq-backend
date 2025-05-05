@@ -14,9 +14,6 @@ import java.util.UUID;
 public class UpdateIntraOperativeCommand implements ICommand {
     private UUID id;
     private UUID surgeryId;
-    private LocalDate date;
-    private LocalTime startTime;
-    private LocalTime endTime;
     private String procedureType;
     private String anesthesiaType;
     private String projectedProcedure;
@@ -36,9 +33,6 @@ public class UpdateIntraOperativeCommand implements ICommand {
         return new UpdateIntraOperativeCommand(
                 id,
                 request.getSurgeryId(),
-                request.getDate(),
-                request.getStartTime(),
-                request.getEndTime(),
                 request.getProcedureType(),
                 request.getAnesthesiaType(),
                 request.getProjectedProcedure(),

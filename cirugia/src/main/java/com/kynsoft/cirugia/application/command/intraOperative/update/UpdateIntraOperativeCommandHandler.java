@@ -30,9 +30,6 @@ public class UpdateIntraOperativeCommandHandler implements ICommandHandler<Updat
             
             // Actualizar los campos
             intraOperative.setSurgeryId(command.getSurgeryId());
-            intraOperative.setDate(command.getDate());
-            intraOperative.setStartTime(command.getStartTime());
-            intraOperative.setEndTime(command.getEndTime());
             intraOperative.setProcedureType(command.getProcedureType());
             intraOperative.setAnesthesiaType(command.getAnesthesiaType());
             intraOperative.setProjectedProcedure(command.getProjectedProcedure());
@@ -47,7 +44,6 @@ public class UpdateIntraOperativeCommandHandler implements ICommandHandler<Updat
             intraOperative.setDescription(command.getDescription());
             intraOperative.setUpdatedAt(LocalDateTime.now());
             intraOperative.setUpdatedBy(command.getUpdatedBy());
-            
             intraOperativeRepository.update(intraOperative);
             log.info("IntraOperative updated successfully");
         } else {

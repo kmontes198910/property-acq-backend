@@ -20,7 +20,7 @@ import java.util.UUID;
 
 @Slf4j
 @RestController
-@RequestMapping("/api/v1/intraoperatives")
+@RequestMapping("/api/intraoperatives")
 @Tag(name = "IntraOperative", description = "Endpoints para gestionar registros intraoperatorios")
 public class IntraOperativeController {
 
@@ -45,7 +45,7 @@ public class IntraOperativeController {
 
     }
 
-    @PutMapping("/{id}")
+    @PatchMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     @Operation(summary = "Actualizar un registro intraoperatorio", description = "Actualiza los datos de un registro intraoperatorio existente")
     public ResponseEntity<?> update(@PathVariable("id") UUID id, @RequestBody UpdateIntraOperativeRequest request,

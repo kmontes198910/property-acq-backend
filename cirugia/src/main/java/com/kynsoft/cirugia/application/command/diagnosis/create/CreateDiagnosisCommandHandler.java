@@ -29,6 +29,7 @@ public class CreateDiagnosisCommandHandler implements ICommandHandler<CreateDiag
                 .createdBy(command.getCreatedBy())
                 .build();
         
-        diagnosisService.create(diagnosis);
+      Diagnosis diagnosisResponse =  diagnosisService.create(diagnosis);
+      command.setId(diagnosisResponse.getId());
     }
 }

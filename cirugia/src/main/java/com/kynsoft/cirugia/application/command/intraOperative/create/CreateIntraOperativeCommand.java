@@ -9,6 +9,7 @@ import lombok.Builder;
 import lombok.Data;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.UUID;
 
@@ -19,7 +20,6 @@ public class CreateIntraOperativeCommand implements ICommand {
     private UUID surgeryId;
     private LocalDate date;
     private LocalTime startTime;
-    private LocalTime endTime;
     private String procedureType;
     private String anesthesiaType;
     private String projectedProcedure;
@@ -38,9 +38,8 @@ public class CreateIntraOperativeCommand implements ICommand {
         return new CreateIntraOperativeCommand(
                UUID.randomUUID(),
                 request.getSurgeryId(),
-                request.getDate(),
-                request.getStartTime(),
-                request.getEndTime(),
+                LocalDate.now(),
+                LocalTime.now(), // Corregido para capturar la hora actual
                 request.getProcedureType(),
                 request.getAnesthesiaType(),
                 request.getProjectedProcedure(),

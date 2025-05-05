@@ -1,6 +1,8 @@
 package com.kynsoft.cirugia.application.command.surgery.create;
 
 import com.kynsof.share.core.domain.bus.command.ICommandHandler;
+import com.kynsoft.cirugia.domain.service.IDoctorService;
+import com.kynsoft.cirugia.domain.service.IPatientsService;
 import com.kynsoft.cirugia.domain.service.ISurgeryService;
 import com.kynsoft.cirugia.domain.dto.Surgery;
 import lombok.RequiredArgsConstructor;
@@ -16,11 +18,15 @@ import java.util.UUID;
 public class CreateSurgeryCommandHandler implements ICommandHandler<CreateSurgeryCommand> {
 
     private final ISurgeryService surgeryService;
+    private final IDoctorService doctorService;
+    private final IPatientsService patientsService;
 
     @Override
     @Transactional
     public void handle(CreateSurgeryCommand command) {
         log.info("Creating new surgery for patient: {}", command.getPatientId());
+        doctorService.findById(command.getDoctorId());
+        patientsService.findById(command.getPatientId());
 
         Surgery surgery = Surgery.builder()
                 .patientId(command.getPatientId())

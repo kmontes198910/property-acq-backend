@@ -4,6 +4,7 @@ import com.kynsof.share.core.domain.bus.command.ICommand;
 import com.kynsof.share.core.domain.bus.command.ICommandMessage;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.jdbc.support.CustomSQLErrorCodesTranslation;
 
 import java.util.UUID;
 
@@ -30,13 +31,13 @@ public class CreateDiagnosisCommand implements ICommand {
         this.createdBy = createdBy;
     }
     
-    public static CreateDiagnosisCommand fromRequest(CreateDiagnosisRequest request) {
+    public static CreateDiagnosisCommand fromRequest(CreateDiagnosisRequest request, UUID createdBy) {
         return new CreateDiagnosisCommand(
                 request.getIcdCode(),
                 request.getDescription(),
                 request.getType(),
                 request.getSurgeryId(),
-                request.getCreatedBy()
+                createdBy
         );
     }
     
