@@ -1,5 +1,6 @@
 package com.kynsoft.propertyacqcenter.infrastructure.entity;
 
+import com.kynsoft.propertyacqcenter.domain.dto.CompanyContactDto;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
@@ -9,7 +10,7 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
-@Table(name = "contacts")
+@Table(name = "company_contacts")
 @Getter
 @Setter
 @NoArgsConstructor
@@ -20,6 +21,10 @@ public class CompanyContact {
     @Id
     @Column(name = "id", nullable = false)
     private UUID id;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "company_id", nullable = false)
+    private Company company;
 
     @Column(name = "first_name", nullable = false)
     private String firstName;
@@ -56,8 +61,55 @@ public class CompanyContact {
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "company_id", nullable = false)
-    private Company company;
+    public CompanyContact(CompanyContactDto dto) {
+        this.id = dto.getId();
+        this.company = dto.getCompany() != null ? new Company(dto.getCompany()) : null;
+        this.firstName = dto.getFirstName();
+        this.lastName = dto.getLastName();
+        this.email = dto.getEmail();
+        this.phoneNumber = dto.getPhoneNumber();
+        this.position = dto.getPosition();
+        this.department = dto.getDepartment();
+        this.category = dto.getCategory();
+        this.notes = dto.getNotes();
+        this.isActive = dto.getIsActive();
+        this.createdAt = dto.getCreatedAt();
+        this.updatedAt = dto.getUpdatedAt();
+    }
+
+    public CompanyContactDto toAggregateSimple() {
+        return CompanyContactDto.builder()
+                .id(this.id)
+                .company(company != null ? this.company.toAggregateSimple() : null)
+                .firstName(firstName)
+                .lastName(lastName)
+                .email(email)
+                .phoneNumber(phoneNumber)
+                .position(position)
+                .department(department)
+                .category(category)
+                .notes(notes)
+                .isActive(isActive)
+                .createdAt(this.createdAt)
+                .updatedAt(this.updatedAt)
+                .build();
+    }
+
+    public CompanyContactDto toAggregate() {
+        return CompanyContactDto.builder()
+                .id(this.id)
+                .firstName(firstName)
+                .lastName(lastName)
+                .email(email)
+                .phoneNumber(phoneNumber)
+                .position(position)
+                .department(department)
+                .category(category)
+                .notes(notes)
+                .isActive(isActive)
+                .createdAt(this.createdAt)
+                .updatedAt(this.updatedAt)
+                .build();
+    }
 
 }

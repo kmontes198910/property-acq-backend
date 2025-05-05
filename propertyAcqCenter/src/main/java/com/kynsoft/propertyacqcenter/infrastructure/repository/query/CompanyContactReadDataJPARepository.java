@@ -1,6 +1,6 @@
 package com.kynsoft.propertyacqcenter.infrastructure.repository.query;
 
-import com.kynsoft.propertyacqcenter.infrastructure.entity.CompanyAddress;
+import com.kynsoft.propertyacqcenter.infrastructure.entity.CompanyContact;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
@@ -13,11 +13,11 @@ import java.util.UUID;
 import org.springframework.data.jpa.repository.EntityGraph;
 
 @Repository
-public interface CompanyAddressReadDataJPARepository extends JpaRepository<CompanyAddress, UUID>, JpaSpecificationExecutor<CompanyAddress> {
+public interface CompanyContactReadDataJPARepository extends JpaRepository<CompanyContact, UUID>, JpaSpecificationExecutor<CompanyContact> {
     @Override
-    Page<CompanyAddress> findAll(Specification<CompanyAddress> specification, Pageable pageable);
+    Page<CompanyContact> findAll(Specification<CompanyContact> specification, Pageable pageable);
 
     @EntityGraph(attributePaths = {"company", "company.companyType", "company.business", "company.subCompanyType"})
     @Override
-    Optional<CompanyAddress> findById(UUID id);
+    Optional<CompanyContact> findById(UUID id);
 }

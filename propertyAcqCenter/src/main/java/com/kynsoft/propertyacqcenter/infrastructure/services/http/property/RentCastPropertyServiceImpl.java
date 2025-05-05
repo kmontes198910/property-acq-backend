@@ -6,6 +6,8 @@ import com.kynsof.share.core.domain.exception.GlobalBusinessException;
 import com.kynsof.share.core.domain.response.ErrorField;
 import com.kynsoft.propertyacqcenter.infrastructure.services.http.property.dto.PropertyDto;
 import com.kynsoft.propertyacqcenter.infrastructure.services.mock.RentCastServiceMockImpl;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -19,8 +21,11 @@ import org.springframework.web.client.RestClientException;
 public class RentCastPropertyServiceImpl {
 
     //TODO: esta api debe de ser cambiada por la real a consumir.
-    @Value("${rentcast.api.key:http://localhost:8097/api/rentcast/mock}")
+    @Value("${rentcast.api.key:956392a6c15d4dca8e25623f87c8121b}")
     private String apiKey;
+
+    //private final String BASE_URL = "http://localhost:8097/api/rentcast/mock";
+    private final String BASE_URL = "https://api.rentcast.io/v1";
 
     private final RestTemplate restTemplate;
     private final RentCastServiceMockImpl resCastServiceMockImpl;
@@ -30,10 +35,25 @@ public class RentCastPropertyServiceImpl {
         this.resCastServiceMockImpl = resCastServiceMockImpl;
     }
 
+    private HttpEntity<String> createHttpEntity() {
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("X-Api-Key", apiKey);
+        return new HttpEntity<>(headers);
+    }
+
+    private String encode(String value) {
+        return URLEncoder.encode(value, StandardCharsets.UTF_8);
+    }
+
     //TODO: La response de este metodo, lo vamos a trasformar en la capa de application.
     public List<PropertyDto> getPropertyDetails(String address) {
         try {
-            String url = apiKey + "/property/fake";
+            String cleanedAddress = address.trim(); // Elimina espacios al inicio/final
+            String encodedAddress = URLEncoder.encode(cleanedAddress, StandardCharsets.UTF_8);
+
+            //verdadero
+            String url = BASE_URL + "/properties?address=" + encodedAddress;
+            //String url = BASE_URL + "/property/fake";
 
             // Crear cabeceras para la solicitud
             HttpHeaders headers = new HttpHeaders();
@@ -51,8 +71,9 @@ public class RentCastPropertyServiceImpl {
             ResponseEntity<List<PropertyDto>> response = restTemplate.exchange(
                     url,
                     HttpMethod.GET,
-                    entity,
-                    responseType);
+                    createHttpEntity(),
+                    responseType
+            );
 
             if (!HttpStatus.OK.equals(response.getStatusCode())) {
                 throw new BusinessNotFoundException(new GlobalBusinessException(
