@@ -1,10 +1,11 @@
 package com.kynsoft.propertyacqcenter.application.response.rentcast;
 
+import com.kynsof.share.core.domain.bus.query.IResponse;
 import lombok.Data;
 import java.util.List;
 
 @Data
-public class EstimatedValueResponse {
+public class EstimatedValueResponse implements IResponse {
     private Integer price;
     private Integer priceRangeLow;
     private Integer priceRangeHigh;

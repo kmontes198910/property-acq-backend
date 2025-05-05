@@ -4,12 +4,11 @@ import com.kynsof.share.core.domain.exception.BusinessNotFoundException;
 import com.kynsof.share.core.domain.exception.DomainErrorMessage;
 import com.kynsof.share.core.domain.exception.GlobalBusinessException;
 import com.kynsof.share.core.domain.response.ErrorField;
-import com.kynsoft.propertyacqcenter.infrastructure.services.http.estimate.dto.EstimatedValueDto;
+import com.kynsoft.propertyacqcenter.application.response.rentcast.EstimatedValueResponse;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.*;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.web.client.RestClientException;
@@ -18,8 +17,11 @@ import org.springframework.web.client.RestClientException;
 public class RentCastEstimateValueServiceImpl {
 
     //TODO: esta api debe de ser cambiada por la real a consumir.
-    @Value("${rentcast.api.key:http://localhost:8097/api/rentcast/mock}")
+    @Value("${rentcast.api.key:956392a6c15d4dca8e25623f87c8121b}")
     private String apiKey;
+
+    //private final String BASE_URL = "http://localhost:8097/api/rentcast/mock";
+    private final String BASE_URL = "https://api.rentcast.io/v1";
 
     private final RestTemplate restTemplate;
 
@@ -27,28 +29,33 @@ public class RentCastEstimateValueServiceImpl {
         this.restTemplate = restTemplate;
     }
 
+    private HttpEntity<String> createHttpEntity() {
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("X-Api-Key", apiKey);
+        return new HttpEntity<>(headers);
+    }
+
     //TODO: La response de este metodo, lo vamos a trasformar en la capa de application.
-    public EstimatedValueDto getEstimatedValue(String address) {
+    public EstimatedValueResponse getEstimatedValue(String address) {
         try {
-            String url = apiKey + "/value/fake";
+            String cleanedAddress = address.trim(); // Elimina espacios al inicio/final
+            //verdadero
+            String url = BASE_URL + "/avm/value?address=" + cleanedAddress;
 
             // Crear cabeceras para la solicitud
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.APPLICATION_JSON);
 
-            // Crear la entidad de la solicitud con el cuerpo (request) y las cabeceras
-            HttpEntity<UUID> entity = new HttpEntity<>(UUID.randomUUID(), headers);
-
             // Usar ParameterizedTypeReference para especificar el tipo genérico
-            ParameterizedTypeReference<EstimatedValueDto> responseType
-                    = new ParameterizedTypeReference<EstimatedValueDto>() {
+            ParameterizedTypeReference<EstimatedValueResponse> responseType
+                    = new ParameterizedTypeReference<EstimatedValueResponse>() {
             };
 
             // Enviar la solicitud POST al endpoint del controlador
-            ResponseEntity<EstimatedValueDto> response = restTemplate.exchange(
+            ResponseEntity<EstimatedValueResponse> response = restTemplate.exchange(
                     url,
                     HttpMethod.GET,
-                    entity,
+                    createHttpEntity(),
                     responseType);
 
             if (!HttpStatus.OK.equals(response.getStatusCode())) {
@@ -59,10 +66,11 @@ public class RentCastEstimateValueServiceImpl {
             }
             return response.getBody();
         } catch (RestClientException e) {
-            throw new BusinessNotFoundException(new GlobalBusinessException(
-                    DomainErrorMessage.BUSINESS_NOT_FOUND,
-                    new ErrorField("id", DomainErrorMessage.BUSINESS_NOT_FOUND.getReasonPhrase())
-            ));
+            throw new RuntimeException(e);
+//            throw new BusinessNotFoundException(new GlobalBusinessException(
+//                    DomainErrorMessage.BUSINESS_NOT_FOUND,
+//                    new ErrorField("id", DomainErrorMessage.BUSINESS_NOT_FOUND.getReasonPhrase())
+//            ));
         }
     }
 }

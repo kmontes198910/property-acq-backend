@@ -1,7 +1,7 @@
 package com.kynsoft.propertyacqcenter.application.query.estimateValue.getEstimateValueExternalService;
 
 import com.kynsof.share.core.domain.bus.query.IQueryHandler;
-import com.kynsoft.propertyacqcenter.application.response.estimateValue.EstimatedValueResponse;
+import com.kynsoft.propertyacqcenter.application.response.rentcast.EstimatedValueResponse;
 import com.kynsoft.propertyacqcenter.infrastructure.services.http.estimateValue.RentCastEstimateValueServiceImpl;
 import org.springframework.stereotype.Component;
 
@@ -17,6 +17,6 @@ public class GetEstimateValueExternalServiceQueryHandler implements IQueryHandle
     @Override
     public EstimatedValueResponse handle(GetEstimateValueExternalServiceQuery query) {
 
-        return new EstimatedValueResponse(this.resCastEstimateValueServiceImpl.getEstimatedValue(query.getAddress()));
+        return this.resCastEstimateValueServiceImpl.getEstimatedValue(query.getAddress());
     }
 }
