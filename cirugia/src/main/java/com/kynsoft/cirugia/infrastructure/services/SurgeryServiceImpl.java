@@ -72,14 +72,11 @@ public class SurgeryServiceImpl implements ISurgeryService {
         entity.setPatientId(surgery.getPatientId());
         entity.setDoctorId(surgery.getDoctorId());
         entity.setSpecialtyId(surgery.getSpecialtyId());
-        entity.setRecoveryBedEntityId(surgery.getRecoveryBedEntityId());
-        entity.setOperatingRoomId(surgery.getOperatingRoomId());
         entity.setSurgeryType(surgery.getSurgeryType());
         entity.setScheduledDate(surgery.getScheduledDate());
         entity.setStartTime(surgery.getStartTime());
         entity.setEndingTime(surgery.getEndingTime());
         entity.setRequiresHospitalization(surgery.getRequiresHospitalization());
-        entity.setBusinessId(surgery.getBusinessId());
         entity.setUpdatedBy(surgery.getUpdatedBy());
         entity.setUpdatedAt(LocalDateTime.now());
         

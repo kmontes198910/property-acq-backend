@@ -81,9 +81,10 @@ public class SurgeryController {
     @PatchMapping("/{id}")
     public ResponseEntity<?> updateSurgery(
             @PathVariable UUID id,
-            @RequestBody UpdateSurgeryRequest request) {
+            @RequestBody UpdateSurgeryRequest request,
+            @RequestHeader(USER_ID_HEADER) String userId){
         request.setSurgeryId(id);
-        UpdateSurgeryCommand command = UpdateSurgeryCommand.fromRequest(request);
+        UpdateSurgeryCommand command = UpdateSurgeryCommand.fromRequest(request, UUID.fromString(userId));
         UpdateSurgeryMessage response =mediator.send(command);
         return ResponseEntity.ok(response);
     }
