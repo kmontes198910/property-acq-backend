@@ -1,6 +1,8 @@
 package com.kynsoft.cirugia.domain.dto;
 
 import lombok.*;
+
+import java.io.Serializable;
 import java.util.UUID;
 
 @Builder
@@ -8,7 +10,7 @@ import java.util.UUID;
 @AllArgsConstructor
 @Getter
 @Setter
-public class DoctorDto {
+public class DoctorDto implements Serializable {
 
     private UUID id;
     private String name;
