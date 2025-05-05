@@ -1,4 +1,4 @@
-package com.kynsoft.cirugia.application.query;
+package com.kynsoft.cirugia.application.query.surgery;
 
 import com.kynsof.share.core.domain.bus.query.IResponse;
 import com.kynsoft.cirugia.application.response.DoctorResponse;

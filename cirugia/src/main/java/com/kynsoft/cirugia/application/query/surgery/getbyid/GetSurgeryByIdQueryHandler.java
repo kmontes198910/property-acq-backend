@@ -5,7 +5,7 @@ import com.kynsof.share.core.domain.exception.BusinessNotFoundException;
 import com.kynsof.share.core.domain.exception.DomainErrorMessage;
 import com.kynsof.share.core.domain.exception.GlobalBusinessException;
 import com.kynsof.share.core.domain.response.ErrorField;
-import com.kynsoft.cirugia.application.query.SurgeryResponse;
+import com.kynsoft.cirugia.application.query.surgery.SurgeryResponse;
 import com.kynsoft.cirugia.domain.service.ISurgeryService;
 import com.kynsoft.cirugia.infrastructure.entities.SurgeryEntity;
 import lombok.RequiredArgsConstructor;
