@@ -234,7 +234,6 @@ public class SurgeryServiceImpl implements ISurgeryService {
 
     @Override
     @Transactional(readOnly = true)
-    @Cacheable(cacheNames = SurgeryCacheConfig.SURGERY_SERVICE_CACHE, key = "'entity:' + #id", unless = "#result == null")
     public Optional<SurgeryEntity> getSurgeryEntityById(UUID id) {
         log.info("Finding surgery entity with ID: {}", id);
         return surgeryReadRepository.findById(id);
