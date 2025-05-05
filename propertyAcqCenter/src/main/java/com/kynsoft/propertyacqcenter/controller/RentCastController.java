@@ -6,6 +6,7 @@ import com.kynsoft.propertyacqcenter.application.query.restEstimate.getRentEstim
 import com.kynsoft.propertyacqcenter.application.query.property.getPropertyDetailsExternalService.GetPropertyDetailsExternalServiceQuery;
 import com.kynsoft.propertyacqcenter.application.response.estimateValue.EstimatedValueResponse;
 import com.kynsoft.propertyacqcenter.application.response.property.PropertyDasboardResponse;
+import com.kynsoft.propertyacqcenter.application.response.rentcast.PropertyResponse;
 import com.kynsoft.propertyacqcenter.application.response.rentcast.SaleListingResponse;
 import com.kynsoft.propertyacqcenter.domain.services.IRentCastService;
 import com.kynsoft.propertyacqcenter.infrastructure.services.http.property.RentCastPropertyServiceImpl;
@@ -35,9 +36,9 @@ public class RentCastController {
      * @return
      */
     @GetMapping("/property")
-    public ResponseEntity<PropertyDasboardResponse> getPropertyDetails(@RequestParam String address) {
+    public ResponseEntity<PropertyResponse> getPropertyDetails(@RequestParam String address) {
         GetPropertyDetailsExternalServiceQuery query = new GetPropertyDetailsExternalServiceQuery(address);
-        PropertyDasboardResponse response = mediator.send(query);
+        PropertyResponse response = mediator.send(query);
 
         return ResponseEntity.ok(response);
     }

@@ -1,11 +1,12 @@
 package com.kynsoft.propertyacqcenter.application.response.rentcast;
 
+import com.kynsof.share.core.domain.bus.query.IResponse;
 import lombok.Data;
 import java.util.List;
 import java.util.Map;
 
 @Data
-public class PropertyResponse {
+public class PropertyResponse implements IResponse {
     private String id;
     private String formattedAddress;
     private String addressLine1;
