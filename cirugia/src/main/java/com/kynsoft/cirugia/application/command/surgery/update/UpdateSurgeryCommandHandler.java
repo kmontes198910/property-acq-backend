@@ -1,6 +1,8 @@
 package com.kynsoft.cirugia.application.command.surgery.update;
 
 import com.kynsof.share.core.domain.bus.command.ICommandHandler;
+import com.kynsoft.cirugia.domain.service.IDoctorService;
+import com.kynsoft.cirugia.domain.service.IPatientsService;
 import com.kynsoft.cirugia.domain.service.ISurgeryService;
 import com.kynsoft.cirugia.domain.dto.Surgery;
 import lombok.RequiredArgsConstructor;
@@ -14,12 +16,15 @@ import org.springframework.transaction.annotation.Transactional;
 public class UpdateSurgeryCommandHandler implements ICommandHandler<UpdateSurgeryCommand> {
 
     private final ISurgeryService surgeryService;
+    private final IDoctorService doctorService;
+    private final IPatientsService patientsService;
 
     @Override
     @Transactional
     public void handle(UpdateSurgeryCommand command) {
         log.info("Updating surgery with ID: {}", command.getSurgeryId());
-        
+        doctorService.findById(command.getDoctorId());
+        patientsService.findById(command.getPatientId());
         Surgery surgery = Surgery.builder()
                 .id(command.getSurgeryId())
                 .patientId(command.getPatientId())
