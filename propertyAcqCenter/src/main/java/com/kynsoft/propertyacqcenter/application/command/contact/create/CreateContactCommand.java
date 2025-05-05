@@ -17,12 +17,11 @@ public class CreateContactCommand implements ICommand {
     private String position;
     private String department;
     private String category;
-    private String company;
     private String notes;
     private Boolean isActive;
     private UUID legalEntity;
 
-    public CreateContactCommand(String firstName, String lastName, String email, String phoneNumber, String position, String department, String category, String company, String notes, Boolean isActive,  UUID legalEntityId) {
+    public CreateContactCommand(String firstName, String lastName, String email, String phoneNumber, String position, String department, String category, String notes, Boolean isActive, UUID legalEntityId) {
         this.id = UUID.randomUUID();
         this.firstName = firstName;
         this.lastName = lastName;
@@ -31,7 +30,6 @@ public class CreateContactCommand implements ICommand {
         this.position = position;
         this.department = department;
         this.category = category;
-        this.company = company;
         this.notes = notes;
         this.isActive = isActive;
         this.legalEntity = legalEntityId;
@@ -46,7 +44,6 @@ public class CreateContactCommand implements ICommand {
                 request.getPosition(),
                 request.getDepartment(),
                 request.getCategory(),
-                request.getCompany(),
                 request.getNotes(),
                 request.getIsActive(),
                 request.getLegalEntity()

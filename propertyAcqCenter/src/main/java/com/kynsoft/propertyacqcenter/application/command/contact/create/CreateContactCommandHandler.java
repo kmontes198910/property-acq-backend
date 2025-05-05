@@ -32,7 +32,6 @@ public class CreateContactCommandHandler implements ICommandHandler<CreateContac
                 .position(command.getPosition())
                 .department(command.getDepartment())
                 .category(command.getCategory())
-                .company(command.getCompany())
                 .notes(command.getNotes())
                 .isActive(command.getIsActive())
                 .legalEntity(legalEntityDto)

@@ -30,7 +30,6 @@ public class UpdateContactCommandHandler implements ICommandHandler<UpdateContac
                 command.getPosition(),
                 command.getDepartment(),
                 command.getCategory(),
-                command.getCompany(),
                 command.getNotes(),
                 command.getIsActive(),
                 legalEntityDto

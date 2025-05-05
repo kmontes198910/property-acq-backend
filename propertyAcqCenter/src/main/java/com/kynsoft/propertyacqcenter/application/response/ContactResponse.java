@@ -23,7 +23,6 @@ public class ContactResponse implements IResponse {
     private String position;
     private String department;
     private String category;
-    private String company;
     private String notes;
     private Boolean isActive;
     private LocalDateTime createdAt;
@@ -39,7 +38,6 @@ public class ContactResponse implements IResponse {
         this.position = contactDto.getPosition();
         this.department = contactDto.getDepartment();
         this.category = contactDto.getCategory();
-        this.company = contactDto.getCompany();
         this.notes = contactDto.getNotes();
         this.isActive = contactDto.getIsActive();
         this.createdAt = contactDto.getCreatedAt();
