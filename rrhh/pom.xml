@@ -64,13 +64,8 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
-            <!-- Excluir cualquier dependencia transitiva de webflux -->
-            <exclusions>
-                <exclusion>
-                    <groupId>org.springframework.boot</groupId>
-                    <artifactId>spring-boot-starter-webflux</artifactId>
-                </exclusion>
-            </exclusions>
+
+
         </dependency>
 
         <!-- Cambio de dependencia webflux a webmvc para Swagger -->
