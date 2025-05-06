@@ -1,5 +1,6 @@
 package com.kynsoft.propertyacqcenter.controller;
 
+import com.kynsoft.propertyacqcenter.application.response.rentcast.EstimatedValueResponse;
 import com.kynsoft.propertyacqcenter.application.response.rentcast.PropertyResponse;
 import com.kynsoft.propertyacqcenter.domain.dto.property.saleListing.SaleListingDto;
 import com.kynsoft.propertyacqcenter.infrastructure.services.http.estimate.dto.EstimatedValueDto;
@@ -25,7 +26,7 @@ public class MockRentCastController {
     }
 
     @GetMapping("/value/fake")
-    public EstimatedValueDto getFakeEstimatedValue() {
+    public EstimatedValueResponse getFakeEstimatedValue() {
         return this.mock.getEstimatedValueDetail();
     }
 

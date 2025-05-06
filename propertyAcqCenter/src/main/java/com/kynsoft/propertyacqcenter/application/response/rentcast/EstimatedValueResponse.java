@@ -3,6 +3,8 @@ package com.kynsoft.propertyacqcenter.application.response.rentcast;
 import com.kynsof.share.core.domain.bus.query.IResponse;
 import lombok.Data;
 import java.util.List;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 
 @Data
 public class EstimatedValueResponse implements IResponse {
@@ -14,6 +16,8 @@ public class EstimatedValueResponse implements IResponse {
     private List<ComparableProperty> comparables;
 
     @Data
+    @NoArgsConstructor
+    @AllArgsConstructor
     public static class ComparableProperty {
         private String id;
         private String formattedAddress;
