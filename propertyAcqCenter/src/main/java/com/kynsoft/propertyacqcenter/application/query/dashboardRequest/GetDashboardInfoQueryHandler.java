@@ -1,20 +1,22 @@
 package com.kynsoft.propertyacqcenter.application.query.dashboardRequest;
 
 import com.kynsof.share.core.domain.bus.query.IQueryHandler;
+import com.kynsoft.propertyacqcenter.application.response.dashboardInfo.DashboardComparablesResponse;
 import com.kynsoft.propertyacqcenter.application.response.dashboardInfo.DashboardCompsAtAGlanceResponse;
 import com.kynsoft.propertyacqcenter.application.response.dashboardInfo.DashboardInfoResponse;
 import com.kynsoft.propertyacqcenter.application.response.dashboardInfo.DashboardLastSaleResponse;
 import com.kynsoft.propertyacqcenter.application.response.dashboardInfo.DashboardMortageDebtResponse;
 import com.kynsoft.propertyacqcenter.application.response.dashboardInfo.DashboardOpportunnityResponse;
 import com.kynsoft.propertyacqcenter.application.response.dashboardInfo.DashboardPropertyResponse;
-import com.kynsoft.propertyacqcenter.application.response.dashboardInfo.DashboardValueResponse;
+import com.kynsoft.propertyacqcenter.application.response.dashboardInfo.DashboardSaleValueResponse;
+import com.kynsoft.propertyacqcenter.application.response.dashboardInfo.DashboardTaxAssessmentsResponse;
+import com.kynsoft.propertyacqcenter.application.response.rentcast.EstimatedValueResponse;
 import com.kynsoft.propertyacqcenter.application.response.rentcast.PropertyResponse;
 import com.kynsoft.propertyacqcenter.domain.enums.PropertyType;
 import com.kynsoft.propertyacqcenter.infrastructure.services.http.estimateValue.RentCastEstimateValueServiceImpl;
 import com.kynsoft.propertyacqcenter.infrastructure.services.http.property.RentCastPropertyServiceImpl;
 import com.kynsoft.propertyacqcenter.infrastructure.services.http.rentEstimate.RentCastRentEstimateServiceImpl;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import org.springframework.stereotype.Component;
@@ -38,15 +40,40 @@ public class GetDashboardInfoQueryHandler implements IQueryHandler<GetDashboardI
     public DashboardInfoResponse handle(GetDashboardInfoQuery query) {
 
         List<PropertyResponse> property = this.propertyService.getPropertyDetails(query.getAddress());
-        List<DashboardValueResponse> values = new ArrayList<>();
+        EstimatedValueResponse estimatedValue = this.estimateValueService.getEstimatedValue(query.getAddress());
+        List<DashboardComparablesResponse> comparablesResponse = new ArrayList<>();
+
+        for (EstimatedValueResponse.ComparableProperty comparable : estimatedValue.getComparables()) {
+            comparablesResponse.add(DashboardComparablesResponse.builder()
+                    .formattedAddress(comparable.getFormattedAddress())
+                    .lastSeenDate(comparable.getLastSeenDate())
+                    .latitude(comparable.getLatitude())
+                    .longitude(comparable.getLongitude())
+                    .lotSize(comparable.getLotSize())
+                    .price(comparable.getPrice())
+                    .propertyType(comparable.getPropertyType())
+                    .squareFootage(comparable.getSquareFootage())
+                    .build());
+        }
+        List<DashboardSaleValueResponse> values = new ArrayList<>();
         Map<String, PropertyResponse.History> history = property.get(0).getHistory();
         history.forEach((date, h) -> {
-            values.add(DashboardValueResponse.builder()
+            values.add(DashboardSaleValueResponse.builder()
                     .estimatedValue(String.valueOf(h.getPrice()))
                     .lastYear(h.getDate())
                     .build());
         });
 
+        Map<String, PropertyResponse.TaxAssessment> tax = property.get(0).getTaxAssessments();
+        List<DashboardTaxAssessmentsResponse> taxAssessments = new ArrayList<>();
+        tax.forEach((date, h) -> {
+            taxAssessments.add(DashboardTaxAssessmentsResponse.builder()
+                    .year(h.getYear())
+                    .value(h.getValue())
+                    .land(h.getLand())
+                    .improvements(h.getImprovements())
+                    .build());
+        });
         return DashboardInfoResponse
                 .builder()
                 .propertyResponse(DashboardPropertyResponse.builder()
@@ -78,7 +105,9 @@ public class GetDashboardInfoQueryHandler implements IQueryHandler<GetDashboardI
                 .lastSaleResponse(DashboardLastSaleResponse.builder().build())
                 .mortageDebtResponse(DashboardMortageDebtResponse.builder().build())
                 .opportunnityResponse(DashboardOpportunnityResponse.builder().build())
-                .valueResponse(values)
+                .saleValueResponse(values)
+                .taxAssessmentsResponse(taxAssessments)
+                .comparablesResponse(comparablesResponse)
                 .build();
     }
 }

@@ -1,5 +1,6 @@
 package com.kynsoft.propertyacqcenter.infrastructure.services.mock;
 
+import com.kynsoft.propertyacqcenter.application.response.rentcast.EstimatedValueResponse;
 import com.kynsoft.propertyacqcenter.application.response.rentcast.PropertyResponse;
 import com.kynsoft.propertyacqcenter.domain.enums.PropertyType;
 import com.kynsoft.propertyacqcenter.domain.dto.property.saleListing.ListingAgentDto;
@@ -123,20 +124,17 @@ public class RentCastServiceMockImpl {
         return estimatedValueDto;
     }
 
-    public EstimatedValueDto getEstimatedValueDetail() {
-        EstimatedValueDto estimatedValueDto = new EstimatedValueDto();
-        UUID id = UUID.randomUUID();
-        estimatedValueDto.setId(id);
+    public EstimatedValueResponse getEstimatedValueDetail() {
+        EstimatedValueResponse estimatedValueDto = new EstimatedValueResponse();
         estimatedValueDto.setPrice(221000);
         estimatedValueDto.setPriceRangeLow(208000);
         estimatedValueDto.setPriceRangeHigh(233000);
         estimatedValueDto.setLatitude(29.475962);
         estimatedValueDto.setLongitude(-98.351442);
 
-        List<ComparablePropertyDto> comparables = new ArrayList<>();
-        comparables.add(new ComparablePropertyDto(
-                UUID.randomUUID(), 
-                id,
+        List<EstimatedValueResponse.ComparableProperty> comparables = new ArrayList<>();
+        comparables.add(new EstimatedValueResponse.ComparableProperty(
+                "5014-Fern-Lk,-San-Antonio,-TX-78244",
                 "5014 Fern Lk, San Antonio, TX 78244", 
                 "5014 Fern Lk", 
                 null, 
@@ -146,7 +144,7 @@ public class RentCastServiceMockImpl {
                 "Bexar", 
                 29.471777, 
                 -98.350172, 
-                PropertyType.APARTMENT, 
+                PropertyType.APARTMENT.name(), 
                 4, 
                 2.0, 
                 1747, 
@@ -162,9 +160,8 @@ public class RentCastServiceMockImpl {
                 127, 
                 0.9822
         ));
-        comparables.add(new ComparablePropertyDto(
-                UUID.randomUUID(), 
-                id,
+        comparables.add(new EstimatedValueResponse.ComparableProperty(
+                "6807-Indian-Lake-Dr,-San-Antonio,-TX-78244",
                 "6807 Indian Lake Dr, San Antonio, TX 78244", 
                 "6807 Indian Lake Dr", 
                 null, 
@@ -174,7 +171,7 @@ public class RentCastServiceMockImpl {
                 "Bexar", 
                 29.477682, 
                 -98.354718, 
-                PropertyType.APARTMENT, 
+                PropertyType.APARTMENT.name(), 
                 4, 
                 2.0, 
                 1786, 
@@ -190,9 +187,8 @@ public class RentCastServiceMockImpl {
                 33, 
                 0.9811
         ));
-        comparables.add(new ComparablePropertyDto(
-                UUID.randomUUID(), 
-                id,
+        comparables.add(new EstimatedValueResponse.ComparableProperty(
+                "6730-Stone-Lake-Dr,-San-Antonio,-TX-78244",
                 "6730 Stone Lake Dr, San Antonio, TX 78244", 
                 "6730 Stone Lake Dr", 
                 null, 
@@ -202,7 +198,7 @@ public class RentCastServiceMockImpl {
                 "Bexar", 
                 29.477216, 
                 -98.355968, 
-                PropertyType.APARTMENT, 
+                PropertyType.APARTMENT.name(), 
                 4, 
                 2.0, 
                 1810, 

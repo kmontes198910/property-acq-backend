@@ -8,7 +8,10 @@ import lombok.Setter;
 @Setter
 @Getter
 @Builder
-public class DashboardValueResponse implements IResponse {
-    private String estimatedValue;
-    private String lastYear;
+public class DashboardTaxAssessmentsResponse implements IResponse {
+
+    private int year;
+    private int value;
+    private Integer land;
+    private Integer improvements;
 }
