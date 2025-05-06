@@ -300,10 +300,17 @@ public class KeycloakConnectionPool {
         log.info("Iniciando limpieza de conexiones inactivas de Keycloak");
         
         int initialSize = connectionPool.size();
+        
+        // Si no hay conexiones en el pool, salimos del método
+        if (initialSize == 0) {
+            log.info("No hay conexiones en el pool para limpiar");
+            return;
+        }
+        
         int closedConnections = 0;
         
         // Crear una lista para almacenar conexiones a validar
-        BlockingQueue<Keycloak> tempQueue = new ArrayBlockingQueue<>(connectionPool.size());
+        BlockingQueue<Keycloak> tempQueue = new ArrayBlockingQueue<>(Math.max(initialSize, 1));
         Keycloak connection;
         
         // Sacar todas las conexiones del pool para validarlas
