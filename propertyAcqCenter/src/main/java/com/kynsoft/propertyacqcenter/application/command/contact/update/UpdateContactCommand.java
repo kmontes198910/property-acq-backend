@@ -19,7 +19,6 @@ public class UpdateContactCommand implements ICommand {
     private String position;
     private String department;
     private String category;
-    private String company;
     private String notes;
     private Boolean isActive;
     private UUID legalEntity;
@@ -34,7 +33,6 @@ public class UpdateContactCommand implements ICommand {
                 request.getPosition(),
                 request.getDepartment(),
                 request.getCategory(),
-                request.getCompany(),
                 request.getNotes(),
                 request.getIsActive(),
                 request.getLegalEntity()

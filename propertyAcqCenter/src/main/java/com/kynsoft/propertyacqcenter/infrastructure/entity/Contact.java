@@ -43,9 +43,6 @@ public class Contact {
     @Column(name = "category")
     private String category;
     
-    @Column(name = "company")
-    private String company;
-    
     @Column(name = "notes", columnDefinition = "TEXT")
     private String notes;
     
@@ -78,7 +75,6 @@ public class Contact {
                 .position(this.position)
                 .department(this.department)
                 .category(this.category)
-                .company(this.company)
                 .notes(this.notes)
                 .isActive(this.isActive)
                 .createdAt(this.createdAt)
@@ -96,7 +92,6 @@ public class Contact {
                 .position(this.position)
                 .department(this.department)
                 .category(this.category)
-                .company(this.company)
                 .notes(this.notes)
                 .isActive(this.isActive)
                 .createdAt(this.createdAt)
@@ -118,7 +113,6 @@ public class Contact {
         this.position = dto.getPosition();
         this.department = dto.getDepartment();
         this.category = dto.getCategory();
-        this.company = dto.getCompany();
         this.notes = dto.getNotes();
         this.isActive = dto.getIsActive();
         this.createdAt = dto.getCreatedAt();

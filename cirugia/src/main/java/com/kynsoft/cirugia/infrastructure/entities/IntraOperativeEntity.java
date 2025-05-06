@@ -68,6 +68,10 @@ public class IntraOperativeEntity {
     
     @Column(name = "description")
     private String description;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "surgery_id", referencedColumnName = "id", insertable = false, updatable = false)
+    private SurgeryEntity surgery;
     
     @Column(name = "created_at")
     private LocalDateTime createdAt;

@@ -70,7 +70,6 @@ public class ContactServiceImpl implements IContactService {
             contact.setPosition(contactDto.getPosition());
             contact.setDepartment(contactDto.getDepartment());
             contact.setCategory(contactDto.getCategory());
-            contact.setCompany(contactDto.getCompany());
             contact.setNotes(contactDto.getNotes());
             contact.setIsActive(contactDto.getIsActive());
 

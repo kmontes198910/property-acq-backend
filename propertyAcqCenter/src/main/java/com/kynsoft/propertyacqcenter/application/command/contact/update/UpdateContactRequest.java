@@ -14,7 +14,6 @@ public class UpdateContactRequest {
     private String position;
     private String department;
     private String category;
-    private String company;
     private String notes;
     private Boolean isActive;
     private UUID legalEntity;

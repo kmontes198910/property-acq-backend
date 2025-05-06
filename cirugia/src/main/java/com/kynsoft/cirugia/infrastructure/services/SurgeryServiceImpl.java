@@ -8,7 +8,7 @@ import com.kynsof.share.core.domain.request.FilterCriteria;
 import com.kynsof.share.core.domain.response.ErrorField;
 import com.kynsof.share.core.domain.response.PaginatedResponse;
 import com.kynsof.share.core.infrastructure.specifications.GenericSpecificationsBuilder;
-import com.kynsoft.cirugia.application.query.SurgeryResponse;
+import com.kynsoft.cirugia.application.query.surgery.SurgeryResponse;
 import com.kynsoft.cirugia.domain.service.ISurgeryService;
 import com.kynsoft.cirugia.domain.dto.Surgery;
 import com.kynsoft.cirugia.infrastructure.config.SurgeryCacheConfig;
@@ -24,7 +24,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
