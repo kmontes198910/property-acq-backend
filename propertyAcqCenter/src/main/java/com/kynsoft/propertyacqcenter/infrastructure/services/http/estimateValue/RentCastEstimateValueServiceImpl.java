@@ -41,6 +41,7 @@ public class RentCastEstimateValueServiceImpl {
             String cleanedAddress = address.trim(); // Elimina espacios al inicio/final
             //verdadero
             String url = BASE_URL + "/avm/value?address=" + cleanedAddress;
+            //String url = BASE_URL + "/value/fake";
 
             // Crear cabeceras para la solicitud
             HttpHeaders headers = new HttpHeaders();

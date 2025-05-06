@@ -12,9 +12,10 @@ import lombok.Setter;
 public class DashboardInfoResponse implements IResponse {
     private DashboardPropertyResponse propertyResponse;
     private DashboardOpportunnityResponse opportunnityResponse;
-    private List<DashboardSaleValueResponse> saleValueResponse;
-    private List<DashboardTaxAssessmentsResponse> taxAssessmentsResponse;
     private DashboardMortageDebtResponse mortageDebtResponse;
     private DashboardCompsAtAGlanceResponse compsAtAGlanceResponse;
     private DashboardLastSaleResponse lastSaleResponse;
+    private List<DashboardSaleValueResponse> saleValueResponse;
+    private List<DashboardTaxAssessmentsResponse> taxAssessmentsResponse;
+    private List<DashboardComparablesResponse> comparablesResponse;
 }
