@@ -35,7 +35,7 @@ public class UserMeServiceImpl implements IUserMeService {
     }
 
     @Override
-    @Cacheable(value = IdentityCacheConfig.USER_INFO_CACHE, key = "#userId", unless = "#result == null")
+    //@Cacheable(value = IdentityCacheConfig.USER_INFO_CACHE, key = "#userId", unless = "#result == null")
     public UserMeResponse getUserInfo(UUID userId) {
         var userSystem = repositoryQuery.findByKeyCloakId(userId)
                 .orElseThrow(() -> new BusinessNotFoundException(new GlobalBusinessException(
