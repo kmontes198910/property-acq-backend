@@ -15,5 +15,4 @@ import java.util.UUID;
 public class ChangeSurgeryStatusRequest {
     private UUID surgeryId;
     private SurgeryStatus status;
-    private UUID updatedBy;
 }
