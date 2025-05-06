@@ -20,7 +20,7 @@ public class PreOperativeEntity {
     @Id
     private UUID id;
 
-    @Column(name = "surgery_id", nullable = false, unique = true)
+    @Column(name = "surgery_id", nullable = false)
     private UUID surgeryId;
 
     @Column(name = "admission_reason")
