@@ -47,7 +47,8 @@ public class SecurityConfig {
                 "/api/auth/authenticate",
                 "/api/auth/**",
                 "/health",
-                "/api/dashboard/**"
+                "/api/dashboard/**",
+                "/api/identity/**",
         };
 
         http
