@@ -33,6 +33,7 @@ public class UpdatePreOperativeCommandHandler implements ICommandHandler<UpdateP
             preOperative.setAdmissionReason(command.getAdmissionReason());
             preOperative.setCurrentDiseaseHistory(command.getCurrentDiseaseHistory());
             preOperative.setPhysicalExamination(command.getPhysicalExamination());
+            preOperative.setConsentInformedFileUrl(command.getConsentInformedFileUrl());
             preOperative.setUpdatedAt(LocalDateTime.now());
             preOperative.setUpdatedBy(command.getUpdatedBy());
             

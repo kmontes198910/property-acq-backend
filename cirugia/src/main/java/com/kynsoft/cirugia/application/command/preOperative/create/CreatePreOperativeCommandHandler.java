@@ -29,6 +29,7 @@ public class CreatePreOperativeCommandHandler implements ICommandHandler<CreateP
                 .admissionReason(command.getAdmissionReason())
                 .currentDiseaseHistory(command.getCurrentDiseaseHistory())
                 .physicalExamination(command.getPhysicalExamination())
+                .consentInformedFileUrl(command.getConsentInformedFileUrl())
                 .createdAt(LocalDateTime.now())
                 .createdBy(command.getCreatedBy())
                 .build();

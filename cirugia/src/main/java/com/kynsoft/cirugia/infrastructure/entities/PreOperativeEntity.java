@@ -32,6 +32,9 @@ public class PreOperativeEntity {
     @Column(name = "physical_examination", columnDefinition = "TEXT")
     private String physicalExamination;
 
+    @Column(name = "consent_informed_file_url")
+    private String consentInformedFileUrl;
+
     @CreationTimestamp
     @Column(updatable = false)
     private LocalDateTime createdAt;

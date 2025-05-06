@@ -16,4 +16,5 @@ public class CreatePreOperativeRequest {
     private String admissionReason;
     private String currentDiseaseHistory;
     private String physicalExamination;
+    private String consentInformedFileUrl;
 }

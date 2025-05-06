@@ -18,6 +18,7 @@ public class PreOperative {
     private String admissionReason;
     private String currentDiseaseHistory;
     private String physicalExamination;
+    private String consentInformedFileUrl;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
     private UUID createdBy;
