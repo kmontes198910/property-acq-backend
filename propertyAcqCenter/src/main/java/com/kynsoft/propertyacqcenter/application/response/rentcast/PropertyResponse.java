@@ -4,8 +4,11 @@ import com.kynsof.share.core.domain.bus.query.IResponse;
 import lombok.Data;
 import java.util.List;
 import java.util.Map;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 
 @Data
+@NoArgsConstructor
 public class PropertyResponse implements IResponse {
     private String id;
     private String formattedAddress;
@@ -38,6 +41,7 @@ public class PropertyResponse implements IResponse {
     private boolean ownerOccupied;
 
     @Data
+    @NoArgsConstructor
     public static class Features {
         private boolean cooling;
         private String coolingType;
@@ -54,6 +58,8 @@ public class PropertyResponse implements IResponse {
     }
 
     @Data
+    @AllArgsConstructor
+    @NoArgsConstructor
     public static class TaxAssessment {
         private int year;
         private int value;
@@ -62,12 +68,16 @@ public class PropertyResponse implements IResponse {
     }
 
     @Data
+    @AllArgsConstructor
+    @NoArgsConstructor
     public static class PropertyTax {
         private int year;
         private int total;
     }
 
     @Data
+    @AllArgsConstructor
+    @NoArgsConstructor
     public static class Owner {
         private List<String> names;
         private String type;
@@ -75,6 +85,8 @@ public class PropertyResponse implements IResponse {
     }
 
     @Data
+    @AllArgsConstructor
+    @NoArgsConstructor
     public static class MailingAddress {
         private String id;
         private String formattedAddress;
@@ -86,11 +98,14 @@ public class PropertyResponse implements IResponse {
     }
 
     @Data
+    @NoArgsConstructor
     public static class HOA {
         private Integer fee;
     }
 
     @Data
+    @AllArgsConstructor
+    @NoArgsConstructor
     public static class History {
         private String event;
         private String date;

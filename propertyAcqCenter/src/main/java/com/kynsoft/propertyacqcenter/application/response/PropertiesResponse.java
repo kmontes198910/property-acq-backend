@@ -1,22 +1,15 @@
-package com.kynsoft.propertyacqcenter.infrastructure.entity;
+package com.kynsoft.propertyacqcenter.application.response;
 
+import com.kynsof.share.core.domain.bus.query.IResponse;
 import com.kynsoft.propertyacqcenter.domain.dto.PropertyDto;
 import com.kynsoft.propertyacqcenter.domain.enums.PropertyType;
-import jakarta.persistence.*;
 import lombok.*;
 
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
-@Entity
-@Table(name = "properties")
-public class Property {
+@Setter
+@Getter
+public class PropertiesResponse implements IResponse {
 
-    @Id
     private String id;
-
-    @Enumerated(EnumType.STRING)
     private PropertyType propertyType;
     private int lotSize;
     private String apn;
@@ -33,7 +26,7 @@ public class Property {
     private double unitCount;
     private int squareFootage;
 
-    public Property(PropertyDto dto) {
+    public PropertiesResponse(PropertyDto dto) {
         this.id = dto.getId();
         this.propertyType = dto.getPropertyType();
         this.lotSize = dto.getLotSize();
@@ -48,25 +41,6 @@ public class Property {
         this.zipCode = dto.getZipCode();
         this.unitCount = dto.getUnitCount();
         this.squareFootage = dto.getSquareFootage();
-    }
-
-    public PropertyDto toAggregate() {
-        return PropertyDto.builder()
-                .id(this.id)
-                .addressLine1(addressLine1)
-                .addressLine2(addressLine2)
-                .apn(apn)
-                .city(city)
-                .county(county)
-                .lotSize(lotSize)
-                .occupancy(occupancy)
-                .propertyType(propertyType)
-                .squareFootage(squareFootage)
-                .state(state)
-                .unitCount(unitCount)
-                .yearBuilt(yearBuilt)
-                .zipCode(zipCode)
-                .build();
     }
 
 }

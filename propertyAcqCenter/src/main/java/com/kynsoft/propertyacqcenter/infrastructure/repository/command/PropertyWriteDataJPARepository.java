@@ -4,8 +4,6 @@ import com.kynsoft.propertyacqcenter.infrastructure.entity.Property;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import java.util.UUID;
-
 @Repository
-public interface PropertyWriteDataJPARepository extends JpaRepository<Property, UUID> {
+public interface PropertyWriteDataJPARepository extends JpaRepository<Property, String> {
 }

@@ -8,9 +8,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.stereotype.Repository;
 
-import java.util.UUID;
-
 @Repository
-public interface PropertyReadDataJPARepository extends JpaRepository<Property, UUID>, JpaSpecificationExecutor<Property> {
+public interface PropertyReadDataJPARepository extends JpaRepository<Property, String>, JpaSpecificationExecutor<Property> {
     Page<Property> findAll(Specification<Property> specification, Pageable pageable);
 }
