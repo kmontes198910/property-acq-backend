@@ -11,7 +11,6 @@ import java.util.UUID;
 
 public interface IRecoveryBedService {
     Optional<RecoveryBed> findById(UUID id);
-    List<RecoveryBed> findByBusinessId(UUID businessId);
     List<RecoveryBed> findAvailableBeds(UUID businessId);
     List<RecoveryBed> findByStatus(String status);
     List<RecoveryBed> findByType(String type);

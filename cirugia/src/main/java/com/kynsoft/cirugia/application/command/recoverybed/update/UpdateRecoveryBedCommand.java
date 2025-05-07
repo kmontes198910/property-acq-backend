@@ -18,10 +18,10 @@ public class UpdateRecoveryBedCommand implements ICommand {
     private String status;
     private UUID businessId;
     private String floor;
-    private String room;
     private Boolean hasMonitor;
     private Boolean hasOxygenSupply;
     private LocalDateTime lastMaintenanceDate;
+    private UUID recoveryRoomId;
     private UUID updatedBy;
     
     public static UpdateRecoveryBedCommand fromRequest(UpdateRecoveryBedRequest request, UUID id, String userId) {
@@ -33,10 +33,10 @@ public class UpdateRecoveryBedCommand implements ICommand {
         command.setStatus(request.getStatus());
         command.setBusinessId(request.getBusinessId());
         command.setFloor(request.getFloor());
-        command.setRoom(request.getRoom());
         command.setHasMonitor(request.getHasMonitor());
         command.setHasOxygenSupply(request.getHasOxygenSupply());
         command.setLastMaintenanceDate(request.getLastMaintenanceDate());
+        command.setRecoveryRoomId(request.getRecoveryRoomId());
         command.setUpdatedBy(UUID.fromString(userId));
         return command;
     }

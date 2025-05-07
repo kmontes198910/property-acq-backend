@@ -18,10 +18,10 @@ public class CreateRecoveryBedCommand implements ICommand {
     private String status;
     private UUID businessId;
     private String floor;
-    private String room;
     private Boolean hasMonitor;
     private Boolean hasOxygenSupply;
     private LocalDateTime lastMaintenanceDate;
+    private UUID recoveryRoomId;
     private UUID createdBy;
     
     public CreateRecoveryBedCommand() {
@@ -36,10 +36,10 @@ public class CreateRecoveryBedCommand implements ICommand {
         command.setStatus(request.getStatus());
         command.setBusinessId(request.getBusinessId());
         command.setFloor(request.getFloor());
-        command.setRoom(request.getRoom());
         command.setHasMonitor(request.getHasMonitor());
         command.setHasOxygenSupply(request.getHasOxygenSupply());
         command.setLastMaintenanceDate(request.getLastMaintenanceDate());
+        command.setRecoveryRoomId(request.getRecoveryRoomId());
         command.setCreatedBy(UUID.fromString(userId));
         return command;
     }

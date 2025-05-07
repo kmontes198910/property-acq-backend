@@ -42,7 +42,7 @@ public class TreatmentEntity {
     @Column(name = "quantity")
     private Integer quantity;
     
-    @Column(name = "medicine_unit", length = 20)
+    @Column(name = "medicine_unit", length = 50)
     private String medicineUnit;
     
     @Column(name = "status", nullable = false)

@@ -5,11 +5,12 @@ import com.kynsoft.rrhh.domain.dto.NurseDto;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.io.Serializable;
 import java.util.UUID;
 
 @Getter
 @Setter
-public class NurseResponse implements IResponse {
+public class NurseResponse implements IResponse, Serializable {
     private UUID id;
     private String identification;
     private String code;

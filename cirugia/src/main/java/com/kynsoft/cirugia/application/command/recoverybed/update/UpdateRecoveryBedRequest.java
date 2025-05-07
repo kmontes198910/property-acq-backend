@@ -15,8 +15,8 @@ public class UpdateRecoveryBedRequest {
     private String status;
     private UUID businessId;
     private String floor;
-    private String room;
     private Boolean hasMonitor;
     private Boolean hasOxygenSupply;
     private LocalDateTime lastMaintenanceDate;
+    private UUID recoveryRoomId;
 }

@@ -37,16 +37,17 @@ public class RecoveryBedEntity {
     @Column(name = "floor")
     private String floor;
     
-    @Column(name = "room")
-    private String room;
-    
     @Column(name = "has_monitor")
     private Boolean hasMonitor;
     
     @Column(name = "has_oxygen_supply")
     private Boolean hasOxygenSupply;
+    
     @Column(name = "last_maintenance_date")
     private LocalDateTime lastMaintenanceDate;
+    
+    @Column(name = "recovery_room_id")
+    private UUID recoveryRoomId;
 
     @CreationTimestamp
     @Column(updatable = false)
@@ -67,6 +68,10 @@ public class RecoveryBedEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "business_id", referencedColumnName = "id", insertable = false, updatable = false)
     private Business business;
+    
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "recovery_room_id", referencedColumnName = "id", insertable = false, updatable = false)
+    private RecoveryRoomEntity recoveryRoom;
     
     @OneToMany(mappedBy = "recoveryBed")
     private List<SurgeryEntity> surgeries;
