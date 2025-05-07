@@ -48,7 +48,7 @@ public class UpdateEvolutionCommandHandler implements ICommandHandler<UpdateEvol
                 .updatedBy(command.getUpdatedBy())
                 .build();
         
-        Evolution updatedEvolution = evolutionRepository.create(evolution);
+        Evolution updatedEvolution = evolutionRepository.update(evolution);
         log.info("Evolución actualizada exitosamente: {}", updatedEvolution.getId());
     }
 }
