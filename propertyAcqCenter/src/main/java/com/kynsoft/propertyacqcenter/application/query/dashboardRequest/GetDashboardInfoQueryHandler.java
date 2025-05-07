@@ -39,7 +39,8 @@ public class GetDashboardInfoQueryHandler implements IQueryHandler<GetDashboardI
     @Override
     public DashboardInfoResponse handle(GetDashboardInfoQuery query) {
 
-        List<PropertyResponse> property = this.propertyService.getPropertyDetails(query.getAddress());
+        try {
+            List<PropertyResponse> property = this.propertyService.getPropertyDetails(query.getAddress());
         EstimatedValueResponse estimatedValue = this.estimateValueService.getEstimatedValue(query.getAddress());
         List<DashboardComparablesResponse> comparablesResponse = new ArrayList<>();
 
@@ -87,7 +88,8 @@ public class GetDashboardInfoQueryHandler implements IQueryHandler<GetDashboardI
                         .occupancy(property.get(0).isOwnerOccupied())
                         .ownerStatus("")
                         .ownerType("")
-                        .propertyType(PropertyType.valueOf(property.get(0).getPropertyType()))
+                        .propertyType(PropertyType.APARTMENT)
+                        //.propertyType(PropertyType.valueOf(property.get(0).getPropertyType()))
                         .purchaseMethod("")
                         .shortSale("")
                         .status("")
@@ -109,5 +111,8 @@ public class GetDashboardInfoQueryHandler implements IQueryHandler<GetDashboardI
                 .taxAssessmentsResponse(taxAssessments)
                 .comparablesResponse(comparablesResponse)
                 .build();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 }
