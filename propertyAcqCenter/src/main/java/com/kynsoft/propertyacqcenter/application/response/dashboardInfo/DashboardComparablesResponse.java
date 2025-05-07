@@ -13,10 +13,10 @@ public class DashboardComparablesResponse implements IResponse {
     private String formattedAddress;
     private String propertyType;
     private String lastSeenDate;
-    private int squareFootage;
-    private int lotSize;
-    private int yearBuilt;
-    private double price;
+    private Integer squareFootage;
+    private Integer lotSize;
+    private Integer yearBuilt;
+    private Integer price;
     private Double latitude;
     private Double longitude;
 }
