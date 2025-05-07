@@ -19,6 +19,7 @@ public class EvolutionResponse implements IResponse, Serializable {
     private final String diet;
     private final String analytics;
     private final String others;
+    private final String process;
     private final LocalDateTime evolutionDate;
     private final LocalDateTime createdAt;
     private final LocalDateTime updatedAt;
@@ -35,6 +36,7 @@ public class EvolutionResponse implements IResponse, Serializable {
         this.diet = evolution.getDiet();
         this.analytics = evolution.getAnalytics();
         this.others = evolution.getOthers();
+        this.process = evolution.getProcess();
         this.evolutionDate = evolution.getEvolutionDate();
         this.createdAt = evolution.getCreatedAt();
         this.updatedAt = evolution.getUpdatedAt();

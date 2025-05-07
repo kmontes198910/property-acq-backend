@@ -19,6 +19,7 @@ public class UpdateEvolutionCommand implements ICommand {
     private String diet;
     private String analytics;
     private String others;
+    private String process;
     private UUID updatedBy;
     
     public static UpdateEvolutionCommand fromRequest(UpdateEvolutionRequest request, UUID id, String userId) {
@@ -31,6 +32,7 @@ public class UpdateEvolutionCommand implements ICommand {
         command.setDiet(request.getDiet());
         command.setAnalytics(request.getAnalytics());
         command.setOthers(request.getOthers());
+        command.setProcess(request.getProcess());
         command.setUpdatedBy(UUID.fromString(userId));
         return command;
     }

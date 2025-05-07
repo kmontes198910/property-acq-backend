@@ -19,4 +19,5 @@ public class CreateEvolutionRequest {
     private String diet;
     private String analytics;
     private String others;
+    private String process;
 }

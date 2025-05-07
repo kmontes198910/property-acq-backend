@@ -20,6 +20,7 @@ public class CreateEvolutionCommand implements ICommand {
     private String diet;
     private String analytics;
     private String others;
+    private String process;
     private UUID createdBy;
     
     public CreateEvolutionCommand() {
@@ -36,6 +37,7 @@ public class CreateEvolutionCommand implements ICommand {
         command.setDiet(request.getDiet());
         command.setAnalytics(request.getAnalytics());
         command.setOthers(request.getOthers());
+        command.setProcess(request.getProcess());
         command.setCreatedBy(UUID.fromString(userId));
         return command;
     }

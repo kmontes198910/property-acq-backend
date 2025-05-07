@@ -64,6 +64,11 @@ public class Evolution {
     private String others;
     
     /**
+     * Proceso (en inglés)
+     */
+    private String process;
+    
+    /**
      * Fecha y hora en que se registra la evolución
      */
     private LocalDateTime evolutionDate;

@@ -32,6 +32,7 @@ public class CreateEvolutionCommandHandler implements ICommandHandler<CreateEvol
                 .diet(command.getDiet())
                 .analytics(command.getAnalytics())
                 .others(command.getOthers())
+                .process(command.getProcess())
                 .evolutionDate(LocalDateTime.now())
                 .createdBy(command.getCreatedBy())
                 .createdAt(LocalDateTime.now())

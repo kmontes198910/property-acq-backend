@@ -51,6 +51,9 @@ public class EvolutionEntity {
     @Column(name = "others", columnDefinition = "TEXT")
     private String others;
     
+    @Column(name = "process")
+    private String process;
+    
     @Column(name = "evolution_date", nullable = false)
     private LocalDateTime evolutionDate;
     

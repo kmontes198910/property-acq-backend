@@ -41,6 +41,7 @@ public class UpdateEvolutionCommandHandler implements ICommandHandler<UpdateEvol
                 .diet(command.getDiet() != null ? command.getDiet() : existingEvolution.getDiet())
                 .analytics(command.getAnalytics() != null ? command.getAnalytics() : existingEvolution.getAnalytics())
                 .others(command.getOthers() != null ? command.getOthers() : existingEvolution.getOthers())
+                .process(command.getProcess() != null ? command.getProcess() : existingEvolution.getProcess())
                 .createdAt(existingEvolution.getCreatedAt())
                 .createdBy(existingEvolution.getCreatedBy())
                 .updatedAt(LocalDateTime.now())
