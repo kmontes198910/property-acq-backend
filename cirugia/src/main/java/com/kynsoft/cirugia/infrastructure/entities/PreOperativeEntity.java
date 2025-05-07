@@ -20,7 +20,7 @@ public class PreOperativeEntity {
     @Id
     private UUID id;
 
-    @Column(name = "surgery_id", nullable = false, unique = true)
+    @Column(name = "surgery_id", nullable = false)
     private UUID surgeryId;
 
     @Column(name = "admission_reason")
@@ -31,6 +31,9 @@ public class PreOperativeEntity {
 
     @Column(name = "physical_examination", columnDefinition = "TEXT")
     private String physicalExamination;
+
+    @Column(name = "consent_informed_file_url")
+    private String consentInformedFileUrl;
 
     @CreationTimestamp
     @Column(updatable = false)

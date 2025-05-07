@@ -1,6 +1,7 @@
 package com.kynsoft.cirugia.application.command.surgery.create;
 
 import com.kynsof.share.core.domain.bus.command.ICommandHandler;
+import com.kynsoft.cirugia.domain.enums.SurgeryStatus;
 import com.kynsoft.cirugia.domain.service.IDoctorService;
 import com.kynsoft.cirugia.domain.service.IPatientsService;
 import com.kynsoft.cirugia.domain.service.ISurgeryService;
@@ -38,7 +39,7 @@ public class CreateSurgeryCommandHandler implements ICommandHandler<CreateSurger
                 .startTime(command.getStartTime())
                 .endingTime(command.getEndingTime())
                 .requiresHospitalization(command.getRequiresHospitalization())
-                .status("SCHEDULED") // Estado predeterminado para una nueva cirugía
+                .status(SurgeryStatus.SCHEDULED.toString()) // Estado predeterminado para una nueva cirugía
                 .businessId(command.getBusinessId())
                 .createdBy(command.getCreatedBy())
                 .build();

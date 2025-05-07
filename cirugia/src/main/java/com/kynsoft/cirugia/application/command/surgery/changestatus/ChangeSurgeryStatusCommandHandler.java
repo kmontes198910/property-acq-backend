@@ -23,6 +23,6 @@ public class ChangeSurgeryStatusCommandHandler implements ICommandHandler<Change
     @Transactional
     public void handle(ChangeSurgeryStatusCommand command) {
         log.info("Changing surgery {} status to: {}", command.getSurgeryId(), command.getStatus());
-        surgeryReadRepository.changeSurgeryStatus(command.getSurgeryId(), command.getStatus(), command.getUpdatedBy());
+        surgeryReadRepository.changeSurgeryStatus(command.getSurgeryId(), command.getStatus().toString(), command.getUpdatedBy());
     }
 }

@@ -20,7 +20,7 @@ public class PostOperativeEntity {
     @Id
     private UUID id;
 
-    @Column(name = "surgery_id", nullable = false, unique = true)
+    @Column(name = "surgery_id", nullable = false)
     private UUID surgeryId;
 
     @Column(name = "treatment_summary", columnDefinition = "TEXT")

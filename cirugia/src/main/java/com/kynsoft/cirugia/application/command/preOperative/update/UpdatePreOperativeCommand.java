@@ -19,6 +19,7 @@ public class UpdatePreOperativeCommand implements ICommand {
     private String admissionReason;
     private String currentDiseaseHistory;
     private String physicalExamination;
+    private String consentInformedFileUrl;
     private UUID updatedBy;
     
     public static UpdatePreOperativeCommand fromRequest(UpdatePreOperativeRequest request, UUID id, String userId) {
@@ -28,7 +29,8 @@ public class UpdatePreOperativeCommand implements ICommand {
                 .admissionReason(request.getAdmissionReason())
                 .currentDiseaseHistory(request.getCurrentDiseaseHistory())
                 .physicalExamination(request.getPhysicalExamination())
-                .updatedBy( UUID.fromString(userId))
+                .consentInformedFileUrl(request.getConsentInformedFileUrl())
+                .updatedBy(UUID.fromString(userId))
                 .build();
     }
 

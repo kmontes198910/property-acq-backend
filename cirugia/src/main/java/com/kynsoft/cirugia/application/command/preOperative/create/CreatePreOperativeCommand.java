@@ -19,6 +19,7 @@ public class CreatePreOperativeCommand implements ICommand {
     private String admissionReason;
     private String currentDiseaseHistory;
     private String physicalExamination;
+    private String consentInformedFileUrl;
     private UUID createdBy;
     
     public static CreatePreOperativeCommand fromRequest(CreatePreOperativeRequest request, String userId) {
@@ -28,6 +29,7 @@ public class CreatePreOperativeCommand implements ICommand {
                 .admissionReason(request.getAdmissionReason())
                 .currentDiseaseHistory(request.getCurrentDiseaseHistory())
                 .physicalExamination(request.getPhysicalExamination())
+                .consentInformedFileUrl(request.getConsentInformedFileUrl())
                 .createdBy(UUID.fromString(userId))
                 .build();
     }
