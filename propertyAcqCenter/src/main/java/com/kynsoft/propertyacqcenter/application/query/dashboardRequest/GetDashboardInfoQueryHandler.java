@@ -105,9 +105,9 @@ public class GetDashboardInfoQueryHandler implements IQueryHandler<GetDashboardI
                 .lastSaleResponse(DashboardLastSaleResponse.builder().build())
                 .mortageDebtResponse(DashboardMortageDebtResponse.builder().build())
                 .opportunnityResponse(DashboardOpportunnityResponse.builder().build())
-                .saleValueResponse(values)
-                .taxAssessmentsResponse(taxAssessments)
-                .comparablesResponse(comparablesResponse)
+//                .saleValueResponse(values)
+//                .taxAssessmentsResponse(taxAssessments)
+//                .comparablesResponse(comparablesResponse)
                 .build();
     }
 }
