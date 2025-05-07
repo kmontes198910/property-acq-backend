@@ -45,14 +45,14 @@ public class GetDashboardInfoQueryHandler implements IQueryHandler<GetDashboardI
 
         for (EstimatedValueResponse.ComparableProperty comparable : estimatedValue.getComparables()) {
             comparablesResponse.add(DashboardComparablesResponse.builder()
-                    .formattedAddress(comparable.getFormattedAddress())
-                    .lastSeenDate(comparable.getLastSeenDate())
-                    .latitude(comparable.getLatitude())
-                    .longitude(comparable.getLongitude())
-                    .lotSize(comparable.getLotSize())
-                    .price(comparable.getPrice())
+                    .formattedAddress(comparable.getFormattedAddress() != null ? comparable.getFormattedAddress() : null)
+                    .lastSeenDate(comparable.getLastSeenDate() != null ? comparable.getLastSeenDate() : null)
+                    .latitude(comparable.getLatitude() != null ? comparable.getLatitude() : null)
+                    .longitude(comparable.getLongitude() != null ? comparable.getLongitude() : null)
+                    .lotSize(comparable.getLotSize() != null ? comparable.getLotSize() : null)
+                    .price(comparable.getPrice() != null ? comparable.getPrice() : null)
                     .propertyType(comparable.getPropertyType())
-                    .squareFootage(comparable.getSquareFootage())
+                    .squareFootage(comparable.getSquareFootage() != null ? comparable.getSquareFootage() : null)
                     .build());
         }
         List<DashboardSaleValueResponse> values = new ArrayList<>();
