@@ -11,15 +11,18 @@ import com.kynsoft.propertyacqcenter.application.command.analysis.delete.DeleteA
 import com.kynsoft.propertyacqcenter.application.command.analysis.delete.DeleteAnalysisMessage;
 import com.kynsoft.propertyacqcenter.application.query.analysis.search.GetSearchAnalysisQuery;
 import java.util.UUID;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/analysis")
+@Slf4j
 public class AnalysisController {
 
     private final IMediator mediator;
+    private static final String USER_ID_HEADER = "X-User-ID";
 
     public AnalysisController(IMediator mediator) {
 
@@ -27,8 +30,10 @@ public class AnalysisController {
     }
 
     @PostMapping("")
-    public ResponseEntity<CreateAnalysisMessage> createAllergy(@RequestBody AnalysisRequest request) {
-        CreateAnalysisCommand createCommand = CreateAnalysisCommand.fromRequest(request);
+    public ResponseEntity<CreateAnalysisMessage> createAllergy(@RequestBody AnalysisRequest request,
+                                                               @RequestHeader(value = USER_ID_HEADER, required = false) UUID userId) {
+        logUserInfo(userId);
+        CreateAnalysisCommand createCommand = CreateAnalysisCommand.fromRequest(request, userId);
         CreateAnalysisMessage response = mediator.send(createCommand);
 
         return ResponseEntity.ok(response);
@@ -49,5 +54,16 @@ public class AnalysisController {
         GetSearchAnalysisQuery query = new GetSearchAnalysisQuery(pageable, request.getFilter(),request.getQuery());
         PaginatedResponse data = mediator.send(query);
         return ResponseEntity.ok(data);
+    }
+
+    /**
+     * Método auxiliar para registrar información del usuario en los logs
+     */
+    private void logUserInfo(UUID userId) {
+        if (userId != null) {
+            log.info("Request from user: {} (ID: {})", userId);
+        } else if (userId != null) {
+            log.info("Request from user ID: {}", userId);
+        }
     }
 }

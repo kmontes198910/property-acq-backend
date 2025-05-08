@@ -22,7 +22,9 @@ public interface ContactReadDataJPARepository extends JpaRepository<Contact, UUI
      * @return Optional con el contacto si existe
      */
     Optional<Contact> findByEmail(String email);
-    
+
+    long countByEmail(String email);
+
     /**
      * Busca contactos por el ID de la entidad legal asociada
      * @param legalEntityId ID de la entidad legal

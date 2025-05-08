@@ -1,11 +1,13 @@
 package com.kynsoft.propertyacqcenter.application.command.contact.create;
 
 import com.kynsof.share.core.domain.bus.command.ICommandHandler;
-import com.kynsoft.propertyacqcenter.domain.dto.BusinessDto;
 import com.kynsoft.propertyacqcenter.domain.dto.ContactDto;
 import com.kynsoft.propertyacqcenter.domain.dto.LegalEntityDto;
+import com.kynsoft.propertyacqcenter.domain.dto.exception.contact.EmailFormatException;
+import com.kynsoft.propertyacqcenter.domain.dto.exception.contact.EmailMustBeUniqueException;
 import com.kynsoft.propertyacqcenter.domain.services.IContactService;
 import com.kynsoft.propertyacqcenter.domain.services.ILegalEntityService;
+import java.util.regex.Pattern;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -23,6 +25,8 @@ public class CreateContactCommandHandler implements ICommandHandler<CreateContac
     public void handle(CreateContactCommand command) {
         LegalEntityDto legalEntityDto = this.legalEntityService.findById(command.getLegalEntity());
 
+        this.validateEmail(command.getEmail());
+
         ContactDto contactDto = ContactDto.builder()
                 .id(command.getId())
                 .firstName(command.getFirstName())
@@ -38,5 +42,16 @@ public class CreateContactCommandHandler implements ICommandHandler<CreateContac
                 .build();
 
         this.contactService.create(contactDto);
+    }
+
+    private void validateEmail(String email) {
+        if (this.contactService.countByEmail(email) > 0) {
+            throw new EmailMustBeUniqueException(email);
+        }
+        String emailRegex = "^[A-Za-z0-9+_.-]+@(.+)$";
+        Pattern pattern = Pattern.compile(emailRegex);
+        if (!pattern.matcher(email).matches()) {
+            throw new EmailFormatException(email);
+        }
     }
 }

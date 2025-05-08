@@ -60,4 +60,6 @@ public interface IContactService {
      * @return Lista de ContactDto asociados a la entidad legal
      */
     List<ContactDto> findByLegalEntityId(UUID legalEntityId);
+
+    long countByEmail(String email);
 }

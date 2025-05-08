@@ -18,4 +18,6 @@ public interface IBusinessService {
     BusinessDto findById(UUID id);
     
     PaginatedResponse search(Pageable pageable, List<FilterCriteria> filterCriteria);
+
+    long countByName(String name);
 }

@@ -33,6 +33,7 @@ public class CreateAnalysisCommandHandler implements ICommandHandler<CreateAnaly
         PropertyDto propertyDto = this.propertyService.getById(command.getProperty());
         this.analysisService.create(AnalysisDto.builder()
                 .id(UUID.randomUUID())
+                .createdBy(command.getUserId())
                 .property(propertyDto)
                 .opportunity(OpportunityDto.builder()
                         .estWholesalePrice(command.getOpportunity().getEstWholesalePrice())

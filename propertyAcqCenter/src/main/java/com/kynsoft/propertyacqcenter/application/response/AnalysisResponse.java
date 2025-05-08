@@ -32,6 +32,7 @@ public class AnalysisResponse implements IResponse {
     private List<SaleValueDto> saleValue;
     private List<TaxAssessmentAnalysisDto> taxAssessments;
     private List<PropertyComparableDto> comparables;
+    private UUID createdBy;
 
     public AnalysisResponse(AnalysisDto dto) {
         this.id = dto.getId();
@@ -43,6 +44,7 @@ public class AnalysisResponse implements IResponse {
         this.saleValue = dto.getSaleValue();
         this.taxAssessments = dto.getTaxAssessments();
         this.comparables = dto.getComparables();
+        this.createdBy = dto.getCreatedBy();
     }
 
 }
