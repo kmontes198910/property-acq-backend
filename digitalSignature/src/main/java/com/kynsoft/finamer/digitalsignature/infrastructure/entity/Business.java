@@ -4,15 +4,12 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 @Entity
 @Table(name = "businesses")
@@ -20,6 +17,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @Builder
+@AllArgsConstructor
 public class Business {
 
     @Id
@@ -37,9 +35,5 @@ public class Business {
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
-    public Business(UUID id, String name) {
-        this.id = id != null ? id : UUID.randomUUID();
-        this.name = name;
-    }
 
 }
