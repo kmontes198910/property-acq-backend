@@ -93,4 +93,9 @@ public class CompanyTypeServiceImpl implements ICompanyTypeService {
                 data.getTotalElements(), data.getSize(), data.getNumber());
     }
 
+    @Override
+    public long countByCode(String code) {
+        return this.repositoryQuery.countByCode(code);
+    }
+
 }

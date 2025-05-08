@@ -14,4 +14,5 @@ public interface ICompanyTypeService {
     void delete(UUID id);
     CompanyTypeDto findById(UUID id);
     PaginatedResponse search(Pageable pageable, List<FilterCriteria> filterCriteria);
+    long countByCode(String code);
 }
