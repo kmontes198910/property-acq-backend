@@ -22,14 +22,7 @@ public class FindRecoveryRoomByIdQueryHandler implements IQueryHandler<FindRecov
     public RecoveryRoomResponse handle(FindRecoveryRoomByIdQuery query) {
         log.info("Buscando sala de recuperación con ID: {}", query.getId());
         
-        Optional<RecoveryRoom> recoveryRoomOptional = recoveryRoomService.findById(query.getId());
-        
-        if (recoveryRoomOptional.isEmpty()) {
-            log.error("Sala de recuperación no encontrada con ID: {}", query.getId());
-            throw new BusinessException(DomainErrorMessage.SCHEDULE_IS_NOT_AVAIBLE, "The selected schedule is not available.");
-        }
-        
-        RecoveryRoom recoveryRoom = recoveryRoomOptional.get();
+        RecoveryRoom recoveryRoom = recoveryRoomService.findById(query.getId());
         return RecoveryRoomResponse.fromEntity(recoveryRoom);
     }
 }

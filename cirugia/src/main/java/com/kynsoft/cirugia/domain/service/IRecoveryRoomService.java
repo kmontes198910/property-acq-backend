@@ -19,7 +19,7 @@ public interface IRecoveryRoomService {
      * @param id El ID de la sala de recuperación
      * @return Optional que contiene la sala de recuperación si existe
      */
-    Optional<RecoveryRoom> findById(UUID id);
+    RecoveryRoom findById(UUID id);
     
     /**
      * Obtiene todas las salas de recuperación para un negocio específico

@@ -25,13 +25,8 @@ public class DeleteRecoveryRoomCommandHandler implements ICommandHandler<DeleteR
         log.info("Manejando comando de eliminación de sala de recuperación con ID: {}", command.getId());
         
         // Verificar que la sala existe
-        Optional<RecoveryRoom> optionalRoom = recoveryRoomService.findById(command.getId());
-        if (optionalRoom.isEmpty()) {
-            log.error("Sala de recuperación con ID {} no encontrada", command.getId());
-            throw new BusinessException(DomainErrorMessage.SCHEDULE_IS_NOT_AVAIBLE, "The selected schedule is not available.");
-        }
-        
-        RecoveryRoom room = optionalRoom.get();
+        RecoveryRoom room = recoveryRoomService.findById(command.getId());
+
         log.info("Eliminando sala de recuperación: ID={}, Nombre={}, Tipo={}", 
                 room.getId(), room.getName(), room.getRoomType());
         
