@@ -95,4 +95,14 @@ public class EmployeeServiceImpl implements IEmployeeService {
         return new PaginatedResponse(objects, data.getTotalPages(), data.getNumberOfElements(),
                 data.getTotalElements(), data.getSize(), data.getNumber());
     }
+
+    @Override
+    public long countByEmail(String email) {
+        return this.repositoryQuery.countByEmail(email);
+    }
+
+    @Override
+    public long countByEmployeeNumber(String employeeNumber) {
+        return this.repositoryQuery.countByEmployeeNumber(employeeNumber);
+    }
 }

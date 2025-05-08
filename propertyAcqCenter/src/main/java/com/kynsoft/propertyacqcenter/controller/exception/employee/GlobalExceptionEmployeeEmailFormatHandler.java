@@ -1,7 +1,7 @@
-package com.kynsoft.propertyacqcenter.controller.exception;
+package com.kynsoft.propertyacqcenter.controller.exception.employee;
 
 import com.kynsoft.propertyacqcenter.application.response.ErrorResponse;
-import com.kynsoft.propertyacqcenter.domain.dto.exception.EmployeeNotFoundException;
+import com.kynsoft.propertyacqcenter.domain.dto.exception.employee.EmployeeEmailFormatException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -10,14 +10,14 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import java.time.LocalDateTime;
 
 @RestControllerAdvice
-public class GlobalExceptionEmployeeHandler {
+public class GlobalExceptionEmployeeEmailFormatHandler {
 
-    @ExceptionHandler(EmployeeNotFoundException.class)
-    @ResponseStatus(HttpStatus.NOT_FOUND)
-    public ErrorResponse handleEmergencyCaseNotFound(EmployeeNotFoundException ex) {
+    @ExceptionHandler(EmployeeEmailFormatException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ErrorResponse handleEmergencyCaseNotFound(EmployeeEmailFormatException ex) {
         return new ErrorResponse(
                 HttpStatus.NOT_FOUND.value(),
-                "Employee Not Found.",
+                "Invalid email format.",
                 ex.getMessage(),
                 LocalDateTime.now().toString()
         );

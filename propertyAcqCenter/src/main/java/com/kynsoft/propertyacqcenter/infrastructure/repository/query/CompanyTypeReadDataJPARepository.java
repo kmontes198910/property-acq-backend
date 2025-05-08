@@ -18,6 +18,8 @@ public interface CompanyTypeReadDataJPARepository extends JpaRepository<CompanyT
      * @return Optional con el tipo de empresa si existe
      */
     Optional<CompanyType> findByCode(String code);
+
+    long countByCode(String code);
     
     /**
      * Busca tipos de empresas por su nombre o parte del nombre
