@@ -23,7 +23,7 @@ spec:
           image: kmontes2020/medinec-digital-signature-dev:v1
           imagePullPolicy: Always
           ports:
-            - containerPort: 9701
+            - containerPort: 9909
               protocol: TCP
           envFrom:
             - secretRef:
@@ -44,6 +44,6 @@ spec:
     app: digital-signature
   ports:
     - protocol: TCP
-      port: 9701
-      targetPort: 9701
+      port: 9909
+      targetPort: 9909
   type: ClusterIP
