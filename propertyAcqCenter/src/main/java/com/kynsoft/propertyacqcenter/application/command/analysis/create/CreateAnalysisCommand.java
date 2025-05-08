@@ -13,6 +13,7 @@ import java.util.UUID;
 public class CreateAnalysisCommand implements ICommand {
 
     private UUID id;
+    private UUID userId;
     private String property;
     private OpportunityRequest opportunity;
     private MortageDebtRequest mortageDebt;
@@ -22,8 +23,9 @@ public class CreateAnalysisCommand implements ICommand {
     private List<TaxAssessmentAnalysisRequest> taxAssessments;
     private List<PropertyComparableRequest> comparables;
 
-    public CreateAnalysisCommand(String property, OpportunityRequest opportunity, MortageDebtRequest mortageDebt, CompsAtAGlanceRequest compsAtAGlance, LastSaleRequest lastSale, List<SaleValueRequest> saleValue, List<TaxAssessmentAnalysisRequest> taxAssessments, List<PropertyComparableRequest> comparables) {
+    public CreateAnalysisCommand(UUID userId, String property, OpportunityRequest opportunity, MortageDebtRequest mortageDebt, CompsAtAGlanceRequest compsAtAGlance, LastSaleRequest lastSale, List<SaleValueRequest> saleValue, List<TaxAssessmentAnalysisRequest> taxAssessments, List<PropertyComparableRequest> comparables) {
         this.id = UUID.randomUUID();
+        this.userId = userId;
         this.property = property;
         this.opportunity = opportunity;
         this.mortageDebt = mortageDebt;
@@ -34,8 +36,9 @@ public class CreateAnalysisCommand implements ICommand {
         this.comparables = comparables;
     }
 
-    public static CreateAnalysisCommand fromRequest(AnalysisRequest request) {
+    public static CreateAnalysisCommand fromRequest(AnalysisRequest request, UUID userId) {
         return new CreateAnalysisCommand(
+                userId,
                 request.getProperty(),
                 request.getOpportunity(),
                 request.getMortageDebt(),

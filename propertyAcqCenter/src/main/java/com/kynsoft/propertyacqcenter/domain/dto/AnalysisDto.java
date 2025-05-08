@@ -30,4 +30,5 @@ public class AnalysisDto {
     private List<SaleValueDto> saleValue;
     private List<TaxAssessmentAnalysisDto> taxAssessments;
     private List<PropertyComparableDto> comparables;
+    private UUID createdBy;
 }

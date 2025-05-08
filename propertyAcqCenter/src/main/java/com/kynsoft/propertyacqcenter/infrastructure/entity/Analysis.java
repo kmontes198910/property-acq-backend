@@ -9,6 +9,7 @@ import com.kynsoft.propertyacqcenter.infrastructure.entity.analysis.PropertyComp
 import com.kynsoft.propertyacqcenter.infrastructure.entity.analysis.SaleValue;
 import com.kynsoft.propertyacqcenter.infrastructure.entity.analysis.TaxAssessmentAnalysis;
 import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
@@ -66,6 +67,9 @@ public class Analysis {
     @OneToMany(mappedBy = "analysis", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<PropertyComparable> comparables = new HashSet<>();;
 
+    @Column(name = "created_by")
+    private UUID createdBy;
+
     public Analysis(AnalysisDto dto) {
         this.id = dto.getId();
         this.property = dto.getProperty() != null ? new Property(dto.getProperty()) : null;
@@ -115,6 +119,7 @@ public class Analysis {
                 this.comparables.add(pc);
             });
         }
+        this.createdBy = dto.getCreatedBy();
     }
 
     public AnalysisDto toAggregate() {
@@ -128,6 +133,7 @@ public class Analysis {
                 .opportunity(opportunity != null ? opportunity.toAggregate() : null)
                 .saleValue(saleValue != null ? saleValue.stream().map(SaleValue::toAggregate).collect(Collectors.toList()) : null)
                 .taxAssessments(taxAssessments != null ? taxAssessments.stream().map(TaxAssessmentAnalysis::toAggregate).collect(Collectors.toList()) : null)
+                .createdBy(createdBy)
                 .build();
     }
 
