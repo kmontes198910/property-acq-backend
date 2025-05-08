@@ -5,7 +5,6 @@ import com.kynsof.share.core.domain.response.PaginatedResponse;
 import com.kynsof.share.core.infrastructure.specifications.GenericSpecificationsBuilder;
 import com.kynsoft.propertyacqcenter.application.response.BusinessResponse;
 import com.kynsoft.propertyacqcenter.domain.dto.BusinessDto;
-import com.kynsoft.propertyacqcenter.domain.dto.exception.BusinessNotFoundException;
 import com.kynsoft.propertyacqcenter.domain.services.IBusinessService;
 import com.kynsoft.propertyacqcenter.infrastructure.entity.Business;
 import com.kynsoft.propertyacqcenter.infrastructure.repository.command.BusinessWriteDataJPARepository;
@@ -90,6 +89,11 @@ public class BusinessServiceImpl implements IBusinessService {
         }
         return new PaginatedResponse(objects, data.getTotalPages(), data.getNumberOfElements(),
                 data.getTotalElements(), data.getSize(), data.getNumber());
+    }
+
+    @Override
+    public long countByName(String name) {
+        return this.repositoryQuery.countByName(name);
     }
 
 }

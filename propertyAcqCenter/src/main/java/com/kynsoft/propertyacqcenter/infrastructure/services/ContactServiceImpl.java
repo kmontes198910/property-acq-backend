@@ -125,4 +125,9 @@ public class ContactServiceImpl implements IContactService {
         return new PaginatedResponse(objects, data.getTotalPages(), data.getNumberOfElements(),
                 data.getTotalElements(), data.getSize(), data.getNumber());
     }
+
+    @Override
+    public long countByEmail(String email) {
+        return this.repositoryQuery.countByEmail(email);
+    }
 }

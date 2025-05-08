@@ -1,4 +1,4 @@
-package com.kynsoft.propertyacqcenter.controller.exception;
+package com.kynsoft.propertyacqcenter.controller.exception.contact;
 
 import com.kynsoft.propertyacqcenter.application.response.ErrorResponse;
 import com.kynsoft.propertyacqcenter.domain.dto.exception.ContactNotFoundException;

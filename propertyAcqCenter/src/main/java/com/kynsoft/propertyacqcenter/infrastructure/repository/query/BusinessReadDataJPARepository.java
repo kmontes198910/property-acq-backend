@@ -13,4 +13,5 @@ import java.util.UUID;
 @Repository
 public interface BusinessReadDataJPARepository extends JpaRepository<Business, UUID>, JpaSpecificationExecutor<Business> {
     Page<Business> findAll(Specification<Business> specification, Pageable pageable);
+    long countByName(String name);
 }
