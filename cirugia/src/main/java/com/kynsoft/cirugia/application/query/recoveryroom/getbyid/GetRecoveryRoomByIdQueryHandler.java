@@ -23,14 +23,7 @@ public class GetRecoveryRoomByIdQueryHandler implements IQueryHandler<GetRecover
     public RecoveryRoomResponse handle(GetRecoveryRoomByIdQuery query) {
         log.info("Manejando consulta para obtener sala de recuperación con ID: {}", query.getId());
 
-        Optional<RecoveryRoom> optionalRoom = recoveryRoomService.findById(query.getId());
-        if (optionalRoom.isEmpty()) {
-            log.error("Sala de recuperación con ID {} no encontrada", query.getId());
-            throw new BusinessException(DomainErrorMessage.SCHEDULE_IS_NOT_AVAIBLE, "The selected schedule is not available.");
-        }
-
-        RecoveryRoom room = optionalRoom.get();
-        
+       RecoveryRoom room = recoveryRoomService.findById(query.getId());
         return RecoveryRoomResponse.builder()
                 .id(room.getId())
                 .name(room.getName())
@@ -47,7 +40,6 @@ public class GetRecoveryRoomByIdQueryHandler implements IQueryHandler<GetRecover
                 .updatedAt(room.getUpdatedAt())
                 .createdBy(room.getCreatedBy())
                 .updatedBy(room.getUpdatedBy())
-                .bedIds(room.getBedIds())
                 .build();
     }
 }

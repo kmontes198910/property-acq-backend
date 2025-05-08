@@ -26,15 +26,8 @@ public class UpdateRecoveryRoomCommandHandler implements ICommandHandler<UpdateR
         log.info("Actualizando sala de recuperación con ID: {}", command.getRecoveryRoomId());
         
         // Obtener la sala de recuperación existente
-        Optional<RecoveryRoom> roomOptional = recoveryRoomService.findById(command.getRecoveryRoomId());
-        
-        if (roomOptional.isEmpty()) {
-            log.error("Sala de recuperación no encontrada con ID: {}", command.getRecoveryRoomId());
-            throw new BusinessException(DomainErrorMessage.SCHEDULE_IS_NOT_AVAIBLE, "The selected schedule is not available.");
-        }
-        
-        RecoveryRoom existingRoom = roomOptional.get();
-        
+       RecoveryRoom existingRoom = recoveryRoomService.findById(command.getRecoveryRoomId());
+
         // Actualizar solo los campos que no son nulos en el comando
         if (command.getName() != null) {
             existingRoom.setName(command.getName());

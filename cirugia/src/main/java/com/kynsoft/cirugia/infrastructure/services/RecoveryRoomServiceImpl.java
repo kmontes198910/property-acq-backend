@@ -41,9 +41,11 @@ public class RecoveryRoomServiceImpl implements IRecoveryRoomService {
 
     @Override
     @Cacheable(value = SurgeryCacheConfig.RECOVERY_BED_CACHE, key = "'room_' + #id")
-    public Optional<RecoveryRoom> findById(UUID id) {
+    public RecoveryRoom findById(UUID id) {
         log.info("Buscando sala de recuperación con ID: {}", id);
-        return recoveryRoomReadRepository.findById(id).map(this::mapToDomain);
+        Optional<RecoveryRoomEntity> optionalRoom = recoveryRoomReadRepository.findById(id);
+
+        return mapToDomain(optionalRoom.get());
     }
 
     @Override
