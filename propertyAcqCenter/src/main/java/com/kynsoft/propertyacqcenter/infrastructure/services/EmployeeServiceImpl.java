@@ -100,4 +100,9 @@ public class EmployeeServiceImpl implements IEmployeeService {
     public long countByEmail(String email) {
         return this.repositoryQuery.countByEmail(email);
     }
+
+    @Override
+    public long countByEmployeeNumber(String employeeNumber) {
+        return this.repositoryQuery.countByEmployeeNumber(employeeNumber);
+    }
 }
