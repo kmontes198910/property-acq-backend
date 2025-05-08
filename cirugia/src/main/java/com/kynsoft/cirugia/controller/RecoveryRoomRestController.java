@@ -87,7 +87,7 @@ public class RecoveryRoomRestController {
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
-    @PutMapping("/{id}")
+    @PatchMapping("/{id}")
     @Operation(summary = "Actualizar una sala de recuperación existente")
     @ApiResponses(value = {
         @ApiResponse(responseCode = "200", description = "Sala de recuperación actualizada"),
