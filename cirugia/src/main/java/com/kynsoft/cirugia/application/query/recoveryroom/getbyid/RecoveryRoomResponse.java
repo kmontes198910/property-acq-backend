@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
@@ -15,7 +16,7 @@ import java.util.UUID;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class RecoveryRoomResponse implements IResponse {
+public class RecoveryRoomResponse implements IResponse, Serializable {
     private UUID id;
     private String name;
     private String description;
@@ -31,7 +32,5 @@ public class RecoveryRoomResponse implements IResponse {
     private LocalDateTime updatedAt;
     private UUID createdBy;
     private UUID updatedBy;
-    
-    @Builder.Default
-    private Set<UUID> bedIds = new HashSet<>();
+
 }

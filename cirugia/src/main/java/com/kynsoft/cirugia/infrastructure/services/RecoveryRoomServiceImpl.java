@@ -160,68 +160,6 @@ public class RecoveryRoomServiceImpl implements IRecoveryRoomService {
         return getPaginatedResponse(data);
     }
 
-    @Override
-    @Transactional
-    @CacheEvict(value = SurgeryCacheConfig.RECOVERY_BED_CACHE, allEntries = true)
-    public void assignBedToRoom(UUID roomId, UUID bedId) {
-        log.info("Asignando cama con ID {} a sala de recuperación con ID {}", bedId, roomId);
-        
-        Optional<RecoveryRoomEntity> optionalRoom = recoveryRoomReadRepository.findById(roomId);
-        Optional<RecoveryBedEntity> optionalBed = recoveryBedReadRepository.findById(bedId);
-        
-        RecoveryBedEntity bed = optionalBed.get();
-        
-        // Verificar si la cama ya está asignada a otra sala
-        if (bed.getRecoveryRoomId() != null && !bed.getRecoveryRoomId().equals(roomId)) {
-            log.warn("La cama ya está asignada a otra sala con ID {}. Se reasignará a la nueva sala", bed.getRecoveryRoomId());
-        }
-        
-        // Asignar la cama a la sala
-        bed.setRecoveryRoomId(roomId);
-        recoveryBedWriteRepository.save(bed);
-        
-        log.info("Cama asignada correctamente a la sala de recuperación");
-    }
-
-    @Override
-    @Transactional
-    @CacheEvict(value = SurgeryCacheConfig.RECOVERY_BED_CACHE, allEntries = true)
-    public void removeBedFromRoom(UUID roomId, UUID bedId) {
-        log.info("Quitando cama con ID {} de sala de recuperación con ID {}", bedId, roomId);
-        
-        Optional<RecoveryBedEntity> optionalBed = recoveryBedReadRepository.findById(bedId);
-        
-        RecoveryBedEntity bed = optionalBed.get();
-        
-        // Verificar si la cama está asignada a la sala especificada
-        if (bed.getRecoveryRoomId() == null || !bed.getRecoveryRoomId().equals(roomId)) {
-            log.warn("La cama no está asignada a la sala especificada");
-            return;
-        }
-        
-        // Desasignar la cama de la sala
-        bed.setRecoveryRoomId(null);
-        recoveryBedWriteRepository.save(bed);
-        
-        log.info("Cama eliminada correctamente de la sala de recuperación");
-    }
-
-    @Override
-    public List<UUID> getRoomBeds(UUID roomId) {
-        log.info("Obteniendo camas de la sala de recuperación con ID: {}", roomId);
-        
-        // Verificar si la sala existe
-        if (!recoveryRoomReadRepository.existsById(roomId)) {
-            log.error("Sala de recuperación con ID {} no encontrada", roomId);
-            throw new BusinessException(DomainErrorMessage.SCHEDULE_IS_NOT_AVAIBLE, "The selected schedule is not available.");
-        }
-        
-        List<RecoveryBedEntity> beds = recoveryBedReadRepository.findAll().stream()
-                .filter(bed -> roomId.equals(bed.getRecoveryRoomId()))
-                .toList();
-        
-        return beds.stream().map(RecoveryBedEntity::getId).collect(Collectors.toList());
-    }
 
     private PaginatedResponse getPaginatedResponse(Page<RecoveryRoomEntity> data) {
         List<RecoveryRoomResponse> recoveryRoomResponses = new ArrayList<>();
@@ -240,10 +178,7 @@ public class RecoveryRoomServiceImpl implements IRecoveryRoomService {
     }
 
     private RecoveryRoom mapToDomain(RecoveryRoomEntity entity) {
-        Set<UUID> bedIds = entity.getBeds().stream()
-                .map(RecoveryBedEntity::getId)
-                .collect(Collectors.toSet());
-        
+
         return RecoveryRoom.builder()
                 .id(entity.getId())
                 .name(entity.getName())
@@ -260,7 +195,6 @@ public class RecoveryRoomServiceImpl implements IRecoveryRoomService {
                 .updatedAt(entity.getUpdatedAt())
                 .createdBy(entity.getCreatedBy())
                 .updatedBy(entity.getUpdatedBy())
-                .bedIds(bedIds)
                 .build();
     }
 

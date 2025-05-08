@@ -77,24 +77,5 @@ public interface IRecoveryRoomService {
      */
     PaginatedResponse search(Pageable pageable, List<FilterCriteria> filterCriteria);
     
-    /**
-     * Asigna una cama a una sala de recuperación
-     * @param roomId El ID de la sala de recuperación
-     * @param bedId El ID de la cama a asignar
-     */
-    void assignBedToRoom(UUID roomId, UUID bedId);
-    
-    /**
-     * Quita una cama de una sala de recuperación
-     * @param roomId El ID de la sala de recuperación
-     * @param bedId El ID de la cama a quitar
-     */
-    void removeBedFromRoom(UUID roomId, UUID bedId);
-    
-    /**
-     * Obtiene todas las camas de una sala de recuperación
-     * @param roomId El ID de la sala de recuperación
-     * @return Lista de IDs de camas asignadas a la sala
-     */
-    List<UUID> getRoomBeds(UUID roomId);
+
 }
