@@ -32,7 +32,5 @@ public class RecoveryRoomResponse implements IResponse, Serializable {
     private LocalDateTime updatedAt;
     private UUID createdBy;
     private UUID updatedBy;
-    
-    @Builder.Default
-    private Set<UUID> bedIds = new HashSet<>();
+
 }
