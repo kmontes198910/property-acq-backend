@@ -27,4 +27,6 @@ public interface EmployeeReadDataJPARepository extends JpaRepository<Employee, U
     @EntityGraph(attributePaths = {"business"})
     @Override
     Optional<Employee> findById(UUID id);
+
+    long countByEmail(String email);
 }

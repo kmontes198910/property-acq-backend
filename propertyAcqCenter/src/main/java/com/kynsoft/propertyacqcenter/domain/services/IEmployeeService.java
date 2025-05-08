@@ -30,4 +30,5 @@ public interface IEmployeeService {
     // Method to check if an employee exists by email
     Long countByEmailAndNotId(String email, UUID id);
 
+    long countByEmail(String email);
 }
