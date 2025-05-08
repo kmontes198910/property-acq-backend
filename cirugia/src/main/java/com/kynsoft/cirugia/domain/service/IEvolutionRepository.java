@@ -23,6 +23,17 @@ public interface IEvolutionRepository {
     Evolution create(Evolution evolution);
     
     /**
+     * Actualiza una evolución médica existente.
+     * El objeto evolution debe contener todos los campos que se desean mantener.
+     * Es responsabilidad del cliente (handler) determinar qué campos deben conservarse
+     * de la versión anterior cuando los nuevos son null.
+     * 
+     * @param evolution La evolución con los datos actualizados
+     * @return La evolución actualizada
+     */
+    Evolution update(Evolution evolution);
+    
+    /**
      * Busca una evolución por su ID
      * @param id ID de la evolución
      * @return Optional con la evolución si existe

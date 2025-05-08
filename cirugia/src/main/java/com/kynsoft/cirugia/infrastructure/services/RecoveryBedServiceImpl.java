@@ -1,5 +1,6 @@
 package com.kynsoft.cirugia.infrastructure.services;
 
+import com.kynsof.share.core.domain.exception.BusinessException;
 import com.kynsof.share.core.domain.request.FilterCriteria;
 import com.kynsof.share.core.domain.response.PaginatedResponse;
 import com.kynsof.share.core.infrastructure.specifications.GenericSpecificationsBuilder;
@@ -38,19 +39,10 @@ public class RecoveryBedServiceImpl implements IRecoveryBedService {
     @Override
     @Cacheable(value = SurgeryCacheConfig.RECOVERY_BED_CACHE, key = "#id")
     public Optional<RecoveryBed> findById(UUID id) {
-        log.info("Finding recovery bed with ID: {}", id);
+        log.info("Buscando cama de recuperación con ID: {}", id);
         return recoveryBedReadRepository.findById(id).map(this::mapToDomain);
     }
 
-    @Override
-    @Cacheable(value = SurgeryCacheConfig.RECOVERY_BED_CACHE, key = "'business_' + #businessId")
-    public List<RecoveryBed> findByBusinessId(UUID businessId) {
-        log.info("Finding recovery beds for business ID: {}", businessId);
-        return recoveryBedReadRepository.findByBusinessId(businessId)
-                .stream()
-                .map(this::mapToDomain)
-                .collect(Collectors.toList());
-    }
 
     @Override
     @Cacheable(value = SurgeryCacheConfig.RECOVERY_BED_CACHE, key = "'available_' + #businessId")
@@ -165,7 +157,6 @@ public class RecoveryBedServiceImpl implements IRecoveryBedService {
                 .status(entity.getStatus())
                 .businessId(entity.getBusinessId())
                 .floor(entity.getFloor())
-                .room(entity.getRoom())
                 .hasMonitor(entity.getHasMonitor())
                 .hasOxygenSupply(entity.getHasOxygenSupply())
                 .createdAt(entity.getCreatedAt())
@@ -184,7 +175,6 @@ public class RecoveryBedServiceImpl implements IRecoveryBedService {
                 .status(recoveryBed.getStatus())
                 .businessId(recoveryBed.getBusinessId())
                 .floor(recoveryBed.getFloor())
-                .room(recoveryBed.getRoom())
                 .hasMonitor(recoveryBed.getHasMonitor())
                 .hasOxygenSupply(recoveryBed.getHasOxygenSupply())
                 .lastMaintenanceDate(recoveryBed.getLastMaintenanceDate())

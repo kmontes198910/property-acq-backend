@@ -21,10 +21,4 @@ public interface RecoveryBedReadRepository extends JpaRepository<RecoveryBedEnti
     
     @Query("SELECT r FROM RecoveryBedEntity r WHERE r.businessId = :businessId AND r.status = 'AVAILABLE'")
     List<RecoveryBedEntity> findAvailableBeds(@Param("businessId") UUID businessId);
-    
-    @Query("SELECT r FROM RecoveryBedEntity r WHERE r.floor = :floor AND r.businessId = :businessId")
-    List<RecoveryBedEntity> findByFloorAndBusinessId(@Param("floor") String floor, @Param("businessId") UUID businessId);
-    
-    @Query("SELECT r FROM RecoveryBedEntity r WHERE r.room = :room AND r.businessId = :businessId")
-    List<RecoveryBedEntity> findByRoomAndBusinessId(@Param("room") String room, @Param("businessId") UUID businessId);
 }

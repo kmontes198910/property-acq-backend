@@ -39,7 +39,6 @@ public class UpdateRecoveryBedCommandHandler implements ICommandHandler<UpdateRe
                 .status(command.getStatus())
                 .businessId(command.getBusinessId())
                 .floor(command.getFloor())
-                .room(command.getRoom())
                 .hasMonitor(command.getHasMonitor())
                 .hasOxygenSupply(command.getHasOxygenSupply())
                 .lastMaintenanceDate(command.getLastMaintenanceDate())

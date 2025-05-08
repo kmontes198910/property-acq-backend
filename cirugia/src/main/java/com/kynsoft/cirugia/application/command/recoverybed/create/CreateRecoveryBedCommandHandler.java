@@ -31,7 +31,6 @@ public class CreateRecoveryBedCommandHandler implements ICommandHandler<CreateRe
                 .status(command.getStatus())
                 .businessId(command.getBusinessId())
                 .floor(command.getFloor())
-                .room(command.getRoom())
                 .hasMonitor(command.getHasMonitor())
                 .hasOxygenSupply(command.getHasOxygenSupply())
                 .lastMaintenanceDate(command.getLastMaintenanceDate())

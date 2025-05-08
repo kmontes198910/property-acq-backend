@@ -14,13 +14,9 @@ import com.kynsoft.cirugia.application.command.recoverybed.update.UpdateRecovery
 import com.kynsoft.cirugia.application.command.recoverybed.delete.DeleteRecoveryBedCommand;
 import com.kynsoft.cirugia.application.command.recoverybed.changestatus.ChangeRecoveryBedStatusCommand;
 import com.kynsoft.cirugia.application.query.recoverybed.getbyid.GetRecoveryBedByIdQuery;
-import com.kynsoft.cirugia.application.query.recoverybed.listbybusiness.ListRecoveryBedsByBusinessQuery;
-import com.kynsoft.cirugia.application.query.recoverybed.listavailable.ListAvailableRecoveryBedsQuery;
-import com.kynsoft.cirugia.application.query.recoverybed.listbystatus.ListRecoveryBedsByStatusQuery;
-import com.kynsoft.cirugia.application.query.recoverybed.listbytype.ListRecoveryBedsByTypeQuery;
+
 import com.kynsoft.cirugia.application.query.recoverybed.search.SearchRecoveryBedsQuery;
 import com.kynsoft.cirugia.application.query.recoverybed.getbyid.RecoveryBedResponse;
-import com.kynsoft.cirugia.application.query.recoverybed.listbybusiness.RecoveryBedListResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -43,29 +39,6 @@ public class RecoveryBedController {
         return ResponseEntity.ok(response);
     }
 
-    @GetMapping("/business/{businessId}")
-    public ResponseEntity<?> findByBusinessId(@PathVariable UUID businessId) {
-        RecoveryBedListResponse response = mediator.send(new ListRecoveryBedsByBusinessQuery(businessId));
-        return ResponseEntity.ok(response);
-    }
-
-    @GetMapping("/available/{businessId}")
-    public ResponseEntity<?> findAvailableBeds(@PathVariable UUID businessId) {
-        RecoveryBedListResponse response = mediator.send(new ListAvailableRecoveryBedsQuery(businessId));
-        return ResponseEntity.ok(response);
-    }
-
-    @GetMapping("/status/{status}")
-    public ResponseEntity<?> findByStatus(@PathVariable String status) {
-        RecoveryBedListResponse response = mediator.send(new ListRecoveryBedsByStatusQuery(status));
-        return ResponseEntity.ok(response);
-    }
-
-    @GetMapping("/type/{type}")
-    public ResponseEntity<?> findByType(@PathVariable String type) {
-        RecoveryBedListResponse response = mediator.send(new ListRecoveryBedsByTypeQuery(type));
-        return ResponseEntity.ok(response);
-    }
 
     @PostMapping
     public ResponseEntity<?> create(@RequestBody CreateRecoveryBedRequest request,

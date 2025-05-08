@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: digital-signature
+  namespace: medinec-dev
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      workload.user.cattle.io/workloadselector: apps.deployment-medinec-digital-signature
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+  template:
+    metadata:
+      labels:
+        app: digital-signature
+        workload.user.cattle.io/workloadselector: apps.deployment-medinec-digital-signature
+    spec:
+      containers:
+        - name: digital-signature
+          image: kmontes2020/medinec-digital-signature-dev:v1
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8090
+              protocol: TCP
+          envFrom:
+            - secretRef:
+                name: digital-signature-secret
+      imagePullSecrets:
+        - name: dokcer-hub
+      restartPolicy: Always

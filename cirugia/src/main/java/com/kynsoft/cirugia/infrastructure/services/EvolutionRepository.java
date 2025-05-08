@@ -132,6 +132,34 @@ public class EvolutionRepository implements IEvolutionRepository {
         return getPaginatedResponse(data);
     }
 
+    @Override
+    public Evolution update(Evolution evolution) {
+        log.info("Actualizando evolución con ID: {}", evolution.getId());
+        
+        if (evolution.getId() == null) {
+            throw new IllegalArgumentException("El ID de la evolución no puede ser nulo para actualizarla");
+        }
+        
+        Optional<EvolutionEntity> existingEntityOpt = evolutionReadRepository.findById(evolution.getId());
+        if (existingEntityOpt.isEmpty()) {
+            throw new RuntimeException("No se puede actualizar la evolución porque no existe una con ID: " + evolution.getId());
+        }
+        
+        EvolutionEntity existingEntity = existingEntityOpt.get();
+        
+        // Mantener la fecha de creación original
+        evolution.setCreatedAt(existingEntity.getCreatedAt());
+        evolution.setCreatedBy(existingEntity.getCreatedBy());
+        evolution.setUpdatedAt(LocalDateTime.now());
+        
+        EvolutionEntity entity = mapToEntity(evolution);
+        evolutionWriteRepository.save(entity);
+        evolutionWriteRepository.flush();
+        
+        log.info("Evolución actualizada correctamente");
+        return mapToDto(entity);
+    }
+
     private PaginatedResponse getPaginatedResponse(Page<EvolutionEntity> data) {
         List<Evolution> evolutions = new ArrayList<>();
         for (EvolutionEntity entity : data.getContent()) {
