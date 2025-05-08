@@ -52,9 +52,10 @@ import java.security.cert.X509Certificate;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.List;
+import java.util.Base64;
 
 /**
- * Servicio de firma y validación PDF usando PDFBox 3 + BouncyCastle.
+ * Servicio de firma y validación PDF usando PDFBox 3 + BouncyCastle.
  */
 @Service
 public class DigitalSignatureService implements IDigitalSignatureService, SignatureInterface {
@@ -88,6 +89,28 @@ public class DigitalSignatureService implements IDigitalSignatureService, Signat
         this.resourceLoader = resourceLoader;
         try { initServerKeyStore(); }
         catch (Exception e) { log.error("No se pudo cargar el keystore del servidor", e); }
+    }
+
+    /* =====================================================================
+       CONVERSIONES BASE64 A BYTES
+       ===================================================================== */
+    private byte[] decodeBase64(String base64String) {
+        if (base64String == null || base64String.isEmpty()) {
+            return null;
+        }
+        
+        try {
+            // Eliminar prefijos de data URL si existen (por ejemplo, "data:application/pdf;base64,")
+            String cleanBase64 = base64String;
+            if (base64String.contains(",")) {
+                cleanBase64 = base64String.split(",")[1];
+            }
+            
+            return Base64.getDecoder().decode(cleanBase64);
+        } catch (IllegalArgumentException e) {
+            log.error("Error decodificando Base64: " + e.getMessage(), e);
+            throw new RuntimeException("El formato Base64 proporcionado no es válido", e);
+        }
     }
 
     /* =====================================================================
@@ -134,18 +157,37 @@ public class DigitalSignatureService implements IDigitalSignatureService, Signat
     public SignResponseDto signDocument(SignRequestDto req) {
 
         try {
-            if (req.getCertificateP12() != null && req.getCertificateP12().length > 0) {
+            // Convertir documento base64 a bytes si es necesario
+            byte[] documentBytes = null;
+            if (req.getDocument() != null) {
+                // Siempre decodificar el documento base64
+                documentBytes = decodeBase64(req.getDocument());
+                if (documentBytes == null) {
+                    throw new IllegalArgumentException("El documento base64 proporcionado no es válido");
+                }
+            } else {
+                throw new IllegalArgumentException("Documento requerido");
+            }
+            
+            // Procesamos el certificado P12
+            if (req.getCertificateP12() != null) {
+                byte[] certBytes = decodeBase64(req.getCertificateP12());
+                if (certBytes == null) {
+                    throw new IllegalArgumentException("El certificado P12 base64 proporcionado no es válido");
+                }
+                
                 if (req.getCertificatePassword() == null || req.getCertificatePassword().isBlank())
                     throw new IllegalArgumentException("Contraseña del P12 obligatoria");
-                loadCertificateFromRequest(req.getCertificateP12(), req.getCertificatePassword());
+                
+                loadCertificateFromRequest(certBytes, req.getCertificatePassword());
             } else {
                 loadCertificateFromServer(req.getCertificateAlias());
             }
 
             if (req.getVisibleSignature() != null)
-                validateSignaturePosition(req.getVisibleSignature(), req.getDocument());
+                validateSignaturePosition(req.getVisibleSignature(), documentBytes);
 
-            PDDocument doc = Loader.loadPDF(req.getDocument());
+            PDDocument doc = Loader.loadPDF(documentBytes);
 
             PDSignature sig = new PDSignature();
             sig.setFilter(PDSignature.FILTER_ADOBE_PPKLITE);
@@ -457,53 +499,59 @@ public class DigitalSignatureService implements IDigitalSignatureService, Signat
        ===================================================================== */
     @Override
     public ValidationResponseDto validateDocument(ValidationRequestDto req) {
-
-        try (PDDocument doc = Loader.loadPDF(req.getDocument())) {
-
-            List<PDSignature> sigs = doc.getSignatureDictionaries();
-            List<SignatureInfoDto> infoList = new ArrayList<>();
-            boolean allValid = true;
-
-            for (PDSignature sig : sigs) {
-                byte[] sigBytes   = sig.getContents(req.getDocument());
-                byte[] signedPart = sig.getSignedContent(req.getDocument());
-
-                CMSSignedData cms = new CMSSignedData(
-                        new CMSProcessableByteArray(signedPart), sigBytes);
-
-                boolean valid = cms.getSignerInfos().getSigners().size() > 0;
-                if (!valid) allValid = false;
-
-                PDRectangle r = locateRect(doc, sig);
-                VisibleSignatureDto pos = null;
-                boolean visible = r != null;
-                if (visible) {
-                    int page = locatePage(doc, sig) + 1;
-                    pos = VisibleSignatureDto.builder()
-                            .page(page)
-                            .x(r.getLowerLeftX())
-                            .y(r.getLowerLeftY())
-                            .width(r.getWidth())
-                            .height(r.getHeight())
-                            .build();
-                }
-
-                infoList.add(SignatureInfoDto.builder()
-                        .signerName(sig.getName())
-                        .signatureDate(sig.getSignDate() == null ? null :
-                                new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss")
-                                        .format(sig.getSignDate().getTime()))
-                        .visible(visible)
-                        .position(pos)
-                        .valid(valid)
-                        .build());
+        try {
+            byte[] documentBytes = req.getDocument();
+            
+            // Verificamos que exista el documento
+            if (documentBytes == null || documentBytes.length == 0) {
+                throw new IllegalArgumentException("Documento requerido");
             }
 
-            return ValidationResponseDto.builder()
-                    .valid(allValid)
-                    .signatures(infoList)
-                    .build();
+            try (PDDocument doc = Loader.loadPDF(documentBytes)) {
+                List<PDSignature> sigs = doc.getSignatureDictionaries();
+                List<SignatureInfoDto> infoList = new ArrayList<>();
+                boolean allValid = true;
 
+                for (PDSignature sig : sigs) {
+                    byte[] sigBytes   = sig.getContents(documentBytes);
+                    byte[] signedPart = sig.getSignedContent(documentBytes);
+
+                    CMSSignedData cms = new CMSSignedData(
+                            new CMSProcessableByteArray(signedPart), sigBytes);
+
+                    boolean valid = cms.getSignerInfos().getSigners().size() > 0;
+                    if (!valid) allValid = false;
+
+                    PDRectangle r = locateRect(doc, sig);
+                    VisibleSignatureDto pos = null;
+                    boolean visible = r != null;
+                    if (visible) {
+                        int page = locatePage(doc, sig) + 1;
+                        pos = VisibleSignatureDto.builder()
+                                .page(page)
+                                .x(r.getLowerLeftX())
+                                .y(r.getLowerLeftY())
+                                .width(r.getWidth())
+                                .height(r.getHeight())
+                                .build();
+                    }
+
+                    infoList.add(SignatureInfoDto.builder()
+                            .signerName(sig.getName())
+                            .signatureDate(sig.getSignDate() == null ? null :
+                                    new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss")
+                                            .format(sig.getSignDate().getTime()))
+                            .visible(visible)
+                            .position(pos)
+                            .valid(valid)
+                            .build());
+                }
+
+                return ValidationResponseDto.builder()
+                        .valid(allValid)
+                        .signatures(infoList)
+                        .build();
+            }
         } catch (Exception e) {
             log.error("Error validando documento", e);
             throw new RuntimeException("Error validando documento: " + e.getMessage(), e);
