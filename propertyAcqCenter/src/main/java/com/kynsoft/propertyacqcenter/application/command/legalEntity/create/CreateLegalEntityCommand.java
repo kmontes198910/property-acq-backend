@@ -27,7 +27,6 @@ public class CreateLegalEntityCommand implements ICommand {
     private String website;
     private String industry;
     private Double annualRevenue;
-    private Integer employeeCount;
     private LocalDate dateOfLastAnnualReport;
     private UUID parentEntityId;
     private String notes;
@@ -36,7 +35,7 @@ public class CreateLegalEntityCommand implements ICommand {
     public CreateLegalEntityCommand(String name, String taxId, EntityType entityType, 
             UUID business, String formationState, LocalDate formationDate, 
             String fiscalYearEnd, String businessDescription, String registrationNumber, 
-            String website, String industry, Double annualRevenue, Integer employeeCount, 
+            String website, String industry, Double annualRevenue,
             LocalDate dateOfLastAnnualReport, UUID parentEntityId, String notes, EntityStatus status) {
         this.id = UUID.randomUUID();
         this.name = name;
@@ -51,7 +50,6 @@ public class CreateLegalEntityCommand implements ICommand {
         this.website = website;
         this.industry = industry;
         this.annualRevenue = annualRevenue;
-        this.employeeCount = employeeCount;
         this.dateOfLastAnnualReport = dateOfLastAnnualReport;
         this.parentEntityId = parentEntityId;
         this.notes = notes;
@@ -72,7 +70,6 @@ public class CreateLegalEntityCommand implements ICommand {
                 request.getWebsite(),
                 request.getIndustry(),
                 request.getAnnualRevenue(),
-                request.getEmployeeCount(),
                 request.getDateOfLastAnnualReport(),
                 request.getParentEntityId(),
                 request.getNotes(),

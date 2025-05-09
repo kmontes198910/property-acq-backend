@@ -52,28 +52,25 @@ public class LegalEntity {
 
     @Column(name = "business_description", columnDefinition = "TEXT")
     private String businessDescription;
-    
+
     @Column(name = "registration_number")
     private String registrationNumber;
-    
+
     @Column(name = "website")
     private String website;
-    
+
     @Column(name = "industry")
     private String industry;
-    
+
     @Column(name = "annual_revenue")
     private Double annualRevenue;
-    
-    @Column(name = "employee_count")
-    private Integer employeeCount;
-    
+
     @Column(name = "date_of_last_annual_report")
     private LocalDate dateOfLastAnnualReport;
-    
+
     @Column(name = "parent_entity_id")
     private UUID parentEntityId;
-    
+
     @Column(name = "notes", columnDefinition = "TEXT")
     private String notes;
 
@@ -121,7 +118,6 @@ public class LegalEntity {
         this.website = dto.getWebsite();
         this.industry = dto.getIndustry();
         this.annualRevenue = dto.getAnnualRevenue();
-        this.employeeCount = dto.getEmployeeCount();
         this.dateOfLastAnnualReport = dto.getDateOfLastAnnualReport();
         this.parentEntityId = dto.getParentEntityId();
         this.notes = dto.getNotes();
@@ -144,7 +140,6 @@ public class LegalEntity {
                 .website(this.website)
                 .industry(this.industry)
                 .annualRevenue(this.annualRevenue)
-                .employeeCount(this.employeeCount)
                 .dateOfLastAnnualReport(this.dateOfLastAnnualReport)
                 .parentEntityId(this.parentEntityId)
                 .notes(this.notes)
@@ -176,7 +171,6 @@ public class LegalEntity {
                 .website(this.website)
                 .industry(this.industry)
                 .annualRevenue(this.annualRevenue)
-                .employeeCount(this.employeeCount)
                 .dateOfLastAnnualReport(this.dateOfLastAnnualReport)
                 .parentEntityId(this.parentEntityId)
                 .notes(this.notes)

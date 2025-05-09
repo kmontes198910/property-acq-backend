@@ -47,7 +47,6 @@ public class LegalEntityServiceImpl implements ILegalEntityService {
 
         update.setBusiness(new Business(legalEntityDto.getBusiness()));
         update.setDateOfLastAnnualReport(legalEntityDto.getDateOfLastAnnualReport());
-        update.setEmployeeCount(legalEntityDto.getEmployeeCount());
         update.setEntityType(legalEntityDto.getEntityType());
         update.setFiscalYearEnd(legalEntityDto.getFiscalYearEnd());
         update.setFormationDate(legalEntityDto.getFormationDate());

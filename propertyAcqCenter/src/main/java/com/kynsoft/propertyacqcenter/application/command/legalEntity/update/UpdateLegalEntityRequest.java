@@ -23,7 +23,6 @@ public class UpdateLegalEntityRequest {
     private String website;
     private String industry;
     private Double annualRevenue;
-    private Integer employeeCount;
     private LocalDate dateOfLastAnnualReport;
     private UUID parentEntityId;
     private String notes;
