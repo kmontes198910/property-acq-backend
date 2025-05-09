@@ -109,6 +109,7 @@ public class CompanyContact {
                 .isActive(isActive)
                 .createdAt(this.createdAt)
                 .updatedAt(this.updatedAt)
+                .company(company != null ? this.company.toAggregateBasic() : null)
                 .build();
     }
 

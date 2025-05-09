@@ -52,6 +52,7 @@ public interface ContactReadDataJPARepository extends JpaRepository<Contact, UUI
      */
     List<Contact> findByIsActiveTrue();
 
+    @EntityGraph(attributePaths = {"legalEntity"})
     @Override
     Page<Contact> findAll(Specification<Contact> specification, Pageable pageable);
 

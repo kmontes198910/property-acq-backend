@@ -110,4 +110,11 @@ public class Company {
                 .updatedBy(this.updatedBy)
                 .build();
     }
+
+    public CompanyDto toAggregateBasic() {
+        return CompanyDto.builder()
+                .id(this.id)
+                .title(this.title)
+                .build();
+    }
 }

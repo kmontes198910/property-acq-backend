@@ -14,6 +14,7 @@ import org.springframework.data.jpa.repository.EntityGraph;
 
 @Repository
 public interface CompanyContactReadDataJPARepository extends JpaRepository<CompanyContact, UUID>, JpaSpecificationExecutor<CompanyContact> {
+    @EntityGraph(attributePaths = {"company"})
     @Override
     Page<CompanyContact> findAll(Specification<CompanyContact> specification, Pageable pageable);
 

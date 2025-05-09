@@ -3,7 +3,7 @@ package com.kynsoft.propertyacqcenter.infrastructure.services;
 import com.kynsof.share.core.domain.request.FilterCriteria;
 import com.kynsof.share.core.domain.response.PaginatedResponse;
 import com.kynsof.share.core.infrastructure.specifications.GenericSpecificationsBuilder;
-import com.kynsoft.propertyacqcenter.application.response.CompanyContactResponse;
+import com.kynsoft.propertyacqcenter.application.response.CompanyContactSearchResponse;
 import com.kynsoft.propertyacqcenter.domain.dto.CompanyContactDto;
 import com.kynsoft.propertyacqcenter.domain.dto.exception.CompanyContactNotFoundException;
 import com.kynsoft.propertyacqcenter.domain.services.ICompanyContactService;
@@ -92,9 +92,9 @@ public class CompanyContactServiceImpl implements ICompanyContactService {
     }
 
     private PaginatedResponse getPaginatedResponse(Page<CompanyContact> data) {
-        List<CompanyContactResponse> objects = new ArrayList<>();
+        List<CompanyContactSearchResponse> objects = new ArrayList<>();
         for (CompanyContact p : data.getContent()) {
-            objects.add(new CompanyContactResponse(p.toAggregate()));
+            objects.add(new CompanyContactSearchResponse(p.toAggregate()));
         }
         return new PaginatedResponse(objects, data.getTotalPages(), data.getNumberOfElements(),
                 data.getTotalElements(), data.getSize(), data.getNumber());

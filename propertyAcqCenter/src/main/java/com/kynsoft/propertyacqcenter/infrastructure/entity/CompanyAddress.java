@@ -103,6 +103,7 @@ public class CompanyAddress {
     public CompanyAddressDto toAggregate() {
         return CompanyAddressDto.builder()
                 .id(this.id)
+                .company(company != null ? this.company.toAggregateBasic() : null)
                 .addressType(addressType)
                 .streetAddress1(streetAddress1)
                 .streetAddress2(streetAddress2)
