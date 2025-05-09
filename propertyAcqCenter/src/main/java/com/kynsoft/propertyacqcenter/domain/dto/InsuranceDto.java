@@ -15,7 +15,7 @@ public class InsuranceDto {
     private UUID id;
     private String insuranceType;
     private String document;
+    private LegalEntityDto legalEntity;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
-    private LegalEntityDto legalEntity;
 }
