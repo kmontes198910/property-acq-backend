@@ -154,6 +154,7 @@ public class Document {
                 .updatedAt(this.updatedAt)
                 .createdBy(this.createdBy)
                 .updatedBy(this.updatedBy)
+                .legalEntity(this.legalEntity.toAggregateBasic())
                 .build();
     }
 

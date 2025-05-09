@@ -14,6 +14,7 @@ import org.springframework.data.jpa.repository.EntityGraph;
 
 @Repository
 public interface DocumentReadDataJPARepository extends JpaRepository<Document, UUID>, JpaSpecificationExecutor<Document> {
+    @EntityGraph(attributePaths = {"legalEntity"})
     @Override
     Page<Document> findAll(Specification<Document> specification, Pageable pageable);
 
