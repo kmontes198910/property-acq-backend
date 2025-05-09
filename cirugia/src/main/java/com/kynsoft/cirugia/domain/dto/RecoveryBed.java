@@ -20,7 +20,7 @@ public class RecoveryBed implements Serializable {
     private String type;
     private String status;
     private String floor;
-    private UUID roomId;
+    private UUID recoveryRoomId;
     private Boolean hasMonitor;
     private Boolean hasOxygenSupply;
     private LocalDateTime lastMaintenanceDate;

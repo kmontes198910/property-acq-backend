@@ -1,6 +1,5 @@
 package com.kynsoft.cirugia.infrastructure.services;
 
-import com.kynsof.share.core.domain.exception.BusinessException;
 import com.kynsof.share.core.domain.request.FilterCriteria;
 import com.kynsof.share.core.domain.response.PaginatedResponse;
 import com.kynsof.share.core.infrastructure.specifications.GenericSpecificationsBuilder;
@@ -162,7 +161,7 @@ public class RecoveryBedServiceImpl implements IRecoveryBedService {
                 .status(entity.getStatus())
                 .businessId(entity.getBusinessId())
                 .floor(entity.getFloor())
-                .roomId(entity.getRecoveryRoomId())
+                .recoveryRoomId(entity.getRecoveryRoomId())
                 .lastMaintenanceDate(entity.getLastMaintenanceDate())
                 .hasMonitor(entity.getHasMonitor())
                 .hasOxygenSupply(entity.getHasOxygenSupply())
@@ -181,6 +180,7 @@ public class RecoveryBedServiceImpl implements IRecoveryBedService {
                 .type(recoveryBed.getType())
                 .status(recoveryBed.getStatus())
                 .businessId(recoveryBed.getBusinessId())
+                .recoveryRoomId(recoveryBed.getRecoveryRoomId())
                 .floor(recoveryBed.getFloor())
                 .hasMonitor(recoveryBed.getHasMonitor())
                 .hasOxygenSupply(recoveryBed.getHasOxygenSupply())

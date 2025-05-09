@@ -34,7 +34,7 @@ public class RecoveryBedResponse implements IResponse, Serializable {
         this.status = recoveryBed.getStatus();
         this.businessId = recoveryBed.getBusinessId();
         this.floor = recoveryBed.getFloor();
-        this.recoveryRoomId = recoveryBed.getRoomId();
+        this.recoveryRoomId = recoveryBed.getRecoveryRoomId();
         this.hasMonitor = recoveryBed.getHasMonitor();
         this.hasOxygenSupply = recoveryBed.getHasOxygenSupply();
         this.lastMaintenanceDate = recoveryBed.getLastMaintenanceDate();
