@@ -35,6 +35,10 @@ public class DigitalSignatureCertificateDto {
     
     private String businessName;
     
+    private String createdBy;
+    
+    private String updatedBy;
+    
     private LocalDateTime createdAt;
     
     private LocalDateTime updatedAt;

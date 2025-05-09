@@ -44,6 +44,10 @@ public class DigitalSignatureCertificateServiceImpl implements IDigitalSignature
         if (certificate.getId() == null) {
             certificate.setId(UUID.randomUUID());
         }
+        
+        // Establecer el creador del certificado
+        certificate.setCreatedBy(createdBy);
+        certificate.setUpdatedBy(createdBy);
 
         return certificateWriteRepository.save(certificate);
     }
@@ -57,6 +61,8 @@ public class DigitalSignatureCertificateServiceImpl implements IDigitalSignature
         certificateReadRepository.findById(certificate.getId())
                 .orElseThrow(() -> new BusinessException(DigitalSignatureErrorMessage.CERTIFICATE_NOT_FOUND, certificate.getId().toString()));
 
+        // Establecer quien actualiza el certificado
+        certificate.setUpdatedBy(updatedBy);
 
         return certificateWriteRepository.save(certificate);
     }
@@ -168,6 +174,8 @@ public class DigitalSignatureCertificateServiceImpl implements IDigitalSignature
                 .isActive(entity.getIsActive())
                 .businessId(entity.getBusiness() != null ? entity.getBusiness().getId() : null)
                 .businessName(entity.getBusiness() != null ? entity.getBusiness().getName() : null)
+                .createdBy(entity.getCreatedBy())
+                .updatedBy(entity.getUpdatedBy())
                 .createdAt(entity.getCreatedAt())
                 .updatedAt(entity.getUpdatedAt())
                 .build();
