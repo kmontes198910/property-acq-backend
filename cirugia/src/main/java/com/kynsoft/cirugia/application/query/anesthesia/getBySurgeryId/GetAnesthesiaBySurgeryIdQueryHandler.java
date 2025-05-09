@@ -27,6 +27,10 @@ public class GetAnesthesiaBySurgeryIdQueryHandler implements IQueryHandler<GetAn
         log.info("Obteniendo registro de Anestesia para la cirugía ID: {}", query.getSurgeryId());
         
         Optional<Anesthesia> anesthesia = anesthesiaService.getAnesthesiaBySurgeryId(query.getSurgeryId());
+        if(anesthesia.isEmpty()) {
+            log.warn("No se encontró registro de Anestesia para la cirugía ID: {}", query.getSurgeryId());
+            return new GetAnesthesiaBySurgeryIdResponse();
+        }
         
         log.info("Registro de Anestesia para la cirugía ID: {} - encontrado: {}", query.getSurgeryId(), anesthesia.isPresent());
         
