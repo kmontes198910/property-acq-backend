@@ -37,6 +37,10 @@ public class LegalEntityServiceImpl implements ILegalEntityService {
     @Override
     @Transactional
     public UUID create(LegalEntityDto legalEntityDto) {
+        System.err.println("#######################");
+        System.err.println("#######################");
+        System.err.println("" + legalEntityDto.getOwner());
+        System.err.println("#######################");
         return repositoryCommand.save(new LegalEntity(legalEntityDto)).getId();
     }
 
@@ -47,7 +51,6 @@ public class LegalEntityServiceImpl implements ILegalEntityService {
 
         update.setBusiness(new Business(legalEntityDto.getBusiness()));
         update.setDateOfLastAnnualReport(legalEntityDto.getDateOfLastAnnualReport());
-        update.setEmployeeCount(legalEntityDto.getEmployeeCount());
         update.setEntityType(legalEntityDto.getEntityType());
         update.setFiscalYearEnd(legalEntityDto.getFiscalYearEnd());
         update.setFormationDate(legalEntityDto.getFormationDate());
@@ -56,7 +59,6 @@ public class LegalEntityServiceImpl implements ILegalEntityService {
         update.setName(legalEntityDto.getName());
         update.setNotes(legalEntityDto.getNotes());
         update.setParentEntityId(legalEntityDto.getParentEntityId());
-        update.setRegistrationNumber(legalEntityDto.getRegistrationNumber());
         update.setStatus(legalEntityDto.getStatus());
         update.setTaxId(legalEntityDto.getTaxId());
         update.setWebsite(legalEntityDto.getWebsite());
@@ -112,5 +114,10 @@ public class LegalEntityServiceImpl implements ILegalEntityService {
         }
         return new PaginatedResponse(objects, data.getTotalPages(), data.getNumberOfElements(),
                 data.getTotalElements(), data.getSize(), data.getNumber());
+    }
+
+    @Override
+    public long countByTaxId(String taxId) {
+        return this.repositoryQuery.countByTaxId(taxId);
     }
 }

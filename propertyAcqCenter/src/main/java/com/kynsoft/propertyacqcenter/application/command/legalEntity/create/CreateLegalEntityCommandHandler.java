@@ -3,7 +3,7 @@ package com.kynsoft.propertyacqcenter.application.command.legalEntity.create;
 import com.kynsof.share.core.domain.bus.command.ICommandHandler;
 import com.kynsoft.propertyacqcenter.domain.dto.BusinessDto;
 import com.kynsoft.propertyacqcenter.domain.dto.LegalEntityDto;
-import com.kynsoft.propertyacqcenter.domain.enums.EntityStatus;
+import com.kynsoft.propertyacqcenter.domain.dto.exception.legalEntity.LegalEntityTaxIdMustBeUniqueException;
 import com.kynsoft.propertyacqcenter.domain.services.IBusinessService;
 import com.kynsoft.propertyacqcenter.domain.services.ILegalEntityService;
 import org.springframework.stereotype.Component;
@@ -23,6 +23,9 @@ public class CreateLegalEntityCommandHandler implements ICommandHandler<CreateLe
     @Override
     public void handle(CreateLegalEntityCommand command) {
         BusinessDto businessDto = this.businessService.findById(command.getBusiness());
+
+        this.validateTaxId(command.getTaxId());
+
         legalEntityService.create(new LegalEntityDto(
                 command.getId(), 
                 command.getName(), 
@@ -32,18 +35,24 @@ public class CreateLegalEntityCommandHandler implements ICommandHandler<CreateLe
                 command.getFormationState(), 
                 command.getFormationDate(), 
                 command.getFiscalYearEnd(), 
-                command.getBusinessDescription(), 
-                command.getRegistrationNumber(), 
+                command.getBusinessDescription(),
                 command.getWebsite(), 
                 command.getIndustry(), 
                 command.getAnnualRevenue(), 
-                command.getEmployeeCount(), 
                 command.getDateOfLastAnnualReport(), 
                 command.getParentEntityId(), 
                 command.getNotes(), 
                 command.getStatus(), 
                 null, 
-                null
+                null,
+                command.getOwner()
         ));
     }
+
+    private void validateTaxId(String taxId) {
+        if (this.legalEntityService.countByTaxId(taxId) > 0) {
+            throw new LegalEntityTaxIdMustBeUniqueException(taxId);
+        }
+    }
+
 }

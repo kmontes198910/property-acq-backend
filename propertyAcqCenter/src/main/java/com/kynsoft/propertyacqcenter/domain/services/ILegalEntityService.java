@@ -20,4 +20,6 @@ public interface ILegalEntityService {
     LegalEntityDto findByTaxId(String taxId);
     
     PaginatedResponse search(Pageable pageable, List<FilterCriteria> filterCriteria);
+
+    long countByTaxId(String taxId);
 }

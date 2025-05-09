@@ -4,6 +4,7 @@ import com.kynsof.share.core.domain.bus.command.ICommand;
 import com.kynsof.share.core.domain.bus.command.ICommandMessage;
 import com.kynsoft.propertyacqcenter.domain.enums.EntityStatus;
 import com.kynsoft.propertyacqcenter.domain.enums.EntityType;
+import com.kynsoft.propertyacqcenter.domain.enums.Month;
 import java.time.LocalDate;
 import lombok.Getter;
 import lombok.Setter;
@@ -21,23 +22,23 @@ public class UpdateLegalEntityCommand implements ICommand {
     private UUID business;
     private String formationState;
     private LocalDate formationDate;
-    private String fiscalYearEnd;
+    private Month fiscalYearEnd;
     private String businessDescription;
-    private String registrationNumber;
     private String website;
     private String industry;
     private Double annualRevenue;
-    private Integer employeeCount;
     private LocalDate dateOfLastAnnualReport;
     private UUID parentEntityId;
     private String notes;
     private EntityStatus status;
+    private String owner;
 
     public UpdateLegalEntityCommand(UUID id, String name, String taxId, EntityType entityType, 
             UUID business, String formationState, LocalDate formationDate, 
-            String fiscalYearEnd, String businessDescription, String registrationNumber, 
-            String website, String industry, Double annualRevenue, Integer employeeCount, 
-            LocalDate dateOfLastAnnualReport, UUID parentEntityId, String notes, EntityStatus status) {
+            Month fiscalYearEnd, String businessDescription, 
+            String website, String industry, Double annualRevenue, 
+            LocalDate dateOfLastAnnualReport, UUID parentEntityId, String notes, EntityStatus status,
+            String owner) {
         this.id = id;
         this.name = name;
         this.taxId = taxId;
@@ -47,15 +48,14 @@ public class UpdateLegalEntityCommand implements ICommand {
         this.formationDate = formationDate;
         this.fiscalYearEnd = fiscalYearEnd;
         this.businessDescription = businessDescription;
-        this.registrationNumber = registrationNumber;
         this.website = website;
         this.industry = industry;
         this.annualRevenue = annualRevenue;
-        this.employeeCount = employeeCount;
         this.dateOfLastAnnualReport = dateOfLastAnnualReport;
         this.parentEntityId = parentEntityId;
         this.notes = notes;
         this.status = status;
+        this.owner = owner;
     }
 
     public static UpdateLegalEntityCommand fromRequest(UpdateLegalEntityRequest request, UUID id) {
@@ -69,15 +69,14 @@ public class UpdateLegalEntityCommand implements ICommand {
                 request.getFormationDate(),
                 request.getFiscalYearEnd(),
                 request.getBusinessDescription(),
-                request.getRegistrationNumber(),
                 request.getWebsite(),
                 request.getIndustry(),
                 request.getAnnualRevenue(),
-                request.getEmployeeCount(),
                 request.getDateOfLastAnnualReport(),
                 request.getParentEntityId(),
                 request.getNotes(),
-                request.getStatus()
+                request.getStatus(),
+                request.getOwner()
         );
     }
 

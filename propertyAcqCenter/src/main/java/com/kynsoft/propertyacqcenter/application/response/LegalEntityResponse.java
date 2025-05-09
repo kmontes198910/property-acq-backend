@@ -4,6 +4,7 @@ import com.kynsof.share.core.domain.bus.query.IResponse;
 import com.kynsoft.propertyacqcenter.domain.dto.*;
 import com.kynsoft.propertyacqcenter.domain.enums.EntityStatus;
 import com.kynsoft.propertyacqcenter.domain.enums.EntityType;
+import com.kynsoft.propertyacqcenter.domain.enums.Month;
 import java.time.LocalDate;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -24,13 +25,11 @@ public class LegalEntityResponse implements IResponse {
     private EntityType entityType;
     private String formationState;
     private LocalDate formationDate;
-    private String fiscalYearEnd;
+    private Month fiscalYearEnd;
     private String businessDescription;
-    private String registrationNumber;
     private String website;
     private String industry;
     private Double annualRevenue;
-    private Integer employeeCount;
     private LocalDate dateOfLastAnnualReport;
     private UUID parentEntityId;
     private String notes;
@@ -39,6 +38,7 @@ public class LegalEntityResponse implements IResponse {
     private LocalDateTime updatedAt;
     private UUID createdBy;
     private UUID updatedBy;
+    private String owner;
 
     public LegalEntityResponse(LegalEntityDto legalEntityDto) {
         this.id = legalEntityDto.getId();
@@ -49,17 +49,16 @@ public class LegalEntityResponse implements IResponse {
         this.formationDate = legalEntityDto.getFormationDate();
         this.fiscalYearEnd = legalEntityDto.getFiscalYearEnd();
         this.businessDescription = legalEntityDto.getBusinessDescription();
-        this.registrationNumber = legalEntityDto.getRegistrationNumber();
         this.website = legalEntityDto.getWebsite();
         this.industry = legalEntityDto.getIndustry();
         this.annualRevenue = legalEntityDto.getAnnualRevenue();
-        this.employeeCount = legalEntityDto.getEmployeeCount();
         this.dateOfLastAnnualReport = legalEntityDto.getDateOfLastAnnualReport();
         this.parentEntityId = legalEntityDto.getParentEntityId();
         this.notes = legalEntityDto.getNotes();
         this.status = legalEntityDto.getStatus();
         this.createdAt = legalEntityDto.getCreatedAt();
         this.updatedAt = legalEntityDto.getUpdatedAt();
+        this.owner = legalEntityDto.getOwner();
     }
 
 }

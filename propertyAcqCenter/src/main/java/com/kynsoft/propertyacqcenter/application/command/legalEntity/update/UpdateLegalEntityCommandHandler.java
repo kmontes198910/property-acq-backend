@@ -3,7 +3,6 @@ package com.kynsoft.propertyacqcenter.application.command.legalEntity.update;
 import com.kynsof.share.core.domain.bus.command.ICommandHandler;
 import com.kynsoft.propertyacqcenter.domain.dto.BusinessDto;
 import com.kynsoft.propertyacqcenter.domain.dto.LegalEntityDto;
-import com.kynsoft.propertyacqcenter.domain.enums.EntityStatus;
 import com.kynsoft.propertyacqcenter.domain.services.IBusinessService;
 import com.kynsoft.propertyacqcenter.domain.services.ILegalEntityService;
 import org.springframework.stereotype.Component;
@@ -33,17 +32,16 @@ public class UpdateLegalEntityCommandHandler implements ICommandHandler<UpdateLe
                 command.getFormationDate(), 
                 command.getFiscalYearEnd(), 
                 command.getBusinessDescription(), 
-                command.getRegistrationNumber(), 
                 command.getWebsite(), 
                 command.getIndustry(), 
-                command.getAnnualRevenue(), 
-                command.getEmployeeCount(), 
+                command.getAnnualRevenue(),
                 command.getDateOfLastAnnualReport(), 
                 command.getParentEntityId(), 
                 command.getNotes(), 
                 command.getStatus(), 
                 null, 
-                null
+                null,
+                command.getOwner()
         ));
     }
 }
