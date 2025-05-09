@@ -112,4 +112,9 @@ public class LegalEntityServiceImpl implements ILegalEntityService {
         return new PaginatedResponse(objects, data.getTotalPages(), data.getNumberOfElements(),
                 data.getTotalElements(), data.getSize(), data.getNumber());
     }
+
+    @Override
+    public long countByTaxId(String taxId) {
+        return this.repositoryQuery.countByTaxId(taxId);
+    }
 }
