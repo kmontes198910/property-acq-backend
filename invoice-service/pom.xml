@@ -51,48 +51,6 @@
             <artifactId>spring-boot-starter-actuator</artifactId>
         </dependency>
 
-        <!-- Librerías MITyC -->
-        <dependency>
-            <groupId>es.mityc.jumbo.adsi</groupId>
-            <artifactId>MITyCLibAPI</artifactId>
-            <version>1.1.7</version>
-        </dependency>
-        <dependency>
-            <groupId>es.mityc.jumbo.adsi</groupId>
-            <artifactId>MITyCLibXADES</artifactId>
-            <version>1.1.7</version>
-        </dependency>
-        <dependency>
-            <groupId>es.mityc.jumbo.adsi</groupId>
-            <artifactId>MITyCLibTrust</artifactId>
-            <version>1.1.7</version>
-        </dependency>
-        <dependency>
-            <groupId>es.mityc.jumbo.adsi</groupId>
-            <artifactId>MITyCLibTSA</artifactId>
-            <version>1.1.7</version>
-        </dependency>
-        <dependency>
-            <groupId>es.mityc.jumbo.adsi</groupId>
-            <artifactId>MITyCLibOCSP</artifactId>
-            <version>1.1.7</version>
-        </dependency>
-        <dependency>
-            <groupId>es.mityc.jumbo.adsi</groupId>
-            <artifactId>MITyCLibCert</artifactId>
-            <version>1.1.7</version>
-        </dependency>
-        <dependency>
-            <groupId>es.mityc.jumbo.adsi</groupId>
-            <artifactId>MITyCLibCrypt</artifactId>
-            <version>1.1.7</version>
-        </dependency>
-        <dependency>
-            <groupId>xmlsec</groupId>
-            <artifactId>xmlsec</artifactId>
-            <version>1.4.2-ADSI</version>
-            <classifier>1.1</classifier>
-        </dependency>
         <dependency>
             <groupId>ec.e.facturacion</groupId>
             <artifactId>E-Facturacion</artifactId>
