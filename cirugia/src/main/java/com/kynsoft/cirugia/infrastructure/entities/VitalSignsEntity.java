@@ -55,6 +55,12 @@ public class VitalSignsEntity {
     @Column(name = "height")
     private Double height;
     
+    @Column(name = "bmi")
+    private Double bmi;
+    
+    @Column(name = "bmi_classification")
+    private String bmiClassification;
+    
     @Column(name = "capillary_glucose")
     private Double capillaryGlucose;
     
