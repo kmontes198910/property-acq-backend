@@ -19,7 +19,7 @@ public interface LegalEntityReadDataJPARepository extends JpaRepository<LegalEnt
 
     Optional<LegalEntity> findByTaxId(String taxId);
 
-    @EntityGraph(attributePaths = {"business"})
+    @EntityGraph(attributePaths = {"business", "parent"})
     @Override
     Optional<LegalEntity> findById(UUID id);
 

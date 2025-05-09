@@ -22,6 +22,7 @@ public class UpdateLegalEntityCommandHandler implements ICommandHandler<UpdateLe
     @Override
     public void handle(UpdateLegalEntityCommand command) {
         BusinessDto businessDto = this.businessService.findById(command.getBusiness());
+        LegalEntityDto parent = command.getParentEntityId() != null ? this.legalEntityService.findById(command.getParentEntityId()) : null;
         legalEntityService.update(new LegalEntityDto(
                 command.getId(), 
                 command.getName(), 
@@ -36,7 +37,7 @@ public class UpdateLegalEntityCommandHandler implements ICommandHandler<UpdateLe
                 command.getIndustry(), 
                 command.getAnnualRevenue(),
                 command.getDateOfLastAnnualReport(), 
-                command.getParentEntityId(), 
+                parent, 
                 command.getNotes(), 
                 command.getStatus(), 
                 null, 

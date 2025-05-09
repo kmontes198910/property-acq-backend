@@ -31,7 +31,7 @@ public class LegalEntityDto {
     private String industry;
     private Double annualRevenue;
     private LocalDate dateOfLastAnnualReport;
-    private UUID parentEntityId;
+    private LegalEntityDto parentEntityId;
     private String notes;
     private String owner;
     private EntityStatus status;
@@ -48,7 +48,7 @@ public class LegalEntityDto {
                           BusinessDto business, String formationState, LocalDate formationDate, 
                           Month fiscalYearEnd, String businessDescription, 
                           String website, String industry, Double annualRevenue, 
-                          LocalDate dateOfLastAnnualReport, UUID parentEntityId, String notes, 
+                          LocalDate dateOfLastAnnualReport, LegalEntityDto parentEntityId, String notes, 
                           EntityStatus status, UUID createdBy, UUID updatedBy,
                           String owner) {
         this.id = id;

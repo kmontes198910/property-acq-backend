@@ -31,7 +31,7 @@ public class LegalEntityResponse implements IResponse {
     private String industry;
     private Double annualRevenue;
     private LocalDate dateOfLastAnnualReport;
-    private UUID parentEntityId;
+    private LegalEntityBasicResponse parentEntityId;
     private String notes;
     private EntityStatus status;
     private LocalDateTime createdAt;
@@ -53,7 +53,7 @@ public class LegalEntityResponse implements IResponse {
         this.industry = legalEntityDto.getIndustry();
         this.annualRevenue = legalEntityDto.getAnnualRevenue();
         this.dateOfLastAnnualReport = legalEntityDto.getDateOfLastAnnualReport();
-        this.parentEntityId = legalEntityDto.getParentEntityId();
+        this.parentEntityId = legalEntityDto.getParentEntityId() != null ? new LegalEntityBasicResponse(legalEntityDto.getParentEntityId()) : null;
         this.notes = legalEntityDto.getNotes();
         this.status = legalEntityDto.getStatus();
         this.createdAt = legalEntityDto.getCreatedAt();
