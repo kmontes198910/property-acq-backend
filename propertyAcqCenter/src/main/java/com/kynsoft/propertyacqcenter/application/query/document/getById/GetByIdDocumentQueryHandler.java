@@ -18,10 +18,6 @@ public class GetByIdDocumentQueryHandler implements IQueryHandler<GetByIdDocumen
     public DocumentFindByIdResponse handle(GetByIdDocumentQuery query) {
 
         DocumentFindByIdResponse response = new DocumentFindByIdResponse(this.documentService.findById(query.getId()));
-        System.err.println("##################################################");
-        System.err.println("##################################################");
-        System.err.println("" + response.getLegalEntity().getName());
-        System.err.println("##################################################");
         return response;
     }
 }
