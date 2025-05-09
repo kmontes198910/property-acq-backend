@@ -17,7 +17,7 @@ public class RecoveryBedResponse implements IResponse, Serializable {
     private final String status;
     private final UUID businessId;
     private final String floor;
-    private final String room;
+    private final UUID roomId;
     private final Boolean hasMonitor;
     private final Boolean hasOxygenSupply;
     private final LocalDateTime lastMaintenanceDate;
@@ -34,7 +34,7 @@ public class RecoveryBedResponse implements IResponse, Serializable {
         this.status = recoveryBed.getStatus();
         this.businessId = recoveryBed.getBusinessId();
         this.floor = recoveryBed.getFloor();
-        this.room = recoveryBed.getRoom();
+        this.roomId = recoveryBed.getRoomId();
         this.hasMonitor = recoveryBed.getHasMonitor();
         this.hasOxygenSupply = recoveryBed.getHasOxygenSupply();
         this.lastMaintenanceDate = recoveryBed.getLastMaintenanceDate();

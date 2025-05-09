@@ -157,6 +157,8 @@ public class RecoveryBedServiceImpl implements IRecoveryBedService {
                 .status(entity.getStatus())
                 .businessId(entity.getBusinessId())
                 .floor(entity.getFloor())
+                .roomId(entity.getRecoveryRoomId())
+                .lastMaintenanceDate(entity.getLastMaintenanceDate())
                 .hasMonitor(entity.getHasMonitor())
                 .hasOxygenSupply(entity.getHasOxygenSupply())
                 .createdAt(entity.getCreatedAt())
