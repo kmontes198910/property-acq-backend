@@ -17,7 +17,7 @@ public class CreateAnesthesiaCommand implements ICommand {
     private String id;
     private UUID surgeryId;
     private String anesthesiaType;
-    private Double mouthOpening;
+    private String mouthOpening;
     private Double thyromental_distance;
     private String mallampati;
     private String cervicalMobility;

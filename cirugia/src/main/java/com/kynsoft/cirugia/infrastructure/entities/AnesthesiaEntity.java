@@ -34,7 +34,7 @@ public class AnesthesiaEntity {
     private String anesthesiaType;
     
     @Column(name = "mouth_opening")
-    private Double mouthOpening;
+    private String mouthOpening;
     
     @Column(name = "thyromental_distance")
     private Double thyromental_distance;
