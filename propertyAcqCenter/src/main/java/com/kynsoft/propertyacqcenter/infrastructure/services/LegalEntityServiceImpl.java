@@ -37,10 +37,6 @@ public class LegalEntityServiceImpl implements ILegalEntityService {
     @Override
     @Transactional
     public UUID create(LegalEntityDto legalEntityDto) {
-        System.err.println("#######################");
-        System.err.println("#######################");
-        System.err.println("" + legalEntityDto.getOwner());
-        System.err.println("#######################");
         return repositoryCommand.save(new LegalEntity(legalEntityDto)).getId();
     }
 
@@ -58,7 +54,7 @@ public class LegalEntityServiceImpl implements ILegalEntityService {
         update.setIndustry(legalEntityDto.getIndustry());
         update.setName(legalEntityDto.getName());
         update.setNotes(legalEntityDto.getNotes());
-        update.setParentEntityId(legalEntityDto.getParentEntityId());
+        update.setParent(new LegalEntity(legalEntityDto.getParentEntityId()));
         update.setStatus(legalEntityDto.getStatus());
         update.setTaxId(legalEntityDto.getTaxId());
         update.setWebsite(legalEntityDto.getWebsite());

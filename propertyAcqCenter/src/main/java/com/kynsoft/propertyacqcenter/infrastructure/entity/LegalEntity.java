@@ -66,8 +66,12 @@ public class LegalEntity {
     @Column(name = "date_of_last_annual_report")
     private LocalDate dateOfLastAnnualReport;
 
-    @Column(name = "parent_entity_id")
-    private UUID parentEntityId;
+//    @Column(name = "parent_entity_id")
+//    private UUID parentEntityId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "parent_entity_id",
+            foreignKey = @ForeignKey(name = "fk_legal_entity_parent"))
+    private LegalEntity parent;
 
     @Column(name = "notes", columnDefinition = "TEXT")
     private String notes;
@@ -119,7 +123,7 @@ public class LegalEntity {
         this.industry = dto.getIndustry();
         this.annualRevenue = dto.getAnnualRevenue();
         this.dateOfLastAnnualReport = dto.getDateOfLastAnnualReport();
-        this.parentEntityId = dto.getParentEntityId();
+        this.parent = dto.getParentEntityId() != null ? new LegalEntity(dto.getParentEntityId()) : null;
         this.notes = dto.getNotes();
         this.status = dto.getStatus();
         this.createdBy = dto.getCreatedBy();
@@ -141,7 +145,7 @@ public class LegalEntity {
                 .industry(this.industry)
                 .annualRevenue(this.annualRevenue)
                 .dateOfLastAnnualReport(this.dateOfLastAnnualReport)
-                .parentEntityId(this.parentEntityId)
+                .parentEntityId(this.parent != null ? this.parent.toAggregateBasic() : null)
                 .notes(this.notes)
                 .status(this.status)
                 .createdAt(this.createdAt)
@@ -179,7 +183,7 @@ public class LegalEntity {
                 .industry(this.industry)
                 .annualRevenue(this.annualRevenue)
                 .dateOfLastAnnualReport(this.dateOfLastAnnualReport)
-                .parentEntityId(this.parentEntityId)
+                .parentEntityId(this.parent != null ? this.parent.toAggregateBasic() : null)
                 .notes(this.notes)
                 .status(this.status)
                 .createdAt(this.createdAt)
