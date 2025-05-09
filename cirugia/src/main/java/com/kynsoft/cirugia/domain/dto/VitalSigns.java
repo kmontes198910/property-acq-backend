@@ -25,6 +25,8 @@ public class VitalSigns implements Serializable {
     private Double oxygenSaturation;
     private Double weight;
     private Double height;
+    private Double bmi;
+    private String bmiClassification;
     private Double capillaryGlucose;
     private Integer glasgowScoreMotor;
     private Integer glasgowScoreVerbal;

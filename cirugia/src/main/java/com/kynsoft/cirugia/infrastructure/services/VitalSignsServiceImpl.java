@@ -5,6 +5,7 @@ import com.kynsof.share.core.domain.response.PaginatedResponse;
 import com.kynsof.share.core.infrastructure.specifications.GenericSpecificationsBuilder;
 import com.kynsoft.cirugia.domain.service.IVitalSignsService;
 import com.kynsoft.cirugia.domain.dto.VitalSigns;
+import com.kynsoft.cirugia.domain.util.BMIClassification;
 import com.kynsoft.cirugia.infrastructure.config.SurgeryCacheConfig;
 import com.kynsoft.cirugia.infrastructure.entities.VitalSignsEntity;
 import com.kynsoft.cirugia.infrastructure.repository.command.VitalSignsWriteRepository;
@@ -95,6 +96,9 @@ public class VitalSignsServiceImpl implements IVitalSignsService {
             vitalSigns.setRecordedAt(LocalDateTime.now());
         }
         
+        // Calcular el IMC y su clasificación
+        calculateAndSetBMI(vitalSigns);
+        
         VitalSignsEntity entity = mapToEntity(vitalSigns);
         VitalSignsEntity savedEntity = vitalSignsWriteRepository.save(entity);
         
@@ -108,6 +112,10 @@ public class VitalSignsServiceImpl implements IVitalSignsService {
         log.info("Updating vital signs with ID: {}", vitalSigns.getId());
         
         vitalSigns.setUpdatedAt(LocalDateTime.now());
+        
+        // Calcular el IMC y su clasificación
+        calculateAndSetBMI(vitalSigns);
+        
         VitalSignsEntity entity = mapToEntity(vitalSigns);
         VitalSignsEntity savedEntity = vitalSignsWriteRepository.save(entity);
         
@@ -160,6 +168,8 @@ public class VitalSignsServiceImpl implements IVitalSignsService {
                 .oxygenSaturation(entity.getOxygenSaturation())
                 .weight(entity.getWeight())
                 .height(entity.getHeight())
+                .bmi(entity.getBmi())
+                .bmiClassification(entity.getBmiClassification())
                 .capillaryGlucose(entity.getCapillaryGlucose())
                 .glasgowScoreMotor(entity.getGlasgowScoreMotor())
                 .glasgowScoreVerbal(entity.getGlasgowScoreVerbal())
@@ -186,6 +196,8 @@ public class VitalSignsServiceImpl implements IVitalSignsService {
                 .oxygenSaturation(vitalSigns.getOxygenSaturation())
                 .weight(vitalSigns.getWeight())
                 .height(vitalSigns.getHeight())
+                .bmi(vitalSigns.getBmi())
+                .bmiClassification(vitalSigns.getBmiClassification())
                 .capillaryGlucose(vitalSigns.getCapillaryGlucose())
                 .glasgowScoreMotor(vitalSigns.getGlasgowScoreMotor())
                 .glasgowScoreVerbal(vitalSigns.getGlasgowScoreVerbal())
@@ -197,5 +209,26 @@ public class VitalSignsServiceImpl implements IVitalSignsService {
                 .createdBy(vitalSigns.getCreatedBy())
                 .updatedBy(vitalSigns.getUpdatedBy())
                 .build();
+    }
+    
+    /**
+     * Calcula el IMC y establece tanto el IMC como su clasificación en el objeto VitalSigns
+     */
+    private void calculateAndSetBMI(VitalSigns vitalSigns) {
+        if (vitalSigns.getWeight() != null && vitalSigns.getHeight() != null && vitalSigns.getHeight() > 0) {
+            // La altura debe estar en metros, es posible que necesite convertir si viene en cm
+            Double heightInMeters = vitalSigns.getHeight();
+            if (heightInMeters > 3) { // Asumimos que si es mayor a 3, está en cm
+                heightInMeters = heightInMeters / 100;
+            }
+            
+            Double bmi = BMIClassification.calculateBMI(vitalSigns.getWeight(), heightInMeters);
+            vitalSigns.setBmi(bmi);
+            
+            BMIClassification.Classification classification = BMIClassification.getClassification(bmi);
+            if (classification != null) {
+                vitalSigns.setBmiClassification(classification.getDescription());
+            }
+        }
     }
 }
