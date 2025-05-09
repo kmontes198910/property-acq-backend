@@ -2,7 +2,6 @@ package com.kynsoft.propertyacqcenter.application.response;
 
 import com.kynsof.share.core.domain.bus.query.IResponse;
 import com.kynsoft.propertyacqcenter.domain.dto.ContactDto;
-import com.kynsoft.propertyacqcenter.domain.dto.LegalEntityDto;
 import lombok.*;
 
 import java.time.LocalDateTime;
@@ -27,7 +26,7 @@ public class ContactResponse implements IResponse {
     private Boolean isActive;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
-    private LegalEntityDto legalEntity;
+    private LegalEntityBasicResponse legalEntity;
 
     public ContactResponse(ContactDto contactDto){
         this.id = contactDto.getId();
@@ -42,6 +41,6 @@ public class ContactResponse implements IResponse {
         this.isActive = contactDto.getIsActive();
         this.createdAt = contactDto.getCreatedAt();
         this.updatedAt = contactDto.getUpdatedAt();
-        this.legalEntity = contactDto.getLegalEntity();
+        this.legalEntity = new LegalEntityBasicResponse(contactDto.getLegalEntity());
     }
 }

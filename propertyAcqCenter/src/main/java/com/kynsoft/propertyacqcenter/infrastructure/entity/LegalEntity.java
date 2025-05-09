@@ -152,6 +152,13 @@ public class LegalEntity {
                 .build();
     }
 
+    public LegalEntityDto toAggregateBasic() {
+        return LegalEntityDto.builder()
+                .id(this.id)
+                .name(this.name)
+                .build();
+    }
+
     public LegalEntityDto toAggregateFindById() {
         return LegalEntityDto.builder()
                 .id(this.id)
