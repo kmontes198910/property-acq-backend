@@ -3,7 +3,7 @@ package com.kynsoft.propertyacqcenter.infrastructure.services;
 import com.kynsof.share.core.domain.request.FilterCriteria;
 import com.kynsof.share.core.domain.response.PaginatedResponse;
 import com.kynsof.share.core.infrastructure.specifications.GenericSpecificationsBuilder;
-import com.kynsoft.propertyacqcenter.application.response.CompanyAddressResponse;
+import com.kynsoft.propertyacqcenter.application.response.CompanyAddressSearchResponse;
 import com.kynsoft.propertyacqcenter.domain.dto.CompanyAddressDto;
 import com.kynsoft.propertyacqcenter.domain.dto.exception.CompanyAddressNotFoundException;
 import com.kynsoft.propertyacqcenter.domain.services.ICompanyAddressService;
@@ -91,9 +91,9 @@ public class CompanyAddressServiceImpl implements ICompanyAddressService {
     }
 
     private PaginatedResponse getPaginatedResponse(Page<CompanyAddress> data) {
-        List<CompanyAddressResponse> objects = new ArrayList<>();
+        List<CompanyAddressSearchResponse> objects = new ArrayList<>();
         for (CompanyAddress p : data.getContent()) {
-            objects.add(new CompanyAddressResponse(p.toAggregate()));
+            objects.add(new CompanyAddressSearchResponse(p.toAggregate()));
         }
         return new PaginatedResponse(objects, data.getTotalPages(), data.getNumberOfElements(),
                 data.getTotalElements(), data.getSize(), data.getNumber());
