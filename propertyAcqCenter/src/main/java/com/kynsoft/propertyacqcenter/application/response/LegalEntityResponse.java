@@ -26,7 +26,6 @@ public class LegalEntityResponse implements IResponse {
     private LocalDate formationDate;
     private String fiscalYearEnd;
     private String businessDescription;
-    private String registrationNumber;
     private String website;
     private String industry;
     private Double annualRevenue;
@@ -48,7 +47,6 @@ public class LegalEntityResponse implements IResponse {
         this.formationDate = legalEntityDto.getFormationDate();
         this.fiscalYearEnd = legalEntityDto.getFiscalYearEnd();
         this.businessDescription = legalEntityDto.getBusinessDescription();
-        this.registrationNumber = legalEntityDto.getRegistrationNumber();
         this.website = legalEntityDto.getWebsite();
         this.industry = legalEntityDto.getIndustry();
         this.annualRevenue = legalEntityDto.getAnnualRevenue();

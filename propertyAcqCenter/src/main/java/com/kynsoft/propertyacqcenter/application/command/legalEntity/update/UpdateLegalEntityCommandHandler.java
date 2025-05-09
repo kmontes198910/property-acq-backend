@@ -32,7 +32,6 @@ public class UpdateLegalEntityCommandHandler implements ICommandHandler<UpdateLe
                 command.getFormationDate(), 
                 command.getFiscalYearEnd(), 
                 command.getBusinessDescription(), 
-                command.getRegistrationNumber(), 
                 command.getWebsite(), 
                 command.getIndustry(), 
                 command.getAnnualRevenue(),

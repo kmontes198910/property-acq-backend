@@ -19,7 +19,6 @@ public class UpdateLegalEntityRequest {
     private LocalDate formationDate;
     private String fiscalYearEnd;
     private String businessDescription;
-    private String registrationNumber;
     private String website;
     private String industry;
     private Double annualRevenue;

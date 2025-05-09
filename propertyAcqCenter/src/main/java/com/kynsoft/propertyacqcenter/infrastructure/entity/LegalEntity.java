@@ -53,9 +53,6 @@ public class LegalEntity {
     @Column(name = "business_description", columnDefinition = "TEXT")
     private String businessDescription;
 
-    @Column(name = "registration_number")
-    private String registrationNumber;
-
     @Column(name = "website")
     private String website;
 
@@ -114,7 +111,6 @@ public class LegalEntity {
         this.formationDate = dto.getFormationDate();
         this.fiscalYearEnd = dto.getFiscalYearEnd();
         this.businessDescription = dto.getBusinessDescription();
-        this.registrationNumber = dto.getRegistrationNumber();
         this.website = dto.getWebsite();
         this.industry = dto.getIndustry();
         this.annualRevenue = dto.getAnnualRevenue();
@@ -136,7 +132,6 @@ public class LegalEntity {
                 .formationDate(this.formationDate)
                 .fiscalYearEnd(this.fiscalYearEnd)
                 .businessDescription(this.businessDescription)
-                .registrationNumber(this.registrationNumber)
                 .website(this.website)
                 .industry(this.industry)
                 .annualRevenue(this.annualRevenue)
@@ -167,7 +162,6 @@ public class LegalEntity {
                 .formationDate(this.formationDate)
                 .fiscalYearEnd(this.fiscalYearEnd)
                 .businessDescription(this.businessDescription)
-                .registrationNumber(this.registrationNumber)
                 .website(this.website)
                 .industry(this.industry)
                 .annualRevenue(this.annualRevenue)
