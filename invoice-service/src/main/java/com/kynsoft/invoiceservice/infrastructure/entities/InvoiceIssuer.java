@@ -30,14 +30,15 @@ public class InvoiceIssuer {
     @Column(name = "commercial_name")
     private String commercialName;
     
-    @Column(name = "headquarters_address")
-    private String headquartersAddress;
-    
     @Column(name = "establishment_address")
     private String establishmentAddress;
     
     @Column(name = "establishment")
     private String establishment;
+
+    private String obligationContability;
+
+    private String address;
     
     @Column(name = "emission_point")
     private String emissionPoint;
@@ -83,6 +84,7 @@ public class InvoiceIssuer {
     private String description;
     
     @OneToMany(mappedBy = "invoiceIssuer", cascade = CascadeType.ALL, orphanRemoval = true)
+    @Builder.Default
     private List<InvoiceIssuingSequence> sequences = new ArrayList<>();
     
     // Helper methods for bidirectional relationships
@@ -95,4 +97,7 @@ public class InvoiceIssuer {
         sequences.remove(sequence);
         sequence.setInvoiceIssuer(null);
     }
+
+
+
 }

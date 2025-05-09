@@ -11,10 +11,4 @@ public interface InvoiceService {
      * @return Respuesta con el estado y clave de acceso de la factura
      */
     FacturaResponseDTO generateInvoice(FacturaRequestDTO facturaRequestDTO);
-    
-    /**
-     * Genera el próximo número secuencial para facturas
-     * @return Secuencial de 9 dígitos
-     */
-    String generateNextSequential();
 }

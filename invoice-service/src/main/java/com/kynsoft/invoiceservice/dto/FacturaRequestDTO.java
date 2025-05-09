@@ -1,5 +1,6 @@
 package com.kynsoft.invoiceservice.dto;
 
+import com.kynsoft.invoiceservice.infrastructure.entities.IdentificationType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -7,28 +8,18 @@ import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.UUID;
 
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class FacturaRequestDTO {
-    // Información básica de la factura
-    private String ruc;
-    private String razonSocial;
-    private String nombreComercial;
-    private String estab;
-    private String ptoEmi;
-    private String secuencial;
-    private String dirMatriz;
-    private String correo;
-    private String telefono;
-    private String fechaEmision;
-    private String obligadoContabilidad;
-    private String regimenRimpe;
+    // ID del emisor de la factura
+    private UUID issuerId;
     
     // Información del comprador
-    private String tipoIdentificacionComprador;
+    private IdentificationType tipoIdentificacionComprador;
     private String razonSocialComprador;
     private String identificacionComprador;
     private String direccionComprador;

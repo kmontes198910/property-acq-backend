@@ -23,11 +23,8 @@ public class InvoiceController {
     public ResponseEntity<FacturaResponseDTO> generarFactura(@RequestBody FacturaRequestDTO request) {
         log.info("Recibida solicitud para generar factura");
         
-        // Generar secuencial automáticamente si no viene en la solicitud
-        if (request.getSecuencial() == null || request.getSecuencial().isEmpty()) {
-            request.setSecuencial(invoiceService.generateNextSequential());
-            log.info("Secuencial generado automáticamente: {}", request.getSecuencial());
-        }
+        // Ya no es necesario generar el secuencial aquí, ahora se maneja en el servicio
+        // utilizando la secuencia del emisor
         
         // Invocar al servicio para generar y guardar la factura
         FacturaResponseDTO response = invoiceService.generateInvoice(request);

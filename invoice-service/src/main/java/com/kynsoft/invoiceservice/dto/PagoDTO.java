@@ -15,6 +15,6 @@ public class PagoDTO {
     private String formaPago;
     private String descripcion;
     private BigDecimal total;
-    private Integer plazo;
+    private BigDecimal plazo;
     private String unidadTiempo;
 }
