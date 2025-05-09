@@ -4,6 +4,7 @@ import com.kynsof.share.core.domain.bus.query.IResponse;
 import com.kynsoft.propertyacqcenter.domain.dto.*;
 import com.kynsoft.propertyacqcenter.domain.enums.EntityStatus;
 import com.kynsoft.propertyacqcenter.domain.enums.EntityType;
+import com.kynsoft.propertyacqcenter.domain.enums.Month;
 import java.time.LocalDate;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -24,7 +25,7 @@ public class LegalEntityResponse implements IResponse {
     private EntityType entityType;
     private String formationState;
     private LocalDate formationDate;
-    private String fiscalYearEnd;
+    private Month fiscalYearEnd;
     private String businessDescription;
     private String website;
     private String industry;

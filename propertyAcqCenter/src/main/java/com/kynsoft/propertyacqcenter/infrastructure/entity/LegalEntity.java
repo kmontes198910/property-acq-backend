@@ -4,6 +4,7 @@ import com.kynsoft.propertyacqcenter.domain.dto.BusinessDto;
 import com.kynsoft.propertyacqcenter.domain.dto.LegalEntityDto;
 import com.kynsoft.propertyacqcenter.domain.enums.EntityStatus;
 import com.kynsoft.propertyacqcenter.domain.enums.EntityType;
+import com.kynsoft.propertyacqcenter.domain.enums.Month;
 import jakarta.persistence.*;
 import java.time.LocalDate;
 import lombok.*;
@@ -48,7 +49,7 @@ public class LegalEntity {
     private LocalDate formationDate;
 
     @Column(name = "fiscal_year_end")
-    private String fiscalYearEnd;
+    private Month fiscalYearEnd;
 
     @Column(name = "business_description", columnDefinition = "TEXT")
     private String businessDescription;

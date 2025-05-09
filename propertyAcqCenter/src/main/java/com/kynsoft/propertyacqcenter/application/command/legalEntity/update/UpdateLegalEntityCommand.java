@@ -4,6 +4,7 @@ import com.kynsof.share.core.domain.bus.command.ICommand;
 import com.kynsof.share.core.domain.bus.command.ICommandMessage;
 import com.kynsoft.propertyacqcenter.domain.enums.EntityStatus;
 import com.kynsoft.propertyacqcenter.domain.enums.EntityType;
+import com.kynsoft.propertyacqcenter.domain.enums.Month;
 import java.time.LocalDate;
 import lombok.Getter;
 import lombok.Setter;
@@ -21,7 +22,7 @@ public class UpdateLegalEntityCommand implements ICommand {
     private UUID business;
     private String formationState;
     private LocalDate formationDate;
-    private String fiscalYearEnd;
+    private Month fiscalYearEnd;
     private String businessDescription;
     private String website;
     private String industry;
@@ -33,7 +34,7 @@ public class UpdateLegalEntityCommand implements ICommand {
 
     public UpdateLegalEntityCommand(UUID id, String name, String taxId, EntityType entityType, 
             UUID business, String formationState, LocalDate formationDate, 
-            String fiscalYearEnd, String businessDescription, 
+            Month fiscalYearEnd, String businessDescription, 
             String website, String industry, Double annualRevenue, 
             LocalDate dateOfLastAnnualReport, UUID parentEntityId, String notes, EntityStatus status) {
         this.id = id;

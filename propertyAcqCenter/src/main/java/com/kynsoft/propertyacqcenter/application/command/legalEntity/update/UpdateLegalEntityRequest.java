@@ -2,6 +2,7 @@ package com.kynsoft.propertyacqcenter.application.command.legalEntity.update;
 
 import com.kynsoft.propertyacqcenter.domain.enums.EntityStatus;
 import com.kynsoft.propertyacqcenter.domain.enums.EntityType;
+import com.kynsoft.propertyacqcenter.domain.enums.Month;
 import java.time.LocalDate;
 import java.util.UUID;
 import lombok.Getter;
@@ -17,7 +18,7 @@ public class UpdateLegalEntityRequest {
     private UUID business;
     private String formationState;
     private LocalDate formationDate;
-    private String fiscalYearEnd;
+    private Month fiscalYearEnd;
     private String businessDescription;
     private String website;
     private String industry;
