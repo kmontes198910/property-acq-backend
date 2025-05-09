@@ -4,6 +4,7 @@ import com.kynsof.share.core.domain.request.FilterCriteria;
 import com.kynsof.share.core.domain.response.PaginatedResponse;
 import com.kynsof.share.core.infrastructure.specifications.GenericSpecificationsBuilder;
 import com.kynsoft.propertyacqcenter.application.response.BankAccountFindByIdResponse;
+import com.kynsoft.propertyacqcenter.application.response.BankAccountResponse;
 import com.kynsoft.propertyacqcenter.domain.dto.BankAccountDto;
 import com.kynsoft.propertyacqcenter.domain.dto.exception.BankAccountNotFoundException;
 import com.kynsoft.propertyacqcenter.domain.services.IBankAccountService;
@@ -98,9 +99,9 @@ public class BankAccountServiceImpl implements IBankAccountService {
     }
 
     private PaginatedResponse getPaginatedResponse(Page<BankAccount> data) {
-        List<BankAccountFindByIdResponse> objects = new ArrayList<>();
+        List<BankAccountResponse> objects = new ArrayList<>();
         for (BankAccount p : data.getContent()) {
-            objects.add(new BankAccountFindByIdResponse(p.toAggregate()));
+            objects.add(new BankAccountResponse(p.toAggregate()));
         }
         return new PaginatedResponse(objects, data.getTotalPages(), data.getNumberOfElements(),
                 data.getTotalElements(), data.getSize(), data.getNumber());
