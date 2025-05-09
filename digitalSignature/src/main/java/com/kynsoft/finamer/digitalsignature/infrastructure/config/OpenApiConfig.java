@@ -1,25 +1,24 @@
 package com.kynsoft.finamer.digitalsignature.infrastructure.config;
 
-// import io.swagger.v3.oas.models.Components;
-// import io.swagger.v3.oas.models.OpenAPI;
-// import io.swagger.v3.oas.models.info.Contact;
-// import io.swagger.v3.oas.models.info.Info;
-// import io.swagger.v3.oas.models.info.License;
-// import io.swagger.v3.oas.models.security.SecurityRequirement;
-// import io.swagger.v3.oas.models.security.SecurityScheme;
-// import io.swagger.v3.oas.models.tags.Tag;
+import io.swagger.v3.oas.models.Components;
+import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.info.Contact;
+import io.swagger.v3.oas.models.info.Info;
+import io.swagger.v3.oas.models.info.License;
+import io.swagger.v3.oas.models.security.SecurityRequirement;
+import io.swagger.v3.oas.models.security.SecurityScheme;
+import io.swagger.v3.oas.models.tags.Tag;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-// import java.util.Arrays;
+import java.util.Arrays;
 
 /**
  * Configuración personalizada para Swagger/OpenAPI.
- * Desactivada temporalmente debido a problemas de compatibilidad.
  */
 @Configuration
 public class OpenApiConfig {
 
-    /*
     @Bean
     public OpenAPI customOpenAPI() {
         return new OpenAPI()
@@ -39,7 +38,8 @@ public class OpenApiConfig {
                         .addSecuritySchemes("Bearer Authentication", createBearerScheme()))
                 .tags(Arrays.asList(
                         new Tag().name("Firma Digital").description("Operaciones de firma digital de documentos"),
-                        new Tag().name("Validación").description("Operaciones de validación de firmas digitales")
+                        new Tag().name("Validación").description("Operaciones de validación de firmas digitales"),
+                        new Tag().name("Certificados").description("Operaciones con certificados de firma digital")
                 ));
     }
 
@@ -51,5 +51,4 @@ public class OpenApiConfig {
                 .in(SecurityScheme.In.HEADER)
                 .name("Authorization");
     }
-    */
 }

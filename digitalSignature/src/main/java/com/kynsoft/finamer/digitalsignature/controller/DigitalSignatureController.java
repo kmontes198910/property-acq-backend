@@ -3,6 +3,13 @@ package com.kynsoft.finamer.digitalsignature.controller;
 import com.kynsoft.finamer.digitalsignature.domain.dto.*;
 import com.kynsoft.finamer.digitalsignature.domain.exception.InvalidSignaturePositionException;
 import com.kynsoft.finamer.digitalsignature.domain.service.IDigitalSignatureService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,18 +18,9 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-// Anotaciones de OpenAPI comentadas temporalmente
-// import io.swagger.v3.oas.annotations.Operation;
-// import io.swagger.v3.oas.annotations.Parameter;
-// import io.swagger.v3.oas.annotations.media.Content;
-// import io.swagger.v3.oas.annotations.media.Schema;
-// import io.swagger.v3.oas.annotations.responses.ApiResponse;
-// import io.swagger.v3.oas.annotations.responses.ApiResponses;
-// import io.swagger.v3.oas.annotations.tags.Tag;
-
 @RestController
 @RequestMapping("/api/v1")
-// @Tag(name = "Firma Digital", description = "API para firma digital y validación de documentos PDF")
+@Tag(name = "Firma Digital", description = "API para firma digital y validación de documentos PDF")
 public class DigitalSignatureController {
 
     private static final Logger logger = LoggerFactory.getLogger(DigitalSignatureController.class);
@@ -39,16 +37,16 @@ public class DigitalSignatureController {
      * @param request Datos para la firma
      * @return Documento firmado y metadatos
      */
-    // @Operation(summary = "Firma un documento PDF", description = "Aplica una firma digital a un documento PDF utilizando un certificado")
-    // @ApiResponses(value = {
-    //     @ApiResponse(responseCode = "200", description = "Documento firmado correctamente", 
-    //                  content = @Content(schema = @Schema(implementation = SignResponseDto.class))),
-    //     @ApiResponse(responseCode = "400", description = "Parámetros inválidos o posición de firma inválida"),
-    //     @ApiResponse(responseCode = "500", description = "Error interno del servidor")
-    // })
+    @Operation(summary = "Firma un documento PDF", description = "Aplica una firma digital a un documento PDF utilizando un certificado")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Documento firmado correctamente", 
+                     content = @Content(schema = @Schema(implementation = SignResponseDto.class))),
+        @ApiResponse(responseCode = "400", description = "Parámetros inválidos o posición de firma inválida"),
+        @ApiResponse(responseCode = "500", description = "Error interno del servidor")
+    })
     @PostMapping(value = "/sign", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<SignResponseDto> signDocument(
-            // @Parameter(description = "Datos necesarios para firmar el documento", required = true) 
+            @Parameter(description = "Datos necesarios para firmar el documento", required = true) 
             @RequestBody SignRequestDto request) {
         logger.info("Recibida solicitud para firmar documento");
         
@@ -73,16 +71,16 @@ public class DigitalSignatureController {
      * @param request Datos para la validación
      * @return Resultado de la validación y metadatos
      */
-    // @Operation(summary = "Valida un documento PDF firmado", description = "Verifica la autenticidad de las firmas digitales en un documento PDF")
-    // @ApiResponses(value = {
-    //     @ApiResponse(responseCode = "200", description = "Documento validado correctamente", 
-    //                  content = @Content(schema = @Schema(implementation = ValidationResponseDto.class))),
-    //     @ApiResponse(responseCode = "400", description = "Parámetros inválidos"),
-    //     @ApiResponse(responseCode = "500", description = "Error interno del servidor")
-    // })
+    @Operation(summary = "Valida un documento PDF firmado", description = "Verifica la autenticidad de las firmas digitales en un documento PDF")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Documento validado correctamente", 
+                     content = @Content(schema = @Schema(implementation = ValidationResponseDto.class))),
+        @ApiResponse(responseCode = "400", description = "Parámetros inválidos"),
+        @ApiResponse(responseCode = "500", description = "Error interno del servidor")
+    })
     @PostMapping(value = "/validate", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ValidationResponseDto> validateDocument(
-            // @Parameter(description = "Datos necesarios para validar el documento", required = true) 
+            @Parameter(description = "Datos necesarios para validar el documento", required = true) 
             @RequestBody ValidationRequestDto request) {
         logger.info("Recibida solicitud para validar documento firmado");
         
