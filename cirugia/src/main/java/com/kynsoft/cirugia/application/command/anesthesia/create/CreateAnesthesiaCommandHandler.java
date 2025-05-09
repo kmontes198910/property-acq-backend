@@ -15,7 +15,6 @@ import java.util.UUID;
 public class CreateAnesthesiaCommandHandler implements ICommandHandler<CreateAnesthesiaCommand> {
 
     private final IAnesthesiaService anesthesiaService;
-
     @Override
     public void handle(CreateAnesthesiaCommand command) {
         Anesthesia anesthesia = Anesthesia.builder()

@@ -1,0 +1,49 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: invoice-service
+  namespace: medinec-dev
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      workload.user.cattle.io/workloadselector: apps.deployment-medinec-invoice
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+  template:
+    metadata:
+      labels:
+        app: invoice
+        workload.user.cattle.io/workloadselector: apps.deployment-medinec-invoice
+    spec:
+      containers:
+        - name: invoice
+          image: kmontes2020/medinec-invoice-dev:v1
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 7777
+              protocol: TCP
+          envFrom:
+            - secretRef:
+                name: invoice-secret
+      imagePullSecrets:
+        - name: dokcer-hub
+      restartPolicy: Always
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: invoice-service
+  namespace: medinec-dev
+spec:
+  selector:
+    app: invoice
+  ports:
+    - protocol: TCP
+      port: 7777
+      targetPort: 7777
+  type: ClusterIP
