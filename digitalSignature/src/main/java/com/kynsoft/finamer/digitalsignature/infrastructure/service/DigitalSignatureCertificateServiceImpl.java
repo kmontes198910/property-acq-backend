@@ -37,17 +37,13 @@ public class DigitalSignatureCertificateServiceImpl implements IDigitalSignature
 
     @Override
     @Transactional
-    public DigitalSignatureCertificate create(DigitalSignatureCertificate certificate, UUID businessId, String createdBy) {
+    public DigitalSignatureCertificate create(DigitalSignatureCertificate certificate) {
         log.info("Creando certificado de firma digital para usuario: {}", certificate.getUserId());
 
         // Generar un nuevo ID si no tiene uno
         if (certificate.getId() == null) {
             certificate.setId(UUID.randomUUID());
         }
-        
-        // Establecer el creador del certificado
-        certificate.setCreatedBy(createdBy);
-        certificate.setUpdatedBy(createdBy);
 
         return certificateWriteRepository.save(certificate);
     }
@@ -89,15 +85,8 @@ public class DigitalSignatureCertificateServiceImpl implements IDigitalSignature
 
     @Override
     public PaginatedResponse search(Pageable pageable, List<FilterCriteria> filters, String query) {
-        log.info("Buscando certificados de firma digital con filtros y consulta de texto: {}", query);
-        
-        // Procesar filtros para la búsqueda
-        List<FilterCriteria> allFilters = new ArrayList<>(filters != null ? filters : new ArrayList<>());
 
-        
-        // Crear especificaciones y ejecutar la búsqueda
-        GenericSpecificationsBuilder<DigitalSignatureCertificate> specifications = 
-            new GenericSpecificationsBuilder<>(allFilters);
+        GenericSpecificationsBuilder<DigitalSignatureCertificate> specifications = new GenericSpecificationsBuilder<>(filters);
         Page<DigitalSignatureCertificate> page = certificateReadRepository.findAll(specifications, pageable);
         
         return buildPaginatedResponse(page);

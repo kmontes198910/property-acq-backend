@@ -149,9 +149,7 @@ public class DigitalSignatureCertificateController {
             @Parameter(description = "Parámetros de búsqueda y paginación", required = true)
             @RequestBody SearchRequest request,
             @Parameter(description = "Filtrar por ID de usuario (opcional)")
-            @RequestParam(required = false) UUID userId,
-            @Parameter(description = "Filtrar por ID de empresa (opcional)")
-            @RequestParam(required = false) UUID businessId) {
+            @RequestParam(required = false) UUID userId) {
         
         log.info("Buscando firmas digitales con filtros");
 
@@ -160,9 +158,7 @@ public class DigitalSignatureCertificateController {
         SearchDigitalSignatureCertificateQuery query = new SearchDigitalSignatureCertificateQuery(
                 pageable, 
                 request.getFilter(), 
-                request.getQuery(), 
-                businessId, 
-                userId);
+                request.getQuery());
         
         PaginatedResponse response = mediator.send(query);
         

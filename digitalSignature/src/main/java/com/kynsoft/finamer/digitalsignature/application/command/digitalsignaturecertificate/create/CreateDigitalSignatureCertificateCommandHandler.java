@@ -30,12 +30,14 @@ public class CreateDigitalSignatureCertificateCommandHandler implements ICommand
                 .certificatePassword(command.getCertificatePassword())
                 .expirationDate(command.getExpirationDate())
                 .isActive(true)
-                .business(null) // Se asignará en el servicio
+                .businessId(command.getBusinessId()) // Se asignará en el servicio
                 .createdAt(LocalDateTime.now())
                 .updatedAt(LocalDateTime.now())
+                .createdBy(command.getCreatedBy())
+                .updatedBy(command.getCreatedBy())
                 .build();
         
-        DigitalSignatureCertificate createdCertificate = digitalSignatureCertificateService.create(certificate, command.getBusinessId(), command.getCreatedBy());
+        DigitalSignatureCertificate createdCertificate = digitalSignatureCertificateService.create(certificate);
         command.setId(createdCertificate.getId());
         
         log.info("Firma digital creada con ID: {}", createdCertificate.getId());

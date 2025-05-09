@@ -17,6 +17,4 @@ public class SearchDigitalSignatureCertificateQuery implements IQuery {
     private Pageable pageable;
     private List<FilterCriteria> filter;
     private String query;
-    private UUID businessId;
-    private UUID userId;
 }

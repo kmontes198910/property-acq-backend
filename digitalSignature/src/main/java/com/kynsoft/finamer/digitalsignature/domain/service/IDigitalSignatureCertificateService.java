@@ -19,7 +19,7 @@ public interface IDigitalSignatureCertificateService {
      * @param createdBy Usuario que crea el certificado
      * @return Certificado creado
      */
-    DigitalSignatureCertificate create(DigitalSignatureCertificate certificate, UUID businessId, String createdBy);
+    DigitalSignatureCertificate create(DigitalSignatureCertificate certificate);
     
     /**
      * Actualiza un certificado de firma digital existente
