@@ -39,6 +39,7 @@ public class LegalEntityFindByIdResponse implements IResponse {
     private LocalDateTime updatedAt;
     private UUID createdBy;
     private UUID updatedBy;
+    private String owner;
 
     public LegalEntityFindByIdResponse(LegalEntityDto legalEntityDto) {
         this.id = legalEntityDto.getId();
@@ -59,6 +60,7 @@ public class LegalEntityFindByIdResponse implements IResponse {
         this.status = legalEntityDto.getStatus();
         this.createdAt = legalEntityDto.getCreatedAt();
         this.updatedAt = legalEntityDto.getUpdatedAt();
+        this.owner = legalEntityDto.getOwner();
     }
 
 }

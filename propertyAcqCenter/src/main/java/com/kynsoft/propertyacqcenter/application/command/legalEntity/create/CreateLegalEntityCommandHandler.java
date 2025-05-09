@@ -44,7 +44,8 @@ public class CreateLegalEntityCommandHandler implements ICommandHandler<CreateLe
                 command.getNotes(), 
                 command.getStatus(), 
                 null, 
-                null
+                null,
+                command.getOwner()
         ));
     }
 

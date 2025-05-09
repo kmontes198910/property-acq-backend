@@ -72,6 +72,9 @@ public class LegalEntity {
     @Column(name = "notes", columnDefinition = "TEXT")
     private String notes;
 
+    @Column(name = "owner")
+    private String owner;
+
     @Enumerated(EnumType.STRING)
     @Column(name = "status", nullable = false)
     private EntityStatus status;
@@ -121,6 +124,7 @@ public class LegalEntity {
         this.status = dto.getStatus();
         this.createdBy = dto.getCreatedBy();
         this.updatedBy = dto.getUpdatedBy();
+        this.owner = dto.getOwner();
     }
 
     public LegalEntityDto toAggregate() {
@@ -144,6 +148,7 @@ public class LegalEntity {
                 .updatedAt(this.updatedAt)
                 .createdBy(this.createdBy)
                 .updatedBy(this.updatedBy)
+                .owner(owner)
                 .build();
     }
 
@@ -174,6 +179,7 @@ public class LegalEntity {
                 .updatedAt(this.updatedAt)
                 .createdBy(this.createdBy)
                 .updatedBy(this.updatedBy)
+                .owner(owner)
                 .build();
     }
 }

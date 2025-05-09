@@ -27,4 +27,5 @@ public class CreateLegalEntityRequest {
     private UUID parentEntityId;
     private String notes;
     private EntityStatus status;
+    private String owner;
 }

@@ -27,4 +27,5 @@ public class UpdateLegalEntityRequest {
     private UUID parentEntityId;
     private String notes;
     private EntityStatus status;
+    private String owner;
 }

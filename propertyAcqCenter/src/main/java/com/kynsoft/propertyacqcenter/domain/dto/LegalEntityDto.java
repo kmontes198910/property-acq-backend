@@ -33,6 +33,7 @@ public class LegalEntityDto {
     private LocalDate dateOfLastAnnualReport;
     private UUID parentEntityId;
     private String notes;
+    private String owner;
     private EntityStatus status;
     private List<AddressDto> addresses;
     private List<CompanyDto> contactPersons;
@@ -48,7 +49,8 @@ public class LegalEntityDto {
                           Month fiscalYearEnd, String businessDescription, 
                           String website, String industry, Double annualRevenue, 
                           LocalDate dateOfLastAnnualReport, UUID parentEntityId, String notes, 
-                          EntityStatus status, UUID createdBy, UUID updatedBy) {
+                          EntityStatus status, UUID createdBy, UUID updatedBy,
+                          String owner) {
         this.id = id;
         this.name = name;
         this.taxId = taxId;
@@ -67,6 +69,7 @@ public class LegalEntityDto {
         this.status = status;
         this.createdBy = createdBy;
         this.updatedBy = updatedBy;
+        this.owner = owner;
     }
 
 }

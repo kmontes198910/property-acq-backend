@@ -31,12 +31,14 @@ public class UpdateLegalEntityCommand implements ICommand {
     private UUID parentEntityId;
     private String notes;
     private EntityStatus status;
+    private String owner;
 
     public UpdateLegalEntityCommand(UUID id, String name, String taxId, EntityType entityType, 
             UUID business, String formationState, LocalDate formationDate, 
             Month fiscalYearEnd, String businessDescription, 
             String website, String industry, Double annualRevenue, 
-            LocalDate dateOfLastAnnualReport, UUID parentEntityId, String notes, EntityStatus status) {
+            LocalDate dateOfLastAnnualReport, UUID parentEntityId, String notes, EntityStatus status,
+            String owner) {
         this.id = id;
         this.name = name;
         this.taxId = taxId;
@@ -53,6 +55,7 @@ public class UpdateLegalEntityCommand implements ICommand {
         this.parentEntityId = parentEntityId;
         this.notes = notes;
         this.status = status;
+        this.owner = owner;
     }
 
     public static UpdateLegalEntityCommand fromRequest(UpdateLegalEntityRequest request, UUID id) {
@@ -72,7 +75,8 @@ public class UpdateLegalEntityCommand implements ICommand {
                 request.getDateOfLastAnnualReport(),
                 request.getParentEntityId(),
                 request.getNotes(),
-                request.getStatus()
+                request.getStatus(),
+                request.getOwner()
         );
     }
 
