@@ -31,7 +31,8 @@ public class UpdateAnesthesiaCommandHandler implements ICommandHandler<UpdateAne
         existingAnesthesia.setSurgeryId(command.getSurgeryId());
         existingAnesthesia.setAnesthesiaType(command.getAnesthesiaType());
         existingAnesthesia.setMouthOpening(command.getMouthOpening());
-        existingAnesthesia.setThyromental_distance(command.getThyromental_distance());
+        existingAnesthesia.setThyroMentalDistance(command.getThyroMentalDistance());
+        existingAnesthesia.setNeckCircumference(command.getNeckCircumference());
         existingAnesthesia.setMallampati(command.getMallampati());
         existingAnesthesia.setCervicalMobility(command.getCervicalMobility());
         existingAnesthesia.setMandibularProtrusion(command.getMandibularProtrusion());

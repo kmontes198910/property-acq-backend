@@ -51,6 +51,12 @@ public class DigitalSignatureCertificate {
     @JoinColumn(name = "business_id", referencedColumnName = "id", insertable = false, updatable = false)
     private Business business;
 
+    @Column(name = "created_by")
+    private String createdBy;
+
+    @Column(name = "updated_by")
+    private String updatedBy;
+
     @CreationTimestamp
     @Column(name = "created_at", updatable = false)
     private LocalDateTime createdAt;

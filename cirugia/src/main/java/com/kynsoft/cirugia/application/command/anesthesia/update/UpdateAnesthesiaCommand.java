@@ -17,13 +17,14 @@ public class UpdateAnesthesiaCommand implements ICommand {
     private String id;
     private UUID surgeryId;
     private String anesthesiaType;
-    private Double mouthOpening;
-    private Double thyromental_distance;
+    private String mouthOpening;
+    private String thyroMentalDistance;
+    private String neckCircumference;
     private String mallampati;
     private String cervicalMobility;
     private String mandibularProtrusion;
     private Boolean difficultIntubationHistory;
-    private String intubationDifficulties;
+    private Boolean intubationDifficulties;
     private String thoraxDescription;
     private String heartDescription;
     private String lungsDescription;
@@ -47,7 +48,8 @@ public class UpdateAnesthesiaCommand implements ICommand {
                 request.getSurgeryId(),
                 request.getAnesthesiaType(),
                 request.getMouthOpening(),
-                request.getThyromental_distance(),
+                request.getThyroMentalDistance(),
+                request.getNeckCircumference(),
                 request.getMallampati(),
                 request.getCervicalMobility(),
                 request.getMandibularProtrusion(),

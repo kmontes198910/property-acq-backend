@@ -34,10 +34,13 @@ public class AnesthesiaEntity {
     private String anesthesiaType;
     
     @Column(name = "mouth_opening")
-    private Double mouthOpening;
+    private String mouthOpening;
     
     @Column(name = "thyromental_distance")
-    private Double thyromental_distance;
+    private String thyroMentalDistance;
+    
+    @Column(name = "neck_circumference")
+    private String neckCircumference;
     
     @Column(name = "mallampati")
     private String mallampati;
@@ -52,7 +55,7 @@ public class AnesthesiaEntity {
     private Boolean difficultIntubationHistory;
     
     @Column(name = "intubation_difficulties")
-    private String intubationDifficulties;
+    private Boolean intubationDifficulties;
     
     @Column(name = "thorax_description")
     private String thoraxDescription;
