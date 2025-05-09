@@ -4,6 +4,7 @@ import com.kynsoft.propertyacqcenter.domain.dto.BusinessDto;
 import com.kynsoft.propertyacqcenter.domain.dto.LegalEntityDto;
 import com.kynsoft.propertyacqcenter.domain.enums.EntityStatus;
 import com.kynsoft.propertyacqcenter.domain.enums.EntityType;
+import com.kynsoft.propertyacqcenter.domain.enums.Month;
 import jakarta.persistence.*;
 import java.time.LocalDate;
 import lombok.*;
@@ -48,34 +49,31 @@ public class LegalEntity {
     private LocalDate formationDate;
 
     @Column(name = "fiscal_year_end")
-    private String fiscalYearEnd;
+    private Month fiscalYearEnd;
 
     @Column(name = "business_description", columnDefinition = "TEXT")
     private String businessDescription;
-    
-    @Column(name = "registration_number")
-    private String registrationNumber;
-    
+
     @Column(name = "website")
     private String website;
-    
+
     @Column(name = "industry")
     private String industry;
-    
+
     @Column(name = "annual_revenue")
     private Double annualRevenue;
-    
-    @Column(name = "employee_count")
-    private Integer employeeCount;
-    
+
     @Column(name = "date_of_last_annual_report")
     private LocalDate dateOfLastAnnualReport;
-    
+
     @Column(name = "parent_entity_id")
     private UUID parentEntityId;
-    
+
     @Column(name = "notes", columnDefinition = "TEXT")
     private String notes;
+
+    @Column(name = "owner")
+    private String owner;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "status", nullable = false)
@@ -117,17 +115,16 @@ public class LegalEntity {
         this.formationDate = dto.getFormationDate();
         this.fiscalYearEnd = dto.getFiscalYearEnd();
         this.businessDescription = dto.getBusinessDescription();
-        this.registrationNumber = dto.getRegistrationNumber();
         this.website = dto.getWebsite();
         this.industry = dto.getIndustry();
         this.annualRevenue = dto.getAnnualRevenue();
-        this.employeeCount = dto.getEmployeeCount();
         this.dateOfLastAnnualReport = dto.getDateOfLastAnnualReport();
         this.parentEntityId = dto.getParentEntityId();
         this.notes = dto.getNotes();
         this.status = dto.getStatus();
         this.createdBy = dto.getCreatedBy();
         this.updatedBy = dto.getUpdatedBy();
+        this.owner = dto.getOwner();
     }
 
     public LegalEntityDto toAggregate() {
@@ -140,11 +137,9 @@ public class LegalEntity {
                 .formationDate(this.formationDate)
                 .fiscalYearEnd(this.fiscalYearEnd)
                 .businessDescription(this.businessDescription)
-                .registrationNumber(this.registrationNumber)
                 .website(this.website)
                 .industry(this.industry)
                 .annualRevenue(this.annualRevenue)
-                .employeeCount(this.employeeCount)
                 .dateOfLastAnnualReport(this.dateOfLastAnnualReport)
                 .parentEntityId(this.parentEntityId)
                 .notes(this.notes)
@@ -153,6 +148,7 @@ public class LegalEntity {
                 .updatedAt(this.updatedAt)
                 .createdBy(this.createdBy)
                 .updatedBy(this.updatedBy)
+                .owner(owner)
                 .build();
     }
 
@@ -172,11 +168,9 @@ public class LegalEntity {
                 .formationDate(this.formationDate)
                 .fiscalYearEnd(this.fiscalYearEnd)
                 .businessDescription(this.businessDescription)
-                .registrationNumber(this.registrationNumber)
                 .website(this.website)
                 .industry(this.industry)
                 .annualRevenue(this.annualRevenue)
-                .employeeCount(this.employeeCount)
                 .dateOfLastAnnualReport(this.dateOfLastAnnualReport)
                 .parentEntityId(this.parentEntityId)
                 .notes(this.notes)
@@ -185,6 +179,7 @@ public class LegalEntity {
                 .updatedAt(this.updatedAt)
                 .createdBy(this.createdBy)
                 .updatedBy(this.updatedBy)
+                .owner(owner)
                 .build();
     }
 }
