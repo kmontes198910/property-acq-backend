@@ -23,6 +23,7 @@ public class CreateLegalEntityCommandHandler implements ICommandHandler<CreateLe
     @Override
     public void handle(CreateLegalEntityCommand command) {
         BusinessDto businessDto = this.businessService.findById(command.getBusiness());
+        LegalEntityDto parent = command.getParentEntityId() != null ? this.legalEntityService.findById(command.getParentEntityId()) : null;
 
         this.validateTaxId(command.getTaxId());
 
@@ -40,7 +41,7 @@ public class CreateLegalEntityCommandHandler implements ICommandHandler<CreateLe
                 command.getIndustry(), 
                 command.getAnnualRevenue(), 
                 command.getDateOfLastAnnualReport(), 
-                command.getParentEntityId(), 
+                parent, 
                 command.getNotes(), 
                 command.getStatus(), 
                 null, 
