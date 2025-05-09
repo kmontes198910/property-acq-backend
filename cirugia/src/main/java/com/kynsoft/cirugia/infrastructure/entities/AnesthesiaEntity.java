@@ -52,7 +52,7 @@ public class AnesthesiaEntity {
     private Boolean difficultIntubationHistory;
     
     @Column(name = "intubation_difficulties")
-    private String intubationDifficulties;
+    private Boolean intubationDifficulties;
     
     @Column(name = "thorax_description")
     private String thoraxDescription;

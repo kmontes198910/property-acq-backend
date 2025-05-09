@@ -21,7 +21,7 @@ public class UpdateAnesthesiaRequest {
     private String cervicalMobility;
     private String mandibularProtrusion;
     private Boolean difficultIntubationHistory;
-    private String intubationDifficulties;
+    private Boolean intubationDifficulties;
     private String thoraxDescription;
     private String heartDescription;
     private String lungsDescription;

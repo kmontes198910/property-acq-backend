@@ -22,13 +22,13 @@ public class GetAnesthesiaBySurgeryIdResponse implements IResponse {
     private UUID id;
     private UUID surgeryId;
     private String anesthesiaType;
-    private Double mouthOpening;
+    private String mouthOpening;
     private Double thyromental_distance;
     private String mallampati;
     private String cervicalMobility;
     private String mandibularProtrusion;
     private Boolean difficultIntubationHistory;
-    private String intubationDifficulties;
+    private Boolean intubationDifficulties;
     private String thoraxDescription;
     private String heartDescription;
     private String lungsDescription;
