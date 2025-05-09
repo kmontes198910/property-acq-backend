@@ -192,48 +192,5 @@ public class EvaluationPatientServiceImpl implements IEvaluationPatientService {
             return null;
         }
     }
-//
-//    @Override
-//    public void update(EvaluationPatientExamDto objectDto) {
-//      Evaluation evaluation = this.repositoryQuery.findById(objectDto.getId()).orElseThrow();
-//
-//        this.repositoryCommand.save(evaluation);
-//    }
-//
-//    @Override
-//    public void delete(UUID id) {
-//        try {
-//            this.repositoryCommand.deleteById(id);
-//        } catch (Exception e) {
-//            throw new BusinessNotFoundException(new GlobalBusinessException(DomainErrorMessage.NOT_DELETE, new ErrorField("id", "Element cannot be deleted has a related element.")));
-//        }
-//    }
-//
-//    @Override
-//    public EvaluationPatientExamDto findByIds(UUID id) {
-//
-//        Optional<Evaluation> object = this.repositoryQuery.findById(id);
-//        if (object.isPresent()) {
-//            return object.get().toAggregate();
-//        }
-//        throw new BusinessNotFoundException(new GlobalBusinessException(DomainErrorMessage.SERVICE_NOT_FOUND, new ErrorField("id", "Service not found.")));
-//
-//    }
-//
-//    @Override
-//    public PaginatedResponse search(Pageable pageable, List<FilterCriteria> filterCriteria) {
-//        GenericSpecificationsBuilder<Evaluation> specifications = new GenericSpecificationsBuilder<>(filterCriteria);
-//        Page<Evaluation> data = this.repositoryQuery.findAll(specifications, pageable);
-//        return getPaginatedResponse(data);
-//    }
-//
-//    private PaginatedResponse getPaginatedResponse(Page<EvaluationPatientExam> data) {
-//        List<EvaluationResponse> servicesResponses = new ArrayList<>();
-//        for (Evaluation s : data.getContent()) {
-//            servicesResponses.add(new EvaluationResponse(s.toAggregate()));
-//        }
-//        return new PaginatedResponse(servicesResponses, data.getTotalPages(), data.getNumberOfElements(),
-//                data.getTotalElements(), data.getSize(), data.getNumber());
-//    }
 
 }

@@ -15,6 +15,8 @@ import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import javax.sql.DataSource;
+import java.util.HashMap;
+import java.util.Map;
 
 @Configuration
 @EnableTransactionManagement
@@ -40,8 +42,13 @@ public class PostgresDBWriteConfiguration {
     @Bean(name = "writeEntityManagerFactory")
     public LocalContainerEntityManagerFactoryBean entityManagerFactoryBean(EntityManagerFactoryBuilder builder,
             @Qualifier("writeDataSource") DataSource dataSource) {
+        Map<String, Object> properties = new HashMap<>();
+        properties.put("hibernate.default_schema", "digital_signature"); // Añadiendo el esquema por defecto
+        properties.put("hibernate.hbm2ddl.auto", "update"); // Usar "update" para actualizar automáticamente el esquema
+        
         return builder.dataSource(dataSource)
                 .packages("com.kynsoft.finamer.digitalsignature.infrastructure.entity")
+                .properties(properties)
                 .persistenceUnit("WriteDB").build();
     }
 

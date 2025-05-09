@@ -1,5 +1,6 @@
 package com.kynsoft.finamer.digitalsignature.infrastructure.entity;
 
+import com.kynsoft.finamer.digitalsignature.domain.dto.BusinessDto;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -35,5 +36,15 @@ public class Business {
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
+    public Business(BusinessDto businessDto) {
+        this.id = businessDto.getId();
+        this.name = businessDto.getName();
+    }
 
+    public BusinessDto toAggregate() {
+        return BusinessDto.builder()
+                .id(this.id)
+                .name(this.name)
+                .build();
+    }
 }
