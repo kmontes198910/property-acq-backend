@@ -32,7 +32,7 @@ public class GetAnesthesiaBySurgeryIdQueryHandler implements IQueryHandler<GetAn
             return new GetAnesthesiaBySurgeryIdResponse();
         }
         
-        log.info("Registro de Anestesia para la cirugía ID: {} - encontrado: {}", query.getSurgeryId(), anesthesia.isPresent());
+        //log.info("Registro de Anestesia para la cirugía ID: {} - encontrado: {}", query.getSurgeryId(), anesthesia.isPresent());
         
         return new GetAnesthesiaBySurgeryIdResponse(anesthesia.get());
     }
