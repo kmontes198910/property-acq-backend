@@ -21,7 +21,7 @@ import java.util.UUID;
 @AllArgsConstructor
 public class BankAccountFindByIdResponse implements IResponse {
     private UUID id;
-    private LegalEntityBasicResponse legalEntity;//
+    private LegalEntityFindByIdResponse legalEntity;//
     private String bankName;//
     private String accountNumber;//
     private String routingNumber;//
@@ -41,7 +41,7 @@ public class BankAccountFindByIdResponse implements IResponse {
 
     public BankAccountFindByIdResponse(BankAccountDto dto) {
         this.id = dto.getId();
-        this.legalEntity = new LegalEntityBasicResponse(dto.getLegalEntity());
+        this.legalEntity = dto.getLegalEntity() != null ? new LegalEntityFindByIdResponse(dto.getLegalEntity()) : null;
         this.bankName = dto.getBankName();
         this.accountNumber = dto.getAccountNumber();
         this.routingNumber = dto.getRoutingNumber();

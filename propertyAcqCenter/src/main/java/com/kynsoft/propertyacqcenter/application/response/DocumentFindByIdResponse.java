@@ -20,7 +20,7 @@ import java.util.UUID;
 @AllArgsConstructor
 public class DocumentFindByIdResponse implements IResponse {
     private UUID id;
-    private LegalEntityDto legalEntity;
+    private LegalEntityFindByIdResponse legalEntity;
     private String fileName;
     private String filePath;
     private DocumentType documentType;
@@ -47,7 +47,7 @@ public class DocumentFindByIdResponse implements IResponse {
 
     public DocumentFindByIdResponse(DocumentDto documentDto) {
         this.id = documentDto.getId();
-        this.legalEntity = documentDto.getLegalEntity();
+        this.legalEntity = documentDto.getLegalEntity() != null ? new LegalEntityFindByIdResponse(documentDto.getLegalEntity()) : null;
         this.fileName = documentDto.getFileName();
         this.filePath = documentDto.getFilePath();
         this.documentType = documentDto.getDocumentType();
