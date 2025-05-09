@@ -54,7 +54,7 @@ public class LegalEntityServiceImpl implements ILegalEntityService {
         update.setIndustry(legalEntityDto.getIndustry());
         update.setName(legalEntityDto.getName());
         update.setNotes(legalEntityDto.getNotes());
-        update.setParent(new LegalEntity(legalEntityDto.getParentEntityId()));
+        update.setParent(legalEntityDto.getParentEntityId() != null ? new LegalEntity(legalEntityDto.getParentEntityId()) : null);
         update.setStatus(legalEntityDto.getStatus());
         update.setTaxId(legalEntityDto.getTaxId());
         update.setWebsite(legalEntityDto.getWebsite());
