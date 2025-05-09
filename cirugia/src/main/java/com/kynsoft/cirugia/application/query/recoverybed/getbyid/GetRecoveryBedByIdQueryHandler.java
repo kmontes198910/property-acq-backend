@@ -20,14 +20,7 @@ public class GetRecoveryBedByIdQueryHandler implements IQueryHandler<GetRecovery
     @Override
     public RecoveryBedResponse handle(GetRecoveryBedByIdQuery query) {
         log.info("Fetching recovery bed with ID: {}", query.getId());
-        
-        Optional<RecoveryBed> recoveryBed = recoveryBedService.findById(query.getId());
-        
-        if (recoveryBed.isEmpty()) {
-            log.error("Recovery Bed not found with ID: {}", query.getId());
-           throw new RuntimeException("Recovery Bed not found");
-        }
-        
-        return new RecoveryBedResponse(recoveryBed.get());
+        RecoveryBed recoveryBed = recoveryBedService.findById(query.getId());
+        return new RecoveryBedResponse(recoveryBed);
     }
 }

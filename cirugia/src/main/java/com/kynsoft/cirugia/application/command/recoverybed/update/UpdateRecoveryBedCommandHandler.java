@@ -23,14 +23,11 @@ public class UpdateRecoveryBedCommandHandler implements ICommandHandler<UpdateRe
     public void handle(UpdateRecoveryBedCommand command) {
         log.info("Updating recovery bed with ID: {}", command.getId());
         
-        Optional<RecoveryBed> existingBedOpt = recoveryBedService.findById(command.getId());
-        
-        if (existingBedOpt.isEmpty()) {
-            throw new RuntimeException("Recovery Bed not found with ID: " + command.getId());
+        RecoveryBed existingBed = recoveryBedService.findById(command.getId());
+        if (existingBed == null) {
+            log.error("Recovery bed not found with ID: {}", command.getId());
+            throw new RuntimeException("Recovery Bed not found");
         }
-        
-        RecoveryBed existingBed = existingBedOpt.get();
-        
         RecoveryBed recoveryBed = RecoveryBed.builder()
                 .id(command.getId())
                 .bedNumber(command.getBedNumber())

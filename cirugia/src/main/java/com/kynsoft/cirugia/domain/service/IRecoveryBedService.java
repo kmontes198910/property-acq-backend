@@ -10,7 +10,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 public interface IRecoveryBedService {
-    Optional<RecoveryBed> findById(UUID id);
+    RecoveryBed findById(UUID id);
     List<RecoveryBed> findAvailableBeds(UUID businessId);
     List<RecoveryBed> findByStatus(String status);
     List<RecoveryBed> findByType(String type);

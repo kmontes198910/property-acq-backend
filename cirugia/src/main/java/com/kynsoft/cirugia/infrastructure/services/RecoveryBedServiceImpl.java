@@ -38,9 +38,14 @@ public class RecoveryBedServiceImpl implements IRecoveryBedService {
 
     @Override
     @Cacheable(value = SurgeryCacheConfig.RECOVERY_BED_CACHE, key = "#id")
-    public Optional<RecoveryBed> findById(UUID id) {
+    public RecoveryBed findById(UUID id) {
         log.info("Buscando cama de recuperación con ID: {}", id);
-        return recoveryBedReadRepository.findById(id).map(this::mapToDomain);
+        Optional<RecoveryBed> recoveryBed = recoveryBedReadRepository.findById(id).map(this::mapToDomain);
+        if (recoveryBed.isEmpty()) {
+            log.error("Cama de recuperación no encontrada con ID: {}", id);
+            throw new RuntimeException("Recovery Bed not found");
+        }
+        return recoveryBed.get();
     }
 
 
