@@ -51,6 +51,12 @@
             <artifactId>spring-boot-starter</artifactId>
         </dependency>
         
+        <!-- JDBC y DataSource para conexión a base de datos -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-jdbc</artifactId>
+        </dependency>
+        
         <!-- PostgreSQL Driver -->
         <dependency>
             <groupId>org.postgresql</groupId>
