@@ -42,6 +42,7 @@ public class DocumentResponse implements IResponse {
     private LocalDateTime updatedAt;
     private UUID createdBy;
     private UUID updatedBy;
+    private LegalEntityBasicResponse legalEntity;
 
     public DocumentResponse(DocumentDto documentDto) {
         this.id = documentDto.getId();
@@ -68,6 +69,7 @@ public class DocumentResponse implements IResponse {
         this.updatedAt = documentDto.getUpdatedAt();
         this.createdBy = documentDto.getCreatedBy();
         this.updatedBy = documentDto.getUpdatedBy();
+        this.legalEntity = new LegalEntityBasicResponse(documentDto.getLegalEntity());
     }
 
 }

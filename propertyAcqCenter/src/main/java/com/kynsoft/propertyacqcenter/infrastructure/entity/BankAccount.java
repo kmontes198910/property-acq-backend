@@ -131,6 +131,7 @@ public class BankAccount {
         return BankAccountDto.builder()
                 .id(this.id)
                 .bankName(bankName)
+                .legalEntity(legalEntity.toAggregateBasic())
                 .accountNumber(accountNumber)
                 .routingNumber(routingNumber)
                 .accountType(accountType)

@@ -79,6 +79,7 @@ public class Contact {
                 .isActive(this.isActive)
                 .createdAt(this.createdAt)
                 .updatedAt(this.updatedAt)
+                .legalEntity(this.legalEntity != null ? this.legalEntity.toAggregateBasic() : null)
                 .build();
     }
 
