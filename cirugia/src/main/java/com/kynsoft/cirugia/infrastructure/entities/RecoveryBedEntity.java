@@ -69,7 +69,7 @@ public class RecoveryBedEntity {
     @JoinColumn(name = "business_id", referencedColumnName = "id", insertable = false, updatable = false)
     private Business business;
     
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "recovery_room_id", referencedColumnName = "id", insertable = false, updatable = false)
     private RecoveryRoomEntity recoveryRoom;
     

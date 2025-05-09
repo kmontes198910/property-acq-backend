@@ -1,6 +1,7 @@
 package com.kynsoft.cirugia.application.query.recoverybed.getbyid;
 
 import com.kynsof.share.core.domain.bus.query.IQueryHandler;
+
 import com.kynsoft.cirugia.domain.dto.RecoveryBed;
 import com.kynsoft.cirugia.domain.service.IRecoveryBedService;
 import lombok.RequiredArgsConstructor;
@@ -23,7 +24,8 @@ public class GetRecoveryBedByIdQueryHandler implements IQueryHandler<GetRecovery
         Optional<RecoveryBed> recoveryBed = recoveryBedService.findById(query.getId());
         
         if (recoveryBed.isEmpty()) {
-            throw new RuntimeException("Recovery Bed not found with ID: " + query.getId());
+            log.error("Recovery Bed not found with ID: {}", query.getId());
+           throw new RuntimeException("Recovery Bed not found");
         }
         
         return new RecoveryBedResponse(recoveryBed.get());
