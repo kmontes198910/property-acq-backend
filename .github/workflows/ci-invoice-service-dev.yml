@@ -35,7 +35,7 @@ jobs:
             "PACKAGE_TOKEN=${{secrets.PACKAGE_TOKEN}}"
           context: "{{defaultContext}}:${{ env.SERVICE_PATH }}"
           push: true
-          tags: kmontes2020/medinec-invoice-service-dev:v1
+          tags: kmontes2020/medinec-invoice-dev:v1
 
   deploy:
     needs: build-push

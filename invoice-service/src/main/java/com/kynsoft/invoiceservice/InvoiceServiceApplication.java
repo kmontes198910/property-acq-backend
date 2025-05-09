@@ -119,7 +119,7 @@ public class InvoiceServiceApplication {
         String razonSocial = "Keimer Montes Oliver";
         String estab = "001";
         String ptoEmi = "001";
-        String secuencial = "000000092";
+        String secuencial = "000000093";
         String dirMatriz = "Fernández Salvador OE844 y AV Mariscal Sucre, Quito, Pichincha, Ecuador";
         String correo = "jarango71@gmail.com";
         String telefono = "+593 995230554";
