@@ -15,7 +15,8 @@ public class CreateAnesthesiaRequest {
     private UUID surgeryId;
     private String anesthesiaType;
     private String mouthOpening;
-    private Double thyromental_distance;
+    private String thyroMentalDistance;
+    private String neckCircumference;
     private String mallampati;
     private String cervicalMobility;
     private String mandibularProtrusion;

@@ -18,7 +18,8 @@ public class CreateAnesthesiaCommand implements ICommand {
     private UUID surgeryId;
     private String anesthesiaType;
     private String mouthOpening;
-    private Double thyromental_distance;
+    private String thyroMentalDistance;
+    private String neckCircumference;
     private String mallampati;
     private String cervicalMobility;
     private String mandibularProtrusion;
@@ -47,7 +48,8 @@ public class CreateAnesthesiaCommand implements ICommand {
                 request.getSurgeryId(),
                 request.getAnesthesiaType(),
                 request.getMouthOpening(),
-                request.getThyromental_distance(),
+                request.getThyroMentalDistance(),
+                request.getNeckCircumference(),
                 request.getMallampati(),
                 request.getCervicalMobility(),
                 request.getMandibularProtrusion(),

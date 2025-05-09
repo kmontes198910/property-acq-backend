@@ -37,7 +37,10 @@ public class AnesthesiaEntity {
     private String mouthOpening;
     
     @Column(name = "thyromental_distance")
-    private Double thyromental_distance;
+    private String thyroMentalDistance;
+    
+    @Column(name = "neck_circumference")
+    private String neckCircumference;
     
     @Column(name = "mallampati")
     private String mallampati;

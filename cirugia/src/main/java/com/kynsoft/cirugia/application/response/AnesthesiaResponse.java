@@ -18,7 +18,8 @@ public class AnesthesiaResponse {
     private UUID surgeryId;
     private String anesthesiaType;
     private String mouthOpening;
-    private Double thyromental_distance;
+    private String thyroMentalDistance;
+    private String neckCircumference;
     private String mallampati;
     private String cervicalMobility;
     private String mandibularProtrusion;
@@ -50,7 +51,8 @@ public class AnesthesiaResponse {
             this.surgeryId = anesthesia.getSurgeryId();
             this.anesthesiaType = anesthesia.getAnesthesiaType();
             this.mouthOpening = anesthesia.getMouthOpening();
-            this.thyromental_distance = anesthesia.getThyromental_distance();
+            this.thyroMentalDistance = anesthesia.getThyroMentalDistance();
+            this.neckCircumference = anesthesia.getNeckCircumference();
             this.mallampati = anesthesia.getMallampati();
             this.cervicalMobility = anesthesia.getCervicalMobility();
             this.mandibularProtrusion = anesthesia.getMandibularProtrusion();
