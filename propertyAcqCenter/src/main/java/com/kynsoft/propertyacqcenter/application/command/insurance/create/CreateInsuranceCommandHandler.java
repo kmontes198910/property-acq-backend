@@ -21,13 +21,11 @@ public class CreateInsuranceCommandHandler implements ICommandHandler<CreateInsu
     @Override
     public void handle(CreateInsuranceCommand command) {
         LegalEntityDto legalEntityDto = this.legalEntityService.findById(command.getLegalEntity());
-        insuranceService.create(new InsuranceDto(
-                command.getId(), 
-                command.getInsuranceType(), 
-                command.getDocument(), 
-                legalEntityDto, 
-                null, 
-                null
-        ));
+        insuranceService.create(InsuranceDto.builder()
+                .document(command.getDocument())
+                .id(command.getId())
+                .insuranceType(command.getInsuranceType())
+                .legalEntity(legalEntityDto)
+                .build());
     }
 }

@@ -7,6 +7,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.UUID;
 
 @Entity
@@ -48,6 +49,8 @@ public class Insurance {
                 .insuranceType(insuranceType)
                 .updatedAt(this.updatedAt)
                 .legalEntity(this.legalEntity != null ? this.legalEntity.toAggregateBasic() : null)
+                .daysSinceCreated(getDaysSinceCreated())
+                .daysUntilSixty(this.getDaysUntilSixty())
                 .build();
     }
 
@@ -69,5 +72,14 @@ public class Insurance {
         this.createdAt = dto.getCreatedAt();
         this.updatedAt = dto.getUpdatedAt();
         this.legalEntity = new LegalEntity(dto.getLegalEntity());
+    }
+
+    private long getDaysSinceCreated() {
+        return ChronoUnit.DAYS.between(createdAt, LocalDateTime.now());
+    }
+
+    private long getDaysUntilSixty() {
+        LocalDateTime sixtyDaysLater = createdAt.plusDays(60);
+        return Math.max(0, ChronoUnit.DAYS.between(LocalDateTime.now(), sixtyDaysLater));
     }
 }

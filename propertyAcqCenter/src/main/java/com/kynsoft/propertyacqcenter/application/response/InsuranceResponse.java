@@ -20,6 +20,8 @@ public class InsuranceResponse implements IResponse{
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
     private LegalEntityBasicResponse legalEntity;
+    private long daysSinceCreated;
+    private long daysUntilSixty;
 
     public InsuranceResponse(InsuranceDto dto) {
         this.id = dto.getId();
@@ -28,6 +30,8 @@ public class InsuranceResponse implements IResponse{
         this.createdAt = dto.getCreatedAt();
         this.updatedAt = dto.getUpdatedAt();
         this.legalEntity = dto.getLegalEntity() != null ? new LegalEntityBasicResponse(dto.getLegalEntity()) : null;
+        this.daysSinceCreated = dto.getDaysSinceCreated();
+        this.daysUntilSixty = dto.getDaysUntilSixty();
     }
 
 }

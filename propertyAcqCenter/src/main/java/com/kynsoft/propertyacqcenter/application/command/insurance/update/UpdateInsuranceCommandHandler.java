@@ -21,13 +21,11 @@ public class UpdateInsuranceCommandHandler implements ICommandHandler<UpdateInsu
     @Override
     public void handle(UpdateInsuranceCommand command) {
         LegalEntityDto legalEntityDto = this.legalEntityService.findById(command.getLegalEntity());
-        insuranceService.update(new InsuranceDto(
-                command.getId(), 
-                command.getInsuranceType(), 
-                command.getDocument(), 
-                legalEntityDto, 
-                null, 
-                null
-        ));
+        insuranceService.update(InsuranceDto.builder()
+                .document(command.getDocument())
+                .id(command.getId())
+                .insuranceType(command.getInsuranceType())
+                .legalEntity(legalEntityDto)
+                .build());
     }
 }
