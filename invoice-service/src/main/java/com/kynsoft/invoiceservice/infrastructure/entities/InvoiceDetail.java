@@ -81,6 +81,7 @@ public class InvoiceDetail {
     private Product product;
     
     @OneToMany(mappedBy = "invoiceDetail", cascade = CascadeType.ALL, orphanRemoval = true)
+    @Builder.Default
     private List<InvoiceDetailAdditional> additionalInfo = new ArrayList<>();
     
     // Helper method

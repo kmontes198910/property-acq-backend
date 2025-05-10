@@ -84,12 +84,12 @@ public class InvoiceServiceImpl implements InvoiceService {
             //    Invoice savedInvoice = invoiceRepository.save(invoice);
 
             // 13. Generar respuesta
-//            return FacturaResponseDTO.builder()
-//                    .mensaje("Factura generada correctamente")
-//                    .estado(savedInvoice.getStatus().toString())
-//                    .claveAcceso(savedInvoice.getAccessKey())
-//                    .build();
-            return null;
+            return FacturaResponseDTO.builder()
+                    .mensaje("Factura generada correctamente")
+                    .estado(factura.getEstado())
+                    .claveAcceso(factura.getClaveAcceso())
+                    .build();
+
 
         } catch (Exception e) {
             log.error("Error al generar factura: {}", e.getMessage(), e);
@@ -230,10 +230,11 @@ public class InvoiceServiceImpl implements InvoiceService {
                         pagoDTO.getPlazo(),
                         pagoDTO.getUnidadTiempo()))
                 .collect(Collectors.toList());
+        String obligadoContabilidad = issuer.getPointOfSale() ? "SI" : "NO";
         // Construir la factura
         Factura factura = new Factura.Builder(ruc, razonSocial, dirMatriz, correo, telefono, estab, ptoEmi, sequential, fechaEmision, detalles)
                 .withNombreComercial(razonSocial)
-                .withObligadoContabilidad(issuer.getObligationContability())
+                .withObligadoContabilidad(obligadoContabilidad)
                 .withAgenteRetencion(issuer.getRetentionAgent())//?
                 .withContribuyenteEspecial(issuer.getSpecialTaxpayer())//?
                 .withContribuyenteRimpe(issuer.getRimpeRegime())//?

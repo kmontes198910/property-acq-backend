@@ -32,85 +32,85 @@ public class InvoiceServiceApplication {
         System.out.println("Invoice Service is running...");
        // Factura
  //Crear una factura de ejemplo
-        Factura factura = crearFacturaEjemplo();
-
-
-        try {
-            // Validar la factura
-            List<MensajeSRI> mensajes = factura.validar();
-            if (!mensajes.isEmpty()) {
-                SRIImprimirValidacionUtil.imprimirResultadoValidacion(mensajes);
-                return;
-            }
-
-            // Generar el XML
-            byte [] p12Bytes = FileConverterUtil.p12FileToByteArray("/Users/keimermontes/Development/medinec/scheduled/invoice-service/libs/0961881992.p12");
-
-            // Construir el p12 a partir del arreglo de bytes
-            InputStream p12Stream = FileConverterUtil.byteArrayToInputStream(p12Bytes);
-            ByteArrayOutputStream xmlFactura = factura.generarXml(p12Stream, "Gloria2014");
-
-            System.out.println("Estado de la factura:\n" + factura.getEstado());
-            System.out.println("XML generado:\n" + xmlFactura);
-
-            // Guardar el XML en un archivo
-            String nombreArchivo = "factura_" + factura.getEstab() + "-" + factura.getPtoEmi() + "-"
-                                   + factura.getSecuencial() + ".xml";
-
-            Files.write(Paths.get(nombreArchivo), xmlFactura.toByteArray());
-            System.out.println("\nFactura guardada en: " + nombreArchivo);
-
-            try {
-                // Generar el PDF
-                String logoBase64 = FileConverterUtil.imageToBase64("/Users/keimermontes/Development/medinec/scheduled/invoice-service/libs/logo.jpg");
-                ByteArrayOutputStream pdfFactura = FacturaPDFGenerador.generarPDF(factura, logoBase64, "#2D4C80");
-
-                // Guardar el PDF en un archivo
-                String nombreArchivoPdf = "factura_" + factura.getEstab() + "-" + factura.getPtoEmi() + "-"
-                                          + factura.getSecuencial() + ".pdf";
-
-                Files.write(Paths.get(nombreArchivoPdf), pdfFactura.toByteArray());
-                System.out.println("\nFactura PDF guardada en: " + nombreArchivoPdf);
-
-            } catch (Exception e) {
-                System.err.println("Error al generar o guardar el pdf de la factura : " + e.getMessage());
-                e.printStackTrace();
-            }
-
-            try {
-                // Crear instancia del servicio (true para modo prueba)
-                SRIRecepcionServicio sriRecepcion = new SRIRecepcionServicio();
-
-                // Enviar el comprobante al SRI para recepcionar
-                RespuestaSolicitud respuestaRecepcion = sriRecepcion.enviarComprobante(xmlFactura.toByteArray(),
-                        Ambiente.PRUEBA);
-
-                // Imprimir la respuesta
-                SRIImprimirRecepcionUtil.imprimirRespuestaRecepcion(respuestaRecepcion);
-
-                if (respuestaRecepcion.getEstado().equals(Estados.RECIBIDA))
-                    try {
-                        // Crear instancia del servicio (true para modo prueba)
-                        SRIAutorizacionServicio sriAutorizacion = new SRIAutorizacionServicio();
-
-                        // Enviar el comprobante al SRI para autorizar
-                        RespuestaComprobante respuestaAutorizacion = sriAutorizacion
-                                .autorizarComprobante(factura.getClaveAcceso(), Ambiente.PRUEBA);
-
-                        SRIImprimirAutorizacionUtil.imprimirRespuestaAutorizacion(respuestaAutorizacion);
-
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-
-        } catch (Exception e) {
-            System.err.println("Error al generar o guardar la factura: " + e.getMessage());
-            e.printStackTrace();
-        }
+//        Factura factura = crearFacturaEjemplo();
+//
+//
+//        try {
+//            // Validar la factura
+//            List<MensajeSRI> mensajes = factura.validar();
+//            if (!mensajes.isEmpty()) {
+//                SRIImprimirValidacionUtil.imprimirResultadoValidacion(mensajes);
+//                return;
+//            }
+//
+//            // Generar el XML
+//            byte [] p12Bytes = FileConverterUtil.p12FileToByteArray("/Users/keimermontes/Development/medinec/scheduled/invoice-service/libs/0961881992.p12");
+//
+//            // Construir el p12 a partir del arreglo de bytes
+//            InputStream p12Stream = FileConverterUtil.byteArrayToInputStream(p12Bytes);
+//            ByteArrayOutputStream xmlFactura = factura.generarXml(p12Stream, "Gloria2014");
+//
+//            System.out.println("Estado de la factura:\n" + factura.getEstado());
+//            System.out.println("XML generado:\n" + xmlFactura);
+//
+//            // Guardar el XML en un archivo
+//            String nombreArchivo = "factura_" + factura.getEstab() + "-" + factura.getPtoEmi() + "-"
+//                                   + factura.getSecuencial() + ".xml";
+//
+//            Files.write(Paths.get(nombreArchivo), xmlFactura.toByteArray());
+//            System.out.println("\nFactura guardada en: " + nombreArchivo);
+//
+//            try {
+//                // Generar el PDF
+//                String logoBase64 = FileConverterUtil.imageToBase64("/Users/keimermontes/Development/medinec/scheduled/invoice-service/libs/logo.jpg");
+//                ByteArrayOutputStream pdfFactura = FacturaPDFGenerador.generarPDF(factura, logoBase64, "#2D4C80");
+//
+//                // Guardar el PDF en un archivo
+//                String nombreArchivoPdf = "factura_" + factura.getEstab() + "-" + factura.getPtoEmi() + "-"
+//                                          + factura.getSecuencial() + ".pdf";
+//
+//                Files.write(Paths.get(nombreArchivoPdf), pdfFactura.toByteArray());
+//                System.out.println("\nFactura PDF guardada en: " + nombreArchivoPdf);
+//
+//            } catch (Exception e) {
+//                System.err.println("Error al generar o guardar el pdf de la factura : " + e.getMessage());
+//                e.printStackTrace();
+//            }
+//
+//            try {
+//                // Crear instancia del servicio (true para modo prueba)
+//                SRIRecepcionServicio sriRecepcion = new SRIRecepcionServicio();
+//
+//                // Enviar el comprobante al SRI para recepcionar
+//                RespuestaSolicitud respuestaRecepcion = sriRecepcion.enviarComprobante(xmlFactura.toByteArray(),
+//                        Ambiente.PRUEBA);
+//
+//                // Imprimir la respuesta
+//                SRIImprimirRecepcionUtil.imprimirRespuestaRecepcion(respuestaRecepcion);
+//
+//                if (respuestaRecepcion.getEstado().equals(Estados.RECIBIDA))
+//                    try {
+//                        // Crear instancia del servicio (true para modo prueba)
+//                        SRIAutorizacionServicio sriAutorizacion = new SRIAutorizacionServicio();
+//
+//                        // Enviar el comprobante al SRI para autorizar
+//                        RespuestaComprobante respuestaAutorizacion = sriAutorizacion
+//                                .autorizarComprobante(factura.getClaveAcceso(), Ambiente.PRUEBA);
+//
+//                        SRIImprimirAutorizacionUtil.imprimirRespuestaAutorizacion(respuestaAutorizacion);
+//
+//                    } catch (Exception e) {
+//                        e.printStackTrace();
+//                    }
+//
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//            }
+//
+//        } catch (Exception e) {
+//            System.err.println("Error al generar o guardar la factura: " + e.getMessage());
+//            e.printStackTrace();
+//        }
 
 
     }
