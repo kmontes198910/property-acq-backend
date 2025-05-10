@@ -34,6 +34,12 @@ public class LegalEntity {
     @Column(name = "tax_id", nullable = false, unique = true)
     private String taxId;
 
+    @Column(name = "entity_experience")
+    private String entityExperience;
+
+    @Column(name = "entity_fico")
+    private Float entityFico;
+
     @Enumerated(EnumType.STRING)
     @Column(name = "entity_type", nullable = false)
     private EntityType entityType;
@@ -129,6 +135,8 @@ public class LegalEntity {
         this.createdBy = dto.getCreatedBy();
         this.updatedBy = dto.getUpdatedBy();
         this.owner = dto.getOwner();
+        this.entityFico = dto.getEntityFico();
+        this.entityExperience = dto.getEntityExperience();
     }
 
     public LegalEntityDto toAggregate() {
@@ -153,6 +161,8 @@ public class LegalEntity {
                 .createdBy(this.createdBy)
                 .updatedBy(this.updatedBy)
                 .owner(owner)
+                .entityExperience(entityExperience)
+                .entityFico(entityFico)
                 .build();
     }
 
@@ -191,6 +201,8 @@ public class LegalEntity {
                 .createdBy(this.createdBy)
                 .updatedBy(this.updatedBy)
                 .owner(owner)
+                .entityExperience(entityExperience)
+                .entityFico(entityFico)
                 .build();
     }
 }
