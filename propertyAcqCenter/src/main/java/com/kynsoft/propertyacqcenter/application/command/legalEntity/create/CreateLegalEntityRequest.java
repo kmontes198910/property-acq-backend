@@ -28,4 +28,6 @@ public class CreateLegalEntityRequest {
     private String notes;
     private EntityStatus status;
     private String owner;
+    private String entityExperience;
+    private Float entityFico;
 }
