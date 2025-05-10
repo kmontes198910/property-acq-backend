@@ -1,4 +1,4 @@
-package com.kynsoft.invoiceservice.infrastructure.repositories;
+package com.kynsoft.invoiceservice.infrastructure.repository.query;
 
 import com.kynsoft.invoiceservice.infrastructure.entities.InvoiceIssuer;
 import org.springframework.data.jpa.repository.JpaRepository;

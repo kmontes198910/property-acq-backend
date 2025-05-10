@@ -1,6 +1,5 @@
 package com.kynsoft.propertyacqcenter.infrastructure.entity;
 
-import com.kynsoft.propertyacqcenter.domain.dto.ContactDto;
 import com.kynsoft.propertyacqcenter.domain.dto.InsuranceDto;
 import jakarta.persistence.*;
 import lombok.*;
@@ -8,6 +7,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.UUID;
 
 @Entity
@@ -26,7 +26,7 @@ public class Insurance {
     @Column(name = "insurance_type", nullable = false)
     private String insuranceType;
 
-    @Column(name = "last_name", nullable = false)
+    @Column(name = "document", nullable = false)
     private String document;
 
     @CreationTimestamp
@@ -41,23 +41,24 @@ public class Insurance {
     @JoinColumn(name = "legal_entity_id")
     private LegalEntity legalEntity;
 
-    /**
-     * Método para convertir la entidad a DTO
-     *
-     * @return ContactDto con los datos de esta entidad
-     */
-    public ContactDto toAggregate() {
-        return ContactDto.builder()
+    public InsuranceDto toAggregate() {
+        return InsuranceDto.builder()
                 .id(this.id)
                 .createdAt(this.createdAt)
+                .document(document)
+                .insuranceType(insuranceType)
                 .updatedAt(this.updatedAt)
                 .legalEntity(this.legalEntity != null ? this.legalEntity.toAggregateBasic() : null)
+                .daysSinceCreated(getDaysSinceCreated())
+                .daysUntilSixty(this.getDaysUntilSixty())
                 .build();
     }
 
-    public ContactDto toAggregateSimple() {
-        return ContactDto.builder()
+    public InsuranceDto toAggregateSimple() {
+        return InsuranceDto.builder()
                 .id(this.id)
+                .document(document)
+                .insuranceType(insuranceType)
                 .createdAt(this.createdAt)
                 .updatedAt(this.updatedAt)
                 .legalEntity(this.legalEntity != null ? this.legalEntity.toAggregateFindById() : null)
@@ -66,8 +67,19 @@ public class Insurance {
 
     public Insurance(InsuranceDto dto) {
         this.id = dto.getId();
+        this.document = dto.getDocument();
+        this.insuranceType = dto.getInsuranceType();
         this.createdAt = dto.getCreatedAt();
         this.updatedAt = dto.getUpdatedAt();
         this.legalEntity = new LegalEntity(dto.getLegalEntity());
+    }
+
+    private long getDaysSinceCreated() {
+        return ChronoUnit.DAYS.between(createdAt, LocalDateTime.now());
+    }
+
+    private long getDaysUntilSixty() {
+        LocalDateTime sixtyDaysLater = createdAt.plusDays(60);
+        return Math.max(0, ChronoUnit.DAYS.between(LocalDateTime.now(), sixtyDaysLater));
     }
 }

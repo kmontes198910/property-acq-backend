@@ -18,7 +18,7 @@ public interface DocumentReadDataJPARepository extends JpaRepository<Document, U
     @Override
     Page<Document> findAll(Specification<Document> specification, Pageable pageable);
 
-    @EntityGraph(attributePaths = {"legalEntity"})
+    @EntityGraph(attributePaths = {"legalEntity", "legalEntity.parent"})
     @Override
     Optional<Document> findById(UUID id);
 }
