@@ -43,6 +43,8 @@ public class LegalEntityDto {
     private LocalDateTime updatedAt;
     private UUID createdBy;
     private UUID updatedBy;
+    private String entityExperience;
+    private Float entityFico;
 
     public LegalEntityDto(UUID id, String name, String taxId, EntityType entityType, 
                           BusinessDto business, String formationState, LocalDate formationDate, 
@@ -50,7 +52,7 @@ public class LegalEntityDto {
                           String website, String industry, Double annualRevenue, 
                           LocalDate dateOfLastAnnualReport, LegalEntityDto parentEntityId, String notes, 
                           EntityStatus status, UUID createdBy, UUID updatedBy,
-                          String owner) {
+                          String owner, String entityExperience, Float entityFico) {
         this.id = id;
         this.name = name;
         this.taxId = taxId;
@@ -70,6 +72,8 @@ public class LegalEntityDto {
         this.createdBy = createdBy;
         this.updatedBy = updatedBy;
         this.owner = owner;
+        this.entityExperience = entityExperience;
+        this.entityFico = entityFico;
     }
 
 }

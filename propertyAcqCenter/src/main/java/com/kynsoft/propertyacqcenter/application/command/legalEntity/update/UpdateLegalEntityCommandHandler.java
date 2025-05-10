@@ -42,7 +42,9 @@ public class UpdateLegalEntityCommandHandler implements ICommandHandler<UpdateLe
                 command.getStatus(), 
                 null, 
                 null,
-                command.getOwner()
+                command.getOwner(),
+                command.getEntityExperience(),
+                command.getEntityFico()
         ));
     }
 }

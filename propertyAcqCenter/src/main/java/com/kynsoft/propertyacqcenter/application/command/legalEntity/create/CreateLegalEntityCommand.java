@@ -32,13 +32,15 @@ public class CreateLegalEntityCommand implements ICommand {
     private String notes;
     private EntityStatus status;
     private String owner;
+    private String entityExperience;
+    private Float entityFico;
 
     public CreateLegalEntityCommand(String name, String taxId, EntityType entityType, 
             UUID business, String formationState, LocalDate formationDate, 
             Month fiscalYearEnd, String businessDescription, 
             String website, String industry, Double annualRevenue,
             LocalDate dateOfLastAnnualReport, UUID parentEntityId, String notes, EntityStatus status,
-            String owner) {
+            String owner, String entityExperience, Float entityFico) {
         this.id = UUID.randomUUID();
         this.name = name;
         this.taxId = taxId;
@@ -56,6 +58,8 @@ public class CreateLegalEntityCommand implements ICommand {
         this.notes = notes;
         this.status = status;
         this.owner = owner;
+        this.entityExperience = entityExperience;
+        this.entityFico = entityFico;
     }
 
     public static CreateLegalEntityCommand fromRequest(CreateLegalEntityRequest request) {
@@ -75,7 +79,9 @@ public class CreateLegalEntityCommand implements ICommand {
                 request.getParentEntityId(),
                 request.getNotes(),
                 request.getStatus(),
-                request.getOwner()
+                request.getOwner(),
+                request.getEntityExperience(),
+                request.getEntityFico()
         );
     }
 

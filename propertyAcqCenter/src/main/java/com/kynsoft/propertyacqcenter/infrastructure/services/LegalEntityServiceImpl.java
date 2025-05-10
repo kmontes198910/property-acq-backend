@@ -61,6 +61,8 @@ public class LegalEntityServiceImpl implements ILegalEntityService {
         update.setBusinessDescription(legalEntityDto.getBusinessDescription());
         update.setAnnualRevenue(legalEntityDto.getAnnualRevenue());
         update.setUpdatedAt(LocalDateTime.now());
+        update.setEntityExperience(legalEntityDto.getEntityExperience());
+        update.setEntityFico(legalEntityDto.getEntityFico());
 
         repositoryCommand.save(update);
     }

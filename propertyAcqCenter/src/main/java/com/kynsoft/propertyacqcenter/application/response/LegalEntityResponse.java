@@ -39,6 +39,8 @@ public class LegalEntityResponse implements IResponse {
     private UUID createdBy;
     private UUID updatedBy;
     private String owner;
+    private String entityExperience;
+    private Float entityFico;
 
     public LegalEntityResponse(LegalEntityDto legalEntityDto) {
         this.id = legalEntityDto.getId();
@@ -59,6 +61,8 @@ public class LegalEntityResponse implements IResponse {
         this.createdAt = legalEntityDto.getCreatedAt();
         this.updatedAt = legalEntityDto.getUpdatedAt();
         this.owner = legalEntityDto.getOwner();
+        this.entityExperience = legalEntityDto.getEntityExperience();
+        this.entityFico = legalEntityDto.getEntityFico();
     }
 
 }
