@@ -18,4 +18,6 @@ public class InsuranceDto {
     private LegalEntityDto legalEntity;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
+    private long daysSinceCreated;
+    private long daysUntilSixty;
 }
