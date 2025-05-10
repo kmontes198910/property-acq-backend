@@ -31,7 +31,7 @@ public class InvoiceServiceApplication {
         SpringApplication.run(InvoiceServiceApplication.class, args);
         System.out.println("Invoice Service is running...");
        // Factura
-// Crear una factura de ejemplo
+ //Crear una factura de ejemplo
         Factura factura = crearFacturaEjemplo();
 
 

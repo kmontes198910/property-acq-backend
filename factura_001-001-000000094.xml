@@ -5,7 +5,7 @@
         <razonSocial>Keimer Montes Oliver</razonSocial>
         <nombreComercial>DYNOISE S.A.</nombreComercial>
         <ruc>0961881992001</ruc>
-        <claveAcceso>0905202501096188199200110010010000000940000000917</claveAcceso>
+        <claveAcceso>1005202501096188199200110010010000000940000000911</claveAcceso>
         <codDoc>01</codDoc>
         <estab>001</estab>
         <ptoEmi>001</ptoEmi>
@@ -14,7 +14,7 @@
         <contribuyenteRimpe>CONTRIBUYENTE NEGOCIO POPULAR - RÉGIMEN RIMPE</contribuyenteRimpe>
     </infoTributaria>
     <infoFactura>
-        <fechaEmision>09/05/2025</fechaEmision>
+        <fechaEmision>10/05/2025</fechaEmision>
         <obligadoContabilidad>NO</obligadoContabilidad>
         <tipoIdentificacionComprador>04</tipoIdentificacionComprador>
         <razonSocialComprador>KEIME MONTES OLIVER</razonSocialComprador>
@@ -149,34 +149,34 @@
         <campoAdicional nombre="info1">valor1</campoAdicional>
         <campoAdicional nombre="info2">valor2</campoAdicional>
     </infoAdicional>
-<ds:Signature xmlns:ds="http://www.w3.org/2000/09/xmldsig#" xmlns:etsi="http://uri.etsi.org/01903/v1.3.2#" Id="Signature597342">
-<ds:SignedInfo Id="Signature-SignedInfo378603">
+<ds:Signature xmlns:ds="http://www.w3.org/2000/09/xmldsig#" xmlns:etsi="http://uri.etsi.org/01903/v1.3.2#" Id="Signature314860">
+<ds:SignedInfo Id="Signature-SignedInfo84551">
 <ds:CanonicalizationMethod Algorithm="http://www.w3.org/TR/2001/REC-xml-c14n-20010315"/>
 <ds:SignatureMethod Algorithm="http://www.w3.org/2000/09/xmldsig#rsa-sha1"/>
-<ds:Reference Id="SignedPropertiesID20959" Type="http://uri.etsi.org/01903#SignedProperties" URI="#Signature597342-SignedProperties318052">
+<ds:Reference Id="SignedPropertiesID99811" Type="http://uri.etsi.org/01903#SignedProperties" URI="#Signature314860-SignedProperties527926">
 <ds:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1"/>
-<ds:DigestValue>Uzxn+dznCWrEqIKMdgXSQsblsa8=</ds:DigestValue>
+<ds:DigestValue>UZLs5T6cePq1loff9289ch4QsGg=</ds:DigestValue>
 </ds:Reference>
-<ds:Reference URI="#Certificate1907769">
+<ds:Reference URI="#Certificate1818273">
 <ds:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1"/>
-<ds:DigestValue>79KUE0GpeH16vGzTzfGcO788OfQ=</ds:DigestValue>
+<ds:DigestValue>OPaOabD561VjOLlyO+GEoPkqEso=</ds:DigestValue>
 </ds:Reference>
-<ds:Reference Id="Reference-ID-975325" URI="#comprobante">
+<ds:Reference Id="Reference-ID-939450" URI="#comprobante">
 <ds:Transforms>
 <ds:Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature"/>
 </ds:Transforms>
 <ds:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1"/>
-<ds:DigestValue>cpTJ5q11yrYpXblQCCC8kkRNL2I=</ds:DigestValue>
+<ds:DigestValue>KhSzPENHHupCCGTpID125QrKcAE=</ds:DigestValue>
 </ds:Reference>
 </ds:SignedInfo>
-<ds:SignatureValue Id="SignatureValue304704">
-Qs1cabZOu6+C4GyWmFPF4K7ASYeGcOZkgbSBAzTBgTzJWNmgo67F1eszVtYKli+QQgbemaadXCFj
-IbpSeoRTofuZJDoLDmv3xpX3JDDUIbJtbOnBUioHt2zbNhgpEAuKZqhFTFWlJtm84Gbws8Ul4taY
-hKIkAw1NjMjC6hX5bdiWc3Dkzj2wS/TPpMBH53MKCkyE2+J9Ew//cLotiyevG2mdGDGhbJN+62Z4
-0aBqErD+U+vt52By2XJrHy42JMwFy08nUkrXWEaSn+2d2bewdpNtea9bJfdt2ctaOOCv3Z4epsQe
-65l7d8uVUzJO4CRn1GEwfDCT2Rqd8vapz2IT/Q==
+<ds:SignatureValue Id="SignatureValue851119">
+ONODXHsqsrjtKJ0w/ANTf+fj93ZzHQk3zcD5rCztJjBHfx0qteiznwacRNP8vBs1ZRy6ARZJ/cWF
+MEQDsuUdmRaVjqavhBs3vdHswvTkgQorOrZz36jPgeAI9whpeCe+VGPdm3kSBfMnYw7aFNzXLp0V
+GQOyIj23UAIVFrdRaj0x5XTes57Hx9WqO46zDwWGErR+Vzh354dwItkaikhHeITbsYGGMjMOHCzB
+m2IVsPh3dIZBpW6Kzxns/1r9IafrngJfcCPYvpplA1NjFnapR7Q0oiKCzXLPOyJYtmZujQwQp2ey
+Vn8lKZWKk2WXEm4B1RMg64ELZzqXM2jSUD3OcA==
 </ds:SignatureValue>
-<ds:KeyInfo Id="Certificate1907769">
+<ds:KeyInfo Id="Certificate1818273">
 <ds:X509Data>
 <ds:X509Certificate>
 MIILzzCCCbegAwIBAgIEUv9kCzANBgkqhkiG9w0BAQsFADCBmTELMAkGA1UEBhMCRUMxHTAbBgNV
@@ -248,4 +248,4 @@ o9jT5VPN6D86D5YMjDYUGPyGpL10cG6HtCQkd/uDLYzaPgZYGzeR/1obwuGQYtM8qaJhhegAYsov
 </ds:RSAKeyValue>
 </ds:KeyValue>
 </ds:KeyInfo>
-<ds:Object Id="Signature597342-Object755798"><etsi:QualifyingProperties Target="#Signature597342"><etsi:SignedProperties Id="Signature597342-SignedProperties318052"><etsi:SignedSignatureProperties><etsi:SigningTime>2025-05-09T14:22:50-05:00</etsi:SigningTime><etsi:SigningCertificate><etsi:Cert><etsi:CertDigest><ds:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1"/><ds:DigestValue>/sBZ5IDNJfcIMhONmdMrPaET9wI=</ds:DigestValue></etsi:CertDigest><etsi:IssuerSerial><ds:X509IssuerName>CN=AUTORIDAD DE CERTIFICACION SUBCA-2 SECURITY DATA,OU=ENTIDAD DE CERTIFICACION DE INFORMACION,O=SECURITY DATA S.A. 2,C=EC</ds:X509IssuerName><ds:X509SerialNumber>1392469003</ds:X509SerialNumber></etsi:IssuerSerial></etsi:Cert></etsi:SigningCertificate></etsi:SignedSignatureProperties><etsi:SignedDataObjectProperties><etsi:DataObjectFormat ObjectReference="#Reference-ID-975325"><etsi:Description>contenido comprobante</etsi:Description><etsi:MimeType>text/xml</etsi:MimeType></etsi:DataObjectFormat></etsi:SignedDataObjectProperties></etsi:SignedProperties></etsi:QualifyingProperties></ds:Object></ds:Signature></factura>
+<ds:Object Id="Signature314860-Object239347"><etsi:QualifyingProperties Target="#Signature314860"><etsi:SignedProperties Id="Signature314860-SignedProperties527926"><etsi:SignedSignatureProperties><etsi:SigningTime>2025-05-10T07:01:02-05:00</etsi:SigningTime><etsi:SigningCertificate><etsi:Cert><etsi:CertDigest><ds:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1"/><ds:DigestValue>/sBZ5IDNJfcIMhONmdMrPaET9wI=</ds:DigestValue></etsi:CertDigest><etsi:IssuerSerial><ds:X509IssuerName>CN=AUTORIDAD DE CERTIFICACION SUBCA-2 SECURITY DATA,OU=ENTIDAD DE CERTIFICACION DE INFORMACION,O=SECURITY DATA S.A. 2,C=EC</ds:X509IssuerName><ds:X509SerialNumber>1392469003</ds:X509SerialNumber></etsi:IssuerSerial></etsi:Cert></etsi:SigningCertificate></etsi:SignedSignatureProperties><etsi:SignedDataObjectProperties><etsi:DataObjectFormat ObjectReference="#Reference-ID-939450"><etsi:Description>contenido comprobante</etsi:Description><etsi:MimeType>text/xml</etsi:MimeType></etsi:DataObjectFormat></etsi:SignedDataObjectProperties></etsi:SignedProperties></etsi:QualifyingProperties></ds:Object></ds:Signature></factura>

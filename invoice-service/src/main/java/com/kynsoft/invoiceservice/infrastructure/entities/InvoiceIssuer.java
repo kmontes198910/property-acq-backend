@@ -62,20 +62,14 @@ public class InvoiceIssuer {
     @Column(name = "logo_url")
     private String logoUrl;
     
-    @Column(name = "environment", columnDefinition = "varchar(1) default '1'")
-    private String environment;
+    @Column(name = "environment", columnDefinition = "varchar(1)")
+    private String environment = "1";
     
-    @Column(name = "is_active")
-    private Boolean isActive;
+    @Column(name = "status")
+    private Boolean status;
     
-    @Column(name = "sri_user")
-    private String sriUser;
-    
-    @Column(name = "sri_password")
-    private String sriPassword;
-    
-    @Column(name = "digital_cert_path")
-    private String digitalCertPath;
+    @Column(name = "digital_cert_p12_path")
+    private String digitalCertP12Path;
     
     @Column(name = "digital_cert_password")
     private String digitalCertPassword;
@@ -97,7 +91,5 @@ public class InvoiceIssuer {
         sequences.remove(sequence);
         sequence.setInvoiceIssuer(null);
     }
-
-
 
 }

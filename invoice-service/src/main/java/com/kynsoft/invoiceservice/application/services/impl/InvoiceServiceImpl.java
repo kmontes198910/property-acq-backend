@@ -5,9 +5,10 @@ import com.kynsoft.invoiceservice.dto.*;
 import com.kynsoft.invoiceservice.infrastructure.entities.Customer;
 import com.kynsoft.invoiceservice.infrastructure.entities.InvoiceIssuer;
 import com.kynsoft.invoiceservice.infrastructure.entities.InvoiceIssuingSequence;
-import com.kynsoft.invoiceservice.infrastructure.repositories.CustomerRepository;
-import com.kynsoft.invoiceservice.infrastructure.repositories.InvoiceIssuerRepository;
-import com.kynsoft.invoiceservice.infrastructure.repositories.InvoiceRepository;
+
+import com.kynsoft.invoiceservice.infrastructure.repository.query.CustomerRepository;
+import com.kynsoft.invoiceservice.infrastructure.repository.query.InvoiceIssuerRepository;
+import com.kynsoft.invoiceservice.infrastructure.repository.query.InvoiceRepository;
 import ec.e.facturacion.sri.constante.Regimen;
 import ec.e.facturacion.sri.modelo.ComprobanteBase;
 import ec.e.facturacion.sri.modelo.Factura;
@@ -37,14 +38,10 @@ public class InvoiceServiceImpl implements InvoiceService {
     public FacturaResponseDTO generateInvoice(FacturaRequestDTO request) {
         try {
             // 1. Obtener el emisor por su ID (o el emisor activo si no se proporcionó un ID)
-            InvoiceIssuer issuer;
-            if (request.getIssuerId() != null) {
-                issuer = invoiceIssuerRepository.findById(request.getIssuerId())
-                        .orElseThrow(() -> new RuntimeException("No se encontró un emisor de facturas con el ID: " + request.getIssuerId()));
-            } else {
-                issuer = invoiceIssuerRepository.findFirstByActiveTrue()
-                        .orElseThrow(() -> new RuntimeException("No se encontró un emisor de facturas activo en el sistema"));
-            }
+
+            InvoiceIssuer issuer = invoiceIssuerRepository.findById(request.getIssuerId())
+                    .orElseThrow(() -> new RuntimeException("No se encontró un emisor de facturas con el ID: " + request.getIssuerId()));
+
 
             // 2. Obtener y actualizar el secuencial para facturas del emisor
             String sequential = getNextSequentialFromIssuer(issuer, "01"); // 01 es el tipo de documento para facturas
@@ -52,15 +49,9 @@ public class InvoiceServiceImpl implements InvoiceService {
             // 3. Buscar o crear el cliente (Customer)
             Customer customer = findOrUpdateCustomer(request);
 
-//            // 4. Crear el documento con el formato correcto
-//            String documentNumber = String.format("%s-%s-%s",
-//                    issuer.getEstablishment(),
-//                    issuer.getEmissionPoint(),
-//                    sequential);
 
-
-           createfactura(issuer,sequential, request.getDetalles(), customer, request.getPropina(),
-                   request.getPagos(), request.getInfoAdicional());
+            Factura factura = createfactura(issuer, sequential, request.getDetalles(), customer, request.getPropina(),
+                    request.getPagos(), request.getInfoAdicional());
 
 
 //            // 8. Crear la factura
@@ -90,7 +81,7 @@ public class InvoiceServiceImpl implements InvoiceService {
 //            addInvoiceAdditionalFields(invoice, request.getInfoAdicional());
 
             // 12. Guardar la factura
-        //    Invoice savedInvoice = invoiceRepository.save(invoice);
+            //    Invoice savedInvoice = invoiceRepository.save(invoice);
 
             // 13. Generar respuesta
 //            return FacturaResponseDTO.builder()
@@ -121,12 +112,12 @@ public class InvoiceServiceImpl implements InvoiceService {
                 !customer.getAddress().equals(request.getDireccionComprador()) ||
                 !customer.getEmail().equals(request.getCorreoComprador()) ||
                 !customer.getPhone().equals(request.getTelefonoComprador())) {
-                
+
                 customer.setBusinessName(request.getRazonSocialComprador());
                 customer.setAddress(request.getDireccionComprador());
                 customer.setEmail(request.getCorreoComprador());
                 customer.setPhone(request.getTelefonoComprador());
-                
+
                 return customerRepository.save(customer);
             }
             return customer;
@@ -140,7 +131,7 @@ public class InvoiceServiceImpl implements InvoiceService {
                     .email(request.getCorreoComprador())
                     .phone(request.getTelefonoComprador())
                     .build();
-            
+
             return customerRepository.save(newCustomer);
         }
     }
@@ -150,7 +141,7 @@ public class InvoiceServiceImpl implements InvoiceService {
         Optional<InvoiceIssuingSequence> sequenceOpt = issuer.getSequences().stream()
                 .filter(seq -> documentType.equals(seq.getDocumentType()) && Boolean.TRUE.equals(seq.getIsActive()))
                 .findFirst();
-        
+
         InvoiceIssuingSequence sequence;
         if (sequenceOpt.isPresent()) {
             sequence = sequenceOpt.get();
@@ -164,12 +155,12 @@ public class InvoiceServiceImpl implements InvoiceService {
                     .build();
             issuer.addSequence(sequence);
         }
-        
+
         // Incrementar el secuencial
         Long nextSequential = sequence.getCurrentSequential() + 1;
         sequence.setCurrentSequential(nextSequential);
         sequence.setLastUsedDate(LocalDateTime.now());
-        
+
         // Formatear a 9 dígitos
         return String.format("%09d", nextSequential);
     }
@@ -193,7 +184,7 @@ public class InvoiceServiceImpl implements InvoiceService {
                     Factura.Impuesto impuestoIva = Factura.Impuesto.IVA(
                             detalleDTO.getTipoImpuesto(),
                             detalleDTO.getPorcentajeImpuesto());
-                    
+
                     // Crear el builder con los campos requeridos
                     Factura.DetalleFactura.Builder builder = new Factura.DetalleFactura.Builder(
                             detalleDTO.getCodigoPrincipal(),
@@ -201,23 +192,23 @@ public class InvoiceServiceImpl implements InvoiceService {
                             detalleDTO.getCantidad(),
                             detalleDTO.getPrecioUnitario(),
                             impuestoIva);
-                    
+
                     // Añadir campos opcionales si existen
                     if (detalleDTO.getUnidadMedida() != null) {
                         builder.withUnidadMedida(detalleDTO.getUnidadMedida());
                     }
-                    
+
                     if (detalleDTO.getDescuento() != null) {
                         builder.withDescuento(detalleDTO.getDescuento());
                     }
-                    
+
                     // Añadir impuesto ICE si existe
                     if (detalleDTO.getCodigoImpuestoICE() != null && detalleDTO.getPorcentajeImpuestoICE() != null) {
                         builder.withImpuestoICE(Factura.Impuesto.ICE(
                                 detalleDTO.getCodigoImpuestoICE(),
                                 detalleDTO.getPorcentajeImpuestoICE()));
                     }
-                    
+
                     return builder.build();
                 })
                 .collect(Collectors.toList());
@@ -232,7 +223,7 @@ public class InvoiceServiceImpl implements InvoiceService {
                 .toList();
 
 
-List<Factura.Pago> payments = pagos.stream()
+        List<Factura.Pago> payments = pagos.stream()
                 .map(pagoDTO -> new Factura.Pago(
                         pagoDTO.getFormaPago(),
                         pagoDTO.getDescripcion(),
@@ -243,8 +234,8 @@ List<Factura.Pago> payments = pagos.stream()
         Factura factura = new Factura.Builder(ruc, razonSocial, dirMatriz, correo, telefono, estab, ptoEmi, sequential, fechaEmision, detalles)
                 .withNombreComercial(razonSocial)
                 .withObligadoContabilidad(issuer.getObligationContability())
-                 .withAgenteRetencion(issuer.getRetentionAgent())//?
-                 .withContribuyenteEspecial(issuer.getSpecialTaxpayer())//?
+                .withAgenteRetencion(issuer.getRetentionAgent())//?
+                .withContribuyenteEspecial(issuer.getSpecialTaxpayer())//?
                 .withContribuyenteRimpe(issuer.getRimpeRegime())//?
                 .withTipoIdentificacionComprador(customer.getIdType().toString())
                 .withRazonSocialComprador(customer.getBusinessName())
@@ -257,7 +248,7 @@ List<Factura.Pago> payments = pagos.stream()
                 .withInfoAdicional(infoAdicionalList)
                 .build();
 
-        if(issuer.getRetentionAgent() != null) {
+        if (issuer.getRetentionAgent() != null) {
             factura.setAgenteRetencion(issuer.getRetentionAgent());
         }
         if (issuer.getSpecialTaxpayer() != null) {
