@@ -11,4 +11,5 @@ public class CreateInsuranceRequest {
     private String insuranceType;
     private String document;
     private UUID legalEntity;
+    private String fileName;
 }

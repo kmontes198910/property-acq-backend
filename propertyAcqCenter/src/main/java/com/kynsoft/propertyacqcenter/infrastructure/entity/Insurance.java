@@ -26,6 +26,9 @@ public class Insurance {
     @Column(name = "insurance_type", nullable = false)
     private String insuranceType;
 
+    @Column(name = "file_name")
+    private String fileName;
+
     @Column(name = "document", nullable = false)
     private String document;
 
@@ -51,6 +54,7 @@ public class Insurance {
                 .legalEntity(this.legalEntity != null ? this.legalEntity.toAggregateBasic() : null)
                 .daysSinceCreated(getDaysSinceCreated())
                 .daysUntilSixty(this.getDaysUntilSixty())
+                .fileName(fileName)
                 .build();
     }
 
@@ -61,6 +65,7 @@ public class Insurance {
                 .insuranceType(insuranceType)
                 .createdAt(this.createdAt)
                 .updatedAt(this.updatedAt)
+                .fileName(fileName)
                 .legalEntity(this.legalEntity != null ? this.legalEntity.toAggregateFindById() : null)
                 .build();
     }
@@ -72,6 +77,7 @@ public class Insurance {
         this.createdAt = dto.getCreatedAt();
         this.updatedAt = dto.getUpdatedAt();
         this.legalEntity = new LegalEntity(dto.getLegalEntity());
+        this.fileName = dto.getFileName();
     }
 
     private long getDaysSinceCreated() {

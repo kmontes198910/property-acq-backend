@@ -22,6 +22,7 @@ public class InsuranceResponse implements IResponse{
     private LegalEntityBasicResponse legalEntity;
     private long daysSinceCreated;
     private long daysUntilSixty;
+    private String fileName;
 
     public InsuranceResponse(InsuranceDto dto) {
         this.id = dto.getId();
@@ -32,6 +33,7 @@ public class InsuranceResponse implements IResponse{
         this.legalEntity = dto.getLegalEntity() != null ? new LegalEntityBasicResponse(dto.getLegalEntity()) : null;
         this.daysSinceCreated = dto.getDaysSinceCreated();
         this.daysUntilSixty = dto.getDaysUntilSixty();
+        this.fileName = dto.getFileName();
     }
 
 }

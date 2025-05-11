@@ -20,4 +20,5 @@ public class InsuranceDto {
     private LocalDateTime updatedAt;
     private long daysSinceCreated;
     private long daysUntilSixty;
+    private String fileName;
 }

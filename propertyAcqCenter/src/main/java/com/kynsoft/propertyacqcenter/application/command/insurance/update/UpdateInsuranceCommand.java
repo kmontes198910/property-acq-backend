@@ -15,12 +15,14 @@ public class UpdateInsuranceCommand implements ICommand {
     private String insuranceType;
     private String document;
     private UUID legalEntity;
+    private String fileName;
 
-    public UpdateInsuranceCommand(UUID id, String insuranceType, String document, UUID legalEntity) {
+    public UpdateInsuranceCommand(UUID id, String insuranceType, String document, UUID legalEntity, String fileName) {
         this.id = id;
         this.insuranceType = insuranceType;
         this.document = document;
         this.legalEntity = legalEntity;
+        this.fileName = fileName;
     }
 
     public static UpdateInsuranceCommand fromRequest(UpdateInsuranceRequest request, UUID id) {
@@ -28,7 +30,8 @@ public class UpdateInsuranceCommand implements ICommand {
                 id,
                 request.getInsuranceType(),
                 request.getDocument(),
-                request.getLegalEntity()
+                request.getLegalEntity(),
+                request.getFileName()
         );
     }
 
