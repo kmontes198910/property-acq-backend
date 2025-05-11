@@ -1,25 +1,12 @@
 package com.kynsoft.invoiceservice;
 
-import ec.e.facturacion.sri.constante.Ambiente;
-import ec.e.facturacion.sri.constante.Estados;
 import ec.e.facturacion.sri.constante.Regimen;
 import ec.e.facturacion.sri.modelo.ComprobanteBase;
 import ec.e.facturacion.sri.modelo.Factura;
-import ec.e.facturacion.sri.modelo.NotaCredito;
-import ec.e.facturacion.sri.pdf.generador.FacturaPDFGenerador;
-import ec.e.facturacion.sri.util.*;
-import ec.e.facturacion.sri.ws.autorizacion.prueba.RespuestaComprobante;
-import ec.e.facturacion.sri.ws.recepcion.prueba.RespuestaSolicitud;
-import ec.e.facturacion.sri.ws.soap.servicio.SRIAutorizacionServicio;
-import ec.e.facturacion.sri.ws.soap.servicio.SRIRecepcionServicio;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-import java.io.ByteArrayOutputStream;
-import java.io.InputStream;
 import java.math.BigDecimal;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;

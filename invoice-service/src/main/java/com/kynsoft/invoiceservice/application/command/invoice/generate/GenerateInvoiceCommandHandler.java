@@ -1,7 +1,6 @@
 package com.kynsoft.invoiceservice.application.command.invoice.generate;
 
 import com.kynsof.share.core.domain.bus.command.ICommandHandler;
-
 import com.kynsoft.invoiceservice.application.command.invoice.generate.request.CampoAdicionalRequest;
 import com.kynsoft.invoiceservice.application.command.invoice.generate.request.DetalleFacturaRequest;
 import com.kynsoft.invoiceservice.application.command.invoice.generate.request.PagoRequest;
@@ -14,12 +13,21 @@ import com.kynsoft.invoiceservice.infrastructure.entities.InvoiceIssuingSequence
 import com.kynsoft.invoiceservice.infrastructure.repository.query.InvoiceIssuerRepository;
 import ec.e.facturacion.sri.modelo.ComprobanteBase;
 import ec.e.facturacion.sri.modelo.Factura;
+import ec.e.facturacion.sri.pdf.generador.FacturaPDFGenerador;
+import ec.e.facturacion.sri.util.FileConverterUtil;
+import ec.e.facturacion.sri.util.MensajeSRI;
+import ec.e.facturacion.sri.util.SRIImprimirValidacionUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.math.BigDecimal;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -35,7 +43,7 @@ public class GenerateInvoiceCommandHandler implements ICommandHandler<GenerateIn
     private final InvoiceService invoiceService;
     private final ICustomerService customerService;
     private final InvoiceIssuerRepository invoiceIssuerRepository;
-    
+
     @Override
     @Transactional
     public void handle(GenerateInvoiceCommand command) {
@@ -55,6 +63,10 @@ public class GenerateInvoiceCommandHandler implements ICommandHandler<GenerateIn
             Factura factura = createfactura(issuer, sequential, command.getDetalles(), customer, command.getPropina(),
                     command.getPagos(), command.getInfoAdicional());
 
+            if (validateInvoice(factura)) return;
+
+            generateXmlAndInvoiceFile(factura);
+
             command.setId(UUID.randomUUID()); // Asegurarse de que el comando tenga un ID
             command.setAccessKey(factura.getClaveAcceso());
             log.info("Factura generada con clave de acceso: {}", factura.getClaveAcceso());
@@ -62,6 +74,50 @@ public class GenerateInvoiceCommandHandler implements ICommandHandler<GenerateIn
             log.error("Error al generar factura: {}", e.getMessage(), e);
             throw new RuntimeException("Error al generar factura: " + e.getMessage(), e);
         }
+    }
+
+    private static void generateXmlAndInvoiceFile(Factura factura) throws IOException {
+        // Generar el XML
+        byte[] p12Bytes = FileConverterUtil.p12FileToByteArray("/Users/keimermontes/Development/medinec/scheduled/invoice-service/libs/0961881992.p12");
+
+        // Construir el p12 a partir del arreglo de bytes
+        InputStream p12Stream = FileConverterUtil.byteArrayToInputStream(p12Bytes);
+        ByteArrayOutputStream xmlFactura = factura.generarXml(p12Stream, "Gloria2014");
+
+        System.out.println("Estado de la factura:\n" + factura.getEstado());
+        System.out.println("XML generado:\n" + xmlFactura);
+
+        // Guardar el XML en un archivo
+        String nombreArchivo = "factura_" + factura.getEstab() + "-" + factura.getPtoEmi() + "-"
+                               + factura.getSecuencial() + ".xml";
+
+        Files.write(Paths.get(nombreArchivo), xmlFactura.toByteArray());
+        System.out.println("\nFactura guardada en: " + nombreArchivo);
+
+        try {
+            // Generar el PDF
+            String logoBase64 = FileConverterUtil.imageToBase64("/Users/keimermontes/Development/medinec/scheduled/invoice-service/libs/logo.jpg");
+            ByteArrayOutputStream pdfFactura = FacturaPDFGenerador.generarPDF(factura, logoBase64, "#2D4C80");
+
+            // Guardar el PDF en un archivo
+            String nombreArchivoPdf = "factura_" + factura.getEstab() + "-" + factura.getPtoEmi() + "-"
+                                      + factura.getSecuencial() + ".pdf";
+
+            Files.write(Paths.get(nombreArchivoPdf), pdfFactura.toByteArray());
+            System.out.println("\nFactura PDF guardada en: " + nombreArchivoPdf);
+        } catch (Exception e) {
+            System.err.println("Error al generar o guardar el pdf de la factura : " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+    private static boolean validateInvoice(Factura factura) {
+        List<MensajeSRI> mensajes = factura.validar();
+        if (!mensajes.isEmpty()) {
+            SRIImprimirValidacionUtil.imprimirResultadoValidacion(mensajes);
+            return true;
+        }
+        return false;
     }
 
     private String getNextSequentialFromIssuer(InvoiceIssuer issuer, String documentType) {
@@ -186,6 +242,7 @@ public class GenerateInvoiceCommandHandler implements ICommandHandler<GenerateIn
 
         return factura;
     }
+
     private Customer findOrUpdateCustomer(GenerateInvoiceCommand request) {
         CustomerDto customerDto = null;
 

@@ -4,8 +4,6 @@ import com.kynsof.share.core.infrastructure.bus.IMediator;
 import com.kynsoft.invoiceservice.application.command.invoice.generate.GenerateInvoiceCommand;
 import com.kynsoft.invoiceservice.application.command.invoice.generate.GenerateInvoiceMessage;
 import com.kynsoft.invoiceservice.application.command.invoice.generate.request.GenerateInvoiceRequest;
-import com.kynsoft.invoiceservice.application.services.InvoiceService;
-import com.kynsoft.invoiceservice.dto.FacturaRequestDTO;
 import com.kynsoft.invoiceservice.dto.FacturaResponseDTO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;

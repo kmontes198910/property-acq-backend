@@ -1,8 +1,5 @@
 package com.kynsoft.invoiceservice.domain.service.impl;
 
-import com.kynsof.share.core.domain.request.FilterCriteria;
-import com.kynsof.share.core.domain.response.PaginatedResponse;
-import com.kynsof.share.core.infrastructure.specifications.GenericSpecificationsBuilder;
 import com.kynsoft.invoiceservice.application.query.customer.get.CustomerDto;
 import com.kynsoft.invoiceservice.domain.exception.BusinessInvoiceException;
 import com.kynsoft.invoiceservice.domain.exception.DomainErrorInvoiceMessage;
@@ -12,17 +9,12 @@ import com.kynsoft.invoiceservice.infrastructure.repository.command.CustomerWrit
 import com.kynsoft.invoiceservice.infrastructure.repository.query.CustomerRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
-import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor

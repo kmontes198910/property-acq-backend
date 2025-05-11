@@ -1,12 +1,12 @@
 package com.kynsoft.invoiceservice.infrastructure.entities;
 
 import com.kynsoft.invoiceservice.infrastructure.entities.converters.IdentificationTypeConverter;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import jakarta.persistence.*;
 import java.time.LocalDateTime;
 import java.util.UUID;
 

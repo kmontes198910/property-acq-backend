@@ -2,6 +2,7 @@ package com.kynsoft.invoiceservice.infrastructure.entities;
 
 import jakarta.persistence.*;
 import lombok.*;
+
 import java.util.UUID;
 
 @Entity

@@ -4,11 +4,11 @@ import com.kynsoft.invoiceservice.application.command.invoice.generate.request.C
 import com.kynsoft.invoiceservice.application.command.invoice.generate.request.DetalleFacturaRequest;
 import com.kynsoft.invoiceservice.application.command.invoice.generate.request.PagoRequest;
 import com.kynsoft.invoiceservice.application.services.InvoiceService;
-import com.kynsoft.invoiceservice.dto.*;
+import com.kynsoft.invoiceservice.dto.FacturaRequestDTO;
+import com.kynsoft.invoiceservice.dto.FacturaResponseDTO;
 import com.kynsoft.invoiceservice.infrastructure.entities.Customer;
 import com.kynsoft.invoiceservice.infrastructure.entities.InvoiceIssuer;
 import com.kynsoft.invoiceservice.infrastructure.entities.InvoiceIssuingSequence;
-
 import com.kynsoft.invoiceservice.infrastructure.repository.query.CustomerRepository;
 import com.kynsoft.invoiceservice.infrastructure.repository.query.InvoiceIssuerRepository;
 import com.kynsoft.invoiceservice.infrastructure.repository.query.InvoiceRepository;

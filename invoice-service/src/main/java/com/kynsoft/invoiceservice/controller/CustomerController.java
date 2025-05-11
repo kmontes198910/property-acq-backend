@@ -5,13 +5,11 @@ import com.kynsoft.invoiceservice.application.command.customer.create.CreateCust
 import com.kynsoft.invoiceservice.application.command.customer.create.CreateCustomerMessage;
 import com.kynsoft.invoiceservice.application.command.customer.create.CreateCustomerRequest;
 import com.kynsoft.invoiceservice.application.command.customer.delete.DeleteCustomerCommand;
-import com.kynsoft.invoiceservice.application.command.customer.delete.DeleteCustomerMessage;
 import com.kynsoft.invoiceservice.application.command.customer.update.UpdateCustomerCommand;
 import com.kynsoft.invoiceservice.application.command.customer.update.UpdateCustomerMessage;
 import com.kynsoft.invoiceservice.application.command.customer.update.UpdateCustomerRequest;
 import com.kynsoft.invoiceservice.application.query.customer.get.CustomerResponse;
 import com.kynsoft.invoiceservice.application.query.customer.get.GetCustomerByIdQuery;
-
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -19,14 +17,12 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
-
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.UUID;
 
 @RestController

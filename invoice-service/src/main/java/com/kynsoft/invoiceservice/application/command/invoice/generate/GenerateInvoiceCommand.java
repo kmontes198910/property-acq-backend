@@ -2,14 +2,9 @@ package com.kynsoft.invoiceservice.application.command.invoice.generate;
 
 import com.kynsof.share.core.domain.bus.command.ICommand;
 import com.kynsof.share.core.domain.bus.command.ICommandMessage;
-import com.kynsoft.invoiceservice.application.command.invoice.generate.request.CampoAdicionalRequest;
-import com.kynsoft.invoiceservice.application.command.invoice.generate.request.CustomerRequest;
-import com.kynsoft.invoiceservice.application.command.invoice.generate.request.DetalleFacturaRequest;
-import com.kynsoft.invoiceservice.application.command.invoice.generate.request.GenerateInvoiceRequest;
-import com.kynsoft.invoiceservice.application.command.invoice.generate.request.PagoRequest;
+import com.kynsoft.invoiceservice.application.command.invoice.generate.request.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.math.BigDecimal;
