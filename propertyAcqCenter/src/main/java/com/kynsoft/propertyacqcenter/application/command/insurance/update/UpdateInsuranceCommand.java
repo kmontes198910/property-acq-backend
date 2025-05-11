@@ -2,6 +2,7 @@ package com.kynsoft.propertyacqcenter.application.command.insurance.update;
 
 import com.kynsof.share.core.domain.bus.command.ICommand;
 import com.kynsof.share.core.domain.bus.command.ICommandMessage;
+import com.kynsoft.propertyacqcenter.domain.enums.InsuranceType;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -12,12 +13,12 @@ import java.util.UUID;
 public class UpdateInsuranceCommand implements ICommand {
 
     private UUID id;
-    private String insuranceType;
+    private InsuranceType insuranceType;
     private String document;
     private UUID legalEntity;
     private String fileName;
 
-    public UpdateInsuranceCommand(UUID id, String insuranceType, String document, UUID legalEntity, String fileName) {
+    public UpdateInsuranceCommand(UUID id, InsuranceType insuranceType, String document, UUID legalEntity, String fileName) {
         this.id = id;
         this.insuranceType = insuranceType;
         this.document = document;

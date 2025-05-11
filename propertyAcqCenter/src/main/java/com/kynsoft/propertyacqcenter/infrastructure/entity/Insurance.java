@@ -1,6 +1,7 @@
 package com.kynsoft.propertyacqcenter.infrastructure.entity;
 
 import com.kynsoft.propertyacqcenter.domain.dto.InsuranceDto;
+import com.kynsoft.propertyacqcenter.domain.enums.InsuranceType;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
@@ -24,7 +25,7 @@ public class Insurance {
     private UUID id;
 
     @Column(name = "insurance_type", nullable = false)
-    private String insuranceType;
+    private InsuranceType insuranceType;
 
     @Column(name = "file_name")
     private String fileName;
