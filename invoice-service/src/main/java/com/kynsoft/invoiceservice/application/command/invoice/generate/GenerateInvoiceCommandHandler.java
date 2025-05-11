@@ -1,17 +1,17 @@
-package com.kynsoft.invoiceservice.application.services.impl;
+package com.kynsoft.invoiceservice.application.command.invoice.generate;
+
+import com.kynsof.share.core.domain.bus.command.ICommandHandler;
 
 import com.kynsoft.invoiceservice.application.command.invoice.generate.request.CampoAdicionalRequest;
 import com.kynsoft.invoiceservice.application.command.invoice.generate.request.DetalleFacturaRequest;
 import com.kynsoft.invoiceservice.application.command.invoice.generate.request.PagoRequest;
+import com.kynsoft.invoiceservice.application.query.customer.get.CustomerDto;
 import com.kynsoft.invoiceservice.application.services.InvoiceService;
-import com.kynsoft.invoiceservice.dto.*;
+import com.kynsoft.invoiceservice.domain.service.ICustomerService;
 import com.kynsoft.invoiceservice.infrastructure.entities.Customer;
 import com.kynsoft.invoiceservice.infrastructure.entities.InvoiceIssuer;
 import com.kynsoft.invoiceservice.infrastructure.entities.InvoiceIssuingSequence;
-
-import com.kynsoft.invoiceservice.infrastructure.repository.query.CustomerRepository;
 import com.kynsoft.invoiceservice.infrastructure.repository.query.InvoiceIssuerRepository;
-import com.kynsoft.invoiceservice.infrastructure.repository.query.InvoiceRepository;
 import ec.e.facturacion.sri.modelo.ComprobanteBase;
 import ec.e.facturacion.sri.modelo.Factura;
 import lombok.RequiredArgsConstructor;
@@ -24,117 +24,43 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class InvoiceServiceImpl implements InvoiceService {
+public class GenerateInvoiceCommandHandler implements ICommandHandler<GenerateInvoiceCommand> {
 
-    private final InvoiceRepository invoiceRepository;
-    private final CustomerRepository customerRepository;
+    private final InvoiceService invoiceService;
+    private final ICustomerService customerService;
     private final InvoiceIssuerRepository invoiceIssuerRepository;
-
+    
     @Override
     @Transactional
-    public FacturaResponseDTO generateInvoice(FacturaRequestDTO request) {
+    public void handle(GenerateInvoiceCommand command) {
+        log.info("Generando nueva factura para el emisor ID: {}", command.getIssuerId());
+
         try {
             // 1. Obtener el emisor por su ID (o el emisor activo si no se proporcionó un ID)
-
-            InvoiceIssuer issuer = invoiceIssuerRepository.findById(request.getIssuerId())
-                    .orElseThrow(() -> new RuntimeException("No se encontró un emisor de facturas con el ID: " + request.getIssuerId()));
-
+            InvoiceIssuer issuer = invoiceIssuerRepository.findById(command.getIssuerId())
+                    .orElseThrow(() -> new RuntimeException("No se encontró un emisor de facturas con el ID: " + command.getIssuerId()));
 
             // 2. Obtener y actualizar el secuencial para facturas del emisor
             String sequential = getNextSequentialFromIssuer(issuer, "01"); // 01 es el tipo de documento para facturas
 
-            // 3. Buscar o crear el cliente (Customer)
-            Customer customer = findOrUpdateCustomer(request);
+            // 3. Buscar o crear el cliente (Customer) utilizando el servicio
+            Customer customer = findOrUpdateCustomer(command);
 
+            Factura factura = createfactura(issuer, sequential, command.getDetalles(), customer, command.getPropina(),
+                    command.getPagos(), command.getInfoAdicional());
 
-            Factura factura = createfactura(issuer, sequential, request.getDetalles(), customer, request.getPropina(),
-                    request.getPagos(), request.getInfoAdicional());
-
-
-//            // 8. Crear la factura
-//            Invoice invoice = Invoice.builder()
-//                    .documentNumber(documentNumber)
-//                    .sequential(sequential)
-//                    .emissionDate(LocalDateTime.now())
-//                    .subtotal(subtotal)
-//                    .discount(discount)
-//                    .taxAmount(taxAmount)
-//                    .totalAmount(totalAmount)
-//                    .tip(request.getPropina())
-//                    .status(InvoiceStatus.DRAFT)
-//                    .issuer(issuer)
-//                    .customer(customer)
-//                    .createdAt(LocalDateTime.now())
-//                    .accessKey(accessKey)
-//                    .build();
-
-//            // 9. Agregar detalles de la factura
-//            addInvoiceDetails(invoice, request.getDetalles());
-//
-//            // 10. Agregar pagos de la factura
-//            addInvoicePayments(invoice, request.getPagos());
-//
-//            // 11. Agregar campos adicionales
-//            addInvoiceAdditionalFields(invoice, request.getInfoAdicional());
-
-            // 12. Guardar la factura
-            //    Invoice savedInvoice = invoiceRepository.save(invoice);
-
-            // 13. Generar respuesta
-            return FacturaResponseDTO.builder()
-                    .mensaje("Factura generada correctamente")
-                    .estado(factura.getEstado())
-                    .claveAcceso(factura.getClaveAcceso())
-                    .build();
-
-
+            command.setId(UUID.randomUUID()); // Asegurarse de que el comando tenga un ID
+            command.setAccessKey(factura.getClaveAcceso());
+            log.info("Factura generada con clave de acceso: {}", factura.getClaveAcceso());
         } catch (Exception e) {
             log.error("Error al generar factura: {}", e.getMessage(), e);
-            return FacturaResponseDTO.builder()
-                    .mensaje("Error al generar factura: " + e.getMessage())
-                    .estado("ERROR")
-                    .build();
-        }
-    }
-
-    private Customer findOrUpdateCustomer(FacturaRequestDTO request) {
-        Optional<Customer> existingCustomer = customerRepository
-                .findByIdNumber(request.getIdentificacionComprador());
-
-        if (existingCustomer.isPresent()) {
-            // Actualizar el cliente con los nuevos datos si es necesario
-            Customer customer = existingCustomer.get();
-            // Solo actualizar si hay cambios
-            if (!customer.getBusinessName().equals(request.getRazonSocialComprador()) ||
-                !customer.getAddress().equals(request.getDireccionComprador()) ||
-                !customer.getEmail().equals(request.getCorreoComprador()) ||
-                !customer.getPhone().equals(request.getTelefonoComprador())) {
-
-                customer.setBusinessName(request.getRazonSocialComprador());
-                customer.setAddress(request.getDireccionComprador());
-                customer.setEmail(request.getCorreoComprador());
-                customer.setPhone(request.getTelefonoComprador());
-
-                return customerRepository.save(customer);
-            }
-            return customer;
-        } else {
-            // Crear un nuevo cliente
-            Customer newCustomer = Customer.builder()
-                    .idNumber(request.getIdentificacionComprador())
-                    .idType(request.getTipoIdentificacionComprador())
-                    .businessName(request.getRazonSocialComprador())
-                    .address(request.getDireccionComprador())
-                    .email(request.getCorreoComprador())
-                    .phone(request.getTelefonoComprador())
-                    .build();
-
-            return customerRepository.save(newCustomer);
+            throw new RuntimeException("Error al generar factura: " + e.getMessage(), e);
         }
     }
 
@@ -260,4 +186,57 @@ public class InvoiceServiceImpl implements InvoiceService {
 
         return factura;
     }
+    private Customer findOrUpdateCustomer(GenerateInvoiceCommand request) {
+        CustomerDto customerDto = null;
+
+        try {
+            // Intentar buscar el cliente por su número de identificación
+            customerDto = customerService.findByIdentificationNumber(request.getCustomer().getIdentificationNumber());
+
+            // Cliente encontrado, verificar si hay que actualizarlo
+            if (!customerDto.getBusinessName().equals(request.getCustomer().getBusinessName()) ||
+                (customerDto.getAddress() != null && !customerDto.getAddress().equals(request.getCustomer().getAddress())) ||
+                (customerDto.getEmail() != null && !customerDto.getEmail().equals(request.getCustomer().getEmail())) ||
+                (customerDto.getPhoneNumber() != null && !customerDto.getPhoneNumber().equals(request.getCustomer().getPhoneNumber()))) {
+
+                // Actualizar los campos del cliente
+                customerDto.setBusinessName(request.getCustomer().getBusinessName());
+                customerDto.setAddress(request.getCustomer().getAddress());
+                customerDto.setEmail(request.getCustomer().getEmail());
+                customerDto.setPhoneNumber(request.getCustomer().getPhoneNumber());
+
+                // Actualizar el cliente a través del servicio
+                customerService.update(customerDto);
+            }
+        } catch (Exception e) {
+            // Cliente no encontrado, crearlo
+            customerDto = CustomerDto.builder()
+                    .id(UUID.randomUUID())
+                    .identificationType(request.getCustomer().getIdentificationType())
+                    .identificationNumber(request.getCustomer().getIdentificationNumber())
+                    .businessName(request.getCustomer().getBusinessName())
+                    .address(request.getCustomer().getAddress())
+                    .email(request.getCustomer().getEmail())
+                    .phoneNumber(request.getCustomer().getPhoneNumber())
+                    .isActive(true)
+                    .build();
+
+            // Crear el cliente a través del servicio
+            UUID customerId = customerService.create(customerDto);
+            customerDto.setId(customerId);
+        }
+
+        // Convertir el DTO a la entidad Customer para mantener la compatibilidad con el resto del método
+        return Customer.builder()
+                .id(customerDto.getId())
+                .idType(customerDto.getIdentificationType())
+                .idNumber(customerDto.getIdentificationNumber())
+                .businessName(customerDto.getBusinessName())
+                .address(customerDto.getAddress())
+                .email(customerDto.getEmail())
+                .phone(customerDto.getPhoneNumber())
+                .isActive(customerDto.getIsActive())
+                .build();
+    }
+
 }

@@ -3,6 +3,13 @@ package com.kynsoft.invoiceservice.infrastructure.config;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.kynsof.share.core.domain.bus.command.ICommandHandler;
+import com.kynsoft.invoiceservice.application.command.invoice.generate.GenerateInvoiceCommand;
+import com.kynsoft.invoiceservice.application.command.invoice.generate.GenerateInvoiceCommandHandler;
+import com.kynsoft.invoiceservice.application.services.InvoiceService;
+import com.kynsoft.invoiceservice.domain.service.ICustomerService;
+import com.kynsoft.invoiceservice.infrastructure.repository.query.InvoiceIssuerRepository;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.MediaType;

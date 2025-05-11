@@ -1,5 +1,9 @@
 package com.kynsoft.invoiceservice.controller;
 
+import com.kynsof.share.core.infrastructure.bus.IMediator;
+import com.kynsoft.invoiceservice.application.command.invoice.generate.GenerateInvoiceCommand;
+import com.kynsoft.invoiceservice.application.command.invoice.generate.GenerateInvoiceMessage;
+import com.kynsoft.invoiceservice.application.command.invoice.generate.request.GenerateInvoiceRequest;
 import com.kynsoft.invoiceservice.application.services.InvoiceService;
 import com.kynsoft.invoiceservice.dto.FacturaRequestDTO;
 import com.kynsoft.invoiceservice.dto.FacturaResponseDTO;
@@ -18,6 +22,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.UUID;
+
 @RestController
 @RequestMapping("/api/v1/invoices")
 @RequiredArgsConstructor
@@ -25,7 +31,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Tag(name = "Facturas", description = "API para la gestión de facturas electrónicas")
 public class InvoiceController {
 
-    private final InvoiceService invoiceService;
+    private final IMediator mediator;
 
     @Operation(summary = "Generar factura electrónica", 
                description = "Crea y genera una nueva factura electrónica según los datos proporcionados")
@@ -40,23 +46,24 @@ public class InvoiceController {
                                        schema = @Schema(implementation = FacturaResponseDTO.class)))
     })
     @PostMapping("/generate")
-    public ResponseEntity<FacturaResponseDTO> generarFactura(
+    public ResponseEntity<?> generarFactura(
             @Parameter(description = "Datos de la factura a generar", required = true) 
-            @RequestBody FacturaRequestDTO request) {
+            @RequestBody GenerateInvoiceRequest request) {
         log.info("Recibida solicitud para generar factura");
         
         // Ya no es necesario generar el secuencial aquí, ahora se maneja en el servicio
         // utilizando la secuencia del emisor
-        
+        GenerateInvoiceCommand command = GenerateInvoiceCommand.fromRequest(request, UUID.randomUUID());
         // Invocar al servicio para generar y guardar la factura
-        FacturaResponseDTO response = invoiceService.generateInvoice(request);
-        
-        if ("ERROR".equals(response.getEstado())) {
-            log.error("Error al generar factura: {}", response.getMensaje());
-            return ResponseEntity.badRequest().body(response);
-        }
-        
-        log.info("Factura generada correctamente con clave de acceso: {}", response.getClaveAcceso());
+        GenerateInvoiceMessage response = mediator.send(
+                command
+        );
+//        if ("ERROR".equals(response.getEstado())) {
+//            log.error("Error al generar factura: {}", response.getMensaje());
+//            return ResponseEntity.badRequest().body(response);
+//        }
+//
+
         return ResponseEntity.ok(response);
     }
 }

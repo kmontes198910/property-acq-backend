@@ -33,6 +33,13 @@
         </repository>
     </repositories>
     <dependencies>
+
+        <dependency>
+            <groupId>com.knsof</groupId>
+            <artifactId>share</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+            <scope>compile</scope>
+        </dependency>
         <!-- Spring Boot Starters -->
         <dependency>
             <groupId>org.springframework.boot</groupId>

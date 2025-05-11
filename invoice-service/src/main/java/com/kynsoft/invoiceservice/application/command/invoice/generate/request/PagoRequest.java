@@ -1,4 +1,4 @@
-package com.kynsoft.invoiceservice.dto;
+package com.kynsoft.invoiceservice.application.command.invoice.generate.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -11,7 +11,7 @@ import java.math.BigDecimal;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class PagoDTO {
+public class PagoRequest {
     private String formaPago;
     private String descripcion;
     private BigDecimal total;

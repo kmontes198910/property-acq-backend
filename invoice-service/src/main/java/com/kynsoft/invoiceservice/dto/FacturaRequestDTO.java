@@ -1,5 +1,8 @@
 package com.kynsoft.invoiceservice.dto;
 
+import com.kynsoft.invoiceservice.application.command.invoice.generate.request.CampoAdicionalRequest;
+import com.kynsoft.invoiceservice.application.command.invoice.generate.request.DetalleFacturaRequest;
+import com.kynsoft.invoiceservice.application.command.invoice.generate.request.PagoRequest;
 import com.kynsoft.invoiceservice.infrastructure.entities.IdentificationType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -30,9 +33,9 @@ public class FacturaRequestDTO {
     private BigDecimal propina;
     
     // Detalles, pagos e información adicional
-    private List<DetalleFacturaDTO> detalles;
-    private List<PagoDTO> pagos;
-    private List<CampoAdicionalDTO> infoAdicional;
+    private List<DetalleFacturaRequest> detalles;
+    private List<PagoRequest> pagos;
+    private List<CampoAdicionalRequest> infoAdicional;
     
     // Opcional: número de agente de retención y contribuyente especial
     private String agenteRetencion;

@@ -1,4 +1,4 @@
-package com.kynsoft.invoiceservice.dto;
+package com.kynsoft.invoiceservice.application.command.invoice.generate.request;
 
 import lombok.*;
 
@@ -10,7 +10,7 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 @Getter
 @Setter
-public class DetalleFacturaDTO {
+public class DetalleFacturaRequest {
     private String codigoPrincipal;
     private String codigoAuxiliar;
     private String descripcion;

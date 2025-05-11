@@ -1,4 +1,4 @@
-package com.kynsoft.invoiceservice.dto;
+package com.kynsoft.invoiceservice.application.command.invoice.generate.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class CampoAdicionalDTO {
+public class CampoAdicionalRequest {
     private String nombre;
     private String valor;
 }
