@@ -15,7 +15,7 @@ ENV LIBS_DIR=/app/libs
 ENV REPOSITORY_DIR=/app/repository
 
 # Comandos para instalar librerías locales en el repositorio
-RUN mvn install:install-file -Dfile=${LIBS_DIR}/E-Facturacion-1.0.0.jar -DgroupId=com.facturacion -DartifactId=e-facturacion -Dversion=1.0.0 -Dpackaging=jar -DgeneratePom=true -DlocalRepositoryPath=${REPOSITORY_DIR}
+RUN mvn install:install-file -Dfile=${LIBS_DIR}/E-Facturacion-1.0.0.jar -DgroupId=ec.e.facturacion -DartifactId=E-Facturacion -Dversion=1.0.0 -Dpackaging=jar -DgeneratePom=true -DlocalRepositoryPath=${REPOSITORY_DIR}
 
 # Etapa de caché para las dependencias
 RUN mvn dependency:go-offline -B
@@ -45,11 +45,7 @@ USER appuser
 ENV JAVA_OPTS="-XX:+UseContainerSupport -XX:MaxRAMPercentage=70"
 
 # Puerto de la aplicación
-EXPOSE 8080
-
-# Verificación de salud
-HEALTHCHECK --interval=30s --timeout=3s --start-period=60s --retries=3 \
-  CMD wget --no-verbose --tries=1 --spider http://localhost:8080/actuator/health || exit 1
+EXPOSE 9801
 
 # Comando para ejecutar la aplicación
 ENTRYPOINT ["sh", "-c", "java $JAVA_OPTS -jar app.jar"]

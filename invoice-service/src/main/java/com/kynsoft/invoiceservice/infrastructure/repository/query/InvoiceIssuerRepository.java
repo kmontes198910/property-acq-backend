@@ -12,5 +12,5 @@ public interface InvoiceIssuerRepository extends JpaRepository<InvoiceIssuer, UU
     Optional<InvoiceIssuer> findByRuc(String ruc);
     
     // Por lo general en una implementación real tendríamos un método para obtener el emisor activo/predeterminado
-    Optional<InvoiceIssuer> findFirstByActiveTrue();
+    Optional<InvoiceIssuer> findFirstByStatusTrue();
 }

@@ -1,5 +1,6 @@
 package com.kynsoft.invoiceservice.infrastructure.entities;
 
+import com.kynsoft.invoiceservice.infrastructure.entities.converters.IdentificationTypeConverter;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -21,8 +22,9 @@ public class Customer {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
     
+    @Convert(converter = IdentificationTypeConverter.class)
     @Column(name = "id_type", nullable = false, length = 2)
-    private String idType; // 04: RUC, 05: Cédula, 06: Pasaporte, 07: Consumidor final, etc.
+    private IdentificationType idType; // RUC, CEDULA, PASAPORTE, etc.
     
     @Column(name = "id_number", nullable = false)
     private String idNumber;

@@ -82,15 +82,19 @@ public class Invoice {
     
     // Relaciones con otras entidades
     @OneToMany(mappedBy = "invoice", cascade = CascadeType.ALL, orphanRemoval = true)
+    @Builder.Default
     private List<InvoiceDetail> details = new ArrayList<>();
     
     @OneToMany(mappedBy = "invoice", cascade = CascadeType.ALL, orphanRemoval = true)
+    @Builder.Default
     private List<InvoicePayment> payments = new ArrayList<>();
     
     @OneToMany(mappedBy = "invoice", cascade = CascadeType.ALL, orphanRemoval = true)
+    @Builder.Default
     private List<InvoiceAdditionalField> additionalFields = new ArrayList<>();
     
     @OneToMany(mappedBy = "invoice", cascade = CascadeType.ALL, orphanRemoval = true)
+    @Builder.Default
     private List<InvoiceTax> taxes = new ArrayList<>();
     
     @PrePersist
