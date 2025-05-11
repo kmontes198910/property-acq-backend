@@ -26,6 +26,7 @@ public class UpdateInsuranceCommandHandler implements ICommandHandler<UpdateInsu
                 .id(command.getId())
                 .insuranceType(command.getInsuranceType())
                 .legalEntity(legalEntityDto)
+                .fileName(command.getFileName())
                 .build());
     }
 }

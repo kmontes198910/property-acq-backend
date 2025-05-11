@@ -26,6 +26,7 @@ public class CreateInsuranceCommandHandler implements ICommandHandler<CreateInsu
                 .id(command.getId())
                 .insuranceType(command.getInsuranceType())
                 .legalEntity(legalEntityDto)
+                .fileName(command.getFileName())
                 .build());
     }
 }
