@@ -59,7 +59,7 @@ public class AdmisionController {
      * @param request Request with updated admission data
      * @return ResponseEntity
      */
-    @PutMapping("/{id}")
+    @PatchMapping("/{id}")
     public ResponseEntity<Void> updateAdmision(@PathVariable UUID id, @RequestBody UpdateAdmisionRequest request,
                                                @RequestHeader(value = USER_ID_HEADER, required = true) String userId) {
 
