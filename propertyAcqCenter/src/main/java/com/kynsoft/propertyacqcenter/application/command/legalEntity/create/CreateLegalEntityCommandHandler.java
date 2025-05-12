@@ -4,9 +4,11 @@ import com.kynsof.share.core.domain.bus.command.ICommandHandler;
 import com.kynsoft.propertyacqcenter.domain.dto.BusinessDto;
 import com.kynsoft.propertyacqcenter.domain.dto.LegalEntityDto;
 import com.kynsoft.propertyacqcenter.domain.dto.exception.legalEntity.LegalEntityEntityFicoException;
+import com.kynsoft.propertyacqcenter.domain.dto.exception.legalEntity.LegalEntityFormationDateException;
 import com.kynsoft.propertyacqcenter.domain.dto.exception.legalEntity.LegalEntityTaxIdMustBeUniqueException;
 import com.kynsoft.propertyacqcenter.domain.services.IBusinessService;
 import com.kynsoft.propertyacqcenter.domain.services.ILegalEntityService;
+import java.time.LocalDate;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -31,6 +33,7 @@ public class CreateLegalEntityCommandHandler implements ICommandHandler<CreateLe
 
         this.validateTaxId(command.getTaxId());
         this.validateEntityFico(command);
+        this.validateFormationDate(command.getFormationDate());
 
         legalEntityService.create(new LegalEntityDto(
                 command.getId(), 
@@ -60,6 +63,12 @@ public class CreateLegalEntityCommandHandler implements ICommandHandler<CreateLe
     private void validateTaxId(String taxId) {
         if (this.legalEntityService.countByTaxId(taxId) > 0) {
             throw new LegalEntityTaxIdMustBeUniqueException(taxId);
+        }
+    }
+
+    private void validateFormationDate(LocalDate formationDate) {
+        if (formationDate.isAfter(LocalDate.now())) {
+            throw new LegalEntityFormationDateException(formationDate);
         }
     }
 
