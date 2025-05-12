@@ -147,9 +147,7 @@ public class DigitalSignatureCertificateController {
     @PostMapping("/search")
     public ResponseEntity<?> search(
             @Parameter(description = "Parámetros de búsqueda y paginación", required = true)
-            @RequestBody SearchRequest request,
-            @Parameter(description = "Filtrar por ID de usuario (opcional)")
-            @RequestParam(required = false) UUID userId) {
+            @RequestBody SearchRequest request) {
         
         log.info("Buscando firmas digitales con filtros");
 

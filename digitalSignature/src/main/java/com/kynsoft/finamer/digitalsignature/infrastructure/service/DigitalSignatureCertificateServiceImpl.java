@@ -138,7 +138,6 @@ public class DigitalSignatureCertificateServiceImpl implements IDigitalSignature
                 .isActive(entity.getIsActive())
                 .expirationDate(entity.getExpirationDate())
                 .businessId(entity.getBusiness() != null ? entity.getBusiness().getId() : null)
-                .businessName(entity.getBusiness() != null ? entity.getBusiness().getName() : null)
                 .createdAt(entity.getCreatedAt())
                 .updatedAt(entity.getUpdatedAt())
                 // Campos adicionales calculados
