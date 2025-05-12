@@ -31,14 +31,7 @@ public interface ContactReadDataJPARepository extends JpaRepository<Contact, UUI
      * @return Lista de contactos asociados
      */
     List<Contact> findByLegalEntityId(UUID legalEntityId);
-    
-    /**
-     * Busca contactos por categoría
-     * @param category Categoría a buscar
-     * @return Lista de contactos con la categoría especificada
-     */
-    List<Contact> findByCategory(String category);
-    
+
     /**
      * Busca contactos por departamento
      * @param department Departamento a buscar

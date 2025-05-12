@@ -84,6 +84,7 @@ public class Contact {
                 .createdAt(this.createdAt)
                 .updatedAt(this.updatedAt)
                 .legalEntity(this.legalEntity != null ? this.legalEntity.toAggregateBasic() : null)
+                .personalEmail(personalEmail)
                 .build();
     }
 
@@ -101,6 +102,7 @@ public class Contact {
                 .isActive(this.isActive)
                 .createdAt(this.createdAt)
                 .updatedAt(this.updatedAt)
+                .personalEmail(personalEmail)
                 .legalEntity(this.legalEntity != null ? this.legalEntity.toAggregateFindById() : null)
                 .build();
     }
@@ -123,6 +125,7 @@ public class Contact {
         this.createdAt = dto.getCreatedAt();
         this.updatedAt = dto.getUpdatedAt();
         this.legalEntity = new LegalEntity(dto.getLegalEntity());
+        this.personalEmail = dto.getPersonalEmail();
         // Las relaciones con LegalEntity y Business deben ser establecidas externamente
     }
 }
