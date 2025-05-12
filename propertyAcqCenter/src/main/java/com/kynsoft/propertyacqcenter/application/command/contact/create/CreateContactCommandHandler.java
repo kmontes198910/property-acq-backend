@@ -3,6 +3,7 @@ package com.kynsoft.propertyacqcenter.application.command.contact.create;
 import com.kynsof.share.core.domain.bus.command.ICommandHandler;
 import com.kynsoft.propertyacqcenter.domain.dto.ContactDto;
 import com.kynsoft.propertyacqcenter.domain.dto.LegalEntityDto;
+import com.kynsoft.propertyacqcenter.domain.dto.exception.contact.EmailAndPhoneNotNullException;
 import com.kynsoft.propertyacqcenter.domain.dto.exception.contact.EmailFormatException;
 import com.kynsoft.propertyacqcenter.domain.dto.exception.contact.EmailMustBeUniqueException;
 import com.kynsoft.propertyacqcenter.domain.services.IContactService;
@@ -26,6 +27,7 @@ public class CreateContactCommandHandler implements ICommandHandler<CreateContac
         LegalEntityDto legalEntityDto = this.legalEntityService.findById(command.getLegalEntity());
 
         this.validateEmail(command.getEmail());
+        this.validateEmailAndPhoneNotNull(command.getEmail(), command.getPhoneNumber());
 
         ContactDto contactDto = ContactDto.builder()
                 .id(command.getId())
@@ -45,13 +47,21 @@ public class CreateContactCommandHandler implements ICommandHandler<CreateContac
     }
 
     private void validateEmail(String email) {
-        if (this.contactService.countByEmail(email) > 0) {
-            throw new EmailMustBeUniqueException(email);
+        if (email != null) {
+            if (this.contactService.countByEmail(email) > 0) {
+                throw new EmailMustBeUniqueException(email);
+            }
+            String emailRegex = "^[A-Za-z0-9+_.-]+@(.+)$";
+            Pattern pattern = Pattern.compile(emailRegex);
+            if (!pattern.matcher(email).matches()) {
+                throw new EmailFormatException(email);
+            }
         }
-        String emailRegex = "^[A-Za-z0-9+_.-]+@(.+)$";
-        Pattern pattern = Pattern.compile(emailRegex);
-        if (!pattern.matcher(email).matches()) {
-            throw new EmailFormatException(email);
+    }
+
+    private void validateEmailAndPhoneNotNull(String email, String phone) {
+        if (email == null && phone == null) {
+            throw new EmailAndPhoneNotNullException();
         }
     }
 }
