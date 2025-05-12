@@ -11,7 +11,7 @@ import com.kynsoft.invoiceservice.infrastructure.entities.InvoiceIssuer;
 import com.kynsoft.invoiceservice.infrastructure.entities.InvoiceIssuingSequence;
 import com.kynsoft.invoiceservice.infrastructure.repository.query.CustomerRepository;
 import com.kynsoft.invoiceservice.infrastructure.repository.query.InvoiceIssuerRepository;
-import com.kynsoft.invoiceservice.infrastructure.repository.query.InvoiceRepository;
+import com.kynsoft.invoiceservice.infrastructure.repository.query.InvoiceReadRepository;
 import ec.e.facturacion.sri.modelo.ComprobanteBase;
 import ec.e.facturacion.sri.modelo.Factura;
 import lombok.RequiredArgsConstructor;
@@ -31,7 +31,7 @@ import java.util.stream.Collectors;
 @Slf4j
 public class InvoiceServiceImpl implements InvoiceService {
 
-    private final InvoiceRepository invoiceRepository;
+    private final InvoiceReadRepository invoiceRepository;
     private final CustomerRepository customerRepository;
     private final InvoiceIssuerRepository invoiceIssuerRepository;
 
@@ -240,7 +240,7 @@ public class InvoiceServiceImpl implements InvoiceService {
                 .withAgenteRetencion(issuer.getRetentionAgent())//?
                 .withContribuyenteEspecial(issuer.getSpecialTaxpayer())//?
                 .withContribuyenteRimpe(issuer.getRimpeRegime())//?
-                .withTipoIdentificacionComprador(customer.getIdType().toString())
+                .withTipoIdentificacionComprador(customer.getIdType().getCode()) // Obtener el código ("04", "05", etc) en lugar del nombre del enumerado
                 .withRazonSocialComprador(customer.getBusinessName())
                 .withIdentificacionComprador(customer.getIdNumber())
                 .withDireccionComprador(customer.getAddress())

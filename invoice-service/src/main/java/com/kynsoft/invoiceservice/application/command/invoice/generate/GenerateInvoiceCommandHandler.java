@@ -215,6 +215,7 @@ public class GenerateInvoiceCommandHandler implements ICommandHandler<GenerateIn
                         pagoDTO.getUnidadTiempo()))
                 .collect(Collectors.toList());
         String obligadoContabilidad = issuer.getPointOfSale() ? "SI" : "NO";
+        String customerIdentificationType = customer.getIdType().getCode(); // Obtener el código ("04", "05", etc) en lugar del nombre del enumerado
         // Construir la factura
         Factura factura = new Factura.Builder(ruc, razonSocial, dirMatriz, correo, telefono, estab, ptoEmi, sequential, fechaEmision, detalles)
                 .withNombreComercial(razonSocial)
@@ -222,7 +223,7 @@ public class GenerateInvoiceCommandHandler implements ICommandHandler<GenerateIn
                 .withAgenteRetencion(issuer.getRetentionAgent())//?
                 .withContribuyenteEspecial(issuer.getSpecialTaxpayer())//?
                 .withContribuyenteRimpe(issuer.getRimpeRegime())//?
-                .withTipoIdentificacionComprador(customer.getIdType().toString())
+                .withTipoIdentificacionComprador(customerIdentificationType)
                 .withRazonSocialComprador(customer.getBusinessName())
                 .withIdentificacionComprador(customer.getIdNumber())
                 .withDireccionComprador(customer.getAddress())

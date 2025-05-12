@@ -56,11 +56,6 @@ public class InvoiceController {
         GenerateInvoiceMessage response = mediator.send(
                 command
         );
-//        if ("ERROR".equals(response.getEstado())) {
-//            log.error("Error al generar factura: {}", response.getMensaje());
-//            return ResponseEntity.badRequest().body(response);
-//        }
-//
 
         return ResponseEntity.ok(response);
     }

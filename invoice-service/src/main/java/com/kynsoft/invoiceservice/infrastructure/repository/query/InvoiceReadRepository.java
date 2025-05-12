@@ -12,7 +12,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Repository
-public interface InvoiceRepository extends JpaRepository<Invoice, UUID> {
+public interface InvoiceReadRepository extends JpaRepository<Invoice, UUID> {
     
     /**
      * Busca el último secuencial utilizado en las facturas
