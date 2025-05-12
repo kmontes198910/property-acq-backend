@@ -92,19 +92,19 @@
         <campoAdicional nombre="Observaciones">Paciente requiere seguimiento en 15 días</campoAdicional>
         <campoAdicional nombre="Referencias">Remitido por Dr. Juan Pérez</campoAdicional>
     </infoAdicional>
-<ds:Signature xmlns:ds="http://www.w3.org/2000/09/xmldsig#" xmlns:etsi="http://uri.etsi.org/01903/v1.3.2#" Id="Signature733033">
-<ds:SignedInfo Id="Signature-SignedInfo452055">
+<ds:Signature xmlns:ds="http://www.w3.org/2000/09/xmldsig#" xmlns:etsi="http://uri.etsi.org/01903/v1.3.2#" Id="Signature570561">
+<ds:SignedInfo Id="Signature-SignedInfo935728">
 <ds:CanonicalizationMethod Algorithm="http://www.w3.org/TR/2001/REC-xml-c14n-20010315"/>
 <ds:SignatureMethod Algorithm="http://www.w3.org/2000/09/xmldsig#rsa-sha1"/>
-<ds:Reference Id="SignedPropertiesID221808" Type="http://uri.etsi.org/01903#SignedProperties" URI="#Signature733033-SignedProperties869628">
+<ds:Reference Id="SignedPropertiesID32812" Type="http://uri.etsi.org/01903#SignedProperties" URI="#Signature570561-SignedProperties647691">
 <ds:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1"/>
-<ds:DigestValue>+G2NF3NZbjBbtVYLiOieaUCrL7g=</ds:DigestValue>
+<ds:DigestValue>oNr2iGnb0TsuaLagmiVKLcQMNrU=</ds:DigestValue>
 </ds:Reference>
-<ds:Reference URI="#Certificate1205036">
+<ds:Reference URI="#Certificate1521252">
 <ds:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1"/>
-<ds:DigestValue>kWqADuci/+MLuy5Gqid1rUVwLAo=</ds:DigestValue>
+<ds:DigestValue>sdy5mzoVAwBpJvn3kfvGUal7mbI=</ds:DigestValue>
 </ds:Reference>
-<ds:Reference Id="Reference-ID-790887" URI="#comprobante">
+<ds:Reference Id="Reference-ID-8244" URI="#comprobante">
 <ds:Transforms>
 <ds:Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature"/>
 </ds:Transforms>
@@ -112,14 +112,14 @@
 <ds:DigestValue>yYyyWkirvbwf/kdv0LqTjyEM1Y8=</ds:DigestValue>
 </ds:Reference>
 </ds:SignedInfo>
-<ds:SignatureValue Id="SignatureValue327258">
-wanzGhC2zQ0vhT+jMYlIVzbVpxk4wykAzepxse5L8JXaKYmlcLbBOx5orbECulKBa3BQx66iA7K2
-kCr4LuRLvqj/t5dQ3RSylWDdhb/niZA859eRToi82J95zxXc3WDURjYEmyftVYekXtIx1FHTn5UN
-PwvME+TO7zfwQ5jScpsyIDlqJ9GoLXwk7G1gOoxRACZZgIvKKOXlvO9CCA4knPVyciE5DBgQKpxb
-kmkS/BvLstjf0twStiaCovxl53bONHZ461acxYeeN5+CdCK8NV3zfv+7EmUFHwvGIMpdVaNJjrRy
-eI6ojHRN5d8dnAMQNSf7VRtevf1BH6tN8nl56Q==
+<ds:SignatureValue Id="SignatureValue346787">
+n3OSwxpXumJLuPNDF3gibr2UZD8q0V9g6uFMAjTdGpuetHasMByhIiQqXYwcrDDhm8ekv9opaBkC
+BAUcsSR3SzeYvImrcDC5oVbuEDDvbOs7p/armxMOHMoA0AdKeG8Y/RQ4DGL7IVklj+mm2IjuWzMx
+NQTP3qoRUgUu6ri/IdJEvZh9SLo/zbEjq/oQO0T2TaijwKMrlyjqeCcODY7DkPaFp0I/u8S49Zdu
+f50TJhjtRapv+8oaYFMY2nKAd1/tsrD8Oeh5RIHG48Exu+qO4Fi38s3Pci3veVhEZEPyeN7s8lUO
+HPG4yolqioawlHVl8Mx7vTkwB58MIMv6o/9N5A==
 </ds:SignatureValue>
-<ds:KeyInfo Id="Certificate1205036">
+<ds:KeyInfo Id="Certificate1521252">
 <ds:X509Data>
 <ds:X509Certificate>
 MIILzzCCCbegAwIBAgIEUv9kCzANBgkqhkiG9w0BAQsFADCBmTELMAkGA1UEBhMCRUMxHTAbBgNV
@@ -191,4 +191,4 @@ o9jT5VPN6D86D5YMjDYUGPyGpL10cG6HtCQkd/uDLYzaPgZYGzeR/1obwuGQYtM8qaJhhegAYsov
 </ds:RSAKeyValue>
 </ds:KeyValue>
 </ds:KeyInfo>
-<ds:Object Id="Signature733033-Object470164"><etsi:QualifyingProperties Target="#Signature733033"><etsi:SignedProperties Id="Signature733033-SignedProperties869628"><etsi:SignedSignatureProperties><etsi:SigningTime>2025-05-12T07:48:41-05:00</etsi:SigningTime><etsi:SigningCertificate><etsi:Cert><etsi:CertDigest><ds:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1"/><ds:DigestValue>/sBZ5IDNJfcIMhONmdMrPaET9wI=</ds:DigestValue></etsi:CertDigest><etsi:IssuerSerial><ds:X509IssuerName>CN=AUTORIDAD DE CERTIFICACION SUBCA-2 SECURITY DATA,OU=ENTIDAD DE CERTIFICACION DE INFORMACION,O=SECURITY DATA S.A. 2,C=EC</ds:X509IssuerName><ds:X509SerialNumber>1392469003</ds:X509SerialNumber></etsi:IssuerSerial></etsi:Cert></etsi:SigningCertificate></etsi:SignedSignatureProperties><etsi:SignedDataObjectProperties><etsi:DataObjectFormat ObjectReference="#Reference-ID-790887"><etsi:Description>contenido comprobante</etsi:Description><etsi:MimeType>text/xml</etsi:MimeType></etsi:DataObjectFormat></etsi:SignedDataObjectProperties></etsi:SignedProperties></etsi:QualifyingProperties></ds:Object></ds:Signature></factura>
+<ds:Object Id="Signature570561-Object43657"><etsi:QualifyingProperties Target="#Signature570561"><etsi:SignedProperties Id="Signature570561-SignedProperties647691"><etsi:SignedSignatureProperties><etsi:SigningTime>2025-05-12T08:15:49-05:00</etsi:SigningTime><etsi:SigningCertificate><etsi:Cert><etsi:CertDigest><ds:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1"/><ds:DigestValue>/sBZ5IDNJfcIMhONmdMrPaET9wI=</ds:DigestValue></etsi:CertDigest><etsi:IssuerSerial><ds:X509IssuerName>CN=AUTORIDAD DE CERTIFICACION SUBCA-2 SECURITY DATA,OU=ENTIDAD DE CERTIFICACION DE INFORMACION,O=SECURITY DATA S.A. 2,C=EC</ds:X509IssuerName><ds:X509SerialNumber>1392469003</ds:X509SerialNumber></etsi:IssuerSerial></etsi:Cert></etsi:SigningCertificate></etsi:SignedSignatureProperties><etsi:SignedDataObjectProperties><etsi:DataObjectFormat ObjectReference="#Reference-ID-8244"><etsi:Description>contenido comprobante</etsi:Description><etsi:MimeType>text/xml</etsi:MimeType></etsi:DataObjectFormat></etsi:SignedDataObjectProperties></etsi:SignedProperties></etsi:QualifyingProperties></ds:Object></ds:Signature></factura>

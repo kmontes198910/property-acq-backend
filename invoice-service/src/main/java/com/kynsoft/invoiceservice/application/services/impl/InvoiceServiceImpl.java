@@ -9,7 +9,7 @@ import com.kynsoft.invoiceservice.dto.FacturaResponseDTO;
 import com.kynsoft.invoiceservice.infrastructure.entities.Customer;
 import com.kynsoft.invoiceservice.infrastructure.entities.InvoiceIssuer;
 import com.kynsoft.invoiceservice.infrastructure.entities.InvoiceIssuingSequence;
-import com.kynsoft.invoiceservice.infrastructure.repository.query.CustomerRepository;
+import com.kynsoft.invoiceservice.infrastructure.repository.query.CustomerReadRepository;
 import com.kynsoft.invoiceservice.infrastructure.repository.query.InvoiceIssuerRepository;
 import com.kynsoft.invoiceservice.infrastructure.repository.query.InvoiceReadRepository;
 import ec.e.facturacion.sri.modelo.ComprobanteBase;
@@ -32,7 +32,7 @@ import java.util.stream.Collectors;
 public class InvoiceServiceImpl implements InvoiceService {
 
     private final InvoiceReadRepository invoiceRepository;
-    private final CustomerRepository customerRepository;
+    private final CustomerReadRepository customerRepository;
     private final InvoiceIssuerRepository invoiceIssuerRepository;
 
     @Override
@@ -102,6 +102,7 @@ public class InvoiceServiceImpl implements InvoiceService {
         }
     }
 
+    @Transactional
     private Customer findOrUpdateCustomer(FacturaRequestDTO request) {
         Optional<Customer> existingCustomer = customerRepository
                 .findByIdNumber(request.getIdentificacionComprador());

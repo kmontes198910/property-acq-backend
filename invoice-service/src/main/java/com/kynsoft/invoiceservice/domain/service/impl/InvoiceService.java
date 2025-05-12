@@ -8,7 +8,7 @@ import com.kynsoft.invoiceservice.domain.service.ICustomerService;
 import com.kynsoft.invoiceservice.domain.service.IInvoiceService;
 import com.kynsoft.invoiceservice.dto.InvoiceIssuerDTO;
 import com.kynsoft.invoiceservice.infrastructure.entities.*;
-import com.kynsoft.invoiceservice.infrastructure.repository.query.CustomerRepository;
+import com.kynsoft.invoiceservice.infrastructure.repository.query.CustomerReadRepository;
 import com.kynsoft.invoiceservice.infrastructure.repository.query.InvoiceIssuerRepository;
 import com.kynsoft.invoiceservice.infrastructure.repository.query.InvoiceReadRepository;
 import lombok.RequiredArgsConstructor;
@@ -30,7 +30,7 @@ public class InvoiceService implements IInvoiceService {
 
     private final InvoiceReadRepository invoiceRepository;
     private final InvoiceWriteRepository invoiceWriteRepository;
-    private final CustomerRepository customerRepository;
+    private final CustomerReadRepository customerRepository;
     private final InvoiceIssuerRepository invoiceIssuerRepository;
     private final ICustomerService customerService;
 
@@ -262,6 +262,7 @@ public class InvoiceService implements IInvoiceService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public InvoiceDto findById(UUID id) {
         log.info("Buscando factura con ID: {}", id);
         
@@ -273,6 +274,7 @@ public class InvoiceService implements IInvoiceService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<InvoiceDto> search(UUID customerId, String documentNumber, InvoiceStatus status) {
         log.info("Buscando facturas con filtros - customerId: {}, documentNumber: {}, status: {}", 
                 customerId, documentNumber, status);
