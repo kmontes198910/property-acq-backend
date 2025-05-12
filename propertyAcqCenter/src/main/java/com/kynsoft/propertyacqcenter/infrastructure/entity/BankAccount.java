@@ -185,4 +185,11 @@ public class BankAccount {
                 .build();
     }
 
+    public BankAccountDto toAggregateBasic() {
+        return BankAccountDto.builder()
+                .id(this.id)
+                .bankName(bankName)
+                .build();
+    }
+
 }
