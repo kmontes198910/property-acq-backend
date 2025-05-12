@@ -69,6 +69,9 @@ public class LegalEntity {
     @Column(name = "annual_revenue")
     private Double annualRevenue;
 
+    @Column(name = "authorized_signer_government_id_copy")
+    private String authorizedSignerGovernmentIdCopy;
+
     @Column(name = "date_of_last_annual_report")
     private LocalDate dateOfLastAnnualReport;
 
@@ -137,6 +140,7 @@ public class LegalEntity {
         this.owner = dto.getOwner();
         this.entityFico = dto.getEntityFico();
         this.entityExperience = dto.getEntityExperience();
+        this.authorizedSignerGovernmentIdCopy = dto.getAuthorizedSignerGovernmentIdCopy();
     }
 
     public LegalEntityDto toAggregate() {
@@ -163,6 +167,7 @@ public class LegalEntity {
                 .owner(owner)
                 .entityExperience(entityExperience)
                 .entityFico(entityFico)
+                .authorizedSignerGovernmentIdCopy(authorizedSignerGovernmentIdCopy)
                 .build();
     }
 
@@ -203,6 +208,7 @@ public class LegalEntity {
                 .owner(owner)
                 .entityExperience(entityExperience)
                 .entityFico(entityFico)
+                .authorizedSignerGovernmentIdCopy(authorizedSignerGovernmentIdCopy)
                 .build();
     }
 }

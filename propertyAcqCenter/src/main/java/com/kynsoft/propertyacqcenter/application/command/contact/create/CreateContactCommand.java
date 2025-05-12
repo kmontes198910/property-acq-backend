@@ -2,11 +2,14 @@ package com.kynsoft.propertyacqcenter.application.command.contact.create;
 
 import com.kynsof.share.core.domain.bus.command.ICommand;
 import com.kynsof.share.core.domain.bus.command.ICommandMessage;
+import com.kynsoft.propertyacqcenter.domain.enums.ContactType;
 import lombok.Getter;
 
 import java.util.UUID;
+import lombok.Setter;
 
 @Getter
+@Setter
 public class CreateContactCommand implements ICommand {
 
     private UUID id;
@@ -16,12 +19,13 @@ public class CreateContactCommand implements ICommand {
     private String phoneNumber;
     private String position;
     private String department;
-    private String category;
+    private ContactType category;
     private String notes;
     private Boolean isActive;
     private UUID legalEntity;
+    private String personalEmail;
 
-    public CreateContactCommand(String firstName, String lastName, String email, String phoneNumber, String position, String department, String category, String notes, Boolean isActive, UUID legalEntityId) {
+    public CreateContactCommand(String firstName, String lastName, String email, String phoneNumber, String position, String department, ContactType category, String notes, Boolean isActive, UUID legalEntityId, String personalEmail) {
         this.id = UUID.randomUUID();
         this.firstName = firstName;
         this.lastName = lastName;
@@ -33,6 +37,7 @@ public class CreateContactCommand implements ICommand {
         this.notes = notes;
         this.isActive = isActive;
         this.legalEntity = legalEntityId;
+        this.personalEmail = personalEmail;
     }
 
     public static CreateContactCommand fromRequest(CreateContactRequest request){
@@ -46,7 +51,8 @@ public class CreateContactCommand implements ICommand {
                 request.getCategory(),
                 request.getNotes(),
                 request.getIsActive(),
-                request.getLegalEntity()
+                request.getLegalEntity(),
+                request.getPersonalEmail()
         );
     }
 

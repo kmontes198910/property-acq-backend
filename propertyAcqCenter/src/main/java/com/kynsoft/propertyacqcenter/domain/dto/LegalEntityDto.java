@@ -18,6 +18,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 public class LegalEntityDto {
+
     private UUID id;
     private String name;
     private String taxId;
@@ -45,14 +46,16 @@ public class LegalEntityDto {
     private UUID updatedBy;
     private String entityExperience;
     private Float entityFico;
+    private String authorizedSignerGovernmentIdCopy;
 
-    public LegalEntityDto(UUID id, String name, String taxId, EntityType entityType, 
-                          BusinessDto business, String formationState, LocalDate formationDate, 
-                          Month fiscalYearEnd, String businessDescription, 
-                          String website, String industry, Double annualRevenue, 
-                          LocalDate dateOfLastAnnualReport, LegalEntityDto parentEntityId, String notes, 
-                          EntityStatus status, UUID createdBy, UUID updatedBy,
-                          String owner, String entityExperience, Float entityFico) {
+    public LegalEntityDto(UUID id, String name, String taxId, EntityType entityType,
+            BusinessDto business, String formationState, LocalDate formationDate,
+            Month fiscalYearEnd, String businessDescription,
+            String website, String industry, Double annualRevenue,
+            LocalDate dateOfLastAnnualReport, LegalEntityDto parentEntityId, String notes,
+            EntityStatus status, UUID createdBy, UUID updatedBy,
+            String owner, String entityExperience, Float entityFico,
+            String authorizedSignerGovernmentIdCopy) {
         this.id = id;
         this.name = name;
         this.taxId = taxId;
@@ -74,6 +77,7 @@ public class LegalEntityDto {
         this.owner = owner;
         this.entityExperience = entityExperience;
         this.entityFico = entityFico;
+        this.authorizedSignerGovernmentIdCopy = authorizedSignerGovernmentIdCopy;
     }
 
 }
