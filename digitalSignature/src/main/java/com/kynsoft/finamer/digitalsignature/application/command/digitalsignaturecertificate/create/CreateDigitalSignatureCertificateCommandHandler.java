@@ -30,6 +30,7 @@ public class CreateDigitalSignatureCertificateCommandHandler implements ICommand
                 .certificatePassword(command.getCertificatePassword())
                 .expirationDate(command.getExpirationDate())
                 .isActive(true)
+                .isPrimaryKey(command.getIsPrimaryKey() != null ? command.getIsPrimaryKey() : false)
                 .businessId(command.getBusinessId()) // Se asignará en el servicio
                 .createdAt(LocalDateTime.now())
                 .updatedAt(LocalDateTime.now())

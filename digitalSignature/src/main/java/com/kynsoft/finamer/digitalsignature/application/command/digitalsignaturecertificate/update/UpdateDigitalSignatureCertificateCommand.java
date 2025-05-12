@@ -22,6 +22,7 @@ public class UpdateDigitalSignatureCertificateCommand implements ICommand {
     private String certificatePassword;
     private LocalDateTime expirationDate;
     private Boolean isActive;
+    private Boolean isPrimaryKey;
     private UUID businessId;
     private String updatedBy;
     
@@ -34,6 +35,7 @@ public class UpdateDigitalSignatureCertificateCommand implements ICommand {
                 .certificatePassword(request.getCertificatePassword())
                 .expirationDate(request.getExpirationDate())
                 .isActive(request.getIsActive())
+                .isPrimaryKey(request.getIsPrimaryKey())
                 .businessId(request.getBusinessId())
                 .updatedBy(userId)
                 .build();

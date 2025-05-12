@@ -44,6 +44,19 @@ public class DigitalSignatureCertificateServiceImpl implements IDigitalSignature
         if (certificate.getId() == null) {
             certificate.setId(UUID.randomUUID());
         }
+        
+        // Si se está marcando como llave principal, actualizar las demás llaves del usuario para quitar la marca
+        if (Boolean.TRUE.equals(certificate.getIsPrimaryKey())) {
+            log.info("Certificado marcado como llave principal. Actualizando otras llaves del usuario");
+            List<DigitalSignatureCertificate> userCertificates = certificateReadRepository.findByUserId(certificate.getUserId());
+            for (DigitalSignatureCertificate existingCert : userCertificates) {
+                if (Boolean.TRUE.equals(existingCert.getIsPrimaryKey())) {
+                    existingCert.setIsPrimaryKey(false);
+                    certificateWriteRepository.save(existingCert);
+                    log.debug("Certificado {} desmarcado como llave principal", existingCert.getId());
+                }
+            }
+        }
 
         return certificateWriteRepository.save(certificate);
     }
@@ -54,11 +67,26 @@ public class DigitalSignatureCertificateServiceImpl implements IDigitalSignature
         log.info("Actualizando certificado de firma digital con ID: {}", certificate.getId());
 
         // Verificar que el certificado existe
-        certificateReadRepository.findById(certificate.getId())
+        DigitalSignatureCertificate existingCert = certificateReadRepository.findById(certificate.getId())
                 .orElseThrow(() -> new BusinessException(DigitalSignatureErrorMessage.CERTIFICATE_NOT_FOUND, certificate.getId().toString()));
 
         // Establecer quien actualiza el certificado
         certificate.setUpdatedBy(updatedBy);
+        
+        // Si se está marcando como llave principal, actualizar las demás llaves del usuario para quitar la marca
+        if (Boolean.TRUE.equals(certificate.getIsPrimaryKey()) && 
+            (!Boolean.TRUE.equals(existingCert.getIsPrimaryKey()) || !existingCert.getUserId().equals(certificate.getUserId()))) {
+            
+            log.info("Certificado marcado como llave principal. Actualizando otras llaves del usuario");
+            List<DigitalSignatureCertificate> userCertificates = certificateReadRepository.findByUserId(certificate.getUserId());
+            for (DigitalSignatureCertificate otherCert : userCertificates) {
+                if (!otherCert.getId().equals(certificate.getId()) && Boolean.TRUE.equals(otherCert.getIsPrimaryKey())) {
+                    otherCert.setIsPrimaryKey(false);
+                    certificateWriteRepository.save(otherCert);
+                    log.debug("Certificado {} desmarcado como llave principal", otherCert.getId());
+                }
+            }
+        }
 
         return certificateWriteRepository.save(certificate);
     }
@@ -136,6 +164,7 @@ public class DigitalSignatureCertificateServiceImpl implements IDigitalSignature
                 .certificateP12Base64(entity.getCertificateP12() != null ? 
                     java.util.Base64.getEncoder().encodeToString(entity.getCertificateP12()) : null)
                 .isActive(entity.getIsActive())
+                .isPrimaryKey(entity.getIsPrimaryKey())
                 .expirationDate(entity.getExpirationDate())
                 .businessId(entity.getBusiness() != null ? entity.getBusiness().getId() : null)
                 .createdAt(entity.getCreatedAt())
@@ -160,6 +189,7 @@ public class DigitalSignatureCertificateServiceImpl implements IDigitalSignature
                 .certificatePassword(entity.getCertificatePassword())
                 .expirationDate(entity.getExpirationDate())
                 .isActive(entity.getIsActive())
+                .isPrimaryKey(entity.getIsPrimaryKey())
                 .businessId(entity.getBusiness() != null ? entity.getBusiness().getId() : null)
                 .businessName(entity.getBusiness() != null ? entity.getBusiness().getName() : null)
                 .createdBy(entity.getCreatedBy())

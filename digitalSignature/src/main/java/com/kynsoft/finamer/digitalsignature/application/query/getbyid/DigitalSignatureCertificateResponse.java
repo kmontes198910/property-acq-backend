@@ -27,6 +27,8 @@ public class DigitalSignatureCertificateResponse implements IResponse {
 
     private Boolean isActive;
 
+    private Boolean isPrimaryKey;
+
     private UUID businessId;
 
     private String businessName;
@@ -43,6 +45,7 @@ public class DigitalSignatureCertificateResponse implements IResponse {
         this.certificatePassword = certificateDto.getCertificatePassword();
         this.expirationDate = certificateDto.getExpirationDate();
         this.isActive = certificateDto.getIsActive();
+        this.isPrimaryKey = certificateDto.getIsPrimaryKey();
         this.businessId = certificateDto.getBusinessId();
         this.businessName = certificateDto.getBusinessName();
         this.createdAt = certificateDto.getCreatedAt();

@@ -18,5 +18,6 @@ public class UpdateDigitalSignatureCertificateRequest {
     private String certificatePassword;
     private LocalDateTime expirationDate;
     private Boolean isActive;
+    private Boolean isPrimaryKey;
     private UUID businessId;
 }

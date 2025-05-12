@@ -45,6 +45,7 @@ public class GetDigitalSignatureCertificateByIdQueryHandler implements IQueryHan
                 .certificatePassword(entity.getCertificatePassword())
                 .expirationDate(entity.getExpirationDate())
                 .isActive(entity.getIsActive())
+                .isPrimaryKey(entity.getIsPrimaryKey())
                 .businessId(entity.getBusiness() != null ? entity.getBusiness().getId() : null)
                 .businessName(entity.getBusiness() != null ? entity.getBusiness().getName() : null)
                 .createdAt(entity.getCreatedAt())

@@ -43,6 +43,9 @@ public class DigitalSignatureCertificate {
     
     @Column(name = "is_active", nullable = false)
     private Boolean isActive;
+    
+    @Column(name = "is_primary_key", nullable = false, columnDefinition = "boolean default false")
+    private Boolean isPrimaryKey;
 
     @Column(name = "business_id", nullable = false)
     private UUID businessId;

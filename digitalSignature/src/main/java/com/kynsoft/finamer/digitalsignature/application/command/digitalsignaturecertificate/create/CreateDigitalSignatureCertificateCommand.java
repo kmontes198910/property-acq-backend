@@ -22,6 +22,7 @@ public class CreateDigitalSignatureCertificateCommand implements ICommand {
     private byte[] certificateP12;
     private String certificatePassword;
     private LocalDateTime expirationDate;
+    private Boolean isPrimaryKey;
     private UUID businessId;
     private String createdBy;
     
@@ -34,6 +35,7 @@ public class CreateDigitalSignatureCertificateCommand implements ICommand {
                         Base64.getDecoder().decode(request.getCertificateP12Base64()) : null)
                 .certificatePassword(request.getCertificatePassword())
                 .expirationDate(request.getExpirationDate())
+                .isPrimaryKey(request.getIsPrimaryKey())
                 .businessId(request.getBusinessId())
                 .createdBy(userId)
                 .build();

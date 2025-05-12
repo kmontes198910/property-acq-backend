@@ -23,6 +23,7 @@ public class DigitalSignatureCertificateResponse implements IResponse {
     private String certificateName;
     private String certificateP12Base64;
     private Boolean isActive;
+    private Boolean isPrimaryKey;
     private LocalDateTime expirationDate;
     private UUID businessId;
     private LocalDateTime createdAt;

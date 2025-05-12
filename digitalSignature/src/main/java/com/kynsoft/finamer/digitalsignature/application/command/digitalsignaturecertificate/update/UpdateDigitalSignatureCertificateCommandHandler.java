@@ -55,6 +55,10 @@ public class UpdateDigitalSignatureCertificateCommandHandler implements ICommand
             existingCertificate.setIsActive(command.getIsActive());
         }
         
+        if (command.getIsPrimaryKey() != null) {
+            existingCertificate.setIsPrimaryKey(command.getIsPrimaryKey());
+        }
+        
         existingCertificate.setUpdatedAt(LocalDateTime.now());
         
         digitalSignatureCertificateService.update(existingCertificate, command.getBusinessId(), command.getUpdatedBy());
