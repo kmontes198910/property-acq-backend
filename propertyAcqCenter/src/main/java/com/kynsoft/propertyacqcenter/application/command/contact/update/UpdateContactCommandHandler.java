@@ -32,7 +32,8 @@ public class UpdateContactCommandHandler implements ICommandHandler<UpdateContac
                 command.getCategory(),
                 command.getNotes(),
                 command.getIsActive(),
-                legalEntityDto
+                legalEntityDto,
+                command.getPersonalEmail()
         ));
     }
 }

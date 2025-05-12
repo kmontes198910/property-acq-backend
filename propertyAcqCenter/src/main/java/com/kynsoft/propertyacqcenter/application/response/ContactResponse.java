@@ -2,6 +2,7 @@ package com.kynsoft.propertyacqcenter.application.response;
 
 import com.kynsof.share.core.domain.bus.query.IResponse;
 import com.kynsoft.propertyacqcenter.domain.dto.ContactDto;
+import com.kynsoft.propertyacqcenter.domain.enums.ContactType;
 import lombok.*;
 
 import java.time.LocalDateTime;
@@ -21,12 +22,13 @@ public class ContactResponse implements IResponse {
     private String phoneNumber;
     private String position;
     private String department;
-    private String category;
+    private ContactType category;
     private String notes;
     private Boolean isActive;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
     private LegalEntityBasicResponse legalEntity;
+    private String personalEmail;
 
     public ContactResponse(ContactDto contactDto){
         this.id = contactDto.getId();
@@ -42,5 +44,6 @@ public class ContactResponse implements IResponse {
         this.createdAt = contactDto.getCreatedAt();
         this.updatedAt = contactDto.getUpdatedAt();
         this.legalEntity = new LegalEntityBasicResponse(contactDto.getLegalEntity());
+        this.personalEmail = contactDto.getPersonalEmail();
     }
 }

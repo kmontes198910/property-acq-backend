@@ -1,6 +1,7 @@
 package com.kynsoft.propertyacqcenter.infrastructure.entity;
 
 import com.kynsoft.propertyacqcenter.domain.dto.ContactDto;
+import com.kynsoft.propertyacqcenter.domain.enums.ContactType;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
@@ -31,6 +32,9 @@ public class Contact {
     @Column(name = "email")
     private String email;
 
+    @Column(name = "personal_email")
+    private String personalEmail;
+
     @Column(name = "phone_number")
     private String phoneNumber;
     
@@ -41,7 +45,7 @@ public class Contact {
     private String department;
     
     @Column(name = "category")
-    private String category;
+    private ContactType category;
     
     @Column(name = "notes", columnDefinition = "TEXT")
     private String notes;
@@ -80,6 +84,7 @@ public class Contact {
                 .createdAt(this.createdAt)
                 .updatedAt(this.updatedAt)
                 .legalEntity(this.legalEntity != null ? this.legalEntity.toAggregateBasic() : null)
+                .personalEmail(personalEmail)
                 .build();
     }
 
@@ -97,6 +102,7 @@ public class Contact {
                 .isActive(this.isActive)
                 .createdAt(this.createdAt)
                 .updatedAt(this.updatedAt)
+                .personalEmail(personalEmail)
                 .legalEntity(this.legalEntity != null ? this.legalEntity.toAggregateFindById() : null)
                 .build();
     }
@@ -119,6 +125,7 @@ public class Contact {
         this.createdAt = dto.getCreatedAt();
         this.updatedAt = dto.getUpdatedAt();
         this.legalEntity = new LegalEntity(dto.getLegalEntity());
+        this.personalEmail = dto.getPersonalEmail();
         // Las relaciones con LegalEntity y Business deben ser establecidas externamente
     }
 }

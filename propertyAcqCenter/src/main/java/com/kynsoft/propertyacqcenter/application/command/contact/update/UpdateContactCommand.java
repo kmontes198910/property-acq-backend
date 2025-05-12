@@ -2,6 +2,7 @@ package com.kynsoft.propertyacqcenter.application.command.contact.update;
 
 import com.kynsof.share.core.domain.bus.command.ICommand;
 import com.kynsof.share.core.domain.bus.command.ICommandMessage;
+import com.kynsoft.propertyacqcenter.domain.enums.ContactType;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -18,10 +19,11 @@ public class UpdateContactCommand implements ICommand {
     private String phoneNumber;
     private String position;
     private String department;
-    private String category;
+    private ContactType category;
     private String notes;
     private Boolean isActive;
     private UUID legalEntity;
+    private String personalEmail;
 
     public static UpdateContactCommand fromRequest(UUID id, UpdateContactRequest request) {
         return new UpdateContactCommand(
@@ -35,7 +37,8 @@ public class UpdateContactCommand implements ICommand {
                 request.getCategory(),
                 request.getNotes(),
                 request.getIsActive(),
-                request.getLegalEntity()
+                request.getLegalEntity(),
+                request.getPersonalEmail()
         );
     }
 
