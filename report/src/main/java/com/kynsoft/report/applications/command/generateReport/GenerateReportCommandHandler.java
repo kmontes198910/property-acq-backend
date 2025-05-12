@@ -1,7 +1,6 @@
 package com.kynsoft.report.applications.command.generateReport;
 
 import com.kynsof.share.core.domain.bus.command.ICommandHandler;
-import com.kynsoft.report.config.ReportConfiguration;
 import com.kynsoft.report.domain.dto.DBConnectionDto;
 import com.kynsoft.report.domain.dto.JasperReportTemplateDto;
 import com.kynsoft.report.domain.services.IJasperReportTemplateService;
@@ -17,10 +16,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.lang.reflect.Method;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -28,8 +24,6 @@ import java.sql.SQLException;
 import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 @Component
 public class GenerateReportCommandHandler implements ICommandHandler<GenerateReportCommand> {
@@ -52,12 +46,9 @@ public class GenerateReportCommandHandler implements ICommandHandler<GenerateRep
     private final ConcurrentHashMap<String, JasperReport> jasperReportCache = new ConcurrentHashMap<>();
     
     private final IJasperReportTemplateService jasperReportTemplateService;
-    private final ReportConfiguration reportConfiguration;
 
-    public GenerateReportCommandHandler(IJasperReportTemplateService jasperReportTemplateService,
-                                        ReportConfiguration reportConfiguration) {
+    public GenerateReportCommandHandler(IJasperReportTemplateService jasperReportTemplateService) {
         this.jasperReportTemplateService = jasperReportTemplateService;
-        this.reportConfiguration = reportConfiguration;
     }
 
     @Override
@@ -91,8 +82,26 @@ public class GenerateReportCommandHandler implements ICommandHandler<GenerateRep
             throw new IllegalArgumentException("Database connection details are missing.");
         }
         
-        if (reportTemplateDto.getJasperContentBase64() == null || reportTemplateDto.getJasperContentBase64().isEmpty()) {
-            throw new IllegalArgumentException("Jasper content is missing or empty.");
+        // Verificar si existe el archivo en el sistema de archivos
+        boolean fileExists = false;
+        String templateContentUrl = reportTemplateDto.getTemplateContentUrl();
+        if (templateContentUrl != null && !templateContentUrl.isEmpty()) {
+            java.io.File jasperFile = new java.io.File(templateContentUrl);
+            if (jasperFile.exists() && jasperFile.isFile() && jasperFile.canRead()) {
+                fileExists = true;
+                logger.debug("Archivo Jasper encontrado en el sistema de archivos: {}", templateContentUrl);
+            } else {
+                logger.debug("Archivo Jasper no encontrado en el sistema de archivos: {}", templateContentUrl);
+            }
+        }
+        
+        // Verificar si existe el contenido en Base64
+        boolean base64Exists = reportTemplateDto.getJasperContentBase64() != null && 
+                              !reportTemplateDto.getJasperContentBase64().isEmpty();
+        
+        // Lanzar error solo si no existe ni el archivo ni el contenido Base64
+        if (!fileExists && !base64Exists) {
+            throw new IllegalArgumentException("No se encontró el archivo Jasper en el sistema de archivos ni contenido Base64 en la base de datos.");
         }
     }
 
@@ -160,16 +169,35 @@ public class GenerateReportCommandHandler implements ICommandHandler<GenerateRep
         
         // Si hay actualizaciones recientes en la plantilla, no usar caché
         if (isRecentlyUpdated(reportTemplateDto)) {
-            logger.debug("Plantilla de reporte actualizada recientemente, recargando desde la base de datos");
+            logger.debug("Plantilla de reporte actualizada recientemente, recargando");
             jasperReportCache.remove(reportKey);
         }
         
         // Intentar obtener de caché primero
         return jasperReportCache.computeIfAbsent(reportKey, key -> {
             try {
+                // Primero, intentar cargar desde el sistema de archivos si existe la ruta del archivo
+                String templateContentUrl = reportTemplateDto.getTemplateContentUrl();
+                if (templateContentUrl != null && !templateContentUrl.isEmpty()) {
+                    java.io.File jasperFile = new java.io.File(templateContentUrl);
+                    if (jasperFile.exists() && jasperFile.isFile() && jasperFile.canRead()) {
+                        logger.debug("Cargando archivo Jasper desde el sistema de archivos: {}", templateContentUrl);
+                        try {
+                            return (JasperReport) JRLoader.loadObject(jasperFile);
+                        } catch (JRException e) {
+                            logger.warn("Error al cargar archivo Jasper desde el sistema de archivos: {}. Intentando desde Base64", e.getMessage());
+                            // Continuar y usar el contenido Base64 como respaldo
+                        }
+                    } else {
+                        logger.debug("Archivo Jasper no encontrado en el sistema de archivos: {}. Usando Base64", templateContentUrl);
+                    }
+                }
+                
+                // Si no se pudo cargar desde el sistema de archivos, usar el contenido Base64
+                logger.debug("Cargando archivo Jasper desde el contenido Base64 almacenado en la base de datos");
                 return loadCompiledJasperFromBase64(reportTemplateDto.getJasperContentBase64());
             } catch (Exception e) {
-                logger.error("Error loading jasper report: {}", e.getMessage());
+                logger.error("Error loading jasper report: {}", e.getMessage(), e);
                 throw new RuntimeException("Error loading jasper report", e);
             }
         });
@@ -285,24 +313,5 @@ public class GenerateReportCommandHandler implements ICommandHandler<GenerateRep
         props.setProperty("reWriteBatchedInserts", "true");
         
         return DriverManager.getConnection(dbConnection.getUrl(), props);
-    }
-
-    private String replaceQueryParameters(String query, Map<String, Object> parameters) {
-        Pattern pattern = Pattern.compile("::([a-zA-Z]\\w*)");
-        Matcher matcher = pattern.matcher(query);
-        StringBuffer resultQuery = new StringBuffer();
-
-        while (matcher.find()) {
-            String paramName = matcher.group(1);
-            Object value = parameters.get(paramName);
-
-            if (value == null) {
-                throw new IllegalArgumentException("Parameter " + paramName + " not found in the parameters map.");
-            }
-            matcher.appendReplacement(resultQuery, value.toString());
-        }
-        matcher.appendTail(resultQuery);
-
-        return resultQuery.toString();
     }
 }
