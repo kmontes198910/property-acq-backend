@@ -30,4 +30,5 @@ public class UpdateLegalEntityRequest {
     private String owner;
     private String entityExperience;
     private Float entityFico;
+    private String authorizedSignerGovernmentIdCopy;
 }
