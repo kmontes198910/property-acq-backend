@@ -1,5 +1,6 @@
 package com.kynsoft.propertyacqcenter.domain.dto;
 
+import com.kynsoft.propertyacqcenter.domain.enums.ContactType;
 import lombok.*;
 
 import java.time.LocalDateTime;
@@ -19,14 +20,15 @@ public class ContactDto {
     private String phoneNumber;
     private String position;
     private String department;
-    private String category;
+    private ContactType category;
     private String notes;
     private Boolean isActive;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
     private LegalEntityDto legalEntity;
+    private String personalEmail;
 
-    public ContactDto(UUID id, String firstName, String lastName, String email, String phoneNumber, String position, String department, String category, String notes, Boolean isActive, LegalEntityDto legalEntity) {
+    public ContactDto(UUID id, String firstName, String lastName, String email, String phoneNumber, String position, String department, ContactType category, String notes, Boolean isActive, LegalEntityDto legalEntity, String personalEmail) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -38,6 +40,7 @@ public class ContactDto {
         this.notes = notes;
         this.isActive = isActive;
         this.legalEntity = legalEntity;
+        this.personalEmail = personalEmail;
     }
 
     /**

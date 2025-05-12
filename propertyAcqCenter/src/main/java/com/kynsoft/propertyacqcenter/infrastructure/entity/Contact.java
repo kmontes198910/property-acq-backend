@@ -1,6 +1,7 @@
 package com.kynsoft.propertyacqcenter.infrastructure.entity;
 
 import com.kynsoft.propertyacqcenter.domain.dto.ContactDto;
+import com.kynsoft.propertyacqcenter.domain.enums.ContactType;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
@@ -31,6 +32,9 @@ public class Contact {
     @Column(name = "email")
     private String email;
 
+    @Column(name = "personal_email")
+    private String personalEmail;
+
     @Column(name = "phone_number")
     private String phoneNumber;
     
@@ -41,7 +45,7 @@ public class Contact {
     private String department;
     
     @Column(name = "category")
-    private String category;
+    private ContactType category;
     
     @Column(name = "notes", columnDefinition = "TEXT")
     private String notes;

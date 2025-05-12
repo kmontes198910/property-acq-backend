@@ -44,6 +44,7 @@ public class CreateContactCommandHandler implements ICommandHandler<CreateContac
                 .notes(command.getNotes())
                 .isActive(command.getIsActive())
                 .legalEntity(legalEntityDto)
+                .personalEmail(command.getPersonalEmail())
                 .build();
 
         this.contactService.create(contactDto);
