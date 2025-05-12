@@ -1,15 +1,17 @@
 package com.kynsoft.invoiceservice.application.services.impl;
 
+import com.kynsoft.invoiceservice.application.command.invoice.generate.request.CampoAdicionalRequest;
+import com.kynsoft.invoiceservice.application.command.invoice.generate.request.DetalleFacturaRequest;
+import com.kynsoft.invoiceservice.application.command.invoice.generate.request.PagoRequest;
 import com.kynsoft.invoiceservice.application.services.InvoiceService;
-import com.kynsoft.invoiceservice.dto.*;
+import com.kynsoft.invoiceservice.dto.FacturaRequestDTO;
+import com.kynsoft.invoiceservice.dto.FacturaResponseDTO;
 import com.kynsoft.invoiceservice.infrastructure.entities.Customer;
 import com.kynsoft.invoiceservice.infrastructure.entities.InvoiceIssuer;
 import com.kynsoft.invoiceservice.infrastructure.entities.InvoiceIssuingSequence;
-
 import com.kynsoft.invoiceservice.infrastructure.repository.query.CustomerRepository;
 import com.kynsoft.invoiceservice.infrastructure.repository.query.InvoiceIssuerRepository;
 import com.kynsoft.invoiceservice.infrastructure.repository.query.InvoiceRepository;
-import ec.e.facturacion.sri.constante.Regimen;
 import ec.e.facturacion.sri.modelo.ComprobanteBase;
 import ec.e.facturacion.sri.modelo.Factura;
 import lombok.RequiredArgsConstructor;
@@ -165,8 +167,8 @@ public class InvoiceServiceImpl implements InvoiceService {
         return String.format("%09d", nextSequential);
     }
 
-    private Factura createfactura(InvoiceIssuer issuer, String sequential, List<DetalleFacturaDTO> detallesDTO,
-                                  Customer customer, BigDecimal propina, List<PagoDTO> pagos, List<CampoAdicionalDTO> infoAdicional) {
+    private Factura createfactura(InvoiceIssuer issuer, String sequential, List<DetalleFacturaRequest> detallesDTO,
+                                  Customer customer, BigDecimal propina, List<PagoRequest> pagos, List<CampoAdicionalRequest> infoAdicional) {
         // Información básica de la factura
         String ruc = issuer.getRuc();
         String razonSocial = issuer.getBusinessName();

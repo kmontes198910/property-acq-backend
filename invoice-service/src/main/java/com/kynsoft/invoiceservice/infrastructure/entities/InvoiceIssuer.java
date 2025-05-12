@@ -1,8 +1,7 @@
 package com.kynsoft.invoiceservice.infrastructure.entities;
 
-import lombok.*;
-
 import jakarta.persistence.*;
+import lombok.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,6 +28,9 @@ public class InvoiceIssuer {
     @Column(name = "commercial_name")
     private String commercialName;
 
+    // Agregando el campo moneda
+    @Column(name = "currency")
+    private String currency;
 
     @Column(name = "establishment")
     private String establishment;
@@ -45,11 +47,23 @@ public class InvoiceIssuer {
 
     private String phone;
 
+    // Agregando campo sitio web
+    @Column(name = "website")
+    private String website;
+
     @Column(name = "special_taxpayer")
     private String specialTaxpayer;
 
     @Column(name = "retention_agent")
     private String retentionAgent;
+
+    // Agregando campo obligado a llevar contabilidad
+    @Column(name = "accounting_obligated")
+    private Boolean accountingObligated;
+
+    // Agregando campo régimen microempresas
+    @Column(name = "microenterprises_regime")
+    private Boolean microenterprisesRegime;
 
     @Column(name = "rimpe_regime")
     private String rimpeRegime;
@@ -59,6 +73,10 @@ public class InvoiceIssuer {
 
     @Column(name = "environment", columnDefinition = "varchar(1)")
     private String environment = "1";
+
+    // Agregando campo para enviar correos a destinatarios
+    @Column(name = "send_emails")
+    private Boolean sendEmails;
 
     @Column(name = "status")
     private Boolean status;

@@ -1,0 +1,54 @@
+package com.kynsoft.invoiceservice.application.query.invoiceIssuer.getById;
+
+import com.kynsof.share.core.domain.bus.query.IResponse;
+import com.kynsoft.invoiceservice.infrastructure.entities.InvoiceIssuer;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import java.util.UUID;
+
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+public class InvoiceIssuerResponse implements IResponse {
+    private UUID id;
+    private String ruc;
+    private String businessName;
+    private String commercialName;
+    private String establishment;
+    private boolean pointOfSale;
+    private String address;
+    private String emissionPoint;
+    private String email;
+    private String phone;
+    private String specialTaxpayer;
+    private String retentionAgent;
+    private String rimpeRegime;
+    private String logoUrl;
+    private String environment;
+    private Boolean status;
+    
+    public static InvoiceIssuerResponse fromEntity(InvoiceIssuer issuer) {
+        return InvoiceIssuerResponse.builder()
+                .id(issuer.getId())
+                .ruc(issuer.getRuc())
+                .businessName(issuer.getBusinessName())
+                .commercialName(issuer.getCommercialName())
+                .establishment(issuer.getEstablishment())
+                .pointOfSale(issuer.getPointOfSale())
+                .address(issuer.getAddress())
+                .emissionPoint(issuer.getEmissionPoint())
+                .email(issuer.getEmail())
+                .phone(issuer.getPhone())
+                .specialTaxpayer(issuer.getSpecialTaxpayer())
+                .retentionAgent(issuer.getRetentionAgent())
+                .rimpeRegime(issuer.getRimpeRegime())
+                .logoUrl(issuer.getLogoUrl())
+                .environment(issuer.getEnvironment())
+                .status(issuer.getStatus())
+                .build();
+    }
+}

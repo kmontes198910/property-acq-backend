@@ -13,7 +13,8 @@ public enum DigitalSignatureErrorMessage {
     CERTIFICATE_PASSWORD_INCORRECT("DSERR-004", "La contraseña del certificado es incorrecta"),
     CERTIFICATE_ALREADY_EXISTS("DSERR-005", "Ya existe un certificado de firma digital con ese nombre para el usuario"),
     BUSINESS_NOT_FOUND("DSERR-006", "Negocio no encontrado"),
-    USER_NOT_FOUND("DSERR-007", "Usuario no encontrado"), CERTIFICATE_NOT_BELONG_TO_USER("DSERR-007", "El certificado no pertenece al usuario"),;
+    USER_NOT_FOUND("DSERR-007", "Usuario no encontrado"),
+    CERTIFICATE_NOT_BELONG_TO_USER("DSERR-007", "El certificado no pertenece al usuario"),;
 
     private final String code;
     private final String message;

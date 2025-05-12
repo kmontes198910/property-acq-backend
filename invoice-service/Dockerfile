@@ -44,7 +44,7 @@ USER appuser
 # Variables de entorno para configuración de memoria en Java
 ENV JAVA_OPTS="-XX:+UseContainerSupport -XX:MaxRAMPercentage=70"
 
-# Puerto de la aplicación
+# Puerto de la aplicación1
 EXPOSE 9801
 
 # Comando para ejecutar la aplicación

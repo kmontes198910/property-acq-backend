@@ -2,7 +2,6 @@ package com.kynsoft.invoiceservice.application.services;
 
 import com.kynsoft.invoiceservice.dto.FacturaRequestDTO;
 import com.kynsoft.invoiceservice.dto.FacturaResponseDTO;
-import com.kynsoft.invoiceservice.infrastructure.entities.Invoice;
 
 public interface InvoiceService {
     /**

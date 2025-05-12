@@ -1,13 +1,9 @@
 package com.kynsoft.invoiceservice.infrastructure.entities;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
 import jakarta.persistence.*;
+import lombok.*;
+
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
@@ -16,11 +12,17 @@ import java.util.UUID;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@Getter
 public class Product {
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
+    
+    @Column(nullable = false)
+    private String name;
+    
+    private String description;
     
     @Column(name = "main_code", nullable = false)
     private String mainCode;
@@ -28,49 +30,25 @@ public class Product {
     @Column(name = "auxiliary_code")
     private String auxiliaryCode;
     
+    @Column(nullable = false, precision = 19, scale = 4)
+    private BigDecimal price;
+    
     @Column(nullable = false)
-    private String name;
+    private Integer stock;
     
-    @Column(length = 1000)
-    private String description;
+    @Column(name = "tax_code", nullable = false)
+    private String taxCode;
     
-    @Column(name = "unit_price", nullable = false)
-    private BigDecimal unitPrice;
+    @Column(name = "tax_percentage", nullable = false, precision = 5, scale = 2)
+    private BigDecimal taxPercentage;
     
-    @Column(name = "unit_of_measure")
-    private String unitOfMeasure;
+    @Column(name = "is_service")
+    private Boolean isService;
     
-    @Column(name = "iva_code")
-    private String ivaCode;
+    @Column(nullable = false)
+    private Boolean status;
     
-    @Column(name = "iva_rate")
-    private BigDecimal ivaRate;
-    
-    @Column(name = "ice_code")
-    private String iceCode;
-    
-    @Column(name = "ice_rate")
-    private BigDecimal iceRate;
-    
-    @Column(name = "is_active", nullable = false)
-    private Boolean isActive;
-    
-    @Column(name = "created_at", nullable = false)
-    private LocalDateTime createdAt;
-    
-    @Column(name = "updated_at")
-    private LocalDateTime updatedAt;
-    
-    @PrePersist
-    protected void onCreate() {
-        createdAt = LocalDateTime.now();
-        if (isActive == null) {
-            isActive = true;
-        }
-    }
-    
-    @PreUpdate
-    protected void onUpdate() {
-        updatedAt = LocalDateTime.now();
-    }
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "category_id")
+    private ProductCategory category;
 }
