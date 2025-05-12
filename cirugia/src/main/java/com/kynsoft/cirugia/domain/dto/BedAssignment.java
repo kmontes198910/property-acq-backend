@@ -18,14 +18,9 @@ public class BedAssignment {
     private UUID surgeryId;
     private UUID bedId;
     private LocalDateTime assignmentDate;
-    private LocalDateTime plannedReleaseDate;
-    private LocalDateTime actualReleaseDate;
+    private LocalDateTime releaseDate;
     private String status;
-    private String medicalNotes;
-    private String vitalSigns;
-    private String careInstructions;
     private UUID assignedBy;
-    private UUID releasedBy;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
     private UUID createdBy;

@@ -1,6 +1,5 @@
 package com.kynsoft.cirugia.infrastructure.services;
 
-import com.kynsof.share.core.domain.exception.BusinessException;
 import com.kynsof.share.core.domain.request.FilterCriteria;
 import com.kynsof.share.core.domain.response.PaginatedResponse;
 import com.kynsof.share.core.infrastructure.specifications.GenericSpecificationsBuilder;
@@ -191,8 +190,8 @@ public class BedAssignmentServiceImpl implements IBedAssignmentService {
         BedAssignmentEntity assignment = optionalAssignment.get();
         LocalDateTime releaseDate = LocalDateTime.now();
         
-        // Actualizar la asignación
-        bedAssignmentWriteRepository.release(assignmentId, releaseDate, releasedBy);
+        // Actualizar la asignación con la fecha de liberación
+        bedAssignmentWriteRepository.release(assignmentId, releaseDate);
         
         // Cambiar el estado de la cama a disponible
       //  recoveryBedWriteRepository.updateStatus(assignment.getBedId(), RecoveryBedConstants.BED_STATUS_AVAILABLE);
@@ -228,14 +227,9 @@ public class BedAssignmentServiceImpl implements IBedAssignmentService {
                 .surgeryId(entity.getSurgeryId())
                 .bedId(entity.getBedId())
                 .assignmentDate(entity.getAssignmentDate())
-                .plannedReleaseDate(entity.getPlannedReleaseDate())
-                .actualReleaseDate(entity.getActualReleaseDate())
+                .releaseDate(entity.getReleaseDate())
                 .status(entity.getStatus())
-                .medicalNotes(entity.getMedicalNotes())
-                .vitalSigns(entity.getVitalSigns())
-                .careInstructions(entity.getCareInstructions())
                 .assignedBy(entity.getAssignedBy())
-                .releasedBy(entity.getReleasedBy())
                 .businessId(entity.getBusinessId())
                 .createdAt(entity.getCreatedAt())
                 .updatedAt(entity.getUpdatedAt())
@@ -251,14 +245,9 @@ public class BedAssignmentServiceImpl implements IBedAssignmentService {
                 .surgeryId(bedAssignment.getSurgeryId())
                 .bedId(bedAssignment.getBedId())
                 .assignmentDate(bedAssignment.getAssignmentDate())
-                .plannedReleaseDate(bedAssignment.getPlannedReleaseDate())
-                .actualReleaseDate(bedAssignment.getActualReleaseDate())
+                .releaseDate(bedAssignment.getReleaseDate())
                 .status(bedAssignment.getStatus())
-                .medicalNotes(bedAssignment.getMedicalNotes())
-                .vitalSigns(bedAssignment.getVitalSigns())
-                .careInstructions(bedAssignment.getCareInstructions())
                 .assignedBy(bedAssignment.getAssignedBy())
-                .releasedBy(bedAssignment.getReleasedBy())
                 .businessId(bedAssignment.getBusinessId())
                 .createdAt(bedAssignment.getCreatedAt())
                 .updatedAt(bedAssignment.getUpdatedAt())
