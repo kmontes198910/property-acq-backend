@@ -21,6 +21,6 @@ public interface BedAssignmentWriteRepository extends JpaRepository<BedAssignmen
     
     @Modifying
     @Transactional
-    @Query("UPDATE BedAssignmentEntity b SET b.status = 'COMPLETED', b.actualReleaseDate = :releaseDate, b.releasedBy = :releasedBy WHERE b.id = :id")
-    void release(@Param("id") UUID id, @Param("releaseDate") LocalDateTime releaseDate, @Param("releasedBy") UUID releasedBy);
+    @Query("UPDATE BedAssignmentEntity b SET b.status = 'COMPLETED', b.releaseDate = :releaseDate WHERE b.id = :id")
+    void release(@Param("id") UUID id, @Param("releaseDate") LocalDateTime releaseDate);
 }
