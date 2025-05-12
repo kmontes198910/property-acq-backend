@@ -3,6 +3,7 @@ package com.kynsoft.propertyacqcenter.application.command.legalEntity.create;
 import com.kynsof.share.core.domain.bus.command.ICommandHandler;
 import com.kynsoft.propertyacqcenter.domain.dto.BusinessDto;
 import com.kynsoft.propertyacqcenter.domain.dto.LegalEntityDto;
+import com.kynsoft.propertyacqcenter.domain.dto.exception.legalEntity.LegalEntityEntityFicoException;
 import com.kynsoft.propertyacqcenter.domain.dto.exception.legalEntity.LegalEntityTaxIdMustBeUniqueException;
 import com.kynsoft.propertyacqcenter.domain.services.IBusinessService;
 import com.kynsoft.propertyacqcenter.domain.services.ILegalEntityService;
@@ -13,6 +14,9 @@ public class CreateLegalEntityCommandHandler implements ICommandHandler<CreateLe
 
     private final ILegalEntityService legalEntityService;
     private final IBusinessService businessService;
+
+    private static final float MIN_FICO = 300;
+    private static final float MAX_FICO = 850;
 
     public CreateLegalEntityCommandHandler(ILegalEntityService legalEntityService,
                                            IBusinessService businessService) {
@@ -26,6 +30,7 @@ public class CreateLegalEntityCommandHandler implements ICommandHandler<CreateLe
         LegalEntityDto parent = command.getParentEntityId() != null ? this.legalEntityService.findById(command.getParentEntityId()) : null;
 
         this.validateTaxId(command.getTaxId());
+        this.validateEntityFico(command);
 
         legalEntityService.create(new LegalEntityDto(
                 command.getId(), 
@@ -55,6 +60,12 @@ public class CreateLegalEntityCommandHandler implements ICommandHandler<CreateLe
     private void validateTaxId(String taxId) {
         if (this.legalEntityService.countByTaxId(taxId) > 0) {
             throw new LegalEntityTaxIdMustBeUniqueException(taxId);
+        }
+    }
+
+    private void validateEntityFico(CreateLegalEntityCommand command) {
+        if (command.getEntityFico() != null && (command.getEntityFico() < MIN_FICO || command.getEntityFico() > MAX_FICO)) {
+            throw new LegalEntityEntityFicoException(command.getEntityFico());
         }
     }
 
