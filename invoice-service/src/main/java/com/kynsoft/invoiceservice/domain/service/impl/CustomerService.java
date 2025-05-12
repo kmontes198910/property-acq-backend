@@ -6,11 +6,10 @@ import com.kynsoft.invoiceservice.domain.exception.DomainErrorInvoiceMessage;
 import com.kynsoft.invoiceservice.domain.service.ICustomerService;
 import com.kynsoft.invoiceservice.infrastructure.entities.Customer;
 import com.kynsoft.invoiceservice.infrastructure.repository.command.CustomerWriteRepository;
-import com.kynsoft.invoiceservice.infrastructure.repository.query.CustomerRepository;
+import com.kynsoft.invoiceservice.infrastructure.repository.query.CustomerReadRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
@@ -21,7 +20,7 @@ import java.util.UUID;
 @Slf4j
 public class CustomerService implements ICustomerService {
 
-    private final CustomerRepository customerRepository;
+    private final CustomerReadRepository customerRepository;
     private final CustomerWriteRepository customerWriteRepository;
 
     @Override
@@ -137,7 +136,7 @@ public class CustomerService implements ICustomerService {
     }
 
     @Override
-    @Transactional(propagation = Propagation.REQUIRED)
+
     public void delete(UUID id) {
         log.info("Eliminando cliente con ID: {}", id);
         

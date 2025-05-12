@@ -4,14 +4,17 @@ import com.kynsoft.invoiceservice.application.command.invoice.generate.request.C
 import com.kynsoft.invoiceservice.application.command.invoice.generate.request.DetalleFacturaRequest;
 import com.kynsoft.invoiceservice.application.command.invoice.generate.request.PagoRequest;
 import com.kynsoft.invoiceservice.application.services.InvoiceService;
+import com.kynsoft.invoiceservice.domain.exception.BusinessInvoiceException;
+import com.kynsoft.invoiceservice.domain.exception.DomainErrorInvoiceMessage;
 import com.kynsoft.invoiceservice.dto.FacturaRequestDTO;
 import com.kynsoft.invoiceservice.dto.FacturaResponseDTO;
 import com.kynsoft.invoiceservice.infrastructure.entities.Customer;
 import com.kynsoft.invoiceservice.infrastructure.entities.InvoiceIssuer;
 import com.kynsoft.invoiceservice.infrastructure.entities.InvoiceIssuingSequence;
-import com.kynsoft.invoiceservice.infrastructure.repository.query.CustomerRepository;
+import com.kynsoft.invoiceservice.infrastructure.repository.query.CustomerReadRepository;
 import com.kynsoft.invoiceservice.infrastructure.repository.query.InvoiceIssuerRepository;
-import com.kynsoft.invoiceservice.infrastructure.repository.query.InvoiceRepository;
+import com.kynsoft.invoiceservice.infrastructure.repository.query.InvoiceIssuingSequenceRepository;
+import com.kynsoft.invoiceservice.infrastructure.repository.query.InvoiceReadRepository;
 import ec.e.facturacion.sri.modelo.ComprobanteBase;
 import ec.e.facturacion.sri.modelo.Factura;
 import lombok.RequiredArgsConstructor;
@@ -24,6 +27,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -31,9 +35,10 @@ import java.util.stream.Collectors;
 @Slf4j
 public class InvoiceServiceImpl implements InvoiceService {
 
-    private final InvoiceRepository invoiceRepository;
-    private final CustomerRepository customerRepository;
+    private final InvoiceReadRepository invoiceRepository;
+    private final CustomerReadRepository customerRepository;
     private final InvoiceIssuerRepository invoiceIssuerRepository;
+    private final InvoiceIssuingSequenceRepository invoiceIssuingSequenceRepository;
 
     @Override
     @Transactional
@@ -102,6 +107,7 @@ public class InvoiceServiceImpl implements InvoiceService {
         }
     }
 
+    @Transactional
     private Customer findOrUpdateCustomer(FacturaRequestDTO request) {
         Optional<Customer> existingCustomer = customerRepository
                 .findByIdNumber(request.getIdentificacionComprador());
@@ -139,6 +145,12 @@ public class InvoiceServiceImpl implements InvoiceService {
     }
 
     private String getNextSequentialFromIssuer(InvoiceIssuer issuer, String documentType) {
+        if (issuer == null) {
+            throw new BusinessInvoiceException(
+                DomainErrorInvoiceMessage.ISSUER_NOT_FOUND,
+                "El emisor de facturas no puede ser nulo");
+        }
+        
         // Buscar la secuencia para el tipo de documento específico
         Optional<InvoiceIssuingSequence> sequenceOpt = issuer.getSequences().stream()
                 .filter(seq -> documentType.equals(seq.getDocumentType()) && Boolean.TRUE.equals(seq.getIsActive()))
@@ -149,19 +161,46 @@ public class InvoiceServiceImpl implements InvoiceService {
             sequence = sequenceOpt.get();
         } else {
             // Si no existe una secuencia para este tipo de documento, crear una nueva
+            log.info("Creando nueva secuencia para emisor {} y tipo de documento {}", 
+                    issuer.getId(), documentType);
+            
             sequence = InvoiceIssuingSequence.builder()
+                    .id(UUID.randomUUID())
                     .documentType(documentType)
                     .currentSequential(0L)
+                    .lastUsedDate(LocalDateTime.now())
                     .isActive(true)
                     .invoiceIssuer(issuer)
                     .build();
+            
             issuer.addSequence(sequence);
+            
+            // Guardar la secuencia en la base de datos
+            try {
+                invoiceIssuingSequenceRepository.save(sequence);
+                log.info("Nueva secuencia creada con ID: {}", sequence.getId());
+            } catch (Exception e) {
+                log.error("Error al guardar la nueva secuencia: {}", e.getMessage());
+                throw new BusinessInvoiceException(
+                    DomainErrorInvoiceMessage.GENERAL_ERROR,
+                    "Error al crear una nueva secuencia: " + e.getMessage());
+            }
         }
 
         // Incrementar el secuencial
         Long nextSequential = sequence.getCurrentSequential() + 1;
         sequence.setCurrentSequential(nextSequential);
         sequence.setLastUsedDate(LocalDateTime.now());
+        
+        // Guardar la secuencia actualizada
+        try {
+            invoiceIssuingSequenceRepository.save(sequence);
+        } catch (Exception e) {
+            log.error("Error al actualizar el secuencial: {}", e.getMessage());
+            throw new BusinessInvoiceException(
+                DomainErrorInvoiceMessage.GENERAL_ERROR,
+                "Error al actualizar el secuencial: " + e.getMessage());
+        }
 
         // Formatear a 9 dígitos
         return String.format("%09d", nextSequential);
@@ -240,7 +279,7 @@ public class InvoiceServiceImpl implements InvoiceService {
                 .withAgenteRetencion(issuer.getRetentionAgent())//?
                 .withContribuyenteEspecial(issuer.getSpecialTaxpayer())//?
                 .withContribuyenteRimpe(issuer.getRimpeRegime())//?
-                .withTipoIdentificacionComprador(customer.getIdType().toString())
+                .withTipoIdentificacionComprador(customer.getIdType().getCode()) // Obtener el código ("04", "05", etc) en lugar del nombre del enumerado
                 .withRazonSocialComprador(customer.getBusinessName())
                 .withIdentificacionComprador(customer.getIdNumber())
                 .withDireccionComprador(customer.getAddress())

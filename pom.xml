@@ -20,6 +20,7 @@
         <module>calendar</module>
         <module>treatments</module>
         <module>share</module>
+
         <module>identity</module>
         <module>cloudBridges</module>
         <module>rrhh</module>
@@ -28,6 +29,8 @@
         <module>payment</module>
         <module>evaluation</module>
         <module>hospitalization-service</module>
+        <module>cirugia</module>
+        <module>digitalSignature</module>
     </modules>
     <build>
 

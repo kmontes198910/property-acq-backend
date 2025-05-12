@@ -36,7 +36,7 @@ public class UpdateInvoiceIssuerCommandHandler implements ICommandHandler<Update
         issuer.setBusinessName(command.getBusinessName());
         issuer.setCommercialName(command.getCommercialName());
         issuer.setEstablishment(command.getEstablishment());
-        issuer.setPointOfSale(command.isPointOfSale());
+
         issuer.setAddress(command.getAddress());
         issuer.setEmissionPoint(command.getEmissionPoint());
         issuer.setEmail(command.getEmail());

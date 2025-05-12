@@ -8,7 +8,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Repository
-public interface CustomerRepository extends JpaRepository<Customer, UUID> {
+public interface CustomerReadRepository extends JpaRepository<Customer, UUID> {
     Optional<Customer> findByIdNumber(String idNumber);
     Optional<Customer> findByIdNumberAndIsActiveTrue(String idNumber);
 }
