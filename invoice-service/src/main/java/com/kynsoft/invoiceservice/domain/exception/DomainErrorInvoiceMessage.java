@@ -24,7 +24,7 @@ public enum DomainErrorInvoiceMessage {
     PAYMENT_METHOD_NOT_FOUND("INVERR-110", "Método de pago no encontrado"),
     ISSUER_NOT_FOUND("INVERR-111","No se encuentra el emisor de la factura" ),
     INVALID_INVOICE_STATUS("INVERR-112", "Estado de factura inválido"),
-    GENERAL_ERROR("INVERR-113","Error interno" );
+    GENERAL_ERROR("INVERR-113","Error interno" ), SEQUENCE_NOT_FOUND("INVERR-113", "Secuencia no encontrada"),;
 
     private final String code;
     private final String message;

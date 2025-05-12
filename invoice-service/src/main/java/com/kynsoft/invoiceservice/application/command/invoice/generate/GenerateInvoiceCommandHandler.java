@@ -6,11 +6,15 @@ import com.kynsoft.invoiceservice.application.command.invoice.generate.request.D
 import com.kynsoft.invoiceservice.application.command.invoice.generate.request.PagoRequest;
 import com.kynsoft.invoiceservice.application.query.customer.get.CustomerDto;
 import com.kynsoft.invoiceservice.application.services.InvoiceService;
+import com.kynsoft.invoiceservice.domain.dto.InvoiceIssuerDto;
+import com.kynsoft.invoiceservice.domain.dto.InvoiceIssuingSequenceDto;
+import com.kynsoft.invoiceservice.domain.exception.BusinessInvoiceException;
+import com.kynsoft.invoiceservice.domain.exception.DomainErrorInvoiceMessage;
 import com.kynsoft.invoiceservice.domain.service.ICustomerService;
+import com.kynsoft.invoiceservice.domain.service.IInvoiceIssuerService;
 import com.kynsoft.invoiceservice.infrastructure.entities.Customer;
 import com.kynsoft.invoiceservice.infrastructure.entities.InvoiceIssuer;
 import com.kynsoft.invoiceservice.infrastructure.entities.InvoiceIssuingSequence;
-import com.kynsoft.invoiceservice.infrastructure.repository.query.InvoiceIssuerRepository;
 import ec.e.facturacion.sri.modelo.ComprobanteBase;
 import ec.e.facturacion.sri.modelo.Factura;
 import ec.e.facturacion.sri.pdf.generador.FacturaPDFGenerador;
@@ -42,7 +46,7 @@ public class GenerateInvoiceCommandHandler implements ICommandHandler<GenerateIn
 
     private final InvoiceService invoiceService;
     private final ICustomerService customerService;
-    private final InvoiceIssuerRepository invoiceIssuerRepository;
+    private final IInvoiceIssuerService invoiceIssuerService;
 
     @Override
     @Transactional
@@ -51,16 +55,15 @@ public class GenerateInvoiceCommandHandler implements ICommandHandler<GenerateIn
 
         try {
             // 1. Obtener el emisor por su ID (o el emisor activo si no se proporcionó un ID)
-            InvoiceIssuer issuer = invoiceIssuerRepository.findById(command.getIssuerId())
-                    .orElseThrow(() -> new RuntimeException("No se encontró un emisor de facturas con el ID: " + command.getIssuerId()));
+            InvoiceIssuerDto issuerDto = invoiceIssuerService.getById(command.getIssuerId());
 
             // 2. Obtener y actualizar el secuencial para facturas del emisor
-            String sequential = getNextSequentialFromIssuer(issuer, "01"); // 01 es el tipo de documento para facturas
+            String sequential = getNextSequentialFromIssuer(issuerDto, "01"); // 01 es el tipo de documento para facturas
 
             // 3. Buscar o crear el cliente (Customer) utilizando el servicio
             Customer customer = findOrUpdateCustomer(command);
 
-            Factura factura = createfactura(issuer, sequential, command.getDetalles(), customer, command.getPropina(),
+            Factura factura = createfactura(issuerDto, sequential, command.getDetalles(), customer, command.getPropina(),
                     command.getPagos(), command.getInfoAdicional());
 
             if (validateInvoice(factura)) return;
@@ -70,9 +73,17 @@ public class GenerateInvoiceCommandHandler implements ICommandHandler<GenerateIn
             command.setId(UUID.randomUUID()); // Asegurarse de que el comando tenga un ID
             command.setAccessKey(factura.getClaveAcceso());
             log.info("Factura generada con clave de acceso: {}", factura.getClaveAcceso());
+        } catch (BusinessInvoiceException e) {
+            log.error("Error de negocio al generar factura: {}", e.getMessage());
+            throw e;
+        } catch (IOException e) {
+            log.error("Error de E/S al generar factura: {}", e.getMessage(), e);
+            throw new BusinessInvoiceException(DomainErrorInvoiceMessage.GENERAL_ERROR,
+                    "Error al generar archivos XML/PDF de factura: " + e.getMessage());
         } catch (Exception e) {
             log.error("Error al generar factura: {}", e.getMessage(), e);
-            throw new RuntimeException("Error al generar factura: " + e.getMessage(), e);
+            throw new BusinessInvoiceException(DomainErrorInvoiceMessage.GENERAL_ERROR,
+                    "Error al generar factura: " + e.getMessage());
         }
     }
 
@@ -120,36 +131,33 @@ public class GenerateInvoiceCommandHandler implements ICommandHandler<GenerateIn
         return false;
     }
 
-    private String getNextSequentialFromIssuer(InvoiceIssuer issuer, String documentType) {
+    private String getNextSequentialFromIssuer(InvoiceIssuerDto issuer, String documentType) {
         // Buscar la secuencia para el tipo de documento específico
-        Optional<InvoiceIssuingSequence> sequenceOpt = issuer.getSequences().stream()
+        Optional<InvoiceIssuingSequenceDto> sequenceOpt = issuer.getSequences().stream()
                 .filter(seq -> documentType.equals(seq.getDocumentType()) && Boolean.TRUE.equals(seq.getIsActive()))
                 .findFirst();
 
-        InvoiceIssuingSequence sequence;
+        InvoiceIssuingSequenceDto sequenceDto;
+        
         if (sequenceOpt.isPresent()) {
-            sequence = sequenceOpt.get();
+            sequenceDto = sequenceOpt.get();
         } else {
-            // Si no existe una secuencia para este tipo de documento, crear una nueva
-            sequence = InvoiceIssuingSequence.builder()
-                    .documentType(documentType)
-                    .currentSequential(0L)
-                    .isActive(true)
-                    .invoiceIssuer(issuer)
-                    .build();
-            issuer.addSequence(sequence);
+            // Si no existe una secuencia para este tipo de documento, lanzar una excepción
+            throw new BusinessInvoiceException(
+                DomainErrorInvoiceMessage.SEQUENCE_NOT_FOUND,
+                "No se encontró una secuencia activa para el tipo de documento: " + documentType);
         }
 
         // Incrementar el secuencial
-        Long nextSequential = sequence.getCurrentSequential() + 1;
-        sequence.setCurrentSequential(nextSequential);
-        sequence.setLastUsedDate(LocalDateTime.now());
+        Long nextSequential = sequenceDto.getCurrentSequential() + 1;
+        sequenceDto.setCurrentSequential(nextSequential);
+        sequenceDto.setLastUsedDate(LocalDateTime.now());
 
         // Formatear a 9 dígitos
         return String.format("%09d", nextSequential);
     }
 
-    private Factura createfactura(InvoiceIssuer issuer, String sequential, List<DetalleFacturaRequest> detallesDTO,
+    private Factura createfactura(InvoiceIssuerDto issuer, String sequential, List<DetalleFacturaRequest> detallesDTO,
                                   Customer customer, BigDecimal propina, List<PagoRequest> pagos, List<CampoAdicionalRequest> infoAdicional) {
         // Información básica de la factura
         String ruc = issuer.getRuc();

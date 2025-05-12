@@ -42,7 +42,7 @@ public class UpdateInvoiceIssuerCommand implements ICommand {
         command.setBusinessName(request.getBusinessName());
         command.setCommercialName(request.getCommercialName());
         command.setEstablishment(request.getEstablishment());
-        command.setPointOfSale(request.isPointOfSale());
+        command.setPointOfSale(request.getPointOfSale());
         command.setAddress(request.getAddress());
         command.setEmissionPoint(request.getEmissionPoint());
         command.setEmail(request.getEmail());

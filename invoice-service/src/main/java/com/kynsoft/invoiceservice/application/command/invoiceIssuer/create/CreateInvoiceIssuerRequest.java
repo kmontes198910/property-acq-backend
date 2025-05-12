@@ -23,4 +23,13 @@ public class CreateInvoiceIssuerRequest {
     private Boolean status;
     private String digitalCertP12;
     private String digitalCertPassword;
+    
+    /**
+     * Obtiene el valor del punto de venta
+     * 
+     * @return Verdadero si es un punto de venta, falso de lo contrario
+     */
+    public boolean getPointOfSale() {
+        return pointOfSale;
+    }
 }

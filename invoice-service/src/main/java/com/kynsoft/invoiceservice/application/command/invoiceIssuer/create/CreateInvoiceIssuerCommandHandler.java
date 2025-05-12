@@ -28,7 +28,6 @@ public class CreateInvoiceIssuerCommandHandler implements ICommandHandler<Create
                 .businessName(command.getBusinessName())
                 .commercialName(command.getCommercialName())
                 .establishment(command.getEstablishment())
-                .pointOfSale(command.isPointOfSale())
                 .address(command.getAddress())
                 .emissionPoint(command.getEmissionPoint())
                 .email(command.getEmail())

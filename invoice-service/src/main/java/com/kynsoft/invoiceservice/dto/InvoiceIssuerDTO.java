@@ -68,4 +68,13 @@ public class InvoiceIssuerDTO {
 
     @Schema(description = "Contraseña del certificado digital", example = "contraseña123")
     private String digitalCertPassword;
+    
+    /**
+     * Obtiene el valor del punto de venta
+     * 
+     * @return Verdadero si es un punto de venta, falso de lo contrario
+     */
+    public boolean getPointOfSale() {
+        return pointOfSale;
+    }
 }

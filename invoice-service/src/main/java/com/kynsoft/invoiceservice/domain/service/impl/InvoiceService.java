@@ -5,11 +5,11 @@ import com.kynsoft.invoiceservice.domain.dto.*;
 import com.kynsoft.invoiceservice.domain.exception.BusinessInvoiceException;
 import com.kynsoft.invoiceservice.domain.exception.DomainErrorInvoiceMessage;
 import com.kynsoft.invoiceservice.domain.service.ICustomerService;
+import com.kynsoft.invoiceservice.domain.service.IInvoiceIssuerService;
 import com.kynsoft.invoiceservice.domain.service.IInvoiceService;
 import com.kynsoft.invoiceservice.dto.InvoiceIssuerDTO;
 import com.kynsoft.invoiceservice.infrastructure.entities.*;
 import com.kynsoft.invoiceservice.infrastructure.repository.query.CustomerReadRepository;
-import com.kynsoft.invoiceservice.infrastructure.repository.query.InvoiceIssuerRepository;
 import com.kynsoft.invoiceservice.infrastructure.repository.query.InvoiceReadRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -31,7 +31,7 @@ public class InvoiceService implements IInvoiceService {
     private final InvoiceReadRepository invoiceRepository;
     private final InvoiceWriteRepository invoiceWriteRepository;
     private final CustomerReadRepository customerRepository;
-    private final InvoiceIssuerRepository invoiceIssuerRepository;
+    private final IInvoiceIssuerService invoiceIssuerService;
     private final ICustomerService customerService;
 
     @Override
@@ -56,9 +56,7 @@ public class InvoiceService implements IInvoiceService {
         if (invoiceDto.getId() == null) {
             invoiceDto.setId(UUID.randomUUID());
         }
-        
-        // Verificar que el emisor exista
-        InvoiceIssuer issuer = getInvoiceIssuer(invoiceDto);
+
         
         // Verificar que el cliente exista
         Customer customer = getCustomer(invoiceDto);
@@ -79,7 +77,6 @@ public class InvoiceService implements IInvoiceService {
                 .tip(invoiceDto.getTip())
                 .status(invoiceDto.getStatus() != null ? invoiceDto.getStatus() : InvoiceStatus.DRAFT)
                 .remissionGuide(invoiceDto.getRemissionGuide())
-                .issuer(issuer)
                 .customer(customer)
                 .build();
         
@@ -194,12 +191,7 @@ public class InvoiceService implements IInvoiceService {
             existingInvoice.setRemissionGuide(invoiceDto.getRemissionGuide());
         }
         
-        // Actualizar relaciones si es necesario
-        if (invoiceDto.getIssuer() != null && invoiceDto.getIssuer().getId() != null) {
-            InvoiceIssuer issuer = getInvoiceIssuer(invoiceDto);
-            existingInvoice.setIssuer(issuer);
-        }
-        
+
         if (invoiceDto.getCustomer() != null && invoiceDto.getCustomer().getId() != null) {
             Customer customer = getCustomer(invoiceDto);
             existingInvoice.setCustomer(customer);
@@ -350,11 +342,7 @@ public class InvoiceService implements IInvoiceService {
         }
     }
     
-    private InvoiceIssuer getInvoiceIssuer(InvoiceDto invoiceDto) {
-        return invoiceIssuerRepository.findById(invoiceDto.getIssuer().getId())
-                .orElseThrow(() -> new BusinessInvoiceException(DomainErrorInvoiceMessage.ISSUER_NOT_FOUND, 
-                        "Emisor no encontrado con ID: " + invoiceDto.getIssuer().getId()));
-    }
+
     
     private Customer getCustomer(InvoiceDto invoiceDto) {
         return customerRepository.findById(invoiceDto.getCustomer().getId())
