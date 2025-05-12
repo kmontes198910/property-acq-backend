@@ -180,8 +180,23 @@ public class BankAccount {
                 .internationalDetails(internationalDetails != null ? new InternationalBankingDetailsDto(internationalDetails.getSwiftCode(), internationalDetails.getIban(), internationalDetails.getCurrency()) : null)
                 .branchInfo(branchInfo != null ? new BankBranchDto(
                         branchInfo.getName(), 
-                        branchInfo.getAddress() != null ? new EmbeddableAddressDto(notes, notes, notes, notes, notes, notes, AddressType.PROPERTY) : null, 
+                        branchInfo.getAddress() != null ? new EmbeddableAddressDto(
+                                branchInfo.getAddress().getStreetAddress1(), 
+                                branchInfo.getAddress().getStreetAddress2(), 
+                                branchInfo.getAddress().getCity(),
+                                branchInfo.getAddress().getState(), 
+                                branchInfo.getAddress().getZipCode(), 
+                                branchInfo.getAddress().getCountry(), 
+                                branchInfo.getAddress().getAddressType()
+                        ) : null, 
                         branchInfo.getPhone()) : null)
+                .build();
+    }
+
+    public BankAccountDto toAggregateBasic() {
+        return BankAccountDto.builder()
+                .id(this.id)
+                .bankName(bankName)
                 .build();
     }
 
