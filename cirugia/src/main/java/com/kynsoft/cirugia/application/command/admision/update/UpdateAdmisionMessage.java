@@ -1,18 +1,15 @@
 package com.kynsoft.cirugia.application.command.admision.update;
 
 import com.kynsof.share.core.domain.bus.command.ICommandMessage;
-import lombok.AllArgsConstructor;
-import lombok.RequiredArgsConstructor;
+import lombok.*;
 import org.springframework.stereotype.Component;
 
 import java.util.UUID;
 
-/**
- * Message for updating an admission
- */
-@Component
-@RequiredArgsConstructor
+@Getter
+@Setter
 @AllArgsConstructor
+@NoArgsConstructor
 public class UpdateAdmisionMessage implements ICommandMessage {
  private UUID id;
 

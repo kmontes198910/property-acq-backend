@@ -1,19 +1,20 @@
 package com.kynsoft.cirugia.application.command.admision.create;
 
 import com.kynsof.share.core.domain.bus.command.ICommandMessage;
-import lombok.RequiredArgsConstructor;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.springframework.stereotype.Component;
 
 import java.util.UUID;
 
-/**
- * Mensaje para la creación de admisión
- */
-@Component
-@RequiredArgsConstructor
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class CreateAdmisionMessage implements ICommandMessage {
 
-    private final UUID id;
-
+    private UUID id;
 
 }
