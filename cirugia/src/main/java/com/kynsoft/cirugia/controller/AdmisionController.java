@@ -40,10 +40,9 @@ public class AdmisionController {
 
 
         CreateAdmisionCommand command = CreateAdmisionCommand.builder()
-                .id(UUID.randomUUID())
                 .surgeryId(request.getSurgeryId())
-                .room(request.getRoom())
-                .bed(request.getBed())
+                .roomId(request.getRoomId())
+                .bedId(request.getBedId())
                 .observations(request.getObservations())
                 .createdBy(UUID.fromString(userId))
                 .build();
@@ -66,8 +65,8 @@ public class AdmisionController {
 
         UpdateAdmisionCommand command = UpdateAdmisionCommand.builder()
                 .id(id)
-                .room(request.getRoom())
-                .bed(request.getBed())
+                .roomId(request.getRoomId())
+                .bedId(request.getBedId())
                 .observations(request.getObservations())
                 .updatedBy(UUID.fromString(userId))
                 .build();

@@ -18,7 +18,7 @@ import java.util.UUID;
 public class AdmisionDto {
     private UUID id;
     private UUID room;
-    private String bed;
+    private UUID bed;
     private String observations;
     private UUID surgeryId;
     private UUID createdBy;

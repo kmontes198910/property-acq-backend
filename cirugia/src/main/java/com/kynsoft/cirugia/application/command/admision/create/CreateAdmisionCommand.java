@@ -20,15 +20,15 @@ import java.util.UUID;
 public class CreateAdmisionCommand implements ICommand {
     private UUID id;
     private  UUID surgeryId;
-    private  UUID room;
-    private  String bed;
+    private  UUID roomId;
+    private  UUID bedId;
     private  String observations;
     private  UUID createdBy;
 
-    public CreateAdmisionCommand(UUID surgeryId, UUID room, String bed, String observations, UUID createdBy) {
+    public CreateAdmisionCommand(UUID surgeryId, UUID room, UUID bed, String observations, UUID createdBy) {
         this.surgeryId = surgeryId;
-        this.room = room;
-        this.bed = bed;
+        this.roomId = room;
+        this.bedId = bed;
         this.observations = observations;
         this.createdBy = createdBy;
     }

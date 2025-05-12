@@ -14,8 +14,8 @@ import java.util.UUID;
 @NoArgsConstructor
 public class UpdateAdmisionRequest {
     private UUID id;
-    private UUID room;
-    private String bed;
+    private UUID roomId;
+    private UUID bedId;
     private String observations;
     private UUID updatedBy;
 }

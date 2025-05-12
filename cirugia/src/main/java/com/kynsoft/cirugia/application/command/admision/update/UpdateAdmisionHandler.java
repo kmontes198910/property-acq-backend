@@ -40,8 +40,8 @@ public class UpdateAdmisionHandler implements ICommandHandler<UpdateAdmisionComm
         // Create DTO for the update
         AdmisionDto admisionDto = new AdmisionDto();
         admisionDto.setId(command.getId());
-        admisionDto.setRoom(command.getRoom());
-        admisionDto.setBed(command.getBed());
+        admisionDto.setRoom(command.getRoomId());
+        admisionDto.setBed(command.getBedId());
         admisionDto.setObservations(command.getObservations());
         admisionDto.setUpdatedBy(command.getUpdatedBy());
         

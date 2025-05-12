@@ -14,8 +14,7 @@ import java.util.UUID;
 @NoArgsConstructor
 public class CreateAdmisionRequest {
     private UUID surgeryId;
-    private UUID room;
-    private String bed;
+    private UUID roomId;
+    private UUID bedId;
     private String observations;
-    private UUID createdBy;
 }

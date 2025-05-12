@@ -12,8 +12,8 @@ public class AdmisionMapper {
 
         return AdmisionEntity.builder()
                 .id(dto.getId())
-                .room(dto.getRoom())
-                .bed(dto.getBed())
+                .roomId(dto.getRoom())
+                .bedId(dto.getBed())
                 .observations(dto.getObservations())
                 .surgeryId(dto.getSurgeryId())
                 .createdBy(dto.getCreatedBy())
@@ -28,8 +28,8 @@ public class AdmisionMapper {
 
         return AdmisionDto.builder()
                 .id(entity.getId())
-                .room(entity.getRoom())
-                .bed(entity.getBed())
+                .room(entity.getRoomId())
+                .bed(entity.getBedId())
                 .observations(entity.getObservations())
                 .surgeryId(entity.getSurgeryId())
                 .createdBy(entity.getCreatedBy())

@@ -38,8 +38,8 @@ public class GetAdmisionBySurgeryIdHandler implements IQueryHandler<GetAdmisionB
 
         return AdmisionResponse.builder()
                 .id(admisionDto.getId())
-                .room(admisionDto.getRoom())
-                .bed(admisionDto.getBed())
+                .roomId(admisionDto.getRoom())
+                .bedId(admisionDto.getBed())
                 .observations(admisionDto.getObservations())
                 .surgeryId(admisionDto.getSurgeryId())
                 .createdBy(admisionDto.getCreatedBy())

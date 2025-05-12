@@ -25,10 +25,10 @@ public class AdmisionEntity {
     private UUID id;
 
     @Column(name = "room_id")
-    private UUID room;
+    private UUID roomId;
 
     @Column(name = "bed")
-    private String bed;
+    private UUID bedId;
 
     @Column(name = "observations", length = 1000)
     private String observations;

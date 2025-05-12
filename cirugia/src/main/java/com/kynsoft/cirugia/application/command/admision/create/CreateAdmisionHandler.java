@@ -46,8 +46,8 @@ public class CreateAdmisionHandler implements ICommandHandler<CreateAdmisionComm
         // Create admission DTO
         AdmisionDto admisionDto = new AdmisionDto();
         admisionDto.setId(command.getId() != null ? command.getId() : UUID.randomUUID());
-        admisionDto.setRoom(command.getRoom());
-        admisionDto.setBed(command.getBed());
+        admisionDto.setRoom(command.getRoomId());
+        admisionDto.setBed(command.getBedId());
         admisionDto.setObservations(command.getObservations());
         admisionDto.setSurgeryId(command.getSurgeryId());
         admisionDto.setCreatedBy(command.getCreatedBy());

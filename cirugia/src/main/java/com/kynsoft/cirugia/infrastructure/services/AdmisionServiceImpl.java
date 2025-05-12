@@ -68,8 +68,8 @@ public class AdmisionServiceImpl implements IAdmisionService {
                     new ErrorField("id", "Admission not found with ID: " + admision.getId()))));
         
         // Update data
-        existingEntity.setRoom(admision.getRoom());
-        existingEntity.setBed(admision.getBed());
+        existingEntity.setRoomId(admision.getRoom());
+        existingEntity.setBedId(admision.getBed());
         existingEntity.setObservations(admision.getObservations());
         existingEntity.setUpdatedAt(LocalDateTime.now());
         existingEntity.setUpdatedBy(admision.getUpdatedBy());

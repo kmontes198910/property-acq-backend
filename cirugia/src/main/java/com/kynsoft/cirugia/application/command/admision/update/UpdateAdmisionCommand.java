@@ -18,8 +18,8 @@ import java.util.UUID;
 @Builder
 public class UpdateAdmisionCommand implements ICommand {
     private UUID id;
-    private UUID room;
-    private String bed;
+    private UUID roomId;
+    private UUID bedId;
     private String observations;
     private UUID updatedBy;
 
