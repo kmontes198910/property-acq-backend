@@ -71,4 +71,8 @@ public class BedAssignmentEntity {
     @JoinColumn(name = "bed_id", referencedColumnName = "id", insertable = false, updatable = false)
     private RecoveryBedEntity recoveryBed;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "surgery_id", referencedColumnName = "id", insertable = false, updatable = false)
+    private SurgeryEntity surgery;
+
 }
