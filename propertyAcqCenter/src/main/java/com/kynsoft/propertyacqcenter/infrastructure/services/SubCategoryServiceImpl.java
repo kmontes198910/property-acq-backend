@@ -4,6 +4,7 @@ import com.kynsof.share.core.domain.request.FilterCriteria;
 import com.kynsof.share.core.domain.response.PaginatedResponse;
 import com.kynsof.share.core.infrastructure.specifications.GenericSpecificationsBuilder;
 import com.kynsoft.propertyacqcenter.application.response.SubCategoryResponse;
+import com.kynsoft.propertyacqcenter.domain.dto.SubCategoryDto;
 import com.kynsoft.propertyacqcenter.domain.enums.ContactType;
 import com.kynsoft.propertyacqcenter.infrastructure.entity.SubCategory;
 import org.springframework.data.domain.Pageable;
@@ -17,6 +18,7 @@ import org.springframework.data.domain.Page;
 import com.kynsoft.propertyacqcenter.domain.services.ISubCategoryService;
 import com.kynsoft.propertyacqcenter.infrastructure.repository.command.SubCategoryWriteDataJPARepository;
 import com.kynsoft.propertyacqcenter.infrastructure.repository.query.SubCategoryReadDataJPARepository;
+import java.util.Optional;
 
 @Service
 public class SubCategoryServiceImpl implements ISubCategoryService {
@@ -53,6 +55,15 @@ public class SubCategoryServiceImpl implements ISubCategoryService {
         list.addAll(createConstructionType());
         list.addAll(createRealEstateCompanyType());
         repositoryCommand.saveAll(list);
+    }
+
+    @Override
+    public SubCategoryDto findById(UUID id) {
+        Optional<SubCategory> entity = repositoryQuery.findById(id);
+        if (entity.isPresent()) {
+            return entity.get().toAggregate();
+        }
+        return null;
     }
 
     private List<SubCategory> createConstructionType() {

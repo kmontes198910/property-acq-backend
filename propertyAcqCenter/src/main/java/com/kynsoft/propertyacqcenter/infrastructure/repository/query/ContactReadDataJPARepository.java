@@ -45,11 +45,11 @@ public interface ContactReadDataJPARepository extends JpaRepository<Contact, UUI
      */
     List<Contact> findByIsActiveTrue();
 
-    @EntityGraph(attributePaths = {"legalEntity"})
+    @EntityGraph(attributePaths = {"legalEntity", "subCategory"})
     @Override
     Page<Contact> findAll(Specification<Contact> specification, Pageable pageable);
 
-    @EntityGraph(attributePaths = {"legalEntity", "legalEntity.business", "legalEntity.parent"})
+    @EntityGraph(attributePaths = {"legalEntity", "legalEntity.business", "legalEntity.parent", "subCategory"})
     @Override
     Optional<Contact> findById(UUID id);
 }

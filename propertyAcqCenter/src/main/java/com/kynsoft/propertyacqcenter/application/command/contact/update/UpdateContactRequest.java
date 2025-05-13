@@ -19,4 +19,5 @@ public class UpdateContactRequest {
     private Boolean isActive;
     private UUID legalEntity;
     private String personalEmail;
+    private UUID subCategory;
 }
