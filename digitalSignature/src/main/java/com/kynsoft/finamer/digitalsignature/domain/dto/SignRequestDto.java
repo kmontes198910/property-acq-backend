@@ -19,7 +19,7 @@ public class SignRequestDto {
     private String documentName;       // Nombre del documento (para logs)
     private String certificateAlias;   // Alias del certificado a usar (opcional)
     private String certificatePassword; // Contraseña del certificado
-    private String certificateP12;      // Certificado P12 en bytes
+    private String certificateP12Id;   // ID del certificado en base de datos (opcional)
     private VisibleSignatureDto visibleSignature; // Información de firma visible (opcional)
     private String reason;             // Razón de la firma (opcional)
     private String location;           // Ubicación de la firma (opcional)

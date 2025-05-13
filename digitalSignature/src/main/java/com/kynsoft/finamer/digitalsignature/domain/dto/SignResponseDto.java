@@ -16,4 +16,5 @@ public class SignResponseDto {
     private VisibleSignatureDto signaturePosition; // Posición donde se ha aplicado la firma (si aplica)
     private String signerName;            // Nombre del firmante
     private String signatureDate;         // Fecha de la firma
+    private String filePath;              // Ruta donde se guardó el documento firmado (si aplica)
 }
