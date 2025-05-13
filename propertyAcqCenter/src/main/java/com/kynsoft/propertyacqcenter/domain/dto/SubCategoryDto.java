@@ -13,5 +13,6 @@ public class SubCategoryDto {
 
     private UUID id;
     private String name;
+    private String description;
     private ContactType category;
 }

@@ -54,7 +54,7 @@ public class BankDocumentServiceImpl implements IBankDocumentService {
     @Override
     @Transactional
     public void delete(UUID id) {
-        this.findById(id);
+        //this.findById(id);
         repositoryCommand.deleteById(id);
     }
 
