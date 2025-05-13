@@ -2,8 +2,11 @@ package com.kynsoft.propertyacqcenter.application.command.bankAccount.update;
 
 import com.kynsof.share.core.domain.bus.command.ICommandHandler;
 import com.kynsoft.propertyacqcenter.domain.dto.BankAccountDto;
+import com.kynsoft.propertyacqcenter.domain.dto.CurrencyDto;
 import com.kynsoft.propertyacqcenter.domain.dto.LegalEntityDto;
+import com.kynsoft.propertyacqcenter.domain.dto.embedded.InternationalBankingDetailsDto;
 import com.kynsoft.propertyacqcenter.domain.services.IBankAccountService;
+import com.kynsoft.propertyacqcenter.domain.services.ICurrencyService;
 import com.kynsoft.propertyacqcenter.domain.services.ILegalEntityService;
 import org.springframework.stereotype.Component;
 
@@ -12,15 +15,20 @@ public class UpdateBankAccountCommandHandler implements ICommandHandler<UpdateBa
 
     private final IBankAccountService bankAccountService;
     private final ILegalEntityService legalEntityService;
+    private final ICurrencyService currencyService;
 
-    public UpdateBankAccountCommandHandler(IBankAccountService bankAccountService, ILegalEntityService legalEntityService) {
+    public UpdateBankAccountCommandHandler(IBankAccountService bankAccountService, 
+                                           ILegalEntityService legalEntityService,
+                                           ICurrencyService currencyService) {
         this.bankAccountService = bankAccountService;
         this.legalEntityService = legalEntityService;
+        this.currencyService = currencyService;
     }
 
     @Override
     public void handle(UpdateBankAccountCommand command) {
         LegalEntityDto legalEntityDto = this.legalEntityService.findById(command.getLegalEntity());
+        CurrencyDto currencyDto = this.currencyService.findById(command.getInternationalDetails().getCurrency());
         bankAccountService.update(new BankAccountDto(
                 command.getId(), 
                 legalEntityDto, 
@@ -35,7 +43,11 @@ public class UpdateBankAccountCommandHandler implements ICommandHandler<UpdateBa
                 null, 
                 null, 
                 command.getContactDetails(), 
-                command.getInternationalDetails(), 
+                new InternationalBankingDetailsDto(
+                        command.getInternationalDetails().getSwiftCode(), 
+                        command.getInternationalDetails().getIban(), 
+                        currencyDto
+                ), 
                 command.getBranchInfo()
         ));
     }

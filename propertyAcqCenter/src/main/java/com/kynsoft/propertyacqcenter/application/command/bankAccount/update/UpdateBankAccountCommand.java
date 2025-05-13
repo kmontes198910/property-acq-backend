@@ -2,9 +2,9 @@ package com.kynsoft.propertyacqcenter.application.command.bankAccount.update;
 
 import com.kynsof.share.core.domain.bus.command.ICommand;
 import com.kynsof.share.core.domain.bus.command.ICommandMessage;
+import com.kynsoft.propertyacqcenter.application.command.bankAccount.create.InternationalBankingDetailsRequest;
 import com.kynsoft.propertyacqcenter.domain.dto.embedded.BankBranchDto;
 import com.kynsoft.propertyacqcenter.domain.dto.embedded.BankContactDto;
-import com.kynsoft.propertyacqcenter.domain.dto.embedded.InternationalBankingDetailsDto;
 import com.kynsoft.propertyacqcenter.domain.enums.AccountType;
 import java.time.LocalDate;
 import lombok.Getter;
@@ -28,13 +28,13 @@ public class UpdateBankAccountCommand implements ICommand {
     private String notes;
 
     private BankContactDto contactDetails;
-    private InternationalBankingDetailsDto internationalDetails;
+    private InternationalBankingDetailsRequest internationalDetails;
     private BankBranchDto branchInfo;
 
     public UpdateBankAccountCommand(UUID id, UUID legalEntity, String bankName, String accountNumber, 
             String routingNumber, AccountType accountType, String accountNickname, 
             LocalDate openingDate, String onlineBankingUrl, String notes, 
-            BankContactDto contactDetails, InternationalBankingDetailsDto internationalDetails, 
+            BankContactDto contactDetails, InternationalBankingDetailsRequest internationalDetails, 
             BankBranchDto branchInfo) {
         this.id = id;
         this.legalEntity = legalEntity;
