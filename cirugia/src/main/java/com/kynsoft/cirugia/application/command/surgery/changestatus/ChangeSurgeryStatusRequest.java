@@ -13,6 +13,5 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ChangeSurgeryStatusRequest {
-    private UUID surgeryId;
     private SurgeryStatus status;
 }
