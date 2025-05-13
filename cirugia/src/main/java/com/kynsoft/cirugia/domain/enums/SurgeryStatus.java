@@ -14,5 +14,6 @@ public enum SurgeryStatus {
     ROOM,
     DISCHARGED,
     CANCELLED,
-    TERMINATED
+    PAYMENT,
+    PENDING_PAYMENT
 }
