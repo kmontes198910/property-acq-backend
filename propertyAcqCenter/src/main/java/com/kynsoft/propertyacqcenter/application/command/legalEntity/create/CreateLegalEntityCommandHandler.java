@@ -56,7 +56,8 @@ public class CreateLegalEntityCommandHandler implements ICommandHandler<CreateLe
                 command.getOwner(),
                 command.getEntityExperience(),
                 command.getEntityFico(),
-                command.getAuthorizedSignerGovernmentIdCopy()
+                command.getAuthorizedSignerGovernmentIdCopy(),
+                command.getAuthorizedSignerGovernmentIdCopyFileName()
         ));
     }
 

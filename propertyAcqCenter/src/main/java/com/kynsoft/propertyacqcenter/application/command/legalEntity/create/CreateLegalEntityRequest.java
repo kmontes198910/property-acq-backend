@@ -30,4 +30,5 @@ public class CreateLegalEntityRequest {
     private String entityExperience;
     private Float entityFico;
     private String authorizedSignerGovernmentIdCopy;
+    private String authorizedSignerGovernmentIdCopyFileName;
 }

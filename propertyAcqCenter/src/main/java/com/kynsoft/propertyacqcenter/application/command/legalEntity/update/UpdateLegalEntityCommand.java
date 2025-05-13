@@ -34,13 +34,15 @@ public class UpdateLegalEntityCommand implements ICommand {
     private String entityExperience;
     private Float entityFico;
     private String authorizedSignerGovernmentIdCopy;
+    private String authorizedSignerGovernmentIdCopyFileName;
 
     public UpdateLegalEntityCommand(UUID id, String name, String taxId, EntityType entityType, 
             UUID business, String formationState, LocalDate formationDate, 
             Month fiscalYearEnd, String businessDescription, 
             String website, Double annualRevenue, 
             LocalDate dateOfLastAnnualReport, UUID parentEntityId, String notes, EntityStatus status,
-            String owner, String entityExperience, Float entityFico, String authorizedSignerGovernmentIdCopy) {
+            String owner, String entityExperience, Float entityFico, String authorizedSignerGovernmentIdCopy,
+            String authorizedSignerGovernmentIdCopyFileName) {
         this.id = id;
         this.name = name;
         this.taxId = taxId;
@@ -60,6 +62,7 @@ public class UpdateLegalEntityCommand implements ICommand {
         this.entityExperience = entityExperience;
         this.entityFico = entityFico;
         this.authorizedSignerGovernmentIdCopy = authorizedSignerGovernmentIdCopy;
+        this.authorizedSignerGovernmentIdCopyFileName = authorizedSignerGovernmentIdCopyFileName;
     }
 
     public static UpdateLegalEntityCommand fromRequest(UpdateLegalEntityRequest request, UUID id) {
@@ -82,7 +85,8 @@ public class UpdateLegalEntityCommand implements ICommand {
                 request.getOwner(),
                 request.getEntityExperience(),
                 request.getEntityFico(),
-                request.getAuthorizedSignerGovernmentIdCopy()
+                request.getAuthorizedSignerGovernmentIdCopy(),
+                request.getAuthorizedSignerGovernmentIdCopyFileName()
         );
     }
 
