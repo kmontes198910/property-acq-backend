@@ -5,6 +5,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.UUID;
+
 @Data
 @Builder
 @NoArgsConstructor
@@ -17,4 +19,5 @@ public class DocumentSignRequest {
     private VisibleSignatureRequest visibleSignature; // Información de firma visible (opcional)
     private String reason;             // Razón de la firma (opcional)
     private String location;           // Ubicación de la firma (opcional)
+    private UUID businessId;           // ID del negocio (opcional)
 }
