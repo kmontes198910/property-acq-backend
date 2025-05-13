@@ -3,6 +3,8 @@ package com.kynsoft.finamer.digitalsignature.infrastructure.service;
 import com.kynsoft.finamer.digitalsignature.domain.dto.*;
 import com.kynsoft.finamer.digitalsignature.domain.exception.InvalidSignaturePositionException;
 import com.kynsoft.finamer.digitalsignature.domain.service.IDigitalSignatureService;
+import com.kynsoft.finamer.digitalsignature.domain.service.IDigitalSignatureCertificateService;
+import com.kynsoft.finamer.digitalsignature.infrastructure.entity.DigitalSignatureCertificate;
 import org.apache.pdfbox.Loader;
 import org.apache.pdfbox.io.IOUtils;
 import org.apache.pdfbox.pdmodel.*;
@@ -44,12 +46,16 @@ import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.security.KeyStore;
 import java.security.PrivateKey;
 import java.security.Security;
 import java.security.cert.Certificate;
 import java.security.cert.X509Certificate;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import java.util.*;
 import java.util.List;
 import java.util.Base64;
@@ -73,6 +79,7 @@ public class DigitalSignatureService implements IDigitalSignatureService, Signat
     private String defaultAlias;
 
     private final ResourceLoader resourceLoader;
+    private final IDigitalSignatureCertificateService digitalSignatureCertificateService;
 
     /* ---------- certificados ---------- */
     private KeyStore      serverKeyStore;
@@ -85,8 +92,9 @@ public class DigitalSignatureService implements IDigitalSignatureService, Signat
 
     static { Security.addProvider(new BouncyCastleProvider()); }
 
-    public DigitalSignatureService(ResourceLoader resourceLoader) {
+    public DigitalSignatureService(ResourceLoader resourceLoader, IDigitalSignatureCertificateService digitalSignatureCertificateService) {
         this.resourceLoader = resourceLoader;
+        this.digitalSignatureCertificateService = digitalSignatureCertificateService;
         try { initServerKeyStore(); }
         catch (Exception e) { log.error("No se pudo cargar el keystore del servidor", e); }
     }
@@ -151,6 +159,52 @@ public class DigitalSignatureService implements IDigitalSignatureService, Signat
     }
 
     /* =====================================================================
+       CARGA DE CERTIFICADOS DESDE LA BASE DE DATOS
+       ===================================================================== */
+    /**
+     * Carga un certificado P12 desde la base de datos usando su UUID
+     * @param certificateId UUID del certificado a cargar
+     * @throws Exception Si el certificado no se encuentra o está inactivo
+     */
+    private void loadCertificateFromDatabase(String certificateId) throws Exception {
+        if (certificateId == null || certificateId.isBlank()) {
+            throw new IllegalArgumentException("ID del certificado es obligatorio");
+        }
+        
+        UUID uuid;
+        try {
+            uuid = UUID.fromString(certificateId);
+        } catch (IllegalArgumentException e) {
+            throw new IllegalArgumentException("ID del certificado no es un UUID válido");
+        }
+        
+        // Buscar el certificado en la base de datos
+        Optional<DigitalSignatureCertificate> certificateOpt = digitalSignatureCertificateService.findById(uuid);
+        if (certificateOpt.isEmpty()) {
+            throw new IllegalArgumentException("Certificado no encontrado con el ID: " + certificateId);
+        }
+        
+        DigitalSignatureCertificate certificate = certificateOpt.get();
+        
+        // Verificar que el certificado esté activo
+        if (!certificate.getIsActive()) {
+            throw new IllegalArgumentException("El certificado con ID: " + certificateId + " no está activo");
+        }
+        
+        // Verificar que no esté expirado
+        if (certificate.getExpirationDate().isBefore(LocalDateTime.now())) {
+            throw new IllegalArgumentException("El certificado con ID: " + certificateId + " ha expirado");
+        }
+        
+        // Cargar el certificado P12 desde los bytes almacenados
+        byte[] p12Bytes = certificate.getCertificateP12();
+        String password = certificate.getCertificatePassword();
+        
+        // Usar el método existente para cargar el certificado
+        loadCertificateFromRequest(p12Bytes, password);
+    }
+    
+    /* =====================================================================
        FIRMA PDF
        ===================================================================== */
     @Override
@@ -169,20 +223,14 @@ public class DigitalSignatureService implements IDigitalSignatureService, Signat
                 throw new IllegalArgumentException("Documento requerido");
             }
             
-            // Procesamos el certificado P12
-            if (req.getCertificateP12() != null) {
-                byte[] certBytes = decodeBase64(req.getCertificateP12());
-                if (certBytes == null) {
-                    throw new IllegalArgumentException("El certificado P12 base64 proporcionado no es válido");
-                }
-                
-                if (req.getCertificatePassword() == null || req.getCertificatePassword().isBlank())
-                    throw new IllegalArgumentException("Contraseña del P12 obligatoria");
-                
-                loadCertificateFromRequest(certBytes, req.getCertificatePassword());
-            } else {
-                loadCertificateFromServer(req.getCertificateAlias());
+           if (req.getCertificateP12Id() != null && !req.getCertificateP12Id().isBlank()) {
+                // Opción 2: Certificado por ID desde la base de datos
+                loadCertificateFromDatabase(req.getCertificateP12Id());
             }
+//           else {
+//                // Opción 3: Certificado del servidor por alias
+//                loadCertificateFromServer(req.getCertificateAlias());
+//            }
 
             if (req.getVisibleSignature() != null)
                 validateSignaturePosition(req.getVisibleSignature(), documentBytes);
@@ -220,12 +268,21 @@ public class DigitalSignatureService implements IDigitalSignatureService, Signat
             doc.saveIncremental(signedOut);
             doc.close();
             opts.close();
+            
+            byte[] signedBytes = signedOut.toByteArray();
+            
+            // Guardar el documento firmado en la carpeta de recursos
+//            String savedPath = null;
+//            if (req.getDocumentName() != null && !req.getDocumentName().isBlank()) {
+//                savedPath = saveSignedDocumentToResources(signedBytes, req.getDocumentName());
+//            }
 
             return SignResponseDto.builder()
-                    .signedDocument(signedOut.toByteArray())
+                    .signedDocument(signedBytes)
                     .signaturePosition(req.getVisibleSignature())
                     .signerName(sig.getName())
                     .signatureDate(new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss").format(new Date()))
+                    .filePath("savedPath") // Añadimos la ruta donde se guardó el documento
                     .build();
 
         } catch (Exception e) {
@@ -582,5 +639,47 @@ public class DigitalSignatureService implements IDigitalSignatureService, Signat
                     }
         } catch (Exception ignored) {}
         return 0;
+    }
+
+    /**
+     * Guarda el documento PDF firmado en la carpeta de recursos
+     * @param signedDocument bytes del documento firmado
+     * @param documentName nombre del documento a guardar
+     * @return ruta del archivo guardado
+     */
+    private String saveSignedDocumentToResources(byte[] signedDocument, String documentName) {
+        try {
+            // Obtenemos la ruta de recursos
+            String resourcePath = "src/main/resources/signed-documents";
+            File resourceDir = new File(resourcePath);
+            
+            // Creamos el directorio si no existe
+            if (!resourceDir.exists() && !resourceDir.mkdirs()) {
+                log.warn("No se pudo crear el directorio para documentos firmados: {}", resourcePath);
+                return null;
+            }
+            
+            // Generamos un nombre de archivo seguro
+            String safeFileName = documentName != null ? 
+                    documentName.replaceAll("[^a-zA-Z0-9_\\-\\.]", "_") : 
+                    "documento_firmado_" + System.currentTimeMillis();
+            
+            // Aseguramos que tenga extensión .pdf
+            if (!safeFileName.toLowerCase().endsWith(".pdf")) {
+                safeFileName += ".pdf";
+            }
+            
+            // Ruta completa del archivo
+            Path filePath = Paths.get(resourcePath, safeFileName);
+            
+            // Guardamos el archivo
+            Files.write(filePath, signedDocument);
+            log.info("Documento firmado guardado en: {}", filePath);
+            
+            return filePath.toString();
+        } catch (Exception e) {
+            log.error("Error al guardar documento firmado: {}", e.getMessage(), e);
+            return null;
+        }
     }
 }

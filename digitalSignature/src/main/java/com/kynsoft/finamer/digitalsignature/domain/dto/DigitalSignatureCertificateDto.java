@@ -31,6 +31,8 @@ public class DigitalSignatureCertificateDto {
     
     private Boolean isActive;
     
+    private Boolean isPrimaryKey;
+    
     private UUID businessId;
     
     private String businessName;

@@ -1,4 +1,4 @@
-package com.kynsoft.finamer.digitalsignature.application.command.digitalsignaturecertificate.create;
+package com.kynsoft.finamer.digitalsignature.application.command.sing;
 
 import com.kynsof.share.core.domain.bus.command.ICommandMessage;
 import lombok.AllArgsConstructor;

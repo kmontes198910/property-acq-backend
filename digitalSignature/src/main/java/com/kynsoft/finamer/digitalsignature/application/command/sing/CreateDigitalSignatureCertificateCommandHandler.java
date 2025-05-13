@@ -1,4 +1,4 @@
-package com.kynsoft.finamer.digitalsignature.application.command.digitalsignaturecertificate.create;
+package com.kynsoft.finamer.digitalsignature.application.command.sing;
 
 import com.kynsof.share.core.domain.bus.command.ICommandHandler;
 import com.kynsoft.finamer.digitalsignature.domain.service.IDigitalSignatureCertificateService;
@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
-import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -30,6 +29,7 @@ public class CreateDigitalSignatureCertificateCommandHandler implements ICommand
                 .certificatePassword(command.getCertificatePassword())
                 .expirationDate(command.getExpirationDate())
                 .isActive(true)
+                .isPrimaryKey(command.getIsPrimaryKey() != null ? command.getIsPrimaryKey() : false)
                 .businessId(command.getBusinessId()) // Se asignará en el servicio
                 .createdAt(LocalDateTime.now())
                 .updatedAt(LocalDateTime.now())
