@@ -18,9 +18,6 @@ public class GetPostOperativeBySurgeryIdQueryHandler implements IQueryHandler<Ge
     @Override
     public PostOperativeResponse handle(GetPostOperativeBySurgeryIdQuery query) {
         Optional<PostOperative> postOperative = postOperativeRepository.findBySurgeryId(query.getSurgeryId().toString());
-        if (postOperative.isEmpty()) {
-            return new PostOperativeResponse();
-        }
-        return new PostOperativeResponse(postOperative.get());
+        return postOperative.map(PostOperativeResponse::new).orElseGet(PostOperativeResponse::new);
     }
 }

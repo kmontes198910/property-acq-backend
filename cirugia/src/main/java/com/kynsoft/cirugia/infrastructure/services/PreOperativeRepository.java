@@ -44,7 +44,7 @@ public class PreOperativeRepository implements IPreOperativeRepository {
     public Optional<PreOperative> findById(String id) {
         try {
             Optional<PreOperativeEntity> entity = preOperativeReadRepository.findById( UUID.fromString(id));
-            return Optional.ofNullable(entity.get()).map(this::mapToDto);
+            return entity.map(this::mapToDto);
         } catch (Exception e) {
             return Optional.empty();
         }
@@ -55,7 +55,7 @@ public class PreOperativeRepository implements IPreOperativeRepository {
         try {
             Optional<PreOperativeEntity> entity = preOperativeReadRepository.findBySurgeryId(surgeryId);
 
-            return Optional.ofNullable(entity.get()).map(this::mapToDto);
+            return entity.map(this::mapToDto);
         } catch (NoResultException e) {
             return Optional.empty();
         }
@@ -64,12 +64,13 @@ public class PreOperativeRepository implements IPreOperativeRepository {
     @Override
     public void deleteById(String id) {
         Optional<PreOperativeEntity> entity = preOperativetWriteRepository.findById(UUID.fromString(id));
-        if (entity != null) {
-            preOperativetWriteRepository.delete(entity.get());
-        }
+        entity.ifPresent(preOperativetWriteRepository::delete);
     }
 
     private PreOperativeEntity mapToEntity(PreOperative dto) {
+        if (dto == null) {
+            return null;
+        }
         return PreOperativeEntity.builder()
                 .id(dto.getId())
                 .surgeryId(dto.getSurgeryId())
@@ -85,6 +86,9 @@ public class PreOperativeRepository implements IPreOperativeRepository {
     }
 
     private PreOperative mapToDto(PreOperativeEntity entity) {
+        if (entity == null) {
+            return null;
+        }
         return PreOperative.builder()
                 .id(entity.getId())
                 .surgeryId(entity.getSurgeryId())
