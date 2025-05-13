@@ -41,6 +41,7 @@ public class LegalEntityResponse implements IResponse {
     private String entityExperience;
     private Float entityFico;
     private String authorizedSignerGovernmentIdCopy;
+    private String authorizedSignerGovernmentIdCopyFileName;
 
     public LegalEntityResponse(LegalEntityDto legalEntityDto) {
         this.id = legalEntityDto.getId();
@@ -63,6 +64,7 @@ public class LegalEntityResponse implements IResponse {
         this.entityExperience = legalEntityDto.getEntityExperience();
         this.entityFico = legalEntityDto.getEntityFico();
         this.authorizedSignerGovernmentIdCopy = legalEntityDto.getAuthorizedSignerGovernmentIdCopy();
+        this.authorizedSignerGovernmentIdCopyFileName = legalEntityDto.getAuthorizedSignerGovernmentIdCopyFileName();
     }
 
 }

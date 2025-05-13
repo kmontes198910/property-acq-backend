@@ -42,6 +42,7 @@ public class LegalEntityFindByIdResponse implements IResponse {
     private String entityExperience;
     private Float entityFico;
     private String authorizedSignerGovernmentIdCopy;
+    private String authorizedSignerGovernmentIdCopyFileName;
 
     public LegalEntityFindByIdResponse(LegalEntityDto legalEntityDto) {
         this.id = legalEntityDto.getId();
@@ -65,6 +66,7 @@ public class LegalEntityFindByIdResponse implements IResponse {
         this.entityExperience = legalEntityDto.getEntityExperience();
         this.entityFico = legalEntityDto.getEntityFico();
         this.authorizedSignerGovernmentIdCopy = legalEntityDto.getAuthorizedSignerGovernmentIdCopy();
+        this.authorizedSignerGovernmentIdCopyFileName = legalEntityDto.getAuthorizedSignerGovernmentIdCopyFileName();
     }
 
 }

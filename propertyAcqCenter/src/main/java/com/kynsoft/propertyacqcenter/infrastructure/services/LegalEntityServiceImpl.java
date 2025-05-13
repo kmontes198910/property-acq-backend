@@ -63,6 +63,7 @@ public class LegalEntityServiceImpl implements ILegalEntityService {
         update.setEntityExperience(legalEntityDto.getEntityExperience());
         update.setEntityFico(legalEntityDto.getEntityFico());
         update.setAuthorizedSignerGovernmentIdCopy(legalEntityDto.getAuthorizedSignerGovernmentIdCopy());
+        update.setAuthorizedSignerGovernmentIdCopyFileName(legalEntityDto.getAuthorizedSignerGovernmentIdCopyFileName());
 
         repositoryCommand.save(update);
     }

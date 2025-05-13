@@ -69,6 +69,9 @@ public class LegalEntity {
     @Column(name = "authorized_signer_government_id_copy")
     private String authorizedSignerGovernmentIdCopy;
 
+    @Column(name = "authorized_signer_government_id_copy_file_name")
+    private String authorizedSignerGovernmentIdCopyFileName;
+
     @Column(name = "date_of_last_annual_report")
     private LocalDate dateOfLastAnnualReport;
 
@@ -137,6 +140,7 @@ public class LegalEntity {
         this.entityFico = dto.getEntityFico();
         this.entityExperience = dto.getEntityExperience();
         this.authorizedSignerGovernmentIdCopy = dto.getAuthorizedSignerGovernmentIdCopy();
+        this.authorizedSignerGovernmentIdCopyFileName = dto.getAuthorizedSignerGovernmentIdCopyFileName();
     }
 
     public LegalEntityDto toAggregate() {
@@ -163,6 +167,7 @@ public class LegalEntity {
                 .entityExperience(entityExperience)
                 .entityFico(entityFico)
                 .authorizedSignerGovernmentIdCopy(authorizedSignerGovernmentIdCopy)
+                .authorizedSignerGovernmentIdCopyFileName(authorizedSignerGovernmentIdCopyFileName)
                 .build();
     }
 
@@ -203,6 +208,7 @@ public class LegalEntity {
                 .entityExperience(entityExperience)
                 .entityFico(entityFico)
                 .authorizedSignerGovernmentIdCopy(authorizedSignerGovernmentIdCopy)
+                .authorizedSignerGovernmentIdCopyFileName(authorizedSignerGovernmentIdCopyFileName)
                 .build();
     }
 }

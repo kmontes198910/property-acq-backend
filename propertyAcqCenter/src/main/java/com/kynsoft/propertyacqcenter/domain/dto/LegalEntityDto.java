@@ -46,6 +46,7 @@ public class LegalEntityDto {
     private String entityExperience;
     private Float entityFico;
     private String authorizedSignerGovernmentIdCopy;
+    private String authorizedSignerGovernmentIdCopyFileName;
 
     public LegalEntityDto(UUID id, String name, String taxId, EntityType entityType,
             BusinessDto business, String formationState, LocalDate formationDate,
@@ -54,7 +55,8 @@ public class LegalEntityDto {
             LocalDate dateOfLastAnnualReport, LegalEntityDto parentEntityId, String notes,
             EntityStatus status, UUID createdBy, UUID updatedBy,
             String owner, String entityExperience, Float entityFico,
-            String authorizedSignerGovernmentIdCopy) {
+            String authorizedSignerGovernmentIdCopy,
+            String authorizedSignerGovernmentIdCopyFileName) {
         this.id = id;
         this.name = name;
         this.taxId = taxId;
@@ -76,6 +78,7 @@ public class LegalEntityDto {
         this.entityExperience = entityExperience;
         this.entityFico = entityFico;
         this.authorizedSignerGovernmentIdCopy = authorizedSignerGovernmentIdCopy;
+        this.authorizedSignerGovernmentIdCopyFileName = authorizedSignerGovernmentIdCopyFileName;
     }
 
 }
