@@ -1,4 +1,4 @@
-package com.kynsoft.propertyacqcenter.application.query.subCategoryConstructionType.search;
+package com.kynsoft.propertyacqcenter.application.query.subCategory.search;
 
 import com.kynsof.share.core.domain.bus.query.IQuery;
 import com.kynsof.share.core.domain.request.FilterCriteria;
@@ -12,7 +12,7 @@ import java.util.List;
 @Getter
 @Setter
 @AllArgsConstructor
-public class GetSearchSubCategoryConstructionTypeQuery implements IQuery {
+public class GetSearchSubCategoryQuery implements IQuery {
 
     private Pageable pageable;
     private List<FilterCriteria> filter;

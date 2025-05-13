@@ -1,6 +1,6 @@
 package com.kynsoft.propertyacqcenter.infrastructure.repository.query;
 
-import com.kynsoft.propertyacqcenter.infrastructure.entity.SubCategoryRealEstateCompanyType;
+import com.kynsoft.propertyacqcenter.infrastructure.entity.SubCategory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
@@ -11,7 +11,7 @@ import org.springframework.stereotype.Repository;
 import java.util.UUID;
 
 @Repository
-public interface SubCategoryRealEstateCompanyTypeReadDataJPARepository extends JpaRepository<SubCategoryRealEstateCompanyType, UUID>, JpaSpecificationExecutor<SubCategoryRealEstateCompanyType> {
+public interface SubCategoryReadDataJPARepository extends JpaRepository<SubCategory, UUID>, JpaSpecificationExecutor<SubCategory> {
     @Override
-    Page<SubCategoryRealEstateCompanyType> findAll(Specification<SubCategoryRealEstateCompanyType> specification, Pageable pageable);
+    Page<SubCategory> findAll(Specification<SubCategory> specification, Pageable pageable);
 }
