@@ -8,8 +8,10 @@ import lombok.Getter;
 @Getter
 public enum SurgeryStatus {
     SCHEDULED,
-    IN_PROGRESS,
-    MAINTENANCE,
-    CANCELLED,
-    TERMINATED
+    PRE_OPERATIVE,
+    INTRA_OPERATIVE,
+    POST_OPERATIVE,
+    ROOM,
+    DISCHARGED,
+    CANCELLED
 }
