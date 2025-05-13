@@ -4,6 +4,7 @@ import com.kynsof.patients.domain.dto.ContactInfoDto;
 import com.kynsof.patients.domain.dto.DependentPatientDto;
 import com.kynsof.patients.domain.dto.PatientByIdDto;
 import com.kynsof.patients.domain.dto.PatientDto;
+import com.kynsof.patients.domain.dto.enumTye.BloodType;
 import com.kynsof.patients.domain.dto.enumTye.DisabilityType;
 import com.kynsof.patients.domain.dto.enumTye.FamilyRelationship;
 import com.kynsof.patients.domain.dto.enumTye.GenderType;
@@ -57,6 +58,9 @@ public class Patients implements Serializable {
     private Boolean isPregnant;
 
     private int gestationTime = 0;
+    
+    @Enumerated(EnumType.STRING)
+    private BloodType bloodType;
 
     @OneToOne(mappedBy = "patient", orphanRemoval = true)
     private ContactInformation contactInformation;
@@ -105,6 +109,7 @@ public class Patients implements Serializable {
         this.gestationTime = patients.getGestationTime();
         this.profession = patients.getProfession();
         this.educationalLevel = patients.getEducationalLevel();
+        this.bloodType = patients.getBloodType() != null ? patients.getBloodType() : BloodType.UNKNOWN;
         this.clinicalHistoryNumber = generateClinicalHistoryNumber();
     }
 
@@ -121,6 +126,7 @@ public class Patients implements Serializable {
         this.photo = patients.getPhoto();
         this.disabilityType = patients.getDisabilityType() != null ? patients.getDisabilityType() : DisabilityType.UNDEFINED;
         this.gestationTime = patients.getGestationTime();
+        this.bloodType = BloodType.UNKNOWN;
         this.familyRelationship = patients.getFamilyRelationship() != null ? patients.getFamilyRelationship() : FamilyRelationship.UNDEFINED;
     }
 
@@ -131,6 +137,7 @@ public class Patients implements Serializable {
         patientDto.setContactInfo(contactInfoDto);
         patientDto.setEducationalLevel(educationalLevel);
         patientDto.setClinicalHistoryNumber(clinicalHistoryNumber);
+        patientDto.setBloodType(bloodType);
         return patientDto;
     }
 
@@ -138,7 +145,7 @@ public class Patients implements Serializable {
         ContactInfoDto contactInfoDto = contactInformation != null ? contactInformation.toAggregate() : null;
         return new PatientByIdDto(id, identification, firstName, lastName, gender, status,
                 hasDisability, isPregnant, photo, disabilityType, gestationTime, familyRelationship,
-                contactInfoDto, profession, educationalLevel, clinicalHistoryNumber);
+                contactInfoDto, profession, educationalLevel, clinicalHistoryNumber, bloodType);
     }
 
     // Método estático para generar número de historia clínica de 12 dígitos

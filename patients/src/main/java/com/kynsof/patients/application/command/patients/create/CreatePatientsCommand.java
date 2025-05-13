@@ -2,6 +2,7 @@ package com.kynsof.patients.application.command.patients.create;
 
 import com.kynsof.patients.application.command.patients.create.request.CreatePatientContactInfoRequest;
 import com.kynsof.patients.application.command.patients.create.request.CreatePatientsRequest;
+import com.kynsof.patients.domain.dto.enumTye.BloodType;
 import com.kynsof.patients.domain.dto.enumTye.GenderType;
 import com.kynsof.share.core.domain.bus.command.ICommand;
 import com.kynsof.share.core.domain.bus.command.ICommandMessage;
@@ -22,10 +23,11 @@ public class CreatePatientsCommand implements ICommand {
     private CreatePatientContactInfoRequest createContactInfoRequest;
     private String profession;
     private String educationalLevel;
+    private BloodType bloodType;
 
     public CreatePatientsCommand(UUID id, String identification, String name, String lastName, GenderType gender,
                                  String photo, CreatePatientContactInfoRequest createContactInfoRequest, String profession,
-                                 String educationalLevel) {
+                                 String educationalLevel, BloodType bloodType) {
         this.id = id;
         this.identification = identification;
         this.name = name;
@@ -35,6 +37,7 @@ public class CreatePatientsCommand implements ICommand {
         this.createContactInfoRequest = createContactInfoRequest;
         this.profession = profession;
         this.educationalLevel = educationalLevel;
+        this.bloodType = bloodType;
     }
 
     public static CreatePatientsCommand fromRequest(CreatePatientsRequest request) {
@@ -43,7 +46,8 @@ public class CreatePatientsCommand implements ICommand {
                 request.getImage(),
                 request.getContactInfo(),
                 request.getProfession(),
-                request.getEducationalLevel()
+                request.getEducationalLevel(),
+                request.getBloodType()
         );
     }
 

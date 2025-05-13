@@ -1,5 +1,6 @@
 package com.kynsof.patients.domain.dto;
 
+import com.kynsof.patients.domain.dto.enumTye.BloodType;
 import com.kynsof.patients.domain.dto.enumTye.DisabilityType;
 import com.kynsof.patients.domain.dto.enumTye.GenderType;
 import com.kynsof.patients.domain.dto.enumTye.Status;
@@ -25,6 +26,7 @@ public class PatientDto implements Serializable {
     private  String photo;
     private  DisabilityType disabilityType;
     private  int gestationTime;
+    private  BloodType bloodType;
 
     private ContactInfoDto contactInfo;
     private String profession;

@@ -1,5 +1,6 @@
 package com.kynsof.patients.application.command.patients.create.request;
 
+import com.kynsof.patients.domain.dto.enumTye.BloodType;
 import com.kynsof.patients.domain.dto.enumTye.GenderType;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -20,4 +21,5 @@ public class CreatePatientsRequest {
     private CreatePatientContactInfoRequest contactInfo;
     private String profession;
     private String educationalLevel;
+    private BloodType bloodType;
 }
