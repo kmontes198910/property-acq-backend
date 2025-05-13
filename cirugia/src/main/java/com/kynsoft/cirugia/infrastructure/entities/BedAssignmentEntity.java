@@ -30,6 +30,9 @@ public class BedAssignmentEntity {
     @Column(name = "bed_id", nullable = false)
     private UUID bedId;
     
+    @Column(name = "room_id", nullable = false)
+    private UUID roomId;
+    
     @Column(name = "assignment_date", nullable = false)
     private LocalDateTime assignmentDate;
     
@@ -39,10 +42,15 @@ public class BedAssignmentEntity {
     @Column(name = "status", nullable = false)
     private String status;
     
+    @Column(name = "surgery_stage", nullable = false)
+    private String surgeryStage;
+    
     @Column(name = "assigned_by")
     private UUID assignedBy;
-
-
+    
+    @Column(name = "observations", columnDefinition = "TEXT")
+    private String observations;
+    
     @Column(name = "business_id", nullable = false)
     private UUID businessId;
     

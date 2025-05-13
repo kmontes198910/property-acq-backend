@@ -3,6 +3,7 @@ package com.kynsoft.cirugia.infrastructure.services;
 import com.kynsof.share.core.domain.request.FilterCriteria;
 import com.kynsof.share.core.domain.response.PaginatedResponse;
 import com.kynsof.share.core.infrastructure.specifications.GenericSpecificationsBuilder;
+import com.kynsoft.cirugia.domain.service.IBedAssignmentRepository;
 import com.kynsoft.cirugia.domain.service.IBedAssignmentService;
 import com.kynsoft.cirugia.domain.dto.BedAssignment;
 import com.kynsoft.cirugia.infrastructure.config.SurgeryCacheConfig;
@@ -36,7 +37,7 @@ public class BedAssignmentServiceImpl implements IBedAssignmentService {
     private final BedAssignmentReadRepository bedAssignmentReadRepository;
     private final BedAssignmentWriteRepository bedAssignmentWriteRepository;
     private final RecoveryBedReadRepository recoveryBedReadRepository;
-    private final RecoveryBedWriteRepository recoveryBedWriteRepository;
+    private final IBedAssignmentRepository bedAssignmentRepository;
 
     @Override
     @Cacheable(value = SurgeryCacheConfig.BED_ASSIGNMENT_CACHE, key = "#id")
@@ -59,10 +60,21 @@ public class BedAssignmentServiceImpl implements IBedAssignmentService {
     @Cacheable(value = SurgeryCacheConfig.BED_ASSIGNMENT_CACHE, key = "'surgery_' + #surgeryId")
     public List<BedAssignment> findBySurgeryId(UUID surgeryId) {
         log.info("Finding bed assignments for surgery ID: {}", surgeryId);
-        return bedAssignmentReadRepository.findBySurgeryId(surgeryId)
-                .stream()
-                .map(this::mapToDomain)
-                .collect(Collectors.toList());
+        return bedAssignmentRepository.findBySurgeryId(surgeryId);
+    }
+    
+    /**
+     * Crea una nueva asignación de cama, liberando cualquier asignación previa
+     * 
+     * @param bedAssignment La asignación de cama a crear
+     * @return La asignación de cama creada
+     */
+    @Override
+    @Transactional
+    @CacheEvict(value = {SurgeryCacheConfig.BED_ASSIGNMENT_CACHE, SurgeryCacheConfig.RECOVERY_BED_CACHE}, allEntries = true)
+    public BedAssignment createAndReplaceAssignment(BedAssignment bedAssignment) {
+        log.info("Creando nueva asignación de cama con liberación automática para cirugía ID: {}", bedAssignment.getSurgeryId());
+        return bedAssignmentRepository.createAssignment(bedAssignment);
     }
 
     @Override
@@ -226,9 +238,12 @@ public class BedAssignmentServiceImpl implements IBedAssignmentService {
                 .patientId(entity.getPatientId())
                 .surgeryId(entity.getSurgeryId())
                 .bedId(entity.getBedId())
+                .roomId(entity.getRoomId())
                 .assignmentDate(entity.getAssignmentDate())
                 .releaseDate(entity.getReleaseDate())
                 .status(entity.getStatus())
+                .surgeryStage(entity.getSurgeryStage())
+                .observations(entity.getObservations())
                 .assignedBy(entity.getAssignedBy())
                 .businessId(entity.getBusinessId())
                 .createdAt(entity.getCreatedAt())
@@ -244,9 +259,12 @@ public class BedAssignmentServiceImpl implements IBedAssignmentService {
                 .patientId(bedAssignment.getPatientId())
                 .surgeryId(bedAssignment.getSurgeryId())
                 .bedId(bedAssignment.getBedId())
+                .roomId(bedAssignment.getRoomId())
                 .assignmentDate(bedAssignment.getAssignmentDate())
                 .releaseDate(bedAssignment.getReleaseDate())
                 .status(bedAssignment.getStatus())
+                .surgeryStage(bedAssignment.getSurgeryStage())
+                .observations(bedAssignment.getObservations())
                 .assignedBy(bedAssignment.getAssignedBy())
                 .businessId(bedAssignment.getBusinessId())
                 .createdAt(bedAssignment.getCreatedAt())
