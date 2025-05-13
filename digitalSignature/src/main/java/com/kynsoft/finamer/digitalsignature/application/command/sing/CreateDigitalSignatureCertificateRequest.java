@@ -1,4 +1,4 @@
-package com.kynsoft.finamer.digitalsignature.application.command.digitalsignaturecertificate.create;
+package com.kynsoft.finamer.digitalsignature.application.command.sing;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

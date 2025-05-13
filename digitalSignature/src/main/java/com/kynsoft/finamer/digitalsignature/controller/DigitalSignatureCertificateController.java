@@ -5,15 +5,16 @@ import com.kynsof.share.core.domain.request.PageableUtil;
 import com.kynsof.share.core.domain.request.SearchRequest;
 import com.kynsof.share.core.domain.response.PaginatedResponse;
 import com.kynsof.share.core.infrastructure.bus.IMediator;
-import com.kynsoft.finamer.digitalsignature.application.command.digitalsignaturecertificate.create.CreateDigitalSignatureCertificateCommand;
-import com.kynsoft.finamer.digitalsignature.application.command.digitalsignaturecertificate.create.CreateDigitalSignatureCertificateMessage;
-import com.kynsoft.finamer.digitalsignature.application.command.digitalsignaturecertificate.create.CreateDigitalSignatureCertificateRequest;
+import com.kynsoft.finamer.digitalsignature.application.command.digitalsignaturecertificate.create.DocumentSignMessage;
 import com.kynsoft.finamer.digitalsignature.application.command.digitalsignaturecertificate.delete.DeleteDigitalSignatureCertificateCommand;
 import com.kynsoft.finamer.digitalsignature.application.command.digitalsignaturecertificate.delete.DeleteDigitalSignatureCertificateMessage;
 import com.kynsoft.finamer.digitalsignature.application.command.digitalsignaturecertificate.delete.DeleteDigitalSignatureCertificateRequest;
 import com.kynsoft.finamer.digitalsignature.application.command.digitalsignaturecertificate.update.UpdateDigitalSignatureCertificateCommand;
 import com.kynsoft.finamer.digitalsignature.application.command.digitalsignaturecertificate.update.UpdateDigitalSignatureCertificateMessage;
 import com.kynsoft.finamer.digitalsignature.application.command.digitalsignaturecertificate.update.UpdateDigitalSignatureCertificateRequest;
+import com.kynsoft.finamer.digitalsignature.application.command.sing.CreateDigitalSignatureCertificateCommand;
+import com.kynsoft.finamer.digitalsignature.application.command.sing.CreateDigitalSignatureCertificateMessage;
+import com.kynsoft.finamer.digitalsignature.application.command.sing.CreateDigitalSignatureCertificateRequest;
 import com.kynsoft.finamer.digitalsignature.application.query.getbyid.DigitalSignatureCertificateResponse;
 import com.kynsoft.finamer.digitalsignature.application.query.getbyid.GetDigitalSignatureCertificateByIdQuery;
 import com.kynsoft.finamer.digitalsignature.application.query.search.SearchDigitalSignatureCertificateQuery;
@@ -48,18 +49,18 @@ public class DigitalSignatureCertificateController {
                description = "Registra un nuevo certificado de firma digital para un usuario")
     @ApiResponses(value = {
         @ApiResponse(responseCode = "201", description = "Certificado creado correctamente",
-                     content = @Content(schema = @Schema(implementation = CreateDigitalSignatureCertificateMessage.class))),
+                     content = @Content(schema = @Schema(implementation = DocumentSignMessage.class))),
         @ApiResponse(responseCode = "400", description = "Datos de certificado inválidos"),
         @ApiResponse(responseCode = "500", description = "Error interno del servidor")
     })
     @PostMapping
-    public ResponseEntity<CreateDigitalSignatureCertificateMessage> create(
+    public ResponseEntity<?> create(
             @Parameter(description = "Datos del certificado a crear", required = true)
             @RequestBody CreateDigitalSignatureCertificateRequest request,
             @Parameter(description = "ID del usuario que realiza la operación", required = true)
             @RequestHeader(USER_ID_HEADER) String userId) {
         
-        log.info("Creando nueva firma digital para usuario: {}", request.getUserId());
+        log.info("Creando nueva firma digital para usuario: {}", userId);
         
         CreateDigitalSignatureCertificateCommand command = CreateDigitalSignatureCertificateCommand.fromRequest(request, userId);
         CreateDigitalSignatureCertificateMessage response = mediator.send(command);

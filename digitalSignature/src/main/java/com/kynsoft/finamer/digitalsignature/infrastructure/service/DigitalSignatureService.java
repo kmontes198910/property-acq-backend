@@ -226,10 +226,11 @@ public class DigitalSignatureService implements IDigitalSignatureService, Signat
            if (req.getCertificateP12Id() != null && !req.getCertificateP12Id().isBlank()) {
                 // Opción 2: Certificado por ID desde la base de datos
                 loadCertificateFromDatabase(req.getCertificateP12Id());
-            } else {
-                // Opción 3: Certificado del servidor por alias
-                loadCertificateFromServer(req.getCertificateAlias());
             }
+//           else {
+//                // Opción 3: Certificado del servidor por alias
+//                loadCertificateFromServer(req.getCertificateAlias());
+//            }
 
             if (req.getVisibleSignature() != null)
                 validateSignaturePosition(req.getVisibleSignature(), documentBytes);

@@ -1,5 +1,9 @@
 package com.kynsoft.finamer.digitalsignature.controller;
 
+import com.kynsof.share.core.infrastructure.bus.IMediator;
+import com.kynsoft.finamer.digitalsignature.application.command.digitalsignaturecertificate.create.DocumentSignCommand;
+import com.kynsoft.finamer.digitalsignature.application.command.digitalsignaturecertificate.create.DocumentSignMessage;
+import com.kynsoft.finamer.digitalsignature.application.command.digitalsignaturecertificate.create.DocumentSignRequest;
 import com.kynsoft.finamer.digitalsignature.domain.dto.*;
 import com.kynsoft.finamer.digitalsignature.domain.exception.InvalidSignaturePositionException;
 import com.kynsoft.finamer.digitalsignature.domain.service.IDigitalSignatureService;
@@ -19,17 +23,19 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/v1")
+@RequestMapping("/api/sign")
 @Tag(name = "Firma Digital", description = "API para firma digital y validación de documentos PDF")
 public class DigitalSignatureController {
 
     private static final Logger logger = LoggerFactory.getLogger(DigitalSignatureController.class);
     
     private final IDigitalSignatureService digitalSignatureService;
+    private final IMediator mediator;
     
     @Autowired
-    public DigitalSignatureController(IDigitalSignatureService digitalSignatureService) {
+    public DigitalSignatureController(IDigitalSignatureService digitalSignatureService, IMediator mediator) {
         this.digitalSignatureService = digitalSignatureService;
+        this.mediator = mediator;
     }
     
     /**
@@ -44,14 +50,16 @@ public class DigitalSignatureController {
         @ApiResponse(responseCode = "400", description = "Parámetros inválidos o posición de firma inválida"),
         @ApiResponse(responseCode = "500", description = "Error interno del servidor")
     })
-    @PostMapping(value = "/sign", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<SignResponseDto> signDocument(
+    @PostMapping(value = "", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> signDocument(
             @Parameter(description = "Datos necesarios para firmar el documento", required = true) 
-            @RequestBody SignRequestDto request) {
+            @RequestBody DocumentSignRequest request,
+            @RequestHeader(value = "X-User-ID", required = false) String userId){
         logger.info("Recibida solicitud para firmar documento");
         
         try {
-            SignResponseDto response = digitalSignatureService.signDocument(request);
+            DocumentSignCommand command = DocumentSignCommand.fromRequest(request, userId); // userId debe ser obtenido del contexto de seguridad
+            DocumentSignMessage response = mediator.send(command);
             return ResponseEntity.ok(response);
         } catch (InvalidSignaturePositionException e) {
             // Error específico para posición de firma inválida
