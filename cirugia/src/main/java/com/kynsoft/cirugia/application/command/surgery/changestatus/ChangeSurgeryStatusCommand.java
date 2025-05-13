@@ -24,9 +24,9 @@ public class ChangeSurgeryStatusCommand implements ICommand {
         this.updatedBy = updatedBy;
     }
 
-    public static ChangeSurgeryStatusCommand fromRequest(ChangeSurgeryStatusRequest request, UUID updatedBy) {
+    public static ChangeSurgeryStatusCommand fromRequest(UUID id, ChangeSurgeryStatusRequest request, UUID updatedBy) {
         return new ChangeSurgeryStatusCommand(
-                request.getSurgeryId(),
+                id,
                 request.getStatus(),
                updatedBy
         );

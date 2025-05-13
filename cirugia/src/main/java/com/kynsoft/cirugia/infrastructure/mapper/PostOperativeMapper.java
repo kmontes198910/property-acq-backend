@@ -8,6 +8,9 @@ import org.springframework.stereotype.Component;
 public class PostOperativeMapper {
 
     public PostOperative toDto(PostOperativeEntity entity) {
+        if (entity == null) {
+            return null;
+        }
         return PostOperative.builder()
                 .id(entity.getId())
                 .surgeryId(entity.getSurgeryId())
@@ -28,6 +31,9 @@ public class PostOperativeMapper {
     }
 
     public PostOperativeEntity toEntity(PostOperative dto) {
+        if (dto == null) {
+            return null;
+        }
         return PostOperativeEntity.builder()
                 .id(dto.getId())
                 .surgeryId(dto.getSurgeryId())

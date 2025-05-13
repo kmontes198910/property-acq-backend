@@ -3,27 +3,30 @@ package com.kynsoft.cirugia.application.query.postOperative.getBySurgeryId;
 import com.kynsof.share.core.domain.bus.query.IResponse;
 import com.kynsoft.cirugia.domain.dto.PostOperative;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
+
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
+@NoArgsConstructor
 @Getter
 public class PostOperativeResponse implements IResponse, Serializable {
-    private final UUID id;
-    private final UUID surgeryId;
-    private final String treatmentSummary;
-    private final String dischargeInstructions;
-    private final String lifeStatus;
-    private final String dischargeCondition;
-    private final Integer stayDays;
-    private final Integer restDays;
-    private final String clinicalSummary;
-    private final String evolutionSummary;
-    private final String diagnosticFindings;
-    private final LocalDateTime createdAt;
-    private final LocalDateTime updatedAt;
-    private final UUID createdBy;
-    private final UUID updatedBy;
+    private  UUID id;
+    private  UUID surgeryId;
+    private  String treatmentSummary;
+    private  String dischargeInstructions;
+    private  String lifeStatus;
+    private  String dischargeCondition;
+    private  Integer stayDays;
+    private  Integer restDays;
+    private  String clinicalSummary;
+    private  String evolutionSummary;
+    private  String diagnosticFindings;
+    private  LocalDateTime createdAt;
+    private  LocalDateTime updatedAt;
+    private  UUID createdBy;
+    private  UUID updatedBy;
 
     public PostOperativeResponse(PostOperative postOperative) {
         this.id = postOperative.getId();

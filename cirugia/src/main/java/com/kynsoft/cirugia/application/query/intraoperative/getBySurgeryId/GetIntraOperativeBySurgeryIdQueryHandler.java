@@ -24,6 +24,10 @@ public class GetIntraOperativeBySurgeryIdQueryHandler implements IQueryHandler<G
         log.info("Retrieving IntraOperative records for surgery ID: {}", query.getSurgeryId());
         
         List<IntraOperative> intraOperatives = intraOperativeRepository.findBySurgeryId(query.getSurgeryId());
+        if (intraOperatives.isEmpty()) {
+            log.info("No IntraOperative records found for surgery ID: {}", query.getSurgeryId());
+            return new GetIntraOperativeBySurgeryIdResponse();
+        }
         
         log.info("Found {} IntraOperative records for surgery ID: {}", intraOperatives.size(), query.getSurgeryId());
         

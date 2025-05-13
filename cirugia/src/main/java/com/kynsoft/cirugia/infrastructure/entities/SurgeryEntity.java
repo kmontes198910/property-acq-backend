@@ -96,6 +96,6 @@ public class SurgeryEntity {
     @UpdateTimestamp
     private LocalDateTime updatedAt;
 
-    @OneToMany(mappedBy = "recoveryBed")
+    @OneToMany(mappedBy = "surgery")
     private List<BedAssignmentEntity> bedAssignments;
 }

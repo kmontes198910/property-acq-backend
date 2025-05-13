@@ -1,4 +1,4 @@
-package com.kynsoft.cirugia.infrastructure.repository;
+package com.kynsoft.cirugia.infrastructure.services;
 
 import com.kynsoft.cirugia.domain.dto.PostOperative;
 import com.kynsoft.cirugia.domain.service.IPostOperativeRepository;

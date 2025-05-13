@@ -94,8 +94,7 @@ public class SurgeryController {
             @PathVariable UUID id,
             @RequestBody ChangeSurgeryStatusRequest request,
             @RequestHeader(USER_ID_HEADER) String userId) {
-        request.setSurgeryId(id);
-        ChangeSurgeryStatusCommand command = ChangeSurgeryStatusCommand.fromRequest(request, UUID.fromString(userId));
+        ChangeSurgeryStatusCommand command = ChangeSurgeryStatusCommand.fromRequest(id, request, UUID.fromString(userId));
         ChangeSurgeryStatusMessage response = mediator.send(command);
         return ResponseEntity.ok(response);
     }
