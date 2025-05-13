@@ -4,6 +4,7 @@ import com.kynsof.share.core.domain.bus.query.IResponse;
 import com.kynsoft.cirugia.domain.dto.IntraOperative;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 import java.time.LocalDate;
@@ -13,6 +14,7 @@ import java.util.UUID;
 
 @Data
 @AllArgsConstructor
+@NoArgsConstructor
 public class GetIntraOperativeBySurgeryIdResponse implements IResponse, Serializable {
     private UUID id;
     private UUID surgeryId;
