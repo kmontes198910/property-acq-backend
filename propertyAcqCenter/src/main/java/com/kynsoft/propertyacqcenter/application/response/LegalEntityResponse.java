@@ -28,7 +28,6 @@ public class LegalEntityResponse implements IResponse {
     private Month fiscalYearEnd;
     private String businessDescription;
     private String website;
-    private String industry;
     private Double annualRevenue;
     private LocalDate dateOfLastAnnualReport;
     private LegalEntityBasicResponse parentEntityId;
@@ -42,6 +41,7 @@ public class LegalEntityResponse implements IResponse {
     private String entityExperience;
     private Float entityFico;
     private String authorizedSignerGovernmentIdCopy;
+    private String authorizedSignerGovernmentIdCopyFileName;
 
     public LegalEntityResponse(LegalEntityDto legalEntityDto) {
         this.id = legalEntityDto.getId();
@@ -53,7 +53,6 @@ public class LegalEntityResponse implements IResponse {
         this.fiscalYearEnd = legalEntityDto.getFiscalYearEnd();
         this.businessDescription = legalEntityDto.getBusinessDescription();
         this.website = legalEntityDto.getWebsite();
-        this.industry = legalEntityDto.getIndustry();
         this.annualRevenue = legalEntityDto.getAnnualRevenue();
         this.dateOfLastAnnualReport = legalEntityDto.getDateOfLastAnnualReport();
         this.parentEntityId = legalEntityDto.getParentEntityId() != null ? new LegalEntityBasicResponse(legalEntityDto.getParentEntityId()) : null;
@@ -65,6 +64,7 @@ public class LegalEntityResponse implements IResponse {
         this.entityExperience = legalEntityDto.getEntityExperience();
         this.entityFico = legalEntityDto.getEntityFico();
         this.authorizedSignerGovernmentIdCopy = legalEntityDto.getAuthorizedSignerGovernmentIdCopy();
+        this.authorizedSignerGovernmentIdCopyFileName = legalEntityDto.getAuthorizedSignerGovernmentIdCopyFileName();
     }
 
 }

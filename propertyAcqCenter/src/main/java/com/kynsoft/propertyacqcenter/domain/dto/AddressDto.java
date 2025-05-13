@@ -30,4 +30,5 @@ public class AddressDto {
     private LocalDateTime updatedAt;
     private UUID createdBy;
     private UUID updatedBy;
+    private String nickName;
 }

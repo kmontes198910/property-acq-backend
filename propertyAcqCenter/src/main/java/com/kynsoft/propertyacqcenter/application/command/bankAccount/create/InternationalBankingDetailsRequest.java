@@ -1,6 +1,6 @@
-package com.kynsoft.propertyacqcenter.domain.dto.embedded;
+package com.kynsoft.propertyacqcenter.application.command.bankAccount.create;
 
-import com.kynsoft.propertyacqcenter.domain.dto.CurrencyDto;
+import java.util.UUID;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -12,9 +12,8 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class InternationalBankingDetailsDto {
+public class InternationalBankingDetailsRequest {
     private String swiftCode;
     private String iban;
-    //private String currency;
-    private CurrencyDto currency;
+    private UUID currency;
 }

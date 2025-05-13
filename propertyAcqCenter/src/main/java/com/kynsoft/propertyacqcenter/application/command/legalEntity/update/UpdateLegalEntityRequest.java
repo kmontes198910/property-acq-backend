@@ -21,7 +21,6 @@ public class UpdateLegalEntityRequest {
     private Month fiscalYearEnd;
     private String businessDescription;
     private String website;
-    private String industry;
     private Double annualRevenue;
     private LocalDate dateOfLastAnnualReport;
     private UUID parentEntityId;
@@ -31,4 +30,5 @@ public class UpdateLegalEntityRequest {
     private String entityExperience;
     private Float entityFico;
     private String authorizedSignerGovernmentIdCopy;
+    private String authorizedSignerGovernmentIdCopyFileName;
 }

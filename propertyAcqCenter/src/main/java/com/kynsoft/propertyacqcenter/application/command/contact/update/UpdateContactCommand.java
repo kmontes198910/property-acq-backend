@@ -24,6 +24,7 @@ public class UpdateContactCommand implements ICommand {
     private Boolean isActive;
     private UUID legalEntity;
     private String personalEmail;
+    private UUID subCategory;
 
     public static UpdateContactCommand fromRequest(UUID id, UpdateContactRequest request) {
         return new UpdateContactCommand(
@@ -38,7 +39,8 @@ public class UpdateContactCommand implements ICommand {
                 request.getNotes(),
                 request.getIsActive(),
                 request.getLegalEntity(),
-                request.getPersonalEmail()
+                request.getPersonalEmail(),
+                request.getSubCategory()
         );
     }
 

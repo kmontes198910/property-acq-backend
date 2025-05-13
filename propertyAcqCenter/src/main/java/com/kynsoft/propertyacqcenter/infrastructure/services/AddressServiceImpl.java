@@ -53,6 +53,7 @@ public class AddressServiceImpl implements IAddressService {
         update.setStreetAddress1(object.getStreetAddress1());
         update.setStreetAddress2(object.getStreetAddress2());
         update.setZipCode(object.getZipCode());
+        update.setNickName(object.getNickName());
 
         update.setUpdatedAt(LocalDateTime.now());
         repositoryCommand.save(update);

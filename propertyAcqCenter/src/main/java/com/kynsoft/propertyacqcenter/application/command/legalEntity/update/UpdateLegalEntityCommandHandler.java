@@ -34,7 +34,6 @@ public class UpdateLegalEntityCommandHandler implements ICommandHandler<UpdateLe
                 command.getFiscalYearEnd(), 
                 command.getBusinessDescription(), 
                 command.getWebsite(), 
-                command.getIndustry(), 
                 command.getAnnualRevenue(),
                 command.getDateOfLastAnnualReport(), 
                 parent, 
@@ -45,7 +44,8 @@ public class UpdateLegalEntityCommandHandler implements ICommandHandler<UpdateLe
                 command.getOwner(),
                 command.getEntityExperience(),
                 command.getEntityFico(),
-                command.getAuthorizedSignerGovernmentIdCopy()
+                command.getAuthorizedSignerGovernmentIdCopy(),
+                command.getAuthorizedSignerGovernmentIdCopyFileName()
         ));
     }
 }

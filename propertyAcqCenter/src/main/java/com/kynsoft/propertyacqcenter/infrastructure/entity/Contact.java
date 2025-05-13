@@ -64,6 +64,10 @@ public class Contact {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "legal_entity_id")
     private LegalEntity legalEntity;
+    
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "sub_category")
+    private SubCategory subCategory;
 
     /**
      * Método para convertir la entidad a DTO
@@ -85,6 +89,7 @@ public class Contact {
                 .updatedAt(this.updatedAt)
                 .legalEntity(this.legalEntity != null ? this.legalEntity.toAggregateBasic() : null)
                 .personalEmail(personalEmail)
+                .subCategory(subCategory != null ? this.subCategory.toAggregate() : null)
                 .build();
     }
 
@@ -104,6 +109,7 @@ public class Contact {
                 .updatedAt(this.updatedAt)
                 .personalEmail(personalEmail)
                 .legalEntity(this.legalEntity != null ? this.legalEntity.toAggregateFindById() : null)
+                .subCategory(subCategory != null ? this.subCategory.toAggregate() : null)
                 .build();
     }
     
@@ -126,6 +132,7 @@ public class Contact {
         this.updatedAt = dto.getUpdatedAt();
         this.legalEntity = new LegalEntity(dto.getLegalEntity());
         this.personalEmail = dto.getPersonalEmail();
+        this.subCategory = dto.getSubCategory() != null ? new SubCategory(dto.getSubCategory()) : null;
         // Las relaciones con LegalEntity y Business deben ser establecidas externamente
     }
 }

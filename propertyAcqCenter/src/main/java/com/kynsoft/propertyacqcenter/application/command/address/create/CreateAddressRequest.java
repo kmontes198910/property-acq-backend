@@ -18,4 +18,5 @@ public class CreateAddressRequest {
     private String zipCode;
     private String country;
     private Boolean isPrimary;
+    private String nickName;
 }

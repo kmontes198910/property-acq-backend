@@ -63,14 +63,14 @@ public class LegalEntity {
     @Column(name = "website")
     private String website;
 
-    @Column(name = "industry")
-    private String industry;
-
     @Column(name = "annual_revenue")
     private Double annualRevenue;
 
     @Column(name = "authorized_signer_government_id_copy")
     private String authorizedSignerGovernmentIdCopy;
+
+    @Column(name = "authorized_signer_government_id_copy_file_name")
+    private String authorizedSignerGovernmentIdCopyFileName;
 
     @Column(name = "date_of_last_annual_report")
     private LocalDate dateOfLastAnnualReport;
@@ -129,7 +129,6 @@ public class LegalEntity {
         this.fiscalYearEnd = dto.getFiscalYearEnd();
         this.businessDescription = dto.getBusinessDescription();
         this.website = dto.getWebsite();
-        this.industry = dto.getIndustry();
         this.annualRevenue = dto.getAnnualRevenue();
         this.dateOfLastAnnualReport = dto.getDateOfLastAnnualReport();
         this.parent = dto.getParentEntityId() != null ? new LegalEntity(dto.getParentEntityId()) : null;
@@ -141,6 +140,7 @@ public class LegalEntity {
         this.entityFico = dto.getEntityFico();
         this.entityExperience = dto.getEntityExperience();
         this.authorizedSignerGovernmentIdCopy = dto.getAuthorizedSignerGovernmentIdCopy();
+        this.authorizedSignerGovernmentIdCopyFileName = dto.getAuthorizedSignerGovernmentIdCopyFileName();
     }
 
     public LegalEntityDto toAggregate() {
@@ -154,7 +154,6 @@ public class LegalEntity {
                 .fiscalYearEnd(this.fiscalYearEnd)
                 .businessDescription(this.businessDescription)
                 .website(this.website)
-                .industry(this.industry)
                 .annualRevenue(this.annualRevenue)
                 .dateOfLastAnnualReport(this.dateOfLastAnnualReport)
                 .parentEntityId(this.parent != null ? this.parent.toAggregateBasic() : null)
@@ -168,6 +167,7 @@ public class LegalEntity {
                 .entityExperience(entityExperience)
                 .entityFico(entityFico)
                 .authorizedSignerGovernmentIdCopy(authorizedSignerGovernmentIdCopy)
+                .authorizedSignerGovernmentIdCopyFileName(authorizedSignerGovernmentIdCopyFileName)
                 .build();
     }
 
@@ -195,7 +195,6 @@ public class LegalEntity {
                 .fiscalYearEnd(this.fiscalYearEnd)
                 .businessDescription(this.businessDescription)
                 .website(this.website)
-                .industry(this.industry)
                 .annualRevenue(this.annualRevenue)
                 .dateOfLastAnnualReport(this.dateOfLastAnnualReport)
                 .parentEntityId(this.parent != null ? this.parent.toAggregateBasic() : null)
@@ -209,6 +208,7 @@ public class LegalEntity {
                 .entityExperience(entityExperience)
                 .entityFico(entityFico)
                 .authorizedSignerGovernmentIdCopy(authorizedSignerGovernmentIdCopy)
+                .authorizedSignerGovernmentIdCopyFileName(authorizedSignerGovernmentIdCopyFileName)
                 .build();
     }
 }

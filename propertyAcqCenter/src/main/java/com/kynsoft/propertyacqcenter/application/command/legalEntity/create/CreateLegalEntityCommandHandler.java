@@ -46,7 +46,6 @@ public class CreateLegalEntityCommandHandler implements ICommandHandler<CreateLe
                 command.getFiscalYearEnd(), 
                 command.getBusinessDescription(),
                 command.getWebsite(), 
-                command.getIndustry(), 
                 command.getAnnualRevenue(), 
                 command.getDateOfLastAnnualReport(), 
                 parent, 
@@ -57,7 +56,8 @@ public class CreateLegalEntityCommandHandler implements ICommandHandler<CreateLe
                 command.getOwner(),
                 command.getEntityExperience(),
                 command.getEntityFico(),
-                command.getAuthorizedSignerGovernmentIdCopy()
+                command.getAuthorizedSignerGovernmentIdCopy(),
+                command.getAuthorizedSignerGovernmentIdCopyFileName()
         ));
     }
 

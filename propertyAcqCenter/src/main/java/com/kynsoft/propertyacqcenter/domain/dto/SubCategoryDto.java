@@ -1,5 +1,6 @@
 package com.kynsoft.propertyacqcenter.domain.dto;
 
+import com.kynsoft.propertyacqcenter.domain.enums.ContactType;
 import lombok.*;
 import java.util.UUID;
 
@@ -8,8 +9,9 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class SubCategoryConstructionTypeDto {
+public class SubCategoryDto {
 
     private UUID id;
     private String name;
+    private ContactType category;
 }

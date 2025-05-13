@@ -29,7 +29,6 @@ public class LegalEntityDto {
     private Month fiscalYearEnd;
     private String businessDescription;
     private String website;
-    private String industry;
     private Double annualRevenue;
     private LocalDate dateOfLastAnnualReport;
     private LegalEntityDto parentEntityId;
@@ -47,15 +46,17 @@ public class LegalEntityDto {
     private String entityExperience;
     private Float entityFico;
     private String authorizedSignerGovernmentIdCopy;
+    private String authorizedSignerGovernmentIdCopyFileName;
 
     public LegalEntityDto(UUID id, String name, String taxId, EntityType entityType,
             BusinessDto business, String formationState, LocalDate formationDate,
             Month fiscalYearEnd, String businessDescription,
-            String website, String industry, Double annualRevenue,
+            String website, Double annualRevenue,
             LocalDate dateOfLastAnnualReport, LegalEntityDto parentEntityId, String notes,
             EntityStatus status, UUID createdBy, UUID updatedBy,
             String owner, String entityExperience, Float entityFico,
-            String authorizedSignerGovernmentIdCopy) {
+            String authorizedSignerGovernmentIdCopy,
+            String authorizedSignerGovernmentIdCopyFileName) {
         this.id = id;
         this.name = name;
         this.taxId = taxId;
@@ -66,7 +67,6 @@ public class LegalEntityDto {
         this.fiscalYearEnd = fiscalYearEnd;
         this.businessDescription = businessDescription;
         this.website = website;
-        this.industry = industry;
         this.annualRevenue = annualRevenue;
         this.dateOfLastAnnualReport = dateOfLastAnnualReport;
         this.parentEntityId = parentEntityId;
@@ -78,6 +78,7 @@ public class LegalEntityDto {
         this.entityExperience = entityExperience;
         this.entityFico = entityFico;
         this.authorizedSignerGovernmentIdCopy = authorizedSignerGovernmentIdCopy;
+        this.authorizedSignerGovernmentIdCopyFileName = authorizedSignerGovernmentIdCopyFileName;
     }
 
 }

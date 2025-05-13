@@ -3,12 +3,14 @@ package com.kynsoft.propertyacqcenter.application.command.contact.create;
 import com.kynsof.share.core.domain.bus.command.ICommandHandler;
 import com.kynsoft.propertyacqcenter.domain.dto.ContactDto;
 import com.kynsoft.propertyacqcenter.domain.dto.LegalEntityDto;
+import com.kynsoft.propertyacqcenter.domain.dto.SubCategoryDto;
 import com.kynsoft.propertyacqcenter.domain.dto.exception.contact.EmailAndPhoneNotNullException;
 import com.kynsoft.propertyacqcenter.domain.dto.exception.contact.EmailFormatException;
 import com.kynsoft.propertyacqcenter.domain.dto.exception.contact.EmailMustBeUniqueException;
 import com.kynsoft.propertyacqcenter.domain.dto.exception.contact.LegalEntityNotNullException;
 import com.kynsoft.propertyacqcenter.domain.services.IContactService;
 import com.kynsoft.propertyacqcenter.domain.services.ILegalEntityService;
+import com.kynsoft.propertyacqcenter.domain.services.ISubCategoryService;
 import java.util.UUID;
 import java.util.regex.Pattern;
 import org.springframework.stereotype.Component;
@@ -18,16 +20,19 @@ public class CreateContactCommandHandler implements ICommandHandler<CreateContac
 
     private final IContactService contactService;
     private final ILegalEntityService legalEntityService;
+    private final ISubCategoryService subCategoryService;
 
-    public CreateContactCommandHandler(IContactService contactService, ILegalEntityService legalEntityService) {
+    public CreateContactCommandHandler(IContactService contactService, ILegalEntityService legalEntityService, ISubCategoryService subCategoryService) {
         this.contactService = contactService;
         this.legalEntityService = legalEntityService;
+        this.subCategoryService = subCategoryService;
     }
 
     @Override
     public void handle(CreateContactCommand command) {
         this.validateLegalEntityNotNull(command.getLegalEntity());
         LegalEntityDto legalEntityDto = this.legalEntityService.findById(command.getLegalEntity());
+        SubCategoryDto subCategoryDto = this.subCategoryService.findById(command.getSubCategory());
 
         this.validateEmail(command.getEmail());
         this.validateEmailAndPhoneNotNull(command.getEmail(), command.getPhoneNumber());
@@ -45,6 +50,7 @@ public class CreateContactCommandHandler implements ICommandHandler<CreateContac
                 .isActive(command.getIsActive())
                 .legalEntity(legalEntityDto)
                 .personalEmail(command.getPersonalEmail())
+                .subCategory(subCategoryDto)
                 .build();
 
         this.contactService.create(contactDto);
