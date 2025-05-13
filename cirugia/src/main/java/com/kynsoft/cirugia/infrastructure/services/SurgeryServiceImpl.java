@@ -158,9 +158,9 @@ public class SurgeryServiceImpl implements ISurgeryService {
 
     @Override
     @Transactional(readOnly = true)
-    @Cacheable(cacheNames = SurgeryCacheConfig.SURGERY_SERVICE_CACHE,
-            key = "'search:' + #pageable.pageNumber + ':' + #pageable.pageSize + ':' + #pageable.sort + ':' + T(java.util.Objects).hash(#filterCriteria)",
-            unless = "#result == null")
+//    @Cacheable(cacheNames = SurgeryCacheConfig.SURGERY_SERVICE_CACHE,
+//            key = "'search:' + #pageable.pageNumber + ':' + #pageable.pageSize + ':' + #pageable.sort + ':' + T(java.util.Objects).hash(#filterCriteria)",
+//            unless = "#result == null")
     public PaginatedResponse search(Pageable pageable, List<FilterCriteria> filterCriteria) {
         log.info("Searching surgeries with filters: {}", filterCriteria);
         

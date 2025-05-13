@@ -22,4 +22,13 @@ public interface IBedAssignmentService {
     void updateStatus(UUID assignmentId, String status);
     void releaseBed(UUID assignmentId, UUID releasedBy);
     PaginatedResponse search(Pageable pageable, List<FilterCriteria> filterCriteria);
+    
+    /**
+     * Crea una nueva asignación de cama y gestiona asignaciones previas
+     * automáticamente liberando la cama anterior y asignando la nueva
+     * 
+     * @param bedAssignment Datos de la nueva asignación
+     * @return Asignación creada
+     */
+    BedAssignment createAndReplaceAssignment(BedAssignment bedAssignment);
 }
