@@ -24,6 +24,9 @@ public class GetPreOperativeBySurgeryIdQueryHandler implements IQueryHandler<Get
         log.info("Retrieving PreOperative record for surgery ID: {}", query.getSurgeryId());
         
         Optional<PreOperative> preOperative = preOperativeRepository.findBySurgeryId(query.getSurgeryId());
+        if (preOperative.isEmpty()){
+            return new GetPreOperativeBySurgeryIdResponse();
+        }
         
         log.info("Found PreOperative record for surgery ID: {}: {}", query.getSurgeryId(), preOperative.isPresent());
         

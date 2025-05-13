@@ -19,7 +19,7 @@ public class GetPostOperativeBySurgeryIdQueryHandler implements IQueryHandler<Ge
     public PostOperativeResponse handle(GetPostOperativeBySurgeryIdQuery query) {
         Optional<PostOperative> postOperative = postOperativeRepository.findBySurgeryId(query.getSurgeryId().toString());
         if (postOperative.isEmpty()) {
-            throw new RuntimeException("PostOperative not found with surgeryId: " + query.getSurgeryId());
+            return new PostOperativeResponse();
         }
         return new PostOperativeResponse(postOperative.get());
     }
