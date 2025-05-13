@@ -272,17 +272,17 @@ public class DigitalSignatureService implements IDigitalSignatureService, Signat
             byte[] signedBytes = signedOut.toByteArray();
             
             // Guardar el documento firmado en la carpeta de recursos
-            String savedPath = null;
-            if (req.getDocumentName() != null && !req.getDocumentName().isBlank()) {
-                savedPath = saveSignedDocumentToResources(signedBytes, req.getDocumentName());
-            }
+//            String savedPath = null;
+//            if (req.getDocumentName() != null && !req.getDocumentName().isBlank()) {
+//                savedPath = saveSignedDocumentToResources(signedBytes, req.getDocumentName());
+//            }
 
             return SignResponseDto.builder()
                     .signedDocument(signedBytes)
                     .signaturePosition(req.getVisibleSignature())
                     .signerName(sig.getName())
                     .signatureDate(new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss").format(new Date()))
-                    .filePath(savedPath) // Añadimos la ruta donde se guardó el documento
+                    .filePath("savedPath") // Añadimos la ruta donde se guardó el documento
                     .build();
 
         } catch (Exception e) {
