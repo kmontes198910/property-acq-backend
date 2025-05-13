@@ -9,7 +9,6 @@ import com.kynsoft.propertyacqcenter.domain.dto.embedded.BankContactDto;
 import com.kynsoft.propertyacqcenter.domain.dto.embedded.EmbeddableAddressDto;
 import com.kynsoft.propertyacqcenter.domain.dto.embedded.InternationalBankingDetailsDto;
 import com.kynsoft.propertyacqcenter.domain.enums.AccountType;
-import com.kynsoft.propertyacqcenter.domain.enums.AddressType;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
@@ -36,6 +35,10 @@ public class BankAccount {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "legal_entity_id", nullable = false)
     private LegalEntity legalEntity;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "currency", nullable = false)
+    private Currency currency;
 
     @Column(name = "bank_name", nullable = false)
     private String bankName;
@@ -109,8 +112,7 @@ public class BankAccount {
         );
         this.internationalDetails = new InternationalBankingDetails(
                 dto.getInternationalDetails().getSwiftCode(), 
-                dto.getInternationalDetails().getIban(), 
-                dto.getInternationalDetails().getCurrency()
+                dto.getInternationalDetails().getIban()
         );
         this.branchInfo = new BankBranch(
                 dto.getBranchInfo().getName(), 
@@ -125,6 +127,7 @@ public class BankAccount {
                 ), 
                 dto.getBranchInfo().getPhone()
         );
+        this.currency = new Currency(dto.getInternationalDetails().getCurrency());
     }
 
     public BankAccountDto toAggregate() {
@@ -144,7 +147,11 @@ public class BankAccount {
                 .createdBy(this.createdBy)
                 .updatedBy(this.updatedBy)
                 .contactDetails(contactDetails != null ? new BankContactDto(contactDetails.getName(), contactDetails.getPhone(), contactDetails.getEmail()) : null)
-                .internationalDetails(internationalDetails != null ? new InternationalBankingDetailsDto(internationalDetails.getSwiftCode(), internationalDetails.getIban(), internationalDetails.getCurrency()) : null)
+                .internationalDetails(internationalDetails != null ?
+                        new InternationalBankingDetailsDto(
+                                internationalDetails.getSwiftCode(), 
+                                internationalDetails.getIban(), 
+                                currency.toAggregate()) : null)
                 .branchInfo(branchInfo != null ? new BankBranchDto(
                         branchInfo.getName(), 
                         branchInfo.getAddress() != null ? new EmbeddableAddressDto(
@@ -177,7 +184,11 @@ public class BankAccount {
                 .createdBy(this.createdBy)
                 .updatedBy(this.updatedBy)
                 .contactDetails(contactDetails != null ? new BankContactDto(contactDetails.getName(), contactDetails.getPhone(), contactDetails.getEmail()) : null)
-                .internationalDetails(internationalDetails != null ? new InternationalBankingDetailsDto(internationalDetails.getSwiftCode(), internationalDetails.getIban(), internationalDetails.getCurrency()) : null)
+                .internationalDetails(internationalDetails != null ? 
+                        new InternationalBankingDetailsDto(
+                                internationalDetails.getSwiftCode(), 
+                                internationalDetails.getIban(), 
+                                currency.toAggregate()) : null)
                 .branchInfo(branchInfo != null ? new BankBranchDto(
                         branchInfo.getName(), 
                         branchInfo.getAddress() != null ? new EmbeddableAddressDto(

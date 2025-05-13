@@ -4,7 +4,10 @@ import com.kynsof.share.core.domain.request.PageableUtil;
 import com.kynsof.share.core.domain.request.SearchRequest;
 import com.kynsof.share.core.domain.response.PaginatedResponse;
 import com.kynsof.share.core.infrastructure.bus.IMediator;
+import com.kynsoft.propertyacqcenter.application.query.currency.getById.GetByIdCurrencyQuery;
 import com.kynsoft.propertyacqcenter.application.query.currency.search.GetSearchCurrencyQuery;
+import com.kynsoft.propertyacqcenter.application.response.CurrencyResponse;
+import java.util.UUID;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -27,6 +30,15 @@ public class CurrencyController {
         GetSearchCurrencyQuery query = new GetSearchCurrencyQuery(pageable, request.getFilter(),request.getQuery());
         PaginatedResponse data = mediator.send(query);
         return ResponseEntity.ok(data);
+    }
+
+    @GetMapping(path = "/{id}")
+    public ResponseEntity<?> getById(@PathVariable UUID id) {
+
+        GetByIdCurrencyQuery query = new GetByIdCurrencyQuery(id);
+        CurrencyResponse response = mediator.send(query);
+
+        return ResponseEntity.ok(response);
     }
 
 }

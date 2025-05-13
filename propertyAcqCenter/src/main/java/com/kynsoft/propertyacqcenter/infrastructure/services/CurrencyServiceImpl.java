@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 import org.springframework.data.domain.Page;
 
@@ -63,7 +64,11 @@ public class CurrencyServiceImpl implements ICurrencyService {
 
     @Override
     public CurrencyDto findById(UUID id) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        Optional<Currency> entity = repositoryQuery.findById(id);
+        if (entity.isPresent()) {
+            return entity.get().toAggregate();
+        }
+        return null;
     }
 
 }
