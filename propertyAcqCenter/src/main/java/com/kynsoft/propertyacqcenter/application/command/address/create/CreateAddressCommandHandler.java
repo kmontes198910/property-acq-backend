@@ -35,7 +35,8 @@ public class CreateAddressCommandHandler implements ICommandHandler<CreateAddres
                 null, 
                 null, 
                 null, 
-                null
+                null,
+                command.getNickName()
         ));
     }
 }

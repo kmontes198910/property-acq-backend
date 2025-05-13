@@ -49,6 +49,9 @@ public class Address {
     @Column(name = "country", nullable = false)
     private String country;
 
+    @Column(name = "nick_name", nullable = false)
+    private String nickName;
+
     @Column(name = "is_primary")
     private Boolean isPrimary;
 
@@ -79,6 +82,7 @@ public class Address {
         this.isPrimary = dto.getIsPrimary();
         this.createdBy = dto.getCreatedBy();
         this.updatedBy = dto.getUpdatedBy();
+        this.nickName = dto.getNickName();
     }
 
     public AddressDto toAggregate() {
@@ -96,6 +100,7 @@ public class Address {
                 .updatedAt(this.updatedAt)
                 .createdBy(this.createdBy)
                 .updatedBy(this.updatedBy)
+                .nickName(nickName)
                 .build();
     }
 
@@ -115,6 +120,7 @@ public class Address {
                 .updatedAt(this.updatedAt)
                 .createdBy(this.createdBy)
                 .updatedBy(this.updatedBy)
+                .nickName(nickName)
                 .build();
     }
 }

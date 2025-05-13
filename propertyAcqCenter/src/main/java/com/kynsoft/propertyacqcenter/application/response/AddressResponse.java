@@ -30,6 +30,7 @@ public class AddressResponse implements IResponse {
     private LocalDateTime updatedAt;
     private UUID createdBy;
     private UUID updatedBy;
+    private String nickName;
 
     public AddressResponse(AddressDto dto) {
         this.id = dto.getId();
@@ -46,6 +47,7 @@ public class AddressResponse implements IResponse {
         this.updatedAt = dto.getUpdatedAt();
         this.createdBy = dto.getCreatedBy();
         this.updatedBy = dto.getUpdatedBy();
+        this.nickName = dto.getNickName();
     }
 
 }
