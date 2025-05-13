@@ -13,5 +13,6 @@ public enum SurgeryStatus {
     POST_OPERATIVE,
     ROOM,
     DISCHARGED,
-    CANCELLED
+    CANCELLED,
+    TERMINATED
 }
