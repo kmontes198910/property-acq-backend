@@ -8,6 +8,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -94,4 +95,7 @@ public class SurgeryEntity {
 
     @UpdateTimestamp
     private LocalDateTime updatedAt;
+
+    @OneToMany(mappedBy = "recoveryBed")
+    private List<BedAssignmentEntity> bedAssignments;
 }
