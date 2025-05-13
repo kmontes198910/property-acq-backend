@@ -25,7 +25,6 @@ public class UpdateLegalEntityCommand implements ICommand {
     private Month fiscalYearEnd;
     private String businessDescription;
     private String website;
-    private String industry;
     private Double annualRevenue;
     private LocalDate dateOfLastAnnualReport;
     private UUID parentEntityId;
@@ -39,7 +38,7 @@ public class UpdateLegalEntityCommand implements ICommand {
     public UpdateLegalEntityCommand(UUID id, String name, String taxId, EntityType entityType, 
             UUID business, String formationState, LocalDate formationDate, 
             Month fiscalYearEnd, String businessDescription, 
-            String website, String industry, Double annualRevenue, 
+            String website, Double annualRevenue, 
             LocalDate dateOfLastAnnualReport, UUID parentEntityId, String notes, EntityStatus status,
             String owner, String entityExperience, Float entityFico, String authorizedSignerGovernmentIdCopy) {
         this.id = id;
@@ -52,7 +51,6 @@ public class UpdateLegalEntityCommand implements ICommand {
         this.fiscalYearEnd = fiscalYearEnd;
         this.businessDescription = businessDescription;
         this.website = website;
-        this.industry = industry;
         this.annualRevenue = annualRevenue;
         this.dateOfLastAnnualReport = dateOfLastAnnualReport;
         this.parentEntityId = parentEntityId;
@@ -76,7 +74,6 @@ public class UpdateLegalEntityCommand implements ICommand {
                 request.getFiscalYearEnd(),
                 request.getBusinessDescription(),
                 request.getWebsite(),
-                request.getIndustry(),
                 request.getAnnualRevenue(),
                 request.getDateOfLastAnnualReport(),
                 request.getParentEntityId(),

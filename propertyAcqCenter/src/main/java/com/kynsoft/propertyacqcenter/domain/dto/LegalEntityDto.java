@@ -29,7 +29,6 @@ public class LegalEntityDto {
     private Month fiscalYearEnd;
     private String businessDescription;
     private String website;
-    private String industry;
     private Double annualRevenue;
     private LocalDate dateOfLastAnnualReport;
     private LegalEntityDto parentEntityId;
@@ -51,7 +50,7 @@ public class LegalEntityDto {
     public LegalEntityDto(UUID id, String name, String taxId, EntityType entityType,
             BusinessDto business, String formationState, LocalDate formationDate,
             Month fiscalYearEnd, String businessDescription,
-            String website, String industry, Double annualRevenue,
+            String website, Double annualRevenue,
             LocalDate dateOfLastAnnualReport, LegalEntityDto parentEntityId, String notes,
             EntityStatus status, UUID createdBy, UUID updatedBy,
             String owner, String entityExperience, Float entityFico,
@@ -66,7 +65,6 @@ public class LegalEntityDto {
         this.fiscalYearEnd = fiscalYearEnd;
         this.businessDescription = businessDescription;
         this.website = website;
-        this.industry = industry;
         this.annualRevenue = annualRevenue;
         this.dateOfLastAnnualReport = dateOfLastAnnualReport;
         this.parentEntityId = parentEntityId;
