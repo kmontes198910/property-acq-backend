@@ -2,8 +2,11 @@ package com.kynsoft.propertyacqcenter.application.command.bankAccount.create;
 
 import com.kynsof.share.core.domain.bus.command.ICommandHandler;
 import com.kynsoft.propertyacqcenter.domain.dto.BankAccountDto;
+import com.kynsoft.propertyacqcenter.domain.dto.CurrencyDto;
 import com.kynsoft.propertyacqcenter.domain.dto.LegalEntityDto;
+import com.kynsoft.propertyacqcenter.domain.dto.embedded.InternationalBankingDetailsDto;
 import com.kynsoft.propertyacqcenter.domain.services.IBankAccountService;
+import com.kynsoft.propertyacqcenter.domain.services.ICurrencyService;
 import com.kynsoft.propertyacqcenter.domain.services.ILegalEntityService;
 import org.springframework.stereotype.Component;
 
@@ -12,16 +15,20 @@ public class CreateBankAccountCommandHandler implements ICommandHandler<CreateBa
 
     private final IBankAccountService bankAccountService;
     private final ILegalEntityService legalEntityService;
+    private final ICurrencyService currencyService;
 
-    public CreateBankAccountCommandHandler(IBankAccountService bankAccountService, ILegalEntityService legalEntityService) {
+    public CreateBankAccountCommandHandler(IBankAccountService bankAccountService, 
+                                           ILegalEntityService legalEntityService,
+                                           ICurrencyService currencyService) {
         this.bankAccountService = bankAccountService;
         this.legalEntityService = legalEntityService;
+        this.currencyService = currencyService;
     }
 
     @Override
     public void handle(CreateBankAccountCommand command) {
-        System.err.println("Legal Entity: " + command.getLegalEntity());
         LegalEntityDto legalEntityDto = this.legalEntityService.findById(command.getLegalEntity());
+        CurrencyDto currencyDto = this.currencyService.findById(command.getInternationalDetails().getCurrency());
         bankAccountService.create(new BankAccountDto(
                 command.getId(), 
                 legalEntityDto, 
@@ -36,7 +43,11 @@ public class CreateBankAccountCommandHandler implements ICommandHandler<CreateBa
                 null, 
                 null, 
                 command.getContactDetails(), 
-                command.getInternationalDetails(), 
+                new InternationalBankingDetailsDto(
+                        command.getInternationalDetails().getSwiftCode(), 
+                        command.getInternationalDetails().getIban(), 
+                        currencyDto
+                ), 
                 command.getBranchInfo()
         ));
     }

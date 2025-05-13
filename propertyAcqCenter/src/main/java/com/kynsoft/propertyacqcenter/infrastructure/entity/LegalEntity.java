@@ -63,9 +63,6 @@ public class LegalEntity {
     @Column(name = "website")
     private String website;
 
-    @Column(name = "industry")
-    private String industry;
-
     @Column(name = "annual_revenue")
     private Double annualRevenue;
 
@@ -129,7 +126,6 @@ public class LegalEntity {
         this.fiscalYearEnd = dto.getFiscalYearEnd();
         this.businessDescription = dto.getBusinessDescription();
         this.website = dto.getWebsite();
-        this.industry = dto.getIndustry();
         this.annualRevenue = dto.getAnnualRevenue();
         this.dateOfLastAnnualReport = dto.getDateOfLastAnnualReport();
         this.parent = dto.getParentEntityId() != null ? new LegalEntity(dto.getParentEntityId()) : null;
@@ -154,7 +150,6 @@ public class LegalEntity {
                 .fiscalYearEnd(this.fiscalYearEnd)
                 .businessDescription(this.businessDescription)
                 .website(this.website)
-                .industry(this.industry)
                 .annualRevenue(this.annualRevenue)
                 .dateOfLastAnnualReport(this.dateOfLastAnnualReport)
                 .parentEntityId(this.parent != null ? this.parent.toAggregateBasic() : null)
@@ -195,7 +190,6 @@ public class LegalEntity {
                 .fiscalYearEnd(this.fiscalYearEnd)
                 .businessDescription(this.businessDescription)
                 .website(this.website)
-                .industry(this.industry)
                 .annualRevenue(this.annualRevenue)
                 .dateOfLastAnnualReport(this.dateOfLastAnnualReport)
                 .parentEntityId(this.parent != null ? this.parent.toAggregateBasic() : null)

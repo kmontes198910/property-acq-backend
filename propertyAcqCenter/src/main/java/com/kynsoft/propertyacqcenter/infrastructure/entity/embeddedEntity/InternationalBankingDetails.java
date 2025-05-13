@@ -22,13 +22,9 @@ public class InternationalBankingDetails {
     @Column(name = "iban")
     private String iban;
 
-    @Column(name = "account_currency")
-    private String currency;
-
     public InternationalBankingDetails(InternationalBankingDetailsDto dto) {
         this.swiftCode = dto.getSwiftCode();
         this.iban = dto.getIban();
-        this.currency = dto.getCurrency();
     }
 
 }

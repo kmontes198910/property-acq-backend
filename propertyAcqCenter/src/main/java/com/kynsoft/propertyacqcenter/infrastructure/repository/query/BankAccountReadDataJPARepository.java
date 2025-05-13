@@ -14,11 +14,11 @@ import org.springframework.data.jpa.repository.EntityGraph;
 
 @Repository
 public interface BankAccountReadDataJPARepository extends JpaRepository<BankAccount, UUID>, JpaSpecificationExecutor<BankAccount> {
-    @EntityGraph(attributePaths = {"legalEntity"})
+    @EntityGraph(attributePaths = {"legalEntity", "currency"})
     @Override
     Page<BankAccount> findAll(Specification<BankAccount> specification, Pageable pageable);
 
-    @EntityGraph(attributePaths = {"legalEntity.business", "legalEntity", "legalEntity.parent"})
+    @EntityGraph(attributePaths = {"legalEntity.business", "legalEntity", "legalEntity.parent", "currency"})
     @Override
     Optional<BankAccount> findById(UUID id);
 }

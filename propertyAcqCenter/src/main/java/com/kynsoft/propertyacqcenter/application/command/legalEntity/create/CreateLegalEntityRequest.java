@@ -21,7 +21,6 @@ public class CreateLegalEntityRequest {
     private Month fiscalYearEnd;
     private String businessDescription;
     private String website;
-    private String industry;
     private Double annualRevenue;
     private LocalDate dateOfLastAnnualReport;
     private UUID parentEntityId;

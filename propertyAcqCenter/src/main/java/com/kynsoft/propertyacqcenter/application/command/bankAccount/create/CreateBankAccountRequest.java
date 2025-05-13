@@ -2,7 +2,6 @@ package com.kynsoft.propertyacqcenter.application.command.bankAccount.create;
 
 import com.kynsoft.propertyacqcenter.domain.dto.embedded.BankBranchDto;
 import com.kynsoft.propertyacqcenter.domain.dto.embedded.BankContactDto;
-import com.kynsoft.propertyacqcenter.domain.dto.embedded.InternationalBankingDetailsDto;
 import com.kynsoft.propertyacqcenter.domain.enums.AccountType;
 import java.time.LocalDate;
 import java.util.UUID;
@@ -24,6 +23,6 @@ public class CreateBankAccountRequest {
     private String notes;
 
     private BankContactDto contactDetails;
-    private InternationalBankingDetailsDto internationalDetails;
+    private InternationalBankingDetailsRequest internationalDetails;
     private BankBranchDto branchInfo;
 }

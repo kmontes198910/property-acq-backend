@@ -35,7 +35,8 @@ public class UpdateAddressCommandHandler implements ICommandHandler<UpdateAddres
                 null, 
                 null, 
                 null, 
-                null
+                null,
+                command.getNickName()
         ));
     }
 }
