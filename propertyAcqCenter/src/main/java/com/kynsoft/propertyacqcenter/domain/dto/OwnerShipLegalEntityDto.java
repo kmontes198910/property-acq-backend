@@ -1,5 +1,6 @@
 package com.kynsoft.propertyacqcenter.domain.dto;
 
+import java.util.List;
 import lombok.*;
 import java.util.UUID;
 
@@ -14,4 +15,5 @@ public class OwnerShipLegalEntityDto {
     private String name;
     private Double ownershipPercentage;
     private LegalEntityDto legalEntity;
+    private List<OwnerDocumentDto> ownerDocuments;
 }

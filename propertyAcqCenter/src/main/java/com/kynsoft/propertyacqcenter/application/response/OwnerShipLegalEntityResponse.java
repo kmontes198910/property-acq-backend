@@ -16,12 +16,14 @@ public class OwnerShipLegalEntityResponse implements IResponse {
     private String name;
     private Double ownershipPercentage;
     private LegalEntityBasicResponse legalEntity;
+    private int ownerDocuments;
 
     public OwnerShipLegalEntityResponse(OwnerShipLegalEntityDto dto) {
         this.id = dto.getId();
         this.name = dto.getName();
         this.ownershipPercentage = dto.getOwnershipPercentage();
         this.legalEntity = new LegalEntityBasicResponse(dto.getLegalEntity());
+        this.ownerDocuments = dto.getOwnerDocuments().size();
     }
 
 }

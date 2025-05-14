@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
 
 @Data
@@ -36,6 +37,7 @@ public class BankAccountDto {
     private BankContactDto contactDetails;
     private InternationalBankingDetailsDto internationalDetails;
     private BankBranchDto branchInfo;
+    private List<BankDocumentDto> bankDocuments;
 
     public BankAccountDto(UUID id, LegalEntityDto legalEntity, String bankName, String accountNumber, String routingNumber, AccountType accountType, String accountNickname, LocalDate openingDate, String onlineBankingUrl, String notes, UUID createdBy, UUID updatedBy, BankContactDto contactDetails, InternationalBankingDetailsDto internationalDetails, BankBranchDto branchInfo) {
         this.id = id;

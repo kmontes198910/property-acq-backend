@@ -51,6 +51,12 @@ public class BankDocument {
                 .build();
     }
 
+    public BankDocumentDto toAggregateBasic() {
+        return BankDocumentDto.builder()
+                .id(this.id)
+                .build();
+    }
+
     public BankDocumentDto toAggregateSimple() {
         return BankDocumentDto.builder()
                 .id(this.id)

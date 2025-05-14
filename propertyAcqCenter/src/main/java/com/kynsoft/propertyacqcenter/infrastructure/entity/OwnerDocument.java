@@ -51,6 +51,12 @@ public class OwnerDocument {
                 .build();
     }
 
+    public OwnerDocumentDto toAggregateBasic() {
+        return OwnerDocumentDto.builder()
+                .id(this.id)
+                .build();
+    }
+
     public OwnerDocument(OwnerDocumentDto dto) {
         this.id = dto.getId();
         this.document = dto.getDocument();
