@@ -3,6 +3,8 @@ package com.kynsoft.propertyacqcenter.application.response;
 import com.kynsof.share.core.domain.bus.query.IResponse;
 import com.kynsoft.propertyacqcenter.domain.dto.PropertyDto;
 import com.kynsoft.propertyacqcenter.domain.enums.PropertyType;
+import com.kynsoft.propertyacqcenter.domain.enums.RoofType;
+import com.kynsoft.propertyacqcenter.domain.enums.StructureType;
 import lombok.*;
 
 @Setter
@@ -26,6 +28,13 @@ public class PropertiesResponse implements IResponse {
     private double unitCount;
     private int squareFootage;
 
+    private RoofType roofType;
+    private StructureType structureType;
+    private String hoa;
+    private Integer bedrooms;
+    private Double bathrooms;
+    private Double askingPrice;
+
     public PropertiesResponse(PropertyDto dto) {
         this.id = dto.getId();
         this.propertyType = dto.getPropertyType();
@@ -41,6 +50,12 @@ public class PropertiesResponse implements IResponse {
         this.zipCode = dto.getZipCode();
         this.unitCount = dto.getUnitCount();
         this.squareFootage = dto.getSquareFootage();
+        this.roofType = dto.getRoofType();
+        this.structureType = dto.getStructureType();
+        this.hoa = dto.getHoa();
+        this.bedrooms = dto.getBedrooms();
+        this.bathrooms = dto.getBathrooms();
+        this.askingPrice = dto.getAskingPrice();
     }
 
 }

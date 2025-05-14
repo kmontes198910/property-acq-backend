@@ -19,7 +19,7 @@ public class OwnerDocumentResponse implements IResponse {
     private String document;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
-    private OwnerShipLegalEntityDto owner;
+    private OwnerShipLegalEntityBasicResponse owner;
 
     public OwnerDocumentResponse(OwnerDocumentDto dto) {
         this.id = dto.getId();
@@ -27,7 +27,7 @@ public class OwnerDocumentResponse implements IResponse {
         this.document = dto.getDocument();
         this.createdAt = dto.getCreatedAt();
         this.updatedAt = dto.getUpdatedAt();
-        this.owner = dto.getOwner();
+        this.owner = dto.getOwner() != null ? new OwnerShipLegalEntityBasicResponse(dto.getOwner()) : null;
     }
 
 }

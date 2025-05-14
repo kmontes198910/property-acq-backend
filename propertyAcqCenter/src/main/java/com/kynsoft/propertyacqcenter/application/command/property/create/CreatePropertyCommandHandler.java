@@ -31,6 +31,12 @@ public class CreatePropertyCommandHandler implements ICommandHandler<CreatePrope
                 .unitCount(command.getUnitCount())
                 .yearBuilt(command.getYearBuilt())
                 .zipCode(command.getZipCode())
+                .roofType(command.getRoofType())
+                .structureType(command.getStructureType())
+                .hoa(command.getHoa())
+                .bedrooms(command.getBedrooms())
+                .bathrooms(command.getBathrooms())
+                .askingPrice(command.getAskingPrice())
                 .build());
     }
 }
