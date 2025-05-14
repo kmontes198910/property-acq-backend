@@ -59,7 +59,7 @@ public class BankAccountResponse implements IResponse {
         this.internationalDetails = dto.getInternationalDetails();
         this.branchInfo = dto.getBranchInfo();
         this.legalEntity = new LegalEntityBasicResponse(dto.getLegalEntity());
-        this.bankDocuments = dto.getBankDocuments().size();
+        this.bankDocuments = dto.getBankDocuments() != null ? dto.getBankDocuments().size() : 0;
         //this.bankDocuments = dto.getBankDocuments();
     }
 

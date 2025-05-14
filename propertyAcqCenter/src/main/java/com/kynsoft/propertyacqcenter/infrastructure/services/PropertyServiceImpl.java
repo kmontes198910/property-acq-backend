@@ -55,7 +55,13 @@ public class PropertyServiceImpl implements IPropertyService {
         update.setUnitCount(object.getUnitCount());
         update.setYearBuilt(object.getYearBuilt());
         update.setZipCode(object.getZipCode());
-        
+        update.setRoofType(object.getRoofType());
+        update.setStructureType(object.getStructureType());
+        update.setHoa(object.getHoa());
+        update.setBedrooms(object.getBedrooms());
+        update.setBathrooms(object.getBathrooms());
+        update.setAskingPrice(object.getAskingPrice());
+
         repositoryCommand.save(update);
     }
 

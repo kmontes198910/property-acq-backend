@@ -2,6 +2,8 @@ package com.kynsoft.propertyacqcenter.infrastructure.entity;
 
 import com.kynsoft.propertyacqcenter.domain.dto.PropertyDto;
 import com.kynsoft.propertyacqcenter.domain.enums.PropertyType;
+import com.kynsoft.propertyacqcenter.domain.enums.RoofType;
+import com.kynsoft.propertyacqcenter.domain.enums.StructureType;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -33,6 +35,13 @@ public class Property {
     private double unitCount;
     private int squareFootage;
 
+    private RoofType roofType;
+    private StructureType structureType;
+    private String hoa;
+    private Integer bedrooms;
+    private Double bathrooms;
+    private Double askingPrice;
+
     public Property(PropertyDto dto) {
         this.id = dto.getId();
         this.propertyType = dto.getPropertyType();
@@ -48,6 +57,12 @@ public class Property {
         this.zipCode = dto.getZipCode();
         this.unitCount = dto.getUnitCount();
         this.squareFootage = dto.getSquareFootage();
+        this.roofType = dto.getRoofType();
+        this.structureType = dto.getStructureType();
+        this.hoa = dto.getHoa();
+        this.bedrooms = dto.getBedrooms();
+        this.bathrooms = dto.getBathrooms();
+        this.askingPrice = dto.getAskingPrice();
     }
 
     public PropertyDto toAggregate() {
@@ -66,6 +81,12 @@ public class Property {
                 .unitCount(unitCount)
                 .yearBuilt(yearBuilt)
                 .zipCode(zipCode)
+                .roofType(roofType)
+                .structureType(structureType)
+                .hoa(hoa)
+                .bedrooms(bedrooms)
+                .bathrooms(bathrooms)
+                .askingPrice(askingPrice)
                 .build();
     }
 
