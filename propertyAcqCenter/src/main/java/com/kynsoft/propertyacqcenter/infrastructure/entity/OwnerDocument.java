@@ -46,7 +46,7 @@ public class OwnerDocument {
                 .createdAt(this.createdAt)
                 .document(document)
                 .updatedAt(this.updatedAt)
-                .owner(this.owner != null ? this.owner.toAggregate() : null)
+                .owner(this.owner != null ? this.owner.toAggregateBasic() : null)
                 .fileName(fileName)
                 .build();
     }

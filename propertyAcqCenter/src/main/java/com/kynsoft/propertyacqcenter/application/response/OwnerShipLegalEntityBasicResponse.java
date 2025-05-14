@@ -10,20 +10,16 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class OwnerShipLegalEntityResponse implements IResponse {
+public class OwnerShipLegalEntityBasicResponse implements IResponse {
 
     private UUID id;
     private String name;
     private Double ownershipPercentage;
-    private LegalEntityBasicResponse legalEntity;
-    private int ownerDocuments;
 
-    public OwnerShipLegalEntityResponse(OwnerShipLegalEntityDto dto) {
+    public OwnerShipLegalEntityBasicResponse(OwnerShipLegalEntityDto dto) {
         this.id = dto.getId();
         this.name = dto.getName();
         this.ownershipPercentage = dto.getOwnershipPercentage();
-        this.legalEntity = new LegalEntityBasicResponse(dto.getLegalEntity());
-        this.ownerDocuments = dto.getOwnerDocuments() != null ? dto.getOwnerDocuments().size() : 0;
     }
 
 }
