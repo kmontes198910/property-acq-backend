@@ -175,7 +175,7 @@ public class DigitalSignatureService implements IDigitalSignatureService, Signat
         try {
             uuid = UUID.fromString(certificateId);
         } catch (IllegalArgumentException e) {
-            throw new IllegalArgumentException("ID del certificado no es un UUID válido");
+            throw new IllegalArgumentException("ID del certificado no es un UUID válido"+e.getMessage());
         }
         
         // Buscar el certificado en la base de datos
