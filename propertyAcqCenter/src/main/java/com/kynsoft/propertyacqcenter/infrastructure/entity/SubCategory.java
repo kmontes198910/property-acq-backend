@@ -22,6 +22,9 @@ public class SubCategory {
     @Column(name = "name", nullable = false)
     private String name;
 
+    @Column(name = "description")
+    private String description;
+
     @Column(name = "category")
     @Enumerated(EnumType.STRING)
     private ContactType category;
@@ -29,6 +32,7 @@ public class SubCategory {
     public SubCategory(SubCategoryDto dto) {
         this.id = dto.getId();
         this.name = dto.getName();
+        this.description = dto.getDescription();
         this.category = dto.getCategory();
     }
 
@@ -36,6 +40,7 @@ public class SubCategory {
         return SubCategoryDto.builder()
                 .id(this.id)
                 .name(name)
+                .description(description)
                 .category(category)
                 .build();
     }
