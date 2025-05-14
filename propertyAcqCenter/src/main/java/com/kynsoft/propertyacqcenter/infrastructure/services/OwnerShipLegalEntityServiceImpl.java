@@ -61,7 +61,7 @@ public class OwnerShipLegalEntityServiceImpl implements IOwnerShipLegalEntitySer
     public OwnerShipLegalEntityDto findById(UUID id) {
         Optional<OwnerShipLegalEntity> entity = repositoryQuery.findById(id);
         if (entity.isPresent()) {
-            return entity.get().toAggregate();
+            return entity.get().toAggregateBasic();
         }
         throw new AddressNotFoundException(id);
     }

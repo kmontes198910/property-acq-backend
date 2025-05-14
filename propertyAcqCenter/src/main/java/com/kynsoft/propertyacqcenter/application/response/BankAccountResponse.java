@@ -38,6 +38,8 @@ public class BankAccountResponse implements IResponse {
     private InternationalBankingDetailsDto internationalDetails;
     private BankBranchDto branchInfo;
     private LegalEntityBasicResponse legalEntity;
+    //private List<BankDocumentDto> bankDocuments;
+    private int bankDocuments;
 
     public BankAccountResponse(BankAccountDto dto) {
         this.id = dto.getId();
@@ -57,6 +59,8 @@ public class BankAccountResponse implements IResponse {
         this.internationalDetails = dto.getInternationalDetails();
         this.branchInfo = dto.getBranchInfo();
         this.legalEntity = new LegalEntityBasicResponse(dto.getLegalEntity());
+        this.bankDocuments = dto.getBankDocuments().size();
+        //this.bankDocuments = dto.getBankDocuments();
     }
 
 }

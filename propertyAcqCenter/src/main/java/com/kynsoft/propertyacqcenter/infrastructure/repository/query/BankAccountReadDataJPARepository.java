@@ -14,7 +14,7 @@ import org.springframework.data.jpa.repository.EntityGraph;
 
 @Repository
 public interface BankAccountReadDataJPARepository extends JpaRepository<BankAccount, UUID>, JpaSpecificationExecutor<BankAccount> {
-    @EntityGraph(attributePaths = {"legalEntity", "currency"})
+    @EntityGraph(attributePaths = {"legalEntity", "currency", "bankDocuments"})
     @Override
     Page<BankAccount> findAll(Specification<BankAccount> specification, Pageable pageable);
 

@@ -16,8 +16,11 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "bank_accounts")
@@ -74,6 +77,8 @@ public class BankAccount {
     @OneToMany(mappedBy = "bankAccount", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<BankSignatory> signatories;
 
+    @OneToMany(mappedBy = "bankAccount", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<BankDocument> bankDocuments = new HashSet<>();
 
     @Column(name = "notes",columnDefinition = "TEXT")
     private String notes;
@@ -147,6 +152,7 @@ public class BankAccount {
                 .createdBy(this.createdBy)
                 .updatedBy(this.updatedBy)
                 .contactDetails(contactDetails != null ? new BankContactDto(contactDetails.getName(), contactDetails.getPhone(), contactDetails.getEmail()) : null)
+                .bankDocuments(bankDocuments != null ? bankDocuments.stream().map(bankAccount -> bankAccount.toAggregateBasic()).collect(Collectors.toList()) : null)
                 .internationalDetails(internationalDetails != null ?
                         new InternationalBankingDetailsDto(
                                 internationalDetails.getSwiftCode(), 
