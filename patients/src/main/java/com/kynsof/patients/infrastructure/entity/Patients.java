@@ -60,6 +60,7 @@ public class Patients implements Serializable {
     private int gestationTime = 0;
     
     @Enumerated(EnumType.STRING)
+    @Column(name = "blood_type")
     private BloodType bloodType;
 
     @OneToOne(mappedBy = "patient", orphanRemoval = true)

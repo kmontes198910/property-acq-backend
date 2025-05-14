@@ -57,6 +57,7 @@ public class CreatePatientsCommandHandler implements ICommandHandler<CreatePatie
         );
         patientDto.setProfession(command.getProfession());
         patientDto.setEducationalLevel(command.getEducationalLevel());
+        patientDto.setBloodType(command.getBloodType());
 
         UUID id = serviceImpl.create(patientDto);
         command.setId(id);
