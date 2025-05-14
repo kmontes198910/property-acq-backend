@@ -8,6 +8,7 @@ import com.kynsoft.propertyacqcenter.domain.dto.ContactDto;
 import com.kynsoft.propertyacqcenter.domain.dto.exception.ContactNotFoundException;
 import com.kynsoft.propertyacqcenter.domain.services.IContactService;
 import com.kynsoft.propertyacqcenter.infrastructure.entity.Contact;
+import com.kynsoft.propertyacqcenter.infrastructure.entity.SubCategory;
 import com.kynsoft.propertyacqcenter.infrastructure.repository.command.ContactWriteDataJPARepository;
 import com.kynsoft.propertyacqcenter.infrastructure.repository.query.ContactReadDataJPARepository;
 import org.springframework.data.domain.Page;
@@ -72,6 +73,7 @@ public class ContactServiceImpl implements IContactService {
             contact.setCategory(contactDto.getCategory());
             contact.setNotes(contactDto.getNotes());
             contact.setIsActive(contactDto.getIsActive());
+            contact.setSubCategory(new SubCategory(contactDto.getSubCategory()));
 
             // Guardar los cambios
             repositoryCommand.save(contact);
