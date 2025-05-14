@@ -77,7 +77,7 @@ public class DigitalSignatureCertificateController {
         @ApiResponse(responseCode = "404", description = "Certificado no encontrado"),
         @ApiResponse(responseCode = "500", description = "Error interno del servidor")
     })
-    @PutMapping("/{id}")
+    @PatchMapping("/{id}")
     public ResponseEntity<UpdateDigitalSignatureCertificateMessage> update(
             @Parameter(description = "ID del certificado a actualizar", required = true)
             @PathVariable UUID id,
