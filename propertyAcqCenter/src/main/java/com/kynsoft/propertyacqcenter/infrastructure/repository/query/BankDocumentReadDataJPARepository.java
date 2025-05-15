@@ -18,7 +18,7 @@ public interface BankDocumentReadDataJPARepository extends JpaRepository<BankDoc
     @Override
     Page<BankDocument> findAll(Specification<BankDocument> specification, Pageable pageable);
 
-    @EntityGraph(attributePaths = {"bankAccount", "bankAccount.legalEntity"})
+    @EntityGraph(attributePaths = {"bankAccount", "bankAccount.legalEntity", "bankAccount.bankDocuments", "bankAccount.currency"})
     @Override
     Optional<BankDocument> findById(UUID id);
 }
