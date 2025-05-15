@@ -4,8 +4,8 @@ import lombok.Getter;
 
 @Getter
 public enum SurgeryStage {
-    PRE_OPERATIVO("preOperativo"),
-    POST_OPERATIVO("postOperativo"),
+    PRE_OPERATORIO("preOperatorio"),
+    POST_OPERATORIO("postOperatorio"),
     HOSPITALIZACION("hospitalizacion");
 
     private final String value;

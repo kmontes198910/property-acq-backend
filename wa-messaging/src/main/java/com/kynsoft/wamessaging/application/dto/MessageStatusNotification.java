@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 import java.util.UUID;
 
 /**
- * DTO para notificaciones por Kafka sobre el estado de los mensajes
+ * DTO para notificaciones sobre el estado de los mensajes
  */
 @Data
 @Builder

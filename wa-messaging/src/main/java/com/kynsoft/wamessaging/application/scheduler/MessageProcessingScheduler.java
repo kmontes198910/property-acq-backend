@@ -28,10 +28,11 @@ public class MessageProcessingScheduler {
         log.debug("Iniciando procesamiento programado de mensajes pendientes");
         
         try {
-            int processedCount = messageCoordinatorService.processNextBatch(batchSize);
+            java.util.List<com.kynsoft.wamessaging.application.dto.MessageResponse> processedMessages = 
+                messageCoordinatorService.processNextBatch(batchSize);
             
-            if (processedCount > 0) {
-                log.info("Procesados {} mensajes en la ejecución programada", processedCount);
+            if (!processedMessages.isEmpty()) {
+                log.info("Procesados {} mensajes en la ejecución programada", processedMessages.size());
             } else {
                 log.debug("No se encontraron mensajes pendientes para procesar");
             }

@@ -1,0 +1,1 @@
+// Este archivo está intencionalmente vacío porque hemos eliminado la dependencia de Kafka

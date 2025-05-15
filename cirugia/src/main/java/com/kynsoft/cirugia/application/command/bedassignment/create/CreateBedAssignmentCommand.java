@@ -34,7 +34,7 @@ public class CreateBedAssignmentCommand implements ICommand {
                 .surgeryId(request.getSurgeryId())
                 .bedId(request.getBedId())
                 .roomId(request.getRoomId())
-                .surgeryStage(request.getSurgeryStage() != null ? request.getSurgeryStage().getValue() : null)
+                .surgeryStage(request.getSurgeryStage())
                 .observations(request.getObservations())
                 .businessId(request.getBusinessId())
                 .assignedBy(request.getAssignedBy())

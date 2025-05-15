@@ -1,0 +1,274 @@
+package com.kynsoft.wamessaging.infrastructure.service;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.kynsoft.wamessaging.application.dto.WhatsAppApiResponse;
+import com.kynsoft.wamessaging.domain.entity.MessageType;
+import com.kynsoft.wamessaging.domain.service.WhatsAppApiClient;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import okhttp3.*;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
+
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+
+/**
+ * Implementación del cliente para la API de WhatsApp Business Cloud
+ */
+@Service
+@RequiredArgsConstructor
+@Slf4j
+public class WhatsAppApiClientImpl implements WhatsAppApiClient {
+
+    private final OkHttpClient httpClient;
+    private final ObjectMapper objectMapper;
+    
+    @Value("${whatsapp.api.url}")
+    private String apiUrl;
+    
+    @Value("${whatsapp.api.phone-number-id}")
+    private String phoneNumberId;
+    
+    @Value("${whatsapp.api.token}")
+    private String apiToken;
+    
+    @Value("${whatsapp.api.version:v17.0}")
+    private String apiVersion;
+
+    /**
+     * Envía un mensaje de texto simple
+     */
+    @Override
+    public WhatsAppApiResponse sendTextMessage(String recipientPhone, String message) {
+        log.info("Enviando mensaje de texto a {}: {}", recipientPhone, message);
+        
+        Map<String, Object> payload = new HashMap<>();
+        payload.put("messaging_product", "whatsapp");
+        payload.put("recipient_type", "individual");
+        payload.put("to", recipientPhone);
+        payload.put("type", "text");
+        
+        Map<String, String> textContent = new HashMap<>();
+        textContent.put("body", message);
+        payload.put("text", textContent);
+        
+        try {
+            String jsonPayload = objectMapper.writeValueAsString(payload);
+            return sendRequest(jsonPayload);
+        } catch (JsonProcessingException e) {
+            log.error("Error al crear payload para mensaje de texto", e);
+            return buildErrorResponse("Error al crear mensaje: " + e.getMessage());
+        }
+    }
+    
+    /**
+     * Envía un mensaje basado en plantilla
+     */
+    @Override
+    public WhatsAppApiResponse sendTemplateMessage(String recipientPhone, String templateName, Object templateData) {
+        log.info("Enviando mensaje de plantilla a {}: plantilla {}", recipientPhone, templateName);
+        
+        Map<String, Object> payload = new HashMap<>();
+        payload.put("messaging_product", "whatsapp");
+        payload.put("recipient_type", "individual");
+        payload.put("to", recipientPhone);
+        payload.put("type", "template");
+        
+        Map<String, Object> templateContent = new HashMap<>();
+        templateContent.put("name", templateName);
+        
+        if (templateData != null && templateData instanceof Map) {
+            @SuppressWarnings("unchecked")
+            Map<String, String> templateParams = (Map<String, String>) templateData;
+            
+            if (!templateParams.isEmpty()) {
+                // Construir componentes para la plantilla
+                Map<String, Object> component = new HashMap<>();
+                component.put("type", "body");
+                
+                // Convertir los parámetros al formato requerido
+                Object[] parameters = templateParams.entrySet().stream()
+                        .map(entry -> {
+                            Map<String, Object> param = new HashMap<>();
+                            param.put("type", "text");
+                            param.put("text", entry.getValue());
+                            return param;
+                        })
+                        .toArray();
+                
+                component.put("parameters", parameters);
+                
+                Object[] components = new Object[]{component};
+                templateContent.put("components", components);
+            }
+        }
+        
+        payload.put("template", templateContent);
+        
+        try {
+            String jsonPayload = objectMapper.writeValueAsString(payload);
+            return sendRequest(jsonPayload);
+        } catch (JsonProcessingException e) {
+            log.error("Error al crear payload para mensaje de plantilla", e);
+            return buildErrorResponse("Error al crear mensaje: " + e.getMessage());
+        }
+    }
+    
+    /**
+     * Envía un mensaje con contenido multimedia
+     */
+    @Override
+    public WhatsAppApiResponse sendMediaMessage(String recipientPhone, String caption, String mediaUrl, MessageType mediaType) {
+        log.info("Enviando mensaje multimedia ({}) a {}: {}", mediaType, recipientPhone, mediaUrl);
+        
+        String mediaTypeStr = mediaType.name().toLowerCase();
+        
+        Map<String, Object> payload = new HashMap<>();
+        payload.put("messaging_product", "whatsapp");
+        payload.put("recipient_type", "individual");
+        payload.put("to", recipientPhone);
+        payload.put("type", mediaTypeStr);
+        
+        Map<String, Object> mediaContent = new HashMap<>();
+        mediaContent.put("link", mediaUrl);
+        if (caption != null && !caption.isEmpty()) {
+            mediaContent.put("caption", caption);
+        }
+        
+        payload.put(mediaTypeStr, mediaContent);
+        
+        try {
+            String jsonPayload = objectMapper.writeValueAsString(payload);
+            return sendRequest(jsonPayload);
+        } catch (JsonProcessingException e) {
+            log.error("Error al crear payload para mensaje multimedia", e);
+            return buildErrorResponse("Error al crear mensaje: " + e.getMessage());
+        }
+    }
+    
+    /**
+     * Verifica el estado de un mensaje
+     */
+    @Override
+    public WhatsAppApiResponse checkMessageStatus(String messageId) {
+        log.info("Verificando estado del mensaje: {}", messageId);
+        
+        String url = String.format("%s/%s/%s/messages/%s", apiUrl, apiVersion, phoneNumberId, messageId);
+        
+        Request request = new Request.Builder()
+                .url(url)
+                .header("Authorization", "Bearer " + apiToken)
+                .get()
+                .build();
+        
+        try {
+            Response response = httpClient.newCall(request).execute();
+            return processResponse(response);
+        } catch (IOException e) {
+            log.error("Error al verificar estado del mensaje", e);
+            return buildErrorResponse("Error de conexión: " + e.getMessage());
+        }
+    }
+    
+    /**
+     * Método común para enviar las solicitudes a la API
+     */
+    private WhatsAppApiResponse sendRequest(String jsonPayload) {
+        String url = String.format("%s/%s/%s/messages", apiUrl, apiVersion, phoneNumberId);
+        log.debug("Enviando solicitud a {}: {}", url, jsonPayload);
+        
+        MediaType mediaType = MediaType.parse("application/json");
+        RequestBody body = RequestBody.create(jsonPayload, mediaType);
+        
+        Request request = new Request.Builder()
+                .url(url)
+                .header("Authorization", "Bearer " + apiToken)
+                .header("Content-Type", "application/json")
+                .post(body)
+                .build();
+        
+        try {
+            Response response = httpClient.newCall(request).execute();
+            return processResponse(response);
+        } catch (IOException e) {
+            log.error("Error al enviar mensaje", e);
+            return buildErrorResponse("Error de conexión: " + e.getMessage());
+        }
+    }
+    
+    /**
+     * Procesa la respuesta de la API
+     */
+    private WhatsAppApiResponse processResponse(Response response) throws IOException {
+        if (!response.isSuccessful()) {
+            log.error("Error en la respuesta de la API: Código {}", response.code());
+            return buildErrorResponse("Error HTTP: " + response.code() + " " + response.message());
+        }
+        
+        String responseBody = response.body() != null ? response.body().string() : "";
+        log.debug("Respuesta de la API: {}", responseBody);
+        
+        try {
+            Map<String, Object> responseMap = objectMapper.readValue(responseBody, Map.class);
+            
+            WhatsAppApiResponse.WhatsAppApiResponseBuilder responseBuilder = WhatsAppApiResponse.builder()
+                    .successful(response.isSuccessful())
+                    .messagingProduct((String) responseMap.get("messaging_product"));
+            
+            // Procesar ID del mensaje si existe
+            if (responseMap.containsKey("messages")) {
+                Object messagesObj = responseMap.get("messages");
+                if (messagesObj instanceof Iterable) {
+                    Iterable<?> messages = (Iterable<?>) messagesObj;
+                    for (Object msg : messages) {
+                        if (msg instanceof Map) {
+                            Map<?, ?> messageMap = (Map<?, ?>) msg;
+                            if (messageMap.containsKey("id")) {
+                                responseBuilder.id(messageMap.get("id").toString());
+                                responseBuilder.messages(objectMapper.writeValueAsString(messagesObj));
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+            
+            // Procesar información de contactos si existe
+            if (responseMap.containsKey("contacts")) {
+                responseBuilder.contacts(objectMapper.writeValueAsString(responseMap.get("contacts")));
+            }
+            
+            // Procesar errores si existen
+            if (responseMap.containsKey("error")) {
+                Object errorObj = responseMap.get("error");
+                if (errorObj instanceof Map) {
+                    Map<?, ?> error = (Map<?, ?>) errorObj;
+                    responseBuilder
+                            .successful(false)
+                            .errorCode(error.containsKey("code") ? error.get("code").toString() : null)
+                            .errorMessage(error.containsKey("message") ? error.get("message").toString() : null);
+                }
+            }
+            
+            return responseBuilder.build();
+            
+        } catch (Exception e) {
+            log.error("Error al procesar respuesta JSON", e);
+            return buildErrorResponse("Error al procesar respuesta: " + e.getMessage());
+        }
+    }
+    
+    /**
+     * Construye una respuesta de error
+     */
+    private WhatsAppApiResponse buildErrorResponse(String errorMessage) {
+        log.error("Respuesta de error: {}", errorMessage);
+        return WhatsAppApiResponse.builder()
+                .successful(false)
+                .errorMessage(errorMessage)
+                .build();
+    }
+}

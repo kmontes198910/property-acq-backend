@@ -5,7 +5,13 @@ import com.kynsoft.wamessaging.application.dto.SendMessageRequest;
 import com.kynsoft.wamessaging.application.service.MessageCoordinatorService;
 import com.kynsoft.wamessaging.domain.entity.MessageStatus;
 import com.kynsoft.wamessaging.domain.entity.WhatsAppMessage;
-import com.kynsoft.wamessaging.domain.service.WhatsAppMessageService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -28,10 +34,10 @@ import java.util.stream.Collectors;
 @RequestMapping("/api/whatsapp")
 @RequiredArgsConstructor
 @Slf4j
+@Tag(name = "WhatsApp Messaging", description = "API para el envío y gestión de mensajes de WhatsApp")
 public class WhatsAppController {
 
     private final MessageCoordinatorService messageCoordinatorService;
-    private final WhatsAppMessageService whatsAppMessageService;
 
     /**
      * Envía un mensaje de WhatsApp
@@ -40,16 +46,19 @@ public class WhatsAppController {
      * @return Respuesta con el ID del mensaje creado
      */
     @PostMapping("/messages")
+    @Operation(summary = "Enviar mensaje", description = "Envía un mensaje de WhatsApp a un destinatario")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "202", description = "Mensaje aceptado para procesamiento", 
+                     content = @Content(schema = @Schema(implementation = MessageResponse.class))),
+        @ApiResponse(responseCode = "400", description = "Datos de solicitud inválidos")
+    })
     public ResponseEntity<MessageResponse> sendMessage(@Valid @RequestBody SendMessageRequest request) {
         log.info("Recibida solicitud para enviar mensaje a: {}", request.getRecipientPhone());
         
-        WhatsAppMessage message = messageCoordinatorService.queueMessage(request);
+        MessageResponse response = messageCoordinatorService.queueMessage(request);
         
-        MessageResponse response = MessageResponse.builder()
-                .id(message.getId())
-                .status(message.getStatus().name())
-                .message("Mensaje puesto en cola para envío")
-                .build();
+        // Añadimos un mensaje informativo adicional
+        response.setMessage("Mensaje puesto en cola para envío");
                 
         return ResponseEntity.status(HttpStatus.ACCEPTED).body(response);
     }
@@ -61,16 +70,20 @@ public class WhatsAppController {
      * @return Lista de respuestas de mensajes creados
      */
     @PostMapping("/messages/batch")
+    @Operation(summary = "Enviar lote de mensajes", description = "Envía múltiples mensajes de WhatsApp en una sola operación")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "202", description = "Mensajes aceptados para procesamiento"),
+        @ApiResponse(responseCode = "400", description = "Datos de solicitud inválidos")
+    })
     public ResponseEntity<List<MessageResponse>> sendBatchMessages(@Valid @RequestBody List<SendMessageRequest> requests) {
         log.info("Recibida solicitud para enviar {} mensajes en lote", requests.size());
         
         List<MessageResponse> responses = requests.stream()
-                .map(messageCoordinatorService::queueMessage)
-                .map(message -> MessageResponse.builder()
-                        .id(message.getId())
-                        .status(message.getStatus().name())
-                        .message("Mensaje puesto en cola para envío")
-                        .build())
+                .map(request -> {
+                    MessageResponse response = messageCoordinatorService.queueMessage(request);
+                    response.setMessage("Mensaje puesto en cola para envío");
+                    return response;
+                })
                 .collect(Collectors.toList());
                 
         return ResponseEntity.status(HttpStatus.ACCEPTED).body(responses);
@@ -83,21 +96,24 @@ public class WhatsAppController {
      * @return Detalles del mensaje
      */
     @GetMapping("/messages/{id}")
-    public ResponseEntity<MessageResponse> getMessageStatus(@PathVariable UUID id) {
+    @Operation(summary = "Consultar estado de mensaje", description = "Obtiene el estado actual de un mensaje enviado")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Mensaje encontrado", 
+                     content = @Content(schema = @Schema(implementation = MessageResponse.class))),
+        @ApiResponse(responseCode = "404", description = "Mensaje no encontrado")
+    })
+    public ResponseEntity<MessageResponse> getMessageStatus(
+            @Parameter(description = "ID del mensaje", required = true) 
+            @PathVariable UUID id) {
         log.info("Consultando estado del mensaje: {}", id);
         
-        return whatsAppMessageService.findById(id)
-                .map(message -> MessageResponse.builder()
-                        .id(message.getId())
-                        .status(message.getStatus().name())
-                        .recipientPhone(message.getRecipientPhone())
-                        .createdAt(message.getCreatedAt())
-                        .sentAt(message.getSentAt())
-                        .errorMessage(message.getErrorMessage())
-                        .externalId(message.getExternalId())
-                        .build())
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+        MessageResponse response = messageCoordinatorService.getMessage(id);
+        
+        if (response == null) {
+            return ResponseEntity.notFound().build();
+        }
+        
+        return ResponseEntity.ok(response);
     }
     
     /**
@@ -111,29 +127,30 @@ public class WhatsAppController {
      * @return Página de mensajes que coinciden con los criterios
      */
     @GetMapping("/messages")
+    @Operation(summary = "Buscar mensajes", description = "Busca mensajes según criterios como fecha, estado y destinatario")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Búsqueda realizada correctamente")
+    })
     public ResponseEntity<Page<MessageResponse>> searchMessages(
+            @Parameter(description = "Fecha de inicio (formato ISO)") 
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime startDate,
+            
+            @Parameter(description = "Fecha de fin (formato ISO)") 
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime endDate,
+            
+            @Parameter(description = "Estado del mensaje") 
             @RequestParam(required = false) MessageStatus status,
+            
+            @Parameter(description = "Número de teléfono del destinatario") 
             @RequestParam(required = false) String phone,
+            
+            @Parameter(description = "Configuración de paginación") 
             Pageable pageable) {
         
         log.info("Buscando mensajes con filtros - desde: {}, hasta: {}, estado: {}, teléfono: {}", 
                 startDate, endDate, status, phone);
         
-        Page<WhatsAppMessage> messages = messageCoordinatorService.searchMessages(startDate, endDate, status, phone, pageable);
-        
-        Page<MessageResponse> response = messages.map(message -> MessageResponse.builder()
-                .id(message.getId())
-                .status(message.getStatus().name())
-                .recipientPhone(message.getRecipientPhone())
-                .recipientName(message.getRecipientName())
-                .messageType(message.getMessageType().name())
-                .createdAt(message.getCreatedAt())
-                .sentAt(message.getSentAt())
-                .errorMessage(message.getErrorMessage())
-                .retryCount(message.getRetryCount())
-                .build());
+        Page<MessageResponse> response = messageCoordinatorService.searchMessages(startDate, endDate, status, phone, pageable);
                 
         return ResponseEntity.ok(response);
     }
@@ -145,17 +162,23 @@ public class WhatsAppController {
      * @return Respuesta con el estado del reintento
      */
     @PostMapping("/messages/{id}/retry")
-    public ResponseEntity<MessageResponse> retryMessage(@PathVariable UUID id) {
+    @Operation(summary = "Reintentar envío", description = "Reintenta el envío de un mensaje que ha fallado anteriormente")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "202", description = "Reintento aceptado", 
+                     content = @Content(schema = @Schema(implementation = MessageResponse.class))),
+        @ApiResponse(responseCode = "400", description = "Estado incorrecto para reintento"),
+        @ApiResponse(responseCode = "404", description = "Mensaje no encontrado")
+    })
+    public ResponseEntity<MessageResponse> retryMessage(
+            @Parameter(description = "ID del mensaje", required = true) 
+            @PathVariable UUID id) {
         log.info("Solicitando reintento de envío para el mensaje: {}", id);
         
         try {
-            WhatsAppMessage message = messageCoordinatorService.retryMessage(id);
+            MessageResponse response = messageCoordinatorService.retryMessage(id);
             
-            MessageResponse response = MessageResponse.builder()
-                    .id(message.getId())
-                    .status(message.getStatus().name())
-                    .message("Mensaje puesto en cola para reintento")
-                    .build();
+            // Añadir mensaje informativo
+            response.setMessage("Mensaje puesto en cola para reintento");
                     
             return ResponseEntity.accepted().body(response);
             
@@ -178,16 +201,24 @@ public class WhatsAppController {
      * @return Resultado de la cancelación
      */
     @DeleteMapping("/messages/{id}")
-    public ResponseEntity<MessageResponse> cancelMessage(@PathVariable UUID id) {
+    @Operation(summary = "Cancelar mensaje", description = "Cancela un mensaje pendiente de envío")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Mensaje cancelado correctamente", 
+                     content = @Content(schema = @Schema(implementation = MessageResponse.class))),
+        @ApiResponse(responseCode = "400", description = "Estado incorrecto para cancelación"),
+        @ApiResponse(responseCode = "404", description = "Mensaje no encontrado")
+    })
+    public ResponseEntity<MessageResponse> cancelMessage(
+            @Parameter(description = "ID del mensaje", required = true) 
+            @PathVariable UUID id) {
         log.info("Solicitando cancelación del mensaje: {}", id);
         
         try {
-            messageCoordinatorService.cancelMessage(id);
+            MessageResponse response = messageCoordinatorService.cancelMessage(id);
             
-            return ResponseEntity.ok(MessageResponse.builder()
-                    .id(id)
-                    .message("Mensaje cancelado correctamente")
-                    .build());
+            // Añadir mensaje informativo
+            response.setMessage("Mensaje cancelado correctamente");
+            return ResponseEntity.ok(response);
                     
         } catch (IllegalArgumentException e) {
             log.error("Error al cancelar mensaje: {}", e.getMessage());
