@@ -18,7 +18,7 @@ public interface OwnerShipLegalEntityReadDataJPARepository extends JpaRepository
     @Override
     Page<OwnerShipLegalEntity> findAll(Specification<OwnerShipLegalEntity> specification, Pageable pageable);
 
-    @EntityGraph(attributePaths = {"legalEntity"})
+    @EntityGraph(attributePaths = {"legalEntity", "ownerDocuments"})
     @Override
     Optional<OwnerShipLegalEntity> findById(UUID id);
 }
