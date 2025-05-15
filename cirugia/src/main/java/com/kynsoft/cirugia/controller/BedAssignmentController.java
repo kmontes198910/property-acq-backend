@@ -28,7 +28,7 @@ public class BedAssignmentController {
      * @param userId ID del usuario que realiza la acción
      * @return La asignación creada
      */
-    @PostMapping("/create-replace")
+    @PostMapping("")
     public ResponseEntity<CreateBedAssignmentMessage> createAndReplaceAssignment(
             @RequestBody CreateBedAssignmentRequest request,
             @RequestHeader(value = "X-User-ID", required = false) String userId) {
