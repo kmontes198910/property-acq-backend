@@ -71,4 +71,11 @@ public class CurrencyServiceImpl implements ICurrencyService {
         return null;
     }
 
+    @Override
+    public void create() {
+        List<Currency> list = new ArrayList<>();
+        list.add(new Currency(UUID.randomUUID(), "USD", "Dolar"));
+        this.repositoryCommand.saveAll(list);
+    }
+
 }

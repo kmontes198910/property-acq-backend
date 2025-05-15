@@ -10,6 +10,8 @@ import java.util.UUID;
 
 public interface ICurrencyService {
     UUID create(CurrencyDto object);
+
+    void create();
     
     void update(CurrencyDto object);
     
