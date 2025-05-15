@@ -52,6 +52,9 @@ public class CompanyAddress {
     @Column(name = "is_primary")
     private Boolean isPrimary;
 
+    @Column(name = "nick_name")
+    private String nickName;
+
     @CreationTimestamp
     @Column(name = "created_at", updatable = false)
     private LocalDateTime createdAt;
@@ -77,6 +80,7 @@ public class CompanyAddress {
         this.zipCode = dto.getZipCode();
         this.country = dto.getCountry();
         this.isPrimary = dto.getIsPrimary();
+        this.nickName = dto.getNickName();
         this.createdBy = dto.getCreatedBy();
         this.updatedBy = dto.getUpdatedBy();
     }
@@ -93,6 +97,7 @@ public class CompanyAddress {
                 .zipCode(zipCode)
                 .country(country)
                 .isPrimary(isPrimary)
+                .nickName(nickName)
                 .createdAt(this.createdAt)
                 .updatedAt(this.updatedAt)
                 .createdBy(this.createdBy)
@@ -112,6 +117,7 @@ public class CompanyAddress {
                 .zipCode(zipCode)
                 .country(country)
                 .isPrimary(isPrimary)
+                .nickName(nickName)
                 .createdAt(this.createdAt)
                 .updatedAt(this.updatedAt)
                 .createdBy(this.createdBy)

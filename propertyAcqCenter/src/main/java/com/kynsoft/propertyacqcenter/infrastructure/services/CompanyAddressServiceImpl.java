@@ -54,6 +54,7 @@ public class CompanyAddressServiceImpl implements ICompanyAddressService {
         update.setStreetAddress2(object.getStreetAddress2());
         update.setZipCode(object.getZipCode());
         update.setUpdatedBy(object.getUpdatedBy());
+        update.setNickName(object.getNickName());
 
         repositoryCommand.save(update);
     }
