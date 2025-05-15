@@ -17,7 +17,7 @@ public interface AddressReadDataJPARepository extends JpaRepository<Address, UUI
     @Override
     Page<Address> findAll(Specification<Address> specification, Pageable pageable);
 
-    @EntityGraph(attributePaths = {"legalEntity.business", "legalEntity"})
+    @EntityGraph(attributePaths = {"legalEntity.business", "legalEntity", "legalEntity.owners"})
     @Override
     Optional<Address> findById(UUID id);
 }
