@@ -16,4 +16,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class FindLastActiveBedAssignmentByBedIdQueryResult implements IResponse {
     private BedAssignment bedAssignment;
+    private String patientName;
+    private String patientIdentification;
 }
