@@ -4,6 +4,9 @@ import com.kynsof.share.core.infrastructure.bus.IMediator;
 import com.kynsoft.cirugia.application.command.bedassignment.create.CreateBedAssignmentCommand;
 import com.kynsoft.cirugia.application.command.bedassignment.create.CreateBedAssignmentMessage;
 import com.kynsoft.cirugia.application.command.bedassignment.create.CreateBedAssignmentRequest;
+import com.kynsoft.cirugia.application.command.bedassignment.transfer.TransferBedAssignmentCommand;
+import com.kynsoft.cirugia.application.command.bedassignment.transfer.TransferBedAssignmentMessage;
+import com.kynsoft.cirugia.application.command.bedassignment.transfer.TransferBedAssignmentRequest;
 import com.kynsoft.cirugia.application.query.bedassignment.FindBedAssignmentsBySurgeryQuery;
 import com.kynsoft.cirugia.application.query.bedassignment.FindBedAssignmentsBySurgeryQueryResult;
 import com.kynsoft.cirugia.application.query.bedassignment.FindLastActiveBedAssignmentByBedIdQuery;
@@ -31,13 +34,22 @@ public class BedAssignmentController {
      * @return La asignación creada
      */
     @PostMapping("")
-    public ResponseEntity<CreateBedAssignmentMessage> createAndReplaceAssignment(
+    public ResponseEntity<?> createAndReplaceAssignment(
             @RequestBody CreateBedAssignmentRequest request,
             @RequestHeader(value = "X-User-ID", required = false) String userId) {
         
         CreateBedAssignmentCommand command = CreateBedAssignmentCommand.fromRequest(request, userId);
         CreateBedAssignmentMessage response = mediator.send(command);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
+    }
+
+    @PostMapping("/transfer")
+    public ResponseEntity<?> transfer(
+            @RequestBody TransferBedAssignmentRequest request,
+            @RequestHeader(value = "X-User-ID", required = false) String userId) {
+        TransferBedAssignmentCommand command = TransferBedAssignmentCommand.fromRequest(request, userId);
+        TransferBedAssignmentMessage response = mediator.send(command);
+        return ResponseEntity.ok(response);
     }
     
     /**
