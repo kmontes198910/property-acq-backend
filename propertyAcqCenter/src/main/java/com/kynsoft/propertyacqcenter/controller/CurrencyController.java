@@ -7,6 +7,7 @@ import com.kynsof.share.core.infrastructure.bus.IMediator;
 import com.kynsoft.propertyacqcenter.application.query.currency.getById.GetByIdCurrencyQuery;
 import com.kynsoft.propertyacqcenter.application.query.currency.search.GetSearchCurrencyQuery;
 import com.kynsoft.propertyacqcenter.application.response.CurrencyResponse;
+import com.kynsoft.propertyacqcenter.domain.services.ICurrencyService;
 import java.util.UUID;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
@@ -17,10 +18,19 @@ import org.springframework.web.bind.annotation.*;
 public class CurrencyController {
 
     private final IMediator mediator;
+    private final ICurrencyService currencyService;
 
-    public CurrencyController(IMediator mediator) {
+    public CurrencyController(IMediator mediator, ICurrencyService currencyService) {
 
         this.mediator = mediator;
+        this.currencyService = currencyService;
+    }
+
+    @GetMapping("/create")
+    public ResponseEntity<String> createSider() {
+        this.currencyService.create();
+
+        return ResponseEntity.ok("ok");
     }
 
     @PostMapping("/search")
