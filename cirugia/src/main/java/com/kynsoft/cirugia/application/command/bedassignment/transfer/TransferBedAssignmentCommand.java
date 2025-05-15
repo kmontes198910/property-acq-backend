@@ -24,6 +24,7 @@ public class TransferBedAssignmentCommand implements ICommand {
     
     public static TransferBedAssignmentCommand fromRequest(TransferBedAssignmentRequest request, String userId) {
         return TransferBedAssignmentCommand.builder()
+                .id(request.getId())
                 .bedId(request.getBedId())
                 .roomId(request.getRoomId())
                 .createdBy(UUID.fromString(userId))
