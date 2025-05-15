@@ -47,6 +47,7 @@ public class LegalEntityDto {
     private Float entityFico;
     private String authorizedSignerGovernmentIdCopy;
     private String authorizedSignerGovernmentIdCopyFileName;
+    private List<OwnerShipLegalEntityDto> owners;
 
     public LegalEntityDto(UUID id, String name, String taxId, EntityType entityType,
             BusinessDto business, String formationState, LocalDate formationDate,

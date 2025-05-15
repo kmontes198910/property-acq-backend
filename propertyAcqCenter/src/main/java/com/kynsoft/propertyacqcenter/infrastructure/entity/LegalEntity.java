@@ -12,8 +12,11 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "legal_entities")
@@ -103,6 +106,9 @@ public class LegalEntity {
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "legalEntity", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Document> documents;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "legalEntity", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<OwnerShipLegalEntity> owners = new HashSet<>();
 
     @CreationTimestamp
     @Column(name = "created_at", updatable = false)
@@ -198,6 +204,7 @@ public class LegalEntity {
                 .annualRevenue(this.annualRevenue)
                 .dateOfLastAnnualReport(this.dateOfLastAnnualReport)
                 .parentEntityId(this.parent != null ? this.parent.toAggregateBasic() : null)
+                .owners(owners != null ? owners.stream().map(x -> x.toAggregateBasicSimple()).collect(Collectors.toList()) : null)
                 .notes(this.notes)
                 .status(this.status)
                 .createdAt(this.createdAt)

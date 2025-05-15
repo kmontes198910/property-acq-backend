@@ -12,6 +12,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @Data
@@ -43,6 +45,7 @@ public class LegalEntityFindByIdResponse implements IResponse {
     private Float entityFico;
     private String authorizedSignerGovernmentIdCopy;
     private String authorizedSignerGovernmentIdCopyFileName;
+    private List<OwnerShipLegalEntityBasicResponse> owners = new ArrayList<>();
 
     public LegalEntityFindByIdResponse(LegalEntityDto legalEntityDto) {
         this.id = legalEntityDto.getId();
@@ -67,6 +70,11 @@ public class LegalEntityFindByIdResponse implements IResponse {
         this.entityFico = legalEntityDto.getEntityFico();
         this.authorizedSignerGovernmentIdCopy = legalEntityDto.getAuthorizedSignerGovernmentIdCopy();
         this.authorizedSignerGovernmentIdCopyFileName = legalEntityDto.getAuthorizedSignerGovernmentIdCopyFileName();
+        if (legalEntityDto.getOwners() != null) {
+            for (OwnerShipLegalEntityDto owner1 : legalEntityDto.getOwners()) {
+                owners.add(new OwnerShipLegalEntityBasicResponse(owner1));
+            }
+        }
     }
 
 }
