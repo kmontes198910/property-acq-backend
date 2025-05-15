@@ -8,6 +8,7 @@ import com.kynsoft.finamer.digitalsignature.application.command.digitalsignature
 import com.kynsoft.finamer.digitalsignature.domain.dto.*;
 import com.kynsoft.finamer.digitalsignature.domain.exception.InvalidSignaturePositionException;
 import com.kynsoft.finamer.digitalsignature.domain.service.IDigitalSignatureService;
+import com.kynsoft.finamer.digitalsignature.model.dto.ErrorResponseDto;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -179,14 +180,15 @@ public class DigitalSignatureController {
             }
         } catch (InvalidSignaturePositionException e) {
             // Error específico para posición de firma inválida
-            return ResponseEntity
-                .status(HttpStatus.BAD_REQUEST)
-                .header("X-Error-Code", e.getError().getCode())
-                .header("X-Error-Message", e.getError().getMessage())
-                .build();
+            logger.error("Error en posición de firma: {}", e.getMessage());
+            return ResponseEntity.ok()
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(new ErrorResponseDto(e.getError().getCode(), e.getError().getMessage(), false));
         } catch (Exception e) {
             logger.error("Error al procesar solicitud de firma", e);
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+            return ResponseEntity.ok()
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(new ErrorResponseDto("ERROR-SIGN-001", "Error al procesar la firma: " + e.getMessage(), false));
         }
     }
     
@@ -203,7 +205,7 @@ public class DigitalSignatureController {
         @ApiResponse(responseCode = "500", description = "Error interno del servidor")
     })
     @PostMapping(value = "/validate", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<ValidationResponseDto> validateDocument(
+    public ResponseEntity<?> validateDocument(
             @Parameter(description = "Datos necesarios para validar el documento", required = true) 
             @RequestBody ValidationRequestDto request) {
         logger.info("Recibida solicitud para validar documento firmado");
@@ -213,7 +215,9 @@ public class DigitalSignatureController {
             return ResponseEntity.ok(response);
         } catch (Exception e) {
             logger.error("Error al procesar solicitud de validación", e);
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+            return ResponseEntity.ok()
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(new ErrorResponseDto("ERROR-VALIDATION-001", "Error al validar el documento: " + e.getMessage(), false));
         }
     }
 }

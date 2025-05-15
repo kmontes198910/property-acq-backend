@@ -18,6 +18,7 @@ import com.kynsoft.finamer.digitalsignature.application.command.sing.CreateDigit
 import com.kynsoft.finamer.digitalsignature.application.query.getbyid.DigitalSignatureCertificateResponse;
 import com.kynsoft.finamer.digitalsignature.application.query.getbyid.GetDigitalSignatureCertificateByIdQuery;
 import com.kynsoft.finamer.digitalsignature.application.query.search.SearchDigitalSignatureCertificateQuery;
+import com.kynsoft.finamer.digitalsignature.model.dto.ErrorResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -29,9 +30,15 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Base64;
 import java.util.UUID;
 
 @Slf4j
@@ -53,19 +60,51 @@ public class DigitalSignatureCertificateController {
         @ApiResponse(responseCode = "400", description = "Datos de certificado inválidos"),
         @ApiResponse(responseCode = "500", description = "Error interno del servidor")
     })
-    @PostMapping
+    @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<?> create(
-            @Parameter(description = "Datos del certificado a crear", required = true)
-            @RequestBody CreateDigitalSignatureCertificateRequest request,
+            @Parameter(description = "ID del usuario asociado al certificado", required = true)
+            @RequestParam UUID userId,
+            @Parameter(description = "Nombre descriptivo del certificado", required = true)
+            @RequestParam String certificateName,
+            @Parameter(description = "Archivo de certificado P12", required = true)
+            @RequestPart("certificateFile") MultipartFile certificateFile,
+            @Parameter(description = "Contraseña del certificado", required = true)
+            @RequestParam String certificatePassword,
+            @Parameter(description = "Fecha de expiración del certificado", required = false)
+            @RequestParam(required = false) String expirationDate,
+            @Parameter(description = "Indica si es la clave primaria", required = false)
+            @RequestParam(required = false) Boolean isPrimaryKey,
+            @Parameter(description = "ID del negocio asociado", required = false)
+            @RequestParam(required = false) UUID businessId,
             @Parameter(description = "ID del usuario que realiza la operación", required = true)
-            @RequestHeader(USER_ID_HEADER) String userId) {
+            @RequestHeader(USER_ID_HEADER) String userIdHeader) {
         
-        log.info("Creando nueva firma digital para usuario: {}", userId);
+        log.info("Creando nueva firma digital para usuario: {}", userIdHeader);
         
-        CreateDigitalSignatureCertificateCommand command = CreateDigitalSignatureCertificateCommand.fromRequest(request, userId);
-        CreateDigitalSignatureCertificateMessage response = mediator.send(command);
-        
-        return ResponseEntity.status(HttpStatus.CREATED).body(response);
+        try {
+            // Convertir el MultipartFile a Base64
+            String certificateP12Base64 = Base64.getEncoder().encodeToString(certificateFile.getBytes());
+            LocalDateTime dateTime = LocalDate.parse(expirationDate).atStartOfDay();
+            // Construir el objeto request con los parámetros recibidos
+            CreateDigitalSignatureCertificateRequest request = CreateDigitalSignatureCertificateRequest.builder()
+                    .userId(userId)
+                    .certificateName(certificateName)
+                    .certificateP12Base64(certificateP12Base64)
+                    .certificatePassword(certificatePassword)
+                    .expirationDate(dateTime)
+                    .isPrimaryKey(isPrimaryKey)
+                    .businessId(businessId)
+                    .build();
+            
+            CreateDigitalSignatureCertificateCommand command = CreateDigitalSignatureCertificateCommand.fromRequest(request, userIdHeader);
+            CreateDigitalSignatureCertificateMessage response = mediator.send(command);
+            
+            return ResponseEntity.status(HttpStatus.CREATED).body(response);
+        } catch (Exception e) {
+            log.error("Error al procesar archivo de certificado: {}", e.getMessage(), e);
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(new ErrorResponse("ERROR-CERT-001", "Error al procesar el archivo de certificado: " + e.getMessage(), false));
+        }
     }
 
     @Operation(summary = "Actualizar un certificado de firma digital", 
@@ -77,21 +116,56 @@ public class DigitalSignatureCertificateController {
         @ApiResponse(responseCode = "404", description = "Certificado no encontrado"),
         @ApiResponse(responseCode = "500", description = "Error interno del servidor")
     })
-    @PatchMapping("/{id}")
-    public ResponseEntity<UpdateDigitalSignatureCertificateMessage> update(
+    @PatchMapping(value = "/{id}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<?> update(
             @Parameter(description = "ID del certificado a actualizar", required = true)
             @PathVariable UUID id,
-            @Parameter(description = "Datos actualizados del certificado", required = true)
-            @RequestBody UpdateDigitalSignatureCertificateRequest request,
+            @Parameter(description = "Nombre descriptivo del certificado", required = false)
+            @RequestParam(required = false) String certificateName,
+            @Parameter(description = "Archivo de certificado P12", required = false)
+            @RequestPart(value = "certificateFile", required = false) MultipartFile certificateFile,
+            @Parameter(description = "Contraseña del certificado", required = false)
+            @RequestParam(required = false) String certificatePassword,
+            @Parameter(description = "Fecha de expiración del certificado", required = false)
+            @RequestParam(required = false) String expirationDate,
+            @Parameter(description = "Estado activo del certificado", required = false)
+            @RequestParam(required = false) Boolean isActive,
+            @Parameter(description = "Indica si es la clave primaria", required = false)
+            @RequestParam(required = false) Boolean isPrimaryKey,
+            @Parameter(description = "ID del negocio asociado", required = false)
+            @RequestParam(required = false) UUID businessId,
             @Parameter(description = "ID del usuario que realiza la operación", required = true)
             @RequestHeader(USER_ID_HEADER) String userId) {
         
         log.info("Actualizando firma digital con ID: {}", id);
         
-        UpdateDigitalSignatureCertificateCommand command = UpdateDigitalSignatureCertificateCommand.fromRequest(request, id, userId);
-        UpdateDigitalSignatureCertificateMessage response = mediator.send(command);
-        
-        return ResponseEntity.ok(response);
+        try {
+            // Convertir el MultipartFile a Base64 si se proporciona
+            String certificateP12Base64 = null;
+            if (certificateFile != null && !certificateFile.isEmpty()) {
+                certificateP12Base64 = Base64.getEncoder().encodeToString(certificateFile.getBytes());
+            }
+            LocalDateTime dateTime = LocalDate.parse(expirationDate).atStartOfDay();
+            // Construir el objeto request con los parámetros recibidos
+            UpdateDigitalSignatureCertificateRequest request = UpdateDigitalSignatureCertificateRequest.builder()
+                    .certificateName(certificateName)
+                    .certificateP12Base64(certificateP12Base64)
+                    .certificatePassword(certificatePassword)
+                    .expirationDate(dateTime)
+                    .isActive(isActive)
+                    .isPrimaryKey(isPrimaryKey)
+                    .businessId(businessId)
+                    .build();
+            
+            UpdateDigitalSignatureCertificateCommand command = UpdateDigitalSignatureCertificateCommand.fromRequest(request, id, userId);
+            UpdateDigitalSignatureCertificateMessage response = mediator.send(command);
+            
+            return ResponseEntity.ok(response);
+        } catch (Exception e) {
+            log.error("Error al procesar archivo de certificado: {}", e.getMessage(), e);
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(new ErrorResponse("ERROR-CERT-002", "Error al procesar el archivo de certificado: " + e.getMessage(), false));
+        }
     }
 
     @Operation(summary = "Eliminar un certificado de firma digital", 
