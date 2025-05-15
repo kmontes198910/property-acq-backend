@@ -59,4 +59,12 @@ public class OwnerShipLegalEntity {
                 .legalEntity(this.legalEntity != null ? this.legalEntity.toAggregateBasic() : null)
                 .build();
     }
+
+    public OwnerShipLegalEntityDto toAggregateBasicSimple() {
+        return OwnerShipLegalEntityDto.builder()
+                .id(this.id)
+                .name(name)
+                .ownershipPercentage(ownershipPercentage)
+                .build();
+    }
 }
