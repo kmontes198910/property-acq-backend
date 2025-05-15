@@ -35,6 +35,7 @@ public class UpdateCompanyAddressCommandHandler implements ICommandHandler<Updat
                         .zipCode(command.getZipCode())
                         .country(command.getCountry())
                         .isPrimary(command.getIsPrimary())
+                        .nickName(command.getNickName())
                         .build()
         );
     }

@@ -25,6 +25,7 @@ public class CompanyAddressResponse implements IResponse {
     private String zipCode;
     private String country;
     private Boolean isPrimary;
+    private String nickName;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
     private UUID createdBy;
@@ -45,6 +46,7 @@ public class CompanyAddressResponse implements IResponse {
         this.updatedAt = dto.getUpdatedAt();
         this.createdBy = dto.getCreatedBy();
         this.updatedBy = dto.getUpdatedBy();
+        this.nickName = dto.getNickName();
     }
 
 }
