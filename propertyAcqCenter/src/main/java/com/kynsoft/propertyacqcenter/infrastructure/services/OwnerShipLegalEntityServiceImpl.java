@@ -42,7 +42,7 @@ public class OwnerShipLegalEntityServiceImpl implements IOwnerShipLegalEntitySer
     @Override
     @Transactional
     public void update(OwnerShipLegalEntityDto object) {
-        OwnerShipLegalEntity update = new OwnerShipLegalEntity(this.findById(object.getId()));
+        OwnerShipLegalEntity update = this.findByIdSimple(object.getId());
         update.setName(object.getName());
         update.setOwnershipPercentage(object.getOwnershipPercentage());
         update.setLegalEntity(new LegalEntity(object.getLegalEntity()));
@@ -61,7 +61,15 @@ public class OwnerShipLegalEntityServiceImpl implements IOwnerShipLegalEntitySer
     public OwnerShipLegalEntityDto findById(UUID id) {
         Optional<OwnerShipLegalEntity> entity = repositoryQuery.findById(id);
         if (entity.isPresent()) {
-            return entity.get().toAggregateBasic();
+            return entity.get().toAggregate();
+        }
+        throw new AddressNotFoundException(id);
+    }
+
+    private OwnerShipLegalEntity findByIdSimple(UUID id) {
+        Optional<OwnerShipLegalEntity> entity = repositoryQuery.findById(id);
+        if (entity.isPresent()) {
+            return entity.get();
         }
         throw new AddressNotFoundException(id);
     }
