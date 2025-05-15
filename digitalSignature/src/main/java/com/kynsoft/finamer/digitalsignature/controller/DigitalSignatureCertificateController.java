@@ -35,7 +35,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Base64;
 import java.util.UUID;
 
@@ -69,7 +71,7 @@ public class DigitalSignatureCertificateController {
             @Parameter(description = "Contraseña del certificado", required = true)
             @RequestParam String certificatePassword,
             @Parameter(description = "Fecha de expiración del certificado", required = false)
-            @RequestParam(required = false) LocalDateTime expirationDate,
+            @RequestParam(required = false) String expirationDate,
             @Parameter(description = "Indica si es la clave primaria", required = false)
             @RequestParam(required = false) Boolean isPrimaryKey,
             @Parameter(description = "ID del negocio asociado", required = false)
@@ -82,14 +84,14 @@ public class DigitalSignatureCertificateController {
         try {
             // Convertir el MultipartFile a Base64
             String certificateP12Base64 = Base64.getEncoder().encodeToString(certificateFile.getBytes());
-            
+            LocalDateTime dateTime = LocalDate.parse(expirationDate).atStartOfDay();
             // Construir el objeto request con los parámetros recibidos
             CreateDigitalSignatureCertificateRequest request = CreateDigitalSignatureCertificateRequest.builder()
                     .userId(userId)
                     .certificateName(certificateName)
                     .certificateP12Base64(certificateP12Base64)
                     .certificatePassword(certificatePassword)
-                    .expirationDate(expirationDate)
+                    .expirationDate(dateTime)
                     .isPrimaryKey(isPrimaryKey)
                     .businessId(businessId)
                     .build();
@@ -125,7 +127,7 @@ public class DigitalSignatureCertificateController {
             @Parameter(description = "Contraseña del certificado", required = false)
             @RequestParam(required = false) String certificatePassword,
             @Parameter(description = "Fecha de expiración del certificado", required = false)
-            @RequestParam(required = false) LocalDateTime expirationDate,
+            @RequestParam(required = false) String expirationDate,
             @Parameter(description = "Estado activo del certificado", required = false)
             @RequestParam(required = false) Boolean isActive,
             @Parameter(description = "Indica si es la clave primaria", required = false)
@@ -143,13 +145,13 @@ public class DigitalSignatureCertificateController {
             if (certificateFile != null && !certificateFile.isEmpty()) {
                 certificateP12Base64 = Base64.getEncoder().encodeToString(certificateFile.getBytes());
             }
-            
+            LocalDateTime dateTime = LocalDate.parse(expirationDate).atStartOfDay();
             // Construir el objeto request con los parámetros recibidos
             UpdateDigitalSignatureCertificateRequest request = UpdateDigitalSignatureCertificateRequest.builder()
                     .certificateName(certificateName)
                     .certificateP12Base64(certificateP12Base64)
                     .certificatePassword(certificatePassword)
-                    .expirationDate(expirationDate)
+                    .expirationDate(dateTime)
                     .isActive(isActive)
                     .isPrimaryKey(isPrimaryKey)
                     .businessId(businessId)
