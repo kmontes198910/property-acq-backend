@@ -35,4 +35,7 @@ public interface BedAssignmentReadRepository extends JpaRepository<BedAssignment
     
     @Query("SELECT b FROM BedAssignmentEntity b WHERE b.bedId = :bedId AND b.status IN ('ASSIGNED', 'IN_USE')")
     List<BedAssignmentEntity> findActiveBedAssignments(@Param("bedId") UUID bedId);
+    
+    @Query("SELECT b FROM BedAssignmentEntity b WHERE b.bedId = :bedId AND b.status = 'ASSIGNED' AND (:businessId IS NULL OR b.businessId = :businessId) ORDER BY b.createdAt DESC")
+    List<BedAssignmentEntity> findLastActiveAssignmentByBedId(@Param("bedId") UUID bedId, @Param("businessId") UUID businessId);
 }

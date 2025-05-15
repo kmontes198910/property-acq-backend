@@ -22,4 +22,12 @@ public interface IBedAssignmentRepository {
      * @return Lista de asignaciones de cama para la cirugía especificada
      */
     List<BedAssignment> findBySurgeryId(UUID surgeryId);
+    
+    /**
+     * Busca la última asignación de cama con estado ASSIGNED para una cama específica
+     * @param bedId ID de la cama
+     * @param businessId ID del negocio (opcional)
+     * @return La última asignación activa para la cama, o null si no hay asignaciones activas
+     */
+    BedAssignment findLastActiveAssignmentByBedId(UUID bedId, UUID businessId);
 }

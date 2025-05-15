@@ -6,6 +6,8 @@ import com.kynsoft.cirugia.application.command.bedassignment.create.CreateBedAss
 import com.kynsoft.cirugia.application.command.bedassignment.create.CreateBedAssignmentRequest;
 import com.kynsoft.cirugia.application.query.bedassignment.FindBedAssignmentsBySurgeryQuery;
 import com.kynsoft.cirugia.application.query.bedassignment.FindBedAssignmentsBySurgeryQueryResult;
+import com.kynsoft.cirugia.application.query.bedassignment.FindLastActiveBedAssignmentByBedIdQuery;
+import com.kynsoft.cirugia.application.query.bedassignment.FindLastActiveBedAssignmentByBedIdQueryResult;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -56,6 +58,29 @@ public class BedAssignmentController {
         if (result == null || result.getBedAssignments() == null || result.getBedAssignments().isEmpty()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
                     .body("No se encontraron asignaciones para la cirugía con ID: " + surgeryId);
+        }
+        
+        return ResponseEntity.ok(result);
+    }
+    
+    /**
+     * Encuentra la última asignación activa para una cama específica
+     * 
+     * @param bedId ID de la cama
+     * @param businessId ID del negocio (opcional)
+     * @return La última asignación con estado ASSIGNED para la cama
+     */
+    @GetMapping("/bed/{bedId}/active")
+    public ResponseEntity<?> findLastActiveAssignmentByBedId(
+            @PathVariable UUID bedId,
+            @RequestParam(required = false) UUID businessId) {
+        
+        FindLastActiveBedAssignmentByBedIdQuery query = new FindLastActiveBedAssignmentByBedIdQuery(bedId, businessId);
+        FindLastActiveBedAssignmentByBedIdQueryResult result = mediator.send(query);
+        
+        if (result == null || result.getBedAssignment() == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body("No se encontró ninguna asignación activa para la cama con ID: " + bedId);
         }
         
         return ResponseEntity.ok(result);

@@ -159,4 +159,45 @@ public class BedAssignmentRepositoryImpl implements IBedAssignmentRepository {
                 .updatedBy(bedAssignment.getUpdatedBy())
                 .build();
     }
+    
+    /**
+     * Busca la última asignación activa para una cama específica
+     * 
+     * @param bedId ID de la cama
+     * @param businessId ID del negocio (opcional)
+     * @return La última asignación con estado ASSIGNED para la cama especificada, o null si no existe
+     */
+    @Override
+    public BedAssignment findLastActiveAssignmentByBedId(UUID bedId, UUID businessId) {
+        log.info("Buscando última asignación activa para la cama con ID: {}", bedId);
+        
+        List<BedAssignmentEntity> assignments = bedAssignmentReadRepository.findLastActiveAssignmentByBedId(bedId, businessId);
+        
+        if (assignments.isEmpty()) {
+            log.info("No se encontraron asignaciones activas para la cama con ID: {}", bedId);
+            return null;
+        }
+        
+        // Tomar la primera asignación (que es la más reciente por el ORDER BY)
+        BedAssignmentEntity entity = assignments.get(0);
+        
+        return BedAssignment.builder()
+                .id(entity.getId())
+                .patientId(entity.getPatientId())
+                .surgeryId(entity.getSurgeryId())
+                .bedId(entity.getBedId())
+                .roomId(entity.getRoomId())
+                .assignmentDate(entity.getAssignmentDate())
+                .releaseDate(entity.getReleaseDate())
+                .status(entity.getStatus())
+                .surgeryStage(entity.getSurgeryStage())
+                .observations(entity.getObservations())
+                .assignedBy(entity.getAssignedBy())
+                .businessId(entity.getBusinessId())
+                .createdAt(entity.getCreatedAt())
+                .updatedAt(entity.getUpdatedAt())
+                .createdBy(entity.getCreatedBy())
+                .updatedBy(entity.getUpdatedBy())
+                .build();
+    }
 }
