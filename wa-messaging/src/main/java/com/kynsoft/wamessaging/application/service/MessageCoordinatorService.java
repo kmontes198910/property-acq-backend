@@ -37,25 +37,29 @@ public class MessageCoordinatorService {
      * Procesa una solicitud de envío de mensaje
      */
     @Transactional
-    public MessageResponse queueMessage(SendMessageRequest request) {
-        log.info("Encolando mensaje para el destinatario: {}", request.getRecipientPhone());
+    public MessageResponse queueMessage(SendMessageRequest request)  {
+        try {
+            log.info("Encolando mensaje para el destinatario: {}", request.getRecipientPhone());
 
-        // Crear y guardar el mensaje con estado PENDING
-        WhatsAppMessage message = WhatsAppMessage.builder()
-                .recipientPhone(request.getRecipientPhone())
-                .recipientName(request.getRecipientName())
-                .messageContent(request.getMessageContent().toString())
-                .messageType(request.getMessageType())
-                .templateName(request.getTemplateName())
-                .status(MessageStatus.PENDING)
-                .retryCount(0)
-                .createdAt(LocalDateTime.now())
-                .build();
+            // Crear y guardar el mensaje con estado PENDING
+            WhatsAppMessage message = WhatsAppMessage.builder()
+                    .recipientPhone(request.getRecipientPhone())
+                    .recipientName(request.getRecipientName())
+                    .messageContent(objectMapper.writeValueAsString(request.getMessageContent()))// ✔️ genera JSON válido)
+                    .messageType(request.getMessageType())
+                    .templateName(request.getTemplateName())
+                    .status(MessageStatus.PENDING)
+                    .retryCount(0)
+                    .createdAt(LocalDateTime.now())
+                    .build();
 
-        message = messageService.saveMessage(message);
+            message = messageService.saveMessage(message);
 
-        // Convertir a DTO de respuesta
-        return convertToDto(message);
+            // Convertir a DTO de respuesta
+            return convertToDto(message);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
     /**
@@ -86,10 +90,26 @@ public class MessageCoordinatorService {
                         message.getMessageContent()
                 );
             } else if (message.getMessageType() == MessageType.TEMPLATE) {
+                Map<String, Object> templateData;
+
+                try {
+                    // Primero leer el JSON string a un Map usando readValue
+                    templateData = objectMapper.readValue(
+                            message.getMessageContent(),
+                            new TypeReference<Map<String, Object>>() {}
+                    );
+                } catch (JsonProcessingException e) {
+                    log.error("Error al procesar JSON de messageContent", e);
+                    throw new IllegalStateException("Formato inválido en messageContent para TEMPLATE: " + e.getMessage());
+                } catch (Exception e) {
+                    log.error("Error al convertir messageContent a Map<String,Object>", e);
+                    throw new IllegalStateException("Error inesperado procesando messageContent: " + e.getMessage());
+                }
+
                 apiResponse = apiClient.sendTemplateMessage(
                         message.getRecipientPhone(),
                         message.getTemplateName(),
-                        null // Aquí se deberían pasar los datos de la plantilla
+                        templateData
                 );
             } else if (message.getMessageType() == MessageType.IMAGE
                        || message.getMessageType() == MessageType.DOCUMENT
