@@ -3,7 +3,7 @@ package com.kynsoft.propertyacqcenter.application.command.address.create;
 import com.kynsof.share.core.domain.bus.command.ICommandHandler;
 import com.kynsoft.propertyacqcenter.domain.dto.AddressDto;
 import com.kynsoft.propertyacqcenter.domain.dto.LegalEntityDto;
-import com.kynsoft.propertyacqcenter.domain.dto.exception.address.AddressLegalEntityIsPrimaryException;
+import com.kynsoft.propertyacqcenter.domain.enums.AddressType;
 import com.kynsoft.propertyacqcenter.domain.services.IAddressService;
 import com.kynsoft.propertyacqcenter.domain.services.ILegalEntityService;
 import org.springframework.stereotype.Component;
@@ -22,7 +22,9 @@ public class CreateAddressCommandHandler implements ICommandHandler<CreateAddres
     @Override
     public void handle(CreateAddressCommand command) {
         LegalEntityDto legalEntityDto = this.legalEntityService.findById(command.getLegalEntity());
-        this.validateAccountNumber(command);
+        if (command.getAddressType().equals(AddressType.PRINCIPAL)) {
+            this.addressService.validateAccountNumber(command.getLegalEntity(), command.getId());
+        }
 
         addressService.create(new AddressDto(
                 command.getId(),
@@ -41,15 +43,6 @@ public class CreateAddressCommandHandler implements ICommandHandler<CreateAddres
                 null,
                 command.getNickName()
         ));
-    }
-
-    private void validateAccountNumber(CreateAddressCommand command) {
-        if (command.getIsPrimary()) {
-            int count = this.addressService.countByLegalEntityAndIsPrimary(command.getLegalEntity());
-            if (count > 0) {
-                throw new AddressLegalEntityIsPrimaryException();
-            }
-        }
     }
 
 }
