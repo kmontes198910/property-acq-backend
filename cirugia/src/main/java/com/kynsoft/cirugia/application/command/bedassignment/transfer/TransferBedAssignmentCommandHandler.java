@@ -44,16 +44,20 @@ public class TransferBedAssignmentCommandHandler implements ICommandHandler<Tran
             log.warn("Cama con ID {} no encontrada para actualizar su estado.", command.getBedId());
         }
 
-          assignmentValue.set(BedAssignment.builder()
-                .id(UUID.randomUUID())
-                .bedId(command.getBedId())
-                .roomId(command.getRoomId())
-                .assignedBy(command.getCreatedBy())
-                .status("ASSIGNED")
-                .build());
+
+        BedAssignment assignment = assignmentValue.get();
+        assignment.setId(UUID.randomUUID());
+        assignment.setPatientId(command.getId());
+        assignment.setBusinessId(command.getCreatedBy());
+        assignment.setBedId(command.getBedId());
+        assignment.setRoomId(command.getRoomId());
+        assignment.setStatus("ASSIGNED");
+        assignment.setAssignmentDate(LocalDateTime.now());
+        assignment.setSurgeryId(command.getId());
+
         
         // Llamar al servicio para crear la asignación (que también gestiona asignaciones previas)
-        BedAssignment created = bedAssignmentService.createAndReplaceAssignment(assignmentValue.get());
+        BedAssignment created = bedAssignmentService.createAndReplaceAssignment(assignment);
 
 
         // Configurar el mensaje de respuesta con la información de la asignación creada
