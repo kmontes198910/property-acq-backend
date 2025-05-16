@@ -47,13 +47,16 @@ public class TransferBedAssignmentCommandHandler implements ICommandHandler<Tran
 
         BedAssignment assignment = assignmentValue.get();
         assignment.setId(UUID.randomUUID());
-        assignment.setPatientId(command.getId());
+        assignment.setPatientId(assignment.getPatientId());
         assignment.setBusinessId(command.getCreatedBy());
         assignment.setBedId(command.getBedId());
         assignment.setRoomId(command.getRoomId());
         assignment.setStatus("ASSIGNED");
         assignment.setAssignmentDate(LocalDateTime.now());
-        assignment.setSurgeryId(command.getId());
+        assignment.setSurgeryId(assignment.getSurgeryId());
+        assignment.setSurgeryStage(assignment.getSurgeryStage());
+        assignment.setAssignedBy(command.getCreatedBy());
+        assignment.setBusinessId(assignment.getBusinessId());
 
         
         // Llamar al servicio para crear la asignación (que también gestiona asignaciones previas)
