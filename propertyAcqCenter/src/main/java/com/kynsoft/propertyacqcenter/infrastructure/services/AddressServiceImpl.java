@@ -49,7 +49,6 @@ public class AddressServiceImpl implements IAddressService {
         update.setAddressType(object.getAddressType());
         update.setCity(object.getCity());
         update.setCountry(object.getCountry());
-        update.setIsPrimary(object.getIsPrimary());
         update.setLegalEntity(new LegalEntity(object.getLegalEntity()));
         update.setState(object.getState());
         update.setStreetAddress1(object.getStreetAddress1());

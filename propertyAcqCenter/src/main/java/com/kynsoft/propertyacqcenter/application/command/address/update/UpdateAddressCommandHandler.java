@@ -37,7 +37,6 @@ public class UpdateAddressCommandHandler implements ICommandHandler<UpdateAddres
                 command.getState(), 
                 command.getZipCode(), 
                 command.getCountry(), 
-                command.getIsPrimary(), 
                 null, 
                 null, 
                 null, 

@@ -21,10 +21,9 @@ public class UpdateAddressCommand implements ICommand {
     private String state;
     private String zipCode;
     private String country;
-    private Boolean isPrimary;
     private String nickName;
 
-    public UpdateAddressCommand(UUID id, UUID legalEntity, AddressType addressType, String streetAddress1, String streetAddress2, String city, String state, String zipCode, String country, Boolean isPrimary, String nickName) {
+    public UpdateAddressCommand(UUID id, UUID legalEntity, AddressType addressType, String streetAddress1, String streetAddress2, String city, String state, String zipCode, String country, String nickName) {
         this.id = id;
         this.legalEntity = legalEntity;
         this.addressType = addressType;
@@ -34,7 +33,6 @@ public class UpdateAddressCommand implements ICommand {
         this.state = state;
         this.zipCode = zipCode;
         this.country = country;
-        this.isPrimary = isPrimary;
         this.nickName = nickName;
     }
 
@@ -49,7 +47,6 @@ public class UpdateAddressCommand implements ICommand {
                 request.getState(),
                 request.getZipCode(),
                 request.getCountry(),
-                request.getIsPrimary(),
                 request.getNickName()
         );
     }

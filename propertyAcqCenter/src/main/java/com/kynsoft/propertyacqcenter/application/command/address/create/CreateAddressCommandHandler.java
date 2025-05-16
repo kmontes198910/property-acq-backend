@@ -36,7 +36,6 @@ public class CreateAddressCommandHandler implements ICommandHandler<CreateAddres
                 command.getState(),
                 command.getZipCode(),
                 command.getCountry(),
-                command.getIsPrimary(),
                 null,
                 null,
                 null,

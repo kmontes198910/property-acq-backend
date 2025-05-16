@@ -25,7 +25,6 @@ public class AddressDto {
     private String state;
     private String zipCode;
     private String country;
-    private Boolean isPrimary;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
     private UUID createdBy;

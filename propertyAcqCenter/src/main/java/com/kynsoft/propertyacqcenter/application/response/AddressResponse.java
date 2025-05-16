@@ -25,7 +25,6 @@ public class AddressResponse implements IResponse {
     private String state;
     private String zipCode;
     private String country;
-    private Boolean isPrimary;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
     private UUID createdBy;
@@ -42,7 +41,6 @@ public class AddressResponse implements IResponse {
         this.state = dto.getState();
         this.zipCode = dto.getZipCode();
         this.country = dto.getCountry();
-        this.isPrimary = dto.getIsPrimary();
         this.createdAt = dto.getCreatedAt();
         this.updatedAt = dto.getUpdatedAt();
         this.createdBy = dto.getCreatedBy();
