@@ -46,7 +46,64 @@ public class WhatsAppController {
      * @return Respuesta con el ID del mensaje creado
      */
     @PostMapping("/messages")
-    @Operation(summary = "Enviar mensaje", description = "Envía un mensaje de WhatsApp a un destinatario")
+    @Operation(
+        summary = "Enviar mensaje", 
+        description = "Envía un mensaje de WhatsApp a un destinatario"
+    )
+    @io.swagger.v3.oas.annotations.parameters.RequestBody(
+        content = @Content(
+            examples = {
+                @io.swagger.v3.oas.annotations.media.ExampleObject(
+                    name = "Mensaje de recordatorio",
+                    summary = "Ejemplo de mensaje usando plantilla doctor_kyn_reminder",
+                    value = """
+                    {
+                      "recipientPhone": "593983825630",
+                      "recipientName": "Juan Perez",
+                      "messageType": "TEMPLATE",
+                      "templateName": "doctor_kyn_reminder",
+                      "messageContent": {
+                        "languageCode": "es",
+                        "headerParam": "Juan",
+                        "bodyParams": ["01-04-2025", "14:02"]
+                      }
+                    }
+                    """
+                ),
+                @io.swagger.v3.oas.annotations.media.ExampleObject(
+                    name = "Mensaje de pago",
+                    summary = "Ejemplo de mensaje usando plantilla doctor_kyn_paymently con botón",
+                    value = """
+                    {
+                      "recipientPhone": "593983825630",
+                      "recipientName": "Juan P",
+                      "messageType": "TEMPLATE",
+                      "templateName": "doctor_kyn_paymently",
+                      "messageContent": {
+                        "languageCode": "es",
+                        "headerParam": "Juan",
+                        "bodyParams": ["$10,22", "1234567890P"],
+                        "buttonParams":["https://tes.com"]
+                      }
+                    }
+                    """
+                ),
+                @io.swagger.v3.oas.annotations.media.ExampleObject(
+                    name = "Mensaje de texto simple",
+                    summary = "Ejemplo de mensaje de texto sin usar plantilla",
+                    value = """
+                    {
+                      "recipientPhone": "593983825630",
+                      "recipientName": "Keimer Montes",
+                      "messageContent": "Esto es la prueba real",
+                      "messageType": "TEXT",
+                      "templateName": ""
+                    }
+                    """
+                )
+            }
+        )
+    )
     @ApiResponses(value = {
         @ApiResponse(responseCode = "202", description = "Mensaje aceptado para procesamiento", 
                      content = @Content(schema = @Schema(implementation = MessageResponse.class))),

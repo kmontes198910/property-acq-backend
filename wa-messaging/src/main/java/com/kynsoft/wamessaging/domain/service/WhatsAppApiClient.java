@@ -19,7 +19,7 @@ public interface WhatsAppApiClient {
     /**
      * Envía un mensaje basado en plantilla
      */
-    WhatsAppApiResponse sendTemplateMessage(String recipientPhone, String templateName, Map<String,Object> templateData);
+    WhatsAppApiResponse sendTemplateMessage(String recipientPhone,String recipientName, String templateName, Map<String,Object> templateData);
     
     /**
      * Envía un mensaje con contenido multimedia

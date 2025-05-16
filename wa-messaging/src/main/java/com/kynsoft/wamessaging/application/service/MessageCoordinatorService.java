@@ -108,6 +108,7 @@ public class MessageCoordinatorService {
 
                 apiResponse = apiClient.sendTemplateMessage(
                         message.getRecipientPhone(),
+                        message.getRecipientName(),
                         message.getTemplateName(),
                         templateData
                 );

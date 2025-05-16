@@ -67,7 +67,7 @@ public class WhatsAppApiClientImpl implements WhatsAppApiClient {
      * Envía un mensaje basado en plantilla
      */
     @Override
-    public WhatsAppApiResponse sendTemplateMessage(String recipientPhone, String templateName, Map<String, Object> templateData) {
+    public WhatsAppApiResponse sendTemplateMessage(String recipientPhone,String recipientName, String templateName, Map<String, Object> templateData) {
 
         log.info("Enviando mensaje de plantilla a {}: plantilla {}", recipientPhone, templateName);
 
@@ -84,17 +84,19 @@ public class WhatsAppApiClientImpl implements WhatsAppApiClient {
         template.put("language", language);
 
         // Procesar componentes si existen
-        List<Map<String, Object>> components = new ArrayList<>();
-
 
         List<Map<String, Object>> templateComponents = new ArrayList<>();
-        Map<String, Object> textParam = new HashMap<>();
-        textParam.put("type", "text");
-        textParam.put("text", "Juan");
+        if(recipientName!= null && !recipientName.isEmpty()){
+            Map<String, Object> textParam = new HashMap<>();
+            textParam.put("type", "text");
+            textParam.put("text", recipientName);
 
-        Map<String, Object> headerComponent = new HashMap<>();
-        headerComponent.put("type", "header");
-        headerComponent.put("parameters", List.of(textParam));
+            Map<String, Object> headerComponent = new HashMap<>();
+            headerComponent.put("type", "header");
+            headerComponent.put("parameters", List.of(textParam));
+            templateComponents.add(headerComponent);
+        }
+
 
         List<Map<String, Object>> bodyParamsList = new ArrayList<>();
 
@@ -115,19 +117,26 @@ public class WhatsAppApiClientImpl implements WhatsAppApiClient {
 
         templateComponents.add(bodyComponent);
 
-        if (templateData.containsKey("buttonParam")) {
-            Map<String, Object> buttonParam = new HashMap<>();
-            buttonParam.put("type", "text");
-            buttonParam.put("text", templateData.get("buttonParam").toString());
-            Map<String, Object> buttonComponent = new HashMap<>();
-            buttonComponent.put("type", "button");
-            buttonComponent.put("sub_type", "url");
-            buttonComponent.put("index", "0");
-            buttonComponent.put("parameters", List.of(buttonParam));
-            templateComponents.add(buttonComponent);
+        if (templateData.containsKey("buttonParams")) {
+            List<?> buttonParams = (List<?>) templateData.get("buttonParams");
+
+            for (int i = 0; i < buttonParams.size(); i++) {
+                Object param = buttonParams.get(i);
+                Map<String, Object> buttonParam = new HashMap<>();
+                buttonParam.put("type", "text");
+                buttonParam.put("text", param.toString());
+
+                Map<String, Object> buttonComponent = new HashMap<>();
+                buttonComponent.put("type", "button");
+                buttonComponent.put("sub_type", "url");
+                buttonComponent.put("index", String.valueOf(i)); // importante: index debe ser String
+                buttonComponent.put("parameters", List.of(buttonParam));
+
+                templateComponents.add(buttonComponent);
+            }
         }
 
-        templateComponents.add(headerComponent);
+
 
         template.put("components", templateComponents);
 
