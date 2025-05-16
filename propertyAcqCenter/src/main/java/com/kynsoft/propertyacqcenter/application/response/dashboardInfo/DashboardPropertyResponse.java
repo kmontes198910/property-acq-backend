@@ -24,13 +24,15 @@ public class DashboardPropertyResponse implements IResponse {
     private String city;
     private String state;
     private String zipCode;
+    private Double latitude;
+    private Double longitude;
 
     private double unitCount;
     private int squareFootage;
 
     private String distressed;
     private String shortSale;
-    private String hoaCoa;
+    private String hoa;
     private String ownerType;
     private String ownerStatus;
     private String lengthOfOwnership;
