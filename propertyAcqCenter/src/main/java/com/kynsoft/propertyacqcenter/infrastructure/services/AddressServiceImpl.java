@@ -92,4 +92,9 @@ public class AddressServiceImpl implements IAddressService {
                 data.getTotalElements(), data.getSize(), data.getNumber());
     }
 
+    @Override
+    public int countByLegalEntityAndIsPrimary(UUID legalEntity) {
+        return this.repositoryQuery.countByLegalEntityAndIsPrimary(legalEntity);
+    }
+
 }

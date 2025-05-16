@@ -18,4 +18,6 @@ public interface IAddressService {
     AddressDto findById(UUID id);
     
     PaginatedResponse search(Pageable pageable, List<FilterCriteria> filterCriteria);
+
+    int countByLegalEntityAndIsPrimary(UUID legalEntity);
 }

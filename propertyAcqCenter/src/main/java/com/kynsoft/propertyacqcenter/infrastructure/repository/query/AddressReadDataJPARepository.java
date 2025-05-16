@@ -11,6 +11,8 @@ import org.springframework.stereotype.Repository;
 
 import java.util.UUID;
 import org.springframework.data.jpa.repository.EntityGraph;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 @Repository
 public interface AddressReadDataJPARepository extends JpaRepository<Address, UUID>, JpaSpecificationExecutor<Address> {
@@ -20,4 +22,7 @@ public interface AddressReadDataJPARepository extends JpaRepository<Address, UUI
     @EntityGraph(attributePaths = {"legalEntity.business", "legalEntity", "legalEntity.owners"})
     @Override
     Optional<Address> findById(UUID id);
+
+    @Query("SELECT COUNT(a) FROM Address a WHERE a.legalEntity.id = :legalEntity AND a.isPrimary = true")
+    int countByLegalEntityAndIsPrimary(@Param("legalEntity") UUID legalEntity);
 }
