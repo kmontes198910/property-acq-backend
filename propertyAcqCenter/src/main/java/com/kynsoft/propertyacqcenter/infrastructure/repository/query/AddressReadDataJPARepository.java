@@ -1,5 +1,6 @@
 package com.kynsoft.propertyacqcenter.infrastructure.repository.query;
 
+import com.kynsoft.propertyacqcenter.domain.enums.AddressType;
 import com.kynsoft.propertyacqcenter.infrastructure.entity.Address;
 import java.util.Optional;
 import org.springframework.data.domain.Page;
@@ -23,6 +24,6 @@ public interface AddressReadDataJPARepository extends JpaRepository<Address, UUI
     @Override
     Optional<Address> findById(UUID id);
 
-    @Query("SELECT COUNT(a) FROM Address a WHERE a.legalEntity.id = :legalEntity AND a.isPrimary = true")
-    int countByLegalEntityAndIsPrimary(@Param("legalEntity") UUID legalEntity);
+    @Query("SELECT COUNT(a) FROM Address a WHERE a.legalEntity.id = :legalEntity AND a.addressType = :addressType AND a.id <> :id")
+    int countByLegalEntityAndIsPrimary(@Param("legalEntity") UUID legalEntity, @Param("addressType") AddressType addressType, @Param("id") UUID id);
 }

@@ -24,6 +24,6 @@ public interface BankAccountReadDataJPARepository extends JpaRepository<BankAcco
     @Override
     Optional<BankAccount> findById(UUID id);
 
-    @Query("SELECT COUNT(ba) FROM BankAccount ba WHERE ba.legalEntity.id = :legalEntity AND ba.accountNumber = :accountNumber")
-    int countByLegalEntityAndAccountNumber(@Param("legalEntity") UUID legalEntity, @Param("accountNumber") String accountNumber);
+    @Query("SELECT COUNT(ba) FROM BankAccount ba WHERE ba.legalEntity.id = :legalEntity AND ba.accountNumber = :accountNumber AND ba.id <> :id")
+    int countByLegalEntityAndAccountNumber(@Param("legalEntity") UUID legalEntity, @Param("accountNumber") String accountNumber, @Param("id") UUID id);
 }

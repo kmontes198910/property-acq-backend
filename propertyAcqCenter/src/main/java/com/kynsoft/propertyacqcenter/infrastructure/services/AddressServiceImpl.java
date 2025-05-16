@@ -6,6 +6,8 @@ import com.kynsof.share.core.infrastructure.specifications.GenericSpecifications
 import com.kynsoft.propertyacqcenter.application.response.AddressResponse;
 import com.kynsoft.propertyacqcenter.domain.dto.AddressDto;
 import com.kynsoft.propertyacqcenter.domain.dto.exception.AddressNotFoundException;
+import com.kynsoft.propertyacqcenter.domain.dto.exception.address.AddressLegalEntityIsPrimaryException;
+import com.kynsoft.propertyacqcenter.domain.enums.AddressType;
 import com.kynsoft.propertyacqcenter.domain.services.IAddressService;
 import com.kynsoft.propertyacqcenter.infrastructure.entity.Address;
 import com.kynsoft.propertyacqcenter.infrastructure.entity.LegalEntity;
@@ -28,8 +30,8 @@ public class AddressServiceImpl implements IAddressService {
     private final AddressReadDataJPARepository repositoryQuery;
     private final AddressWriteDataJPARepository repositoryCommand;
 
-    public AddressServiceImpl(AddressReadDataJPARepository repositoryQuery, 
-                              AddressWriteDataJPARepository repositoryCommand) {
+    public AddressServiceImpl(AddressReadDataJPARepository repositoryQuery,
+            AddressWriteDataJPARepository repositoryCommand) {
         this.repositoryQuery = repositoryQuery;
         this.repositoryCommand = repositoryCommand;
     }
@@ -47,7 +49,6 @@ public class AddressServiceImpl implements IAddressService {
         update.setAddressType(object.getAddressType());
         update.setCity(object.getCity());
         update.setCountry(object.getCountry());
-        update.setIsPrimary(object.getIsPrimary());
         update.setLegalEntity(new LegalEntity(object.getLegalEntity()));
         update.setState(object.getState());
         update.setStreetAddress1(object.getStreetAddress1());
@@ -93,8 +94,16 @@ public class AddressServiceImpl implements IAddressService {
     }
 
     @Override
-    public int countByLegalEntityAndIsPrimary(UUID legalEntity) {
-        return this.repositoryQuery.countByLegalEntityAndIsPrimary(legalEntity);
+    public int countByLegalEntityAndIsPrimary(UUID legalEntity, UUID id) {
+        return this.repositoryQuery.countByLegalEntityAndIsPrimary(legalEntity, AddressType.PRINCIPAL, id);
+    }
+
+    @Override
+    public void validateAccountNumber(UUID legalEntity, UUID id) {
+        int count = this.countByLegalEntityAndIsPrimary(legalEntity, id);
+        if (count > 0) {
+            throw new AddressLegalEntityIsPrimaryException();
+        }
     }
 
 }

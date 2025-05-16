@@ -3,10 +3,10 @@ package com.kynsoft.propertyacqcenter.infrastructure.services;
 import com.kynsof.share.core.domain.request.FilterCriteria;
 import com.kynsof.share.core.domain.response.PaginatedResponse;
 import com.kynsof.share.core.infrastructure.specifications.GenericSpecificationsBuilder;
-import com.kynsoft.propertyacqcenter.application.response.BankAccountFindByIdResponse;
 import com.kynsoft.propertyacqcenter.application.response.BankAccountResponse;
 import com.kynsoft.propertyacqcenter.domain.dto.BankAccountDto;
 import com.kynsoft.propertyacqcenter.domain.dto.exception.BankAccountNotFoundException;
+import com.kynsoft.propertyacqcenter.domain.dto.exception.bankAccount.BankAccountLegalEntityAccountNumberException;
 import com.kynsoft.propertyacqcenter.domain.services.IBankAccountService;
 import com.kynsoft.propertyacqcenter.infrastructure.entity.BankAccount;
 import com.kynsoft.propertyacqcenter.infrastructure.entity.embeddedEntity.BankBranch;
@@ -108,7 +108,15 @@ public class BankAccountServiceImpl implements IBankAccountService {
     }
 
     @Override
-    public int countByLegalEntityAndAccountNumber(UUID legalEntity, String accountNumber) {
-        return this.repositoryQuery.countByLegalEntityAndAccountNumber(legalEntity, accountNumber);
+    public int countByLegalEntityAndAccountNumber(UUID legalEntity, String accountNumber, UUID id) {
+        return this.repositoryQuery.countByLegalEntityAndAccountNumber(legalEntity, accountNumber, id);
+    }
+
+    @Override
+    public void validateAccountNumber(UUID legalEntity, String accountNumber, UUID id) {
+        int count = this.countByLegalEntityAndAccountNumber(legalEntity, accountNumber, id);
+        if (count > 0) {
+            throw new BankAccountLegalEntityAccountNumberException(accountNumber);
+        }
     }
 }

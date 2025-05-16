@@ -29,6 +29,9 @@ public class UpdateBankAccountCommandHandler implements ICommandHandler<UpdateBa
     public void handle(UpdateBankAccountCommand command) {
         LegalEntityDto legalEntityDto = this.legalEntityService.findById(command.getLegalEntity());
         CurrencyDto currencyDto = this.currencyService.findById(command.getInternationalDetails().getCurrency());
+
+        this.bankAccountService.validateAccountNumber(command.getLegalEntity(), command.getAccountNumber(), command.getId());
+
         bankAccountService.update(new BankAccountDto(
                 command.getId(), 
                 legalEntityDto, 

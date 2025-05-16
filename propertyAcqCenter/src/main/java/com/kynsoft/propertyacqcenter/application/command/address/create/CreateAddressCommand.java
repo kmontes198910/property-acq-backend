@@ -21,10 +21,9 @@ public class CreateAddressCommand implements ICommand {
     private String state;
     private String zipCode;
     private String country;
-    private Boolean isPrimary;
     private String nickName;
 
-    public CreateAddressCommand(UUID legalEntity, AddressType addressType, String streetAddress1, String streetAddress2, String city, String state, String zipCode, String country, Boolean isPrimary, String nickName) {
+    public CreateAddressCommand(UUID legalEntity, AddressType addressType, String streetAddress1, String streetAddress2, String city, String state, String zipCode, String country, String nickName) {
         this.id = UUID.randomUUID();
         this.legalEntity = legalEntity;
         this.addressType = addressType;
@@ -34,7 +33,6 @@ public class CreateAddressCommand implements ICommand {
         this.state = state;
         this.zipCode = zipCode;
         this.country = country;
-        this.isPrimary = isPrimary;
         this.nickName = nickName;
     }
 
@@ -48,7 +46,6 @@ public class CreateAddressCommand implements ICommand {
                 request.getState(),
                 request.getZipCode(),
                 request.getCountry(),
-                request.getIsPrimary(),
                 request.getNickName()
         );
     }

@@ -23,7 +23,6 @@ public class EmployeeResponse implements IResponse {
     private LocalDate hireDate;
     private String position;
     private String department;
-    private String employeeNumber;
     private Double salary;
     private Boolean active;
     private BusinessResponse business;
@@ -41,7 +40,6 @@ public class EmployeeResponse implements IResponse {
         this.hireDate = dto.getHireDate();
         this.position = dto.getPosition();
         this.department = dto.getDepartment();
-        this.employeeNumber = dto.getEmployeeNumber();
         this.salary = dto.getSalary();
         this.active = dto.getActive();
         this.business = dto.getBusiness() != null ? new BusinessResponse(dto.getBusiness()) : null;
