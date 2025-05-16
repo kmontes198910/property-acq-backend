@@ -26,8 +26,8 @@ public class RentCastPropertyServiceImpl {
     private String apiKey;
 
     //private final String BASE_URL = "http://localhost:8097/api/rentcast/mock";
-    private final String BASE_URL = "http://property-acq-center-service:9901/api/rentcast/mock";
-//    private final String BASE_URL = "https://api.rentcast.io/v1";
+//    private final String BASE_URL = "http://property-acq-center-service:9901/api/rentcast/mock";
+    private final String BASE_URL = "https://api.rentcast.io/v1";
 
     private final RestTemplate restTemplate;
     private final RentCastServiceMockImpl resCastServiceMockImpl;
@@ -54,8 +54,8 @@ public class RentCastPropertyServiceImpl {
             String encodedAddress = URLEncoder.encode(cleanedAddress, StandardCharsets.UTF_8);
 
             //verdadero
-//            String url = BASE_URL + "/properties?address=" + cleanedAddress;
-            String url = BASE_URL + "/property/fake";
+            String url = BASE_URL + "/properties?address=" + cleanedAddress;
+            //String url = BASE_URL + "/property/fake";
 
             System.err.println("Url: " + url);
             // Crear cabeceras para la solicitud

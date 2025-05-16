@@ -5,6 +5,7 @@ import com.kynsoft.propertyacqcenter.domain.dto.BankAccountDto;
 import com.kynsoft.propertyacqcenter.domain.dto.CurrencyDto;
 import com.kynsoft.propertyacqcenter.domain.dto.LegalEntityDto;
 import com.kynsoft.propertyacqcenter.domain.dto.embedded.InternationalBankingDetailsDto;
+import com.kynsoft.propertyacqcenter.domain.dto.exception.bankAccount.BankAccountLegalEntityAccountNumberException;
 import com.kynsoft.propertyacqcenter.domain.services.IBankAccountService;
 import com.kynsoft.propertyacqcenter.domain.services.ICurrencyService;
 import com.kynsoft.propertyacqcenter.domain.services.ILegalEntityService;
@@ -28,6 +29,9 @@ public class CreateBankAccountCommandHandler implements ICommandHandler<CreateBa
     @Override
     public void handle(CreateBankAccountCommand command) {
         LegalEntityDto legalEntityDto = this.legalEntityService.findById(command.getLegalEntity());
+
+        this.validateAccountNumber(command);
+
         CurrencyDto currencyDto = this.currencyService.findById(command.getInternationalDetails().getCurrency());
         bankAccountService.create(new BankAccountDto(
                 command.getId(), 
@@ -50,5 +54,12 @@ public class CreateBankAccountCommandHandler implements ICommandHandler<CreateBa
                 ), 
                 command.getBranchInfo()
         ));
+    }
+
+    private void validateAccountNumber(CreateBankAccountCommand command) {
+        int count = this.bankAccountService.countByLegalEntityAndAccountNumber(command.getLegalEntity(), command.getAccountNumber());
+        if (count > 0) {
+            throw new BankAccountLegalEntityAccountNumberException(command.getAccountNumber());
+        }
     }
 }
