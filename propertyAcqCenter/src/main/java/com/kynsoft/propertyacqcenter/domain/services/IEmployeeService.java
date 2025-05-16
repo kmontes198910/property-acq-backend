@@ -31,6 +31,4 @@ public interface IEmployeeService {
     Long countByEmailAndNotId(String email, UUID id);
 
     long countByEmail(String email);
-
-    long countByEmployeeNumber(String employeeNumber);
 }

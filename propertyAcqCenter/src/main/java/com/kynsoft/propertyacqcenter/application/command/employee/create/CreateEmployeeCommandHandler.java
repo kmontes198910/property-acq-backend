@@ -5,7 +5,6 @@ import com.kynsoft.propertyacqcenter.domain.dto.BusinessDto;
 import com.kynsoft.propertyacqcenter.domain.dto.EmployeeDto;
 import com.kynsoft.propertyacqcenter.domain.dto.exception.employee.EmployeeEmailFormatException;
 import com.kynsoft.propertyacqcenter.domain.dto.exception.employee.EmployeeEmailMustBeUniqueException;
-import com.kynsoft.propertyacqcenter.domain.dto.exception.employee.EmployeeEmployeeNumberMustBeUniqueException;
 import com.kynsoft.propertyacqcenter.domain.services.IBusinessService;
 import com.kynsoft.propertyacqcenter.domain.services.IEmployeeService;
 import jakarta.transaction.Transactional;
@@ -30,11 +29,9 @@ public class CreateEmployeeCommandHandler implements ICommandHandler<CreateEmplo
         BusinessDto businessDto = command.getBusiness() != null ? this.businessService.findById(command.getBusiness()) : null;
 
         this.validateEmail(command.getEmail());
-        this.validateEmployeeNumber(command.getEmployeeNumber());
 
         EmployeeDto employeeDto = EmployeeDto.builder()
                 .id(command.getId())
-                .employeeNumber(command.getEmployeeNumber())
                 .active(command.getActive())
                 .email(command.getEmail())
                 .firstName(command.getFirstName())
@@ -58,12 +55,6 @@ public class CreateEmployeeCommandHandler implements ICommandHandler<CreateEmplo
         Pattern pattern = Pattern.compile(emailRegex);
         if (!pattern.matcher(email).matches()) {
             throw new EmployeeEmailFormatException(email);
-        }
-    }
-
-    private void validateEmployeeNumber(String employeeNumber) {
-        if (this.employeeService.countByEmployeeNumber(employeeNumber) > 0) {
-            throw new EmployeeEmployeeNumberMustBeUniqueException(employeeNumber);
         }
     }
 

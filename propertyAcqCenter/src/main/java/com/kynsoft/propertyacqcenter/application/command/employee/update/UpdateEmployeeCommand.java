@@ -20,7 +20,6 @@ public class UpdateEmployeeCommand implements ICommand {
     private LocalDate hireDate;
     private String position;
     private String department;
-    private String employeeNumber;
     private Double salary;
     private Boolean active;
     private UUID business;
@@ -35,7 +34,6 @@ public class UpdateEmployeeCommand implements ICommand {
                 request.getHireDate(),
                 request.getPosition(),
                 request.getDepartment(),
-                request.getEmployeeNumber(),
                 request.getSalary(),
                 request.getActive(),
                 request.getBusiness()

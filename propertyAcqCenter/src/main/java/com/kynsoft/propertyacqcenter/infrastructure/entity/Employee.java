@@ -45,9 +45,6 @@ public class Employee {
     @Column(name = "department")
     private String department;
 
-    @Column(name = "employee_number", nullable = false, unique = true)
-    private String employeeNumber;
-
     @Column(name = "salary")
     private Double salary;
 
@@ -72,12 +69,11 @@ public class Employee {
     @Column(name = "updated_by")
     private UUID updatedBy;
 
-    public Employee(UUID id, String firstName, String lastName, String email, String employeeNumber, Business business) {
+    public Employee(UUID id, String firstName, String lastName, String email, Business business) {
         this.id = id != null ? id : UUID.randomUUID();
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
-        this.employeeNumber = employeeNumber;
         this.business = business;
         this.active = true;
     }
@@ -91,7 +87,6 @@ public class Employee {
         this.hireDate = dto.getHireDate();
         this.position = dto.getPosition();
         this.department = dto.getDepartment();
-        this.employeeNumber = dto.getEmployeeNumber();
         this.salary = dto.getSalary();
         this.active = dto.getActive() != null ? dto.getActive() : true;
         this.business = dto.getBusiness() != null ? new Business(dto.getBusiness()) : null;
@@ -109,7 +104,6 @@ public class Employee {
                 .hireDate(this.hireDate)
                 .position(this.position)
                 .department(this.department)
-                .employeeNumber(this.employeeNumber)
                 .salary(this.salary)
                 .active(this.active)
                 .createdAt(this.createdAt)
@@ -129,7 +123,6 @@ public class Employee {
                 .hireDate(this.hireDate)
                 .position(this.position)
                 .department(this.department)
-                .employeeNumber(this.employeeNumber)
                 .salary(this.salary)
                 .active(this.active)
                 .business(this.business != null ? 
