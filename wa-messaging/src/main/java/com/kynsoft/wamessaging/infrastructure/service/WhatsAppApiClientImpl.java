@@ -25,7 +25,7 @@ public class WhatsAppApiClientImpl implements WhatsAppApiClient {
 
     private final OkHttpClient httpClient;
     private final ObjectMapper objectMapper;
-    // private final MessageProcessorService messageProcessorService;
+    private final MessageProcessorService messageProcessorService;
     
     @Value("${whatsapp.api.url}")
     private String apiUrl;
@@ -70,42 +70,66 @@ public class WhatsAppApiClientImpl implements WhatsAppApiClient {
     public WhatsAppApiResponse sendTemplateMessage(String recipientPhone, String templateName, Object templateData) {
         log.info("Enviando mensaje de plantilla a {}: plantilla {}", recipientPhone, templateName);
         
-        Map<String, Object> payload = new HashMap<>();
+        Map<String, Object> payload = new LinkedHashMap<>();
         payload.put("messaging_product", "whatsapp");
         payload.put("to", recipientPhone);
         payload.put("type", "template");
         
-        Map<String, Object> template = new HashMap<>();
+        Map<String, Object> template = new LinkedHashMap<>();
         template.put("name", templateName);
         
-        Map<String, String> language = new HashMap<>();
-        language.put("code", "en_US");
+        Map<String, String> language = new LinkedHashMap<>();
+        language.put("code", "es");
         template.put("language", language);
         
-        // Solo añadir los componentes si hay datos de plantilla
-        if (templateData != null && templateData instanceof Map) {
+        // Solo procesar los componentes si hay datos de plantilla
+        if (templateData instanceof Map) {
             @SuppressWarnings("unchecked")
-            Map<String, String> templateParams = (Map<String, String>) templateData;
+            Map<String, Object> templateParams = (Map<String, Object>) templateData;
             
-            if (!templateParams.isEmpty()) {
-                List<Map<String, Object>> components = new ArrayList<>();
-                Map<String, Object> component = new HashMap<>();
-                component.put("type", "body");
+            List<Map<String, Object>> components = new ArrayList<>();
+
+            // Procesamiento del header si existe
+            if (templateParams.containsKey("header")) {
+                Map<String, Object> headerComponent = new LinkedHashMap<>();
+                headerComponent.put("type", "header");
+                headerComponent.put("parameters", Collections.singletonList(
+                    Map.of("type", "text", "text", templateParams.get("header"))
+                ));
+                components.add(headerComponent);
+            }
+
+            // Procesamiento del body si existe
+            if (templateParams.containsKey("body")) {
+                Map<String, Object> bodyComponent = new LinkedHashMap<>();
+                bodyComponent.put("type", "body");
+                List<Map<String, Object>> bodyParameters = new ArrayList<>();
                 
-                List<Map<String, Object>> parameters = templateParams.entrySet().stream()
-                    .map(entry -> {
-                        Map<String, Object> param = new HashMap<>();
-                        param.put("type", "text");
-                        param.put("text", entry.getValue());
-                        return param;
-                    })
-                    .collect(Collectors.toList());
-                
-                if (!parameters.isEmpty()) {
-                    component.put("parameters", parameters);
-                    components.add(component);
-                    template.put("components", components);
+                if (templateParams.get("body") instanceof List) {
+                    @SuppressWarnings("unchecked")
+                    List<String> bodyParams = (List<String>) templateParams.get("body");
+                    for (String param : bodyParams) {
+                        bodyParameters.add(Map.of("type", "text", "text", param));
+                    }
+                    bodyComponent.put("parameters", bodyParameters);
+                    components.add(bodyComponent);
                 }
+            }
+
+            // Procesamiento del botón si existe
+            if (templateParams.containsKey("button")) {
+                Map<String, Object> buttonComponent = new LinkedHashMap<>();
+                buttonComponent.put("type", "button");
+                buttonComponent.put("sub_type", "url");
+                buttonComponent.put("index", "0");
+                buttonComponent.put("parameters", Collections.singletonList(
+                    Map.of("type", "text", "text", templateParams.get("button"))
+                ));
+                components.add(buttonComponent);
+            }
+
+            if (!components.isEmpty()) {
+                template.put("components", components);
             }
         }
         
