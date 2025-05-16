@@ -24,7 +24,7 @@ public class BedAssignmentEntity {
     @Column(name = "patient_id", nullable = false)
     private UUID patientId;
     
-    @Column(name = "surgery_id", nullable = false)
+    @Column(name = "surgery_id")
     private UUID surgeryId;
     
     @Column(name = "bed_id", nullable = false)
@@ -42,7 +42,7 @@ public class BedAssignmentEntity {
     @Column(name = "status", nullable = false)
     private String status;
     
-    @Column(name = "surgery_stage", nullable = false)
+    @Column(name = "surgery_stage")
     private String surgeryStage;
     
     @Column(name = "assigned_by")
@@ -71,7 +71,7 @@ public class BedAssignmentEntity {
     @JoinColumn(name = "bed_id", referencedColumnName = "id", insertable = false, updatable = false)
     private RecoveryBedEntity recoveryBed;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, optional = true)
     @JoinColumn(name = "surgery_id", referencedColumnName = "id", insertable = false, updatable = false)
     private SurgeryEntity surgery;
 
