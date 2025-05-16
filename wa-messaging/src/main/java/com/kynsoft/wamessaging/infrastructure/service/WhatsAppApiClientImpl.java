@@ -67,74 +67,67 @@ public class WhatsAppApiClientImpl implements WhatsAppApiClient {
      * Envía un mensaje basado en plantilla
      */
     @Override
-    public WhatsAppApiResponse sendTemplateMessage(String recipientPhone, String templateName, Object templateData) {
+    public WhatsAppApiResponse sendTemplateMessage(String recipientPhone, String templateName, Map<String,Object> templateData) {
+
         log.info("Enviando mensaje de plantilla a {}: plantilla {}", recipientPhone, templateName);
         
         Map<String, Object> payload = new LinkedHashMap<>();
         payload.put("messaging_product", "whatsapp");
         payload.put("to", recipientPhone);
         payload.put("type", "template");
-        
         Map<String, Object> template = new LinkedHashMap<>();
         template.put("name", templateName);
         
+        // Procesar lenguaje
         Map<String, String> language = new LinkedHashMap<>();
         language.put("code", "es");
         template.put("language", language);
         
-        // Solo procesar los componentes si hay datos de plantilla
-        if (templateData instanceof Map) {
-            @SuppressWarnings("unchecked")
-            Map<String, Object> templateParams = (Map<String, Object>) templateData;
-            
-            List<Map<String, Object>> components = new ArrayList<>();
+        // Procesar componentes si existen
+        List<Map<String, Object>> components = new ArrayList<>();
 
-            // Procesamiento del header si existe
-            if (templateParams.containsKey("header")) {
-                Map<String, Object> headerComponent = new LinkedHashMap<>();
-                headerComponent.put("type", "header");
-                headerComponent.put("parameters", Collections.singletonList(
-                    Map.of("type", "text", "text", templateParams.get("header"))
-                ));
-                components.add(headerComponent);
-            }
 
-            // Procesamiento del body si existe
-            if (templateParams.containsKey("body")) {
-                Map<String, Object> bodyComponent = new LinkedHashMap<>();
-                bodyComponent.put("type", "body");
-                List<Map<String, Object>> bodyParameters = new ArrayList<>();
-                
-                if (templateParams.get("body") instanceof List) {
-                    @SuppressWarnings("unchecked")
-                    List<String> bodyParams = (List<String>) templateParams.get("body");
-                    for (String param : bodyParams) {
-                        bodyParameters.add(Map.of("type", "text", "text", param));
-                    }
-                    bodyComponent.put("parameters", bodyParameters);
-                    components.add(bodyComponent);
-                }
-            }
+        List<Map<String, Object>> templateComponents = new ArrayList<>();
+        Map<String, Object> textParam = new HashMap<>();
+        textParam.put("type", "text");
+        textParam.put("text", "Juan");
 
-            // Procesamiento del botón si existe
-            if (templateParams.containsKey("button")) {
-                Map<String, Object> buttonComponent = new LinkedHashMap<>();
-                buttonComponent.put("type", "button");
-                buttonComponent.put("sub_type", "url");
-                buttonComponent.put("index", "0");
-                buttonComponent.put("parameters", Collections.singletonList(
-                    Map.of("type", "text", "text", templateParams.get("button"))
-                ));
-                components.add(buttonComponent);
-            }
+        Map<String, Object> headerComponent = new HashMap<>();
+        headerComponent.put("type", "header");
+        headerComponent.put("parameters", List.of(textParam));
 
-            if (!components.isEmpty()) {
-                template.put("components", components);
-            }
-        }
-        
+
+        Map<String, Object> param1 = new HashMap<>();
+        param1.put("type", "text");
+        param1.put("text", "$10,22");
+
+        Map<String, Object> param2 = new HashMap<>();
+        param2.put("type", "text");
+        param2.put("text", "1234567890P");
+
+        Map<String, Object> bodyComponent = new HashMap<>();
+        bodyComponent.put("type", "body");
+        bodyComponent.put("parameters", List.of(param1, param2));
+
+
+        Map<String, Object> buttonParam = new HashMap<>();
+        buttonParam.put("type", "text");
+        buttonParam.put("text", "https://tes.com");
+
+        Map<String, Object> buttonComponent = new HashMap<>();
+        buttonComponent.put("type", "button");
+        buttonComponent.put("sub_type", "url");
+        buttonComponent.put("index", "0");
+        buttonComponent.put("parameters", List.of(buttonParam));
+
+        templateComponents.add(headerComponent);
+        templateComponents.add(bodyComponent);
+        templateComponents.add(buttonComponent);
+
+       template.put("components", templateComponents);
+
         payload.put("template", template);
-        
+
         try {
             String jsonPayload = objectMapper.writeValueAsString(payload);
             log.debug("Payload generado: {}", jsonPayload);
@@ -144,13 +137,17 @@ public class WhatsAppApiClientImpl implements WhatsAppApiClient {
             return buildErrorResponse("Error al crear mensaje: " + e.getMessage());
         }
     }
+
+    
+
+
     
     /**
      * Envía un mensaje con contenido multimedia
      */
     @Override
-    public WhatsAppApiResponse sendMediaMessage(String recipientPhone, String caption, String mediaUrl, MessageType mediaType) {
-        log.info("Enviando mensaje multimedia ({}) a {}: {}", mediaType, recipientPhone, mediaUrl);
+    public WhatsAppApiResponse sendMediaMessage(String recipientPhone, String caption,  MessageType mediaType) {
+     //   log.info("Enviando mensaje multimedia ({}) a {}: {}", mediaType, recipientPhone, mediaUrl);
         
         String mediaTypeStr = mediaType.name().toLowerCase();
         
@@ -161,7 +158,7 @@ public class WhatsAppApiClientImpl implements WhatsAppApiClient {
         payload.put("type", mediaTypeStr);
         
         Map<String, Object> mediaContent = new HashMap<>();
-        mediaContent.put("link", mediaUrl);
+       // mediaContent.put("link", mediaUrl);
         if (caption != null && !caption.isEmpty()) {
             mediaContent.put("caption", caption);
         }

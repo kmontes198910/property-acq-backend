@@ -30,6 +30,9 @@ public class WhatsAppMessage {
     @Column(name = "recipient_name")
     private String recipientName;
 
+    @Column(name = "template_name")
+    private String templateName;
+
     @Column(name = "message_content", nullable = false, length = 4000)
     private String messageContent;
     
@@ -49,9 +52,6 @@ public class WhatsAppMessage {
     
     @Column(name = "retry_count")
     private Integer retryCount;
-    
-    @Column(name = "media_url")
-    private String mediaUrl;
     
     @Column(name = "created_at", nullable = false)
     private LocalDateTime createdAt;

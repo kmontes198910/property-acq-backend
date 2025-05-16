@@ -25,16 +25,12 @@ public class SendMessageRequest {
 
     private String recipientName;
 
-    @NotBlank(message = "El contenido del mensaje es obligatorio")
-    private String messageContent;
+    @NotNull(message = "El contenido del mensaje es obligatorio")
+    private Object messageContent;
 
     @NotNull(message = "El tipo de mensaje es obligatorio")
     private MessageType messageType;
 
-    private String mediaUrl;
-
-    // Campos específicos para mensajes de tipo TEMPLATE
     private String templateName;
-    private Object templateData;
 }
 

@@ -1,5 +1,8 @@
 package com.kynsoft.wamessaging.application.service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kynsoft.wamessaging.application.dto.MessageResponse;
 import com.kynsoft.wamessaging.application.dto.SendMessageRequest;
 import com.kynsoft.wamessaging.application.dto.WhatsAppApiResponse;
@@ -16,10 +19,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 /**
  * Servicio para la coordinación del envío de mensajes
@@ -31,6 +31,7 @@ public class MessageCoordinatorService {
 
     private final WhatsAppMessageService messageService;
     private final WhatsAppApiClient apiClient;
+    private final ObjectMapper objectMapper;
 
     /**
      * Procesa una solicitud de envío de mensaje
@@ -43,9 +44,9 @@ public class MessageCoordinatorService {
         WhatsAppMessage message = WhatsAppMessage.builder()
                 .recipientPhone(request.getRecipientPhone())
                 .recipientName(request.getRecipientName())
-                .messageContent(request.getMessageContent())
+                .messageContent(request.getMessageContent().toString())
                 .messageType(request.getMessageType())
-                .mediaUrl(request.getMediaUrl())
+                .templateName(request.getTemplateName())
                 .status(MessageStatus.PENDING)
                 .retryCount(0)
                 .createdAt(LocalDateTime.now())
@@ -78,51 +79,30 @@ public class MessageCoordinatorService {
 
         // Enviar el mensaje según su tipo
         WhatsAppApiResponse apiResponse;
-
         try {
-            apiResponse = switch (message.getMessageType()) {
-                case TEXT -> apiClient.sendTextMessage(
+            if (message.getMessageType() == MessageType.TEXT) {
+                apiResponse = apiClient.sendTextMessage(
                         message.getRecipientPhone(),
                         message.getMessageContent()
                 );
-                case TEMPLATE ->
-                    // Aquí se asume que messageContent contiene el nombre de la plantilla
-                    // y que se ha configurado un servicio adicional para obtener los datos de la plantilla
-                        apiClient.sendTemplateMessage(
-                                message.getRecipientPhone(),
-                                message.getMessageContent(),
-                                null // Aquí se deberían pasar los datos de la plantilla
-                        );
-                case IMAGE, DOCUMENT, AUDIO, VIDEO -> apiClient.sendMediaMessage(
+            } else if (message.getMessageType() == MessageType.TEMPLATE) {
+                apiResponse = apiClient.sendTemplateMessage(
+                        message.getRecipientPhone(),
+                        message.getTemplateName(),
+                        null // Aquí se deberían pasar los datos de la plantilla
+                );
+            } else if (message.getMessageType() == MessageType.IMAGE
+                       || message.getMessageType() == MessageType.DOCUMENT
+                       || message.getMessageType() == MessageType.AUDIO
+                       || message.getMessageType() == MessageType.VIDEO) {
+                apiResponse = apiClient.sendMediaMessage(
                         message.getRecipientPhone(),
                         message.getMessageContent(),
-                        message.getMediaUrl(),
                         message.getMessageType()
                 );
-                default ->
-                        throw new IllegalArgumentException("Tipo de mensaje no soportado: " + message.getMessageType());
-            };
-
-            // Actualizar el estado del mensaje según la respuesta de la API
-            if (apiResponse.isSuccessful()) {
-                message = messageService.updateMessageStatus(
-                        messageId,
-                        MessageStatus.SENT,
-                        apiResponse.getId(),
-                        null
-                );
             } else {
-                message = messageService.updateMessageStatus(
-                        messageId,
-                        MessageStatus.FAILED,
-                        null,
-                        apiResponse.getErrorMessage()
-                );
-
-                // Si hay un error, incrementar contador de reintentos para futuros intentos
-                messageService.incrementRetryCount(messageId);
+                throw new IllegalArgumentException("Tipo de mensaje no soportado: " + message.getMessageType());
             }
-
         } catch (Exception e) {
             log.error("Error al enviar mensaje WhatsApp", e);
             message = messageService.updateMessageStatus(
@@ -134,9 +114,31 @@ public class MessageCoordinatorService {
 
             // Si hay una excepción, incrementar contador de reintentos
             messageService.incrementRetryCount(messageId);
+            return convertToDto(message);
         }
 
-        return convertToDto(message);
+            // Actualizar el estado del mensaje según la respuesta de la API
+            if (apiResponse.isSuccessful()) {
+                message = messageService.updateMessageStatus(
+                        messageId,
+                        MessageStatus.SENT,
+                        apiResponse.getId(),
+                        null
+                );return convertToDto(message);
+            } else {
+                message = messageService.updateMessageStatus(
+                        messageId,
+                        MessageStatus.FAILED,
+                        null,
+                        apiResponse.getErrorMessage()
+                );
+
+                // Si hay un error, incrementar contador de reintentos para futuros intentos
+                messageService.incrementRetryCount(messageId);
+                return convertToDto(message);
+            }
+
+
     }
 
     /**
@@ -290,4 +292,5 @@ public class MessageCoordinatorService {
                 .sentAt(message.getSentAt())
                 .build();
     }
+
 }
