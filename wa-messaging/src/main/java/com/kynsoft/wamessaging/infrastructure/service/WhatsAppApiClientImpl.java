@@ -25,8 +25,8 @@ public class WhatsAppApiClientImpl implements WhatsAppApiClient {
 
     private final OkHttpClient httpClient;
     private final ObjectMapper objectMapper;
-    private final MessageProcessorService messageProcessorService;
-    
+//    private final MessageProcessorService messageProcessorService;
+
     @Value("${whatsapp.api.url}")
     private String apiUrl;
     
