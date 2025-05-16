@@ -1,4 +1,4 @@
-package com.kynsoft.cirugia.application.command.bedassignment.create;
+package com.kynsoft.cirugia.application.command.bedassignment.transfer;
 
 import com.kynsof.share.core.domain.bus.command.ICommandHandler;
 import com.kynsoft.cirugia.domain.dto.BedAssignment;
@@ -12,53 +12,52 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
+import java.util.concurrent.atomic.AtomicReference;
 
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class CreateBedAssignmentCommandHandler implements ICommandHandler<CreateBedAssignmentCommand> {
+public class TransferBedAssignmentCommandHandler implements ICommandHandler<TransferBedAssignmentCommand> {
 
     private final IBedAssignmentService bedAssignmentService;
     private final IRecoveryBedService recoveryBedService;
 
     @Override
     @Transactional
-    public void handle(CreateBedAssignmentCommand command) {
-        log.info("Manejando comando para crear asignación de cama para cirugía: {}", command.getSurgeryId());
+    public void handle(TransferBedAssignmentCommand command) {
+        log.info("Manejando comando para crear asignación de cama para cirugía: {}", command.getBedId());
+        AtomicReference<BedAssignment> assignmentValue = new AtomicReference<>();
+        bedAssignmentService.findById(command.getId())
+                .ifPresent(assignment -> {
+                    assignmentValue.set(assignment);
+                    // Actualizar el estado de la asignación anterior a "COMPLETED"
+                    assignment.setStatus("COMPLETED");
+                    assignment.setReleaseDate(LocalDateTime.now());
+                    bedAssignmentService.update(assignment);
+                });
         RecoveryBed recoveryBed = recoveryBedService.findById(command.getBedId());
         if (recoveryBed != null) {
             // Actualizar el estado de la cama a "ASSIGNED"
-            recoveryBed.setStatus("ASSIGNED");
+            recoveryBed.setStatus("AVAILABLE");
             recoveryBedService.update(recoveryBed);
         } else {
             log.warn("Cama con ID {} no encontrada para actualizar su estado.", command.getBedId());
         }
 
-        // Crear DTO para la asignación de cama
-        BedAssignment bedAssignment = BedAssignment.builder()
-                .id(command.getId() != null ? command.getId() : UUID.randomUUID())
-                .patientId(command.getPatientId())
-                .surgeryId(command.getSurgeryId())
+          assignmentValue.set(BedAssignment.builder()
+                .id(UUID.randomUUID())
                 .bedId(command.getBedId())
                 .roomId(command.getRoomId())
-                .assignmentDate(LocalDateTime.now())
+                .assignedBy(command.getCreatedBy())
                 .status("ASSIGNED")
-                .surgeryStage(command.getSurgeryStage())
-                .observations(command.getObservations())
-                .assignedBy(command.getAssignedBy())
-                .businessId(command.getBusinessId())
-                .createdAt(LocalDateTime.now())
-                .updatedAt(LocalDateTime.now())
-                .createdBy(command.getCreatedBy())
-                .updatedBy(command.getCreatedBy())
-                .build();
+                .build());
         
         // Llamar al servicio para crear la asignación (que también gestiona asignaciones previas)
-        BedAssignment created = bedAssignmentService.createAndReplaceAssignment(bedAssignment);
+        BedAssignment created = bedAssignmentService.createAndReplaceAssignment(assignmentValue.get());
 
 
         // Configurar el mensaje de respuesta con la información de la asignación creada
-        CreateBedAssignmentMessage responseMessage = CreateBedAssignmentMessage.builder()
+        TransferBedAssignmentMessage responseMessage = TransferBedAssignmentMessage.builder()
                 .id(created.getId())
                 .patientId(created.getPatientId())
                 .surgeryId(created.getSurgeryId())
