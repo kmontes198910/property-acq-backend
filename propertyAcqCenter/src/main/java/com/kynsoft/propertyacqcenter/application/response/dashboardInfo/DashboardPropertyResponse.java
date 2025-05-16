@@ -1,7 +1,6 @@
 package com.kynsoft.propertyacqcenter.application.response.dashboardInfo;
 
 import com.kynsof.share.core.domain.bus.query.IResponse;
-import com.kynsoft.propertyacqcenter.domain.enums.PropertyType;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
@@ -15,7 +14,8 @@ public class DashboardPropertyResponse implements IResponse {
     private String id;
     private int yearBuilt;
     private String county;
-    private PropertyType propertyType;    
+    //private PropertyType propertyType;    
+    private String propertyType;    
     private Boolean occupancy;
 
     //Address
