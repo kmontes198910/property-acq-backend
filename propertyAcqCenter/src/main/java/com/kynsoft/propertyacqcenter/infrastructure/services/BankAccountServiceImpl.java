@@ -106,4 +106,9 @@ public class BankAccountServiceImpl implements IBankAccountService {
         return new PaginatedResponse(objects, data.getTotalPages(), data.getNumberOfElements(),
                 data.getTotalElements(), data.getSize(), data.getNumber());
     }
+
+    @Override
+    public int countByLegalEntityAndAccountNumber(UUID legalEntity, String accountNumber) {
+        return this.repositoryQuery.countByLegalEntityAndAccountNumber(legalEntity, accountNumber);
+    }
 }

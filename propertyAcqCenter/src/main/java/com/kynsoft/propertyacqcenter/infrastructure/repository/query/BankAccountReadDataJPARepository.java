@@ -11,6 +11,8 @@ import org.springframework.stereotype.Repository;
 
 import java.util.UUID;
 import org.springframework.data.jpa.repository.EntityGraph;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 @Repository
 public interface BankAccountReadDataJPARepository extends JpaRepository<BankAccount, UUID>, JpaSpecificationExecutor<BankAccount> {
@@ -21,4 +23,7 @@ public interface BankAccountReadDataJPARepository extends JpaRepository<BankAcco
     @EntityGraph(attributePaths = {"legalEntity.business", "legalEntity", "legalEntity.parent", "legalEntity.owners", "currency"})
     @Override
     Optional<BankAccount> findById(UUID id);
+
+    @Query("SELECT COUNT(ba) FROM BankAccount ba WHERE ba.legalEntity.id = :legalEntity AND ba.accountNumber = :accountNumber")
+    int countByLegalEntityAndAccountNumber(@Param("legalEntity") UUID legalEntity, @Param("accountNumber") String accountNumber);
 }
