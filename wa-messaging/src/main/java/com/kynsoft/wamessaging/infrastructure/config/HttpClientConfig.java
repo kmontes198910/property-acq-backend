@@ -28,14 +28,5 @@ public class HttpClientConfig {
                 .build();
     }
     
-    /**
-     * Configura el ObjectMapper para la serialización/deserialización JSON
-     */
-    @Bean
-    public ObjectMapper objectMapper() {
-        ObjectMapper objectMapper = new ObjectMapper();
-        objectMapper.registerModule(new JavaTimeModule());
-        objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
-        return objectMapper;
-    }
+    // El ObjectMapper se configura en JacksonConfig.java
 }
