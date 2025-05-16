@@ -12,7 +12,8 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 public class CreateTreatmentRequest {
-    private UUID surgeryId;
+    private UUID surgeryId; // Ahora opcional
+    private UUID patientId; // Nuevo campo obligatorio
     private String code;
     private String name;
     private String description;

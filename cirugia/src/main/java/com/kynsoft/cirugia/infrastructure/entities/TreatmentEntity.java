@@ -27,8 +27,11 @@ public class TreatmentEntity {
     @Column(name = "id", updatable = false, nullable = false)
     private UUID id;
     
-    @Column(name = "surgery_id", nullable = false)
+    @Column(name = "surgery_id")
     private UUID surgeryId;
+    
+    @Column(name = "patient_id", nullable = false)
+    private UUID patientId;
     
     @Column(name = "code", length = 50)
     private String code;

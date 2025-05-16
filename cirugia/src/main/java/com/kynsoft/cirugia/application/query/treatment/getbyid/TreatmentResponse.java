@@ -12,6 +12,7 @@ import java.util.UUID;
 public class TreatmentResponse implements IResponse, Serializable {
     private final UUID id;
     private final UUID surgeryId;
+    private final UUID patientId;
     private final String code;
     private final String name;
     private final String description;
@@ -27,6 +28,7 @@ public class TreatmentResponse implements IResponse, Serializable {
     public TreatmentResponse(Treatment treatment) {
         this.id = treatment.getId();
         this.surgeryId = treatment.getSurgeryId();
+        this.patientId = treatment.getPatientId();
         this.code = treatment.getCode();
         this.name = treatment.getName();
         this.description = treatment.getDescription();

@@ -20,11 +20,14 @@ public class CreateTreatmentCommandHandler implements ICommandHandler<CreateTrea
     @Override
     @Transactional
     public void handle(CreateTreatmentCommand command) {
-        log.info("Creando nuevo tratamiento para cirugía ID: {}", command.getSurgeryId());
+        log.info("Creando nuevo tratamiento para paciente ID: {} " + 
+                (command.getSurgeryId() != null ? "y cirugía ID: {}" : "sin cirugía asociada"), 
+                command.getPatientId(), command.getSurgeryId());
         
         Treatment treatment = Treatment.builder()
                 .id(command.getId())
                 .surgeryId(command.getSurgeryId())
+                .patientId(command.getPatientId())
                 .code(command.getCode())
                 .name(command.getName())
                 .description(command.getDescription())

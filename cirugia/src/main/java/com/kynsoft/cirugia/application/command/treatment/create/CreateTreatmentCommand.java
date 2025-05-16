@@ -12,6 +12,7 @@ import java.util.UUID;
 public class CreateTreatmentCommand implements ICommand {
     private UUID id;
     private UUID surgeryId;
+    private UUID patientId;
     private String code;
     private String name;
     private String description;
@@ -28,6 +29,7 @@ public class CreateTreatmentCommand implements ICommand {
     public static CreateTreatmentCommand fromRequest(CreateTreatmentRequest request, String userId) {
         CreateTreatmentCommand command = new CreateTreatmentCommand();
         command.setSurgeryId(request.getSurgeryId());
+        command.setPatientId(request.getPatientId());
         command.setCode(request.getCode());
         command.setName(request.getName());
         command.setDescription(request.getDescription());

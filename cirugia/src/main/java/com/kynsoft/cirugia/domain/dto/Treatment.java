@@ -23,9 +23,14 @@ public class Treatment {
     private UUID id;
     
     /**
-     * Identificador de la cirugía a la que está asociado el tratamiento
+     * Identificador de la cirugía a la que está asociado el tratamiento (opcional)
      */
     private UUID surgeryId;
+    
+    /**
+     * Identificador del paciente al que está asociado el tratamiento
+     */
+    private UUID patientId;
     
     /**
      * Código del tratamiento o medicamento
