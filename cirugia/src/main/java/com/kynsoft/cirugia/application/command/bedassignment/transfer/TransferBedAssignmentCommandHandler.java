@@ -35,10 +35,19 @@ public class TransferBedAssignmentCommandHandler implements ICommandHandler<Tran
                     assignment.setReleaseDate(LocalDateTime.now());
                     bedAssignmentService.update(assignment);
                 });
-        RecoveryBed recoveryBed = recoveryBedService.findById(command.getBedId());
+        RecoveryBed recoveryBed = recoveryBedService.findById(assignmentValue.get().getBedId());
         if (recoveryBed != null) {
             // Actualizar el estado de la cama a "ASSIGNED"
             recoveryBed.setStatus("AVAILABLE");
+            recoveryBedService.update(recoveryBed);
+        } else {
+            log.warn("Cama con ID {} no encontrada para actualizar su estado.", command.getBedId());
+        }
+
+        RecoveryBed recoveryBedNew = recoveryBedService.findById(command.getBedId());
+        if (recoveryBed != null) {
+            // Actualizar el estado de la cama a "ASSIGNED"
+            recoveryBed.setStatus("OCCUPIED");
             recoveryBedService.update(recoveryBed);
         } else {
             log.warn("Cama con ID {} no encontrada para actualizar su estado.", command.getBedId());
