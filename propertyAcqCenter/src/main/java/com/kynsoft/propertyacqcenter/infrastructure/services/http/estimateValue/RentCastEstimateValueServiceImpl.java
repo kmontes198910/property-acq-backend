@@ -21,8 +21,8 @@ public class RentCastEstimateValueServiceImpl {
     private String apiKey;
 
     //private final String BASE_URL = "http://localhost:8097/api/rentcast/mock";
-    private final String BASE_URL = "http://property-acq-center-service:9901/api/rentcast/mock";
-    //private final String BASE_URL = "https://api.rentcast.io/v1";
+    //private final String BASE_URL = "http://property-acq-center-service:9901/api/rentcast/mock";
+    private final String BASE_URL = "https://api.rentcast.io/v1";
 
     private final RestTemplate restTemplate;
 
@@ -41,8 +41,8 @@ public class RentCastEstimateValueServiceImpl {
         try {
             String cleanedAddress = address.trim(); // Elimina espacios al inicio/final
             //verdadero
-            //String url = BASE_URL + "/avm/value?address=" + cleanedAddress;
-            String url = BASE_URL + "/value/fake";
+            String url = BASE_URL + "/avm/value?address=" + cleanedAddress;
+            //String url = BASE_URL + "/value/fake";
 
             // Crear cabeceras para la solicitud
             HttpHeaders headers = new HttpHeaders();
