@@ -63,7 +63,6 @@ public class TransferBedAssignmentCommandHandler implements ICommandHandler<Tran
         assignment.setStatus("ASSIGNED");
         assignment.setAssignmentDate(LocalDateTime.now());
         assignment.setSurgeryId(assignment.getSurgeryId());
-        assignment.setSurgeryStage(assignment.getSurgeryStage());
         assignment.setAssignedBy(command.getCreatedBy());
         assignment.setBusinessId(assignment.getBusinessId());
 
@@ -81,7 +80,6 @@ public class TransferBedAssignmentCommandHandler implements ICommandHandler<Tran
                 .roomId(created.getRoomId())
                 .assignmentDate(created.getAssignmentDate())
                 .status(created.getStatus())
-                .surgeryStage(created.getSurgeryStage())
                 .observations(created.getObservations())
                 .assignedBy(created.getAssignedBy())
                 .businessId(created.getBusinessId())

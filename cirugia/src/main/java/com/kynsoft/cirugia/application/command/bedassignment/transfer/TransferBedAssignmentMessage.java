@@ -21,7 +21,6 @@ public class TransferBedAssignmentMessage implements ICommandMessage {
     private UUID roomId;
     private LocalDateTime assignmentDate;
     private String status;
-    private String surgeryStage;
     private String observations;
     private UUID assignedBy;
     private UUID businessId;

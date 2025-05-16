@@ -13,7 +13,6 @@ public class CreateBedAssignmentRequest {
     private UUID surgeryId;
     private UUID bedId;
     private UUID roomId;
-    private String surgeryStage;
     private String observations;
     private UUID businessId;
     private UUID assignedBy;

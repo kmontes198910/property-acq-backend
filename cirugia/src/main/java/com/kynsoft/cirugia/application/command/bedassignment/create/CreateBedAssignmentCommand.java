@@ -20,7 +20,6 @@ public class CreateBedAssignmentCommand implements ICommand {
     private UUID surgeryId;
     private UUID bedId;
     private UUID roomId;
-    private String surgeryStage;
     private String observations;
     private UUID businessId;
     private UUID assignedBy;
@@ -34,7 +33,6 @@ public class CreateBedAssignmentCommand implements ICommand {
                 .surgeryId(request.getSurgeryId())
                 .bedId(request.getBedId())
                 .roomId(request.getRoomId())
-                .surgeryStage(request.getSurgeryStage())
                 .observations(request.getObservations())
                 .businessId(request.getBusinessId())
                 .assignedBy(request.getAssignedBy())

@@ -22,7 +22,6 @@ public class BedAssignment implements Serializable {
     private LocalDateTime assignmentDate;
     private LocalDateTime releaseDate;
     private String status;
-    private String surgeryStage;
     private String observations;
     private UUID assignedBy;
     private LocalDateTime createdAt;

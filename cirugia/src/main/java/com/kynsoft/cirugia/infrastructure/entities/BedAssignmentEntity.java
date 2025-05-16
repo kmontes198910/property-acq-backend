@@ -42,9 +42,6 @@ public class BedAssignmentEntity {
     @Column(name = "status", nullable = false)
     private String status;
     
-    @Column(name = "surgery_stage")
-    private String surgeryStage;
-    
     @Column(name = "assigned_by")
     private UUID assignedBy;
     
