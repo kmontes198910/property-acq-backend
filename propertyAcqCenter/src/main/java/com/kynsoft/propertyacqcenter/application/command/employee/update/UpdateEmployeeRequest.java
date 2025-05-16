@@ -15,7 +15,6 @@ public class UpdateEmployeeRequest {
     private LocalDate hireDate;
     private String position;
     private String department;
-    private String employeeNumber;
     private Double salary;
     private Boolean active;
     private UUID business;

@@ -3,6 +3,7 @@ package com.kynsoft.propertyacqcenter.application.command.address.update;
 import com.kynsof.share.core.domain.bus.command.ICommandHandler;
 import com.kynsoft.propertyacqcenter.domain.dto.AddressDto;
 import com.kynsoft.propertyacqcenter.domain.dto.LegalEntityDto;
+import com.kynsoft.propertyacqcenter.domain.enums.AddressType;
 import com.kynsoft.propertyacqcenter.domain.services.IAddressService;
 import com.kynsoft.propertyacqcenter.domain.services.ILegalEntityService;
 import org.springframework.stereotype.Component;
@@ -21,6 +22,11 @@ public class UpdateAddressCommandHandler implements ICommandHandler<UpdateAddres
     @Override
     public void handle(UpdateAddressCommand command) {
         LegalEntityDto legalEntityDto = this.legalEntityService.findById(command.getLegalEntity());
+
+        if (command.getAddressType().equals(AddressType.PRINCIPAL)) {
+            this.addressService.validateAccountNumber(command.getLegalEntity(), command.getId());
+        }
+
         addressService.update(new AddressDto(
                 command.getId(), 
                 legalEntityDto, 
@@ -31,7 +37,6 @@ public class UpdateAddressCommandHandler implements ICommandHandler<UpdateAddres
                 command.getState(), 
                 command.getZipCode(), 
                 command.getCountry(), 
-                command.getIsPrimary(), 
                 null, 
                 null, 
                 null, 

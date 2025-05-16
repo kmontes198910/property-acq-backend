@@ -36,7 +36,6 @@ public class UpdateEmployeeCommandHandler implements ICommandHandler<UpdateEmplo
         UpdateIfNotNull.updateIfStringNotNullNotEmptyAndNotEquals(employeeDto::setFirstName, command.getFirstName(), employeeDto.getFirstName(), update::setUpdate);
         UpdateIfNotNull.updateIfStringNotNullNotEmptyAndNotEquals(employeeDto::setLastName, command.getLastName(), employeeDto.getLastName(), update::setUpdate);
         UpdateIfNotNull.updateIfStringNotNullNotEmptyAndNotEquals(employeeDto::setPhoneNumber, command.getPhoneNumber(), employeeDto.getPhoneNumber(), update::setUpdate);
-        UpdateIfNotNull.updateIfStringNotNullNotEmptyAndNotEquals(employeeDto::setEmployeeNumber, command.getEmployeeNumber(), employeeDto.getEmployeeNumber(), update::setUpdate);
         UpdateIfNotNull.updateIfStringNotNullNotEmptyAndNotEquals(employeeDto::setEmail, command.getEmail(), employeeDto.getEmail(), update::setUpdate);
         UpdateIfNotNull.updateBoolean(employeeDto::setActive, command.getActive(), employeeDto.getActive(), update::setUpdate);
 

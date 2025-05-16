@@ -19,5 +19,7 @@ public interface IAddressService {
     
     PaginatedResponse search(Pageable pageable, List<FilterCriteria> filterCriteria);
 
-    int countByLegalEntityAndIsPrimary(UUID legalEntity);
+    int countByLegalEntityAndIsPrimary(UUID legalEntity, UUID id);
+
+    void validateAccountNumber(UUID legalEntity, UUID id);
 }

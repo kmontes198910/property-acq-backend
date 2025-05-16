@@ -19,5 +19,7 @@ public interface IBankAccountService {
     
     PaginatedResponse search(Pageable pageable, List<FilterCriteria> filterCriteria);
 
-    int countByLegalEntityAndAccountNumber(UUID legalEntity, String accountNumber);
+    int countByLegalEntityAndAccountNumber(UUID legalEntity, String accountNumber, UUID id);
+
+    void validateAccountNumber(UUID legalEntity, String accountNumber, UUID id);
 }

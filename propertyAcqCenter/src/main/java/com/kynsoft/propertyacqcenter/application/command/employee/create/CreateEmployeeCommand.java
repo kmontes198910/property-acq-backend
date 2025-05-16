@@ -24,7 +24,6 @@ public class CreateEmployeeCommand implements ICommand {
     private LocalDate hireDate;
     private String position;
     private String department;
-    private String employeeNumber;
     private Double salary;
     private Boolean active;
     private UUID business;
@@ -39,13 +38,12 @@ public class CreateEmployeeCommand implements ICommand {
      * @param hireDate      The hire date of the employee.
      * @param position      The position of the employee.
      * @param department    The department of the employee.
-     * @param employeeNumber The employee number.
      * @param salary        The salary of the employee.
      * @param active        Indicates if the employee is active or not.
      * @param business      The business id associated with the employee.
      */
     public CreateEmployeeCommand(String firstName, String lastName, String email, String phoneNumber,
-                                 LocalDate hireDate, String position, String department, String employeeNumber,
+                                 LocalDate hireDate, String position, String department,
                                  Double salary, Boolean active, UUID business) {
         this.id = UUID.randomUUID();
         this.firstName = firstName;
@@ -55,7 +53,6 @@ public class CreateEmployeeCommand implements ICommand {
         this.hireDate = hireDate;
         this.position = position;
         this.department = department;
-        this.employeeNumber = employeeNumber;
         this.salary = salary;
         this.active = active;
         this.business = business;
@@ -70,7 +67,6 @@ public class CreateEmployeeCommand implements ICommand {
                 request.getHireDate(),
                 request.getPosition(),
                 request.getDepartment(),
-                request.getEmployeeNumber(),
                 request.getSalary(),
                 request.getActive(),
                 request.getBusiness()
