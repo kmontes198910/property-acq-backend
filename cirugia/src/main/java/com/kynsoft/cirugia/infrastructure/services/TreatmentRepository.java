@@ -116,6 +116,7 @@ public class TreatmentRepository implements ITreatmentRepository {
         entity.setUpdatedAt(dto.getUpdatedAt());
         entity.setCreatedBy(dto.getCreatedBy());
         entity.setUpdatedBy(dto.getUpdatedBy());
+        entity.setPatientId(dto.getPatientId());
         return entity;
     }
 
@@ -134,6 +135,7 @@ public class TreatmentRepository implements ITreatmentRepository {
                 .updatedAt(entity.getUpdatedAt())
                 .createdBy(entity.getCreatedBy())
                 .updatedBy(entity.getUpdatedBy())
+                .patientId(entity.getPatientId())
                 .build();
     }
 }
