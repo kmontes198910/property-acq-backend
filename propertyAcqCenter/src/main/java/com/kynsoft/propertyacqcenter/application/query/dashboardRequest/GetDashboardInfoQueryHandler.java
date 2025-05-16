@@ -7,12 +7,12 @@ import com.kynsoft.propertyacqcenter.application.response.dashboardInfo.Dashboar
 import com.kynsoft.propertyacqcenter.application.response.dashboardInfo.DashboardLastSaleResponse;
 import com.kynsoft.propertyacqcenter.application.response.dashboardInfo.DashboardMortageDebtResponse;
 import com.kynsoft.propertyacqcenter.application.response.dashboardInfo.DashboardOpportunnityResponse;
+import com.kynsoft.propertyacqcenter.application.response.dashboardInfo.DashboardPropertyOwnerResponse;
 import com.kynsoft.propertyacqcenter.application.response.dashboardInfo.DashboardPropertyResponse;
 import com.kynsoft.propertyacqcenter.application.response.dashboardInfo.DashboardSaleValueResponse;
 import com.kynsoft.propertyacqcenter.application.response.dashboardInfo.DashboardTaxAssessmentsResponse;
 import com.kynsoft.propertyacqcenter.application.response.rentcast.EstimatedValueResponse;
 import com.kynsoft.propertyacqcenter.application.response.rentcast.PropertyResponse;
-import com.kynsoft.propertyacqcenter.domain.enums.PropertyType;
 import com.kynsoft.propertyacqcenter.infrastructure.services.http.estimateValue.RentCastEstimateValueServiceImpl;
 import com.kynsoft.propertyacqcenter.infrastructure.services.http.property.RentCastPropertyServiceImpl;
 import com.kynsoft.propertyacqcenter.infrastructure.services.http.rentEstimate.RentCastRentEstimateServiceImpl;
@@ -103,6 +103,16 @@ public class GetDashboardInfoQueryHandler implements IQueryHandler<GetDashboardI
                             .zipCode(property.get(0).getZipCode())
                             .unitCount(0)
                             .squareFootage(property.get(0).getSquareFootage())
+                            .bedrooms(property.get(0).getBedrooms())
+                            .bathrooms(property.get(0).getBathrooms())
+                            .roofType(property.get(0).getFeatures().getRoofType())
+                            .structureType(property.get(0).getFeatures().getFoundationType())
+                            .garage(property.get(0).getFeatures().isGarage())
+                            .garageSpaces(property.get(0).getFeatures().getGarageSpaces())
+                            .garageType(property.get(0).getFeatures().getGarageType())
+                            .pool(property.get(0).getFeatures().isPool())
+                            .poolType(property.get(0).getFeatures().getPoolType())
+                            .owners(DashboardPropertyOwnerResponse.builder().owners(property.get(0).getOwner().getNames()).build())
                             .build()
                     )
                     .compsAtAGlanceResponse(DashboardCompsAtAGlanceResponse.builder().build())

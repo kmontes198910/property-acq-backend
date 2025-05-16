@@ -38,4 +38,18 @@ public class DashboardPropertyResponse implements IResponse {
     private String lengthOfOwnership;
     private String purchaseMethod;
     private String status;
+
+    private Integer bedrooms;
+    private Integer bathrooms;
+    private String roofType;
+    private String structureType;
+
+    private Boolean garage;
+    private Integer garageSpaces;
+    private String garageType;
+
+    private Boolean pool;
+    private String poolType;
+
+    private DashboardPropertyOwnerResponse owners;
 }
