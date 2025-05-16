@@ -3,6 +3,8 @@ package com.kynsoft.wamessaging.domain.service;
 import com.kynsoft.wamessaging.application.dto.WhatsAppApiResponse;
 import com.kynsoft.wamessaging.domain.entity.MessageType;
 
+import java.util.UUID;
+
 /**
  * Interfaz para el servicio que se comunica con la API de WhatsApp
  */
@@ -26,5 +28,5 @@ public interface WhatsAppApiClient {
     /**
      * Verifica el estado de un mensaje
      */
-    WhatsAppApiResponse checkMessageStatus(String messageId);
+    WhatsAppApiResponse checkMessageStatus(UUID messageId);
 }

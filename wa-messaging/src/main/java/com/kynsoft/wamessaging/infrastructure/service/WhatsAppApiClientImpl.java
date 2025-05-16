@@ -12,8 +12,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * Implementación del cliente para la API de WhatsApp Business Cloud
@@ -25,6 +25,7 @@ public class WhatsAppApiClientImpl implements WhatsAppApiClient {
 
     private final OkHttpClient httpClient;
     private final ObjectMapper objectMapper;
+    // private final MessageProcessorService messageProcessorService;
     
     @Value("${whatsapp.api.url}")
     private String apiUrl;
@@ -45,18 +46,16 @@ public class WhatsAppApiClientImpl implements WhatsAppApiClient {
     public WhatsAppApiResponse sendTextMessage(String recipientPhone, String message) {
         log.info("Enviando mensaje de texto a {}: {}", recipientPhone, message);
         
-        Map<String, Object> payload = new HashMap<>();
+        Map<String, Object> payload = new LinkedHashMap<>();  // Usar LinkedHashMap para mantener el orden
         payload.put("messaging_product", "whatsapp");
+        payload.put("type", "text");  // Mover type antes de text
         payload.put("recipient_type", "individual");
         payload.put("to", recipientPhone);
-        payload.put("type", "text");
-        
-        Map<String, String> textContent = new HashMap<>();
-        textContent.put("body", message);
-        payload.put("text", textContent);
+        payload.put("text", Map.of("body", message));  // Simplificar la creación del objeto text
         
         try {
             String jsonPayload = objectMapper.writeValueAsString(payload);
+            log.debug("Payload generado para mensaje de texto: {}", jsonPayload);
             return sendRequest(jsonPayload);
         } catch (JsonProcessingException e) {
             log.error("Error al crear payload para mensaje de texto", e);
@@ -73,43 +72,48 @@ public class WhatsAppApiClientImpl implements WhatsAppApiClient {
         
         Map<String, Object> payload = new HashMap<>();
         payload.put("messaging_product", "whatsapp");
-        payload.put("recipient_type", "individual");
         payload.put("to", recipientPhone);
         payload.put("type", "template");
         
-        Map<String, Object> templateContent = new HashMap<>();
-        templateContent.put("name", templateName);
+        Map<String, Object> template = new HashMap<>();
+        template.put("name", templateName);
         
+        Map<String, String> language = new HashMap<>();
+        language.put("code", "en_US");
+        template.put("language", language);
+        
+        // Solo añadir los componentes si hay datos de plantilla
         if (templateData != null && templateData instanceof Map) {
             @SuppressWarnings("unchecked")
             Map<String, String> templateParams = (Map<String, String>) templateData;
             
             if (!templateParams.isEmpty()) {
-                // Construir componentes para la plantilla
+                List<Map<String, Object>> components = new ArrayList<>();
                 Map<String, Object> component = new HashMap<>();
                 component.put("type", "body");
                 
-                // Convertir los parámetros al formato requerido
-                Object[] parameters = templateParams.entrySet().stream()
-                        .map(entry -> {
-                            Map<String, Object> param = new HashMap<>();
-                            param.put("type", "text");
-                            param.put("text", entry.getValue());
-                            return param;
-                        })
-                        .toArray();
+                List<Map<String, Object>> parameters = templateParams.entrySet().stream()
+                    .map(entry -> {
+                        Map<String, Object> param = new HashMap<>();
+                        param.put("type", "text");
+                        param.put("text", entry.getValue());
+                        return param;
+                    })
+                    .collect(Collectors.toList());
                 
-                component.put("parameters", parameters);
-                
-                Object[] components = new Object[]{component};
-                templateContent.put("components", components);
+                if (!parameters.isEmpty()) {
+                    component.put("parameters", parameters);
+                    components.add(component);
+                    template.put("components", components);
+                }
             }
         }
         
-        payload.put("template", templateContent);
+        payload.put("template", template);
         
         try {
             String jsonPayload = objectMapper.writeValueAsString(payload);
+            log.debug("Payload generado: {}", jsonPayload);
             return sendRequest(jsonPayload);
         } catch (JsonProcessingException e) {
             log.error("Error al crear payload para mensaje de plantilla", e);
@@ -148,15 +152,12 @@ public class WhatsAppApiClientImpl implements WhatsAppApiClient {
             return buildErrorResponse("Error al crear mensaje: " + e.getMessage());
         }
     }
-    
-    /**
-     * Verifica el estado de un mensaje
-     */
+
     @Override
-    public WhatsAppApiResponse checkMessageStatus(String messageId) {
+    public WhatsAppApiResponse checkMessageStatus(UUID messageId) {
         log.info("Verificando estado del mensaje: {}", messageId);
         
-        String url = String.format("%s/%s/%s/messages/%s", apiUrl, apiVersion, phoneNumberId, messageId);
+        String url = String.format("%s/%s/%s/messages/%s", apiUrl, apiVersion, phoneNumberId, messageId.toString());
         
         Request request = new Request.Builder()
                 .url(url)
@@ -172,6 +173,8 @@ public class WhatsAppApiClientImpl implements WhatsAppApiClient {
             return buildErrorResponse("Error de conexión: " + e.getMessage());
         }
     }
+
+
     
     /**
      * Método común para enviar las solicitudes a la API
@@ -271,4 +274,5 @@ public class WhatsAppApiClientImpl implements WhatsAppApiClient {
                 .errorMessage(errorMessage)
                 .build();
     }
+
 }
