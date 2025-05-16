@@ -135,7 +135,6 @@ public class TreatmentRepository implements ITreatmentRepository {
                 .updatedAt(entity.getUpdatedAt())
                 .createdBy(entity.getCreatedBy())
                 .updatedBy(entity.getUpdatedBy())
-                .patientId(entity.getPatientId())
                 .build();
     }
 }
