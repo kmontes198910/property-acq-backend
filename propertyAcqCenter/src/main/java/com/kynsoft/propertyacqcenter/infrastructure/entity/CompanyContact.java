@@ -35,6 +35,9 @@ public class CompanyContact {
     @Column(name = "email")
     private String email;
 
+    @Column(name = "personal_email")
+    private String personalEmail;
+
     @Column(name = "phone_number")
     private String phoneNumber;
 
@@ -75,6 +78,7 @@ public class CompanyContact {
         this.isActive = dto.getIsActive();
         this.createdAt = dto.getCreatedAt();
         this.updatedAt = dto.getUpdatedAt();
+        this.personalEmail = dto.getPersonalEmail();
     }
 
     public CompanyContactDto toAggregateSimple() {
@@ -92,6 +96,7 @@ public class CompanyContact {
                 .isActive(isActive)
                 .createdAt(this.createdAt)
                 .updatedAt(this.updatedAt)
+                .personalEmail(personalEmail)
                 .build();
     }
 
@@ -110,6 +115,7 @@ public class CompanyContact {
                 .createdAt(this.createdAt)
                 .updatedAt(this.updatedAt)
                 .company(company != null ? this.company.toAggregateBasic() : null)
+                .personalEmail(personalEmail)
                 .build();
     }
 

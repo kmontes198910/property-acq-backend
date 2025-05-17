@@ -18,4 +18,12 @@ public interface ICompanyContactService {
     CompanyContactDto findById(UUID id);
 
     PaginatedResponse search(Pageable pageable, List<FilterCriteria> filterCriteria);
+
+    long countByEmail(String email, UUID id);
+
+    long countByPersonalEmail(String personalEmail, UUID id);
+
+    void validateEmail(String email, UUID id);
+
+    void validatePersonEmail(String email, UUID id);
 }

@@ -17,6 +17,7 @@ public class CompanyContactDto {
     private String firstName;
     private String lastName;
     private String email;
+    private String personalEmail;
     private String phoneNumber;
     private String position;
     private String department;
