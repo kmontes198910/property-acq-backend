@@ -19,4 +19,5 @@ public class UpdateExaminationRequest {
     private String status;
     private String results;
     private String observations;
+    private String code;
 }

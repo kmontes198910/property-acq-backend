@@ -21,6 +21,7 @@ public class UpdateExaminationCommandHandler implements ICommandHandler<UpdateEx
                 .orElseThrow(() -> new RuntimeException("Examen no encontrado: " + command.getId()));
         
         // Actualizar los campos
+        existingExamination.setCode(command.getCode());
         existingExamination.setExaminationType(command.getExaminationType());
         existingExamination.setStatus(command.getStatus());
         existingExamination.setObservations(command.getObservations());

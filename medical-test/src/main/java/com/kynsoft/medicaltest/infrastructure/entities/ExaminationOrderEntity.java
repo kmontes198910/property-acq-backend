@@ -3,6 +3,7 @@ package com.kynsoft.medicaltest.infrastructure.entities;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Builder.Default;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -46,6 +47,7 @@ public class ExaminationOrderEntity {
     private UUID businessId;
     
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
+    @Builder.Default
     private List<ExaminationEntity> examinations = new ArrayList<>();
     
     @CreationTimestamp
