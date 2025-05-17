@@ -1,4 +1,4 @@
-package com.kynsoft.medicaltest.infrastructure.repository;
+package com.kynsoft.medicaltest.infrastructure.repository.query;
 
 import com.kynsoft.medicaltest.infrastructure.entities.ExaminationEntity;
 import org.springframework.data.jpa.repository.JpaRepository;

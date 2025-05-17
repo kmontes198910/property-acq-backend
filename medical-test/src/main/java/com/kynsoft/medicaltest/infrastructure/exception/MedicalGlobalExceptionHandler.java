@@ -16,7 +16,7 @@ import java.util.Map;
  * Manejador global de excepciones para la API
  */
 @ControllerAdvice
-public class GlobalExceptionHandler {
+public class MedicalGlobalExceptionHandler {
     
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorResponse> handleGlobalException(Exception ex, WebRequest request) {

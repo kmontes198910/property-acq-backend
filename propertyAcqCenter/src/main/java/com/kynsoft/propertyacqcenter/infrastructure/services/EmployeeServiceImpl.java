@@ -6,6 +6,8 @@ import com.kynsof.share.core.infrastructure.specifications.GenericSpecifications
 import com.kynsoft.propertyacqcenter.application.response.EmployeeResponse;
 import com.kynsoft.propertyacqcenter.domain.dto.EmployeeDto;
 import com.kynsoft.propertyacqcenter.domain.dto.exception.EmployeeNotFoundException;
+import com.kynsoft.propertyacqcenter.domain.dto.exception.employee.EmployeeEmailFormatException;
+import com.kynsoft.propertyacqcenter.domain.dto.exception.employee.EmployeeEmailMustBeUniqueException;
 import com.kynsoft.propertyacqcenter.domain.services.IEmployeeService;
 import com.kynsoft.propertyacqcenter.infrastructure.entity.Employee;
 import com.kynsoft.propertyacqcenter.infrastructure.repository.command.EmployeeWriteDataJPARepository;
@@ -20,6 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.regex.Pattern;
 
 @Service
 public class EmployeeServiceImpl implements IEmployeeService {
@@ -100,4 +103,17 @@ public class EmployeeServiceImpl implements IEmployeeService {
     public long countByEmail(String email) {
         return this.repositoryQuery.countByEmail(email);
     }
+
+    @Override
+    public void validateEmail(String email, UUID id) {
+        if (this.countByEmailAndNotId(email, id) > 0) {
+            throw new EmployeeEmailMustBeUniqueException(email);
+        }
+        String emailRegex = "^[A-Za-z0-9+_.-]+@(.+)$";
+        Pattern pattern = Pattern.compile(emailRegex);
+        if (!pattern.matcher(email).matches()) {
+            throw new EmployeeEmailFormatException(email);
+        }
+    }
+
 }

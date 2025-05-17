@@ -11,6 +11,8 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 import java.util.UUID;
 import org.springframework.data.jpa.repository.EntityGraph;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 @Repository
 public interface CompanyContactReadDataJPARepository extends JpaRepository<CompanyContact, UUID>, JpaSpecificationExecutor<CompanyContact> {
@@ -21,4 +23,10 @@ public interface CompanyContactReadDataJPARepository extends JpaRepository<Compa
     @EntityGraph(attributePaths = {"company", "company.companyType", "company.business", "company.subCompanyType"})
     @Override
     Optional<CompanyContact> findById(UUID id);
+
+    @Query("SELECT COUNT(cc) FROM CompanyContact cc WHERE cc.email = :email AND cc.id <> :id")
+    long countByEmail(@Param("email") String email, @Param("id") UUID id);
+
+    @Query("SELECT COUNT(cc) FROM CompanyContact cc WHERE cc.personalEmail = :personalEmail AND cc.id <> :id")
+    long countByPersonalEmail(@Param("personalEmail") String personalEmail, @Param("id") UUID id);
 }

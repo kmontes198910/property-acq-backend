@@ -27,7 +27,7 @@ public class UpdateEmployeeCommandHandler implements ICommandHandler<UpdateEmplo
 
     @Override
     public void handle(UpdateEmployeeCommand command) {
-        RulesChecker.checkRule(new EmployeeEmailMustBeUniqueRule(this.employeeService, command.getEmail(), command.getId()));
+        this.employeeService.validateEmail(command.getEmail(), command.getId());
 
         EmployeeDto employeeDto = employeeService.findById(command.getId());
 

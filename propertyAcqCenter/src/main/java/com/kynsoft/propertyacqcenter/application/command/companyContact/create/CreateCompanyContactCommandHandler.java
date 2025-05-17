@@ -21,6 +21,8 @@ public class CreateCompanyContactCommandHandler implements ICommandHandler<Creat
     @Override
     public void handle(CreateCompanyContactCommand command) {
         CompanyDto companyDto = this.companyService.findById(command.getCompany());
+        this.companyContactService.validateEmail(command.getEmail(), command.getId());
+        this.companyContactService.validatePersonEmail(command.getPersonalEmail(), command.getId());
         companyContactService.create(CompanyContactDto.builder()
                 .id(command.getId())
                 .category(command.getCategory())
@@ -33,6 +35,7 @@ public class CreateCompanyContactCommandHandler implements ICommandHandler<Creat
                 .notes(command.getNotes())
                 .phoneNumber(command.getPhoneNumber())
                 .position(command.getPosition())
+                .personalEmail(command.getPersonalEmail())
                 .build()
         );
     }

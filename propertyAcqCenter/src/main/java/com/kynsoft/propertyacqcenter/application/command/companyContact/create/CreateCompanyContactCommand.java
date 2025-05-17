@@ -22,8 +22,12 @@ public class CreateCompanyContactCommand implements ICommand {
     private String category;
     private String notes;
     private Boolean isActive;
+    private String personalEmail;
 
-    public CreateCompanyContactCommand(UUID company, String firstName, String lastName, String email, String phoneNumber, String position, String department, String category, String notes, Boolean isActive) {
+    public CreateCompanyContactCommand(UUID company, String firstName, String lastName, 
+                                       String email, String phoneNumber, String position, 
+                                       String department, String category, String notes, 
+                                       Boolean isActive, String personalEmail) {
         this.id = UUID.randomUUID();
         this.company = company;
         this.firstName = firstName;
@@ -35,6 +39,7 @@ public class CreateCompanyContactCommand implements ICommand {
         this.category = category;
         this.notes = notes;
         this.isActive = isActive;
+        this.personalEmail = personalEmail;
     }
 
     public static CreateCompanyContactCommand fromRequest(CreateCompanyContactRequest request) {
@@ -48,7 +53,8 @@ public class CreateCompanyContactCommand implements ICommand {
                 request.getDepartment(),
                 request.getCategory(),
                 request.getNotes(),
-                request.getIsActive()
+                request.getIsActive(),
+                request.getPersonalEmail()
         );
     }
 

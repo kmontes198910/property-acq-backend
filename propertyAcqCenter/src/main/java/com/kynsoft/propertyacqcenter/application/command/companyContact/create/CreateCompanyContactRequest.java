@@ -18,4 +18,5 @@ public class CreateCompanyContactRequest {
     private String category;
     private String notes;
     private Boolean isActive;
+    private String personalEmail;
 }
