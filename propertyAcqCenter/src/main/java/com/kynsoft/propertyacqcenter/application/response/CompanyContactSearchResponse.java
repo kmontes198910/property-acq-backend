@@ -20,6 +20,7 @@ public class CompanyContactSearchResponse implements IResponse {
     private String lastName;
     private String email;
     private String phoneNumber;
+    private String personalEmail;
     private String position;
     private String department;
     private String category;
@@ -42,6 +43,7 @@ public class CompanyContactSearchResponse implements IResponse {
         this.isActive = dto.getIsActive();
         this.createdAt = dto.getCreatedAt();
         this.updatedAt = dto.getUpdatedAt();
+        this.personalEmail = dto.getPersonalEmail();
     }
 
 }
