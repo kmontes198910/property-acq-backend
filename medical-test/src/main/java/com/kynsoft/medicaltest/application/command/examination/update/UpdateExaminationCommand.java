@@ -6,14 +6,22 @@ import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.Data;
+
+import com.kynsof.share.core.domain.bus.command.ICommand;
+import com.kynsof.share.core.domain.bus.command.ICommandMessage;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
+import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.UUID;
 
 /**
  * Comando para actualizar un examen existente
  */
-@Getter
-@Setter
+@Data
 public class UpdateExaminationCommand implements ICommand {
     
     @NotNull(message = "El ID del examen no puede ser nulo")
@@ -21,6 +29,8 @@ public class UpdateExaminationCommand implements ICommand {
     
     @NotEmpty(message = "El tipo de examen no puede estar vacío")
     private String examinationType;
+    
+    private String code;
     
     private String status;
     
@@ -33,6 +43,7 @@ public class UpdateExaminationCommand implements ICommand {
     public static UpdateExaminationCommand fromRequest(UUID id, UpdateExaminationRequest request, String userId) {
         UpdateExaminationCommand command = new UpdateExaminationCommand();
         command.setId(id);
+        command.setCode(request.getCode());
         command.setExaminationType(request.getExaminationType());
         command.setStatus(request.getStatus());
         command.setResults(request.getResults());

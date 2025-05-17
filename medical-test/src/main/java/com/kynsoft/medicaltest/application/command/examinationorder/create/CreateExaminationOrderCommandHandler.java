@@ -19,13 +19,13 @@ import java.util.UUID;
  */
 @Component
 @RequiredArgsConstructor
-public class CreateExaminationOrderCommandHandler implements ICommandHandler<CreateExaminationOrderCommand, CreateExaminationOrderMessage> {
+public class CreateExaminationOrderCommandHandler implements ICommandHandler<CreateExaminationOrderCommand> {
     
     private final ExaminationOrderService examinationOrderService;
     private final ExaminationService examinationService;
     
     @Override
-    public CreateExaminationOrderMessage handle(CreateExaminationOrderCommand command) {
+    public void handle(CreateExaminationOrderCommand command) {
         // Crear la entidad de dominio a partir del comando
         ExaminationOrder order = ExaminationOrder.builder()
                 .id(command.getId()) // Usamos el ID generado en el comando
@@ -67,8 +67,6 @@ public class CreateExaminationOrderCommandHandler implements ICommandHandler<Cre
             // Actualizar la orden con los nuevos exámenes
             savedOrder = examinationOrderService.updateOrder(savedOrder);
         }
-        
-        // Devolver el mensaje con el ID de la orden creada
-        return new CreateExaminationOrderMessage(savedOrder.getId());
+
     }
 }
