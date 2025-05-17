@@ -44,6 +44,9 @@ public class PostgresDBReadConfiguration {
     @Bean(name = "readTransactionManager")
     public PlatformTransactionManager transactionManager(
             @Qualifier("readEntityManagerFactory") EntityManagerFactory entityManagerFactory) {
-        return new JpaTransactionManager(entityManagerFactory);
+        JpaTransactionManager transactionManager = new JpaTransactionManager(entityManagerFactory);
+        // Configurar explícitamente para que no sea de solo lectura
+        transactionManager.setDefaultTimeout(30);  // 30 segundos de timeout
+        return transactionManager;
     }
 }
