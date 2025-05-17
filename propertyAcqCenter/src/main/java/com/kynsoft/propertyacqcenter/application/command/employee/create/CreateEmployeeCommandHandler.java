@@ -28,7 +28,7 @@ public class CreateEmployeeCommandHandler implements ICommandHandler<CreateEmplo
     public void handle(CreateEmployeeCommand command) {
         BusinessDto businessDto = command.getBusiness() != null ? this.businessService.findById(command.getBusiness()) : null;
 
-        this.validateEmail(command.getEmail());
+        this.employeeService.validateEmail(command.getEmail(), command.getId());
 
         EmployeeDto employeeDto = EmployeeDto.builder()
                 .id(command.getId())
@@ -45,17 +45,6 @@ public class CreateEmployeeCommandHandler implements ICommandHandler<CreateEmplo
                 .build();
 
         this.employeeService.create(employeeDto);
-    }
-
-    private void validateEmail(String email) {
-        if (this.employeeService.countByEmail(email) > 0) {
-            throw new EmployeeEmailMustBeUniqueException(email);
-        }
-        String emailRegex = "^[A-Za-z0-9+_.-]+@(.+)$";
-        Pattern pattern = Pattern.compile(emailRegex);
-        if (!pattern.matcher(email).matches()) {
-            throw new EmployeeEmailFormatException(email);
-        }
     }
 
 }

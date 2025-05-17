@@ -1,5 +1,6 @@
 package com.kynsoft.medicaltest.infrastructure.repository;
 
+import com.kynsoft.medicaltest.infrastructure.repository.query.ExaminationOrderJpaRepository;
 import com.kynsoft.medicaltest.domain.entity.ExaminationOrder;
 import com.kynsoft.medicaltest.domain.repository.ExaminationOrderRepository;
 import com.kynsoft.medicaltest.infrastructure.mapper.ExaminationOrderMapper;
