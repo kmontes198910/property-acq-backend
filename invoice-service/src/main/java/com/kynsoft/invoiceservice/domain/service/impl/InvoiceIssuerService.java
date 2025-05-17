@@ -66,4 +66,34 @@ public class InvoiceIssuerService implements IInvoiceIssuerService {
                 .map(InvoiceIssuerDto::fromEntity)
                 .collect(Collectors.toList());
     }
+    
+    @Override
+    @Transactional(readOnly = true)
+    public com.kynsof.share.core.domain.response.PaginatedResponse search(
+            org.springframework.data.domain.Pageable pageable, 
+            java.util.List<com.kynsof.share.core.domain.request.FilterCriteria> filterCriteria) {
+        
+        log.info("Realizando búsqueda avanzada de emisores de facturas con filtros y paginación");
+        
+        com.kynsof.share.core.infrastructure.specifications.GenericSpecificationsBuilder<InvoiceIssuer> specifications = 
+            new com.kynsof.share.core.infrastructure.specifications.GenericSpecificationsBuilder<>(filterCriteria);
+        
+        // Ejecutar la consulta con paginación
+        org.springframework.data.domain.Page<InvoiceIssuer> page = invoiceIssuerRepository.findAll(specifications, pageable);
+        
+        // Convertir los resultados a DTOs
+        List<InvoiceIssuerDto> issuerDtos = page.getContent().stream()
+                .map(InvoiceIssuerDto::fromEntity)
+                .collect(Collectors.toList());
+        
+        // Construir y devolver la respuesta paginada
+        return new com.kynsof.share.core.domain.response.PaginatedResponse(
+                issuerDtos,                // data
+                page.getTotalPages(),        // totalPages
+                page.getNumberOfElements(),  // totalElementsPage
+                page.getTotalElements(),     // totalElements
+                page.getSize(),              // size
+                page.getNumber()             // page
+        );
+    }
 }

@@ -1,6 +1,10 @@
 package com.kynsoft.invoiceservice.infrastructure.repository.query;
 
+import com.kynsoft.invoiceservice.infrastructure.entities.Customer;
 import com.kynsoft.invoiceservice.infrastructure.entities.ProductCategory;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.stereotype.Repository;
@@ -29,4 +33,5 @@ public interface ProductCategoryReadRepository extends JpaRepository<ProductCate
      * Encuentra todas las categorías activas
      */
     List<ProductCategory> findByStatusTrue();
+    Page<ProductCategory> findAll(Specification specification, Pageable pageable);
 }

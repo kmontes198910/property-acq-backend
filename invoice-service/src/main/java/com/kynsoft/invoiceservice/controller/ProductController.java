@@ -1,5 +1,8 @@
 package com.kynsoft.invoiceservice.controller;
 
+import com.kynsof.share.core.domain.request.PageableUtil;
+import com.kynsof.share.core.domain.request.SearchRequest;
+import com.kynsof.share.core.domain.response.PaginatedResponse;
 import com.kynsof.share.core.infrastructure.bus.IMediator;
 import com.kynsoft.invoiceservice.application.command.product.create.CreateProductCommand;
 import com.kynsoft.invoiceservice.application.command.product.create.CreateProductMessage;
@@ -9,6 +12,7 @@ import com.kynsoft.invoiceservice.application.command.product.update.UpdateProdu
 import com.kynsoft.invoiceservice.application.command.product.update.UpdateProductRequest;
 import com.kynsoft.invoiceservice.application.query.product.getById.GetProductByIdQuery;
 import com.kynsoft.invoiceservice.application.query.product.getById.ProductResponse;
+import com.kynsoft.invoiceservice.application.query.product.search.SearchProductAdvancedQuery;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -18,6 +22,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -105,6 +110,29 @@ public class ProductController {
         GetProductByIdQuery query = new GetProductByIdQuery(id);
         ProductResponse response = mediator.send(query);
         
+        return ResponseEntity.ok(response);
+    }
+    
+    @PostMapping("/search")
+    @Operation(summary = "Búsqueda avanzada de productos", 
+               description = "Busca productos con filtros avanzados y paginación")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", 
+                     description = "Búsqueda exitosa",
+                     content = @Content(mediaType = "application/json", 
+                                       schema = @Schema(implementation = PaginatedResponse.class)))
+    })
+    public ResponseEntity<PaginatedResponse> search(@RequestBody SearchRequest request) {
+        log.info("Realizando búsqueda avanzada de productos");
+        
+        Pageable pageable = PageableUtil.createPageable(request);
+        SearchProductAdvancedQuery query = new SearchProductAdvancedQuery(
+                pageable, 
+                request.getFilter(), 
+                request.getQuery()
+        );
+        
+        PaginatedResponse response = mediator.send(query);
         return ResponseEntity.ok(response);
     }
 }

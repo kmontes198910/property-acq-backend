@@ -1,9 +1,13 @@
 package com.kynsoft.invoiceservice.controller;
 
+import com.kynsof.share.core.domain.request.PageableUtil;
+import com.kynsof.share.core.domain.request.SearchRequest;
+import com.kynsof.share.core.domain.response.PaginatedResponse;
 import com.kynsof.share.core.infrastructure.bus.IMediator;
 import com.kynsoft.invoiceservice.application.command.invoice.generate.GenerateInvoiceCommand;
 import com.kynsoft.invoiceservice.application.command.invoice.generate.GenerateInvoiceMessage;
 import com.kynsoft.invoiceservice.application.command.invoice.generate.request.GenerateInvoiceRequest;
+import com.kynsoft.invoiceservice.application.query.invoice.search.SearchInvoiceAdvancedQuery;
 import com.kynsoft.invoiceservice.dto.FacturaResponseDTO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -14,11 +18,9 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
 
@@ -57,6 +59,29 @@ public class InvoiceController {
                 command
         );
 
+        return ResponseEntity.ok(response);
+    }
+    
+    @PostMapping("/search")
+    @Operation(summary = "Búsqueda avanzada de facturas", 
+               description = "Busca facturas con filtros avanzados y paginación")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", 
+                     description = "Búsqueda exitosa",
+                     content = @Content(mediaType = "application/json", 
+                                       schema = @Schema(implementation = PaginatedResponse.class)))
+    })
+    public ResponseEntity<PaginatedResponse> search(@RequestBody SearchRequest request) {
+        log.info("Realizando búsqueda avanzada de facturas");
+        
+        Pageable pageable = PageableUtil.createPageable(request);
+        SearchInvoiceAdvancedQuery query = new SearchInvoiceAdvancedQuery(
+                pageable, 
+                request.getFilter(), 
+                request.getQuery()
+        );
+        
+        PaginatedResponse response = mediator.send(query);
         return ResponseEntity.ok(response);
     }
 }

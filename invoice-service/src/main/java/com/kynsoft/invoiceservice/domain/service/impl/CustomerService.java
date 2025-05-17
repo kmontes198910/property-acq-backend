@@ -1,19 +1,28 @@
 package com.kynsoft.invoiceservice.domain.service.impl;
 
+import com.kynsof.share.core.domain.request.FilterCriteria;
+import com.kynsof.share.core.domain.response.PaginatedResponse;
+import com.kynsof.share.core.infrastructure.specifications.GenericSpecificationsBuilder;
 import com.kynsoft.invoiceservice.application.query.customer.get.CustomerDto;
 import com.kynsoft.invoiceservice.domain.exception.BusinessInvoiceException;
 import com.kynsoft.invoiceservice.domain.exception.DomainErrorInvoiceMessage;
 import com.kynsoft.invoiceservice.domain.service.ICustomerService;
 import com.kynsoft.invoiceservice.infrastructure.entities.Customer;
+import com.kynsoft.invoiceservice.infrastructure.entities.ProductCategory;
 import com.kynsoft.invoiceservice.infrastructure.repository.command.CustomerWriteRepository;
 import com.kynsoft.invoiceservice.infrastructure.repository.query.CustomerReadRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -183,6 +192,32 @@ public class CustomerService implements ICustomerService {
                         "Cliente no encontrado con número de identificación: " + identificationNumber));
         
         return mapEntityToDto(customer);
+    }
+    
+    @Override
+    public PaginatedResponse search(Pageable pageable, List<FilterCriteria> filterCriteria) {
+        log.info("Realizando búsqueda avanzada de clientes con filtros y paginación");
+
+        GenericSpecificationsBuilder<ProductCategory> specifications = new GenericSpecificationsBuilder<>(filterCriteria);
+
+
+        // Ejecutar la consulta con paginación
+        Page<Customer> page = customerRepository.findAll(specifications, pageable);
+        
+        // Convertir los resultados a DTOs
+        List<CustomerDto> customerDtos = page.getContent().stream()
+                .map(this::mapEntityToDto)
+                .collect(Collectors.toList());
+        
+        // Construir y devolver la respuesta paginada usando el constructor
+        return new PaginatedResponse(
+                customerDtos,                // data
+                page.getTotalPages(),        // totalPages
+                page.getNumberOfElements(),  // totalElementsPage
+                page.getTotalElements(),     // totalElements
+                page.getSize(),              // size
+                page.getNumber()             // page
+        );
     }
     
     private CustomerDto mapEntityToDto(Customer customer) {

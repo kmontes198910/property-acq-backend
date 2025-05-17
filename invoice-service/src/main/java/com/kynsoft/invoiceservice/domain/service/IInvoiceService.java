@@ -1,11 +1,14 @@
 package com.kynsoft.invoiceservice.domain.service;
 
 
+import com.kynsof.share.core.domain.request.FilterCriteria;
+import com.kynsof.share.core.domain.response.PaginatedResponse;
 import com.kynsoft.invoiceservice.domain.dto.InvoiceDto;
 import com.kynsoft.invoiceservice.infrastructure.entities.InvoiceStatus;
 
 import java.util.List;
 import java.util.UUID;
+import org.springframework.data.domain.Pageable;
 
 /**
  * Interfaz que define las operaciones de servicio para la entidad Invoice
@@ -49,6 +52,16 @@ public interface IInvoiceService {
      *
      * @param id ID de la factura
      * @param status Nuevo estado de la factura
+     * @return Datos actualizados de la factura
      */
-    void changeStatus(UUID id, InvoiceStatus status);
+    InvoiceDto changeStatus(UUID id, InvoiceStatus status);
+    
+    /**
+     * Realiza una búsqueda avanzada con filtros y paginación
+     * 
+     * @param pageable Configuración de paginación
+     * @param filterCriteria Lista de criterios de filtrado
+     * @return Respuesta paginada con los resultados de la búsqueda
+     */
+    PaginatedResponse searchAdvanced(Pageable pageable, List<FilterCriteria> filterCriteria);
 }

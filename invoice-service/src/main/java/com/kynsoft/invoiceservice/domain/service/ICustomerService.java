@@ -1,7 +1,11 @@
 package com.kynsoft.invoiceservice.domain.service;
 
+import com.kynsof.share.core.domain.request.FilterCriteria;
+import com.kynsof.share.core.domain.response.PaginatedResponse;
 import com.kynsoft.invoiceservice.application.query.customer.get.CustomerDto;
+import org.springframework.data.domain.Pageable;
 
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -38,6 +42,21 @@ public interface ICustomerService {
      */
     CustomerDto findById(UUID id);
 
+    /**
+     * Busca un cliente por su número de identificación
+     * 
+     * @param identificationNumber Número de identificación del cliente
+     * @return Datos del cliente encontrado
+     */
     CustomerDto findByIdentificationNumber(String identificationNumber);
-}
     
+    /**
+     * Realiza una búsqueda avanzada con filtros y paginación
+     * 
+     * @param pageable Configuración de paginación
+     * @param filterCriteria Lista de criterios de filtrado
+     * @return Respuesta paginada con los resultados de la búsqueda
+     */
+    PaginatedResponse search(Pageable pageable, List<FilterCriteria> filterCriteria);
+}
+
