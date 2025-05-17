@@ -31,4 +31,6 @@ public interface IEmployeeService {
     Long countByEmailAndNotId(String email, UUID id);
 
     long countByEmail(String email);
+
+    void validateEmail(String email, UUID id);
 }
