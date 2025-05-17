@@ -21,9 +21,7 @@ public interface IReceiptService {
     PaginatedResponse search(Pageable pageable, List<FilterCriteria> filterCriteria);
     Optional<Receipt> findByRequestId(String requestId);
     List<Map<String, Object>> getAppointmentsByStatus(UUID businessId);
-    List<ReceiptSummaryDTO> findByStatus(EStatusReceipt statusReceipt);
 
-    void updatePaymentStatus(UUID receiptId, String status, String reference, String authorization);
 
     void updateScheduled(UUID receiptId, UUID scheduledId);
 

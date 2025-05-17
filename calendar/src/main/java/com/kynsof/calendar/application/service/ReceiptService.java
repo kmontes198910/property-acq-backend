@@ -201,38 +201,6 @@ public class ReceiptService implements IReceiptService {
     }
 
     @Override
-    public List<ReceiptSummaryDTO> findByStatus(EStatusReceipt statusReceipt) {
-        return this.receiptRepositoryQuery.findSummaryByStatus(statusReceipt);
-    }
-
-    @Override
-    public void updatePaymentStatus(UUID receiptID, String status, String reference, String authorization) {
-        Receipt receipt = this.receiptRepositoryQuery.findById(receiptID).get();
-        switch (status) {
-            case "APPROVED":
-                receipt.setStatus(EStatusReceipt.PAYMENT);
-                break;
-            case "REFUNDED":
-            case "ERROR":
-            case "UNKNOWN":
-            case "REJECTED":
-                receipt.setStatus(EStatusReceipt.REJECTED);
-                resetSchedule(receipt);
-                break;
-            case "APPROVED_PARTIAL":
-                receipt.setStatus(EStatusReceipt.PAYMENT_PARTIAL);
-                break;
-            default:
-                throw new IllegalArgumentException("Estado no válido: " + status);
-        }
-
-        receipt.setReference(reference);
-        receipt.setProcessUrl(null);
-        receipt.setAuthorizationCode(authorization);
-        receiptRepositoryCommand.save(receipt);
-    }
-
-    @Override
     public void updateScheduled(UUID receiptId, UUID scheduledId) {
         Receipt receipt = receiptRepositoryCommand.findById(receiptId).orElse(null);
         assert receipt != null;

@@ -2,6 +2,7 @@ package com.kynsoft.invoiceservice.infrastructure.repository.query;
 
 import com.kynsoft.invoiceservice.infrastructure.entities.ProductCategory;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -12,7 +13,7 @@ import java.util.UUID;
  * Repositorio para consultas de categorías de productos
  */
 @Repository
-public interface ProductCategoryReadRepository extends JpaRepository<ProductCategory, UUID> {
+public interface ProductCategoryReadRepository extends JpaRepository<ProductCategory, UUID>, JpaSpecificationExecutor<ProductCategory> {
     
     /**
      * Busca una categoría por su nombre exacto

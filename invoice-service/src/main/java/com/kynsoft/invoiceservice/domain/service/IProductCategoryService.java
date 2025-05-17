@@ -1,6 +1,9 @@
 package com.kynsoft.invoiceservice.domain.service;
 
+import com.kynsof.share.core.domain.request.FilterCriteria;
+import com.kynsof.share.core.domain.response.PaginatedResponse;
 import com.kynsoft.invoiceservice.application.query.productcategory.get.ProductCategoryDto;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 import java.util.UUID;
@@ -46,4 +49,13 @@ public interface IProductCategoryService {
      * @return Lista de categorías activas
      */
     List<ProductCategoryDto> findAllActive();
+    
+    /**
+     * Realiza una búsqueda avanzada con filtros y paginación
+     * 
+     * @param pageable Configuración de paginación
+     * @param filterCriteria Lista de criterios de filtrado
+     * @return Respuesta paginada con los resultados de la búsqueda
+     */
+    PaginatedResponse search(Pageable pageable, List<FilterCriteria> filterCriteria);
 }

@@ -1,5 +1,8 @@
 package com.kynsoft.invoiceservice.domain.service.impl;
 
+import com.kynsof.share.core.domain.request.FilterCriteria;
+import com.kynsof.share.core.domain.response.PaginatedResponse;
+import com.kynsof.share.core.infrastructure.specifications.GenericSpecificationsBuilder;
 import com.kynsoft.invoiceservice.application.query.productcategory.get.ProductCategoryDto;
 import com.kynsoft.invoiceservice.domain.exception.BusinessInvoiceException;
 import com.kynsoft.invoiceservice.domain.exception.DomainErrorInvoiceMessage;
@@ -9,11 +12,15 @@ import com.kynsoft.invoiceservice.infrastructure.repository.command.ProductCateg
 import com.kynsoft.invoiceservice.infrastructure.repository.query.ProductCategoryReadRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -146,6 +153,31 @@ public class ProductCategoryService implements IProductCategoryService {
         return categories.stream()
                 .map(this::mapEntityToDto)
                 .collect(Collectors.toList());
+    }
+    
+    @Override
+    public PaginatedResponse search(Pageable pageable, List<FilterCriteria> filterCriteria) {
+        log.info("Realizando búsqueda avanzada de categorías de producto con filtros y paginación");
+
+        GenericSpecificationsBuilder<ProductCategory> specifications = new GenericSpecificationsBuilder<>(filterCriteria);
+        
+        // Ejecutar la consulta con paginación
+        Page<ProductCategory> page = productCategoryReadRepository.findAll(specifications, pageable);
+        
+        // Convertir los resultados a DTOs
+        List<ProductCategoryDto> categoryDtos = page.getContent().stream()
+                .map(this::mapEntityToDto)
+                .collect(Collectors.toList());
+        
+        // Construir y devolver la respuesta paginada usando el constructor
+        return new PaginatedResponse(
+                categoryDtos,                // data
+                page.getTotalPages(),        // totalPages
+                page.getNumberOfElements(),  // totalElementsPage
+                page.getTotalElements(),     // totalElements
+                page.getSize(),              // size
+                page.getNumber()             // page
+        );
     }
     
     private ProductCategoryDto mapEntityToDto(ProductCategory category) {
