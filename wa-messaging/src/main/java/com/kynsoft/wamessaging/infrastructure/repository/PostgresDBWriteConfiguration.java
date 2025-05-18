@@ -19,7 +19,7 @@ import javax.sql.DataSource;
 @Configuration
 @EnableTransactionManagement
 @EnableJpaRepositories(entityManagerFactoryRef = "writeEntityManagerFactory", transactionManagerRef = "writeTransactionManager", basePackages = {
-        "com.kynsoft.wamessaging.infrastructure.repository" })
+        "com.kynsoft.wamessaging.infrastructure.repository.command" })
 public class PostgresDBWriteConfiguration {
 
     @Primary
