@@ -6,6 +6,8 @@ import com.kynsoft.wamessaging.application.command.create.CreateWhatsAppMessageM
 import com.kynsoft.wamessaging.application.command.create.CreateWhatsAppMessageRequest;
 import com.kynsoft.wamessaging.application.dto.MessageResponse;
 import com.kynsoft.wamessaging.application.dto.SendMessageRequest;
+import com.kynsoft.wamessaging.application.query.getMessage.GetMessageQuery;
+import com.kynsoft.wamessaging.application.query.getMessage.GetMessageResponse;
 import com.kynsoft.wamessaging.application.service.MessageCoordinatorService;
 import com.kynsoft.wamessaging.infrastructure.entity.MessageStatus;
 import io.swagger.v3.oas.annotations.Operation;
@@ -150,7 +152,7 @@ public class WhatsAppController {
     }
 
     /**
-     * Obtiene el estado de un mensaje
+     * Obtiene el estado de un mensaje utilizando el patrón Query
      *
      * @param id ID del mensaje
      * @return Detalles del mensaje
@@ -162,14 +164,15 @@ public class WhatsAppController {
                     content = @Content(schema = @Schema(implementation = MessageResponse.class))),
             @ApiResponse(responseCode = "404", description = "Mensaje no encontrado")
     })
-    public ResponseEntity<MessageResponse> getMessageStatus(
+    public ResponseEntity<?> getMessageStatus(
             @Parameter(description = "ID del mensaje", required = true)
             @PathVariable UUID id) {
-        log.info("Consultando estado del mensaje: {}", id);
+        log.info("Consultando estado del mensaje utilizando patrón Query: {}", id);
 
-        MessageResponse response = messageCoordinatorService.getMessage(id);
+        GetMessageQuery query = new GetMessageQuery(id);
+        GetMessageResponse response = mediator.send(query);
 
-        if (response == null) {
+        if (response.getMessage() == null) {
             return ResponseEntity.notFound().build();
         }
 
