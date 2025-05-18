@@ -72,6 +72,7 @@ public class CustomerService implements ICustomerService {
                 .phone(customerDto.getPhoneNumber())
                 .isActive(customerDto.getIsActive())
                 .createdAt(LocalDateTime.now())
+                .createdBy(customerDto.getCreatedBy())
                 .build();
         
         Customer savedCustomer = customerWriteRepository.save(customer);
@@ -136,8 +137,11 @@ public class CustomerService implements ICustomerService {
             existingCustomer.setIsActive(customerDto.getIsActive());
         }
         
-        // Actualizar timestamp
+        // Actualizar timestamp y quien actualizó
         existingCustomer.setUpdatedAt(LocalDateTime.now());
+        if (customerDto.getUpdatedBy() != null) {
+            existingCustomer.setUpdatedBy(customerDto.getUpdatedBy());
+        }
         
         // Guardar los cambios
         customerWriteRepository.save(existingCustomer);
@@ -232,6 +236,8 @@ public class CustomerService implements ICustomerService {
                 .isActive(customer.getIsActive())
                 .createdAt(customer.getCreatedAt())
                 .updatedAt(customer.getUpdatedAt())
+                .createdBy(customer.getCreatedBy())
+                .updatedBy(customer.getUpdatedBy())
                 .build();
     }
 }

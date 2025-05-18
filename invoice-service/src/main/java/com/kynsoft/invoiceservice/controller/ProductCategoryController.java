@@ -37,6 +37,7 @@ import java.util.UUID;
 public class ProductCategoryController {
 
     private final IMediator mediator;
+    private static final String USER_ID_HEADER = "X-User-ID";
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
@@ -48,11 +49,13 @@ public class ProductCategoryController {
                                    schema = @Schema(implementation = CreateProductCategoryMessage.class)))
     public ResponseEntity<CreateProductCategoryMessage> createProductCategory(
             @Parameter(description = "Datos de la categoría a crear", required = true) 
-            @RequestBody CreateProductCategoryRequest request) {
+            @RequestBody CreateProductCategoryRequest request,
+            @RequestHeader(value = USER_ID_HEADER, required = false) String userId) {
         
         log.info("Creando nueva categoría de producto: {}", request.getName());
         
-        CreateProductCategoryCommand command = CreateProductCategoryCommand.fromRequest(request);
+        UUID userUuid = userId != null ? UUID.fromString(userId) : null;
+        CreateProductCategoryCommand command = CreateProductCategoryCommand.fromRequest(request, userUuid);
         CreateProductCategoryMessage response = mediator.send(command);
         
         return new ResponseEntity<>(response, HttpStatus.CREATED);
@@ -99,12 +102,14 @@ public class ProductCategoryController {
             @Parameter(description = "ID de la categoría a actualizar", required = true) 
             @PathVariable UUID id, 
             @Parameter(description = "Datos actualizados de la categoría", required = true) 
-            @RequestBody UpdateProductCategoryRequest request) {
+            @RequestBody UpdateProductCategoryRequest request,
+            @RequestHeader(value = USER_ID_HEADER, required = false) String userId) {
         
         log.info("Actualizando categoría de producto con ID: {}", id);
         
+        UUID userUuid = userId != null ? UUID.fromString(userId) : null;
         request.setId(id);
-        UpdateProductCategoryCommand command = UpdateProductCategoryCommand.fromRequest(request);
+        UpdateProductCategoryCommand command = UpdateProductCategoryCommand.fromRequest(request, userUuid);
         UpdateProductCategoryMessage response = mediator.send(command);
         
         return ResponseEntity.ok(response);

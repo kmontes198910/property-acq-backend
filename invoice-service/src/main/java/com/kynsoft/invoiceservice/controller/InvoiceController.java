@@ -32,6 +32,8 @@ import java.util.UUID;
 public class InvoiceController {
 
     private final IMediator mediator;
+    private static final String USER_ID_HEADER = "X-User-ID";
+    private static final String USER_NAME_HEADER = "X-User-Name";
 
     @Operation(summary = "Generar factura electrónica", 
                description = "Crea y genera una nueva factura electrónica según los datos proporcionados")
@@ -48,12 +50,14 @@ public class InvoiceController {
     @PostMapping("/generate")
     public ResponseEntity<?> generarFactura(
             @Parameter(description = "Datos de la factura a generar", required = true) 
-            @RequestBody GenerateInvoiceRequest request) {
+            @RequestBody GenerateInvoiceRequest request,
+            @RequestHeader(value = USER_ID_HEADER, required = false) String userId) {
         log.info("Recibida solicitud para generar factura");
         
+        UUID userUuid = userId != null ? UUID.fromString(userId) : null;
         // Ya no es necesario generar el secuencial aquí, ahora se maneja en el servicio
         // utilizando la secuencia del emisor
-        GenerateInvoiceCommand command = GenerateInvoiceCommand.fromRequest(request, UUID.randomUUID());
+        GenerateInvoiceCommand command = GenerateInvoiceCommand.fromRequest(request, userUuid);
         // Invocar al servicio para generar y guardar la factura
         GenerateInvoiceMessage response = mediator.send(
                 command

@@ -29,6 +29,8 @@ public class CreateProductCategoryCommandHandler implements ICommandHandler<Crea
                 .name(command.getName())
                 .description(command.getDescription())
                 .status(command.getStatus())
+                .createdBy(command.getCreatedBy())
+                .updatedBy(command.getCreatedBy()) // Al crear, ambos campos son iguales
                 .build();
         
         // Utilizar el servicio para crear la categoría

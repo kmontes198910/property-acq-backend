@@ -48,6 +48,12 @@ public class Product {
     @Column(nullable = false)
     private Boolean status;
     
+    @Column(name = "created_by")
+    private UUID createdBy;
+
+    @Column(name = "updated_by")
+    private UUID updatedBy;
+    
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "category_id")
     private ProductCategory category;

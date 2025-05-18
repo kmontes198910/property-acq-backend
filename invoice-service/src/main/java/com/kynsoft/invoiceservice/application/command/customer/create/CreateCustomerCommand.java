@@ -23,8 +23,9 @@ public class CreateCustomerCommand implements ICommand {
     private String email;
     private String phoneNumber;
     private Boolean isActive;
+    private UUID createdBy;
     
-    public static CreateCustomerCommand fromRequest(CreateCustomerRequest request) {
+    public static CreateCustomerCommand fromRequest(CreateCustomerRequest request, UUID createdBy) {
         return new CreateCustomerCommand(
                 UUID.randomUUID(),
                 request.getIdentificationType(),
@@ -33,7 +34,8 @@ public class CreateCustomerCommand implements ICommand {
                 request.getAddress(),
                 request.getEmail(),
                 request.getPhoneNumber(),
-                request.getIsActive() != null ? request.getIsActive() : true
+                request.getIsActive() != null ? request.getIsActive() : true,
+                createdBy
         );
     }
     

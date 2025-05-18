@@ -39,6 +39,7 @@ public class CustomerController {
 
     private final IMediator mediator;
     private static final String USER_ID_HEADER = "X-User-ID";
+    private static final String USER_NAME_HEADER = "X-User-Name";
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
@@ -50,11 +51,13 @@ public class CustomerController {
                                    schema = @Schema(implementation = CreateCustomerMessage.class)))
     public ResponseEntity<CreateCustomerMessage> createCustomer(
             @Parameter(description = "Datos del cliente a crear", required = true) 
-            @RequestBody CreateCustomerRequest request) {
+            @RequestBody CreateCustomerRequest request,
+            @RequestHeader(value = USER_ID_HEADER, required = false) String userId) {
         
         log.info("Creando nuevo cliente: {}", request.getBusinessName());
         
-        CreateCustomerCommand command = CreateCustomerCommand.fromRequest(request);
+        UUID userUuid = userId != null ? UUID.fromString(userId) : null;
+        CreateCustomerCommand command = CreateCustomerCommand.fromRequest(request, userUuid);
         CreateCustomerMessage response = mediator.send(command);
         
         return new ResponseEntity<>(response, HttpStatus.CREATED);
@@ -101,12 +104,14 @@ public class CustomerController {
             @Parameter(description = "ID del cliente a actualizar", required = true) 
             @PathVariable UUID id, 
             @Parameter(description = "Datos actualizados del cliente", required = true) 
-            @RequestBody UpdateCustomerRequest request) {
+            @RequestBody UpdateCustomerRequest request,
+            @RequestHeader(value = USER_ID_HEADER, required = false) String userId) {
         
         log.info("Actualizando cliente con ID: {}", id);
         
+        UUID userUuid = userId != null ? UUID.fromString(userId) : null;
         request.setId(id);
-        UpdateCustomerCommand command = UpdateCustomerCommand.fromRequest(request);
+        UpdateCustomerCommand command = UpdateCustomerCommand.fromRequest(request, userUuid);
         UpdateCustomerMessage response = mediator.send(command);
         
         return ResponseEntity.ok(response);

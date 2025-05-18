@@ -68,6 +68,8 @@ public class ProductCategoryService implements IProductCategoryService {
                 .name(categoryDto.getName())
                 .description(categoryDto.getDescription())
                 .status(categoryDto.getStatus())
+                .createdBy(categoryDto.getCreatedBy())
+                .updatedBy(categoryDto.getUpdatedBy())
                 .build();
         
         ProductCategory savedCategory = productCategoryWriteRepository.save(category);
@@ -115,6 +117,11 @@ public class ProductCategoryService implements IProductCategoryService {
         
         if (categoryDto.getStatus() != null) {
             existingCategory.setStatus(categoryDto.getStatus());
+        }
+        
+        // Actualizar el campo de auditoría updatedBy
+        if (categoryDto.getUpdatedBy() != null) {
+            existingCategory.setUpdatedBy(categoryDto.getUpdatedBy());
         }
         
         // Guardar los cambios
@@ -188,6 +195,8 @@ public class ProductCategoryService implements IProductCategoryService {
                 .status(category.getStatus())
                 .createdAt(category.getCreatedAt())
                 .updatedAt(category.getUpdatedAt())
+                .createdBy(category.getCreatedBy())
+                .updatedBy(category.getUpdatedBy())
                 .build();
     }
 }

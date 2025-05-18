@@ -62,6 +62,11 @@ public class InvoiceService implements IInvoiceService {
         if (invoiceDto.getId() == null) {
             invoiceDto.setId(UUID.randomUUID());
         }
+        
+        // Asignar timestamps y campos de auditoría
+        LocalDateTime now = LocalDateTime.now();
+        invoiceDto.setCreatedAt(now);
+        invoiceDto.setUpdatedAt(now);
 
         
         // Verificar que el cliente exista
@@ -84,6 +89,10 @@ public class InvoiceService implements IInvoiceService {
                 .status(invoiceDto.getStatus() != null ? invoiceDto.getStatus() : InvoiceStatus.DRAFT)
                 .remissionGuide(invoiceDto.getRemissionGuide())
                 .customer(customer)
+                .createdAt(invoiceDto.getCreatedAt())
+                .updatedAt(invoiceDto.getUpdatedAt())
+                .createdBy(invoiceDto.getCreatedBy())
+                .updatedBy(invoiceDto.getUpdatedBy())
                 .build();
         
         // Procesar detalles de la factura
@@ -197,6 +206,11 @@ public class InvoiceService implements IInvoiceService {
             existingInvoice.setRemissionGuide(invoiceDto.getRemissionGuide());
         }
         
+        // Actualizar campos de auditoría
+        existingInvoice.setUpdatedAt(LocalDateTime.now());
+        if (invoiceDto.getUpdatedBy() != null) {
+            existingInvoice.setUpdatedBy(invoiceDto.getUpdatedBy());
+        }
 
         if (invoiceDto.getCustomer() != null && invoiceDto.getCustomer().getId() != null) {
             Customer customer = getCustomer(invoiceDto);
@@ -287,7 +301,7 @@ public class InvoiceService implements IInvoiceService {
 
     @Override
     @Transactional
-    public InvoiceDto changeStatus(UUID id, InvoiceStatus status) {
+    public InvoiceDto changeStatus(UUID id, InvoiceStatus status, UUID updatedBy) {
         log.info("Cambiando estado de la factura ID: {} a {}", id, status);
         
         // Verificar que la factura exista
@@ -301,6 +315,7 @@ public class InvoiceService implements IInvoiceService {
         // Actualizar el estado
         invoice.setStatus(status);
         invoice.setUpdatedAt(LocalDateTime.now());
+        invoice.setUpdatedBy(updatedBy);
         
         // Si el estado es AUTHORIZED, actualizar la fecha de autorización
         if (status == InvoiceStatus.AUTHORIZED && invoice.getAuthorizationDate() == null) {
@@ -477,6 +492,8 @@ public class InvoiceService implements IInvoiceService {
                 .remissionGuide(invoice.getRemissionGuide())
                 .createdAt(invoice.getCreatedAt())
                 .updatedAt(invoice.getUpdatedAt())
+                .createdBy(invoice.getCreatedBy())
+                .updatedBy(invoice.getUpdatedBy())
                 .build();
         
         // Mapear emisor

@@ -25,7 +25,7 @@ public interface IInvoiceService {
     /**
      * Actualiza una factura existente
      *
-     * @param invoice Datos actualizados de la factura
+     * @param invoice Datos actualizados de la factura incluyendo el ID de usuario que realiza la actualización
      */
     void update(InvoiceDto invoice);
 
@@ -52,9 +52,10 @@ public interface IInvoiceService {
      *
      * @param id ID de la factura
      * @param status Nuevo estado de la factura
+     * @param updatedBy ID del usuario que realiza el cambio
      * @return Datos actualizados de la factura
      */
-    InvoiceDto changeStatus(UUID id, InvoiceStatus status);
+    InvoiceDto changeStatus(UUID id, InvoiceStatus status, UUID updatedBy);
     
     /**
      * Realiza una búsqueda avanzada con filtros y paginación

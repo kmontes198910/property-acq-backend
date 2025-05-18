@@ -21,14 +21,17 @@ public class CreateProductCategoryCommand implements ICommand {
     private String name;
     private String description;
     private Boolean status;
+    private UUID createdBy;
     
-    public static CreateProductCategoryCommand fromRequest(CreateProductCategoryRequest request) {
-        return new CreateProductCategoryCommand(
+    public static CreateProductCategoryCommand fromRequest(CreateProductCategoryRequest request, UUID createdBy) {
+        CreateProductCategoryCommand command = new CreateProductCategoryCommand(
                 UUID.randomUUID(),
                 request.getName(),
                 request.getDescription(),
-                request.getStatus() != null ? request.getStatus() : true
+                request.getStatus() != null ? request.getStatus() : true,
+                createdBy
         );
+        return command;
     }
     
     @Override

@@ -29,6 +29,7 @@ public class UpdateProductCategoryCommandHandler implements ICommandHandler<Upda
                 .name(command.getName())
                 .description(command.getDescription())
                 .status(command.getStatus())
+                .updatedBy(command.getUpdatedBy())
                 .build();
         
         // Utilizar el servicio para actualizar la categoría

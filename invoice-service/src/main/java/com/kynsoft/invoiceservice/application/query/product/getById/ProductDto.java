@@ -29,4 +29,6 @@ public class ProductDto {
     private Boolean isActive;
     private UUID categoryId;
     private String categoryName;
+    private UUID createdBy;
+    private UUID updatedBy;
 }

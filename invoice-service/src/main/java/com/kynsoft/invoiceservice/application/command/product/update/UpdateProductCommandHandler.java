@@ -63,6 +63,7 @@ public class UpdateProductCommandHandler implements ICommandHandler<UpdateProduc
         product.setTaxPercentage(command.getTaxPercentage());
         product.setIsService(command.getIsService());
         product.setStatus(command.getStatus());
+        product.setUpdatedBy(command.getUpdatedBy()); // Agregar campo de auditoría
         
         // Guardar los cambios
         productWriteRepository.save(product);

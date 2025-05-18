@@ -21,14 +21,18 @@ public class UpdateProductCategoryCommand implements ICommand {
     private String name;
     private String description;
     private Boolean status;
+    private UUID updatedBy;
     
-    public static UpdateProductCategoryCommand fromRequest(UpdateProductCategoryRequest request) {
-        return new UpdateProductCategoryCommand(
+    public static UpdateProductCategoryCommand fromRequest(UpdateProductCategoryRequest request, UUID updatedBy) {
+        UpdateProductCategoryCommand command = new UpdateProductCategoryCommand(
                 request.getId(),
                 request.getName(),
                 request.getDescription(),
-                request.getStatus()
+                request.getStatus(),
+                updatedBy
         );
+        command.setUpdatedBy(updatedBy);
+        return command;
     }
     
     @Override

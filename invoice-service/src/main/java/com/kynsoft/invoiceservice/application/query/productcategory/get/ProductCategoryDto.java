@@ -22,4 +22,6 @@ public class ProductCategoryDto {
     private Boolean status;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
+    private UUID createdBy;
+    private UUID updatedBy;
 }

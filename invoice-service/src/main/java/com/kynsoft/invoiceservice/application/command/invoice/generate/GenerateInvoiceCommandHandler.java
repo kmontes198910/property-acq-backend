@@ -285,6 +285,8 @@ public class GenerateInvoiceCommandHandler implements ICommandHandler<GenerateIn
                     .email(request.getCustomer().getEmail())
                     .phoneNumber(request.getCustomer().getPhoneNumber())
                     .isActive(true)
+                    .createdBy(request.getCreatedBy())
+                    .updatedBy(request.getCreatedBy())
                     .build();
 
             // Crear el cliente a través del servicio
