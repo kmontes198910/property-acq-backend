@@ -7,6 +7,8 @@ import com.kynsof.share.core.infrastructure.bus.IMediator;
 import com.kynsoft.invoiceservice.application.command.invoice.generate.GenerateInvoiceCommand;
 import com.kynsoft.invoiceservice.application.command.invoice.generate.GenerateInvoiceMessage;
 import com.kynsoft.invoiceservice.application.command.invoice.generate.request.GenerateInvoiceRequest;
+import com.kynsoft.invoiceservice.application.query.invoice.getById.GetInvoiceByIdQuery;
+import com.kynsoft.invoiceservice.application.query.invoice.getById.InvoiceResponse;
 import com.kynsoft.invoiceservice.application.query.invoice.search.SearchInvoiceAdvancedQuery;
 import com.kynsoft.invoiceservice.dto.FacturaResponseDTO;
 import io.swagger.v3.oas.annotations.Operation;
@@ -86,6 +88,29 @@ public class InvoiceController {
         );
         
         PaginatedResponse response = mediator.send(query);
+        return ResponseEntity.ok(response);
+    }
+    
+    @GetMapping("/{id}")
+    @Operation(summary = "Obtener factura por ID", 
+               description = "Devuelve los datos completos de una factura específica según su ID")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", 
+                     description = "Factura encontrada",
+                     content = @Content(mediaType = "application/json", 
+                                       schema = @Schema(implementation = InvoiceResponse.class))),
+        @ApiResponse(responseCode = "404", 
+                     description = "Factura no encontrada",
+                     content = @Content(mediaType = "application/json"))
+    })
+    public ResponseEntity<InvoiceResponse> getById(
+            @Parameter(description = "ID de la factura a consultar", required = true)
+            @PathVariable UUID id) {
+        log.info("Consultando factura con ID: {}", id);
+        
+        GetInvoiceByIdQuery query = new GetInvoiceByIdQuery(id);
+        InvoiceResponse response = mediator.send(query);
+        
         return ResponseEntity.ok(response);
     }
 }
