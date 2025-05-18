@@ -1,10 +1,9 @@
-package com.kynsoft.wamessaging.application.controller;
+package com.kynsoft.wamessaging.controller;
 
 import com.kynsoft.wamessaging.application.dto.MessageResponse;
 import com.kynsoft.wamessaging.application.dto.SendMessageRequest;
 import com.kynsoft.wamessaging.application.service.MessageCoordinatorService;
-import com.kynsoft.wamessaging.domain.entity.MessageStatus;
-import com.kynsoft.wamessaging.domain.entity.WhatsAppMessage;
+import com.kynsoft.wamessaging.infrastructure.entity.MessageStatus;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;

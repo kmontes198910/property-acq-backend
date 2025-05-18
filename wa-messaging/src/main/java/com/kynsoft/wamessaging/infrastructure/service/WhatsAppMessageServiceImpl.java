@@ -1,7 +1,7 @@
 package com.kynsoft.wamessaging.infrastructure.service;
 
-import com.kynsoft.wamessaging.domain.entity.MessageStatus;
-import com.kynsoft.wamessaging.domain.entity.WhatsAppMessage;
+import com.kynsoft.wamessaging.infrastructure.entity.MessageStatus;
+import com.kynsoft.wamessaging.infrastructure.entity.WhatsAppMessage;
 import com.kynsoft.wamessaging.domain.service.WhatsAppMessageService;
 import com.kynsoft.wamessaging.infrastructure.repository.WhatsAppMessageRepository;
 import lombok.RequiredArgsConstructor;

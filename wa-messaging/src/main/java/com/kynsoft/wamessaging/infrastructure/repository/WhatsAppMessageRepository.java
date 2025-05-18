@@ -1,7 +1,7 @@
 package com.kynsoft.wamessaging.infrastructure.repository;
 
-import com.kynsoft.wamessaging.domain.entity.MessageStatus;
-import com.kynsoft.wamessaging.domain.entity.WhatsAppMessage;
+import com.kynsoft.wamessaging.infrastructure.entity.MessageStatus;
+import com.kynsoft.wamessaging.infrastructure.entity.WhatsAppMessage;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;

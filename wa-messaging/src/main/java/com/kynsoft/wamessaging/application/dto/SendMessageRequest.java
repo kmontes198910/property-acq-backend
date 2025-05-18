@@ -1,6 +1,6 @@
 package com.kynsoft.wamessaging.application.dto;
 
-import com.kynsoft.wamessaging.domain.entity.MessageType;
+import com.kynsoft.wamessaging.infrastructure.entity.MessageType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

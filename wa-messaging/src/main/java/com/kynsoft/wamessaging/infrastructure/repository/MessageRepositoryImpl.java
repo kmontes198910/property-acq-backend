@@ -1,6 +1,6 @@
 package com.kynsoft.wamessaging.infrastructure.repository;
 
-import com.kynsoft.wamessaging.domain.entity.MessageStatus;
+import com.kynsoft.wamessaging.infrastructure.entity.MessageStatus;
 import com.kynsoft.wamessaging.domain.repository.MessageRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;

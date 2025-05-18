@@ -18,7 +18,7 @@ import javax.sql.DataSource;
 @Configuration
 @EnableTransactionManagement
 @EnableJpaRepositories(entityManagerFactoryRef = "readEntityManagerFactory", transactionManagerRef = "readTransactionManager", basePackages = {
-        "com.kynsoft.wamessaging.infrastructure.repository.query" })
+        "com.kynsoft.wamessaging.infrastructure.repository" })
 public class PostgresDBReadConfiguration {
 
     @Bean(name = "readDataSourceProperties")
