@@ -30,7 +30,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/api/v1/invoice-issuers")
+@RequestMapping("/api/invoice-issuers")
 @RequiredArgsConstructor
 @Slf4j
 @Tag(name = "Emisores de Facturas", description = "API para la gestión de emisores de facturas")

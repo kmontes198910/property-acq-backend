@@ -31,7 +31,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/api/v1/customers")
+@RequestMapping("/api/customers")
 @RequiredArgsConstructor
 @Slf4j
 @Tag(name = "Clientes", description = "API para la gestión de clientes")

@@ -30,7 +30,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/api/v1/products")
+@RequestMapping("/api/products")
 @RequiredArgsConstructor
 @Slf4j
 @Tag(name = "Productos", description = "API para la gestión de productos")

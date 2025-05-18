@@ -30,7 +30,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/api/v1/product-categories")
+@RequestMapping("/api/product-categories")
 @RequiredArgsConstructor
 @Slf4j
 @Tag(name = "Categorías de Productos", description = "API para la gestión de categorías de productos")

@@ -27,7 +27,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/api/v1/invoices")
+@RequestMapping("/api/invoices")
 @RequiredArgsConstructor
 @Slf4j
 @Tag(name = "Facturas", description = "API para la gestión de facturas electrónicas")
