@@ -35,13 +35,15 @@ public class UpdatePropertyCommand implements ICommand {
     private Integer bedrooms;
     private Double bathrooms;
     private Double askingPrice;
+    private String formattedAddress;
 
     public UpdatePropertyCommand(String id, PropertyType propertyType, int lotSize, 
                                  String apn, int yearBuilt, String county, Boolean occupancy, 
                                  String addressLine1, String addressLine2, String city, String state, 
                                  String zipCode, double unitCount, int squareFootage,
                                  RoofType roofType, StructureType structureType, String hoa,
-                                 Integer bedrooms, Double bathrooms, Double askingPrice) {
+                                 Integer bedrooms, Double bathrooms, Double askingPrice,
+                                 String formattedAddress) {
         this.id = id;
         this.propertyType = propertyType;
         this.lotSize = lotSize;
@@ -62,6 +64,7 @@ public class UpdatePropertyCommand implements ICommand {
         this.bedrooms = bedrooms;
         this.bathrooms = bathrooms;
         this.askingPrice = askingPrice;
+        this.formattedAddress = formattedAddress;
     }
 
     public static UpdatePropertyCommand fromRequest(UpdatePropertyRequest request, String id) {
@@ -85,7 +88,8 @@ public class UpdatePropertyCommand implements ICommand {
                 request.getHoa(),
                 request.getBedrooms(),
                 request.getBathrooms(),
-                request.getAskingPrice()
+                request.getAskingPrice(),
+                request.getFormattedAddress()
         );
     }
 

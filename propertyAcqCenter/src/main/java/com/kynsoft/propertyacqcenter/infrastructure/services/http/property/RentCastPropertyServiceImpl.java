@@ -18,6 +18,7 @@ import org.springframework.web.client.RestTemplate;
 import java.util.*;
 import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.web.client.RestClientException;
 
@@ -58,49 +59,50 @@ public class RentCastPropertyServiceImpl {
     }
 
     //TODO: La response de este metodo, lo vamos a trasformar en la capa de application.
+    //@Cacheable(value = "propertyCache", key = "#address", unless = "#result == null")
     public List<PropertyResponse> getPropertyDetails(String address) {
         try {
             String cleanedAddress = address.trim(); // Elimina espacios al inicio/final
             String encodedAddress = URLEncoder.encode(cleanedAddress, StandardCharsets.UTF_8);
 
-            Optional<ExternalProperty> property = this.repoQuery.findByPropertyId(address);
-            if (property.isPresent()) {
-                return this.createResponse(property);
-            } else {
-                //verdadero
-                String url = BASE_URL + "/properties?address=" + cleanedAddress;
+//            Optional<ExternalProperty> property = this.repoQuery.findByPropertyId(address);
+//            if (property.isPresent()) {
+//                return this.createResponse(property);
+//            } else {
+            //verdadero
+            String url = BASE_URL + "/properties?address=" + cleanedAddress;
 //                String url = BASE_URL + "/property/fake";
 
-                System.err.println("Url: " + url);
-                // Crear cabeceras para la solicitud
-                HttpHeaders headers = new HttpHeaders();
-                headers.setContentType(MediaType.APPLICATION_JSON);
+            System.err.println("Url: " + url);
+            // Crear cabeceras para la solicitud
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.APPLICATION_JSON);
 
-                // Crear la entidad de la solicitud con el cuerpo (request) y las cabeceras
-                HttpEntity<UUID> entity = new HttpEntity<>(UUID.randomUUID(), headers);
+            // Crear la entidad de la solicitud con el cuerpo (request) y las cabeceras
+            HttpEntity<UUID> entity = new HttpEntity<>(UUID.randomUUID(), headers);
 
-                // Usar ParameterizedTypeReference para especificar el tipo genérico
-                ParameterizedTypeReference<List<PropertyResponse>> responseType
-                        = new ParameterizedTypeReference<List<PropertyResponse>>() {
-                };
+            // Usar ParameterizedTypeReference para especificar el tipo genérico
+            ParameterizedTypeReference<List<PropertyResponse>> responseType
+                    = new ParameterizedTypeReference<List<PropertyResponse>>() {
+            };
 
-                // Enviar la solicitud POST al endpoint del controlador
-                ResponseEntity<List<PropertyResponse>> response = restTemplate.exchange(
-                        url,
-                        HttpMethod.GET,
-                        createHttpEntity(),
-                        responseType
-                );
+            // Enviar la solicitud POST al endpoint del controlador
+            ResponseEntity<List<PropertyResponse>> response = restTemplate.exchange(
+                    url,
+                    HttpMethod.GET,
+                    createHttpEntity(),
+                    responseType
+            );
 
-                if (!HttpStatus.OK.equals(response.getStatusCode())) {
-                    throw new BusinessNotFoundException(new GlobalBusinessException(
-                            DomainErrorMessage.BUSINESS_NOT_FOUND,
-                            new ErrorField("id", DomainErrorMessage.BUSINESS_NOT_FOUND.getReasonPhrase())
-                    ));
-                }
-                this.addProperty(response.getBody());
-                return response.getBody();
+            if (!HttpStatus.OK.equals(response.getStatusCode())) {
+                throw new BusinessNotFoundException(new GlobalBusinessException(
+                        DomainErrorMessage.BUSINESS_NOT_FOUND,
+                        new ErrorField("id", DomainErrorMessage.BUSINESS_NOT_FOUND.getReasonPhrase())
+                ));
             }
+//                this.addProperty(response.getBody());
+            return response.getBody();
+//            }
         } catch (RestClientException e) {
             throw new RuntimeException(e);
 //            throw new BusinessNotFoundException(new GlobalBusinessException(
@@ -123,17 +125,17 @@ public class RentCastPropertyServiceImpl {
         pr.setCounty(property.get().getCounty());
         pr.setPropertyType(property.get().getPropertyType());
         pr.setFeatures(new PropertyResponse.Features(
-                property.get().getFeatures().isCooling(), 
-                property.get().getFeatures().getCoolingType(), 
-                property.get().getFeatures().getExteriorType(), 
-                property.get().getFeatures().getFloorCount(), 
-                property.get().getFeatures().getFoundationType(), 
-                property.get().getFeatures().isGarage(), 
-                property.get().getFeatures().getGarageSpaces(), 
-                property.get().getFeatures().getGarageType(), 
-                property.get().getFeatures().isPool(), 
-                property.get().getFeatures().getPoolType(), 
-                property.get().getFeatures().getRoofType(), 
+                property.get().getFeatures().isCooling(),
+                property.get().getFeatures().getCoolingType(),
+                property.get().getFeatures().getExteriorType(),
+                property.get().getFeatures().getFloorCount(),
+                property.get().getFeatures().getFoundationType(),
+                property.get().getFeatures().isGarage(),
+                property.get().getFeatures().getGarageSpaces(),
+                property.get().getFeatures().getGarageType(),
+                property.get().getFeatures().isPool(),
+                property.get().getFeatures().getPoolType(),
+                property.get().getFeatures().getRoofType(),
                 property.get().getFeatures().getUnitCount()
         ));
         pr.setFormattedAddress(property.get().getFormattedAddress());
@@ -154,15 +156,15 @@ public class RentCastPropertyServiceImpl {
         pr.setLegalDescription(property.get().getLegalDescription());
         pr.setLotSize(property.get().getLotSize());
         pr.setOwner(new PropertyResponse.Owner(
-                property.get().getOwner().getNames(), 
-                property.get().getOwner().getType(), 
+                property.get().getOwner().getNames(),
+                property.get().getOwner().getType(),
                 new PropertyResponse.MailingAddress(
-                        property.get().getOwner().getMailingAddress().getFormattedAddress(), 
-                        property.get().getOwner().getMailingAddress().getFormattedAddress(), 
-                        property.get().getOwner().getMailingAddress().getAddressLine1(), 
-                        property.get().getOwner().getMailingAddress().getAddressLine2(), 
-                        property.get().getOwner().getMailingAddress().getCity(), 
-                        property.get().getOwner().getMailingAddress().getState(), 
+                        property.get().getOwner().getMailingAddress().getFormattedAddress(),
+                        property.get().getOwner().getMailingAddress().getFormattedAddress(),
+                        property.get().getOwner().getMailingAddress().getAddressLine1(),
+                        property.get().getOwner().getMailingAddress().getAddressLine2(),
+                        property.get().getOwner().getMailingAddress().getCity(),
+                        property.get().getOwner().getMailingAddress().getState(),
                         property.get().getOwner().getMailingAddress().getZipCode()
                 )));
         pr.setOwnerOccupied(property.get().isOwnerOccupied());
@@ -190,7 +192,7 @@ public class RentCastPropertyServiceImpl {
         pr.setYearBuilt(property.get().getYearBuilt());
         pr.setZipCode(property.get().getZipCode());
         pr.setZoning(property.get().getZoning());
-        
+
         list.add(pr);
         return list;
     }

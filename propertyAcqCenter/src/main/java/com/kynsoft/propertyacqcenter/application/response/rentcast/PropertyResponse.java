@@ -1,16 +1,16 @@
 package com.kynsoft.propertyacqcenter.application.response.rentcast;
 
 import com.kynsof.share.core.domain.bus.query.IResponse;
+import java.io.Serializable;
 import lombok.Data;
 import java.util.List;
 import java.util.Map;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
-public class PropertyResponse implements IResponse {
+public class PropertyResponse implements IResponse, Serializable {
     private String id;
     private String formattedAddress;
     private String addressLine1;
@@ -44,7 +44,7 @@ public class PropertyResponse implements IResponse {
     @Data
     @NoArgsConstructor
     @AllArgsConstructor
-    public static class Features {
+    public static class Features implements Serializable {
         private boolean cooling;
         private String coolingType;
         private String exteriorType;
@@ -62,7 +62,7 @@ public class PropertyResponse implements IResponse {
     @Data
     @AllArgsConstructor
     @NoArgsConstructor
-    public static class TaxAssessment {
+    public static class TaxAssessment  implements Serializable {
         private int year;
         private int value;
         private Integer land;
@@ -72,7 +72,7 @@ public class PropertyResponse implements IResponse {
     @Data
     @AllArgsConstructor
     @NoArgsConstructor
-    public static class PropertyTax {
+    public static class PropertyTax  implements Serializable {
         private int year;
         private int total;
     }
@@ -80,7 +80,7 @@ public class PropertyResponse implements IResponse {
     @Data
     @AllArgsConstructor
     @NoArgsConstructor
-    public static class Owner {
+    public static class Owner  implements Serializable {
         private List<String> names;
         private String type;
         private MailingAddress mailingAddress;
@@ -89,7 +89,7 @@ public class PropertyResponse implements IResponse {
     @Data
     @AllArgsConstructor
     @NoArgsConstructor
-    public static class MailingAddress {
+    public static class MailingAddress  implements Serializable {
         private String id;
         private String formattedAddress;
         private String addressLine1;
@@ -102,14 +102,14 @@ public class PropertyResponse implements IResponse {
     @Data
     @NoArgsConstructor
     @AllArgsConstructor
-    public static class HOA {
+    public static class HOA  implements Serializable {
         private Integer fee;
     }
 
     @Data
     @AllArgsConstructor
     @NoArgsConstructor
-    public static class History {
+    public static class History  implements Serializable {
         private String event;
         private String date;
         private Integer price;

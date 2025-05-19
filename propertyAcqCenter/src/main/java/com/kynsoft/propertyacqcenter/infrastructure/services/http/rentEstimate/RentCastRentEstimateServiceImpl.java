@@ -13,6 +13,7 @@ import org.springframework.web.client.RestTemplate;
 
 import java.util.*;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.web.client.RestClientException;
 
@@ -43,6 +44,7 @@ public class RentCastRentEstimateServiceImpl {
     }
 
     //TODO: La response de este metodo, lo vamos a trasformar en la capa de application.
+    //@Cacheable(value = "propertyCache", key = "#address", unless = "#result == null")
     public RentEstimateResponse getRentEstimate(String address) {
         try {
             String cleanedAddress = address.trim(); // Elimina espacios al inicio/final

@@ -13,6 +13,7 @@ import lombok.Setter;
 public class CreatePropertyCommand implements ICommand {
 
     private String id;
+    private String formattedAddress;
     private PropertyType propertyType;
     private int lotSize;
     private String apn;
@@ -36,13 +37,14 @@ public class CreatePropertyCommand implements ICommand {
     private Double bathrooms;
     private Double askingPrice;
 
-    public CreatePropertyCommand(String id, PropertyType propertyType, int lotSize, 
+    public CreatePropertyCommand(String id, String formattedAddress, PropertyType propertyType, int lotSize, 
                                  String apn, int yearBuilt, String county, Boolean occupancy, 
                                  String addressLine1, String addressLine2, String city, String state, 
                                  String zipCode, double unitCount, int squareFootage,
                                  RoofType roofType, StructureType structureType, String hoa,
                                  Integer bedrooms, Double bathrooms, Double askingPrice) {
         this.id = id;
+        this.formattedAddress = formattedAddress;
         this.propertyType = propertyType;
         this.lotSize = lotSize;
         this.apn = apn;
@@ -67,6 +69,7 @@ public class CreatePropertyCommand implements ICommand {
     public static CreatePropertyCommand fromRequest(CreatePropertyRequest request) {
         return new CreatePropertyCommand(
                 request.getId(),
+                request.getFormattedAddress(),
                 request.getPropertyType(),
                 request.getLotSize(),
                 request.getApn(),

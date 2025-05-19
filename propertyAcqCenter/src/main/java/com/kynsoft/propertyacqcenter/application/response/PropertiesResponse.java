@@ -34,6 +34,7 @@ public class PropertiesResponse implements IResponse {
     private Integer bedrooms;
     private Double bathrooms;
     private Double askingPrice;
+    private String formattedAddress;
 
     public PropertiesResponse(PropertyDto dto) {
         this.id = dto.getId();
@@ -56,6 +57,7 @@ public class PropertiesResponse implements IResponse {
         this.bedrooms = dto.getBedrooms();
         this.bathrooms = dto.getBathrooms();
         this.askingPrice = dto.getAskingPrice();
+        this.formattedAddress = dto.getFormattedAddress();
     }
 
 }
