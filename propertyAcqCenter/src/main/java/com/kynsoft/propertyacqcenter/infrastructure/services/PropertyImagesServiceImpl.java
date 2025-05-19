@@ -6,6 +6,7 @@ import com.kynsof.share.core.infrastructure.specifications.GenericSpecifications
 import com.kynsoft.propertyacqcenter.application.response.PropertyImagesResponse;
 import com.kynsoft.propertyacqcenter.domain.dto.PropertyImagesDto;
 import com.kynsoft.propertyacqcenter.domain.dto.exception.PropertyImagesNotFoundException;
+import com.kynsoft.propertyacqcenter.domain.dto.exception.propertyImagen.PropertyImagenMainMustBeUniqueException;
 import com.kynsoft.propertyacqcenter.domain.services.IPropertyImagesService;
 import com.kynsoft.propertyacqcenter.infrastructure.entity.Property;
 import com.kynsoft.propertyacqcenter.infrastructure.entity.PropertyImages;
@@ -46,6 +47,7 @@ public class PropertyImagesServiceImpl implements IPropertyImagesService {
         update.setId(object.getId());
         update.setProperty(object.getProperty() != null ? new Property(object.getProperty()) : null);
         update.setUrl(object.getUrl());
+        update.setMain(object.getMain());
         repositoryCommand.save(update);
     }
 
@@ -80,6 +82,19 @@ public class PropertyImagesServiceImpl implements IPropertyImagesService {
         }
         return new PaginatedResponse(objects, data.getTotalPages(), data.getNumberOfElements(),
                 data.getTotalElements(), data.getSize(), data.getNumber());
+    }
+
+    @Override
+    public int countByPropertyAndIsMain(String property) {
+        return this.repositoryQuery.countByPropertyAndIsMain(property);
+    }
+
+    @Override
+    public void validatePropertyImagenMain(String property) {
+        int count = this.countByPropertyAndIsMain(property);
+        if (count > 0) {
+            throw new PropertyImagenMainMustBeUniqueException(property);
+        }
     }
 
 }

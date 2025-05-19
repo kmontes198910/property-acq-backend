@@ -9,4 +9,5 @@ public class UpdatePropertyImagesRequest {
 
     private String property;
     private String url;
+    private Boolean main;
 }

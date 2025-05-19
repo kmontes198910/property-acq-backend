@@ -21,6 +21,9 @@ public class CreatePropertyImagesCommandHandler implements ICommandHandler<Creat
     @Override
     public void handle(CreatePropertyImagesCommand command) {
         PropertyDto property = this.propertyService.getById(command.getProperty());
-        imagesService.create(new PropertyImagesDto(command.getId(), property, command.getUrl()));
+        if (command.getMain()) {
+            this.imagesService.validatePropertyImagenMain(property.getId());
+        }
+        imagesService.create(new PropertyImagesDto(command.getId(), property, command.getUrl(), command.getMain()));
     }
 }

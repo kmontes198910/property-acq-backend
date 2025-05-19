@@ -21,6 +21,9 @@ public class UpdatePropertyImagesCommandHandler implements ICommandHandler<Updat
     @Override
     public void handle(UpdatePropertyImagesCommand command) {
         PropertyDto property = this.propertyService.getById(command.getProperty());
-        imagesService.update(new PropertyImagesDto(command.getId(), property, command.getUrl()));
+        if (command.getMain()) {
+            this.imagesService.validatePropertyImagenMain(property.getId());
+        }
+        imagesService.update(new PropertyImagesDto(command.getId(), property, command.getUrl(), command.getMain()));
     }
 }

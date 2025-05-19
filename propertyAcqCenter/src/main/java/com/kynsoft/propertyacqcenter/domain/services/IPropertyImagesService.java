@@ -19,4 +19,8 @@ public interface IPropertyImagesService {
     PropertyImagesDto getById(UUID id);
 
     PaginatedResponse search(Pageable pageable, List<FilterCriteria> filterCriteria);
+
+    int countByPropertyAndIsMain(String property);
+
+    void validatePropertyImagenMain(String property);
 }
