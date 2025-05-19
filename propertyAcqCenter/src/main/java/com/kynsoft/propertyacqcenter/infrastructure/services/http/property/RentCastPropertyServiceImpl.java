@@ -29,9 +29,9 @@ public class RentCastPropertyServiceImpl {
     @Value("${rentcast.api.key:956392a6c15d4dca8e25623f87c8121b}")
     private String apiKey;
 
-    private final String BASE_URL = "http://localhost:8097/api/rentcast/mock";
+//    private final String BASE_URL = "http://localhost:8097/api/rentcast/mock";
 //    private final String BASE_URL = "http://property-acq-center-service:9901/api/rentcast/mock";
-//    private final String BASE_URL = "https://api.rentcast.io/v1";
+    private final String BASE_URL = "https://api.rentcast.io/v1";
 
     private final RestTemplate restTemplate;
     private final RentCastServiceMockImpl resCastServiceMockImpl;
@@ -59,7 +59,7 @@ public class RentCastPropertyServiceImpl {
     }
 
     //TODO: La response de este metodo, lo vamos a trasformar en la capa de application.
-    @Cacheable(value = "propertyCache", key = "#address", unless = "#result == null")
+    //@Cacheable(value = "propertyCache", key = "#address", unless = "#result == null")
     public List<PropertyResponse> getPropertyDetails(String address) {
         try {
             String cleanedAddress = address.trim(); // Elimina espacios al inicio/final
@@ -70,8 +70,8 @@ public class RentCastPropertyServiceImpl {
 //                return this.createResponse(property);
 //            } else {
             //verdadero
-//            String url = BASE_URL + "/properties?address=" + cleanedAddress;
-                String url = BASE_URL + "/property/fake";
+            String url = BASE_URL + "/properties?address=" + cleanedAddress;
+//                String url = BASE_URL + "/property/fake";
 
             System.err.println("Url: " + url);
             // Crear cabeceras para la solicitud
