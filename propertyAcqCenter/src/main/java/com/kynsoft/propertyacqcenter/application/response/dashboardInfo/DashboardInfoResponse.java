@@ -10,6 +10,7 @@ import lombok.Setter;
 @Setter
 @Getter
 public class DashboardInfoResponse implements IResponse {
+    private DashboardStatisticsResponse statisticsResponse;
     private DashboardPropertyResponse propertyResponse;
     private DashboardOpportunnityResponse opportunnityResponse;
     private DashboardMortageDebtResponse mortageDebtResponse;
