@@ -75,7 +75,10 @@ public class VitalSignsEntity {
     
     @Column(name = "observations", columnDefinition = "TEXT")
     private String observations;
-    
+
+    @Column(name = "process")
+    private String process;
+
     @Column(name = "recorded_at")
     private LocalDateTime recordedAt;
     

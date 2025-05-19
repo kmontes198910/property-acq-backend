@@ -39,6 +39,7 @@ public class CreateVitalSignsCommandHandler implements ICommandHandler<CreateVit
                 .observations(command.getObservations())
                 .recordedAt(command.getRecordedAt() != null ? command.getRecordedAt() : LocalDateTime.now())
                 .createdBy(command.getCreatedBy())
+                .process(command.getProcess())
                 .build();
         
         VitalSigns createdVitalSigns = vitalSignsService.create(vitalSigns);

@@ -51,6 +51,10 @@ public class UpdateVitalSignsCommandHandler implements ICommandHandler<UpdateVit
         if (command.getHeartRate() != null) {
             existingVitalSigns.setHeartRate(command.getHeartRate());
         }
+
+        if(command.getProcess() != null) {
+            existingVitalSigns.setProcess(command.getProcess());
+        }
         
         if (command.getRespiratoryRate() != null) {
             existingVitalSigns.setRespiratoryRate(command.getRespiratoryRate());

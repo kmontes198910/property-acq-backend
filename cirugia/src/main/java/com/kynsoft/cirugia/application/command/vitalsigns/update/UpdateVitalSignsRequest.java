@@ -28,4 +28,5 @@ public class UpdateVitalSignsRequest {
     private Integer glasgowScoreVerbal;
     private Integer glasgowScoreOcular;
     private String observations;
+    private String process;
 }

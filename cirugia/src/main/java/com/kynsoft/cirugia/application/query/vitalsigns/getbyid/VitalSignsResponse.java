@@ -29,6 +29,7 @@ public class VitalSignsResponse implements IResponse, Serializable {
     private final Integer glasgowScoreOcular;
     private final String observations;
     private final LocalDateTime recordedAt;
+    private String process;
     private final LocalDateTime createdAt;
     private final LocalDateTime updatedAt;
     private final UUID createdBy;
@@ -58,5 +59,6 @@ public class VitalSignsResponse implements IResponse, Serializable {
         this.updatedAt = vitalSigns.getUpdatedAt();
         this.createdBy = vitalSigns.getCreatedBy();
         this.updatedBy = vitalSigns.getUpdatedBy();
+        this.process = vitalSigns.getProcess();
     }
 }

@@ -35,6 +35,7 @@ public class CreateVitalSignsCommand implements ICommand {
     private String observations;
     private LocalDateTime recordedAt;
     private UUID createdBy;
+    private String process;
     
     public static CreateVitalSignsCommand fromRequest(CreateVitalSignsRequest request, UUID createdBy   ) {
         return CreateVitalSignsCommand.builder()
@@ -54,6 +55,7 @@ public class CreateVitalSignsCommand implements ICommand {
                 .glasgowScoreOcular(request.getGlasgowScoreOcular())
                 .observations(request.getObservations())
                 .recordedAt(LocalDateTime.now())
+                .process(request.getProcess())
                 .createdBy(createdBy)
                 .build();
     }

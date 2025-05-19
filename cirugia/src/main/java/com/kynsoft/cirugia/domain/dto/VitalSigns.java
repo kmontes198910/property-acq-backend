@@ -1,5 +1,6 @@
 package com.kynsoft.cirugia.domain.dto;
 
+import jakarta.persistence.Column;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -37,4 +38,5 @@ public class VitalSigns implements Serializable {
     private LocalDateTime updatedAt;
     private UUID createdBy;
     private UUID updatedBy;
+    private String process;
 }

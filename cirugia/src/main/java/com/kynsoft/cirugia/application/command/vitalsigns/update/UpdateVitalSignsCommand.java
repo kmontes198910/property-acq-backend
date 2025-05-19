@@ -35,6 +35,7 @@ public class UpdateVitalSignsCommand implements ICommand {
     private String observations;
     private LocalDateTime recordedAt;
     private UUID updatedBy;
+    private String process;
     
     public static UpdateVitalSignsCommand fromRequest(UpdateVitalSignsRequest request, UUID id, UUID updatedBy) {
         return UpdateVitalSignsCommand.builder()
@@ -56,6 +57,7 @@ public class UpdateVitalSignsCommand implements ICommand {
                 .observations(request.getObservations())
                 .recordedAt(LocalDateTime.now())
                 .updatedBy(updatedBy)
+                .process(request.getProcess())
                 .build();
     }
 

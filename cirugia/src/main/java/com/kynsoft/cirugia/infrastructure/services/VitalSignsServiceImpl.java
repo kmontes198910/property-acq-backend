@@ -180,6 +180,8 @@ public class VitalSignsServiceImpl implements IVitalSignsService {
                 .updatedAt(entity.getUpdatedAt())
                 .createdBy(entity.getCreatedBy())
                 .updatedBy(entity.getUpdatedBy())
+                .process(entity.getProcess())
+                .process(entity.getProcess())
                 .build();
     }
 
