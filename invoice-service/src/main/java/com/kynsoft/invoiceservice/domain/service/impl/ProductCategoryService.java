@@ -186,7 +186,6 @@ public class ProductCategoryService implements IProductCategoryService {
                 page.getNumber()             // page
         );
     }
-    
     private ProductCategoryDto mapEntityToDto(ProductCategory category) {
         return ProductCategoryDto.builder()
                 .id(category.getId())
