@@ -86,7 +86,7 @@ public class ProductCategoryController {
     }
 
     
-    @PutMapping("/{id}")
+    @PatchMapping("/{id}")
     @Operation(summary = "Actualizar una categoría de producto", 
                description = "Actualiza los datos de una categoría de producto existente")
     @ApiResponses(value = {
