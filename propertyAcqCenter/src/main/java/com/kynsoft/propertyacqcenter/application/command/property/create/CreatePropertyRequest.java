@@ -11,6 +11,7 @@ import lombok.Setter;
 public class CreatePropertyRequest {
 
     private String id;
+    private String formattedAddress;
     private PropertyType propertyType;
     private int lotSize;
     private String apn;

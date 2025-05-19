@@ -16,7 +16,7 @@ public class UpdatePropertyCommandHandler implements ICommandHandler<UpdatePrope
 
     @Override
     public void handle(UpdatePropertyCommand command) {
-        propertyService.create(PropertyDto.builder()
+        propertyService.update(PropertyDto.builder()
                 .addressLine1(command.getAddressLine1())
                 .addressLine2(command.getAddressLine2())
                 .apn(command.getApn())
@@ -37,6 +37,7 @@ public class UpdatePropertyCommandHandler implements ICommandHandler<UpdatePrope
                 .bedrooms(command.getBedrooms())
                 .bathrooms(command.getBathrooms())
                 .askingPrice(command.getAskingPrice())
+                .formattedAddress(command.getFormattedAddress())
                 .build());
     }
 }

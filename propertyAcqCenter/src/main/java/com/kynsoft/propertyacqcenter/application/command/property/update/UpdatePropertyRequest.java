@@ -32,4 +32,5 @@ public class UpdatePropertyRequest {
     private Integer bedrooms;
     private Double bathrooms;
     private Double askingPrice;
+    private String formattedAddress;
 }
