@@ -88,7 +88,7 @@ public class CustomerController {
     }
 
     
-    @PutMapping("/{id}")
+    @PatchMapping("/{id}")
     @Operation(summary = "Actualizar un cliente", 
                description = "Actualiza los datos de un cliente existente")
     @ApiResponses(value = {
