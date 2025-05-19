@@ -22,13 +22,6 @@ public class GetProductCategoryByIdQueryHandler implements IQueryHandler<GetProd
         
         ProductCategoryDto dto = productCategoryService.findById(query.getId());
         
-        return ProductCategoryResponse.builder()
-                .id(dto.getId())
-                .name(dto.getName())
-                .description(dto.getDescription())
-                .status(dto.getStatus())
-                .createdAt(dto.getCreatedAt())
-                .updatedAt(dto.getUpdatedAt())
-                .build();
+        return new ProductCategoryResponse(dto);
     }
 }

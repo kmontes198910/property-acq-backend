@@ -8,6 +8,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.UUID;
+
 /**
  * Manejador para el comando de creación de categoría de producto
  */
@@ -34,6 +36,9 @@ public class CreateProductCategoryCommandHandler implements ICommandHandler<Crea
                 .build();
         
         // Utilizar el servicio para crear la categoría
-        productCategoryService.create(categoryDto);
+       UUID id = productCategoryService.create(categoryDto);
+       command.setId(id);
+
+        log.info("Categoría de producto creada con ID: {}", id);
     }
 }
