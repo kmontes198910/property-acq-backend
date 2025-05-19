@@ -5,6 +5,7 @@ import lombok.Data;
 import java.util.List;
 import java.util.Map;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.NoArgsConstructor;
 
 @Data
@@ -42,6 +43,7 @@ public class PropertyResponse implements IResponse {
 
     @Data
     @NoArgsConstructor
+    @AllArgsConstructor
     public static class Features {
         private boolean cooling;
         private String coolingType;
@@ -99,6 +101,7 @@ public class PropertyResponse implements IResponse {
 
     @Data
     @NoArgsConstructor
+    @AllArgsConstructor
     public static class HOA {
         private Integer fee;
     }
