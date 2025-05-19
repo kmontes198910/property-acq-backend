@@ -33,9 +33,6 @@ public class TreatmentEntity {
     @Column(name = "patient_id", nullable = false)
     private UUID patientId;
     
-    @Column(name = "code", length = 50)
-    private String code;
-    
     @Column(name = "name", nullable = false)
     private String name;
     

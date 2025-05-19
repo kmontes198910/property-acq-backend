@@ -12,7 +12,6 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 public class UpdateTreatmentRequest {
-    private String code;
     private String name;
     private String description;
     private Integer quantity;

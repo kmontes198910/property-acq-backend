@@ -14,7 +14,6 @@ import java.util.UUID;
 public class CreateTreatmentRequest {
     private UUID surgeryId; // Ahora opcional
     private UUID patientId; // Nuevo campo obligatorio
-    private String code;
     private String name;
     private String description;
     private int quantity;

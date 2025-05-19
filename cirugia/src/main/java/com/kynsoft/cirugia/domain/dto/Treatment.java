@@ -31,12 +31,7 @@ public class Treatment {
      * Identificador del paciente al que está asociado el tratamiento
      */
     private UUID patientId;
-    
-    /**
-     * Código del tratamiento o medicamento
-     */
-    private String code;
-    
+
     /**
      * Nombre del tratamiento o medicamento
      */

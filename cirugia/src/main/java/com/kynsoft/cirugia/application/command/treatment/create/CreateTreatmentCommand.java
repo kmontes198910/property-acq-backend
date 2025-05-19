@@ -13,7 +13,6 @@ public class CreateTreatmentCommand implements ICommand {
     private UUID id;
     private UUID surgeryId;
     private UUID patientId;
-    private String code;
     private String name;
     private String description;
     private int quantity;
@@ -30,7 +29,6 @@ public class CreateTreatmentCommand implements ICommand {
         CreateTreatmentCommand command = new CreateTreatmentCommand();
         command.setSurgeryId(request.getSurgeryId());
         command.setPatientId(request.getPatientId());
-        command.setCode(request.getCode());
         command.setName(request.getName());
         command.setDescription(request.getDescription());
         command.setQuantity(request.getQuantity());

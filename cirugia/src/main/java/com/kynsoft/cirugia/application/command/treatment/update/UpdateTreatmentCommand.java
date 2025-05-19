@@ -11,7 +11,6 @@ import java.util.UUID;
 @Setter
 public class UpdateTreatmentCommand implements ICommand {
     private UUID id;
-    private String code;
     private String name;
     private String description;
     private Integer quantity;
@@ -23,7 +22,6 @@ public class UpdateTreatmentCommand implements ICommand {
     public static UpdateTreatmentCommand fromRequest(UpdateTreatmentRequest request, UUID id, String userId) {
         UpdateTreatmentCommand command = new UpdateTreatmentCommand();
         command.setId(id);
-        command.setCode(request.getCode());
         command.setName(request.getName());
         command.setDescription(request.getDescription());
         command.setQuantity(request.getQuantity());

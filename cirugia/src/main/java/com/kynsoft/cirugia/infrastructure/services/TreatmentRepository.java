@@ -105,7 +105,6 @@ public class TreatmentRepository implements ITreatmentRepository {
         TreatmentEntity entity = new TreatmentEntity();
         entity.setId(dto.getId());
         entity.setSurgeryId(dto.getSurgeryId());
-        entity.setCode(dto.getCode());
         entity.setName(dto.getName());
         entity.setDescription(dto.getDescription());
         entity.setQuantity(dto.getQuantity());
@@ -124,7 +123,6 @@ public class TreatmentRepository implements ITreatmentRepository {
         return Treatment.builder()
                 .id(entity.getId())
                 .surgeryId(entity.getSurgeryId())
-                .code(entity.getCode())
                 .name(entity.getName())
                 .description(entity.getDescription())
                 .quantity(entity.getQuantity())
