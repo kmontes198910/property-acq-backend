@@ -10,6 +10,7 @@ import com.kynsoft.propertyacqcenter.application.response.dashboardInfo.Dashboar
 import com.kynsoft.propertyacqcenter.application.response.dashboardInfo.DashboardPropertyOwnerResponse;
 import com.kynsoft.propertyacqcenter.application.response.dashboardInfo.DashboardPropertyResponse;
 import com.kynsoft.propertyacqcenter.application.response.dashboardInfo.DashboardSaleValueResponse;
+import com.kynsoft.propertyacqcenter.application.response.dashboardInfo.DashboardStatisticsResponse;
 import com.kynsoft.propertyacqcenter.application.response.dashboardInfo.DashboardTaxAssessmentsResponse;
 import com.kynsoft.propertyacqcenter.application.response.rentcast.EstimatedValueResponse;
 import com.kynsoft.propertyacqcenter.application.response.rentcast.PropertyResponse;
@@ -43,6 +44,8 @@ public class GetDashboardInfoQueryHandler implements IQueryHandler<GetDashboardI
             List<PropertyResponse> property = this.propertyService.getPropertyDetails(query.getAddress());
             EstimatedValueResponse estimatedValue = this.estimateValueService.getEstimatedValue(query.getAddress());
             List<DashboardComparablesResponse> comparablesResponse = new ArrayList<>();
+            Integer estimatedValueAveragePrice = 0;
+            int count = 0;
 
             for (EstimatedValueResponse.ComparableProperty comparable : estimatedValue.getComparables()) {
                 comparablesResponse.add(DashboardComparablesResponse.builder()
@@ -55,6 +58,8 @@ public class GetDashboardInfoQueryHandler implements IQueryHandler<GetDashboardI
                         .propertyType(comparable.getPropertyType())
                         .squareFootage(comparable.getSquareFootage() != null ? comparable.getSquareFootage() : null)
                         .build());
+                estimatedValueAveragePrice = estimatedValueAveragePrice + comparable.getPrice();
+                count = count + 1;
             }
             List<DashboardSaleValueResponse> values = new ArrayList<>();
             Map<String, PropertyResponse.History> history = property.get(0).getHistory();
@@ -77,6 +82,12 @@ public class GetDashboardInfoQueryHandler implements IQueryHandler<GetDashboardI
             });
             return DashboardInfoResponse
                     .builder()
+                    .statisticsResponse(DashboardStatisticsResponse.builder()
+                            .estimatedValueAveragePrice(estimatedValueAveragePrice/count)
+                            .estimatedValuePrice(estimatedValue.getPrice())
+                            .estimatedValuePriceRangeHigh(estimatedValue.getPriceRangeHigh())
+                            .estimatedValuePriceRangeLow(estimatedValue.getPriceRangeLow())
+                            .build())
                     .propertyResponse(DashboardPropertyResponse.builder()
                             .id(property.get(0).getId())
                             .apn(property.get(0).getAssessorID())
