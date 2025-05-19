@@ -34,6 +34,8 @@ public class InvoiceDto {
     private String remissionGuide;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
+    private UUID createdBy;
+    private UUID updatedBy;
     
     // Relaciones
     private InvoiceIssuerDTO issuer;

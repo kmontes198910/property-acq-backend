@@ -23,8 +23,9 @@ public class UpdateCustomerCommand implements ICommand {
     private String email;
     private String phoneNumber;
     private Boolean isActive;
+    private UUID updatedBy;
     
-    public static UpdateCustomerCommand fromRequest(UpdateCustomerRequest request) {
+    public static UpdateCustomerCommand fromRequest(UpdateCustomerRequest request, UUID updatedBy) {
         return new UpdateCustomerCommand(
                 request.getId(),
                 request.getIdentificationType(),
@@ -33,7 +34,8 @@ public class UpdateCustomerCommand implements ICommand {
                 request.getAddress(),
                 request.getEmail(),
                 request.getPhoneNumber(),
-                request.getIsActive()
+                request.getIsActive(),
+                updatedBy
         );
     }
     

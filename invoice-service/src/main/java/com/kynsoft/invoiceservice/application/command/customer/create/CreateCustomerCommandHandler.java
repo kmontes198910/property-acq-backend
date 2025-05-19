@@ -30,6 +30,7 @@ public class CreateCustomerCommandHandler implements ICommandHandler<CreateCusto
                 .email(command.getEmail())
                 .phoneNumber(command.getPhoneNumber())
                 .isActive(command.getIsActive())
+                .createdBy(command.getCreatedBy())
                 .build();
         
         // Utilizar el servicio para crear el cliente

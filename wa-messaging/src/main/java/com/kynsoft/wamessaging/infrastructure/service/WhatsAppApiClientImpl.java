@@ -3,7 +3,7 @@ package com.kynsoft.wamessaging.infrastructure.service;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kynsoft.wamessaging.application.dto.WhatsAppApiResponse;
-import com.kynsoft.wamessaging.domain.entity.MessageType;
+import com.kynsoft.wamessaging.infrastructure.entity.MessageType;
 import com.kynsoft.wamessaging.domain.service.WhatsAppApiClient;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -13,7 +13,6 @@ import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.util.*;
-import java.util.stream.Collectors;
 
 /**
  * Implementación del cliente para la API de WhatsApp Business Cloud
@@ -51,7 +50,11 @@ public class WhatsAppApiClientImpl implements WhatsAppApiClient {
         payload.put("type", "text");  // Mover type antes de text
         payload.put("recipient_type", "individual");
         payload.put("to", recipientPhone);
-        payload.put("text", Map.of("body", message));  // Simplificar la creación del objeto text
+        
+        // Crear el mapa explícitamente para evitar advertencias de unchecked
+        Map<String, String> textMap = new HashMap<>();
+        textMap.put("body", message);
+        payload.put("text", textMap);  // Simplificar la creación del objeto text
 
         try {
             String jsonPayload = objectMapper.writeValueAsString(payload);
@@ -104,7 +107,8 @@ public class WhatsAppApiClientImpl implements WhatsAppApiClient {
         Map<String, Object> bodyComponent = new HashMap<>();
         bodyComponent.put("type", "body");
         if (templateData.containsKey("bodyParams")) {
-            List<?> bodyParams = (List<?>) templateData.get("bodyParams");
+            @SuppressWarnings("unchecked")
+            List<Object> bodyParams = (List<Object>) templateData.get("bodyParams");
 
             for (Object param : bodyParams) {
                 Map<String, Object> textParamMap = new HashMap<>();
@@ -118,7 +122,8 @@ public class WhatsAppApiClientImpl implements WhatsAppApiClient {
         templateComponents.add(bodyComponent);
 
         if (templateData.containsKey("buttonParams")) {
-            List<?> buttonParams = (List<?>) templateData.get("buttonParams");
+            @SuppressWarnings("unchecked")
+            List<Object> buttonParams = (List<Object>) templateData.get("buttonParams");
 
             for (int i = 0; i < buttonParams.size(); i++) {
                 Object param = buttonParams.get(i);
@@ -246,6 +251,7 @@ public class WhatsAppApiClientImpl implements WhatsAppApiClient {
         log.debug("Respuesta de la API: {}", responseBody);
 
         try {
+            @SuppressWarnings("unchecked")
             Map<String, Object> responseMap = objectMapper.readValue(responseBody, Map.class);
 
             WhatsAppApiResponse.WhatsAppApiResponseBuilder responseBuilder = WhatsAppApiResponse.builder()
@@ -259,9 +265,10 @@ public class WhatsAppApiClientImpl implements WhatsAppApiClient {
                     Iterable<?> messages = (Iterable<?>) messagesObj;
                     for (Object msg : messages) {
                         if (msg instanceof Map) {
-                            Map<?, ?> messageMap = (Map<?, ?>) msg;
+                            @SuppressWarnings("unchecked")
+                            Map<String, Object> messageMap = (Map<String, Object>) msg;
                             if (messageMap.containsKey("id")) {
-                                responseBuilder.id(messageMap.get("id").toString());
+                                responseBuilder.id(String.valueOf(messageMap.get("id")));
                                 responseBuilder.messages(objectMapper.writeValueAsString(messagesObj));
                                 break;
                             }
@@ -279,11 +286,12 @@ public class WhatsAppApiClientImpl implements WhatsAppApiClient {
             if (responseMap.containsKey("error")) {
                 Object errorObj = responseMap.get("error");
                 if (errorObj instanceof Map) {
-                    Map<?, ?> error = (Map<?, ?>) errorObj;
+                    @SuppressWarnings("unchecked")
+                    Map<String, Object> error = (Map<String, Object>) errorObj;
                     responseBuilder
                             .successful(false)
-                            .errorCode(error.containsKey("code") ? error.get("code").toString() : null)
-                            .errorMessage(error.containsKey("message") ? error.get("message").toString() : null);
+                            .errorCode(error.containsKey("code") ? String.valueOf(error.get("code")) : null)
+                            .errorMessage(error.containsKey("message") ? String.valueOf(error.get("message")) : null);
                 }
             }
 

@@ -42,4 +42,14 @@ public interface IInvoiceIssuerService {
      * @return Lista de DTOs con los datos de los emisores de facturas
      */
     List<InvoiceIssuerDto> getAll();
+    
+    /**
+     * Realiza una búsqueda avanzada de emisores de facturas con filtros y paginación
+     * 
+     * @param pageable Configuración de paginación
+     * @param filterCriteria Lista de criterios de filtrado
+     * @return Respuesta paginada con los resultados de la búsqueda
+     */
+    com.kynsof.share.core.domain.response.PaginatedResponse search(org.springframework.data.domain.Pageable pageable, 
+        java.util.List<com.kynsof.share.core.domain.request.FilterCriteria> filterCriteria);
 }

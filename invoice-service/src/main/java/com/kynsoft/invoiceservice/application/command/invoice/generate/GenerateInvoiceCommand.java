@@ -29,16 +29,16 @@ public class GenerateInvoiceCommand implements ICommand {
     private final List<PagoRequest> pagos;
     private final List<CampoAdicionalRequest> infoAdicional;
 
-    private final UUID cratedBy;
+    private final UUID createdBy;
 
-    public GenerateInvoiceCommand(UUID issuerId, CustomerRequest customer, BigDecimal propina, List<DetalleFacturaRequest> detalles, List<PagoRequest> pagos, List<CampoAdicionalRequest> infoAdicional, UUID cratedBy) {
+    public GenerateInvoiceCommand(UUID issuerId, CustomerRequest customer, BigDecimal propina, List<DetalleFacturaRequest> detalles, List<PagoRequest> pagos, List<CampoAdicionalRequest> infoAdicional, UUID createdBy) {
         this.issuerId = issuerId;
         this.customer = customer;
         this.propina = propina;
         this.detalles = detalles;
         this.pagos = pagos;
         this.infoAdicional = infoAdicional;
-        this.cratedBy = cratedBy;
+        this.createdBy = createdBy;
     }
 
     public static GenerateInvoiceCommand fromRequest(GenerateInvoiceRequest request, UUID createdBy) {

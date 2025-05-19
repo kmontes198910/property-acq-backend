@@ -2,7 +2,12 @@ package com.kynsoft.invoiceservice.infrastructure.repository.query;
 
 import com.kynsoft.invoiceservice.infrastructure.entities.Invoice;
 import com.kynsoft.invoiceservice.infrastructure.entities.InvoiceStatus;
+import com.kynsoft.invoiceservice.infrastructure.entities.ProductCategory;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
@@ -12,7 +17,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Repository
-public interface InvoiceReadRepository extends JpaRepository<Invoice, UUID> {
+public interface InvoiceReadRepository extends JpaRepository<Invoice, UUID>, JpaSpecificationExecutor<Invoice> {
     
     /**
      * Busca el último secuencial utilizado en las facturas
@@ -57,4 +62,6 @@ public interface InvoiceReadRepository extends JpaRepository<Invoice, UUID> {
             @Param("customerId") UUID customerId,
             @Param("documentNumber") String documentNumber,
             @Param("status") InvoiceStatus status);
+
+    Page<Invoice> findAll(Specification specification, Pageable pageable);
 }

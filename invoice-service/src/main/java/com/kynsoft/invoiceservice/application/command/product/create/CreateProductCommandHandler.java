@@ -59,6 +59,8 @@ public class CreateProductCommandHandler implements ICommandHandler<CreateProduc
                 .isService(command.getIsService())
                 .status(true) // Por defecto, un nuevo producto está activo
                 .category(category)
+                .createdBy(command.getCreatedBy())
+                .updatedBy(command.getCreatedBy()) // Al crear, ambos campos son iguales
                 .build();
         
         Product savedProduct = productWriteRepository.save(product);

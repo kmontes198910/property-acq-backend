@@ -24,4 +24,6 @@ public class CustomerDto {
     private Boolean isActive;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
+    private UUID createdBy;
+    private UUID updatedBy;
 }

@@ -1,9 +1,10 @@
 package com.kynsoft.wamessaging.infrastructure.service;
 
-import com.kynsoft.wamessaging.domain.entity.MessageStatus;
-import com.kynsoft.wamessaging.domain.entity.WhatsAppMessage;
+import com.kynsoft.wamessaging.infrastructure.entity.MessageStatus;
+import com.kynsoft.wamessaging.infrastructure.entity.WhatsAppMessage;
 import com.kynsoft.wamessaging.domain.service.WhatsAppMessageService;
-import com.kynsoft.wamessaging.infrastructure.repository.WhatsAppMessageRepository;
+import com.kynsoft.wamessaging.infrastructure.repository.command.WhatsAppMessageWriteDataJPARepository;
+import com.kynsoft.wamessaging.infrastructure.repository.query.WhatsAppMessageReadDataJPARepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -25,13 +26,14 @@ import java.util.UUID;
 @Slf4j
 public class WhatsAppMessageServiceImpl implements WhatsAppMessageService {
     
-    private final WhatsAppMessageRepository messageRepository;
+    private final WhatsAppMessageReadDataJPARepository messageRepository;
+    private final WhatsAppMessageWriteDataJPARepository messageWriteRepository;
     
     @Override
     @Transactional
     public WhatsAppMessage saveMessage(WhatsAppMessage message) {
         log.info("Guardando mensaje de WhatsApp para el destinatario: {}", message.getRecipientPhone());
-        return messageRepository.save(message);
+        return messageWriteRepository.save(message);
     }
     
     @Override
@@ -78,7 +80,7 @@ public class WhatsAppMessageServiceImpl implements WhatsAppMessageService {
             message.setSentAt(LocalDateTime.now());
         }
         
-        return messageRepository.save(message);
+        return messageWriteRepository.save(message);
     }
     
     @Override
@@ -92,7 +94,7 @@ public class WhatsAppMessageServiceImpl implements WhatsAppMessageService {
         int currentRetries = message.getRetryCount() != null ? message.getRetryCount() : 0;
         message.setRetryCount(currentRetries + 1);
         
-        return messageRepository.save(message);
+        return messageWriteRepository.save(message);
     }
     
     @Override

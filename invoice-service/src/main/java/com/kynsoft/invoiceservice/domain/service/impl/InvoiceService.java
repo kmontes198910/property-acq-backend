@@ -1,5 +1,8 @@
 package com.kynsoft.invoiceservice.domain.service.impl;
 
+import com.kynsof.share.core.domain.request.FilterCriteria;
+import com.kynsof.share.core.domain.response.PaginatedResponse;
+import com.kynsof.share.core.infrastructure.specifications.GenericSpecificationsBuilder;
 import com.kynsoft.invoiceservice.application.query.customer.get.CustomerDto;
 import com.kynsoft.invoiceservice.domain.dto.*;
 import com.kynsoft.invoiceservice.domain.exception.BusinessInvoiceException;
@@ -13,6 +16,9 @@ import com.kynsoft.invoiceservice.infrastructure.repository.query.CustomerReadRe
 import com.kynsoft.invoiceservice.infrastructure.repository.query.InvoiceReadRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -56,6 +62,11 @@ public class InvoiceService implements IInvoiceService {
         if (invoiceDto.getId() == null) {
             invoiceDto.setId(UUID.randomUUID());
         }
+        
+        // Asignar timestamps y campos de auditoría
+        LocalDateTime now = LocalDateTime.now();
+        invoiceDto.setCreatedAt(now);
+        invoiceDto.setUpdatedAt(now);
 
         
         // Verificar que el cliente exista
@@ -78,6 +89,10 @@ public class InvoiceService implements IInvoiceService {
                 .status(invoiceDto.getStatus() != null ? invoiceDto.getStatus() : InvoiceStatus.DRAFT)
                 .remissionGuide(invoiceDto.getRemissionGuide())
                 .customer(customer)
+                .createdAt(invoiceDto.getCreatedAt())
+                .updatedAt(invoiceDto.getUpdatedAt())
+                .createdBy(invoiceDto.getCreatedBy())
+                .updatedBy(invoiceDto.getUpdatedBy())
                 .build();
         
         // Procesar detalles de la factura
@@ -191,6 +206,11 @@ public class InvoiceService implements IInvoiceService {
             existingInvoice.setRemissionGuide(invoiceDto.getRemissionGuide());
         }
         
+        // Actualizar campos de auditoría
+        existingInvoice.setUpdatedAt(LocalDateTime.now());
+        if (invoiceDto.getUpdatedBy() != null) {
+            existingInvoice.setUpdatedBy(invoiceDto.getUpdatedBy());
+        }
 
         if (invoiceDto.getCustomer() != null && invoiceDto.getCustomer().getId() != null) {
             Customer customer = getCustomer(invoiceDto);
@@ -281,7 +301,7 @@ public class InvoiceService implements IInvoiceService {
 
     @Override
     @Transactional
-    public void changeStatus(UUID id, InvoiceStatus status) {
+    public InvoiceDto changeStatus(UUID id, InvoiceStatus status, UUID updatedBy) {
         log.info("Cambiando estado de la factura ID: {} a {}", id, status);
         
         // Verificar que la factura exista
@@ -295,6 +315,7 @@ public class InvoiceService implements IInvoiceService {
         // Actualizar el estado
         invoice.setStatus(status);
         invoice.setUpdatedAt(LocalDateTime.now());
+        invoice.setUpdatedBy(updatedBy);
         
         // Si el estado es AUTHORIZED, actualizar la fecha de autorización
         if (status == InvoiceStatus.AUTHORIZED && invoice.getAuthorizationDate() == null) {
@@ -302,8 +323,48 @@ public class InvoiceService implements IInvoiceService {
         }
         
         // Guardar los cambios
-        invoiceWriteRepository.save(invoice);
-        log.info("Estado de factura actualizado correctamente, ID: {}, nuevo estado: {}", invoice.getId(), status);
+        Invoice updatedInvoice = invoiceWriteRepository.save(invoice);
+        log.info("Estado de factura actualizado correctamente, ID: {}, nuevo estado: {}", updatedInvoice.getId(), status);
+        
+        // Convertir la entidad actualizada a DTO y retornarla
+        return mapEntityToDto(updatedInvoice);
+    }
+    
+    @Override
+    @Transactional(readOnly = true)
+    public PaginatedResponse searchAdvanced(Pageable pageable, List<FilterCriteria> filterCriteria) {
+        log.info("Realizando búsqueda avanzada de facturas con filtros y paginación");
+        
+        // Preparar los filtros para especificar valores enumerados
+        for (FilterCriteria filter : filterCriteria) {
+            if ("status".equals(filter.getKey()) && filter.getValue() instanceof String) {
+                try {
+                    InvoiceStatus enumValue = InvoiceStatus.valueOf((String) filter.getValue());
+                    filter.setValue(enumValue);
+                } catch (IllegalArgumentException e) {
+                    log.warn("Valor inválido para el estado de factura: {}", filter.getValue());
+                }
+            }
+        }
+
+        GenericSpecificationsBuilder<Invoice> specifications = new GenericSpecificationsBuilder<>(filterCriteria);
+        // Ejecutar la consulta con paginación
+        Page<Invoice> page = invoiceRepository.findAll(specifications, pageable);
+        
+        // Convertir los resultados a DTOs
+        List<InvoiceDto> invoiceDtos = page.getContent().stream()
+                .map(this::mapEntityToDto)
+                .collect(Collectors.toList());
+        
+        // Construir y devolver la respuesta paginada usando el constructor
+        return new PaginatedResponse(
+                invoiceDtos,                  // data
+                page.getTotalPages(),        // totalPages
+                page.getNumberOfElements(),  // totalElementsPage
+                page.getTotalElements(),     // totalElements
+                page.getSize(),              // size
+                page.getNumber()             // page
+        );
     }
     
     // Métodos auxiliares
@@ -431,6 +492,8 @@ public class InvoiceService implements IInvoiceService {
                 .remissionGuide(invoice.getRemissionGuide())
                 .createdAt(invoice.getCreatedAt())
                 .updatedAt(invoice.getUpdatedAt())
+                .createdBy(invoice.getCreatedBy())
+                .updatedBy(invoice.getUpdatedBy())
                 .build();
         
         // Mapear emisor

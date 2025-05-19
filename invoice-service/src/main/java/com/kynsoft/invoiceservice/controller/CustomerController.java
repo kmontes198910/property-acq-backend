@@ -1,5 +1,8 @@
 package com.kynsoft.invoiceservice.controller;
 
+import com.kynsof.share.core.domain.request.PageableUtil;
+import com.kynsof.share.core.domain.request.SearchRequest;
+import com.kynsof.share.core.domain.response.PaginatedResponse;
 import com.kynsof.share.core.infrastructure.bus.IMediator;
 import com.kynsoft.invoiceservice.application.command.customer.create.CreateCustomerCommand;
 import com.kynsoft.invoiceservice.application.command.customer.create.CreateCustomerMessage;
@@ -10,6 +13,7 @@ import com.kynsoft.invoiceservice.application.command.customer.update.UpdateCust
 import com.kynsoft.invoiceservice.application.command.customer.update.UpdateCustomerRequest;
 import com.kynsoft.invoiceservice.application.query.customer.get.CustomerResponse;
 import com.kynsoft.invoiceservice.application.query.customer.get.GetCustomerByIdQuery;
+import com.kynsoft.invoiceservice.application.query.customer.search.SearchCustomerAdvancedQuery;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -19,6 +23,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -26,7 +31,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/api/v1/customers")
+@RequestMapping("/api/customers")
 @RequiredArgsConstructor
 @Slf4j
 @Tag(name = "Clientes", description = "API para la gestión de clientes")
@@ -34,6 +39,7 @@ public class CustomerController {
 
     private final IMediator mediator;
     private static final String USER_ID_HEADER = "X-User-ID";
+    private static final String USER_NAME_HEADER = "X-User-Name";
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
@@ -45,11 +51,13 @@ public class CustomerController {
                                    schema = @Schema(implementation = CreateCustomerMessage.class)))
     public ResponseEntity<CreateCustomerMessage> createCustomer(
             @Parameter(description = "Datos del cliente a crear", required = true) 
-            @RequestBody CreateCustomerRequest request) {
+            @RequestBody CreateCustomerRequest request,
+            @RequestHeader(value = USER_ID_HEADER, required = false) String userId) {
         
         log.info("Creando nuevo cliente: {}", request.getBusinessName());
         
-        CreateCustomerCommand command = CreateCustomerCommand.fromRequest(request);
+        UUID userUuid = userId != null ? UUID.fromString(userId) : null;
+        CreateCustomerCommand command = CreateCustomerCommand.fromRequest(request, userUuid);
         CreateCustomerMessage response = mediator.send(command);
         
         return new ResponseEntity<>(response, HttpStatus.CREATED);
@@ -96,12 +104,14 @@ public class CustomerController {
             @Parameter(description = "ID del cliente a actualizar", required = true) 
             @PathVariable UUID id, 
             @Parameter(description = "Datos actualizados del cliente", required = true) 
-            @RequestBody UpdateCustomerRequest request) {
+            @RequestBody UpdateCustomerRequest request,
+            @RequestHeader(value = USER_ID_HEADER, required = false) String userId) {
         
         log.info("Actualizando cliente con ID: {}", id);
         
+        UUID userUuid = userId != null ? UUID.fromString(userId) : null;
         request.setId(id);
-        UpdateCustomerCommand command = UpdateCustomerCommand.fromRequest(request);
+        UpdateCustomerCommand command = UpdateCustomerCommand.fromRequest(request, userUuid);
         UpdateCustomerMessage response = mediator.send(command);
         
         return ResponseEntity.ok(response);
@@ -127,5 +137,28 @@ public class CustomerController {
         mediator.send(command);
         
         return ResponseEntity.noContent().build();
+    }
+    
+    @PostMapping("/search")
+    @Operation(summary = "Búsqueda avanzada de clientes", 
+               description = "Busca clientes con filtros avanzados y paginación")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", 
+                     description = "Búsqueda exitosa",
+                     content = @Content(mediaType = "application/json", 
+                                       schema = @Schema(implementation = PaginatedResponse.class)))
+    })
+    public ResponseEntity<PaginatedResponse> search(@RequestBody SearchRequest request) {
+        log.info("Realizando búsqueda avanzada de clientes");
+        
+        Pageable pageable = PageableUtil.createPageable(request);
+        SearchCustomerAdvancedQuery query = new SearchCustomerAdvancedQuery(
+                pageable, 
+                request.getFilter(), 
+                request.getQuery()
+        );
+        
+        PaginatedResponse response = mediator.send(query);
+        return ResponseEntity.ok(response);
     }
 }

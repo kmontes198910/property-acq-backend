@@ -30,6 +30,7 @@ public class UpdateCustomerCommandHandler implements ICommandHandler<UpdateCusto
                 .email(command.getEmail())
                 .phoneNumber(command.getPhoneNumber())
                 .isActive(command.getIsActive())
+                .updatedBy(command.getUpdatedBy())
                 .build();
         
         // Utilizar el servicio para actualizar el cliente

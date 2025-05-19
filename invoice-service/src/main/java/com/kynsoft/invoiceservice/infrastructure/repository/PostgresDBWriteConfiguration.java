@@ -50,6 +50,9 @@ public class PostgresDBWriteConfiguration {
     //@ConfigurationProperties("spring.jpa")
     public PlatformTransactionManager transactionManager(
             @Qualifier("writeEntityManagerFactory") EntityManagerFactory entityManagerFactory) {
-        return new JpaTransactionManager(entityManagerFactory);
+        JpaTransactionManager transactionManager = new JpaTransactionManager(entityManagerFactory);
+        // Configurar explícitamente para permitir modificaciones
+        transactionManager.setDefaultTimeout(30);  // 30 segundos de timeout
+        return transactionManager;
     }
 }

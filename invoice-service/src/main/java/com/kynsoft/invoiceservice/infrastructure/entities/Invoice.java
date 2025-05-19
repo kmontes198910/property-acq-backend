@@ -70,6 +70,12 @@ public class Invoice {
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
     
+    @Column(name = "created_by")
+    private UUID createdBy;
+    
+    @Column(name = "updated_by")
+    private UUID updatedBy;
+    
     // Relación con el emisor
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "issuer_id", nullable = false)

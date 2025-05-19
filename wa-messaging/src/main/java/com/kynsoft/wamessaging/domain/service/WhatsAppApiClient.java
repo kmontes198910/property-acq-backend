@@ -1,7 +1,7 @@
 package com.kynsoft.wamessaging.domain.service;
 
 import com.kynsoft.wamessaging.application.dto.WhatsAppApiResponse;
-import com.kynsoft.wamessaging.domain.entity.MessageType;
+import com.kynsoft.wamessaging.infrastructure.entity.MessageType;
 
 import java.util.Map;
 import java.util.UUID;
