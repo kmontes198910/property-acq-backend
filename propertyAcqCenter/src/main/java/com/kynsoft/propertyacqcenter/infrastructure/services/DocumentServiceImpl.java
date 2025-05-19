@@ -59,7 +59,6 @@ public class DocumentServiceImpl implements IDocumentService {
         document.setLegalEntity(new LegalEntity(object.getLegalEntity()));
         document.setNotes(object.getNotes());
         document.setRenewalDate(object.getRenewalDate());
-        document.setRenewalRequired(object.getRenewalRequired());
         document.setTags(object.getTags());
         document.setVerificationDate(object.getVerificationDate());
         document.setVerifiedBy(object.getVerifiedBy());

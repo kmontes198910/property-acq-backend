@@ -33,7 +33,6 @@ public class DocumentDto {
     private String documentNumber;
     private Boolean isOriginal;
     private String version;
-    private Boolean renewalRequired;
     private LocalDate renewalDate;
     private String tags;
     private String notes;
@@ -42,7 +41,13 @@ public class DocumentDto {
     private UUID createdBy;
     private UUID updatedBy;
 
-    public DocumentDto(UUID id, LegalEntityDto legalEntity, String fileName, String filePath, DocumentType documentType, String description, Long fileSize, String contentType, LocalDate expirationDate, String issuedBy, LocalDate issuingDate, DocumentStatus documentStatus, LocalDate verificationDate, UUID verifiedBy, String documentNumber, Boolean isOriginal, String version, Boolean renewalRequired, LocalDate renewalDate, String tags, String notes, UUID createdBy, UUID updatedBy) {
+    public DocumentDto(UUID id, LegalEntityDto legalEntity, String fileName, 
+            String filePath, DocumentType documentType, String description, 
+            Long fileSize, String contentType, LocalDate expirationDate, 
+            String issuedBy, LocalDate issuingDate, DocumentStatus documentStatus,
+            LocalDate verificationDate, UUID verifiedBy, String documentNumber, Boolean isOriginal, 
+            String version, LocalDate renewalDate, String tags, 
+            String notes, UUID createdBy, UUID updatedBy) {
         this.id = id;
         this.legalEntity = legalEntity;
         this.fileName = fileName;
@@ -60,7 +65,6 @@ public class DocumentDto {
         this.documentNumber = documentNumber;
         this.isOriginal = isOriginal;
         this.version = version;
-        this.renewalRequired = renewalRequired;
         this.renewalDate = renewalDate;
         this.tags = tags;
         this.notes = notes;

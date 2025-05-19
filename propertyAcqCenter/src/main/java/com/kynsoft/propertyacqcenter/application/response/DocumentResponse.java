@@ -34,7 +34,6 @@ public class DocumentResponse implements IResponse {
     private String documentNumber;
     private Boolean isOriginal;
     private String version;
-    private Boolean renewalRequired;
     private LocalDate renewalDate;
     private String tags;
     private String notes;
@@ -61,7 +60,6 @@ public class DocumentResponse implements IResponse {
         this.documentNumber = documentDto.getDocumentNumber();
         this.isOriginal = documentDto.getIsOriginal();
         this.version = documentDto.getVersion();
-        this.renewalRequired = documentDto.getRenewalRequired();
         this.renewalDate = documentDto.getRenewalDate();
         this.tags = documentDto.getTags();
         this.notes = documentDto.getNotes();

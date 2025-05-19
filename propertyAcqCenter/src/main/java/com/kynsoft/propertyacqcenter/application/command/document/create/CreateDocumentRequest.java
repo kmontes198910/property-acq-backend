@@ -27,7 +27,6 @@ public class CreateDocumentRequest {
     private String documentNumber;
     private Boolean isOriginal;
     private String version;
-    private Boolean renewalRequired;
     private LocalDate renewalDate;
     private String tags;
     private String notes;
