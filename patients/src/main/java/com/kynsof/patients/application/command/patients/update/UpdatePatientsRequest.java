@@ -2,6 +2,7 @@ package com.kynsof.patients.application.command.patients.update;
 
 import com.kynsof.patients.application.command.patients.create.request.CreatePatientContactInfoRequest;
 import com.kynsof.patients.domain.dto.enumTye.BloodType;
+import com.kynsof.patients.domain.dto.enumTye.DisabilityType;
 import com.kynsof.patients.domain.dto.enumTye.GenderType;
 import lombok.Getter;
 import lombok.Setter;
@@ -19,4 +20,6 @@ public class UpdatePatientsRequest {
     private String profession;
     private String educationalLevel;
     private BloodType bloodType;
+    private DisabilityType disabilityType;
+    private int gestationTime;
 }

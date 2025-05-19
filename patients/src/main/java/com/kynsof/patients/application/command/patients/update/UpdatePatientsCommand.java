@@ -2,6 +2,7 @@ package com.kynsof.patients.application.command.patients.update;
 
 import com.kynsof.patients.application.command.patients.create.request.CreatePatientContactInfoRequest;
 import com.kynsof.patients.domain.dto.enumTye.BloodType;
+import com.kynsof.patients.domain.dto.enumTye.DisabilityType;
 import com.kynsof.patients.domain.dto.enumTye.GenderType;
 import com.kynsof.share.core.domain.bus.command.ICommand;
 import com.kynsof.share.core.domain.bus.command.ICommandMessage;
@@ -24,10 +25,12 @@ public class UpdatePatientsCommand implements ICommand {
     private String profession;    
     private String educationalLevel;
     private BloodType bloodType;
+    private DisabilityType disabilityType;
+    private int gestationTime;
 
     public UpdatePatientsCommand(UUID id, String identification, String name, String lastName, GenderType gender, String photo,
                                  CreatePatientContactInfoRequest createContactInfoRequest, String profession,
-                                 String educationalLevel, BloodType bloodType) {
+                                 String educationalLevel, BloodType bloodType, DisabilityType disabilityType, int gestationTime) {
         this.identification = identification;
         this.name = name;
         this.lastName = lastName;
@@ -38,12 +41,15 @@ public class UpdatePatientsCommand implements ICommand {
         this.profession = profession;
         this.educationalLevel = educationalLevel;
         this.bloodType = bloodType;
+        this.disabilityType = disabilityType;
+        this.gestationTime = gestationTime;
     }
 
     public static UpdatePatientsCommand fromRequest(UUID id, UpdatePatientsRequest request) {
         return new UpdatePatientsCommand(id, request.getIdentification(), request.getName(), request.getLastName(), request.getGender(),
                 request.getImage(), request.getContactInfo(), request.getProfession(), 
-                request.getEducationalLevel(), request.getBloodType());
+                request.getEducationalLevel(), request.getBloodType(),
+                request.getDisabilityType(), request.getGestationTime());
     }
 
     @Override

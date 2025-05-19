@@ -60,13 +60,13 @@ public class PatientsController {
         return ResponseEntity.ok(response);
     }
 
-    @PatchMapping("/admin/updated/{patientId}")
-    public ResponseEntity<?> updatePatientAdmin(@PathVariable UUID patientId, @RequestBody CreatePatientsAdminRequest request) {
-        CreatePatientAdminCommand createCommand = CreatePatientAdminCommand.fromRequest(patientId, request);
-        CreatePatientAdminMessage response = mediator.send(createCommand);
-
-        return ResponseEntity.ok(response);
-    }
+//    @PatchMapping("/admin/updated/{patientId}")
+//    public ResponseEntity<?> updatePatientAdmin(@PathVariable UUID patientId, @RequestBody CreatePatientsAdminRequest request) {
+//        CreatePatientAdminCommand createCommand = CreatePatientAdminCommand.fromRequest(patientId, request);
+//        CreatePatientAdminMessage response = mediator.send(createCommand);
+//
+//        return ResponseEntity.ok(response);
+//    }
 
     @GetMapping(path = "/admin/updated/{id}")
     public ResponseEntity<?> getAdminById(@PathVariable UUID id) {
