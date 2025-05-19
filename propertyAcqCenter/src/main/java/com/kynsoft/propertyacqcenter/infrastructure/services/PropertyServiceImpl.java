@@ -6,6 +6,7 @@ import com.kynsof.share.core.infrastructure.specifications.GenericSpecifications
 import com.kynsoft.propertyacqcenter.application.response.PropertiesResponse;
 import com.kynsoft.propertyacqcenter.domain.dto.PropertyDto;
 import com.kynsoft.propertyacqcenter.domain.dto.exception.PropertyNotFoundException;
+import com.kynsoft.propertyacqcenter.domain.dto.exception.property.PropertyIdMustBeUniqueException;
 import com.kynsoft.propertyacqcenter.domain.services.IPropertyService;
 import com.kynsoft.propertyacqcenter.infrastructure.entity.Property;
 import com.kynsoft.propertyacqcenter.infrastructure.repository.command.PropertyWriteDataJPARepository;
@@ -97,6 +98,19 @@ public class PropertyServiceImpl implements IPropertyService {
         }
         return new PaginatedResponse(objects, data.getTotalPages(), data.getNumberOfElements(),
                 data.getTotalElements(), data.getSize(), data.getNumber());
+    }
+
+    @Override
+    public long countById(String id) {
+        return this.repositoryQuery.countById(id);
+    }
+
+    @Override
+    public void validatePropertyId(String id) {
+        long count = this.countById(id);
+        if (count > 0) {
+            throw new PropertyIdMustBeUniqueException(id);
+        }
     }
 
 }

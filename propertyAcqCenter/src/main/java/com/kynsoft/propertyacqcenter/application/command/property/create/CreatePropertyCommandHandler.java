@@ -16,6 +16,7 @@ public class CreatePropertyCommandHandler implements ICommandHandler<CreatePrope
 
     @Override
     public void handle(CreatePropertyCommand command) {
+        this.propertyService.validatePropertyId(command.getId());
         propertyService.create(PropertyDto.builder()
                 .addressLine1(command.getAddressLine1())
                 .addressLine2(command.getAddressLine2())
@@ -38,6 +39,7 @@ public class CreatePropertyCommandHandler implements ICommandHandler<CreatePrope
                 .bathrooms(command.getBathrooms())
                 .askingPrice(command.getAskingPrice())
                 .formattedAddress(command.getFormattedAddress())
-                .build());
+                .build()
+        );
     }
 }
