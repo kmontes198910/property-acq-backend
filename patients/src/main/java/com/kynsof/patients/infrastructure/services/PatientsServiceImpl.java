@@ -83,7 +83,7 @@ public class PatientsServiceImpl implements IPatientsService {
         existingPatient.setProfession(patientDto.getProfession());
         existingPatient.setClinicalHistoryNumber(patientDto.getClinicalHistoryNumber());
         existingPatient.setEducationalLevel(patientDto.getEducationalLevel());
-
+        existingPatient.setBloodType(patientDto.getBloodType());
         // Persistir los cambios
         repositoryCommand.save(existingPatient);
 
