@@ -38,7 +38,7 @@ public class RentCastEstimateValueServiceImpl {
     }
 
     //TODO: La response de este metodo, lo vamos a trasformar en la capa de application.
-    @Cacheable(value = "propertyCache", key = "#address", unless = "#result == null")
+//    @Cacheable(value = "propertyCache", key = "#address", unless = "#result == null")
     public EstimatedValueResponse getEstimatedValue(String address) {
         try {
             String cleanedAddress = address.trim(); // Elimina espacios al inicio/final
