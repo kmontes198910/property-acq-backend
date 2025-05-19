@@ -30,12 +30,7 @@ public interface TreatmentReadRepository extends JpaRepository<TreatmentEntity, 
      */
     List<TreatmentEntity> findByStatus(String status);
     
-    /**
-     * Busca tratamientos por código
-     * @param code Código del tratamiento
-     * @return Lista de tratamientos con el código especificado
-     */
-    List<TreatmentEntity> findByCode(String code);
+
     
     /**
      * Busca tratamientos por nombre (coincidencia parcial)
