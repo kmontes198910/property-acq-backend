@@ -3,6 +3,7 @@ package com.kynsof.patients.application.query.patients.getById;
 
 import com.kynsof.patients.application.query.contactInfo.getall.ContactInfoResponse;
 import com.kynsof.patients.domain.dto.PatientByIdDto;
+import com.kynsof.patients.domain.dto.enumTye.BloodType;
 import com.kynsof.patients.domain.dto.enumTye.DisabilityType;
 import com.kynsof.patients.domain.dto.enumTye.FamilyRelationship;
 import com.kynsof.patients.domain.dto.enumTye.GenderType;
@@ -33,6 +34,7 @@ public class PatientByIdResponse implements IResponse {
     private String profession;
     private String educationalLevel;
     private String clinicalHistoryNumber;
+    private BloodType bloodType;
 
     public PatientByIdResponse(PatientByIdDto patients) {
         this.id = patients.getId();
@@ -52,6 +54,7 @@ public class PatientByIdResponse implements IResponse {
         if (patients.getContactInfoDto() != null) {
             this.contactInfo = new ContactInfoResponse(patients.getContactInfoDto());
         }
+        this.bloodType = patients.getBloodType();
     }
 
 }
