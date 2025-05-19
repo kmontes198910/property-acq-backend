@@ -28,9 +28,9 @@ public class RentCastServiceMockImpl {
         EstimatedValueDto estimatedValueDto = new EstimatedValueDto();
         UUID id = UUID.randomUUID();
         estimatedValueDto.setId(id);
-        estimatedValueDto.setPrice(1670);
-        estimatedValueDto.setPriceRangeLow(1630);
-        estimatedValueDto.setPriceRangeHigh(1710);
+        estimatedValueDto.setRent(1670);
+        estimatedValueDto.setRentRangeLow(1630);
+        estimatedValueDto.setRentRangeHigh(1710);
         estimatedValueDto.setLatitude(29.475962);
         estimatedValueDto.setLongitude(-98.351442);
 
