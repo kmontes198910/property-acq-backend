@@ -1,12 +1,13 @@
 package com.kynsoft.propertyacqcenter.application.response.rentcast;
 
 import com.kynsof.share.core.domain.bus.query.IResponse;
+import java.io.Serializable;
 import lombok.Data;
 
 import java.util.List;
 
 @Data
-public class RentEstimateResponse implements IResponse {
+public class RentEstimateResponse implements IResponse, Serializable {
     private Integer rent;
     private Integer rentRangeLow;
     private Integer rentRangeHigh;
@@ -15,7 +16,7 @@ public class RentEstimateResponse implements IResponse {
     private List<ComparableRentProperty> comparables;
 
     @Data
-    public static class ComparableRentProperty {
+    public static class ComparableRentProperty implements Serializable {
         private String id;
         private String formattedAddress;
         private String addressLine1;
