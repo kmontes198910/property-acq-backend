@@ -17,6 +17,7 @@ public class Property {
 
     @Id
     private String id;
+    private String formattedAddress;
 
     @Enumerated(EnumType.STRING)
     private PropertyType propertyType;
@@ -44,6 +45,7 @@ public class Property {
 
     public Property(PropertyDto dto) {
         this.id = dto.getId();
+        this.formattedAddress = dto.getFormattedAddress();
         this.propertyType = dto.getPropertyType();
         this.lotSize = dto.getLotSize();
         this.apn = dto.getApn();
@@ -68,6 +70,7 @@ public class Property {
     public PropertyDto toAggregate() {
         return PropertyDto.builder()
                 .id(this.id)
+                .formattedAddress(formattedAddress)
                 .addressLine1(addressLine1)
                 .addressLine2(addressLine2)
                 .apn(apn)
