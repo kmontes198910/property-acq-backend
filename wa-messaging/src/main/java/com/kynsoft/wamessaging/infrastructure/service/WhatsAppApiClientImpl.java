@@ -2,7 +2,7 @@ package com.kynsoft.wamessaging.infrastructure.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.kynsoft.wamessaging.application.dto.WhatsAppApiResponse;
+import com.kynsoft.wamessaging.application.request.WhatsAppApiResponse;
 import com.kynsoft.wamessaging.infrastructure.entity.MessageType;
 import com.kynsoft.wamessaging.domain.service.WhatsAppApiClient;
 import lombok.RequiredArgsConstructor;
@@ -26,13 +26,13 @@ public class WhatsAppApiClientImpl implements WhatsAppApiClient {
     private final ObjectMapper objectMapper;
 //    private final MessageProcessorService messageProcessorService;
 
-    @Value("${whatsapp.api.url}")
+    @Value("${whatsapp.api.base-url}")
     private String apiUrl;
 
     @Value("${whatsapp.api.phone-number-id}")
     private String phoneNumberId;
 
-    @Value("${whatsapp.api.token}")
+    @Value("${whatsapp.api.access-token}")
     private String apiToken;
 
     @Value("${whatsapp.api.version:v17.0}")

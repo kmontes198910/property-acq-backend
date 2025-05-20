@@ -1,7 +1,7 @@
 package com.kynsoft.wamessaging.application.query.getMessage;
 
 import com.kynsof.share.core.domain.bus.query.IResponse;
-import com.kynsoft.wamessaging.application.dto.MessageResponse;
+import com.kynsoft.wamessaging.application.request.MessageResponse;
 import com.kynsoft.wamessaging.infrastructure.entity.MessageStatus;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

@@ -1,4 +1,4 @@
-package com.kynsoft.wamessaging.application.dto;
+package com.kynsoft.wamessaging.application.request;
 
 import com.kynsoft.wamessaging.infrastructure.entity.MessageType;
 import lombok.AllArgsConstructor;

@@ -1,7 +1,7 @@
 package com.kynsoft.wamessaging.application.query.getMessage;
 
 import com.kynsof.share.core.domain.bus.query.IQueryHandler;
-import com.kynsoft.wamessaging.application.dto.MessageResponse;
+import com.kynsoft.wamessaging.application.request.MessageResponse;
 import com.kynsoft.wamessaging.application.service.MessageCoordinatorService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

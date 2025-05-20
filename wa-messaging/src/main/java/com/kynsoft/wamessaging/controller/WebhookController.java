@@ -1,7 +1,8 @@
 package com.kynsoft.wamessaging.controller;
 
-import com.kynsoft.wamessaging.application.service.MessageCoordinatorService;
-import com.kynsoft.wamessaging.infrastructure.entity.MessageStatus;
+import com.kynsof.share.core.infrastructure.bus.IMediator;
+import com.kynsoft.wamessaging.application.command.webhook.ProcessWebhookCommand;
+import com.kynsoft.wamessaging.application.command.webhook.ProcessWebhookMessage;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -9,11 +10,9 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.Map;
 
 /**
@@ -26,14 +25,14 @@ import java.util.Map;
 @Tag(name = "WhatsApp Webhook", description = "Endpoints para recibir notificaciones y eventos de la API de WhatsApp")
 public class WebhookController {
 
-    private final MessageCoordinatorService messageCoordinatorService;
+    private final IMediator mediator;
     
     @Value("${whatsapp.webhook.verify-token}")
     private String webhookVerifyToken;
     
     /**
      * Endpoint para recibir webhooks de WhatsApp Business API
-     * Los webhooks incluyen actualizaciones de estado de mensajes enviados
+     * Los webhooks incluyen actualizaciones de estado de mensajes enviados y mensajes entrantes
      */
     @PostMapping
     @Operation(summary = "Recibir webhook", description = "Recibe notificaciones y eventos desde la API de WhatsApp")
@@ -46,54 +45,19 @@ public class WebhookController {
         log.info("Webhook recibido de WhatsApp: {}", payload);
         
         try {
-            JSONObject json = new JSONObject(payload);
+            // Crear y enviar el comando para procesar el webhook
+            ProcessWebhookCommand command = new ProcessWebhookCommand(payload);
+            ProcessWebhookMessage response = mediator.send(command);
             
-            // Validar y extraer información de la notificación
-            if (json.has("entry") && json.getJSONArray("entry").length() > 0) {
-                JSONObject entry = json.getJSONArray("entry").getJSONObject(0);
-                
-                if (entry.has("changes") && entry.getJSONArray("changes").length() > 0) {
-                    JSONObject change = entry.getJSONArray("changes").getJSONObject(0);
-                    JSONObject value = change.getJSONObject("value");
-                    
-                    // Procesar actualizaciones de estado
-                    if (value.has("statuses") && value.getJSONArray("statuses").length() > 0) {
-                        JSONObject status = value.getJSONArray("statuses").getJSONObject(0);
-                        String messageId = status.optString("id");
-                        String statusValue = status.optString("status");
-                        String error = status.has("errors") ? status.getJSONArray("errors").toString() : null;
-                        
-                        // Mapear el estado de WhatsApp a nuestro enum MessageStatus
-                        MessageStatus newStatus;
-                        switch (statusValue) {
-                            case "sent":
-                                newStatus = MessageStatus.SENT;
-                                break;
-                            case "delivered":
-                                newStatus = MessageStatus.DELIVERED;
-                                break;
-                            case "read":
-                                newStatus = MessageStatus.READ;
-                                break;
-                            case "failed":
-                                newStatus = MessageStatus.FAILED;
-                                break;
-                            default:
-                                newStatus = MessageStatus.UNKNOWN;
-                        }
-                        
-                        // Actualizar el estado del mensaje en nuestra BD
-                        messageCoordinatorService.updateMessageStatus(messageId, newStatus, error);
-                    }
-                }
-            }
-            
-            // Siempre responder con éxito para que WhatsApp sepa que recibimos la notificación
-            return ResponseEntity.ok(Map.of("status", "success"));
+            // Devolver el resultado del procesamiento
+            return ResponseEntity.ok(response.getResult());
             
         } catch (Exception e) {
             log.error("Error al procesar webhook de WhatsApp", e);
-            return ResponseEntity.ok(Map.of("status", "error", "message", e.getMessage()));
+            return ResponseEntity.ok(Map.of(
+                "status", "error", 
+                "message", e.getMessage()
+            ));
         }
     }
     
@@ -120,15 +84,12 @@ public class WebhookController {
         
         log.info("Recibida solicitud de verificación de webhook. Mode: {}, token: {}", mode, token);
         
-        // Aquí debes verificar que el token coincida con el configurado en tu aplicación
-        // para seguridad en la configuración de webhook
-        
         if ("subscribe".equals(mode) && webhookVerifyToken.equals(token)) {
             log.info("Verificación de webhook exitosa");
             return ResponseEntity.ok(challenge);
-        } else {
-            log.warn("Fallo en la verificación de webhook");
-            return ResponseEntity.badRequest().build();
         }
+        
+        log.warn("Verificación de webhook fallida. Mode: {}, token: {}", mode, token);
+        return ResponseEntity.badRequest().body("Verificación fallida");
     }
 }
