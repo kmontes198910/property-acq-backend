@@ -375,10 +375,10 @@ public class DigitalSignatureService implements IDigitalSignatureService, Signat
             cs.setFont(fontRegular, 8);
             cs.setNonStrokingColor(0, 0, 0); // Color negro
             cs.newLineAtOffset(textStartX, height - 17);//15
-            cs.showText("Firmado electrónicamente por:");
+            cs.showText("Firmado por:");
             
             // Nombre del firmante en negrita pero con tamaño de letra reducido
-            cs.setFont(fontBold, 8); // Tamaño de letra reducido
+            cs.setFont(fontBold, 6); // Tamaño de letra reducido
             cs.newLineAtOffset(0, -12); // Reducido de -4 a -1 para acercar los textos
             
             // Limitamos el tamaño del nombre para evitar que se salga del área
