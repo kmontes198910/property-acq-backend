@@ -36,16 +36,32 @@ public class UpdateInvoiceIssuerCommandHandler implements ICommandHandler<Update
         issuer.setBusinessName(command.getBusinessName());
         issuer.setCommercialName(command.getCommercialName());
         issuer.setEstablishment(command.getEstablishment());
-
+        issuer.setPointOfSale(command.isPointOfSale());
         issuer.setAddress(command.getAddress());
         issuer.setEmissionPoint(command.getEmissionPoint());
         issuer.setEmail(command.getEmail());
         issuer.setPhone(command.getPhone());
+        issuer.setWebsite(command.getWebsite());
         issuer.setSpecialTaxpayer(command.getSpecialTaxpayer());
         issuer.setRetentionAgent(command.getRetentionAgent());
+        issuer.setAccountingObligated(command.getAccountingObligated());
+        issuer.setMicroenterprisesRegime(command.getMicroenterprisesRegime());
         issuer.setRimpeRegime(command.getRimpeRegime());
         issuer.setLogoUrl(command.getLogoUrl());
-        issuer.setEnvironment(command.getEnvironment());
+        issuer.setSendEmails(command.getSendEmails());
+        
+        // Validar y ajustar el valor del campo environment para que solo tenga un carácter
+        String environment = command.getEnvironment();
+        if (environment != null && !environment.isEmpty()) {
+            // Tomar solo el primer carácter del valor proporcionado
+            environment = environment.substring(0, 1);
+            log.info("Environment value adjusted to: {}", environment);
+            issuer.setEnvironment(environment);
+        } else if (environment == null || environment.isEmpty()) {
+            // Mantener el valor actual si el nuevo es nulo o vacío
+            log.info("Keeping current environment value: {}", issuer.getEnvironment());
+        }
+        
         issuer.setStatus(command.getStatus());
         
         // Solo actualizar estos campos si no son nulos, ya que son sensibles

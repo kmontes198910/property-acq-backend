@@ -5,13 +5,13 @@ import com.kynsoft.invoiceservice.application.command.invoice.generate.request.C
 import com.kynsoft.invoiceservice.application.command.invoice.generate.request.DetalleFacturaRequest;
 import com.kynsoft.invoiceservice.application.command.invoice.generate.request.PagoRequest;
 import com.kynsoft.invoiceservice.application.query.customer.get.CustomerDto;
-import com.kynsoft.invoiceservice.application.services.InvoiceService;
 import com.kynsoft.invoiceservice.domain.dto.InvoiceIssuerDto;
 import com.kynsoft.invoiceservice.domain.dto.InvoiceIssuingSequenceDto;
 import com.kynsoft.invoiceservice.domain.exception.BusinessInvoiceException;
 import com.kynsoft.invoiceservice.domain.exception.DomainErrorInvoiceMessage;
 import com.kynsoft.invoiceservice.domain.service.ICustomerService;
 import com.kynsoft.invoiceservice.domain.service.IInvoiceIssuerService;
+import com.kynsoft.invoiceservice.domain.service.impl.InvoiceService;
 import com.kynsoft.invoiceservice.infrastructure.entities.Customer;
 
 import ec.e.facturacion.sri.constante.Ambiente;
@@ -28,9 +28,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ec.e.facturacion.sri.constante.Regimen;
-import ec.e.facturacion.sri.modelo.ComprobanteBase;
-import ec.e.facturacion.sri.modelo.Factura;
 import ec.e.facturacion.sri.ws.soap.servicio.SRIRecepcionServicio;
 
 import java.io.ByteArrayOutputStream;

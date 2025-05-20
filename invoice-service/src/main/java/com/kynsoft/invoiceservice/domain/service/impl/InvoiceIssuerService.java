@@ -1,13 +1,17 @@
 package com.kynsoft.invoiceservice.domain.service.impl;
 
+import com.kynsof.share.core.domain.request.FilterCriteria;
+import com.kynsof.share.core.infrastructure.specifications.GenericSpecificationsBuilder;
 import com.kynsoft.invoiceservice.domain.dto.InvoiceIssuerDto;
 import com.kynsoft.invoiceservice.domain.exception.BusinessInvoiceException;
 import com.kynsoft.invoiceservice.domain.exception.DomainErrorInvoiceMessage;
 import com.kynsoft.invoiceservice.domain.service.IInvoiceIssuerService;
 import com.kynsoft.invoiceservice.infrastructure.entities.InvoiceIssuer;
+import com.kynsoft.invoiceservice.infrastructure.repository.command.InvoiceIssuerWriteRepository;
 import com.kynsoft.invoiceservice.infrastructure.repository.query.InvoiceIssuerRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,6 +25,7 @@ import java.util.stream.Collectors;
 public class InvoiceIssuerService implements IInvoiceIssuerService {
 
     private final InvoiceIssuerRepository invoiceIssuerRepository;
+    private final InvoiceIssuerWriteRepository invoiceIssuerWriteRepository;
 
     @Override
     @Transactional(readOnly = true)
@@ -70,14 +75,13 @@ public class InvoiceIssuerService implements IInvoiceIssuerService {
     @Override
     @Transactional(readOnly = true)
     public com.kynsof.share.core.domain.response.PaginatedResponse search(
-            org.springframework.data.domain.Pageable pageable, 
-            java.util.List<com.kynsof.share.core.domain.request.FilterCriteria> filterCriteria) {
+       Pageable pageable,
+            List<FilterCriteria> filterCriteria) {
         
         log.info("Realizando búsqueda avanzada de emisores de facturas con filtros y paginación");
         
-        com.kynsof.share.core.infrastructure.specifications.GenericSpecificationsBuilder<InvoiceIssuer> specifications = 
-            new com.kynsof.share.core.infrastructure.specifications.GenericSpecificationsBuilder<>(filterCriteria);
-        
+
+        GenericSpecificationsBuilder<InvoiceIssuer> specifications = new GenericSpecificationsBuilder<>(filterCriteria);
         // Ejecutar la consulta con paginación
         org.springframework.data.domain.Page<InvoiceIssuer> page = invoiceIssuerRepository.findAll(specifications, pageable);
         
@@ -95,5 +99,11 @@ public class InvoiceIssuerService implements IInvoiceIssuerService {
                 page.getSize(),              // size
                 page.getNumber()             // page
         );
+    }
+
+    @Override
+    @Transactional
+    public InvoiceIssuer create(InvoiceIssuer issuer) {
+        return invoiceIssuerWriteRepository.save(issuer);
     }
 }

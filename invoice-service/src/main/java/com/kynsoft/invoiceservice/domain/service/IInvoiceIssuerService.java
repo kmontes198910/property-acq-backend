@@ -1,6 +1,9 @@
 package com.kynsoft.invoiceservice.domain.service;
 
+import com.kynsof.share.core.domain.request.FilterCriteria;
+import com.kynsof.share.core.domain.response.PaginatedResponse;
 import com.kynsoft.invoiceservice.domain.dto.InvoiceIssuerDto;
+import com.kynsoft.invoiceservice.infrastructure.entities.InvoiceIssuer;
 
 import java.util.List;
 import java.util.UUID;
@@ -50,6 +53,8 @@ public interface IInvoiceIssuerService {
      * @param filterCriteria Lista de criterios de filtrado
      * @return Respuesta paginada con los resultados de la búsqueda
      */
-    com.kynsof.share.core.domain.response.PaginatedResponse search(org.springframework.data.domain.Pageable pageable, 
-        java.util.List<com.kynsof.share.core.domain.request.FilterCriteria> filterCriteria);
+ PaginatedResponse search(org.springframework.data.domain.Pageable pageable,
+                          List<FilterCriteria> filterCriteria);
+
+    InvoiceIssuer create(InvoiceIssuer issuer);
 }

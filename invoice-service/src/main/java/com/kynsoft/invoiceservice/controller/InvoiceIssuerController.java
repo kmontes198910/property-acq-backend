@@ -47,7 +47,7 @@ public class InvoiceIssuerController {
                  description = "Emisor creado correctamente",
                  content = @Content(mediaType = "application/json", 
                                    schema = @Schema(implementation = CreateInvoiceIssuerMessage.class)))
-    public ResponseEntity<CreateInvoiceIssuerMessage> createIssuer(
+    public ResponseEntity<?> createIssuer(
             @Parameter(description = "Datos del emisor a crear", required = true) 
             @RequestBody CreateInvoiceIssuerRequest request,
             @RequestHeader(value = USER_ID_HEADER, required = false) String userId) {
@@ -58,7 +58,7 @@ public class InvoiceIssuerController {
         CreateInvoiceIssuerCommand command = CreateInvoiceIssuerCommand.fromRequest(request, userUuid);
         CreateInvoiceIssuerMessage response = mediator.send(command);
         
-        return new ResponseEntity<>(response, HttpStatus.CREATED);
+        return  ResponseEntity.ok(response);
     }
 
     @PatchMapping("/{id}")
