@@ -2,11 +2,8 @@ package com.kynsoft.propertyacqcenter.infrastructure.services.mock;
 
 import com.kynsoft.propertyacqcenter.application.response.rentcast.EstimatedValueResponse;
 import com.kynsoft.propertyacqcenter.application.response.rentcast.PropertyResponse;
+import com.kynsoft.propertyacqcenter.application.response.rentcast.SaleListingResponse;
 import com.kynsoft.propertyacqcenter.domain.enums.PropertyType;
-import com.kynsoft.propertyacqcenter.domain.dto.property.saleListing.ListingAgentDto;
-import com.kynsoft.propertyacqcenter.domain.dto.property.saleListing.ListingHistoryDto;
-import com.kynsoft.propertyacqcenter.domain.dto.property.saleListing.ListingOfficeDto;
-import com.kynsoft.propertyacqcenter.domain.dto.property.saleListing.SaleListingDto;
 import com.kynsoft.propertyacqcenter.infrastructure.services.http.estimate.dto.ComparablePropertyDto;
 import com.kynsoft.propertyacqcenter.infrastructure.services.http.estimate.dto.EstimatedValueDto;
 import com.kynsoft.propertyacqcenter.domain.enums.Status;
@@ -219,9 +216,9 @@ public class RentCastServiceMockImpl {
         return estimatedValueDto;
     }
 
-    public List<SaleListingDto> getSaleListings() {
-        List<SaleListingDto> saleListingDtos = new ArrayList<>();
-        SaleListingDto property = new SaleListingDto();
+    public List<SaleListingResponse> getSaleListings() {
+        List<SaleListingResponse> saleListingDtos = new ArrayList<>();
+        SaleListingResponse property = new SaleListingResponse();
 
         // Configurar datos básicos
         property.setId("3821-Hargis-St,-Austin,-TX-78723");
@@ -233,39 +230,37 @@ public class RentCastServiceMockImpl {
         property.setCounty("Travis");
         property.setLatitude(30.290643);
         property.setLongitude(-97.701547);
-        property.setPropertyType(PropertyType.APARTMENT);
+        property.setPropertyType(PropertyType.APARTMENT.name());
         property.setBedrooms(4);
-        property.setBathrooms(2);
+        property.setBathrooms(2.0);
         property.setSquareFootage(2345);
         property.setLotSize(3284);
         property.setYearBuilt(2008);
 
         // Configurar HOA
-//        HoaDto hoa = new HoaDto();
-//        hoa.setFee(65);
-//        property.setHoa(hoa);
+        SaleListingResponse.HOA hoa = new SaleListingResponse.HOA();
+        hoa.setFee(65.0);
+        property.setHoa(hoa);
 
         // Configurar estado y precio
-        property.setStatus(Status.ACTIVE);
-        property.setPrice(899000);
+        property.setStatus(Status.ACTIVE.name());
+        property.setPrice(899000.0);
         property.setListingType("Standard");
         property.setListedDate("2024-06-24T00:00:00.000");
-        property.setCreatedDate("2021-06-25T00:00:00.000");
         property.setLastSeenDate("2024-09-30T13:11:47.157");
         property.setDaysOnMarket(99);
         property.setMlsName("UnlockMLS");
         property.setMlsNumber("5519228");
 
         // Configurar agente
-        ListingAgentDto agent = new ListingAgentDto();
+        SaleListingResponse.ListingAgent agent = new SaleListingResponse.ListingAgent();
         agent.setName("Jennifer Welch");
         agent.setPhone("5124313110");
         agent.setEmail("jennifer@gottesmanresidential.com");
-        agent.setWebsite("https://www.gottesmanresidential.com");
         property.setListingAgent(agent);
 
         // Configurar oficina
-        ListingOfficeDto office = new ListingOfficeDto();
+        SaleListingResponse.ListingOffice office = new SaleListingResponse.ListingOffice();
         office.setName("Gottesman Residential R.E.");
         office.setPhone("5124512422");
         office.setEmail("nataliem@gottesmanresidential.com");
@@ -273,8 +268,8 @@ public class RentCastServiceMockImpl {
         property.setListingOffice(office);
 
         // Configurar historial
-        Map<String, ListingHistoryDto> history = new HashMap<>();
-        ListingHistoryDto listing = new ListingHistoryDto();
+        Map<String, SaleListingResponse.ListingEvent> history = new HashMap<>();
+        SaleListingResponse.ListingEvent listing = new SaleListingResponse.ListingEvent();
         listing.setEvent("Sale Listing");
         listing.setPrice(899000);
         listing.setListingType("Standard");

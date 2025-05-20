@@ -1,9 +1,12 @@
 package com.kynsoft.propertyacqcenter.application.response.rentcast;
+
 import com.kynsof.share.core.domain.bus.query.IResponse;
+import java.util.Map;
 import lombok.Data;
 
 @Data
 public class SaleListingResponse implements IResponse {
+
     private String id;
     private String formattedAddress;
     private String addressLine1;
@@ -12,34 +15,46 @@ public class SaleListingResponse implements IResponse {
     private String state;
     private String zipCode;
     private String county;
-    private Double latitude;
-    private Double longitude;
+    private double latitude;
+    private double longitude;
     private String propertyType;
-    private Integer bedrooms;
-    private Double bathrooms;
-    private Integer squareFootage;
-    private Integer lotSize;
-    private Integer yearBuilt;
-    private HoaDto hoa;
+    private int bedrooms;
+    private double bathrooms;
+    private int squareFootage;
+    private int lotSize;
+    private int yearBuilt;
+    private HOA hoa;
     private String status;
-    private Double price;
+    private double price;
     private String listingType;
     private String listedDate;
     private String removedDate;
+    private String createdDate;
     private String lastSeenDate;
-    private Integer daysOnMarket;
+    private int daysOnMarket;
     private String mlsName;
     private String mlsNumber;
-    private ListingAgentDto listingAgent;
-    private ListingOfficeDto listingOffice;
+    private ListingAgent listingAgent;
+    private ListingOffice listingOffice;
+    private Map<String, ListingEvent> history;
 
     @Data
-    public static class HoaDto {
+    public static class HOA {
+
         private Double fee;
     }
 
     @Data
-    public static class ListingAgentDto {
+    public static class ListingAgent {
+
+        private String name;
+        private String phone;
+        private String email;
+    }
+
+    @Data
+    public static class ListingOffice {
+
         private String name;
         private String phone;
         private String email;
@@ -47,10 +62,13 @@ public class SaleListingResponse implements IResponse {
     }
 
     @Data
-    public static class ListingOfficeDto {
-        private String name;
-        private String phone;
-        private String email;
-        private String website;
+    public static class ListingEvent {
+
+        private String event;
+        private double price;
+        private String listingType;
+        private String listedDate;
+        private String removedDate;
+        private int daysOnMarket;
     }
 }
