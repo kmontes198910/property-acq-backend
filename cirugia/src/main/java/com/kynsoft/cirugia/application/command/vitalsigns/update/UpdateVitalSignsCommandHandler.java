@@ -99,6 +99,9 @@ public class UpdateVitalSignsCommandHandler implements ICommandHandler<UpdateVit
         if (command.getRecordedAt() != null) {
             existingVitalSigns.setRecordedAt(command.getRecordedAt());
         }
+        if (command.getCranialCircumference() != null) {
+            existingVitalSigns.setCranialCircumference(command.getCranialCircumference());
+        }
         
         existingVitalSigns.setUpdatedAt(LocalDateTime.now());
         existingVitalSigns.setUpdatedBy(command.getUpdatedBy());

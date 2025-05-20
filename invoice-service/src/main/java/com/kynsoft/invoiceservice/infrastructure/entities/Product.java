@@ -2,8 +2,11 @@ package com.kynsoft.invoiceservice.infrastructure.entities;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
@@ -47,7 +50,14 @@ public class Product {
     
     @Column(nullable = false)
     private Boolean status;
-    
+
+    @CreationTimestamp
+    @Column(updatable = false)
+    private LocalDateTime createdAt;
+
+    @UpdateTimestamp
+    private LocalDateTime updatedAt;
+
     @Column(name = "created_by")
     private UUID createdBy;
 

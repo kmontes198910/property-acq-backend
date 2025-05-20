@@ -48,6 +48,9 @@ public class VitalSignsEntity {
     
     @Column(name = "oxygen_saturation")
     private Double oxygenSaturation;
+
+    @Column(name = "cranial_circumference")
+    private Double cranialCircumference;
     
     @Column(name = "weight")
     private Double weight;

@@ -36,6 +36,7 @@ public class UpdateVitalSignsCommand implements ICommand {
     private LocalDateTime recordedAt;
     private UUID updatedBy;
     private String process;
+    private Double cranialCircumference;
     
     public static UpdateVitalSignsCommand fromRequest(UpdateVitalSignsRequest request, UUID id, UUID updatedBy) {
         return UpdateVitalSignsCommand.builder()
@@ -55,6 +56,7 @@ public class UpdateVitalSignsCommand implements ICommand {
                 .glasgowScoreVerbal(request.getGlasgowScoreVerbal())
                 .glasgowScoreOcular(request.getGlasgowScoreOcular())
                 .observations(request.getObservations())
+                .cranialCircumference(request.getCranialCircumference())
                 .recordedAt(LocalDateTime.now())
                 .updatedBy(updatedBy)
                 .process(request.getProcess())

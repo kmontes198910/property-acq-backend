@@ -21,6 +21,7 @@ public class VitalSignsResponse implements IResponse, Serializable {
     private final Double oxygenSaturation;
     private final Double weight;
     private final Double height;
+    private final Double cranialCircumference;
     private final Double bmi;
     private final String bmiClassification;
     private final Double capillaryGlucose;
@@ -29,7 +30,7 @@ public class VitalSignsResponse implements IResponse, Serializable {
     private final Integer glasgowScoreOcular;
     private final String observations;
     private final LocalDateTime recordedAt;
-    private String process;
+    private final String process;
     private final LocalDateTime createdAt;
     private final LocalDateTime updatedAt;
     private final UUID createdBy;
@@ -47,6 +48,7 @@ public class VitalSignsResponse implements IResponse, Serializable {
         this.oxygenSaturation = vitalSigns.getOxygenSaturation();
         this.weight = vitalSigns.getWeight();
         this.height = vitalSigns.getHeight();
+        this.cranialCircumference = vitalSigns.getCranialCircumference();
         this.bmi = vitalSigns.getBmi();
         this.bmiClassification = vitalSigns.getBmiClassification();
         this.capillaryGlucose = vitalSigns.getCapillaryGlucose();

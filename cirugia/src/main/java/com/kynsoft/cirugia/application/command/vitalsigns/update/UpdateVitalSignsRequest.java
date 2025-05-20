@@ -23,6 +23,7 @@ public class UpdateVitalSignsRequest {
     private Double oxygenSaturation;
     private Double weight;
     private Double height;
+    private Double cranialCircumference;
     private Double capillaryGlucose;
     private Integer glasgowScoreMotor;
     private Integer glasgowScoreVerbal;
