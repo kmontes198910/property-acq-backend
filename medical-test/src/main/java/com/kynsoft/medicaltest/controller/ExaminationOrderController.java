@@ -1,4 +1,4 @@
-package com.kynsoft.medicaltest.infrastructure.controller;
+package com.kynsoft.medicaltest.controller;
 
 import com.kynsof.share.core.infrastructure.bus.IMediator;
 import com.kynsoft.medicaltest.application.command.examinationorder.addexamination.AddExaminationToOrderCommand;
