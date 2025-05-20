@@ -83,6 +83,7 @@
             <artifactId>E-Facturacion</artifactId>
             <version>1.0.0</version>
         </dependency>
+        
         <!-- Swagger / OpenAPI -->
         <dependency>
             <groupId>org.springdoc</groupId>
@@ -90,17 +91,12 @@
             <version>${springdoc-openapi.version}</version>
         </dependency>
 
-
         <!-- Utilities -->
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <optional>true</optional>
         </dependency>
-<!--        <dependency>-->
-<!--            <groupId>com.fasterxml.jackson.core</groupId>-->
-<!--            <artifactId>jackson-databind</artifactId>-->
-<!--        </dependency>-->
 
         <!-- PDF Generation -->
         <dependency>

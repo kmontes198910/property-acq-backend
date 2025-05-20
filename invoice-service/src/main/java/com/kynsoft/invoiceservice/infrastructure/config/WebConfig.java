@@ -5,12 +5,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import java.util.List;
 
 /**
  * Configuración MVC para registrar nuestros conversores personalizados
+ * y configurar los recursos para Swagger UI
  */
 @Configuration
 public class WebConfig implements WebMvcConfigurer {
@@ -28,5 +30,13 @@ public class WebConfig implements WebMvcConfigurer {
         converters.removeIf(converter -> converter instanceof MappingJackson2HttpMessageConverter);
         MappingJackson2HttpMessageConverter jsonConverter = new MappingJackson2HttpMessageConverter(objectMapper);
         converters.add(jsonConverter);
+    }
+    
+    @Override
+    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        // Configuración para Swagger UI
+        registry.addResourceHandler("/swagger-ui/**")
+                .addResourceLocations("classpath:/META-INF/resources/webjars/swagger-ui/")
+                .resourceChain(false);
     }
 }
