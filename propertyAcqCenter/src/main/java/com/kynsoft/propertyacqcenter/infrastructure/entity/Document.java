@@ -75,10 +75,7 @@ public class Document {
     
     @Column(name = "version")
     private String version;
-    
-    @Column(name = "renewal_required")
-    private Boolean renewalRequired;
-    
+
     @Column(name = "renewal_date")
     private LocalDate renewalDate;
     
@@ -120,7 +117,6 @@ public class Document {
         this.documentNumber = dto.getDocumentNumber();
         this.isOriginal = dto.getIsOriginal();
         this.version = dto.getVersion();
-        this.renewalRequired = dto.getRenewalRequired();
         this.renewalDate = dto.getRenewalDate();
         this.tags = dto.getTags();
         this.notes = dto.getNotes();
@@ -146,7 +142,6 @@ public class Document {
                 .documentNumber(this.documentNumber)
                 .isOriginal(this.isOriginal)
                 .version(this.version)
-                .renewalRequired(this.renewalRequired)
                 .renewalDate(this.renewalDate)
                 .tags(this.tags)
                 .notes(this.notes)
@@ -177,7 +172,6 @@ public class Document {
                 .documentNumber(this.documentNumber)
                 .isOriginal(this.isOriginal)
                 .version(this.version)
-                .renewalRequired(this.renewalRequired)
                 .renewalDate(this.renewalDate)
                 .tags(this.tags)
                 .notes(this.notes)

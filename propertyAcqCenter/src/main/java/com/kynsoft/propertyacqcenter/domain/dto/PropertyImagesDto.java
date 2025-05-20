@@ -13,4 +13,5 @@ public class PropertyImagesDto {
     private UUID id;
     private PropertyDto property;
     private String url;
+    private Boolean main;
 }

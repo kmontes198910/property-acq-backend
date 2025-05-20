@@ -26,10 +26,14 @@ public class PropertyImages {
     @Column(name = "url", nullable = false)
     private String url;
 
+    @Column(name = "main", nullable = true)
+    private Boolean main;
+
     public PropertyImages(PropertyImagesDto dto) {
         this.id = dto.getId();
         this.property = dto.getProperty() != null ? new Property(dto.getProperty()) : null;
         this.url = dto.getUrl();
+        this.main = dto.getMain();
     }
 
     public PropertyImagesDto toAggregateSimple() {
@@ -37,6 +41,7 @@ public class PropertyImages {
                 .id(this.id)
                 .property(property != null ? property.toAggregate() : null)
                 .url(url)
+                .main(main)
                 .build();
     }
 
@@ -44,6 +49,7 @@ public class PropertyImages {
         return PropertyImagesDto.builder()
                 .id(this.id)
                 .url(url)
+                .main(main)
                 .build();
     }
 

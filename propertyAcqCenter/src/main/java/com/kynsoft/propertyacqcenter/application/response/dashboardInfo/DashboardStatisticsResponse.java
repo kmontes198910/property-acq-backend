@@ -17,4 +17,9 @@ public class DashboardStatisticsResponse implements IResponse {
     private Integer estimatedValuePriceRangeLow;
     private Integer estimatedValuePriceRangeHigh;
     private Integer estimatedValueAveragePrice;
+
+    private Integer estimatedRentValuePrice;
+    private Integer estimatedRentValuePriceRangeLow;
+    private Integer estimatedRentValuePriceRangeHigh;
+    private Integer estimatedRentValueAveragePrice;
 }
