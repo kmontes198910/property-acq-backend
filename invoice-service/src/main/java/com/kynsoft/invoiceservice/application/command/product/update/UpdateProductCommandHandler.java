@@ -7,7 +7,7 @@ import com.kynsoft.invoiceservice.infrastructure.entities.Product;
 import com.kynsoft.invoiceservice.infrastructure.entities.ProductCategory;
 import com.kynsoft.invoiceservice.infrastructure.repository.command.ProductWriteRepository;
 import com.kynsoft.invoiceservice.infrastructure.repository.query.ProductCategoryRepository;
-import com.kynsoft.invoiceservice.infrastructure.repository.query.ProductRepository;
+import com.kynsoft.invoiceservice.infrastructure.repository.query.ProductReadRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -20,7 +20,7 @@ import java.util.Optional;
 @Slf4j
 public class UpdateProductCommandHandler implements ICommandHandler<UpdateProductCommand> {
 
-    private final ProductRepository productRepository;
+    private final ProductReadRepository productRepository;
     private final ProductWriteRepository productWriteRepository;
     private final ProductCategoryRepository productCategoryRepository;
 
