@@ -36,6 +36,7 @@ public class CreateVitalSignsCommandHandler implements ICommandHandler<CreateVit
                 .glasgowScoreMotor(command.getGlasgowScoreMotor())
                 .glasgowScoreVerbal(command.getGlasgowScoreVerbal())
                 .glasgowScoreOcular(command.getGlasgowScoreOcular())
+                .cranialCircumference(command.getCranialCircumference())
                 .observations(command.getObservations())
                 .recordedAt(command.getRecordedAt() != null ? command.getRecordedAt() : LocalDateTime.now())
                 .createdBy(command.getCreatedBy())
