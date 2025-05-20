@@ -10,6 +10,8 @@ import com.kynsoft.invoiceservice.application.command.productcategory.create.Cre
 import com.kynsoft.invoiceservice.application.command.productcategory.update.UpdateProductCategoryCommand;
 import com.kynsoft.invoiceservice.application.command.productcategory.update.UpdateProductCategoryMessage;
 import com.kynsoft.invoiceservice.application.command.productcategory.update.UpdateProductCategoryRequest;
+import com.kynsoft.invoiceservice.application.command.productcategory.delete.DeleteProductCategoryCommand;
+import com.kynsoft.invoiceservice.application.command.productcategory.delete.DeleteProductCategoryMessage;
 import com.kynsoft.invoiceservice.application.query.productcategory.get.GetProductCategoryByIdQuery;
 import com.kynsoft.invoiceservice.application.query.productcategory.get.ProductCategoryResponse;
 import com.kynsoft.invoiceservice.application.query.productcategory.search.SearchProductCategoryAdvancedQuery;
@@ -111,6 +113,32 @@ public class ProductCategoryController {
         request.setId(id);
         UpdateProductCategoryCommand command = UpdateProductCategoryCommand.fromRequest(request, userUuid);
         UpdateProductCategoryMessage response = mediator.send(command);
+        
+        return ResponseEntity.ok(response);
+    }
+
+    @DeleteMapping("/{id}")
+    @Operation(summary = "Eliminar una categoría de producto", 
+               description = "Elimina una categoría de producto existente por su ID")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", 
+                     description = "Categoría eliminada correctamente",
+                     content = @Content(mediaType = "application/json", 
+                                       schema = @Schema(implementation = DeleteProductCategoryMessage.class))),
+        @ApiResponse(responseCode = "404", 
+                     description = "Categoría no encontrada",
+                     content = @Content)
+    })
+    public ResponseEntity<DeleteProductCategoryMessage> deleteProductCategory(
+            @Parameter(description = "ID de la categoría a eliminar", required = true) 
+            @PathVariable UUID id,
+            @RequestHeader(value = USER_ID_HEADER, required = false) String userId) {
+        
+        log.info("Eliminando categoría de producto con ID: {}", id);
+        
+        UUID userUuid = userId != null ? UUID.fromString(userId) : null;
+        DeleteProductCategoryCommand command = DeleteProductCategoryCommand.fromRequest(id, userUuid);
+        DeleteProductCategoryMessage response = mediator.send(command);
         
         return ResponseEntity.ok(response);
     }
