@@ -10,4 +10,5 @@ import lombok.Setter;
 @AllArgsConstructor
 public class GetDashboardInfoQuery implements IQuery {
     private String address;
+    private EstimateEnum estimate;
 }

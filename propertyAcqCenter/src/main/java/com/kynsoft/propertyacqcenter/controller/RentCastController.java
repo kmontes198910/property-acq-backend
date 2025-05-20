@@ -1,6 +1,7 @@
 package com.kynsoft.propertyacqcenter.controller;
 
 import com.kynsof.share.core.infrastructure.bus.IMediator;
+import com.kynsoft.propertyacqcenter.application.query.dashboardRequest.EstimateEnum;
 import com.kynsoft.propertyacqcenter.application.query.dashboardRequest.GetDashboardInfoQuery;
 import com.kynsoft.propertyacqcenter.application.query.estimateValue.getEstimateValueExternalService.GetEstimateValueExternalServiceQuery;
 import com.kynsoft.propertyacqcenter.application.query.restEstimate.getRentEstimateExternalService.GetRentEstimateExternalServiceQuery;
@@ -45,8 +46,11 @@ public class RentCastController {
     }
 
     @GetMapping("/dashboard-info")
-    public ResponseEntity<DashboardInfoResponse> getDashboardInfo(@RequestParam String address) {
-        GetDashboardInfoQuery query = new GetDashboardInfoQuery(address);
+    public ResponseEntity<DashboardInfoResponse> getDashboardInfo(
+            @RequestParam String address,
+            @RequestParam(defaultValue = "PROPERTY_ESTIMATED", required = false) EstimateEnum estimate)
+    {
+        GetDashboardInfoQuery query = new GetDashboardInfoQuery(address, estimate);
         DashboardInfoResponse response = mediator.send(query);
 
         return ResponseEntity.ok(response);
