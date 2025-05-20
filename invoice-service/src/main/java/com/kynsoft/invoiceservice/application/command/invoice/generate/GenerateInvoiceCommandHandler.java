@@ -78,10 +78,10 @@ public class GenerateInvoiceCommandHandler implements ICommandHandler<GenerateIn
                 throw new BusinessInvoiceException(DomainErrorInvoiceMessage.INVOICE_NOT_VALID,
                         "Factura no válida, verifique los datos.");
             }
-            ;
-
 
             ByteArrayOutputStream xmlFactura = generateXmlAndInvoiceFile(factura);
+
+            ByteArrayOutputStream pdfInvoice = generatePDFInvoice(factura);
 
             sendInvoiceSRI(xmlFactura, factura);
 

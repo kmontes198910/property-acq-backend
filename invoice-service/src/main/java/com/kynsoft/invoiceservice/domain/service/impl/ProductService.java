@@ -53,18 +53,19 @@ public class ProductService implements IProductService {
     
     @Override
     public void delete(UUID id) {
-        log.info("Realizando eliminación lógica del producto con ID: {}", id);
+        log.info("Eliminando producto con ID: {}", id);
         
+        // Buscar el producto por su ID
         Product product = productWriteRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Producto no encontrado con ID: " + id));
         
-        // Realizar eliminación lógica (cambiar estado a inactivo)
+        // Realizar eliminación lógica (cambiar el estado a inactivo)
         product.setStatus(false);
         
         // Guardar los cambios
         productWriteRepository.save(product);
         
-        log.info("Producto eliminado lógicamente de forma exitosa: {}", id);
+        log.info("Producto con ID: {} eliminado exitosamente", id);
     }
     
     /**
