@@ -43,34 +43,66 @@ public class GetDashboardInfoQueryHandler implements IQueryHandler<GetDashboardI
 
         try {
             List<PropertyResponse> property = this.propertyService.getPropertyDetails(query.getAddress());
-            EstimatedValueResponse estimatedValue = this.estimateValueService.getEstimatedValue(query.getAddress());
-            RentEstimateResponse rentEstimateValue = this.rentCastRentEstimateService.getRentEstimate(query.getAddress());
+            DashboardStatisticsResponse dashboardStatisticsResponse = new DashboardStatisticsResponse();
 
             List<DashboardComparablesResponse> comparablesResponse = new ArrayList<>();
-            int estimatedValueAveragePrice = 0;
-            int countestimatedValue = 0;
+            //TODO: PropertyEstimated
+            if (query.getEstimate().equals(EstimateEnum.PROPERTY_ESTIMATED)) {
+                EstimatedValueResponse estimatedValue = this.estimateValueService.getEstimatedValue(query.getAddress());
+                int estimatedValueAveragePrice = 0;
+                int countestimatedValue = 0;
 
-            for (EstimatedValueResponse.ComparableProperty comparable : estimatedValue.getComparables()) {
-                comparablesResponse.add(DashboardComparablesResponse.builder()
-                        .formattedAddress(comparable.getFormattedAddress() != null ? comparable.getFormattedAddress() : null)
-                        .lastSeenDate(comparable.getLastSeenDate() != null ? comparable.getLastSeenDate() : null)
-                        .latitude(comparable.getLatitude() != null ? comparable.getLatitude() : null)
-                        .longitude(comparable.getLongitude() != null ? comparable.getLongitude() : null)
-                        .lotSize(comparable.getLotSize() != null ? comparable.getLotSize() : null)
-                        .price(comparable.getPrice() != null ? comparable.getPrice() : null)
-                        .propertyType(comparable.getPropertyType())
-                        .squareFootage(comparable.getSquareFootage() != null ? comparable.getSquareFootage() : null)
-                        .build());
-                estimatedValueAveragePrice = estimatedValueAveragePrice + comparable.getPrice();
-                countestimatedValue = countestimatedValue + 1;
+                for (EstimatedValueResponse.ComparableProperty comparable : estimatedValue.getComparables()) {
+                    comparablesResponse.add(DashboardComparablesResponse.builder()
+                            .formattedAddress(comparable.getFormattedAddress() != null ? comparable.getFormattedAddress() : null)
+                            .lastSeenDate(comparable.getLastSeenDate() != null ? comparable.getLastSeenDate() : null)
+                            .latitude(comparable.getLatitude() != null ? comparable.getLatitude() : null)
+                            .longitude(comparable.getLongitude() != null ? comparable.getLongitude() : null)
+                            .lotSize(comparable.getLotSize() != null ? comparable.getLotSize() : null)
+                            .price(comparable.getPrice() != null ? comparable.getPrice() : null)
+                            .propertyType(comparable.getPropertyType())
+                            .squareFootage(comparable.getSquareFootage() != null ? comparable.getSquareFootage() : null)
+                            .daysOnMarket(comparable.getDaysOnMarket() != null ? comparable.getDaysOnMarket() : null)
+                            .distance(comparable.getDistance() != null ? comparable.getDistance() : null)
+                            .build());
+                    estimatedValueAveragePrice = estimatedValueAveragePrice + comparable.getPrice();
+                    countestimatedValue = countestimatedValue + 1;
+                }
+                //TODO: dashboardStatisticsResponse
+                dashboardStatisticsResponse.setEstimatedValuePrice(estimatedValue.getPrice());
+                dashboardStatisticsResponse.setEstimatedValuePriceRangeHigh(estimatedValue.getPriceRangeHigh());
+                dashboardStatisticsResponse.setEstimatedValuePriceRangeLow(estimatedValue.getPriceRangeLow());
+                dashboardStatisticsResponse.setEstimatedValueAveragePrice(estimatedValueAveragePrice/countestimatedValue);
             }
 
-            int estimatedRentValueAveragePrice = 0;
-            int countEstimatedRentValue = 0;
-            for (RentEstimateResponse.ComparableRentProperty comparable : rentEstimateValue.getComparables()) {
-                estimatedRentValueAveragePrice = estimatedRentValueAveragePrice + comparable.getPrice();
-                countEstimatedRentValue = countEstimatedRentValue + 1;
+            //TODO: rentEstimated
+            if (query.getEstimate().equals(EstimateEnum.RENT_ESTIMATED)) {
+                RentEstimateResponse rentEstimateValue = this.rentCastRentEstimateService.getRentEstimate(query.getAddress());
+                int estimatedRentValueAveragePrice = 0;
+                int countEstimatedRentValue = 0;
+                for (RentEstimateResponse.ComparableRentProperty comparable : rentEstimateValue.getComparables()) {
+                    comparablesResponse.add(DashboardComparablesResponse.builder()
+                            .formattedAddress(comparable.getFormattedAddress() != null ? comparable.getFormattedAddress() : null)
+                            .lastSeenDate(comparable.getLastSeenDate() != null ? comparable.getLastSeenDate() : null)
+                            .latitude(comparable.getLatitude() != null ? comparable.getLatitude() : null)
+                            .longitude(comparable.getLongitude() != null ? comparable.getLongitude() : null)
+                            .lotSize(comparable.getLotSize() != null ? comparable.getLotSize() : null)
+                            .price(comparable.getPrice() != null ? comparable.getPrice() : null)
+                            .propertyType(comparable.getPropertyType())
+                            .squareFootage(comparable.getSquareFootage() != null ? comparable.getSquareFootage() : null)
+                            .daysOnMarket(comparable.getDaysOnMarket() != null ? comparable.getDaysOnMarket() : null)
+                            .distance(comparable.getDistance() != null ? comparable.getDistance() : null)
+                            .build());
+                    estimatedRentValueAveragePrice = estimatedRentValueAveragePrice + comparable.getPrice();
+                    countEstimatedRentValue = countEstimatedRentValue + 1;
+                }
+                //TODO: dashboardStatisticsResponse
+                dashboardStatisticsResponse.setEstimatedValuePrice(rentEstimateValue.getRent());
+                dashboardStatisticsResponse.setEstimatedValuePriceRangeHigh(rentEstimateValue.getRentRangeHigh());
+                dashboardStatisticsResponse.setEstimatedValuePriceRangeLow(rentEstimateValue.getRentRangeLow());
+                dashboardStatisticsResponse.setEstimatedValueAveragePrice(estimatedRentValueAveragePrice/countEstimatedRentValue);
             }
+
             List<DashboardSaleValueResponse> values = new ArrayList<>();
             Map<String, PropertyResponse.History> history = property.get(0).getHistory();
             history.forEach((date, h) -> {
@@ -92,16 +124,7 @@ public class GetDashboardInfoQueryHandler implements IQueryHandler<GetDashboardI
             });
             return DashboardInfoResponse
                     .builder()
-                    .statisticsResponse(DashboardStatisticsResponse.builder()
-                            .estimatedValueAveragePrice(estimatedValueAveragePrice/countestimatedValue)
-                            .estimatedValuePrice(estimatedValue.getPrice())
-                            .estimatedValuePriceRangeHigh(estimatedValue.getPriceRangeHigh())
-                            .estimatedValuePriceRangeLow(estimatedValue.getPriceRangeLow())
-                            .estimatedRentValuePrice(rentEstimateValue.getRent())
-                            .estimatedRentValuePriceRangeHigh(rentEstimateValue.getRentRangeHigh())
-                            .estimatedRentValuePriceRangeLow(rentEstimateValue.getRentRangeLow())
-                            .estimatedRentValueAveragePrice(estimatedRentValueAveragePrice/countEstimatedRentValue)
-                            .build())
+                    .statisticsResponse(dashboardStatisticsResponse)
                     .propertyResponse(DashboardPropertyResponse.builder()
                             .id(property.get(0).getId())
                             .apn(property.get(0).getAssessorID())

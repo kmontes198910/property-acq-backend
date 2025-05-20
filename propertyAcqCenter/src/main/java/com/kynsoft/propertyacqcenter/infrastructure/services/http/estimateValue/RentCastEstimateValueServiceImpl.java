@@ -21,7 +21,7 @@ public class RentCastEstimateValueServiceImpl {
     @Value("${rentcast.api.key:956392a6c15d4dca8e25623f87c8121b}")
     private String apiKey;
 
-    //private final String BASE_URL = "http://localhost:8097/api/rentcast/mock";
+//    private final String BASE_URL = "http://localhost:8097/api/rentcast/mock";
     //private final String BASE_URL = "http://property-acq-center-service:9901/api/rentcast/mock";
     private final String BASE_URL = "https://api.rentcast.io/v1";
 

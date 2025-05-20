@@ -19,4 +19,6 @@ public class DashboardComparablesResponse implements IResponse {
     private Integer price;
     private Double latitude;
     private Double longitude;
+    private Integer daysOnMarket;
+    private Double distance;
 }
