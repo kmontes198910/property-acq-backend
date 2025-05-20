@@ -11,21 +11,17 @@ import com.kynsoft.propertyacqcenter.application.response.rentcast.EstimatedValu
 import com.kynsoft.propertyacqcenter.application.response.rentcast.PropertyResponse;
 import com.kynsoft.propertyacqcenter.application.response.rentcast.RentEstimateResponse;
 import com.kynsoft.propertyacqcenter.application.response.rentcast.SaleListingResponse;
-import com.kynsoft.propertyacqcenter.domain.services.IRentCastService;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.*;
 import org.springframework.http.ResponseEntity;
 
 @RestController
 @RequestMapping("/api/rentcast")
 public class RentCastController {
 
-    private final IRentCastService rentCastService;
     private final IMediator mediator;
 
-    public RentCastController(IRentCastService rentCastService, IMediator mediator) {
-        this.rentCastService = rentCastService;
+    public RentCastController(IMediator mediator) {
         this.mediator = mediator;
     }
 
@@ -73,7 +69,9 @@ public class RentCastController {
     }
 
     @GetMapping("/sale")
-    public List<SaleListingResponse> getSaleListings(@RequestParam String city, @RequestParam String state) {
-        return rentCastService.getSaleListings(city, state);
+    public SaleListingResponse getSaleListings(@RequestParam String address) {
+        GetEstimateValueExternalServiceQuery query = new GetEstimateValueExternalServiceQuery(address);
+        SaleListingResponse response = mediator.send(query);
+        return response;
     }
 }

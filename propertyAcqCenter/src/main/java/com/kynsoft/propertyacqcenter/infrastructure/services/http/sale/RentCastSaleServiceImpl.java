@@ -4,7 +4,9 @@ import com.kynsof.share.core.domain.exception.BusinessNotFoundException;
 import com.kynsof.share.core.domain.exception.DomainErrorMessage;
 import com.kynsof.share.core.domain.exception.GlobalBusinessException;
 import com.kynsof.share.core.domain.response.ErrorField;
-import com.kynsoft.propertyacqcenter.domain.dto.property.saleListing.SaleListingDto;
+import com.kynsoft.propertyacqcenter.application.response.rentcast.SaleListingResponse;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -17,9 +19,11 @@ import org.springframework.web.client.RestClientException;
 @Service
 public class RentCastSaleServiceImpl {
 
-    //TODO: esta api debe de ser cambiada por la real a consumir.
-    @Value("${rentcast.api.key:http://localhost:8097/api/rentcast/mock}")
+    @Value("${rentcast.api.key:956392a6c15d4dca8e25623f87c8121b}")
     private String apiKey;
+
+    //TODO: esta api debe de ser cambiada por la real a consumir.
+    private final String BASE_URL = "https://api.rentcast.io/v1";
 
     private final RestTemplate restTemplate;
 
@@ -27,28 +31,39 @@ public class RentCastSaleServiceImpl {
         this.restTemplate = restTemplate;
     }
 
+    private HttpEntity<String> createHttpEntity() {
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("X-Api-Key", apiKey);
+        return new HttpEntity<>(headers);
+    }
+
+    private String encode(String value) {
+        return URLEncoder.encode(value, StandardCharsets.UTF_8);
+    }
+
     //TODO: La response de este metodo, lo vamos a trasformar en la capa de application.
-    public List<SaleListingDto> getRentEstimate(String address) {
+    public List<SaleListingResponse> getRentEstimate(String address) {
         try {
-            String url = apiKey + "/sale/fake";
+            String cleanedAddress = address.trim(); // Elimina espacios al inicio/final
+            //String url = BASE_URL + "/sale/fake";
+
+            //verdadero
+            String url = BASE_URL + "/listings/sale?address=" + cleanedAddress;
 
             // Crear cabeceras para la solicitud
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.APPLICATION_JSON);
 
-            // Crear la entidad de la solicitud con el cuerpo (request) y las cabeceras
-            HttpEntity<UUID> entity = new HttpEntity<>(UUID.randomUUID(), headers);
-
             // Usar ParameterizedTypeReference para especificar el tipo genérico
-            ParameterizedTypeReference<List<SaleListingDto>> responseType
-                    = new ParameterizedTypeReference<List<SaleListingDto>>() {
+            ParameterizedTypeReference<List<SaleListingResponse>> responseType
+                    = new ParameterizedTypeReference<List<SaleListingResponse>>() {
             };
 
             // Enviar la solicitud POST al endpoint del controlador
-            ResponseEntity<List<SaleListingDto>> response = restTemplate.exchange(
+            ResponseEntity<List<SaleListingResponse>> response = restTemplate.exchange(
                     url,
                     HttpMethod.GET,
-                    entity,
+                    createHttpEntity(),
                     responseType);
 
             if (!HttpStatus.OK.equals(response.getStatusCode())) {
