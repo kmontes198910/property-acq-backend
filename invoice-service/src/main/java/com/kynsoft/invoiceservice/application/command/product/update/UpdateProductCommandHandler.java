@@ -3,6 +3,7 @@ package com.kynsoft.invoiceservice.application.command.product.update;
 import com.kynsof.share.core.domain.bus.command.ICommandHandler;
 import com.kynsoft.invoiceservice.domain.exception.BusinessException;
 import com.kynsoft.invoiceservice.domain.exception.DomainErrorInvoiceMessage;
+import com.kynsoft.invoiceservice.domain.service.IProductService;
 import com.kynsoft.invoiceservice.infrastructure.entities.Product;
 import com.kynsoft.invoiceservice.infrastructure.entities.ProductCategory;
 import com.kynsoft.invoiceservice.infrastructure.repository.command.ProductWriteRepository;
@@ -20,8 +21,7 @@ import java.util.Optional;
 @Slf4j
 public class UpdateProductCommandHandler implements ICommandHandler<UpdateProductCommand> {
 
-    private final ProductReadRepository productRepository;
-    private final ProductWriteRepository productWriteRepository;
+    private final IProductService productService;
     private final ProductCategoryRepository productCategoryRepository;
 
     @Override
@@ -30,14 +30,14 @@ public class UpdateProductCommandHandler implements ICommandHandler<UpdateProduc
         log.info("Updating product with ID: {}", command.getProductId());
         
         // Obtener el producto a actualizar
-        Product product = productRepository.findById(command.getProductId())
+        Product product = productService.findById(command.getProductId())
                 .orElseThrow(() -> new BusinessException(
                     DomainErrorInvoiceMessage.PRODUCT_NOT_FOUND, 
                     "Producto no encontrado con ID: " + command.getProductId()));
         
         // Verificar si se está cambiando el código principal y si el nuevo código ya existe
         if (!product.getMainCode().equals(command.getMainCode())) {
-            Optional<Product> existingProduct = productRepository.findByMainCode(command.getMainCode());
+            Optional<Product> existingProduct = productService.findByMainCode(command.getMainCode());
             if (existingProduct.isPresent() && !existingProduct.get().getId().equals(command.getProductId())) {
                 throw new BusinessException(DomainErrorInvoiceMessage.PRODUCT_CODE_ALREADY_EXISTS,
                     "Ya existe un producto con el código principal: " + command.getMainCode());
@@ -66,6 +66,6 @@ public class UpdateProductCommandHandler implements ICommandHandler<UpdateProduc
         product.setUpdatedBy(command.getUpdatedBy()); // Agregar campo de auditoría
         
         // Guardar los cambios
-        productWriteRepository.save(product);
+        productService.update(product);
     }
 }

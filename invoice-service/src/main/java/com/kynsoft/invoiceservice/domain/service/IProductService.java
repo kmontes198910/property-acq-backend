@@ -33,4 +33,8 @@ public interface IProductService {
     Optional<Product> findByMainCode(String mainCode);
 
     Product create(Product product);
+
+    Optional<Product> findById(UUID productId);
+
+    void update(Product product);
 }

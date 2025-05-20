@@ -79,6 +79,16 @@ public class ProductService implements IProductService {
         return productWriteRepository.save(product);
     }
 
+    @Override
+    public Optional<Product> findById(UUID productId) {
+        return productRepository.findById(productId);
+    }
+
+    @Override
+    public void update(Product product) {
+        productWriteRepository.save(product);
+    }
+
     /**
      * Mapea una entidad Product a un DTO ProductDto
      * @param product Entidad Product a convertir
