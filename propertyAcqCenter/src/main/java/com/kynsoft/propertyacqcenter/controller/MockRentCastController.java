@@ -2,7 +2,7 @@ package com.kynsoft.propertyacqcenter.controller;
 
 import com.kynsoft.propertyacqcenter.application.response.rentcast.EstimatedValueResponse;
 import com.kynsoft.propertyacqcenter.application.response.rentcast.PropertyResponse;
-import com.kynsoft.propertyacqcenter.domain.dto.property.saleListing.SaleListingDto;
+import com.kynsoft.propertyacqcenter.application.response.rentcast.SaleListingResponse;
 import com.kynsoft.propertyacqcenter.infrastructure.services.http.estimate.dto.EstimatedValueDto;
 import com.kynsoft.propertyacqcenter.infrastructure.services.mock.RentCastServiceMockImpl;
 import org.springframework.web.bind.annotation.*;
@@ -36,7 +36,7 @@ public class MockRentCastController {
     }
 
     @GetMapping("/sale/fake")
-    public List<SaleListingDto> getFakeSaleListings() {
+    public List<SaleListingResponse> getFakeSaleListings() {
         return this.mock.getSaleListings();
     }
 }
