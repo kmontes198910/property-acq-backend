@@ -4,6 +4,7 @@ import com.kynsof.share.core.infrastructure.bus.IMediator;
 import com.kynsoft.propertyacqcenter.application.query.dashboardRequest.EstimateEnum;
 import com.kynsoft.propertyacqcenter.application.query.dashboardRequest.GetDashboardInfoQuery;
 import com.kynsoft.propertyacqcenter.application.query.estimateValue.getEstimateValueExternalService.GetEstimateValueExternalServiceQuery;
+import com.kynsoft.propertyacqcenter.application.query.estimateValue.getSaleListingsExternalService.GetSaleListingsExternalServiceQuery;
 import com.kynsoft.propertyacqcenter.application.query.restEstimate.getRentEstimateExternalService.GetRentEstimateExternalServiceQuery;
 import com.kynsoft.propertyacqcenter.application.query.property.getPropertyDetailsExternalService.GetPropertyDetailsExternalServiceQuery;
 import com.kynsoft.propertyacqcenter.application.response.dashboardInfo.DashboardInfoResponse;
@@ -70,7 +71,7 @@ public class RentCastController {
 
     @GetMapping("/sale")
     public SaleListingResponse getSaleListings(@RequestParam String address) {
-        GetEstimateValueExternalServiceQuery query = new GetEstimateValueExternalServiceQuery(address);
+        GetSaleListingsExternalServiceQuery query = new GetSaleListingsExternalServiceQuery(address);
         SaleListingResponse response = mediator.send(query);
         return response;
     }

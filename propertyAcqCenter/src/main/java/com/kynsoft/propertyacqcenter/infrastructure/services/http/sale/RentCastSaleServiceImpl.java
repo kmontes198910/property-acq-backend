@@ -24,6 +24,7 @@ public class RentCastSaleServiceImpl {
 
     //TODO: esta api debe de ser cambiada por la real a consumir.
     private final String BASE_URL = "https://api.rentcast.io/v1";
+    //private final String BASE_URL = "http://localhost:8097/api/rentcast/mock";
 
     private final RestTemplate restTemplate;
 
