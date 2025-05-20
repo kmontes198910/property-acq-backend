@@ -20,25 +20,18 @@ import java.util.UUID;
 public class CreateExaminationOrderCommand implements ICommand {
     
     private UUID id;
-    
     @NotNull(message = "El ID del paciente no puede ser nulo")
     private UUID patientId;
-    
     @NotNull(message = "El ID del doctor no puede ser nulo")
     private UUID doctorId;
-    
     private LocalDateTime creationDate;
-    
-    private String status;
-    
     private String observations;
-    
     @NotNull(message = "El ID del negocio no puede ser nulo")
     private UUID businessId;
     
     private UUID createdBy;
     
-    private List<CreateExaminationRequest> examinations = new ArrayList<>();
+    private List<CreateOrderExaminationRequest> examinations = new ArrayList<>();
     
     public CreateExaminationOrderCommand() {
         this.id = UUID.randomUUID();
@@ -49,7 +42,6 @@ public class CreateExaminationOrderCommand implements ICommand {
         command.setPatientId(request.getPatientId());
         command.setDoctorId(request.getDoctorId());
         command.setCreationDate(request.getCreationDate());
-        command.setStatus(request.getStatus());
         command.setObservations(request.getObservations());
         command.setBusinessId(request.getBusinessId());
         command.setExaminations(request.getExaminations());

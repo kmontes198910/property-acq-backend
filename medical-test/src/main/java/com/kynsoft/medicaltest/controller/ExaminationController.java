@@ -36,14 +36,14 @@ public class ExaminationController {
 
     @Operation(summary = "Crear examen", description = "Crea un nuevo examen médico")
     @PostMapping
-    public ResponseEntity<UUID> createExamination(
+    public ResponseEntity<?> createExamination(
             @Valid @RequestBody CreateExaminationRequest request,
             HttpServletRequest httpRequest) {
 
         String userId = httpRequest.getHeader(USER_ID_HEADER);
         CreateExaminationCommand command = CreateExaminationCommand.fromRequest(request, userId);
         CreateExaminationMessage message = mediator.send(command);
-        return new ResponseEntity<>(message.getId(), HttpStatus.CREATED);
+        return ResponseEntity.ok(message);
     }
 
     @Operation(summary = "Actualizar examen", description = "Actualiza un examen médico por ID")

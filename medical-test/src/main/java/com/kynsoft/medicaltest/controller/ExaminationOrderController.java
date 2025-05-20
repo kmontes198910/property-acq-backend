@@ -38,14 +38,14 @@ public class ExaminationOrderController {
 
     @Operation(summary = "Crear orden", description = "Crea una nueva orden de exámenes médicos")
     @PostMapping
-    public ResponseEntity<UUID> createOrder(
+    public ResponseEntity<?> createOrder(
             @Valid @RequestBody CreateExaminationOrderRequest request,
             HttpServletRequest httpRequest) {
 
         String userId = httpRequest.getHeader(USER_ID_HEADER);
         CreateExaminationOrderCommand command = CreateExaminationOrderCommand.fromRequest(request, userId);
         CreateExaminationOrderMessage message = mediator.send(command);
-        return new ResponseEntity<>(message.getId(), HttpStatus.CREATED);
+        return  ResponseEntity.ok(message);
     }
 
     @Operation(summary = "Obtener orden por ID", description = "Obtiene una orden de exámenes por su identificador único")
