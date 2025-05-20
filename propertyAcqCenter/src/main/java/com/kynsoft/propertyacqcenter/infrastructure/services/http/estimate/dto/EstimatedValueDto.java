@@ -13,9 +13,9 @@ import lombok.Setter;
 @NoArgsConstructor
 public class EstimatedValueDto {
     private UUID id;
-    private Integer price;
-    private Integer priceRangeLow;
-    private Integer priceRangeHigh;
+    private Integer rent;
+    private Integer rentRangeLow;
+    private Integer rentRangeHigh;
     private Double latitude;
     private Double longitude;
     private List<ComparablePropertyDto> comparables;

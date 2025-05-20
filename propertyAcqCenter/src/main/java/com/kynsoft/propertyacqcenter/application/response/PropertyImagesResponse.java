@@ -15,11 +15,13 @@ public class PropertyImagesResponse implements IResponse {
     private UUID id;
     private PropertyDto property;
     private String url;
+    private Boolean main;
 
     public PropertyImagesResponse(PropertyImagesDto dto) {
         this.id = dto.getId();
         this.property = dto.getProperty();
         this.url = dto.getUrl();
+        this.main = dto.getMain();
     }
 
 }

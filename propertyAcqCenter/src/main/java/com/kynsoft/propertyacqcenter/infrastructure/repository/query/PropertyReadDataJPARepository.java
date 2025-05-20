@@ -10,5 +10,8 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface PropertyReadDataJPARepository extends JpaRepository<Property, String>, JpaSpecificationExecutor<Property> {
+    @Override
     Page<Property> findAll(Specification<Property> specification, Pageable pageable);
+
+    long countById(String id);
 }

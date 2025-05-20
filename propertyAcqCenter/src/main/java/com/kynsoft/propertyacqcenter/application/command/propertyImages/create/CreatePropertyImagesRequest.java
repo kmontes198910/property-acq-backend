@@ -9,4 +9,5 @@ public class CreatePropertyImagesRequest {
 
     private String property;
     private String url;
+    private Boolean main;
 }

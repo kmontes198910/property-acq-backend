@@ -14,6 +14,7 @@ import com.kynsoft.propertyacqcenter.application.response.dashboardInfo.Dashboar
 import com.kynsoft.propertyacqcenter.application.response.dashboardInfo.DashboardTaxAssessmentsResponse;
 import com.kynsoft.propertyacqcenter.application.response.rentcast.EstimatedValueResponse;
 import com.kynsoft.propertyacqcenter.application.response.rentcast.PropertyResponse;
+import com.kynsoft.propertyacqcenter.application.response.rentcast.RentEstimateResponse;
 import com.kynsoft.propertyacqcenter.infrastructure.services.http.estimateValue.RentCastEstimateValueServiceImpl;
 import com.kynsoft.propertyacqcenter.infrastructure.services.http.property.RentCastPropertyServiceImpl;
 import com.kynsoft.propertyacqcenter.infrastructure.services.http.rentEstimate.RentCastRentEstimateServiceImpl;
@@ -43,9 +44,11 @@ public class GetDashboardInfoQueryHandler implements IQueryHandler<GetDashboardI
         try {
             List<PropertyResponse> property = this.propertyService.getPropertyDetails(query.getAddress());
             EstimatedValueResponse estimatedValue = this.estimateValueService.getEstimatedValue(query.getAddress());
+            RentEstimateResponse rentEstimateValue = this.rentCastRentEstimateService.getRentEstimate(query.getAddress());
+
             List<DashboardComparablesResponse> comparablesResponse = new ArrayList<>();
-            Integer estimatedValueAveragePrice = 0;
-            int count = 0;
+            int estimatedValueAveragePrice = 0;
+            int countestimatedValue = 0;
 
             for (EstimatedValueResponse.ComparableProperty comparable : estimatedValue.getComparables()) {
                 comparablesResponse.add(DashboardComparablesResponse.builder()
@@ -59,7 +62,14 @@ public class GetDashboardInfoQueryHandler implements IQueryHandler<GetDashboardI
                         .squareFootage(comparable.getSquareFootage() != null ? comparable.getSquareFootage() : null)
                         .build());
                 estimatedValueAveragePrice = estimatedValueAveragePrice + comparable.getPrice();
-                count = count + 1;
+                countestimatedValue = countestimatedValue + 1;
+            }
+
+            int estimatedRentValueAveragePrice = 0;
+            int countEstimatedRentValue = 0;
+            for (RentEstimateResponse.ComparableRentProperty comparable : rentEstimateValue.getComparables()) {
+                estimatedRentValueAveragePrice = estimatedRentValueAveragePrice + comparable.getPrice();
+                countEstimatedRentValue = countEstimatedRentValue + 1;
             }
             List<DashboardSaleValueResponse> values = new ArrayList<>();
             Map<String, PropertyResponse.History> history = property.get(0).getHistory();
@@ -83,10 +93,14 @@ public class GetDashboardInfoQueryHandler implements IQueryHandler<GetDashboardI
             return DashboardInfoResponse
                     .builder()
                     .statisticsResponse(DashboardStatisticsResponse.builder()
-                            .estimatedValueAveragePrice(estimatedValueAveragePrice/count)
+                            .estimatedValueAveragePrice(estimatedValueAveragePrice/countestimatedValue)
                             .estimatedValuePrice(estimatedValue.getPrice())
                             .estimatedValuePriceRangeHigh(estimatedValue.getPriceRangeHigh())
                             .estimatedValuePriceRangeLow(estimatedValue.getPriceRangeLow())
+                            .estimatedRentValuePrice(rentEstimateValue.getRent())
+                            .estimatedRentValuePriceRangeHigh(rentEstimateValue.getRentRangeHigh())
+                            .estimatedRentValuePriceRangeLow(rentEstimateValue.getRentRangeLow())
+                            .estimatedRentValueAveragePrice(estimatedRentValueAveragePrice/countEstimatedRentValue)
                             .build())
                     .propertyResponse(DashboardPropertyResponse.builder()
                             .id(property.get(0).getId())

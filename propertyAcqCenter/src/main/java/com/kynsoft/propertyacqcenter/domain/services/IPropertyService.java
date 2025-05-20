@@ -18,4 +18,8 @@ public interface IPropertyService {
     PropertyDto getById(String id);
 
     PaginatedResponse search(Pageable pageable, List<FilterCriteria> filterCriteria);
+
+    long countById(String id);
+
+    void validatePropertyId(String id);
 }

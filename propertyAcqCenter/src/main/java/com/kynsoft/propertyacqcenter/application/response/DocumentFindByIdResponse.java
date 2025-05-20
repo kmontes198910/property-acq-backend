@@ -2,7 +2,6 @@ package com.kynsoft.propertyacqcenter.application.response;
 
 import com.kynsof.share.core.domain.bus.query.IResponse;
 import com.kynsoft.propertyacqcenter.domain.dto.DocumentDto;
-import com.kynsoft.propertyacqcenter.domain.dto.LegalEntityDto;
 import com.kynsoft.propertyacqcenter.domain.enums.DocumentStatus;
 import com.kynsoft.propertyacqcenter.domain.enums.DocumentType;
 import java.time.LocalDate;
@@ -36,7 +35,6 @@ public class DocumentFindByIdResponse implements IResponse {
     private String documentNumber;
     private Boolean isOriginal;
     private String version;
-    private Boolean renewalRequired;
     private LocalDate renewalDate;
     private String tags;
     private String notes;
@@ -63,7 +61,6 @@ public class DocumentFindByIdResponse implements IResponse {
         this.documentNumber = documentDto.getDocumentNumber();
         this.isOriginal = documentDto.getIsOriginal();
         this.version = documentDto.getVersion();
-        this.renewalRequired = documentDto.getRenewalRequired();
         this.renewalDate = documentDto.getRenewalDate();
         this.tags = documentDto.getTags();
         this.notes = documentDto.getNotes();

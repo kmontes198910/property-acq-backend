@@ -11,6 +11,8 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 import java.util.UUID;
 import org.springframework.data.jpa.repository.EntityGraph;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 @Repository
 public interface PropertyImagesReadDataJPARepository extends JpaRepository<PropertyImages, UUID>, JpaSpecificationExecutor<PropertyImages> {
@@ -20,4 +22,7 @@ public interface PropertyImagesReadDataJPARepository extends JpaRepository<Prope
     @EntityGraph(attributePaths = {"property"})
     @Override
     Optional<PropertyImages> findById(UUID id);
+
+    @Query("SELECT COUNT(pi) FROM PropertyImages pi WHERE pi.property.id = :property AND pi.main = true")
+    int countByPropertyAndIsMain(@Param("property") String property);
 }

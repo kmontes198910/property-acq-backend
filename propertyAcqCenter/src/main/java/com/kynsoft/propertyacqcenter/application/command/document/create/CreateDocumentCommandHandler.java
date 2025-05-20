@@ -39,7 +39,6 @@ public class CreateDocumentCommandHandler implements ICommandHandler<CreateDocum
                 command.getDocumentNumber(), 
                 command.getIsOriginal(), 
                 command.getVersion(), 
-                command.getRenewalRequired(), 
                 command.getRenewalDate(), 
                 command.getTags(), 
                 command.getNotes(), 

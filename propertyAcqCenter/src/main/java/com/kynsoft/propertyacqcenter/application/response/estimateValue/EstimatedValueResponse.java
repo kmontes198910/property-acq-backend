@@ -24,9 +24,9 @@ public class EstimatedValueResponse implements IResponse {
 
     public EstimatedValueResponse(EstimatedValueDto dto) {
         this.id = dto.getId();
-        this.price = dto.getPrice();
-        this.priceRangeLow = dto.getPriceRangeLow();
-        this.priceRangeHigh = dto.getPriceRangeHigh();
+        this.price = dto.getRent();
+        this.priceRangeLow = dto.getRentRangeLow();
+        this.priceRangeHigh = dto.getRentRangeHigh();
         this.latitude = dto.getLatitude();
         this.longitude = dto.getLongitude();
         for (ComparablePropertyDto comparable : dto.getComparables()) {

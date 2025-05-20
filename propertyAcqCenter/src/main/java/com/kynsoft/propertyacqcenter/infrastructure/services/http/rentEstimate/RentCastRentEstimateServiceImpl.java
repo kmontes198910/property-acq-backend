@@ -48,7 +48,7 @@ public class RentCastRentEstimateServiceImpl {
     public RentEstimateResponse getRentEstimate(String address) {
         try {
             String cleanedAddress = address.trim(); // Elimina espacios al inicio/final
-//            String url = apiKey + "/rent/fake";
+            //String url = BASE_URL + "/rent/fake";
 
             //verdadero
             String url = BASE_URL + "/avm/rent/long-term?address=" + cleanedAddress;
