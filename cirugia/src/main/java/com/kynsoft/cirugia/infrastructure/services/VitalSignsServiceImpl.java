@@ -206,6 +206,7 @@ public class VitalSignsServiceImpl implements IVitalSignsService {
                 .glasgowScoreOcular(vitalSigns.getGlasgowScoreOcular())
                 .observations(vitalSigns.getObservations())
                 .recordedAt(vitalSigns.getRecordedAt())
+                .process(vitalSigns.getProcess())
                 .createdAt(vitalSigns.getCreatedAt())
                 .updatedAt(vitalSigns.getUpdatedAt())
                 .createdBy(vitalSigns.getCreatedBy())
@@ -219,7 +220,7 @@ public class VitalSignsServiceImpl implements IVitalSignsService {
     private void calculateAndSetBMI(VitalSigns vitalSigns) {
         if (vitalSigns.getWeight() != null && vitalSigns.getHeight() != null && vitalSigns.getHeight() > 0) {
             // La altura debe estar en metros, es posible que necesite convertir si viene en cm
-            Double heightInMeters = vitalSigns.getHeight();
+            double heightInMeters = vitalSigns.getHeight();
             if (heightInMeters > 3) { // Asumimos que si es mayor a 3, está en cm
                 heightInMeters = heightInMeters / 100;
             }
