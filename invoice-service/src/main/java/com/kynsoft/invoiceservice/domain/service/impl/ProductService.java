@@ -6,6 +6,7 @@ import com.kynsof.share.core.infrastructure.specifications.GenericSpecifications
 import com.kynsoft.invoiceservice.application.query.product.getById.ProductDto;
 import com.kynsoft.invoiceservice.domain.service.IProductService;
 import com.kynsoft.invoiceservice.infrastructure.entities.Product;
+import com.kynsoft.invoiceservice.infrastructure.repository.command.ProductWriteRepository;
 import com.kynsoft.invoiceservice.infrastructure.repository.query.ProductRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -14,6 +15,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -22,6 +24,7 @@ import java.util.stream.Collectors;
 public class ProductService implements IProductService {
 
     private final ProductRepository productRepository;
+    private final ProductWriteRepository productWriteRepository;
 
     @Override
     public PaginatedResponse searchAdvanced(Pageable pageable, List<FilterCriteria> filterCriteria) {
@@ -46,6 +49,22 @@ public class ProductService implements IProductService {
                 page.getSize(),               // size
                 page.getNumber()              // page
         );
+    }
+    
+    @Override
+    public void delete(UUID id) {
+        log.info("Realizando eliminación lógica del producto con ID: {}", id);
+        
+        Product product = productWriteRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Producto no encontrado con ID: " + id));
+        
+        // Realizar eliminación lógica (cambiar estado a inactivo)
+        product.setStatus(false);
+        
+        // Guardar los cambios
+        productWriteRepository.save(product);
+        
+        log.info("Producto eliminado lógicamente de forma exitosa: {}", id);
     }
     
     /**

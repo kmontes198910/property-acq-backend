@@ -13,18 +13,25 @@ import com.kynsoft.invoiceservice.domain.exception.DomainErrorInvoiceMessage;
 import com.kynsoft.invoiceservice.domain.service.ICustomerService;
 import com.kynsoft.invoiceservice.domain.service.IInvoiceIssuerService;
 import com.kynsoft.invoiceservice.infrastructure.entities.Customer;
-import com.kynsoft.invoiceservice.infrastructure.entities.InvoiceIssuer;
-import com.kynsoft.invoiceservice.infrastructure.entities.InvoiceIssuingSequence;
+
+import ec.e.facturacion.sri.constante.Ambiente;
+import ec.e.facturacion.sri.constante.Estados;
 import ec.e.facturacion.sri.modelo.ComprobanteBase;
 import ec.e.facturacion.sri.modelo.Factura;
 import ec.e.facturacion.sri.pdf.generador.FacturaPDFGenerador;
-import ec.e.facturacion.sri.util.FileConverterUtil;
-import ec.e.facturacion.sri.util.MensajeSRI;
-import ec.e.facturacion.sri.util.SRIImprimirValidacionUtil;
+import ec.e.facturacion.sri.util.*;
+
+import ec.e.facturacion.sri.ws.autorizacion.prueba.RespuestaComprobante;
+import ec.e.facturacion.sri.ws.recepcion.prueba.RespuestaSolicitud;
+import ec.e.facturacion.sri.ws.soap.servicio.SRIAutorizacionServicio;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import ec.e.facturacion.sri.constante.Regimen;
+import ec.e.facturacion.sri.modelo.ComprobanteBase;
+import ec.e.facturacion.sri.modelo.Factura;
+import ec.e.facturacion.sri.ws.soap.servicio.SRIRecepcionServicio;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -66,9 +73,18 @@ public class GenerateInvoiceCommandHandler implements ICommandHandler<GenerateIn
             Factura factura = createfactura(issuerDto, sequential, command.getDetalles(), customer, command.getPropina(),
                     command.getPagos(), command.getInfoAdicional());
 
-            if (validateInvoice(factura)) return;
+            if (validateInvoice(factura)) {
+                log.error("Factura no válida, abortando generación.");
+                throw new BusinessInvoiceException(DomainErrorInvoiceMessage.INVOICE_NOT_VALID,
+                        "Factura no válida, verifique los datos.");
+            }
+            ;
 
-            generateXmlAndInvoiceFile(factura);
+
+            ByteArrayOutputStream xmlFactura = generateXmlAndInvoiceFile(factura);
+
+            sendInvoiceSRI(xmlFactura, factura);
+
 
             command.setId(UUID.randomUUID()); // Asegurarse de que el comando tenga un ID
             command.setAccessKey(factura.getClaveAcceso());
@@ -87,7 +103,39 @@ public class GenerateInvoiceCommandHandler implements ICommandHandler<GenerateIn
         }
     }
 
-    private static void generateXmlAndInvoiceFile(Factura factura) throws IOException {
+    private static void sendInvoiceSRI(ByteArrayOutputStream xmlFactura, Factura factura) {
+        try {
+            // Crear instancia del servicio (true para modo prueba)
+            SRIRecepcionServicio sriRecepcion = new SRIRecepcionServicio();
+
+            // Enviar el comprobante al SRI para recepcionar
+            RespuestaSolicitud respuestaRecepcion = sriRecepcion.enviarComprobante(xmlFactura.toByteArray(),
+                    Ambiente.PRUEBA);
+
+            // Imprimir la respuesta
+            SRIImprimirRecepcionUtil.imprimirRespuestaRecepcion(respuestaRecepcion);
+
+            if (respuestaRecepcion.getEstado().equals(Estados.RECIBIDA))
+                try {
+                    // Crear instancia del servicio (true para modo prueba)
+                    SRIAutorizacionServicio sriAutorizacion = new SRIAutorizacionServicio();
+
+                    // Enviar el comprobante al SRI para autorizar
+                    RespuestaComprobante respuestaAutorizacion = sriAutorizacion
+                            .autorizarComprobante(factura.getClaveAcceso(), Ambiente.PRUEBA);
+
+                    SRIImprimirAutorizacionUtil.imprimirRespuestaAutorizacion(respuestaAutorizacion);
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private static ByteArrayOutputStream generateXmlAndInvoiceFile(Factura factura) throws IOException {
         // Generar el XML
         byte[] p12Bytes = FileConverterUtil.p12FileToByteArray("/Users/keimermontes/Development/medinec/scheduled/invoice-service/libs/0961881992.p12");
 
@@ -116,11 +164,56 @@ public class GenerateInvoiceCommandHandler implements ICommandHandler<GenerateIn
 
             Files.write(Paths.get(nombreArchivoPdf), pdfFactura.toByteArray());
             System.out.println("\nFactura PDF guardada en: " + nombreArchivoPdf);
+
+
         } catch (Exception e) {
             System.err.println("Error al generar o guardar el pdf de la factura : " + e.getMessage());
             e.printStackTrace();
         }
+
+
+        return xmlFactura;
     }
+
+
+    private static ByteArrayOutputStream generatePDFInvoice(Factura factura) throws IOException {
+//        // Generar el XML
+//        byte[] p12Bytes = FileConverterUtil.p12FileToByteArray("/Users/keimermontes/Development/medinec/scheduled/invoice-service/libs/0961881992.p12");
+//
+//        // Construir el p12 a partir del arreglo de bytes
+//        InputStream p12Stream = FileConverterUtil.byteArrayToInputStream(p12Bytes);
+//        ByteArrayOutputStream xmlFactura = factura.generarXml(p12Stream, "Gloria2014");
+//
+//        System.out.println("Estado de la factura:\n" + factura.getEstado());
+//        System.out.println("XML generado:\n" + xmlFactura);
+//
+//        // Guardar el XML en un archivo
+//        String nombreArchivo = "factura_" + factura.getEstab() + "-" + factura.getPtoEmi() + "-"
+//                               + factura.getSecuencial() + ".xml";
+//
+//        Files.write(Paths.get(nombreArchivo), xmlFactura.toByteArray());
+//        System.out.println("\nFactura guardada en: " + nombreArchivo);
+
+        try {
+            // Generar el PDF
+            String logoBase64 = FileConverterUtil.imageToBase64("/Users/keimermontes/Development/medinec/scheduled/invoice-service/libs/logo.jpg");
+            ByteArrayOutputStream pdfFactura = FacturaPDFGenerador.generarPDF(factura, logoBase64, "#2D4C80");
+
+            // Guardar el PDF en un archivo
+            String nombreArchivoPdf = "factura_" + factura.getEstab() + "-" + factura.getPtoEmi() + "-"
+                                      + factura.getSecuencial() + ".pdf";
+
+            Files.write(Paths.get(nombreArchivoPdf), pdfFactura.toByteArray());
+            System.out.println("\nFactura PDF guardada en: " + nombreArchivoPdf);
+
+            return pdfFactura;
+        } catch (Exception e) {
+            throw new BusinessInvoiceException(DomainErrorInvoiceMessage.GENERAL_ERROR,
+                    "Error al generar factura: " + e.getMessage());
+        }
+
+    }
+
 
     private static boolean validateInvoice(Factura factura) {
         List<MensajeSRI> mensajes = factura.validar();
@@ -138,14 +231,14 @@ public class GenerateInvoiceCommandHandler implements ICommandHandler<GenerateIn
                 .findFirst();
 
         InvoiceIssuingSequenceDto sequenceDto;
-        
+
         if (sequenceOpt.isPresent()) {
             sequenceDto = sequenceOpt.get();
         } else {
             // Si no existe una secuencia para este tipo de documento, lanzar una excepción
             throw new BusinessInvoiceException(
-                DomainErrorInvoiceMessage.SEQUENCE_NOT_FOUND,
-                "No se encontró una secuencia activa para el tipo de documento: " + documentType);
+                    DomainErrorInvoiceMessage.SEQUENCE_NOT_FOUND,
+                    "No se encontró una secuencia activa para el tipo de documento: " + documentType);
         }
 
         // Incrementar el secuencial

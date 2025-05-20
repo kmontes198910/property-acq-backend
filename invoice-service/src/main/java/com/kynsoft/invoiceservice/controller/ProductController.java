@@ -7,6 +7,7 @@ import com.kynsof.share.core.infrastructure.bus.IMediator;
 import com.kynsoft.invoiceservice.application.command.product.create.CreateProductCommand;
 import com.kynsoft.invoiceservice.application.command.product.create.CreateProductMessage;
 import com.kynsoft.invoiceservice.application.command.product.create.CreateProductRequest;
+import com.kynsoft.invoiceservice.application.command.product.delete.DeleteProductCommand;
 import com.kynsoft.invoiceservice.application.command.product.update.UpdateProductCommand;
 import com.kynsoft.invoiceservice.application.command.product.update.UpdateProductMessage;
 import com.kynsoft.invoiceservice.application.command.product.update.UpdateProductRequest;
@@ -134,5 +135,27 @@ public class ProductController {
         
         PaginatedResponse response = mediator.send(query);
         return ResponseEntity.ok(response);
+    }
+
+    @DeleteMapping("/{id}")
+    @Operation(summary = "Eliminar un producto", 
+               description = "Marca un producto como inactivo (eliminación lógica)")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "204", 
+                     description = "Producto eliminado correctamente"),
+        @ApiResponse(responseCode = "404", 
+                     description = "Producto no encontrado",
+                     content = @Content)
+    })
+    public ResponseEntity<Void> deleteProduct(
+            @Parameter(description = "ID del producto a eliminar", required = true) 
+            @PathVariable UUID id) {
+        
+        log.info("Eliminando producto con ID: {}", id);
+        
+        DeleteProductCommand command = new DeleteProductCommand(id);
+        mediator.send(command);
+        
+        return ResponseEntity.noContent().build();
     }
 }
