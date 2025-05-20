@@ -1,6 +1,7 @@
 package com.kynsoft.invoiceservice.application.command.productcategory.delete;
 
 import com.kynsof.share.core.domain.bus.command.ICommand;
+import com.kynsof.share.core.domain.bus.command.ICommandMessage;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -21,5 +22,10 @@ public class DeleteProductCategoryCommand implements ICommand {
                 .id(id)
                 .userId(userId)
                 .build();
+    }
+
+    @Override
+    public ICommandMessage getMessage() {
+        return new DeleteProductCategoryMessage(id);
     }
 }

@@ -186,6 +186,21 @@ public class ProductCategoryService implements IProductCategoryService {
                 page.getNumber()             // page
         );
     }
+
+    @Override
+    public void deleteById(UUID id) {
+        log.info("Eliminando categoría de producto con ID: {}", id);
+
+        // Verificar que la categoría existe antes de eliminar
+        ProductCategory category = productCategoryReadRepository.findById(id)
+                .orElseThrow(() -> new BusinessInvoiceException(DomainErrorInvoiceMessage.CUSTOMER_NOT_FOUND,
+                        "Categoría no encontrada con ID: " + id));
+
+        // Eliminar la categoría
+        productCategoryWriteRepository.delete(category);
+        log.info("Categoría de producto eliminada correctamente, ID: {}", id);
+    }
+
     private ProductCategoryDto mapEntityToDto(ProductCategory category) {
         return ProductCategoryDto.builder()
                 .id(category.getId())

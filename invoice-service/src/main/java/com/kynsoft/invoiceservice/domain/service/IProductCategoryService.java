@@ -58,4 +58,6 @@ public interface IProductCategoryService {
      * @return Respuesta paginada con los resultados de la búsqueda
      */
     PaginatedResponse search(Pageable pageable, List<FilterCriteria> filterCriteria);
+
+    void deleteById(UUID id);
 }
