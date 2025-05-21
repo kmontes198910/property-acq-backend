@@ -37,80 +37,78 @@ public class InvoiceController {
     private static final String USER_ID_HEADER = "X-User-ID";
     private static final String USER_NAME_HEADER = "X-User-Name";
 
-    @Operation(summary = "Generar factura electrónica", 
-               description = "Crea y genera una nueva factura electrónica según los datos proporcionados")
+    @Operation(summary = "Generar factura electrónica",
+            description = "Crea y genera una nueva factura electrónica según los datos proporcionados")
     @ApiResponses(value = {
-        @ApiResponse(responseCode = "200", 
-                     description = "Factura generada correctamente",
-                     content = @Content(mediaType = "application/json", 
-                                       schema = @Schema(implementation = FacturaResponseDTO.class))),
-        @ApiResponse(responseCode = "400", 
-                     description = "Error en la generación de la factura",
-                     content = @Content(mediaType = "application/json", 
-                                       schema = @Schema(implementation = FacturaResponseDTO.class)))
+            @ApiResponse(responseCode = "200",
+                    description = "Factura generada correctamente",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = FacturaResponseDTO.class))),
+            @ApiResponse(responseCode = "400",
+                    description = "Error en la generación de la factura",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = FacturaResponseDTO.class)))
     })
     @PostMapping("/generate")
     public ResponseEntity<?> generarFactura(
-            @Parameter(description = "Datos de la factura a generar", required = true) 
+            @Parameter(description = "Datos de la factura a generar", required = true)
             @RequestBody GenerateInvoiceRequest request,
             @RequestHeader(value = USER_ID_HEADER, required = false) String userId) {
         log.info("Recibida solicitud para generar factura");
-        
+
         UUID userUuid = userId != null ? UUID.fromString(userId) : null;
         // Ya no es necesario generar el secuencial aquí, ahora se maneja en el servicio
         // utilizando la secuencia del emisor
         GenerateInvoiceCommand command = GenerateInvoiceCommand.fromRequest(request, userUuid);
         // Invocar al servicio para generar y guardar la factura
-        GenerateInvoiceMessage response = mediator.send(
-                command
-        );
+        GenerateInvoiceMessage response = mediator.send(command);
 
         return ResponseEntity.ok(response);
     }
-    
+
     @PostMapping("/search")
-    @Operation(summary = "Búsqueda avanzada de facturas", 
-               description = "Busca facturas con filtros avanzados y paginación")
+    @Operation(summary = "Búsqueda avanzada de facturas",
+            description = "Busca facturas con filtros avanzados y paginación")
     @ApiResponses(value = {
-        @ApiResponse(responseCode = "200", 
-                     description = "Búsqueda exitosa",
-                     content = @Content(mediaType = "application/json", 
-                                       schema = @Schema(implementation = PaginatedResponse.class)))
+            @ApiResponse(responseCode = "200",
+                    description = "Búsqueda exitosa",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = PaginatedResponse.class)))
     })
     public ResponseEntity<PaginatedResponse> search(@RequestBody SearchRequest request) {
         log.info("Realizando búsqueda avanzada de facturas");
-        
+
         Pageable pageable = PageableUtil.createPageable(request);
         SearchInvoiceAdvancedQuery query = new SearchInvoiceAdvancedQuery(
-                pageable, 
-                request.getFilter(), 
+                pageable,
+                request.getFilter(),
                 request.getQuery()
         );
-        
+
         PaginatedResponse response = mediator.send(query);
         return ResponseEntity.ok(response);
     }
-    
+
     @GetMapping("/{id}")
-    @Operation(summary = "Obtener factura por ID", 
-               description = "Devuelve los datos completos de una factura específica según su ID")
+    @Operation(summary = "Obtener factura por ID",
+            description = "Devuelve los datos completos de una factura específica según su ID")
     @ApiResponses(value = {
-        @ApiResponse(responseCode = "200", 
-                     description = "Factura encontrada",
-                     content = @Content(mediaType = "application/json", 
-                                       schema = @Schema(implementation = InvoiceResponse.class))),
-        @ApiResponse(responseCode = "404", 
-                     description = "Factura no encontrada",
-                     content = @Content(mediaType = "application/json"))
+            @ApiResponse(responseCode = "200",
+                    description = "Factura encontrada",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = InvoiceResponse.class))),
+            @ApiResponse(responseCode = "404",
+                    description = "Factura no encontrada",
+                    content = @Content(mediaType = "application/json"))
     })
     public ResponseEntity<InvoiceResponse> getById(
             @Parameter(description = "ID de la factura a consultar", required = true)
             @PathVariable UUID id) {
         log.info("Consultando factura con ID: {}", id);
-        
+
         GetInvoiceByIdQuery query = new GetInvoiceByIdQuery(id);
         InvoiceResponse response = mediator.send(query);
-        
+
         return ResponseEntity.ok(response);
     }
 }
