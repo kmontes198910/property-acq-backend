@@ -54,15 +54,29 @@ public class RentCastController {
     }
 
     @GetMapping("/value/details")
-    public ResponseEntity<EstimatedValueResponse> valueDetails(@RequestParam String address) {
-        GetEstimateValueExternalServiceQuery query = new GetEstimateValueExternalServiceQuery(address);
+    public ResponseEntity<EstimatedValueResponse> valueDetails(@RequestParam(defaultValue = "", required = false) String address,
+                                                            @RequestParam(defaultValue = "Single Family", required = false) String propertyType,
+                                                            @RequestParam(defaultValue = "-1", required = false) double latitude,
+                                                            @RequestParam(defaultValue = "-1", required = false) double longitude,
+                                                            @RequestParam(defaultValue = "-1", required = false) double bedrooms,
+                                                            @RequestParam(defaultValue = "-1", required = false) double bathrooms,
+                                                            @RequestParam(defaultValue = "-1", required = false) double squareFootage,
+                                                            @RequestParam(defaultValue = "0", required = false) int daysOld) {
+        GetEstimateValueExternalServiceQuery query = new GetEstimateValueExternalServiceQuery(address, propertyType, latitude, longitude, bedrooms, bathrooms, squareFootage, daysOld);
         EstimatedValueResponse response = mediator.send(query);
 
         return ResponseEntity.ok(response);
     }
 
     @GetMapping("/rent/details")
-    public ResponseEntity<RentEstimateResponse> rentDetails(@RequestParam String address) {
+    public ResponseEntity<RentEstimateResponse> rentDetails(@RequestParam(defaultValue = "", required = false) String address,
+                                                            @RequestParam(defaultValue = "", required = false) String propertyType,
+                                                            @RequestParam(defaultValue = "-1", required = false) double latitude,
+                                                            @RequestParam(defaultValue = "-1", required = false) double longitude,
+                                                            @RequestParam(defaultValue = "-1", required = false) double bedrooms,
+                                                            @RequestParam(defaultValue = "-1", required = false) double bathrooms,
+                                                            @RequestParam(defaultValue = "-1", required = false) double squareFootage,
+                                                            @RequestParam(defaultValue = "0", required = false) int daysOld) {
         GetRentEstimateExternalServiceQuery query = new GetRentEstimateExternalServiceQuery(address);
         RentEstimateResponse response = mediator.send(query);
 

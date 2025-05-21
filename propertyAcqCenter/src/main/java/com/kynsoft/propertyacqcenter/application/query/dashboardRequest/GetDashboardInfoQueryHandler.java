@@ -48,7 +48,7 @@ public class GetDashboardInfoQueryHandler implements IQueryHandler<GetDashboardI
             List<DashboardComparablesResponse> comparablesResponse = new ArrayList<>();
             //TODO: PropertyEstimated
             if (query.getEstimate().equals(EstimateEnum.PROPERTY_ESTIMATED)) {
-                EstimatedValueResponse estimatedValue = this.estimateValueService.getEstimatedValue(query.getAddress());
+                EstimatedValueResponse estimatedValue = this.estimateValueService.getEstimatedValue(query.getAddress(), "Single Family", 0, 0, 0, 0, 0, 0);
                 int estimatedValueAveragePrice = 0;
                 int countestimatedValue = 0;
 
