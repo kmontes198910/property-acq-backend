@@ -78,7 +78,7 @@ public class RentCastController {
                                                             @RequestParam(defaultValue = "-1", required = false) double bathrooms,
                                                             @RequestParam(defaultValue = "-1", required = false) double squareFootage,
                                                             @RequestParam(defaultValue = "0", required = false) int daysOld) {
-        GetRentEstimateExternalServiceQuery query = new GetRentEstimateExternalServiceQuery(address);
+        GetRentEstimateExternalServiceQuery query = new GetRentEstimateExternalServiceQuery(address, propertyType, latitude, longitude, bedrooms, bathrooms, squareFootage, daysOld);
         RentEstimateResponse response = mediator.send(query);
 
         return ResponseEntity.ok(response);

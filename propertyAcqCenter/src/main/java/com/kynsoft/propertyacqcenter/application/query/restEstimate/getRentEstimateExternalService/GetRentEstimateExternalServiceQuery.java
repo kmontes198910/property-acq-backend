@@ -9,5 +9,13 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 public class GetRentEstimateExternalServiceQuery implements IQuery {
+
     private String address;
+    private String propertyType;
+    private double latitude;
+    private double longitude;
+    private double bedrooms;
+    private double bathrooms;
+    private double squareFootage;
+    private int daysOld;
 }
