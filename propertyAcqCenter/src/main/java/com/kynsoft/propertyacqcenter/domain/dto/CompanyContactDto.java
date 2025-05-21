@@ -24,6 +24,7 @@ public class CompanyContactDto {
     private String category;
     private String notes;
     private Boolean isActive;
+    private SubCategoryDto subCategory;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 }
