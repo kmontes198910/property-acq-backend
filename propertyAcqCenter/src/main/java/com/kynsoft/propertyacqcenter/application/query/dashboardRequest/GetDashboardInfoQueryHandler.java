@@ -42,7 +42,7 @@ public class GetDashboardInfoQueryHandler implements IQueryHandler<GetDashboardI
     public DashboardInfoResponse handle(GetDashboardInfoQuery query) {
 
         try {
-            List<PropertyResponse> property = this.propertyService.getPropertyDetails(query.getAddress());
+            List<PropertyResponse> property = this.propertyService.getPropertyDetails(query.getAddress(), "", "", "Single Family", "", -1, -1, -1, -1);
             DashboardStatisticsResponse dashboardStatisticsResponse = new DashboardStatisticsResponse();
 
             List<DashboardComparablesResponse> comparablesResponse = new ArrayList<>();

@@ -26,17 +26,18 @@ public class RentCastController {
         this.mediator = mediator;
     }
 
-    /**
-     * Endpoint para obtener los detalles de una propiedad por dirección.
-     * Ejemplo: GET /api/rentcast/property?address=2537 NW 116 Terrace, Coral
-     * Spring, Florida
-     *
-     * @param address
-     * @return
-     */
     @GetMapping("/property")
-    public ResponseEntity<PropertyResponse> getPropertyDetails(@RequestParam String address) {
-        GetPropertyDetailsExternalServiceQuery query = new GetPropertyDetailsExternalServiceQuery(address);
+    public ResponseEntity<PropertyResponse> getPropertyDetails(@RequestParam(defaultValue = "", required = false) String address,
+                                                               @RequestParam(defaultValue = "", required = false) String city,
+                                                               @RequestParam(defaultValue = "", required = false) String state,
+                                                               @RequestParam(defaultValue = "", required = false) String zipCode,
+                                                               @RequestParam(defaultValue = "Single Family", required = false) String propertyType,
+                                                               @RequestParam(defaultValue = "-1", required = false) Double latitude,
+                                                               @RequestParam(defaultValue = "-1", required = false) Double longitude,
+                                                               @RequestParam(defaultValue = "-1", required = false) Double bedrooms,
+                                                               @RequestParam(defaultValue = "-1", required = false) Double bathrooms
+                                                               ) {
+        GetPropertyDetailsExternalServiceQuery query = new GetPropertyDetailsExternalServiceQuery(address, city, state, propertyType, zipCode, latitude, longitude, bedrooms, bathrooms);
         PropertyResponse response = mediator.send(query);
 
         return ResponseEntity.ok(response);
@@ -70,7 +71,7 @@ public class RentCastController {
 
     @GetMapping("/rent/details")
     public ResponseEntity<RentEstimateResponse> rentDetails(@RequestParam(defaultValue = "", required = false) String address,
-                                                            @RequestParam(defaultValue = "", required = false) String propertyType,
+                                                            @RequestParam(defaultValue = "Single Family", required = false) String propertyType,
                                                             @RequestParam(defaultValue = "-1", required = false) double latitude,
                                                             @RequestParam(defaultValue = "-1", required = false) double longitude,
                                                             @RequestParam(defaultValue = "-1", required = false) double bedrooms,
@@ -85,7 +86,7 @@ public class RentCastController {
 
     @GetMapping("/sale")
     public SaleListingResponse getSaleListings(@RequestParam(defaultValue = "", required = false) String address,
-                                               @RequestParam(defaultValue = "", required = false) String propertyType,
+                                               @RequestParam(defaultValue = "Single Family", required = false) String propertyType,
                                                @RequestParam(defaultValue = "", required = false) String city,
                                                @RequestParam(defaultValue = "", required = false) String state,
                                                @RequestParam(defaultValue = "", required = false) String zipCode,

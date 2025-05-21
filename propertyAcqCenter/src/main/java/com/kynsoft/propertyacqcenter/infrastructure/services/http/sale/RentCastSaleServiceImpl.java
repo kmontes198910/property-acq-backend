@@ -61,7 +61,7 @@ public class RentCastSaleServiceImpl {
 
             String addressUrl = !address.equals("") ? "address=" + cleanedAddress : null;
             String propertyTypeUrl = !propertyType.equals("") ? "propertyType=" + propertyType : null;
-            String cityUrl = !propertyType.equals("") ? "city=" + city : null;
+            String cityUrl = !city.equals("") ? "city=" + city : null;
             String stateUrl = !state.equals("") ? "state=" + state : null;
             String zipCodeUrl = !zipCode.equals("") ? "zipCode=" + zipCode : null;
 

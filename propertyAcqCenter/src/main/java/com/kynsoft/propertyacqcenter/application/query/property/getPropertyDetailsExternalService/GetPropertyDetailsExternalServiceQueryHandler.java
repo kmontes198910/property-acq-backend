@@ -18,7 +18,17 @@ public class GetPropertyDetailsExternalServiceQueryHandler implements IQueryHand
     @Override
     public PropertyResponse handle(GetPropertyDetailsExternalServiceQuery query) {
 
-        List<PropertyResponse> response = this.resCastPropertyServiceImpl.getPropertyDetails(query.getAddress());
+        List<PropertyResponse> response = this.resCastPropertyServiceImpl.getPropertyDetails(
+                query.getAddress(), 
+                query.getCity(), 
+                query.getState(), 
+                query.getPropertyType(), 
+                query.getZipCode(), 
+                query.getLatitude(), 
+                query.getLongitude(), 
+                query.getBedrooms(), 
+                query.getBathrooms()
+        );
         return response.get(0);
     }
 }
