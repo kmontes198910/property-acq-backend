@@ -6,7 +6,7 @@ import com.kynsof.share.core.domain.exception.DomainErrorMessage;
 import com.kynsof.share.core.domain.exception.GlobalBusinessException;
 import com.kynsof.share.core.domain.response.ErrorField;
 import com.kynsoft.invoiceservice.infrastructure.entities.Product;
-import com.kynsoft.invoiceservice.infrastructure.repository.query.ProductRepository;
+import com.kynsoft.invoiceservice.infrastructure.repository.query.ProductReadRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -19,7 +19,7 @@ import java.util.Optional;
 @Slf4j
 public class GetProductByIdQueryHandler implements IQueryHandler<GetProductByIdQuery, ProductResponse> {
 
-    private final ProductRepository productRepository;
+    private final ProductReadRepository productRepository;
 
     @Override
     @Transactional(readOnly = true)

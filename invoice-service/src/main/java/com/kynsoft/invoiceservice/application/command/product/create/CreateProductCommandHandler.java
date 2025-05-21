@@ -3,11 +3,10 @@ package com.kynsoft.invoiceservice.application.command.product.create;
 import com.kynsof.share.core.domain.bus.command.ICommandHandler;
 import com.kynsoft.invoiceservice.domain.exception.BusinessException;
 import com.kynsoft.invoiceservice.domain.exception.DomainErrorInvoiceMessage;
+import com.kynsoft.invoiceservice.domain.service.IProductService;
 import com.kynsoft.invoiceservice.infrastructure.entities.Product;
 import com.kynsoft.invoiceservice.infrastructure.entities.ProductCategory;
-import com.kynsoft.invoiceservice.infrastructure.repository.command.ProductWriteRepository;
 import com.kynsoft.invoiceservice.infrastructure.repository.query.ProductCategoryRepository;
-import com.kynsoft.invoiceservice.infrastructure.repository.query.ProductRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -21,8 +20,7 @@ import java.util.UUID;
 @Slf4j
 public class CreateProductCommandHandler implements ICommandHandler<CreateProductCommand> {
 
-    private final ProductWriteRepository productWriteRepository;
-    private final ProductRepository productRepository;
+    private final IProductService productService;
     private final ProductCategoryRepository productCategoryRepository;
 
     @Override
@@ -31,7 +29,7 @@ public class CreateProductCommandHandler implements ICommandHandler<CreateProduc
         log.info("Creating new product: {}", command.getName());
         
         // Verificar si ya existe un producto con el mismo código principal
-        Optional<Product> existingProduct = productRepository.findByMainCode(command.getMainCode());
+        Optional<Product> existingProduct = productService.findByMainCode(command.getMainCode());
         if (existingProduct.isPresent()) {
             throw new BusinessException(DomainErrorInvoiceMessage.PRODUCT_CODE_ALREADY_EXISTS,
                 "Ya existe un producto con el código principal: " + command.getMainCode());
@@ -63,7 +61,7 @@ public class CreateProductCommandHandler implements ICommandHandler<CreateProduc
                 .updatedBy(command.getCreatedBy()) // Al crear, ambos campos son iguales
                 .build();
         
-        Product savedProduct = productWriteRepository.save(product);
+        Product savedProduct = productService.create(product);
         
         // Asignamos el ID generado al comando para que esté disponible en el mensaje de respuesta
         command.setId(savedProduct.getId());

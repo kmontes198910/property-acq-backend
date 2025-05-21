@@ -1,7 +1,7 @@
 package com.kynsoft.wamessaging.infrastructure.config;
 
-import com.kynsoft.wamessaging.application.dto.MessageStatusNotification;
-import com.kynsoft.wamessaging.application.dto.SendMessageRequest;
+import com.kynsoft.wamessaging.application.request.MessageStatusNotification;
+import com.kynsoft.wamessaging.application.request.SendMessageRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 

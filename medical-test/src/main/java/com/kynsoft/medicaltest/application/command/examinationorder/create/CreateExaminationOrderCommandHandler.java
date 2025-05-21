@@ -8,6 +8,7 @@ import com.kynsoft.medicaltest.domain.service.ExaminationOrderService;
 import com.kynsoft.medicaltest.domain.service.ExaminationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -25,6 +26,7 @@ public class CreateExaminationOrderCommandHandler implements ICommandHandler<Cre
     private final ExaminationService examinationService;
     
     @Override
+    @Transactional
     public void handle(CreateExaminationOrderCommand command) {
         // Crear la entidad de dominio a partir del comando
         ExaminationOrder order = ExaminationOrder.builder()
@@ -32,7 +34,7 @@ public class CreateExaminationOrderCommandHandler implements ICommandHandler<Cre
                 .patientId(command.getPatientId())
                 .doctorId(command.getDoctorId())
                 .creationDate(command.getCreationDate() != null ? command.getCreationDate() : LocalDateTime.now())
-                .status(command.getStatus() != null ? command.getStatus() : "PENDIENTE")
+                .status("PENDIENTE")
                 .observations(command.getObservations())
                 .businessId(command.getBusinessId())
                 .createdBy(command.getCreatedBy())
@@ -41,17 +43,18 @@ public class CreateExaminationOrderCommandHandler implements ICommandHandler<Cre
         
         // Persistir la nueva orden
         ExaminationOrder savedOrder = examinationOrderService.createOrder(order);
+        command.setId(savedOrder.getId());
         
         // Procesar y crear cada examen incluido en el comando
         if (command.getExaminations() != null && !command.getExaminations().isEmpty()) {
-            for (CreateExaminationRequest examinationRequest : command.getExaminations()) {
+            for (CreateOrderExaminationRequest examinationRequest : command.getExaminations()) {
                 // Crear la entidad de examen
                 Examination examination = Examination.builder()
                         .id(UUID.randomUUID())
                         .orderId(savedOrder.getId())
                         .code(examinationRequest.getCode())
                         .examinationType(examinationRequest.getExaminationType())
-                        .status(examinationRequest.getStatus() != null ? examinationRequest.getStatus() : "PENDIENTE")
+                        .status("PENDIENTE")
                         .observations(examinationRequest.getObservations())
                         .createdAt(LocalDateTime.now())
                         .createdBy(command.getCreatedBy())
@@ -60,13 +63,8 @@ public class CreateExaminationOrderCommandHandler implements ICommandHandler<Cre
                 // Persistir el nuevo examen
                 Examination savedExamination = examinationService.createExamination(examination);
                 
-                // Agregar el examen a la orden
-                savedOrder.addExamination(savedExamination);
+                // No necesitamos actualizar la orden aquí, la relación ya está establecida en la DB
             }
-            
-            // Actualizar la orden con los nuevos exámenes
-            savedOrder = examinationOrderService.updateOrder(savedOrder);
         }
-
     }
 }

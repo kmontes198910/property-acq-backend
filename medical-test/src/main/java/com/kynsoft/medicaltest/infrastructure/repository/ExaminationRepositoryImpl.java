@@ -4,6 +4,7 @@ import com.kynsoft.medicaltest.infrastructure.repository.query.ExaminationJpaRep
 import com.kynsoft.medicaltest.domain.entity.Examination;
 import com.kynsoft.medicaltest.domain.repository.ExaminationRepository;
 import com.kynsoft.medicaltest.infrastructure.mapper.ExaminationMapper;
+import com.kynsoft.medicaltest.infrastructure.repository.query.ExaminationOrderJpaRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
@@ -20,13 +21,21 @@ import java.util.UUID;
 public class ExaminationRepositoryImpl implements ExaminationRepository {
     
     private final ExaminationJpaRepository jpaRepository;
+    private final ExaminationOrderJpaRepository orderJpaRepository;
     private final ExaminationMapper mapper;
     
     @Override
     public Examination save(Examination examination) {
-        var entity = mapper.toEntity(examination);
-        var savedEntity = jpaRepository.save(entity);
-        return mapper.toDomain(savedEntity);
+        // Asegurarnos de que la orden exista antes de guardar el examen
+        if (examination.getOrderId() != null) {
+            var entity = mapper.toEntity(examination);
+            // Establecer la referencia de la orden correctamente
+            orderJpaRepository.findById(examination.getOrderId()).ifPresent(entity::setOrder);
+            var savedEntity = jpaRepository.save(entity);
+            return mapper.toDomain(savedEntity);
+        } else {
+            throw new IllegalArgumentException("El examen debe tener un ID de orden válido");
+        }
     }
     
     @Override

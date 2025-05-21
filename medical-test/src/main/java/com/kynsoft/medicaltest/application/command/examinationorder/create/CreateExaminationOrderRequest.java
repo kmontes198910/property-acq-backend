@@ -22,10 +22,9 @@ public class CreateExaminationOrderRequest {
     private UUID patientId;
     private UUID doctorId;
     private LocalDateTime creationDate;
-    private String status;
     private String observations;
     private UUID businessId;
     
     @Builder.Default
-    private List<CreateExaminationRequest> examinations = new ArrayList<>();
+    private List<CreateOrderExaminationRequest> examinations = new ArrayList<>();
 }

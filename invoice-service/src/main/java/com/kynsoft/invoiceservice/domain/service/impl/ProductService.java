@@ -7,7 +7,7 @@ import com.kynsoft.invoiceservice.application.query.product.getById.ProductDto;
 import com.kynsoft.invoiceservice.domain.service.IProductService;
 import com.kynsoft.invoiceservice.infrastructure.entities.Product;
 import com.kynsoft.invoiceservice.infrastructure.repository.command.ProductWriteRepository;
-import com.kynsoft.invoiceservice.infrastructure.repository.query.ProductRepository;
+import com.kynsoft.invoiceservice.infrastructure.repository.query.ProductReadRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -15,6 +15,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -23,7 +24,7 @@ import java.util.stream.Collectors;
 @Slf4j
 public class ProductService implements IProductService {
 
-    private final ProductRepository productRepository;
+    private final ProductReadRepository productRepository;
     private final ProductWriteRepository productWriteRepository;
 
     @Override
@@ -67,7 +68,27 @@ public class ProductService implements IProductService {
         
         log.info("Producto con ID: {} eliminado exitosamente", id);
     }
-    
+
+    @Override
+    public Optional<Product> findByMainCode(String mainCode) {
+        return productRepository.findByMainCode(mainCode);
+    }
+
+    @Override
+    public Product create(Product product) {
+        return productWriteRepository.save(product);
+    }
+
+    @Override
+    public Optional<Product> findById(UUID productId) {
+        return productRepository.findById(productId);
+    }
+
+    @Override
+    public void update(Product product) {
+        productWriteRepository.save(product);
+    }
+
     /**
      * Mapea una entidad Product a un DTO ProductDto
      * @param product Entidad Product a convertir

@@ -5,17 +5,19 @@ import com.kynsoft.invoiceservice.application.command.invoice.generate.request.C
 import com.kynsoft.invoiceservice.application.command.invoice.generate.request.DetalleFacturaRequest;
 import com.kynsoft.invoiceservice.application.command.invoice.generate.request.PagoRequest;
 import com.kynsoft.invoiceservice.application.query.customer.get.CustomerDto;
-import com.kynsoft.invoiceservice.application.services.InvoiceService;
 import com.kynsoft.invoiceservice.domain.dto.InvoiceIssuerDto;
 import com.kynsoft.invoiceservice.domain.dto.InvoiceIssuingSequenceDto;
 import com.kynsoft.invoiceservice.domain.exception.BusinessInvoiceException;
 import com.kynsoft.invoiceservice.domain.exception.DomainErrorInvoiceMessage;
 import com.kynsoft.invoiceservice.domain.service.ICustomerService;
 import com.kynsoft.invoiceservice.domain.service.IInvoiceIssuerService;
+import com.kynsoft.invoiceservice.domain.service.impl.InvoiceService;
 import com.kynsoft.invoiceservice.infrastructure.entities.Customer;
 
 import ec.e.facturacion.sri.constante.Ambiente;
 import ec.e.facturacion.sri.constante.Estados;
+import ec.e.facturacion.sri.constante.Regimen;
+import ec.e.facturacion.sri.esquema.notadebito.Pago;
 import ec.e.facturacion.sri.modelo.ComprobanteBase;
 import ec.e.facturacion.sri.modelo.Factura;
 import ec.e.facturacion.sri.pdf.generador.FacturaPDFGenerador;
@@ -28,9 +30,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ec.e.facturacion.sri.constante.Regimen;
-import ec.e.facturacion.sri.modelo.ComprobanteBase;
-import ec.e.facturacion.sri.modelo.Factura;
 import ec.e.facturacion.sri.ws.soap.servicio.SRIRecepcionServicio;
 
 import java.io.ByteArrayOutputStream;
@@ -41,6 +40,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -263,51 +263,53 @@ public class GenerateInvoiceCommandHandler implements ICommandHandler<GenerateIn
         String fechaEmision = LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
 
         // Convertir DetalleFacturaDTO a Factura.DetalleFactura
-        List<Factura.DetalleFactura> detalles = detallesDTO.stream()
-                .map(detalleDTO -> {
-                    // Crear el impuesto IVA básico necesario
-                    Factura.Impuesto impuestoIva = Factura.Impuesto.IVA(
-                            detalleDTO.getTipoImpuesto(),
-                            detalleDTO.getPorcentajeImpuesto());
+        // Crear detalles de la factura
 
-                    // Crear el builder con los campos requeridos
-                    Factura.DetalleFactura.Builder builder = new Factura.DetalleFactura.Builder(
-                            detalleDTO.getCodigoPrincipal(),
-                            detalleDTO.getDescripcion(),
-                            detalleDTO.getCantidad(),
-                            detalleDTO.getPrecioUnitario(),
-                            impuestoIva);
+        List<Factura.DetalleFactura> detallesList = new ArrayList<>();
 
-                    // Añadir campos opcionales si existen
-                    if (detalleDTO.getUnidadMedida() != null) {
-                        builder.withUnidadMedida(detalleDTO.getUnidadMedida());
-                    }
+        for (DetalleFacturaRequest detalleDTO : detallesDTO) {
+            Factura.DetalleFactura detalle = new Factura.DetalleFactura.Builder(detalleDTO.getCodigoPrincipal(),
+                    detalleDTO.getDescripcion(), detalleDTO.getCantidad(), detalleDTO.getPrecioUnitario(),
+                    Factura.Impuesto.IVA(detalleDTO.getTipoImpuesto(), detalleDTO.getPorcentajeImpuesto()))
+                    .withUnidadMedida(detalleDTO.getUnidadMedida())
+                    .withDescuento(detalleDTO.getDescuento())
+                    //.withImpuestoICE(Factura.Impuesto.ICE(detalleDTO.getCodigoImpuestoICE(), detalleDTO.getPorcentajeImpuestoICE()))
+                    .build();
 
-                    if (detalleDTO.getDescuento() != null) {
-                        builder.withDescuento(detalleDTO.getDescuento());
-                    }
 
-                    // Añadir impuesto ICE si existe
-                    if (detalleDTO.getCodigoImpuestoICE() != null && detalleDTO.getPorcentajeImpuestoICE() != null) {
-                        builder.withImpuestoICE(Factura.Impuesto.ICE(
-                                detalleDTO.getCodigoImpuestoICE(),
-                                detalleDTO.getPorcentajeImpuestoICE()));
-                    }
+            detallesList.add(detalle);
+        }
 
-                    return builder.build();
-                })
-                .collect(Collectors.toList());
+//
+//        List<Factura.DetalleFactura> detalles = List.of(
+//                new Factura.DetalleFactura.Builder("001", "Software development - APP FLUTTER", BigDecimal.valueOf(1),
+//                        BigDecimal.valueOf(5000), Factura.Impuesto.IVA("4", BigDecimal.valueOf(15))).withUnidadMedida("U")
+//                        .build(),
+//
+//                new Factura.DetalleFactura.Builder("002", "Software development - Backend JAVA", BigDecimal.valueOf(1),
+//                        BigDecimal.valueOf(10000), Factura.Impuesto.IVA("5", BigDecimal.valueOf(5))).withUnidadMedida("U")
+//                        .build(),
+//
+//                new Factura.DetalleFactura.Builder("003", "Software development - Backend PYTHON", BigDecimal.valueOf(1),
+//                        BigDecimal.valueOf(10000.00), Factura.Impuesto.IVA("4", BigDecimal.valueOf(15)))
+//                        .withImpuestoICE(Factura.Impuesto.ICE("3077", BigDecimal.valueOf(20))).withUnidadMedida("U")
+//                        .withDescuento(BigDecimal.valueOf(100.00)).build(),
+//
+//                new Factura.DetalleFactura.Builder("004", "Soporte", BigDecimal.valueOf(1), BigDecimal.valueOf(5000),
+//                        Factura.Impuesto.IVA("5", BigDecimal.valueOf(5))).withUnidadMedida("U").build());
 
         // Información adicional
         // En el caso que dese mandar informacion adicional aparte de el correo y telefono del comprador
         // lo puede especificar de esta forma
-        List<ComprobanteBase.CampoAdicional> infoAdicionalList = infoAdicional.stream()
-                .map(campoAdicionalDTO -> new ComprobanteBase.CampoAdicional(
-                        campoAdicionalDTO.getNombre(),
-                        campoAdicionalDTO.getValor()))
-                .toList();
+//        List<ComprobanteBase.CampoAdicional> infoAdicionalList = infoAdicional.stream()
+//                .map(campoAdicionalDTO -> new ComprobanteBase.CampoAdicional(
+//                        campoAdicionalDTO.getNombre(),
+//                        campoAdicionalDTO.getValor()))
+//                .toList();
 
-
+//         List<Pago> pagos = List.of(
+//         new Pago("01", BigDecimal.valueOf(17681.0), BigDecimal.valueOf(1), "MES"),
+//         new Pago("01", BigDecimal.valueOf(17681.0), BigDecimal.valueOf(1), "MES"));
         List<Factura.Pago> payments = pagos.stream()
                 .map(pagoDTO -> new Factura.Pago(
                         pagoDTO.getFormaPago(),
@@ -318,12 +320,11 @@ public class GenerateInvoiceCommandHandler implements ICommandHandler<GenerateIn
         String obligadoContabilidad = issuer.getPointOfSale() ? "SI" : "NO";
         String customerIdentificationType = customer.getIdType().getCode(); // Obtener el código ("04", "05", etc) en lugar del nombre del enumerado
         // Construir la factura
-        Factura factura = new Factura.Builder(ruc, razonSocial, dirMatriz, correo, telefono, estab, ptoEmi, sequential, fechaEmision, detalles)
-                .withNombreComercial(razonSocial)
-                .withObligadoContabilidad(obligadoContabilidad)
-                .withAgenteRetencion(issuer.getRetentionAgent())//?
-                .withContribuyenteEspecial(issuer.getSpecialTaxpayer())//?
-                .withContribuyenteRimpe(issuer.getRimpeRegime())//?
+        Factura factura = new Factura.Builder(ruc, razonSocial, dirMatriz, correo, telefono, estab, ptoEmi, sequential, fechaEmision, detallesList)
+                .withObligadoContabilidad("NO")
+                //.withAgenteRetencion("3867")
+                //.withContribuyenteEspecial("7345")
+                .withContribuyenteRimpe(Regimen.NEGOCIO_POPULAR)
                 .withTipoIdentificacionComprador(customerIdentificationType)
                 .withRazonSocialComprador(customer.getBusinessName())
                 .withIdentificacionComprador(customer.getIdNumber())
@@ -332,15 +333,15 @@ public class GenerateInvoiceCommandHandler implements ICommandHandler<GenerateIn
                 .withTelefonoComprador(customer.getPhone())
                 .withPropina(propina)
                 .withPagos(payments)
-                .withInfoAdicional(infoAdicionalList)
+                .withInfoAdicional(new ArrayList<>())
                 .build();
 
-        if (issuer.getRetentionAgent() != null) {
-            factura.setAgenteRetencion(issuer.getRetentionAgent());
-        }
-        if (issuer.getSpecialTaxpayer() != null) {
-            factura.setContribuyenteEspecial(issuer.getSpecialTaxpayer());
-        }
+//        if (issuer.getRetentionAgent() != null) {
+//            factura.setAgenteRetencion(issuer.getRetentionAgent());
+//        }
+//        if (issuer.getSpecialTaxpayer() != null) {
+//            factura.setContribuyenteEspecial(issuer.getSpecialTaxpayer());
+//        }
 
         return factura;
     }

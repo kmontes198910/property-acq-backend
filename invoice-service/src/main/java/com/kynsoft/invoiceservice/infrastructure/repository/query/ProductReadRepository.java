@@ -11,7 +11,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Repository
-public interface ProductRepository extends JpaRepository<Product, UUID>, JpaSpecificationExecutor<Product> {
+public interface ProductReadRepository extends JpaRepository<Product, UUID>, JpaSpecificationExecutor<Product> {
     Optional<Product> findByMainCode(String mainCode);
     
     @Query("SELECT p FROM Product p WHERE p.name LIKE %:searchTerm% OR p.mainCode LIKE %:searchTerm% OR p.description LIKE %:searchTerm%")

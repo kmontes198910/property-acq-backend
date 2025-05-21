@@ -26,6 +26,10 @@ public class CreateInvoiceIssuerCommand implements ICommand {
     private String logoUrl;
     private String environment;
     private Boolean status;
+    private String website;
+    private Boolean accountingObligated;
+    private Boolean microenterprisesRegime;
+    private Boolean sendEmails;
     private String digitalCertP12;
     private String digitalCertPassword;
     private UUID createdBy;
@@ -51,6 +55,10 @@ public class CreateInvoiceIssuerCommand implements ICommand {
         command.setLogoUrl(request.getLogoUrl());
         command.setEnvironment(request.getEnvironment());
         command.setStatus(request.getStatus());
+        command.setWebsite(request.getWebsite());
+        command.setAccountingObligated(request.getAccountingObligated());
+        command.setMicroenterprisesRegime(request.getMicroenterprisesRegime());
+        command.setSendEmails(request.getSendEmails());
         command.setDigitalCertP12(request.getDigitalCertP12());
         command.setDigitalCertPassword(request.getDigitalCertPassword());
         command.setCreatedBy(createdBy);

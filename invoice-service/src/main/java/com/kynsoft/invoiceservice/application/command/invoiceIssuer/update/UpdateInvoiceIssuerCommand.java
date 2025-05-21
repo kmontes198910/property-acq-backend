@@ -26,6 +26,10 @@ public class UpdateInvoiceIssuerCommand implements ICommand {
     private String rimpeRegime;
     private String logoUrl;
     private String environment;
+    private String website;
+    private Boolean accountingObligated;
+    private Boolean microenterprisesRegime;
+    private Boolean sendEmails;
     private Boolean status;
     private String digitalCertP12;
     private String digitalCertPassword;
@@ -52,6 +56,10 @@ public class UpdateInvoiceIssuerCommand implements ICommand {
         command.setRimpeRegime(request.getRimpeRegime());
         command.setLogoUrl(request.getLogoUrl());
         command.setEnvironment(request.getEnvironment());
+        command.setWebsite(request.getWebsite());
+        command.setAccountingObligated(request.getAccountingObligated());
+        command.setMicroenterprisesRegime(request.getMicroenterprisesRegime());
+        command.setSendEmails(request.getSendEmails());
         command.setStatus(request.getStatus());
         command.setDigitalCertP12(request.getDigitalCertP12());
         command.setDigitalCertPassword(request.getDigitalCertPassword());

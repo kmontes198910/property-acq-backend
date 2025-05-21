@@ -2,6 +2,8 @@ package com.kynsoft.medicaltest.infrastructure.repository.query;
 
 import com.kynsoft.medicaltest.infrastructure.entities.ExaminationEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;
@@ -17,7 +19,8 @@ public interface ExaminationJpaRepository extends JpaRepository<ExaminationEntit
     /**
      * Encuentra exámenes por ID de orden
      */
-    List<ExaminationEntity> findByOrderId(UUID orderId);
+    @Query("SELECT e FROM ExaminationEntity e WHERE e.order.id = :orderId")
+    List<ExaminationEntity> findByOrderId(@Param("orderId") UUID orderId);
     
     /**
      * Encuentra exámenes por tipo
