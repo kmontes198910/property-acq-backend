@@ -17,6 +17,19 @@ public class GetSaleListingsExternalServiceQueryHandler implements IQueryHandler
     @Override
     public SaleListingResponse handle(GetSaleListingsExternalServiceQuery query) {
 
-        return this.resCastSaleServiceImpl.getRentEstimate(query.getAddress()).get(0);
+        return this.resCastSaleServiceImpl.getRentEstimate(
+                query.getAddress(), 
+                query.getPropertyType(), 
+                query.getCity(), 
+                query.getState(), 
+                query.getZipCode(), 
+                query.getLatitude(), 
+                query.getLongitude(), 
+                query.getRadius(), 
+                query.getBedrooms(), 
+                query.getBathrooms(), 
+                query.getStatus(), 
+                query.getDaysOld())
+                .get(0);
     }
 }

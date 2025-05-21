@@ -70,8 +70,19 @@ public class RentCastController {
     }
 
     @GetMapping("/sale")
-    public SaleListingResponse getSaleListings(@RequestParam String address) {
-        GetSaleListingsExternalServiceQuery query = new GetSaleListingsExternalServiceQuery(address);
+    public SaleListingResponse getSaleListings(@RequestParam(defaultValue = "", required = false) String address,
+                                               @RequestParam(defaultValue = "", required = false) String propertyType,
+                                               @RequestParam(defaultValue = "", required = false) String city,
+                                               @RequestParam(defaultValue = "", required = false) String state,
+                                               @RequestParam(defaultValue = "", required = false) String zipCode,
+                                               @RequestParam(defaultValue = "-1", required = false) double latitude,
+                                               @RequestParam(defaultValue = "-1", required = false) double longitude,
+                                               @RequestParam(defaultValue = "-1", required = false) double radius,
+                                               @RequestParam(defaultValue = "-1", required = false) double bedrooms,
+                                               @RequestParam(defaultValue = "-1", required = false) double bathrooms,
+                                               @RequestParam(defaultValue = "Active", required = false) String status,
+                                               @RequestParam(defaultValue = "0", required = false) Integer daysOld) {
+        GetSaleListingsExternalServiceQuery query = new GetSaleListingsExternalServiceQuery(address, propertyType, city, state, zipCode, latitude, longitude, radius, bedrooms, bathrooms, status, daysOld);
         SaleListingResponse response = mediator.send(query);
         return response;
     }

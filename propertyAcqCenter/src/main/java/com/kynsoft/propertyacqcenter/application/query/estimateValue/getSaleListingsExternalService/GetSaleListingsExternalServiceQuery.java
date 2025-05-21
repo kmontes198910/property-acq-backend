@@ -10,4 +10,15 @@ import lombok.Setter;
 @AllArgsConstructor
 public class GetSaleListingsExternalServiceQuery implements IQuery {
     private String address;
+    private String propertyType;
+    private String city;
+    private String state;
+    private String zipCode;
+    private double latitude;
+    private double longitude;
+    private double radius;
+    private double bedrooms;
+    private double bathrooms;
+    private String status;
+    private int daysOld;
 }

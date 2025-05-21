@@ -43,14 +43,77 @@ public class RentCastSaleServiceImpl {
     }
 
     //TODO: La response de este metodo, lo vamos a trasformar en la capa de application.
-    public List<SaleListingResponse> getRentEstimate(String address) {
+    public List<SaleListingResponse> getRentEstimate(String address,
+                                                     String propertyType,
+                                                     String city,
+                                                     String state,
+                                                     String zipCode,
+                                                     double latitude,
+                                                     double longitude,
+                                                     double radius,
+                                                     double bedrooms,
+                                                     double bathrooms,
+                                                     String status,
+                                                     int daysOld) {
         try {
             String cleanedAddress = address.trim(); // Elimina espacios al inicio/final
             //String url = BASE_URL + "/sale/fake";
 
-            //verdadero
-            String url = BASE_URL + "/listings/sale?address=" + cleanedAddress;
+            String addressUrl = !address.equals("") ? "address=" + cleanedAddress : null;
+            String propertyTypeUrl = !propertyType.equals("") ? "propertyType=" + propertyType : null;
+            String cityUrl = !propertyType.equals("") ? "city=" + city : null;
+            String stateUrl = !state.equals("") ? "state=" + state : null;
+            String zipCodeUrl = !zipCode.equals("") ? "zipCode=" + zipCode : null;
 
+            String latitudeUrl = latitude != -1 ? "latitude=" + latitude : null;
+            String longitudeUrl = longitude != -1 ? "longitude=" + longitude : null;
+            String radiusUrl = radius != -1 ? "radius=" + radius : null;
+            String bedroomsUrl = bedrooms != -1 ? "bedrooms=" + bedrooms : null;
+            String bathroomsUrl = bathrooms != -1 ? "bathrooms=" + bathrooms : null;
+            String daysOldUrl = daysOld != 0 ? "daysOld=" + daysOld : null;
+
+            //verdadero
+            //String url = BASE_URL + "/listings/sale?address=" + cleanedAddress;
+            String url = BASE_URL + "/listings/sale?status=" + status;
+            if (addressUrl != null) {
+                url = url + "&" + addressUrl;
+            }
+            if (propertyTypeUrl != null) {
+                url = url + "&" + propertyTypeUrl;
+            }
+            if (cityUrl != null) {
+                url = url + "&" + cityUrl;
+            }
+            if (stateUrl != null) {
+                url = url + "&" + stateUrl;
+            }
+            if (zipCodeUrl != null) {
+                url = url + "&" + zipCodeUrl;
+            }
+            if (latitudeUrl != null) {
+                url = url + "&" + latitudeUrl;
+            }
+            if (longitudeUrl != null) {
+                url = url + "&" + longitudeUrl;
+            }
+            if (radiusUrl != null) {
+                url = url + "&" + radiusUrl;
+            }
+            if (bedroomsUrl != null) {
+                url = url + "&" + bedroomsUrl;
+            }
+            if (bathroomsUrl != null) {
+                url = url + "&" + bathroomsUrl;
+            }
+            if (daysOldUrl != null) {
+                url = url + "&" + daysOldUrl;
+            }
+
+            System.err.println("##############################################");
+            System.err.println("##############################################");
+            System.err.println("url: " + url);
+            System.err.println("##############################################");
+            System.err.println("##############################################");
             // Crear cabeceras para la solicitud
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.APPLICATION_JSON);
