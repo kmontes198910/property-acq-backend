@@ -1,9 +1,8 @@
 package com.kynsoft.propertyacqcenter.infrastructure.entity;
 
 import com.kynsoft.propertyacqcenter.domain.dto.PropertyDto;
+import com.kynsoft.propertyacqcenter.domain.enums.PropertyStatus;
 import com.kynsoft.propertyacqcenter.domain.enums.PropertyType;
-import com.kynsoft.propertyacqcenter.domain.enums.RoofType;
-import com.kynsoft.propertyacqcenter.domain.enums.StructureType;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -36,12 +35,19 @@ public class Property {
     private double unitCount;
     private int squareFootage;
 
-    private RoofType roofType;
-    private StructureType structureType;
+    @Column(name = "roof_type", nullable = true)
+    private String roofType;
+    @Column(name = "structure_type", nullable = true)
+    private String structureType;
+
     private String hoa;
     private Integer bedrooms;
     private Double bathrooms;
     private Double askingPrice;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "property_status", nullable = true)
+    private PropertyStatus propertyStatus;
 
     public Property(PropertyDto dto) {
         this.id = dto.getId();
@@ -65,6 +71,7 @@ public class Property {
         this.bedrooms = dto.getBedrooms();
         this.bathrooms = dto.getBathrooms();
         this.askingPrice = dto.getAskingPrice();
+        this.propertyStatus = dto.getPropertyStatus();
     }
 
     public PropertyDto toAggregate() {
@@ -90,6 +97,7 @@ public class Property {
                 .bedrooms(bedrooms)
                 .bathrooms(bathrooms)
                 .askingPrice(askingPrice)
+                .propertyStatus(propertyStatus)
                 .build();
     }
 

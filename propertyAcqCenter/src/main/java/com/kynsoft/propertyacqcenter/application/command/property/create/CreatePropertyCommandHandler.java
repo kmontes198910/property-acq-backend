@@ -39,6 +39,7 @@ public class CreatePropertyCommandHandler implements ICommandHandler<CreatePrope
                 .bathrooms(command.getBathrooms())
                 .askingPrice(command.getAskingPrice())
                 .formattedAddress(command.getFormattedAddress())
+                .propertyStatus(command.getPropertyStatus())
                 .build()
         );
     }

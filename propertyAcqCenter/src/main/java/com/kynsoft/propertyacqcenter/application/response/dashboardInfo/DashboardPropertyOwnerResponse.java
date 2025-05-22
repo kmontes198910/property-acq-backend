@@ -11,4 +11,5 @@ import lombok.Setter;
 @Builder
 public class DashboardPropertyOwnerResponse implements IResponse {
     private List<String> owners;
+    private String ownerType;
 }

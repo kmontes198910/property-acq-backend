@@ -42,13 +42,13 @@ public class GetDashboardInfoQueryHandler implements IQueryHandler<GetDashboardI
     public DashboardInfoResponse handle(GetDashboardInfoQuery query) {
 
         try {
-            List<PropertyResponse> property = this.propertyService.getPropertyDetails(query.getAddress());
+            List<PropertyResponse> property = this.propertyService.getPropertyDetails(query.getAddress(), "", "", "Single Family", "", -1, -1, -1, -1);
             DashboardStatisticsResponse dashboardStatisticsResponse = new DashboardStatisticsResponse();
 
             List<DashboardComparablesResponse> comparablesResponse = new ArrayList<>();
             //TODO: PropertyEstimated
             if (query.getEstimate().equals(EstimateEnum.PROPERTY_ESTIMATED)) {
-                EstimatedValueResponse estimatedValue = this.estimateValueService.getEstimatedValue(query.getAddress());
+                EstimatedValueResponse estimatedValue = this.estimateValueService.getEstimatedValue(query.getAddress(), "Single Family", -1, -1, -1, -1, -1, 0);
                 int estimatedValueAveragePrice = 0;
                 int countestimatedValue = 0;
 
@@ -77,7 +77,7 @@ public class GetDashboardInfoQueryHandler implements IQueryHandler<GetDashboardI
 
             //TODO: rentEstimated
             if (query.getEstimate().equals(EstimateEnum.RENT_ESTIMATED)) {
-                RentEstimateResponse rentEstimateValue = this.rentCastRentEstimateService.getRentEstimate(query.getAddress());
+                RentEstimateResponse rentEstimateValue = this.rentCastRentEstimateService.getRentEstimate(query.getAddress(), "Single Family", -1, -1, -1, -1, -1, 0);
                 int estimatedRentValueAveragePrice = 0;
                 int countEstimatedRentValue = 0;
                 for (RentEstimateResponse.ComparableRentProperty comparable : rentEstimateValue.getComparables()) {
@@ -137,7 +137,6 @@ public class GetDashboardInfoQueryHandler implements IQueryHandler<GetDashboardI
                             .lotSize(property.get(0).getLotSize())
                             .occupancy(property.get(0).isOwnerOccupied())
                             .ownerStatus("")
-                            .ownerType("")
                             //.propertyType(PropertyType.APARTMENT)
                             .propertyType(property.get(0).getPropertyType())
                             .purchaseMethod("")
@@ -153,14 +152,21 @@ public class GetDashboardInfoQueryHandler implements IQueryHandler<GetDashboardI
                             .squareFootage(property.get(0).getSquareFootage())
                             .bedrooms(property.get(0).getBedrooms())
                             .bathrooms(property.get(0).getBathrooms())
-                            .roofType(property.get(0).getFeatures().getRoofType())
-                            .structureType(property.get(0).getFeatures().getFoundationType())
-                            .garage(property.get(0).getFeatures().isGarage())
-                            .garageSpaces(property.get(0).getFeatures().getGarageSpaces())
-                            .garageType(property.get(0).getFeatures().getGarageType())
-                            .pool(property.get(0).getFeatures().isPool())
-                            .poolType(property.get(0).getFeatures().getPoolType())
-                            .owners(DashboardPropertyOwnerResponse.builder().owners(property.get(0).getOwner().getNames()).build())
+                            .roofType(property.get(0).getFeatures() != null ? property.get(0).getFeatures().getRoofType() : null)
+                            .structureType(property.get(0).getFeatures() != null ? property.get(0).getFeatures().getFoundationType() : null)
+                            .garage(property.get(0).getFeatures() != null ? property.get(0).getFeatures().isGarage() : null)
+                            .garageSpaces(property.get(0).getFeatures() != null ? property.get(0).getFeatures().getGarageSpaces() : null)
+                            .garageType(property.get(0).getFeatures() != null ? property.get(0).getFeatures().getGarageType() : null)
+                            .pool(property.get(0).getFeatures() != null ? property.get(0).getFeatures().isPool() : null)
+                            .poolType(property.get(0).getFeatures() != null ? property.get(0).getFeatures().getPoolType() : null)
+                            .owners(DashboardPropertyOwnerResponse.builder()
+                                    .owners(property.get(0).getOwner() != null ? property.get(0).getOwner().getNames() : null)
+                                    .ownerType(property.get(0).getOwner() != null ? property.get(0).getOwner().getType() : null)
+                                    .build())
+                            .ownerOccupied(property.get(0).isOwnerOccupied())
+                            .subdivision(property.get(0).getSubdivision())
+                            .zoning(property.get(0).getZoning())
+                            .lastSaleDate(property.get(0).getLastSaleDate())
                             .build()
                     )
                     .compsAtAGlanceResponse(DashboardCompsAtAGlanceResponse.builder().build())

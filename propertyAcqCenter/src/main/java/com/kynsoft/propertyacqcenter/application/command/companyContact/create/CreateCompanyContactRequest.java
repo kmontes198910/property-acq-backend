@@ -19,4 +19,5 @@ public class CreateCompanyContactRequest {
     private String notes;
     private Boolean isActive;
     private String personalEmail;
+    private UUID subCategory;
 }

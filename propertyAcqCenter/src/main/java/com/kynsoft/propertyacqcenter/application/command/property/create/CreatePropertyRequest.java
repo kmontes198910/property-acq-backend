@@ -1,8 +1,7 @@
 package com.kynsoft.propertyacqcenter.application.command.property.create;
 
+import com.kynsoft.propertyacqcenter.domain.enums.PropertyStatus;
 import com.kynsoft.propertyacqcenter.domain.enums.PropertyType;
-import com.kynsoft.propertyacqcenter.domain.enums.RoofType;
-import com.kynsoft.propertyacqcenter.domain.enums.StructureType;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -28,10 +27,11 @@ public class CreatePropertyRequest {
     private double unitCount;
     private int squareFootage;
 
-    private RoofType roofType;
-    private StructureType structureType;
+    private String roofType;
+    private String structureType;
     private String hoa;
     private Integer bedrooms;
     private Double bathrooms;
     private Double askingPrice;
+    private PropertyStatus propertyStatus;
 }

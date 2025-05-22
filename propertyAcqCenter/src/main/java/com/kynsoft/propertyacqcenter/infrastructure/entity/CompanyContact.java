@@ -56,6 +56,10 @@ public class CompanyContact {
     @Column(name = "is_active")
     private Boolean isActive;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "sub_category")
+    private SubCategory subCategory;
+
     @CreationTimestamp
     @Column(name = "created_at", updatable = false)
     private LocalDateTime createdAt;
@@ -79,6 +83,7 @@ public class CompanyContact {
         this.createdAt = dto.getCreatedAt();
         this.updatedAt = dto.getUpdatedAt();
         this.personalEmail = dto.getPersonalEmail();
+        this.subCategory = dto.getSubCategory() != null ? new SubCategory(dto.getSubCategory()) : null;
     }
 
     public CompanyContactDto toAggregateSimple() {
@@ -97,6 +102,7 @@ public class CompanyContact {
                 .createdAt(this.createdAt)
                 .updatedAt(this.updatedAt)
                 .personalEmail(personalEmail)
+                .subCategory(subCategory != null ? this.subCategory.toAggregate() : null)
                 .build();
     }
 
@@ -116,6 +122,7 @@ public class CompanyContact {
                 .updatedAt(this.updatedAt)
                 .company(company != null ? this.company.toAggregateBasic() : null)
                 .personalEmail(personalEmail)
+                .subCategory(subCategory != null ? this.subCategory.toAggregate() : null)
                 .build();
     }
 

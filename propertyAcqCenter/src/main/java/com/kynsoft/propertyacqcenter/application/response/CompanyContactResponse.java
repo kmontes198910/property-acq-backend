@@ -28,6 +28,7 @@ public class CompanyContactResponse implements IResponse {
     private Boolean isActive;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
+    private SubCategoryDto subCategory;
 
     public CompanyContactResponse(CompanyContactDto dto) {
         this.id = dto.getId();
@@ -44,6 +45,7 @@ public class CompanyContactResponse implements IResponse {
         this.createdAt = dto.getCreatedAt();
         this.updatedAt = dto.getUpdatedAt();
         this.personalEmail = dto.getPersonalEmail();
+        this.subCategory = dto.getSubCategory();
     }
 
 }
