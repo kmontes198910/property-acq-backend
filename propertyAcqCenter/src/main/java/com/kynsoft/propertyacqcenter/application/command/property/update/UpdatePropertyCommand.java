@@ -2,6 +2,7 @@ package com.kynsoft.propertyacqcenter.application.command.property.update;
 
 import com.kynsof.share.core.domain.bus.command.ICommand;
 import com.kynsof.share.core.domain.bus.command.ICommandMessage;
+import com.kynsoft.propertyacqcenter.domain.enums.PropertyStatus;
 import com.kynsoft.propertyacqcenter.domain.enums.PropertyType;
 import com.kynsoft.propertyacqcenter.domain.enums.RoofType;
 import com.kynsoft.propertyacqcenter.domain.enums.StructureType;
@@ -36,6 +37,7 @@ public class UpdatePropertyCommand implements ICommand {
     private Double bathrooms;
     private Double askingPrice;
     private String formattedAddress;
+    private PropertyStatus propertyStatus;
 
     public UpdatePropertyCommand(String id, PropertyType propertyType, int lotSize, 
                                  String apn, int yearBuilt, String county, Boolean occupancy, 
@@ -43,7 +45,7 @@ public class UpdatePropertyCommand implements ICommand {
                                  String zipCode, double unitCount, int squareFootage,
                                  RoofType roofType, StructureType structureType, String hoa,
                                  Integer bedrooms, Double bathrooms, Double askingPrice,
-                                 String formattedAddress) {
+                                 String formattedAddress, PropertyStatus propertyStatus) {
         this.id = id;
         this.propertyType = propertyType;
         this.lotSize = lotSize;
@@ -65,6 +67,7 @@ public class UpdatePropertyCommand implements ICommand {
         this.bathrooms = bathrooms;
         this.askingPrice = askingPrice;
         this.formattedAddress = formattedAddress;
+        this.propertyStatus = propertyStatus;
     }
 
     public static UpdatePropertyCommand fromRequest(UpdatePropertyRequest request, String id) {
@@ -89,7 +92,8 @@ public class UpdatePropertyCommand implements ICommand {
                 request.getBedrooms(),
                 request.getBathrooms(),
                 request.getAskingPrice(),
-                request.getFormattedAddress()
+                request.getFormattedAddress(),
+                request.getPropertyStatus()
         );
     }
 

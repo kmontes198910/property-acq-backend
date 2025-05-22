@@ -1,5 +1,6 @@
 package com.kynsoft.propertyacqcenter.domain.dto;
 
+import com.kynsoft.propertyacqcenter.domain.enums.PropertyStatus;
 import com.kynsoft.propertyacqcenter.domain.enums.PropertyType;
 import com.kynsoft.propertyacqcenter.domain.enums.RoofType;
 import com.kynsoft.propertyacqcenter.domain.enums.StructureType;
@@ -34,4 +35,5 @@ public class PropertyDto {
     private Integer bedrooms;
     private Double bathrooms;
     private Double askingPrice;
+    private PropertyStatus propertyStatus;
 }

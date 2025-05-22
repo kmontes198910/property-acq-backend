@@ -38,6 +38,7 @@ public class UpdatePropertyCommandHandler implements ICommandHandler<UpdatePrope
                 .bathrooms(command.getBathrooms())
                 .askingPrice(command.getAskingPrice())
                 .formattedAddress(command.getFormattedAddress())
+                .propertyStatus(command.getPropertyStatus())
                 .build());
     }
 }

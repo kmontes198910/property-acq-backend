@@ -1,5 +1,6 @@
 package com.kynsoft.propertyacqcenter.application.command.property.update;
 
+import com.kynsoft.propertyacqcenter.domain.enums.PropertyStatus;
 import com.kynsoft.propertyacqcenter.domain.enums.PropertyType;
 import com.kynsoft.propertyacqcenter.domain.enums.RoofType;
 import com.kynsoft.propertyacqcenter.domain.enums.StructureType;
@@ -33,4 +34,5 @@ public class UpdatePropertyRequest {
     private Double bathrooms;
     private Double askingPrice;
     private String formattedAddress;
+    private PropertyStatus propertyStatus;
 }
