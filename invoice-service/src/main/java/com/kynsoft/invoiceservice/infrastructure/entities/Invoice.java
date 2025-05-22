@@ -47,7 +47,9 @@ public class Invoice {
     
     @Column(name = "total_amount", nullable = false)
     private BigDecimal totalAmount;
-
+    
+    @Column(name = "tip")
+    private BigDecimal tip;
     
     @Enumerated(EnumType.STRING)
     @Column(name = "status", nullable = false)
