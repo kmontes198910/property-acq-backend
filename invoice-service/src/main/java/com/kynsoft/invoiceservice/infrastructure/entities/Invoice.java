@@ -36,12 +36,6 @@ public class Invoice {
     @Column(name = "emission_date", nullable = false)
     private LocalDateTime emissionDate;
     
-    @Column(name = "authorization_date")
-    private LocalDateTime authorizationDate;
-    
-    @Column(name = "authorization_number")
-    private String authorizationNumber;
-    
     @Column(name = "subtotal", nullable = false)
     private BigDecimal subtotal;
     
@@ -53,9 +47,7 @@ public class Invoice {
     
     @Column(name = "total_amount", nullable = false)
     private BigDecimal totalAmount;
-    
-    @Column(name = "tip")
-    private BigDecimal tip;
+
     
     @Enumerated(EnumType.STRING)
     @Column(name = "status", nullable = false)

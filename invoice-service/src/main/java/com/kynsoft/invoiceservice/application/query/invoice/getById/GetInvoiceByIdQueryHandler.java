@@ -48,8 +48,6 @@ public class GetInvoiceByIdQueryHandler implements IQueryHandler<GetInvoiceByIdQ
                 .id(invoice.getId())
                 .documentNumber(invoice.getDocumentNumber())
                 .accessKey(invoice.getAccessKey())
-                .authorizationNumber(invoice.getAuthorizationNumber())
-                .authorizationDate(invoice.getAuthorizationDate())
                 .issueDate(invoice.getEmissionDate())     // Mapeando emissionDate a issueDate
                 .sequential(invoice.getSequential())
                 

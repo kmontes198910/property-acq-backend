@@ -14,7 +14,6 @@ import java.math.BigDecimal;
 public class PagoRequest {
     private String formaPago;
     private String descripcion;
-    private BigDecimal total;
     private BigDecimal plazo;
     private String unidadTiempo;
 }

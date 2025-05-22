@@ -13,6 +13,7 @@ import com.kynsoft.invoiceservice.domain.service.IInvoiceService;
 import com.kynsoft.invoiceservice.dto.InvoiceIssuerDTO;
 import com.kynsoft.invoiceservice.infrastructure.entities.*;
 import com.kynsoft.invoiceservice.infrastructure.repository.query.CustomerReadRepository;
+import com.kynsoft.invoiceservice.infrastructure.repository.query.InvoiceIssuerRepository;
 import com.kynsoft.invoiceservice.infrastructure.repository.query.InvoiceReadRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -37,7 +38,7 @@ public class InvoiceService implements IInvoiceService {
     private final InvoiceReadRepository invoiceRepository;
     private final InvoiceWriteRepository invoiceWriteRepository;
     private final CustomerReadRepository customerRepository;
-    private final IInvoiceIssuerService invoiceIssuerService;
+    private final InvoiceIssuerRepository invoiceIssuerService;
     private final ICustomerService customerService;
 
     @Override
@@ -68,24 +69,25 @@ public class InvoiceService implements IInvoiceService {
         invoiceDto.setCreatedAt(now);
         invoiceDto.setUpdatedAt(now);
 
-        
+        InvoiceIssuer issuer = invoiceIssuerService.findById(invoiceDto.getIssuerId())
+                .orElseThrow(() -> new BusinessInvoiceException(DomainErrorInvoiceMessage.ISSUER_NOT_FOUND,
+                        "Emisor no encontrado con ID: " + invoiceDto.getIssuerId()));
+
         // Verificar que el cliente exista
         Customer customer = getCustomer(invoiceDto);
         
         // Construir la entidad Invoice
         Invoice invoice = Invoice.builder()
                 .id(invoiceDto.getId())
+                .issuer(issuer)
                 .documentNumber(invoiceDto.getDocumentNumber())
                 .sequential(invoiceDto.getSequential())
                 .accessKey(invoiceDto.getAccessKey())
                 .emissionDate(invoiceDto.getEmissionDate())
-                .authorizationDate(invoiceDto.getAuthorizationDate())
-                .authorizationNumber(invoiceDto.getAuthorizationNumber())
                 .subtotal(invoiceDto.getSubtotal())
                 .discount(invoiceDto.getDiscount())
                 .taxAmount(invoiceDto.getTaxAmount())
                 .totalAmount(invoiceDto.getTotalAmount())
-                .tip(invoiceDto.getTip())
                 .status(invoiceDto.getStatus() != null ? invoiceDto.getStatus() : InvoiceStatus.DRAFT)
                 .remissionGuide(invoiceDto.getRemissionGuide())
                 .customer(customer)
@@ -173,15 +175,7 @@ public class InvoiceService implements IInvoiceService {
         if (invoiceDto.getEmissionDate() != null) {
             existingInvoice.setEmissionDate(invoiceDto.getEmissionDate());
         }
-        
-        if (invoiceDto.getAuthorizationDate() != null) {
-            existingInvoice.setAuthorizationDate(invoiceDto.getAuthorizationDate());
-        }
-        
-        if (invoiceDto.getAuthorizationNumber() != null) {
-            existingInvoice.setAuthorizationNumber(invoiceDto.getAuthorizationNumber());
-        }
-        
+
         if (invoiceDto.getSubtotal() != null) {
             existingInvoice.setSubtotal(invoiceDto.getSubtotal());
         }
@@ -197,10 +191,7 @@ public class InvoiceService implements IInvoiceService {
         if (invoiceDto.getTotalAmount() != null) {
             existingInvoice.setTotalAmount(invoiceDto.getTotalAmount());
         }
-        
-        if (invoiceDto.getTip() != null) {
-            existingInvoice.setTip(invoiceDto.getTip());
-        }
+
         
         if (invoiceDto.getRemissionGuide() != null) {
             existingInvoice.setRemissionGuide(invoiceDto.getRemissionGuide());
@@ -316,11 +307,7 @@ public class InvoiceService implements IInvoiceService {
         invoice.setStatus(status);
         invoice.setUpdatedAt(LocalDateTime.now());
         invoice.setUpdatedBy(updatedBy);
-        
-        // Si el estado es AUTHORIZED, actualizar la fecha de autorización
-        if (status == InvoiceStatus.AUTHORIZED && invoice.getAuthorizationDate() == null) {
-            invoice.setAuthorizationDate(LocalDateTime.now());
-        }
+
         
         // Guardar los cambios
         Invoice updatedInvoice = invoiceWriteRepository.save(invoice);
@@ -406,6 +393,16 @@ public class InvoiceService implements IInvoiceService {
 
     
     private Customer getCustomer(InvoiceDto invoiceDto) {
+        if (invoiceDto.getCustomer() == null) {
+            throw new BusinessInvoiceException(DomainErrorInvoiceMessage.CUSTOMER_NOT_FOUND, 
+                    "La factura debe tener un cliente asociado");
+        }
+        
+        if (invoiceDto.getCustomer().getId() == null) {
+            throw new BusinessInvoiceException(DomainErrorInvoiceMessage.CUSTOMER_NOT_FOUND, 
+                    "El ID del cliente no puede ser nulo");
+        }
+        
         return customerRepository.findById(invoiceDto.getCustomer().getId())
                 .orElseThrow(() -> new BusinessInvoiceException(DomainErrorInvoiceMessage.CUSTOMER_NOT_FOUND, 
                         "Cliente no encontrado con ID: " + invoiceDto.getCustomer().getId()));
@@ -432,12 +429,20 @@ public class InvoiceService implements IInvoiceService {
         return InvoiceDetail.builder()
                 .id(dto.getId() != null ? dto.getId() : UUID.randomUUID())
                 .lineNumber(dto.getLineNumber())
-                .mainCode(dto.getCode()) // Usar el campo code del DTO como mainCode en la entidad
+                .mainCode(dto.getMainCode()) // Usar el campo code del DTO como mainCode en la entidad
                 .description(dto.getDescription())
                 .quantity(dto.getQuantity())
                 .unitPrice(dto.getUnitPrice())
                 .discount(dto.getDiscount())
                 .subtotal(dto.getSubtotal())
+                .ivaCode(dto.getIvaCode())
+                .ivaRate(dto.getIvaRate())
+                .ivaAmount(dto.getIvaAmount())
+                .iceCode(dto.getIceCode())
+                .iceRate(dto.getIceRate())
+                .iceAmount(dto.getIceAmount())
+                .totalWithTax(dto.getTotalWithTax()) // Mapeo de totalWithTax a totalWithTax
+
                 // Establecer valores predeterminados para otros campos requeridos
                 .totalWithTax(dto.getSubtotal()) // Valor temporal, debería calcularse correctamente
                 .build();
@@ -481,13 +486,10 @@ public class InvoiceService implements IInvoiceService {
                 .sequential(invoice.getSequential())
                 .accessKey(invoice.getAccessKey())
                 .emissionDate(invoice.getEmissionDate())
-                .authorizationDate(invoice.getAuthorizationDate())
-                .authorizationNumber(invoice.getAuthorizationNumber())
                 .subtotal(invoice.getSubtotal())
                 .discount(invoice.getDiscount())
                 .taxAmount(invoice.getTaxAmount())
                 .totalAmount(invoice.getTotalAmount())
-                .tip(invoice.getTip())
                 .status(invoice.getStatus())
                 .remissionGuide(invoice.getRemissionGuide())
                 .createdAt(invoice.getCreatedAt())
@@ -529,11 +531,18 @@ public class InvoiceService implements IInvoiceService {
                 InvoiceDetailDto detailDto = InvoiceDetailDto.builder()
                         .id(detail.getId())
                         .lineNumber(detail.getLineNumber())
-                        .code(detail.getMainCode()) // Usar mainCode como code en el DTO
+                        .mainCode(detail.getMainCode()) // Usar mainCode como code en el DTO
                         .description(detail.getDescription())
                         .quantity(detail.getQuantity())
                         .unitPrice(detail.getUnitPrice())
                         .discount(detail.getDiscount())
+                        .ivaCode(detail.getIvaCode())
+                        .ivaRate(detail.getIvaRate())
+                        .ivaAmount(detail.getIvaAmount())
+                        .iceCode(detail.getIceCode())
+                        .iceRate(detail.getIceRate())
+                        .iceAmount(detail.getIceAmount())
+                        .totalWithTax(detail.getTotalWithTax()) // Mapeo de totalWithTax a totalWithTax
                         .subtotal(detail.getSubtotal())
                         .build();
                 detailDtos.add(detailDto);
