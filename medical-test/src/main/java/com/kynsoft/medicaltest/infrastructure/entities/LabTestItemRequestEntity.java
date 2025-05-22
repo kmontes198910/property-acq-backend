@@ -1,0 +1,102 @@
+package com.kynsoft.medicaltest.infrastructure.entities;
+
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import java.time.LocalDateTime;
+import java.util.UUID;
+
+@Entity
+@Table(name = "lab_test_items")
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+@Getter
+@Setter
+public class LabTestItemRequestEntity {
+    
+    @Id
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private UUID id;
+    
+    @ManyToOne
+    @JoinColumn(name = "order_id", nullable = false)
+    private LabTestRequestEntity order;
+    
+    @Column(name = "code", nullable = false)
+    private String code;
+    
+    @Column(name = "examination_type", nullable = false)
+    private String examinationType;
+    
+    @Column(name = "status", nullable = false)
+    private String status;
+
+    
+    @Column(name = "completion_date")
+    private LocalDateTime completionDate;
+    
+    @Column(name = "observations", columnDefinition = "TEXT")
+    private String observations;
+    
+    @CreationTimestamp
+    @Column(updatable = false)
+    private LocalDateTime createdAt;
+    
+    @UpdateTimestamp
+    private LocalDateTime updatedAt;
+    
+    @Column(name = "created_by")
+    private UUID createdBy;
+    
+    @Column(name = "updated_by")
+    private UUID updatedBy;
+    
+    @OneToMany(mappedBy = "labTestItem", cascade = CascadeType.ALL, orphanRemoval = true)
+    @Builder.Default
+    private List<LabTestResultEntity> testResults = new ArrayList<>();
+    
+    @PrePersist
+    protected void onCreate() {
+        if (createdAt == null) {
+            createdAt = LocalDateTime.now();
+        }
+        if (updatedAt == null) {
+            updatedAt = createdAt;
+        }
+    }
+    
+    @PreUpdate
+    protected void onUpdate() {
+        updatedAt = LocalDateTime.now();
+    }
+    
+    /**
+     * Método helper para agregar un resultado de test al examen
+     * 
+     * @param result El resultado a agregar
+     */
+    public void addTestResult(LabTestResultEntity result) {
+        testResults.add(result);
+        result.setLabTestItem(this);
+    }
+    
+    /**
+     * Método helper para eliminar un resultado de test del examen
+     * 
+     * @param result El resultado a eliminar
+     */
+    public void removeTestResult(LabTestResultEntity result) {
+        testResults.remove(result);
+        result.setLabTestItem(null);
+    }
+}

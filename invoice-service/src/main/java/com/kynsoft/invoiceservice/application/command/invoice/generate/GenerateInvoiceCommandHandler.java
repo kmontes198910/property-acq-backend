@@ -28,6 +28,7 @@ import ec.e.facturacion.sri.ws.recepcion.prueba.RespuestaSolicitud;
 import ec.e.facturacion.sri.ws.soap.servicio.SRIAutorizacionServicio;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import ec.e.facturacion.sri.ws.soap.servicio.SRIRecepcionServicio;
 
@@ -77,7 +78,7 @@ public class GenerateInvoiceCommandHandler implements ICommandHandler<GenerateIn
             // Fase 3: Procesamiento posterior (no transaccional)
             // Esta fase puede ser ejecutada de forma asíncrona si es necesario
             // ya que la factura ya está guardada en la base de datos
-            // generateDocumentsAsync(prepResult.getFactura(), invoiceId);
+             generateDocumentsAsync(prepResult.getFactura(), invoiceId);
             
             // Comentado para evitar bloquear la transacción:
             // ByteArrayOutputStream xmlFactura = generateXmlAndInvoiceFile(factura);
@@ -132,7 +133,7 @@ public class GenerateInvoiceCommandHandler implements ICommandHandler<GenerateIn
      * Método para generar documentos de forma asíncrona después de guardar la factura.
      * Este método podría implementarse usando @Async o un sistema de mensajería.
      */
-    /*
+
     @Async
     public void generateDocumentsAsync(Factura factura, UUID invoiceId) {
         try {
@@ -145,7 +146,7 @@ public class GenerateInvoiceCommandHandler implements ICommandHandler<GenerateIn
             log.error("Error en generación asíncrona de documentos: {}", e.getMessage(), e);
         }
     }
-    */
+
 
     private static void sendInvoiceSRI(ByteArrayOutputStream xmlFactura, Factura factura) {
         try {
@@ -331,10 +332,10 @@ public class GenerateInvoiceCommandHandler implements ICommandHandler<GenerateIn
                     .withDescuento(detalleDTO.getDescuento());
                     
             // Agregar impuesto ICE si es necesario (comentado actualmente)
-            // if (detalleDTO.getCodigoImpuestoICE() != null && detalleDTO.getPorcentajeImpuestoICE() != null) {
-            //     detalleBuilder.withImpuestoICE(Factura.Impuesto.ICE(detalleDTO.getCodigoImpuestoICE(), detalleDTO.getPorcentajeImpuestoICE()));
-            // }
-            
+             if (detalleDTO.getCodigoImpuestoICE() != null && detalleDTO.getPorcentajeImpuestoICE() != null) {
+                 detalleBuilder.withImpuestoICE(Factura.Impuesto.ICE(detalleDTO.getCodigoImpuestoICE(), detalleDTO.getPorcentajeImpuestoICE()));
+             }
+
             // Construir el detalle final
             Factura.DetalleFactura detalle = detalleBuilder.build();
 
@@ -358,6 +359,7 @@ public class GenerateInvoiceCommandHandler implements ICommandHandler<GenerateIn
                 //.withAgenteRetencion("3867")
                 //.withContribuyenteEspecial("7345")
                 .withContribuyenteRimpe(Regimen.NEGOCIO_POPULAR)//Agregar a la empresa el tipo de régimen
+                .withNombreComercial(issuer.getCommercialName())
                 .withTipoIdentificacionComprador(customerIdentificationType)
                 .withRazonSocialComprador(customer.getBusinessName())
                 .withIdentificacionComprador(customer.getIdNumber())
@@ -369,10 +371,10 @@ public class GenerateInvoiceCommandHandler implements ICommandHandler<GenerateIn
                 .withInfoAdicional(new ArrayList<>())
                 .build();
 
-        if (issuer.getRetentionAgent() != null) {
+        if (issuer.getRetentionAgent() != null && !issuer.getRetentionAgent().isEmpty()) {
             factura.setAgenteRetencion(issuer.getRetentionAgent());
         }
-        if (issuer.getSpecialTaxpayer() != null) {
+        if (issuer.getSpecialTaxpayer() != null && !issuer.getSpecialTaxpayer().isEmpty()) {
             factura.setContribuyenteEspecial(issuer.getSpecialTaxpayer());
         }
 
@@ -523,7 +525,6 @@ public class GenerateInvoiceCommandHandler implements ICommandHandler<GenerateIn
                 }
 
                 // Calcular el subtotal con impuestos (precio total + impuestos)
-                BigDecimal subtotalWithTax = detalle.getPrecioTotalSinImpuesto().add(totalWithTax);
                 
                 InvoiceDetailDto detailDto = InvoiceDetailDto.builder()
                         .id(UUID.randomUUID())
@@ -537,7 +538,7 @@ public class GenerateInvoiceCommandHandler implements ICommandHandler<GenerateIn
                         .auxiliaryCode(detalle.getCodigoAuxiliar())
                         .unitOfMeasure(detalle.getUnidadMedida())
                         .taxes(detailTaxes) // Agregar la lista de impuestos
-                        .totalWithTax(subtotalWithTax) // Total con impuestos
+                        .totalWithTax(totalWithTax) // Total con impuestos
                         .build();
                 detailDtos.add(detailDto);
             }
