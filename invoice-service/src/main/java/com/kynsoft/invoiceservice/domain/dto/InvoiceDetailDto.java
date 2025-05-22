@@ -1,9 +1,10 @@
 package com.kynsoft.invoiceservice.domain.dto;
 
-import jakarta.persistence.Column;
 import lombok.*;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @Data
@@ -23,11 +24,8 @@ public class InvoiceDetailDto {
     private BigDecimal unitPrice;
     private BigDecimal discount;
     private BigDecimal subtotal;
-    private String ivaCode;
-    private BigDecimal ivaRate;
-    private BigDecimal ivaAmount;
-    private String iceCode;
-    private BigDecimal iceRate;
-    private BigDecimal iceAmount;
     private BigDecimal totalWithTax;
+
+    @Builder.Default
+    private List<InvoiceDetailTaxDto> taxes = new ArrayList<>();
 }

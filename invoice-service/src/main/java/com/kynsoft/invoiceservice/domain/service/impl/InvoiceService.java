@@ -8,7 +8,6 @@ import com.kynsoft.invoiceservice.domain.dto.*;
 import com.kynsoft.invoiceservice.domain.exception.BusinessInvoiceException;
 import com.kynsoft.invoiceservice.domain.exception.DomainErrorInvoiceMessage;
 import com.kynsoft.invoiceservice.domain.service.ICustomerService;
-import com.kynsoft.invoiceservice.domain.service.IInvoiceIssuerService;
 import com.kynsoft.invoiceservice.domain.service.IInvoiceService;
 import com.kynsoft.invoiceservice.dto.InvoiceIssuerDTO;
 import com.kynsoft.invoiceservice.infrastructure.entities.*;
@@ -19,10 +18,10 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -426,25 +425,32 @@ public class InvoiceService implements IInvoiceService {
     // Métodos de mapeo entre entidades y DTOs
     
     private InvoiceDetail mapInvoiceDetailDtoToEntity(InvoiceDetailDto dto) {
+        List<InvoiceDetailTax> taxes = new ArrayList<>();
+        dto.getTaxes().stream().map(taxDto -> {
+            InvoiceDetailTax tax = InvoiceDetailTax.builder()
+                    .id(taxDto.getId() != null ? taxDto.getId() : UUID.randomUUID())
+                    .code(taxDto.getCode()) // Mapeo de code a taxCode
+                    .percentageCode(taxDto.getPercentageCode()) // Usar description como percentageCode
+                    .rate(taxDto.getRate()) // Mapeo de rate a rate
+                    .taxableBase(taxDto.getTaxableBase()) // Mapeo de baseAmount a taxableBase
+                    .value(taxDto.getValue()) // Mapeo de taxAmount a value
+                    .build();
+            taxes.add(tax);
+            return tax;
+        }).toList();
+
         return InvoiceDetail.builder()
                 .id(dto.getId() != null ? dto.getId() : UUID.randomUUID())
                 .lineNumber(dto.getLineNumber())
                 .mainCode(dto.getMainCode()) // Usar el campo code del DTO como mainCode en la entidad
                 .description(dto.getDescription())
                 .quantity(dto.getQuantity())
+                .unitOfMeasure(dto.getUnitOfMeasure())
                 .unitPrice(dto.getUnitPrice())
                 .discount(dto.getDiscount())
                 .subtotal(dto.getSubtotal())
-                .ivaCode(dto.getIvaCode())
-                .ivaRate(dto.getIvaRate())
-                .ivaAmount(dto.getIvaAmount())
-                .iceCode(dto.getIceCode())
-                .iceRate(dto.getIceRate())
-                .iceAmount(dto.getIceAmount())
-                .totalWithTax(dto.getTotalWithTax()) // Mapeo de totalWithTax a totalWithTax
-
-                // Establecer valores predeterminados para otros campos requeridos
-                .totalWithTax(dto.getSubtotal()) // Valor temporal, debería calcularse correctamente
+                .totalWithTax(dto.getTotalWithTax() != null ? dto.getTotalWithTax() :  BigDecimal.ZERO) // Usar totalWithTax si existe, sino usar subtotal
+                .taxes(taxes)
                 .build();
     }
     
@@ -536,12 +542,6 @@ public class InvoiceService implements IInvoiceService {
                         .quantity(detail.getQuantity())
                         .unitPrice(detail.getUnitPrice())
                         .discount(detail.getDiscount())
-                        .ivaCode(detail.getIvaCode())
-                        .ivaRate(detail.getIvaRate())
-                        .ivaAmount(detail.getIvaAmount())
-                        .iceCode(detail.getIceCode())
-                        .iceRate(detail.getIceRate())
-                        .iceAmount(detail.getIceAmount())
                         .totalWithTax(detail.getTotalWithTax()) // Mapeo de totalWithTax a totalWithTax
                         .subtotal(detail.getSubtotal())
                         .build();

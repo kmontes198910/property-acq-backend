@@ -18,7 +18,6 @@ import com.kynsoft.invoiceservice.infrastructure.entities.InvoiceStatus;
 import ec.e.facturacion.sri.constante.Ambiente;
 import ec.e.facturacion.sri.constante.Estados;
 import ec.e.facturacion.sri.constante.Regimen;
-import ec.e.facturacion.sri.esquema.notadebito.Pago;
 import ec.e.facturacion.sri.modelo.ComprobanteBase;
 import ec.e.facturacion.sri.modelo.Factura;
 import ec.e.facturacion.sri.pdf.generador.FacturaPDFGenerador;
@@ -30,7 +29,6 @@ import ec.e.facturacion.sri.ws.soap.servicio.SRIAutorizacionServicio;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import ec.e.facturacion.sri.ws.soap.servicio.SRIRecepcionServicio;
 
 import java.io.ByteArrayOutputStream;
@@ -422,10 +420,28 @@ public class GenerateInvoiceCommandHandler implements ICommandHandler<GenerateIn
 
         // Mapear detalles de factura
         List<InvoiceDetailDto> detailDtos = new ArrayList<>();
+        BigDecimal totalWithTax = BigDecimal.ZERO;
         if (factura.getDetalles() != null) {
             for (int i = 0; i < factura.getDetalles().size(); i++) {
                 Factura.DetalleFactura detalle = factura.getDetalles().get(i);
                 
+                // Crear lista de impuestos para este detalle
+                List<InvoiceDetailTaxDto> detailTaxes = new ArrayList<>();
+                if (detalle.getImpuestos() != null) {
+                    for (Factura.Impuesto impuesto : detalle.getImpuestos()) {
+                        InvoiceDetailTaxDto taxDto = InvoiceDetailTaxDto.builder()
+                                .id(UUID.randomUUID())
+                                .code(impuesto.getCodigo())
+                                .percentageCode(impuesto.getCodigoPorcentaje())
+                                .rate(impuesto.getTarifa())
+                                .taxableBase(impuesto.getBaseImponible())
+                                .value(impuesto.getValor())
+                                .build();
+                        detailTaxes.add(taxDto);
+                        totalWithTax = totalWithTax.add(impuesto.getValor());
+                    }
+                }
+
                 InvoiceDetailDto detailDto = InvoiceDetailDto.builder()
                         .id(UUID.randomUUID())
                         .lineNumber(i + 1) // Número de línea secuencial empezando desde 1
@@ -436,15 +452,9 @@ public class GenerateInvoiceCommandHandler implements ICommandHandler<GenerateIn
                         .discount(detalle.getDescuento())
                         .subtotal(detalle.getPrecioTotalSinImpuesto())
                         .auxiliaryCode(detalle.getCodigoAuxiliar())
-                        .ivaCode(detalle.getImpuestos().getCodigo())
-                        .ivaRate(detalle.getImpuestos().getTarifa())
-                        .ivaAmount(detalle.getImpuestos().getValor())
-                        .iceCode(detalle.)
-                        .iceRate(detalle.getImpuestoICE() != null ? detalle.getImpuestoICE().getTarifa() : null)
-
                         .unitOfMeasure(detalle.getUnidadMedida())
-                        .totalWithTax(detalle.getPrecioTotalSinImpuesto()
-                                .add(detalle.getImpuestos().get(0).getValor()))
+                        .taxes(detailTaxes) // Agregar la lista de impuestos
+                        .totalWithTax(totalWithTax) // Total con impuestos
                         .build();
                 detailDtos.add(detailDto);
             }
