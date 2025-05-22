@@ -2,6 +2,7 @@ package com.kynsoft.propertyacqcenter.application.response;
 
 import com.kynsof.share.core.domain.bus.query.IResponse;
 import com.kynsoft.propertyacqcenter.domain.dto.PropertyDto;
+import com.kynsoft.propertyacqcenter.domain.enums.PropertyStatus;
 import com.kynsoft.propertyacqcenter.domain.enums.PropertyType;
 import com.kynsoft.propertyacqcenter.domain.enums.RoofType;
 import com.kynsoft.propertyacqcenter.domain.enums.StructureType;
@@ -35,6 +36,7 @@ public class PropertiesResponse implements IResponse {
     private Double bathrooms;
     private Double askingPrice;
     private String formattedAddress;
+    private PropertyStatus propertyStatus;
 
     public PropertiesResponse(PropertyDto dto) {
         this.id = dto.getId();
@@ -58,6 +60,7 @@ public class PropertiesResponse implements IResponse {
         this.bathrooms = dto.getBathrooms();
         this.askingPrice = dto.getAskingPrice();
         this.formattedAddress = dto.getFormattedAddress();
+        this.propertyStatus = dto.getPropertyStatus();
     }
 
 }
