@@ -23,8 +23,6 @@ public class InvoiceDto {
     private String sequential;
     private String accessKey;
     private LocalDateTime emissionDate;
-    private LocalDateTime authorizationDate;
-    private String authorizationNumber;
     private BigDecimal subtotal;
     private BigDecimal discount;
     private BigDecimal taxAmount;
@@ -39,6 +37,7 @@ public class InvoiceDto {
     
     // Relaciones
     private InvoiceIssuerDTO issuer;
+    private UUID issuerId;
     private CustomerDto customer;
     
     @Builder.Default

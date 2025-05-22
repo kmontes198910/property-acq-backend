@@ -49,26 +49,7 @@ public class InvoiceDetail {
     
     @Column(name = "subtotal", nullable = false)
     private BigDecimal subtotal;
-    
-    // Información de impuestos a nivel del detalle
-    @Column(name = "iva_code")
-    private String ivaCode;
-    
-    @Column(name = "iva_rate")
-    private BigDecimal ivaRate;
-    
-    @Column(name = "iva_amount")
-    private BigDecimal ivaAmount;
-    
-    @Column(name = "ice_code")
-    private String iceCode;
-    
-    @Column(name = "ice_rate")
-    private BigDecimal iceRate;
-    
-    @Column(name = "ice_amount")
-    private BigDecimal iceAmount;
-    
+
     @Column(name = "total_with_tax", nullable = false)
     private BigDecimal totalWithTax;
     
@@ -84,6 +65,10 @@ public class InvoiceDetail {
     @Builder.Default
     private List<InvoiceDetailAdditional> additionalInfo = new ArrayList<>();
     
+    @OneToMany(mappedBy = "invoiceDetail", cascade = CascadeType.ALL, orphanRemoval = true)
+    @Builder.Default
+    private List<InvoiceDetailTax> taxes = new ArrayList<>();
+
     // Helper method
     public void addAdditionalInfo(InvoiceDetailAdditional additional) {
         additionalInfo.add(additional);
@@ -93,5 +78,16 @@ public class InvoiceDetail {
     public void removeAdditionalInfo(InvoiceDetailAdditional additional) {
         additionalInfo.remove(additional);
         additional.setInvoiceDetail(null);
+    }
+
+    // Helper methods for Tax
+    public void addTax(InvoiceDetailTax tax) {
+        taxes.add(tax);
+        tax.setInvoiceDetail(this);
+    }
+
+    public void removeTax(InvoiceDetailTax tax) {
+        taxes.remove(tax);
+        tax.setInvoiceDetail(null);
     }
 }

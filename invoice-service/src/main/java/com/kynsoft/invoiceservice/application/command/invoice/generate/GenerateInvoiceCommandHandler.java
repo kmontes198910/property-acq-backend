@@ -5,19 +5,19 @@ import com.kynsoft.invoiceservice.application.command.invoice.generate.request.C
 import com.kynsoft.invoiceservice.application.command.invoice.generate.request.DetalleFacturaRequest;
 import com.kynsoft.invoiceservice.application.command.invoice.generate.request.PagoRequest;
 import com.kynsoft.invoiceservice.application.query.customer.get.CustomerDto;
-import com.kynsoft.invoiceservice.domain.dto.InvoiceIssuerDto;
-import com.kynsoft.invoiceservice.domain.dto.InvoiceIssuingSequenceDto;
+import com.kynsoft.invoiceservice.domain.dto.*;
 import com.kynsoft.invoiceservice.domain.exception.BusinessInvoiceException;
 import com.kynsoft.invoiceservice.domain.exception.DomainErrorInvoiceMessage;
 import com.kynsoft.invoiceservice.domain.service.ICustomerService;
 import com.kynsoft.invoiceservice.domain.service.IInvoiceIssuerService;
 import com.kynsoft.invoiceservice.domain.service.impl.InvoiceService;
+import com.kynsoft.invoiceservice.dto.InvoiceIssuerDTO;
 import com.kynsoft.invoiceservice.infrastructure.entities.Customer;
 
+import com.kynsoft.invoiceservice.infrastructure.entities.InvoiceStatus;
 import ec.e.facturacion.sri.constante.Ambiente;
 import ec.e.facturacion.sri.constante.Estados;
 import ec.e.facturacion.sri.constante.Regimen;
-import ec.e.facturacion.sri.esquema.notadebito.Pago;
 import ec.e.facturacion.sri.modelo.ComprobanteBase;
 import ec.e.facturacion.sri.modelo.Factura;
 import ec.e.facturacion.sri.pdf.generador.FacturaPDFGenerador;
@@ -29,7 +29,6 @@ import ec.e.facturacion.sri.ws.soap.servicio.SRIAutorizacionServicio;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import ec.e.facturacion.sri.ws.soap.servicio.SRIRecepcionServicio;
 
 import java.io.ByteArrayOutputStream;
@@ -56,52 +55,97 @@ public class GenerateInvoiceCommandHandler implements ICommandHandler<GenerateIn
     private final IInvoiceIssuerService invoiceIssuerService;
 
     @Override
-    @Transactional
     public void handle(GenerateInvoiceCommand command) {
         log.info("Generando nueva factura para el emisor ID: {}", command.getIssuerId());
 
         try {
-            // 1. Obtener el emisor por su ID (o el emisor activo si no se proporcionó un ID)
-            InvoiceIssuerDto issuerDto = invoiceIssuerService.getById(command.getIssuerId());
-
-            // 2. Obtener y actualizar el secuencial para facturas del emisor
-            String sequential = getNextSequentialFromIssuer(issuerDto, "01"); // 01 es el tipo de documento para facturas
-
-            // 3. Buscar o crear el cliente (Customer) utilizando el servicio
-            Customer customer = findOrUpdateCustomer(command);
-
-            Factura factura = createfactura(issuerDto, sequential, command.getDetalles(), customer, command.getPropina(),
-                    command.getPagos(), command.getInfoAdicional());
-
-            if (validateInvoice(factura)) {
-                log.error("Factura no válida, abortando generación.");
-                throw new BusinessInvoiceException(DomainErrorInvoiceMessage.INVOICE_NOT_VALID,
-                        "Factura no válida, verifique los datos.");
-            }
-
-            ByteArrayOutputStream xmlFactura = generateXmlAndInvoiceFile(factura);
-
-            ByteArrayOutputStream pdfInvoice = generatePDFInvoice(factura);
-
-            sendInvoiceSRI(xmlFactura, factura);
-
-
-            command.setId(UUID.randomUUID()); // Asegurarse de que el comando tenga un ID
-            command.setAccessKey(factura.getClaveAcceso());
-            log.info("Factura generada con clave de acceso: {}", factura.getClaveAcceso());
-        } catch (BusinessInvoiceException e) {
-            log.error("Error de negocio al generar factura: {}", e.getMessage());
-            throw e;
-        } catch (IOException e) {
-            log.error("Error de E/S al generar factura: {}", e.getMessage(), e);
-            throw new BusinessInvoiceException(DomainErrorInvoiceMessage.GENERAL_ERROR,
-                    "Error al generar archivos XML/PDF de factura: " + e.getMessage());
+            // Fase 1: Preparación de datos (no transaccional)
+            // Esta fase puede tomar tiempo pero no requiere estar en una transacción
+            log.info("Fase 1: Preparando datos para la factura");
+            InvoicePreparationResult prepResult = prepareInvoiceData(command);
+            
+            // Fase 2: Persistencia de datos (transaccional)
+            // Esta fase es rápida y solo interactúa con la base de datos
+            log.info("Fase 2: Persistiendo la factura en base de datos");
+            UUID invoiceId = invoiceService.create(prepResult.getInvoiceDto());
+            
+            // Actualización del comando con los resultados
+            command.setId(invoiceId);
+            command.setAccessKey(prepResult.getAccessKey());
+            log.info("Factura generada con ID: {} y clave de acceso: {}", invoiceId, prepResult.getAccessKey());
+            
+            // Fase 3: Procesamiento posterior (no transaccional)
+            // Esta fase puede ser ejecutada de forma asíncrona si es necesario
+            // ya que la factura ya está guardada en la base de datos
+            // generateDocumentsAsync(prepResult.getFactura(), invoiceId);
+            
+            // Comentado para evitar bloquear la transacción:
+            // ByteArrayOutputStream xmlFactura = generateXmlAndInvoiceFile(factura);
+            // ByteArrayOutputStream pdfInvoice = generatePDFInvoice(factura);
+            // sendInvoiceSRI(xmlFactura, factura);
         } catch (Exception e) {
             log.error("Error al generar factura: {}", e.getMessage(), e);
             throw new BusinessInvoiceException(DomainErrorInvoiceMessage.GENERAL_ERROR,
                     "Error al generar factura: " + e.getMessage());
         }
     }
+    
+    /**
+     * Prepara todos los datos necesarios para generar una factura sin interactuar con la base de datos.
+     * Esta fase no requiere transacción y puede tomar tiempo.
+     */
+    private InvoicePreparationResult prepareInvoiceData(GenerateInvoiceCommand command) {
+        // 1. Obtener el emisor por su ID
+        InvoiceIssuerDto issuerDto = invoiceIssuerService.getById(command.getIssuerId());
+
+        // 2. Obtener y actualizar el secuencial para facturas del emisor
+        String sequential = getNextSequentialFromIssuer(issuerDto, "01"); // 01 es el tipo de documento para facturas
+
+        // 3. Buscar o crear el cliente (Customer) utilizando el servicio
+        Customer customer = findOrUpdateCustomer(command);
+
+        // 4. Crear el objeto Factura (modelo del SRI)
+        Factura factura = createfactura(issuerDto, sequential, command.getDetalles(), customer, command.getPropina(),
+                command.getPagos(), command.getInfoAdicional());
+
+        // 5. Validar la factura
+        if (validateInvoice(factura)) {
+            log.error("Factura no válida, abortando generación.");
+            throw new BusinessInvoiceException(DomainErrorInvoiceMessage.INVOICE_NOT_VALID,
+                    "Factura no válida, verifique los datos.");
+        }
+
+        // 6. Convertir a DTO para la persistencia
+        InvoiceDto invoiceDto = convertFacturaToInvoiceDto(factura, customer, issuerDto, command.getCreatedBy());
+        log.info("InvoiceDto preparado - Cliente ID: {}, Cliente Núm. ID: {}",
+                invoiceDto.getCustomer().getId(), invoiceDto.getCustomer().getIdentificationNumber());
+
+        // 7. Devolver el resultado de la preparación
+        return InvoicePreparationResult.builder()
+                .invoiceDto(invoiceDto)
+                .factura(factura)
+                .accessKey(factura.getClaveAcceso())
+                .build();
+    }
+    
+    /**
+     * Método para generar documentos de forma asíncrona después de guardar la factura.
+     * Este método podría implementarse usando @Async o un sistema de mensajería.
+     */
+    /*
+    @Async
+    public void generateDocumentsAsync(Factura factura, UUID invoiceId) {
+        try {
+            log.info("Iniciando generación asíncrona de documentos para factura: {}", invoiceId);
+            ByteArrayOutputStream xmlFactura = generateXmlAndInvoiceFile(factura);
+            ByteArrayOutputStream pdfInvoice = generatePDFInvoice(factura);
+            sendInvoiceSRI(xmlFactura, factura);
+            log.info("Documentos generados correctamente para factura: {}", invoiceId);
+        } catch (Exception e) {
+            log.error("Error en generación asíncrona de documentos: {}", e.getMessage(), e);
+        }
+    }
+    */
 
     private static void sendInvoiceSRI(ByteArrayOutputStream xmlFactura, Factura factura) {
         try {
@@ -177,23 +221,6 @@ public class GenerateInvoiceCommandHandler implements ICommandHandler<GenerateIn
 
 
     private static ByteArrayOutputStream generatePDFInvoice(Factura factura) throws IOException {
-//        // Generar el XML
-//        byte[] p12Bytes = FileConverterUtil.p12FileToByteArray("/Users/keimermontes/Development/medinec/scheduled/invoice-service/libs/0961881992.p12");
-//
-//        // Construir el p12 a partir del arreglo de bytes
-//        InputStream p12Stream = FileConverterUtil.byteArrayToInputStream(p12Bytes);
-//        ByteArrayOutputStream xmlFactura = factura.generarXml(p12Stream, "Gloria2014");
-//
-//        System.out.println("Estado de la factura:\n" + factura.getEstado());
-//        System.out.println("XML generado:\n" + xmlFactura);
-//
-//        // Guardar el XML en un archivo
-//        String nombreArchivo = "factura_" + factura.getEstab() + "-" + factura.getPtoEmi() + "-"
-//                               + factura.getSecuencial() + ".xml";
-//
-//        Files.write(Paths.get(nombreArchivo), xmlFactura.toByteArray());
-//        System.out.println("\nFactura guardada en: " + nombreArchivo);
-
         try {
             // Generar el PDF
             String logoBase64 = FileConverterUtil.imageToBase64("/Users/keimermontes/Development/medinec/scheduled/invoice-service/libs/logo.jpg");
@@ -224,7 +251,18 @@ public class GenerateInvoiceCommandHandler implements ICommandHandler<GenerateIn
         return false;
     }
 
+    /**
+     * Obtiene y actualiza el siguiente número secuencial para un tipo de documento de un emisor.
+     * Este método actualiza la secuencia en la base de datos.
+     * 
+     * @param issuer DTO del emisor de facturas
+     * @param documentType Tipo de documento (ej. "01" para facturas)
+     * @return Secuencial formateado a 9 dígitos
+     * @throws BusinessInvoiceException si no se encuentra una secuencia activa para el tipo de documento
+     */
     private String getNextSequentialFromIssuer(InvoiceIssuerDto issuer, String documentType) {
+        log.info("Obteniendo siguiente secuencial para emisor ID: {}, tipo documento: {}", issuer.getId(), documentType);
+        
         // Buscar la secuencia para el tipo de documento específico
         Optional<InvoiceIssuingSequenceDto> sequenceOpt = issuer.getSequences().stream()
                 .filter(seq -> documentType.equals(seq.getDocumentType()) && Boolean.TRUE.equals(seq.getIsActive()))
@@ -243,6 +281,20 @@ public class GenerateInvoiceCommandHandler implements ICommandHandler<GenerateIn
 
         // Incrementar el secuencial
         Long nextSequential = sequenceDto.getCurrentSequential() + 1;
+        
+        // Actualizar la secuencia en la base de datos
+        try {
+            // Usar el servicio para actualizar la secuencia en la base de datos
+            invoiceIssuerService.updateSequence(issuer.getId(), documentType, nextSequential);
+            log.info("Secuencial actualizado correctamente en base de datos: {}", nextSequential);
+        } catch (Exception e) {
+            log.error("Error al actualizar secuencial en la base de datos: {}", e.getMessage(), e);
+            throw new BusinessInvoiceException(
+                    DomainErrorInvoiceMessage.GENERAL_ERROR,
+                    "Error al actualizar secuencial en la base de datos: " + e.getMessage());
+        }
+        
+        // También actualizar el objeto DTO local para consistencia
         sequenceDto.setCurrentSequential(nextSequential);
         sequenceDto.setLastUsedDate(LocalDateTime.now());
 
@@ -268,48 +320,28 @@ public class GenerateInvoiceCommandHandler implements ICommandHandler<GenerateIn
         List<Factura.DetalleFactura> detallesList = new ArrayList<>();
 
         for (DetalleFacturaRequest detalleDTO : detallesDTO) {
-            Factura.DetalleFactura detalle = new Factura.DetalleFactura.Builder(detalleDTO.getCodigoPrincipal(),
-                    detalleDTO.getDescripcion(), detalleDTO.getCantidad(), detalleDTO.getPrecioUnitario(),
+            // Crear el builder del detalle con los valores básicos
+            Factura.DetalleFactura.Builder detalleBuilder = new Factura.DetalleFactura.Builder(
+                    detalleDTO.getCodigoPrincipal(),
+                    detalleDTO.getDescripcion(), 
+                    detalleDTO.getCantidad(), 
+                    detalleDTO.getPrecioUnitario(),
                     Factura.Impuesto.IVA(detalleDTO.getTipoImpuesto(), detalleDTO.getPorcentajeImpuesto()))
                     .withUnidadMedida(detalleDTO.getUnidadMedida())
-                    .withDescuento(detalleDTO.getDescuento())
-                    //.withImpuestoICE(Factura.Impuesto.ICE(detalleDTO.getCodigoImpuestoICE(), detalleDTO.getPorcentajeImpuestoICE()))
-                    .build();
+                    .withDescuento(detalleDTO.getDescuento());
+                    
+            // Agregar impuesto ICE si es necesario (comentado actualmente)
+            // if (detalleDTO.getCodigoImpuestoICE() != null && detalleDTO.getPorcentajeImpuestoICE() != null) {
+            //     detalleBuilder.withImpuestoICE(Factura.Impuesto.ICE(detalleDTO.getCodigoImpuestoICE(), detalleDTO.getPorcentajeImpuestoICE()));
+            // }
+            
+            // Construir el detalle final
+            Factura.DetalleFactura detalle = detalleBuilder.build();
 
 
             detallesList.add(detalle);
         }
 
-//
-//        List<Factura.DetalleFactura> detalles = List.of(
-//                new Factura.DetalleFactura.Builder("001", "Software development - APP FLUTTER", BigDecimal.valueOf(1),
-//                        BigDecimal.valueOf(5000), Factura.Impuesto.IVA("4", BigDecimal.valueOf(15))).withUnidadMedida("U")
-//                        .build(),
-//
-//                new Factura.DetalleFactura.Builder("002", "Software development - Backend JAVA", BigDecimal.valueOf(1),
-//                        BigDecimal.valueOf(10000), Factura.Impuesto.IVA("5", BigDecimal.valueOf(5))).withUnidadMedida("U")
-//                        .build(),
-//
-//                new Factura.DetalleFactura.Builder("003", "Software development - Backend PYTHON", BigDecimal.valueOf(1),
-//                        BigDecimal.valueOf(10000.00), Factura.Impuesto.IVA("4", BigDecimal.valueOf(15)))
-//                        .withImpuestoICE(Factura.Impuesto.ICE("3077", BigDecimal.valueOf(20))).withUnidadMedida("U")
-//                        .withDescuento(BigDecimal.valueOf(100.00)).build(),
-//
-//                new Factura.DetalleFactura.Builder("004", "Soporte", BigDecimal.valueOf(1), BigDecimal.valueOf(5000),
-//                        Factura.Impuesto.IVA("5", BigDecimal.valueOf(5))).withUnidadMedida("U").build());
-
-        // Información adicional
-        // En el caso que dese mandar informacion adicional aparte de el correo y telefono del comprador
-        // lo puede especificar de esta forma
-//        List<ComprobanteBase.CampoAdicional> infoAdicionalList = infoAdicional.stream()
-//                .map(campoAdicionalDTO -> new ComprobanteBase.CampoAdicional(
-//                        campoAdicionalDTO.getNombre(),
-//                        campoAdicionalDTO.getValor()))
-//                .toList();
-
-//         List<Pago> pagos = List.of(
-//         new Pago("01", BigDecimal.valueOf(17681.0), BigDecimal.valueOf(1), "MES"),
-//         new Pago("01", BigDecimal.valueOf(17681.0), BigDecimal.valueOf(1), "MES"));
         List<Factura.Pago> payments = pagos.stream()
                 .map(pagoDTO -> new Factura.Pago(
                         pagoDTO.getFormaPago(),
@@ -317,31 +349,32 @@ public class GenerateInvoiceCommandHandler implements ICommandHandler<GenerateIn
                         pagoDTO.getPlazo(),
                         pagoDTO.getUnidadTiempo()))
                 .collect(Collectors.toList());
+
         String obligadoContabilidad = issuer.getPointOfSale() ? "SI" : "NO";
         String customerIdentificationType = customer.getIdType().getCode(); // Obtener el código ("04", "05", etc) en lugar del nombre del enumerado
         // Construir la factura
         Factura factura = new Factura.Builder(ruc, razonSocial, dirMatriz, correo, telefono, estab, ptoEmi, sequential, fechaEmision, detallesList)
-                .withObligadoContabilidad("NO")
+                .withObligadoContabilidad(obligadoContabilidad)
                 //.withAgenteRetencion("3867")
                 //.withContribuyenteEspecial("7345")
-                .withContribuyenteRimpe(Regimen.NEGOCIO_POPULAR)
+                .withContribuyenteRimpe(Regimen.NEGOCIO_POPULAR)//Agregar a la empresa el tipo de régimen
                 .withTipoIdentificacionComprador(customerIdentificationType)
                 .withRazonSocialComprador(customer.getBusinessName())
                 .withIdentificacionComprador(customer.getIdNumber())
                 .withDireccionComprador(customer.getAddress())
-                .withCorreoComprador(customer.getAddress())
+                .withCorreoComprador(customer.getEmail()) // Corregido: usar email en lugar de duplicar la dirección
                 .withTelefonoComprador(customer.getPhone())
                 .withPropina(propina)
                 .withPagos(payments)
                 .withInfoAdicional(new ArrayList<>())
                 .build();
 
-//        if (issuer.getRetentionAgent() != null) {
-//            factura.setAgenteRetencion(issuer.getRetentionAgent());
-//        }
-//        if (issuer.getSpecialTaxpayer() != null) {
-//            factura.setContribuyenteEspecial(issuer.getSpecialTaxpayer());
-//        }
+        if (issuer.getRetentionAgent() != null) {
+            factura.setAgenteRetencion(issuer.getRetentionAgent());
+        }
+        if (issuer.getSpecialTaxpayer() != null) {
+            factura.setContribuyenteEspecial(issuer.getSpecialTaxpayer());
+        }
 
         return factura;
     }
@@ -367,11 +400,17 @@ public class GenerateInvoiceCommandHandler implements ICommandHandler<GenerateIn
 
                 // Actualizar el cliente a través del servicio
                 customerService.update(customerDto);
+                log.info("Cliente actualizado con ID: {} y número de identificación: {}", 
+                         customerDto.getId(), customerDto.getIdentificationNumber());
+            }
+            else {
+                log.info("Cliente existente sin cambios, ID: {} y número de identificación: {}", 
+                         customerDto.getId(), customerDto.getIdentificationNumber());
             }
         } catch (Exception e) {
             // Cliente no encontrado, crearlo
             customerDto = CustomerDto.builder()
-                    .id(UUID.randomUUID())
+                    // No establecemos el ID aquí, dejamos que el servicio lo genere
                     .identificationType(request.getCustomer().getIdentificationType())
                     .identificationNumber(request.getCustomer().getIdentificationNumber())
                     .businessName(request.getCustomer().getBusinessName())
@@ -385,7 +424,11 @@ public class GenerateInvoiceCommandHandler implements ICommandHandler<GenerateIn
 
             // Crear el cliente a través del servicio
             UUID customerId = customerService.create(customerDto);
-            customerDto.setId(customerId);
+            
+            // Buscar el cliente recién creado para obtener todos sus datos
+            customerDto = customerService.findById(customerId);
+            log.info("Cliente creado correctamente con ID: {} y número de identificación: {}", 
+                     customerId, customerDto.getIdentificationNumber());
         }
 
         // Convertir el DTO a la entidad Customer para mantener la compatibilidad con el resto del método
@@ -399,6 +442,177 @@ public class GenerateInvoiceCommandHandler implements ICommandHandler<GenerateIn
                 .phone(customerDto.getPhoneNumber())
                 .isActive(customerDto.getIsActive())
                 .build();
+    }
+
+    /**
+     * Convierte un objeto Factura creado por el API de facturación a un objeto InvoiceDto
+     * utilizado por el sistema para guardar en la base de datos.
+     * 
+     * @param factura Objeto Factura generado
+     * @param customer Cliente asociado a la factura
+     * @param issuerDto Emisor asociado a la factura
+     * @param createdBy ID del usuario que crea la factura
+     * @return InvoiceDto con los datos de la factura
+     */
+    private InvoiceDto convertFacturaToInvoiceDto(Factura factura, Customer customer, InvoiceIssuerDto issuerDto, UUID createdBy) {
+        // Crear el InvoiceDto básico
+        InvoiceDto invoiceDto = InvoiceDto.builder()
+                .id(UUID.randomUUID())
+                .issuerId(issuerDto.getId())
+                .documentNumber(factura.getEstab() + "-" + factura.getPtoEmi() + "-" + factura.getSecuencial())
+                .sequential(factura.getSecuencial())
+                .accessKey(factura.getClaveAcceso())
+                .emissionDate(LocalDateTime.now()) // Fecha de emisión actual
+                // Agregar la guía de remisión si existe en el objeto factura
+                .remissionGuide(null) // Se debe actualizar si la factura incluye guía de remisión
+                .subtotal(factura.getTotalSinImpuestos())
+                .discount(factura.getTotalDescuento())
+                .taxAmount(calculateTotalTaxAmount(factura))
+                .totalAmount(factura.getImporteTotal())
+                .tip(factura.getPropina())
+                .status(InvoiceStatus.DRAFT) // Estado inicial DRAFT (borrador)
+                .createdAt(LocalDateTime.now())
+                .updatedAt(LocalDateTime.now())
+                .createdBy(createdBy)
+                .updatedBy(createdBy) // Inicialmente, createdBy y updatedBy son iguales
+                .build();
+
+        // Asignar el emisor
+        InvoiceIssuerDTO issuerDTO = InvoiceIssuerDTO.builder()
+                .id(issuerDto.getId())
+                .businessName(issuerDto.getBusinessName())
+                .ruc(issuerDto.getRuc())
+                .build();
+        invoiceDto.setIssuer(issuerDTO);
+
+        // Asignar el cliente
+        CustomerDto customerDto = CustomerDto.builder()
+                .id(customer.getId())
+                .identificationNumber(customer.getIdNumber())
+                .identificationType(customer.getIdType())
+                .businessName(customer.getBusinessName())
+                .address(customer.getAddress())
+                .email(customer.getEmail())
+                .phoneNumber(customer.getPhone())
+                .isActive(customer.getIsActive())
+                .build();
+        invoiceDto.setCustomer(customerDto);
+
+        // Mapear detalles de factura
+        List<InvoiceDetailDto> detailDtos = new ArrayList<>();
+        if (factura.getDetalles() != null) {
+            for (int i = 0; i < factura.getDetalles().size(); i++) {
+                Factura.DetalleFactura detalle = factura.getDetalles().get(i);
+                
+                // Crear lista de impuestos para este detalle
+                List<InvoiceDetailTaxDto> detailTaxes = new ArrayList<>();
+                BigDecimal totalWithTax = BigDecimal.ZERO;
+                if (detalle.getImpuestos() != null) {
+                    for (Factura.Impuesto impuesto : detalle.getImpuestos()) {
+                        InvoiceDetailTaxDto taxDto = InvoiceDetailTaxDto.builder()
+                                .id(UUID.randomUUID())
+                                .code(impuesto.getCodigo())
+                                .percentageCode(impuesto.getCodigoPorcentaje())
+                                .rate(impuesto.getTarifa())
+                                .taxableBase(impuesto.getBaseImponible())
+                                .value(impuesto.getValor())
+                                .build();
+                        detailTaxes.add(taxDto);
+                        totalWithTax = totalWithTax.add(impuesto.getValor());
+                    }
+                }
+
+                // Calcular el subtotal con impuestos (precio total + impuestos)
+                BigDecimal subtotalWithTax = detalle.getPrecioTotalSinImpuesto().add(totalWithTax);
+                
+                InvoiceDetailDto detailDto = InvoiceDetailDto.builder()
+                        .id(UUID.randomUUID())
+                        .lineNumber(i + 1) // Número de línea secuencial empezando desde 1
+                        .mainCode(detalle.getCodigoPrincipal())
+                        .description(detalle.getDescripcion())
+                        .quantity(detalle.getCantidad())
+                        .unitPrice(detalle.getPrecioUnitario())
+                        .discount(detalle.getDescuento())
+                        .subtotal(detalle.getPrecioTotalSinImpuesto())
+                        .auxiliaryCode(detalle.getCodigoAuxiliar())
+                        .unitOfMeasure(detalle.getUnidadMedida())
+                        .taxes(detailTaxes) // Agregar la lista de impuestos
+                        .totalWithTax(subtotalWithTax) // Total con impuestos
+                        .build();
+                detailDtos.add(detailDto);
+            }
+        }
+        invoiceDto.setDetails(detailDtos);
+
+        // Mapear pagos
+        List<InvoicePaymentDto> paymentDtos = new ArrayList<>();
+        if (factura.getPagos() != null) {
+            for (Factura.Pago pago : factura.getPagos()) {
+                InvoicePaymentDto paymentDto = InvoicePaymentDto.builder()
+                        .id(UUID.randomUUID())
+                        .paymentType(pago.getFormaPago())
+                        .amount(pago.getTotal())
+                        .reference(pago.getDescripcion()) // Usar descripción como referencia
+                        .build();
+                
+                paymentDtos.add(paymentDto);
+            }
+        }
+        invoiceDto.setPayments(paymentDtos);
+
+        // Mapear campos adicionales
+        List<InvoiceAdditionalFieldDto> additionalFieldDtos = new ArrayList<>();
+        if (factura.getInfoAdicional() != null) {
+            for (ComprobanteBase.CampoAdicional campo : factura.getInfoAdicional()) {
+                InvoiceAdditionalFieldDto fieldDto = InvoiceAdditionalFieldDto.builder()
+                        .id(UUID.randomUUID())
+                        .name(campo.getNombre())
+                        .value(campo.getValor())
+                        .build();
+                
+                additionalFieldDtos.add(fieldDto);
+            }
+        }
+        invoiceDto.setAdditionalFields(additionalFieldDtos);
+
+        // Mapear impuestos (si existe la estructura en Factura)
+        List<InvoiceTaxDto> taxDtos = new ArrayList<>();
+        if (factura.getTotalConImpuestos() != null) {
+            for (Factura.Impuesto impuesto : factura.getTotalConImpuestos()) {
+                InvoiceTaxDto taxDto = InvoiceTaxDto.builder()
+                        .id(UUID.randomUUID())
+                        .code(impuesto.getCodigo()) 
+                        .description(impuesto.getCodigoPorcentaje()) 
+                        .rate(impuesto.getTarifa())
+                        .baseAmount(impuesto.getBaseImponible())
+                        .taxAmount(impuesto.getValor())
+                        .build();
+                
+                taxDtos.add(taxDto);
+            }
+        }
+        invoiceDto.setTaxes(taxDtos);
+        
+        // El emisor ya fue establecido arriba, no es necesario volver a establecerlo
+
+        return invoiceDto;
+    }
+    
+    /**
+     * Calcula el monto total de impuestos de una factura sumando todos los valores de impuestos
+     * @param factura Factura con impuestos
+     * @return Monto total de impuestos
+     */
+    private BigDecimal calculateTotalTaxAmount(Factura factura) {
+        BigDecimal totalTaxes = BigDecimal.ZERO;
+        
+        if (factura.getTotalConImpuestos() != null) {
+            for (Factura.Impuesto impuesto : factura.getTotalConImpuestos()) {
+                totalTaxes = totalTaxes.add(impuesto.getValor());
+            }
+        }
+        
+        return totalTaxes;
     }
 
 }

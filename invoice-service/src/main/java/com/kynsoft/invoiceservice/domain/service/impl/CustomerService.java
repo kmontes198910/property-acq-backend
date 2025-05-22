@@ -33,6 +33,7 @@ public class CustomerService implements ICustomerService {
     private final CustomerWriteRepository customerWriteRepository;
 
     @Override
+    @Transactional
     public UUID create(CustomerDto customerDto) {
         log.info("Creando nuevo cliente: {}", customerDto.getBusinessName());
         

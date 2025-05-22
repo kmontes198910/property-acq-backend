@@ -7,6 +7,7 @@ import com.kynsoft.invoiceservice.domain.exception.BusinessInvoiceException;
 import com.kynsoft.invoiceservice.domain.exception.DomainErrorInvoiceMessage;
 import com.kynsoft.invoiceservice.domain.service.IInvoiceIssuerService;
 import com.kynsoft.invoiceservice.infrastructure.entities.InvoiceIssuer;
+import com.kynsoft.invoiceservice.infrastructure.entities.InvoiceIssuingSequence;
 import com.kynsoft.invoiceservice.infrastructure.repository.command.InvoiceIssuerWriteRepository;
 import com.kynsoft.invoiceservice.infrastructure.repository.query.InvoiceIssuerRepository;
 import lombok.RequiredArgsConstructor;
@@ -105,5 +106,41 @@ public class InvoiceIssuerService implements IInvoiceIssuerService {
     @Transactional
     public InvoiceIssuer create(InvoiceIssuer issuer) {
         return invoiceIssuerWriteRepository.save(issuer);
+    }
+    
+    @Override
+    @Transactional
+    public InvoiceIssuerDto updateSequence(UUID issuerId, String documentType, Long newSequentialValue) {
+        log.info("Actualizando secuencia para emisor ID: {}, tipo de documento: {}, nuevo valor: {}", 
+                issuerId, documentType, newSequentialValue);
+        
+        // Obtener el emisor desde el repositorio
+        InvoiceIssuer issuer = invoiceIssuerRepository.findById(issuerId)
+                .orElseThrow(() -> new BusinessInvoiceException(DomainErrorInvoiceMessage.ISSUER_NOT_FOUND, 
+                        "Emisor de facturas no encontrado con ID: " + issuerId));
+        
+        // Buscar la secuencia específica para actualizar
+        boolean found = false;
+        for (InvoiceIssuingSequence sequence : issuer.getSequences()) {
+            if (documentType.equals(sequence.getDocumentType()) && Boolean.TRUE.equals(sequence.getIsActive())) {
+                sequence.setCurrentSequential(newSequentialValue);
+                sequence.setLastUsedDate(java.time.LocalDateTime.now());
+                found = true;
+                break;
+            }
+        }
+        
+        // Si no se encontró la secuencia, lanzar excepción
+        if (!found) {
+            throw new BusinessInvoiceException(DomainErrorInvoiceMessage.SEQUENCE_NOT_FOUND,
+                    "No se encontró una secuencia activa para el tipo de documento: " + documentType);
+        }
+        
+        // Guardar los cambios en la base de datos
+        InvoiceIssuer updatedIssuer = invoiceIssuerWriteRepository.save(issuer);
+        log.info("Secuencia actualizada correctamente para emisor ID: {}", issuerId);
+        
+        // Devolver el DTO actualizado
+        return InvoiceIssuerDto.fromEntity(updatedIssuer);
     }
 }
