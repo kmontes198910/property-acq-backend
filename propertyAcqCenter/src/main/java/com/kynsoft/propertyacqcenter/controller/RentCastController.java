@@ -1,5 +1,6 @@
 package com.kynsoft.propertyacqcenter.controller;
 
+import com.kynsof.share.core.domain.response.PaginatedResponse;
 import com.kynsof.share.core.infrastructure.bus.IMediator;
 import com.kynsoft.propertyacqcenter.application.query.dashboardRequest.EstimateEnum;
 import com.kynsoft.propertyacqcenter.application.query.dashboardRequest.GetDashboardInfoQuery;
@@ -9,9 +10,7 @@ import com.kynsoft.propertyacqcenter.application.query.restEstimate.getRentEstim
 import com.kynsoft.propertyacqcenter.application.query.property.getPropertyDetailsExternalService.GetPropertyDetailsExternalServiceQuery;
 import com.kynsoft.propertyacqcenter.application.response.dashboardInfo.DashboardInfoResponse;
 import com.kynsoft.propertyacqcenter.application.response.rentcast.EstimatedValueResponse;
-import com.kynsoft.propertyacqcenter.application.response.rentcast.PropertyResponse;
 import com.kynsoft.propertyacqcenter.application.response.rentcast.RentEstimateResponse;
-import com.kynsoft.propertyacqcenter.application.response.rentcast.SaleListingResponse;
 import org.springframework.web.bind.annotation.*;
 
 import org.springframework.http.ResponseEntity;
@@ -27,7 +26,7 @@ public class RentCastController {
     }
 
     @GetMapping("/property")
-    public ResponseEntity<PropertyResponse> getPropertyDetails(@RequestParam(defaultValue = "", required = false) String address,
+    public ResponseEntity<PaginatedResponse> getPropertyDetails(@RequestParam(defaultValue = "", required = false) String address,
                                                                @RequestParam(defaultValue = "", required = false) String city,
                                                                @RequestParam(defaultValue = "", required = false) String state,
                                                                @RequestParam(defaultValue = "", required = false) String zipCode,
@@ -38,7 +37,7 @@ public class RentCastController {
                                                                @RequestParam(defaultValue = "-1", required = false) Double bathrooms
                                                                ) {
         GetPropertyDetailsExternalServiceQuery query = new GetPropertyDetailsExternalServiceQuery(address, city, state, propertyType, zipCode, latitude, longitude, bedrooms, bathrooms);
-        PropertyResponse response = mediator.send(query);
+        PaginatedResponse response = mediator.send(query);
 
         return ResponseEntity.ok(response);
     }
@@ -85,7 +84,7 @@ public class RentCastController {
     }
 
     @GetMapping("/sale")
-    public SaleListingResponse getSaleListings(@RequestParam(defaultValue = "", required = false) String address,
+    public PaginatedResponse getSaleListings(@RequestParam(defaultValue = "", required = false) String address,
                                                @RequestParam(defaultValue = "Single Family", required = false) String propertyType,
                                                @RequestParam(defaultValue = "", required = false) String city,
                                                @RequestParam(defaultValue = "", required = false) String state,
@@ -98,7 +97,7 @@ public class RentCastController {
                                                @RequestParam(defaultValue = "Active", required = false) String status,
                                                @RequestParam(defaultValue = "0", required = false) Integer daysOld) {
         GetSaleListingsExternalServiceQuery query = new GetSaleListingsExternalServiceQuery(address, propertyType, city, state, zipCode, latitude, longitude, radius, bedrooms, bathrooms, status, daysOld);
-        SaleListingResponse response = mediator.send(query);
+        PaginatedResponse response = mediator.send(query);
         return response;
     }
 }

@@ -1,13 +1,14 @@
 package com.kynsoft.propertyacqcenter.application.query.property.getPropertyDetailsExternalService;
 
 import com.kynsof.share.core.domain.bus.query.IQueryHandler;
+import com.kynsof.share.core.domain.response.PaginatedResponse;
 import com.kynsoft.propertyacqcenter.application.response.rentcast.PropertyResponse;
 import com.kynsoft.propertyacqcenter.infrastructure.services.http.property.RentCastPropertyServiceImpl;
 import java.util.List;
 import org.springframework.stereotype.Component;
 
 @Component
-public class GetPropertyDetailsExternalServiceQueryHandler implements IQueryHandler<GetPropertyDetailsExternalServiceQuery, PropertyResponse>{
+public class GetPropertyDetailsExternalServiceQueryHandler implements IQueryHandler<GetPropertyDetailsExternalServiceQuery, PaginatedResponse>{
 
     private final RentCastPropertyServiceImpl resCastPropertyServiceImpl;
 
@@ -16,7 +17,7 @@ public class GetPropertyDetailsExternalServiceQueryHandler implements IQueryHand
     }
 
     @Override
-    public PropertyResponse handle(GetPropertyDetailsExternalServiceQuery query) {
+    public PaginatedResponse handle(GetPropertyDetailsExternalServiceQuery query) {
 
         List<PropertyResponse> response = this.resCastPropertyServiceImpl.getPropertyDetails(
                 query.getAddress(), 
@@ -29,6 +30,13 @@ public class GetPropertyDetailsExternalServiceQueryHandler implements IQueryHand
                 query.getBedrooms(), 
                 query.getBathrooms()
         );
-        return response.get(0);
+        return new PaginatedResponse(response, 
+                0, 
+                0,
+                0L, 
+                0, 
+                0
+        );
+//        return response.get(0);
     }
 }
