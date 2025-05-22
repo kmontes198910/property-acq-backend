@@ -2,6 +2,7 @@ package com.kynsoft.propertyacqcenter.domain.dto;
 
 import com.kynsoft.propertyacqcenter.domain.enums.PropertyStatus;
 import com.kynsoft.propertyacqcenter.domain.enums.PropertyType;
+import java.time.LocalDateTime;
 import lombok.*;
 
 @Builder
@@ -34,4 +35,5 @@ public class PropertyDto {
     private Double bathrooms;
     private Double askingPrice;
     private PropertyStatus propertyStatus;
+    private LocalDateTime createdAt;
 }

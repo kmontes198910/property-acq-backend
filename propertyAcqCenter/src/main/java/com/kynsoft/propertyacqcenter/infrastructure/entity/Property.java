@@ -4,7 +4,9 @@ import com.kynsoft.propertyacqcenter.domain.dto.PropertyDto;
 import com.kynsoft.propertyacqcenter.domain.enums.PropertyStatus;
 import com.kynsoft.propertyacqcenter.domain.enums.PropertyType;
 import jakarta.persistence.*;
+import java.time.LocalDateTime;
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
 
 @Data
 @NoArgsConstructor
@@ -48,6 +50,10 @@ public class Property {
     @Enumerated(EnumType.STRING)
     @Column(name = "property_status", nullable = true)
     private PropertyStatus propertyStatus;
+
+    @CreationTimestamp
+    @Column(name = "created_at", updatable = false)
+    private LocalDateTime createdAt;
 
     public Property(PropertyDto dto) {
         this.id = dto.getId();
@@ -98,6 +104,7 @@ public class Property {
                 .bathrooms(bathrooms)
                 .askingPrice(askingPrice)
                 .propertyStatus(propertyStatus)
+                .createdAt(createdAt)
                 .build();
     }
 
