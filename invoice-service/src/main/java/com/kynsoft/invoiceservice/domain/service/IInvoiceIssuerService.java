@@ -57,4 +57,15 @@ public interface IInvoiceIssuerService {
                           List<FilterCriteria> filterCriteria);
 
     InvoiceIssuer create(InvoiceIssuer issuer);
+    
+    /**
+     * Actualiza una secuencia específica de un emisor de facturas
+     * 
+     * @param issuerId ID del emisor de facturas
+     * @param documentType Tipo de documento de la secuencia
+     * @param newSequentialValue Nuevo valor del secuencial
+     * @return DTO del emisor con la secuencia actualizada
+     * @throws com.kynsoft.invoiceservice.domain.exception.BusinessInvoiceException si no se encuentra el emisor o la secuencia
+     */
+    InvoiceIssuerDto updateSequence(UUID issuerId, String documentType, Long newSequentialValue);
 }

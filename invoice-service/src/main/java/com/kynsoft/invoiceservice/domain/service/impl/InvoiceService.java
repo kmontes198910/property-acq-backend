@@ -41,10 +41,21 @@ public class InvoiceService implements IInvoiceService {
     private final ICustomerService customerService;
 
     @Override
-    @Transactional
     public UUID create(InvoiceDto invoiceDto) {
-        log.info("Creando nueva factura");
+        log.info("Preparando datos para crear nueva factura");
         
+        // Fase de preparación (no transaccional)
+        prepareInvoiceData(invoiceDto);
+        
+        // Fase de persistencia (transaccional)
+        return saveInvoiceTransactional(invoiceDto);
+    }
+    
+    /**
+     * Prepara los datos de la factura antes de su persistencia.
+     * Esta fase no requiere transacción ya que solo prepara datos en memoria.
+     */
+    private void prepareInvoiceData(InvoiceDto invoiceDto) {
         // Validar datos obligatorios
         validateRequiredFields(invoiceDto);
         
@@ -67,16 +78,50 @@ public class InvoiceService implements IInvoiceService {
         LocalDateTime now = LocalDateTime.now();
         invoiceDto.setCreatedAt(now);
         invoiceDto.setUpdatedAt(now);
-
-        InvoiceIssuer issuer = invoiceIssuerService.findById(invoiceDto.getIssuerId())
-                .orElseThrow(() -> new BusinessInvoiceException(DomainErrorInvoiceMessage.ISSUER_NOT_FOUND,
-                        "Emisor no encontrado con ID: " + invoiceDto.getIssuerId()));
-
-        // Verificar que el cliente exista
-        Customer customer = getCustomer(invoiceDto);
+    }
+    
+    /**
+     * Persiste la factura en la base de datos.
+     * Esta fase está envuelta en una transacción para garantizar la integridad de los datos.
+     */
+    @Transactional
+    public UUID saveInvoiceTransactional(InvoiceDto invoiceDto) {
+        log.info("Iniciando transacción para guardar la factura en la base de datos");
         
-        // Construir la entidad Invoice
-        Invoice invoice = Invoice.builder()
+        try {
+            // Buscar el emisor
+            InvoiceIssuer issuer = invoiceIssuerService.findById(invoiceDto.getIssuerId())
+                    .orElseThrow(() -> new BusinessInvoiceException(DomainErrorInvoiceMessage.ISSUER_NOT_FOUND,
+                            "Emisor no encontrado con ID: " + invoiceDto.getIssuerId()));
+    
+            // Verificar que el cliente exista
+            Customer customer = getCustomer(invoiceDto);
+            
+            // Construir la entidad Invoice
+            Invoice invoice = buildInvoiceEntity(invoiceDto, issuer, customer);
+            
+            // Asociar entidades relacionadas
+            addInvoiceDetails(invoice, invoiceDto);
+            addInvoicePayments(invoice, invoiceDto);
+            addInvoiceAdditionalFields(invoice, invoiceDto);
+            addInvoiceTaxes(invoice, invoiceDto);
+            
+            // Guardar la factura
+            Invoice savedInvoice = invoiceWriteRepository.save(invoice);
+            log.info("Factura creada con ID: {}", savedInvoice.getId());
+            
+            return savedInvoice.getId();
+        } catch (Exception e) {
+            log.error("Error al crear la factura: {}", e.getMessage(), e);
+            throw e;
+        }
+    }
+    
+    /**
+     * Construye la entidad Invoice a partir del DTO.
+     */
+    private Invoice buildInvoiceEntity(InvoiceDto invoiceDto, InvoiceIssuer issuer, Customer customer) {
+        return Invoice.builder()
                 .id(invoiceDto.getId())
                 .issuer(issuer)
                 .documentNumber(invoiceDto.getDocumentNumber())
@@ -95,44 +140,54 @@ public class InvoiceService implements IInvoiceService {
                 .createdBy(invoiceDto.getCreatedBy())
                 .updatedBy(invoiceDto.getUpdatedBy())
                 .build();
-        
-        // Procesar detalles de la factura
+    }
+    
+    /**
+     * Agrega los detalles de la factura a la entidad Invoice.
+     */
+    private void addInvoiceDetails(Invoice invoice, InvoiceDto invoiceDto) {
         if (invoiceDto.getDetails() != null && !invoiceDto.getDetails().isEmpty()) {
             for (InvoiceDetailDto detailDto : invoiceDto.getDetails()) {
                 InvoiceDetail detail = mapInvoiceDetailDtoToEntity(detailDto);
                 invoice.addDetail(detail);
             }
         }
-        
-        // Procesar pagos de la factura
+    }
+    
+    /**
+     * Agrega los pagos de la factura a la entidad Invoice.
+     */
+    private void addInvoicePayments(Invoice invoice, InvoiceDto invoiceDto) {
         if (invoiceDto.getPayments() != null && !invoiceDto.getPayments().isEmpty()) {
             for (InvoicePaymentDto paymentDto : invoiceDto.getPayments()) {
                 InvoicePayment payment = mapInvoicePaymentDtoToEntity(paymentDto);
                 invoice.addPayment(payment);
             }
         }
-        
-        // Procesar campos adicionales
+    }
+    
+    /**
+     * Agrega los campos adicionales de la factura a la entidad Invoice.
+     */
+    private void addInvoiceAdditionalFields(Invoice invoice, InvoiceDto invoiceDto) {
         if (invoiceDto.getAdditionalFields() != null && !invoiceDto.getAdditionalFields().isEmpty()) {
             for (InvoiceAdditionalFieldDto fieldDto : invoiceDto.getAdditionalFields()) {
                 InvoiceAdditionalField field = mapInvoiceAdditionalFieldDtoToEntity(fieldDto);
                 invoice.addAdditionalField(field);
             }
         }
-        
-        // Procesar impuestos
+    }
+    
+    /**
+     * Agrega los impuestos de la factura a la entidad Invoice.
+     */
+    private void addInvoiceTaxes(Invoice invoice, InvoiceDto invoiceDto) {
         if (invoiceDto.getTaxes() != null && !invoiceDto.getTaxes().isEmpty()) {
             for (InvoiceTaxDto taxDto : invoiceDto.getTaxes()) {
                 InvoiceTax tax = mapInvoiceTaxDtoToEntity(taxDto);
                 invoice.addTax(tax);
             }
         }
-        
-        // Guardar la factura
-        Invoice savedInvoice = invoiceWriteRepository.save(invoice);
-        log.info("Factura creada con ID: {}", savedInvoice.getId());
-        
-        return savedInvoice.getId();
     }
 
     @Override
@@ -425,21 +480,8 @@ public class InvoiceService implements IInvoiceService {
     // Métodos de mapeo entre entidades y DTOs
     
     private InvoiceDetail mapInvoiceDetailDtoToEntity(InvoiceDetailDto dto) {
-        List<InvoiceDetailTax> taxes = new ArrayList<>();
-        dto.getTaxes().stream().map(taxDto -> {
-            InvoiceDetailTax tax = InvoiceDetailTax.builder()
-                    .id(taxDto.getId() != null ? taxDto.getId() : UUID.randomUUID())
-                    .code(taxDto.getCode()) // Mapeo de code a taxCode
-                    .percentageCode(taxDto.getPercentageCode()) // Usar description como percentageCode
-                    .rate(taxDto.getRate()) // Mapeo de rate a rate
-                    .taxableBase(taxDto.getTaxableBase()) // Mapeo de baseAmount a taxableBase
-                    .value(taxDto.getValue()) // Mapeo de taxAmount a value
-                    .build();
-            taxes.add(tax);
-            return tax;
-        }).toList();
-
-        return InvoiceDetail.builder()
+        // Primero creamos el objeto InvoiceDetail sin los impuestos
+        InvoiceDetail invoiceDetail = InvoiceDetail.builder()
                 .id(dto.getId() != null ? dto.getId() : UUID.randomUUID())
                 .lineNumber(dto.getLineNumber())
                 .mainCode(dto.getMainCode()) // Usar el campo code del DTO como mainCode en la entidad
@@ -450,8 +492,28 @@ public class InvoiceService implements IInvoiceService {
                 .discount(dto.getDiscount())
                 .subtotal(dto.getSubtotal())
                 .totalWithTax(dto.getTotalWithTax() != null ? dto.getTotalWithTax() :  BigDecimal.ZERO) // Usar totalWithTax si existe, sino usar subtotal
-                .taxes(taxes)
+                // No incluimos taxes en la construcción porque los agregaremos usando addTax
                 .build();
+                
+        // Ahora agregamos cada impuesto usando el método addTax que establece la relación bidireccional
+        if (dto.getTaxes() != null) {
+            dto.getTaxes().forEach(taxDto -> {
+                InvoiceDetailTax tax = InvoiceDetailTax.builder()
+                        .id(taxDto.getId() != null ? taxDto.getId() : UUID.randomUUID())
+                        .code(taxDto.getCode())
+                        .percentageCode(taxDto.getPercentageCode())
+                        .rate(taxDto.getRate())
+                        .taxableBase(taxDto.getTaxableBase())
+                        .value(taxDto.getValue())
+                        // No establecemos invoiceDetail aquí, lo hará el método addTax
+                        .build();
+                
+                // Usamos el método addTax que configura la relación bidireccional
+                invoiceDetail.addTax(tax);
+            });
+        }
+        
+        return invoiceDetail;
     }
     
     private InvoicePayment mapInvoicePaymentDtoToEntity(InvoicePaymentDto dto) {
@@ -534,6 +596,7 @@ public class InvoiceService implements IInvoiceService {
         List<InvoiceDetailDto> detailDtos = new ArrayList<>();
         if (invoice.getDetails() != null) {
             for (InvoiceDetail detail : invoice.getDetails()) {
+                // Crear el DTO básico del detalle
                 InvoiceDetailDto detailDto = InvoiceDetailDto.builder()
                         .id(detail.getId())
                         .lineNumber(detail.getLineNumber())
@@ -545,6 +608,23 @@ public class InvoiceService implements IInvoiceService {
                         .totalWithTax(detail.getTotalWithTax()) // Mapeo de totalWithTax a totalWithTax
                         .subtotal(detail.getSubtotal())
                         .build();
+                
+                // Mapear los impuestos del detalle
+                if (detail.getTaxes() != null && !detail.getTaxes().isEmpty()) {
+                    List<InvoiceDetailTaxDto> taxDtos = detail.getTaxes().stream()
+                        .map(tax -> InvoiceDetailTaxDto.builder()
+                            .id(tax.getId())
+                            .code(tax.getCode())
+                            .percentageCode(tax.getPercentageCode())
+                            .rate(tax.getRate())
+                            .taxableBase(tax.getTaxableBase())
+                            .value(tax.getValue())
+                            .build())
+                        .collect(Collectors.toList());
+                    
+                    detailDto.setTaxes(taxDtos);
+                }
+                
                 detailDtos.add(detailDto);
             }
         }
