@@ -16,11 +16,11 @@ import org.springframework.data.repository.query.Param;
 
 @Repository
 public interface CompanyContactReadDataJPARepository extends JpaRepository<CompanyContact, UUID>, JpaSpecificationExecutor<CompanyContact> {
-    @EntityGraph(attributePaths = {"company"})
+    @EntityGraph(attributePaths = {"company", "subCategory"})
     @Override
     Page<CompanyContact> findAll(Specification<CompanyContact> specification, Pageable pageable);
 
-    @EntityGraph(attributePaths = {"company", "company.companyType", "company.business", "company.subCompanyType"})
+    @EntityGraph(attributePaths = {"company", "company.companyType", "company.business", "company.subCompanyType", "subCategory"})
     @Override
     Optional<CompanyContact> findById(UUID id);
 

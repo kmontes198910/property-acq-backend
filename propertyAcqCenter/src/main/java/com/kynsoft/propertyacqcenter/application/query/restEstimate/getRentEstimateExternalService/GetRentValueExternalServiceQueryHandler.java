@@ -17,6 +17,15 @@ public class GetRentValueExternalServiceQueryHandler implements IQueryHandler<Ge
     @Override
     public RentEstimateResponse handle(GetRentEstimateExternalServiceQuery query) {
 
-        return this.resCastRentEstimateServiceImpl.getRentEstimate(query.getAddress());
+        return this.resCastRentEstimateServiceImpl.getRentEstimate(
+                query.getAddress(), 
+                query.getPropertyType(), 
+                query.getLatitude(), 
+                query.getLongitude(), 
+                query.getBedrooms(), 
+                query.getBathrooms(), 
+                query.getSquareFootage(), 
+                query.getDaysOld()
+        );
     }
 }

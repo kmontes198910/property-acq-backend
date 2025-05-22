@@ -13,6 +13,7 @@ import com.kynsoft.propertyacqcenter.domain.dto.exception.contact.EmailMustBeUni
 import com.kynsoft.propertyacqcenter.domain.services.ICompanyContactService;
 import com.kynsoft.propertyacqcenter.infrastructure.entity.Company;
 import com.kynsoft.propertyacqcenter.infrastructure.entity.CompanyContact;
+import com.kynsoft.propertyacqcenter.infrastructure.entity.SubCategory;
 import com.kynsoft.propertyacqcenter.infrastructure.repository.command.CompanyContactWriteDataJPARepository;
 import com.kynsoft.propertyacqcenter.infrastructure.repository.query.CompanyContactReadDataJPARepository;
 import org.springframework.data.domain.Pageable;
@@ -60,6 +61,7 @@ public class CompanyContactServiceImpl implements ICompanyContactService {
         update.setNotes(object.getNotes());
         update.setIsActive(object.getIsActive());
         update.setPersonalEmail(object.getPersonalEmail());
+        update.setSubCategory(new SubCategory(object.getSubCategory()));
 
         repositoryCommand.save(update);
     }

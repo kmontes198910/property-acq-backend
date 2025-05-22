@@ -33,7 +33,6 @@ public class DashboardPropertyResponse implements IResponse {
     private String distressed;
     private String shortSale;
     private String hoa;
-    private String ownerType;
     private String ownerStatus;
     private String lengthOfOwnership;
     private String purchaseMethod;
@@ -52,4 +51,9 @@ public class DashboardPropertyResponse implements IResponse {
     private String poolType;
 
     private DashboardPropertyOwnerResponse owners;
+
+    private String subdivision;
+    private String zoning;
+    private String lastSaleDate;
+    private boolean ownerOccupied;
 }

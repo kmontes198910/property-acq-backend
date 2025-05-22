@@ -1,5 +1,6 @@
 package com.kynsoft.propertyacqcenter.controller;
 
+import com.kynsof.share.core.domain.response.PaginatedResponse;
 import com.kynsof.share.core.infrastructure.bus.IMediator;
 import com.kynsoft.propertyacqcenter.application.query.dashboardRequest.EstimateEnum;
 import com.kynsoft.propertyacqcenter.application.query.dashboardRequest.GetDashboardInfoQuery;
@@ -9,9 +10,7 @@ import com.kynsoft.propertyacqcenter.application.query.restEstimate.getRentEstim
 import com.kynsoft.propertyacqcenter.application.query.property.getPropertyDetailsExternalService.GetPropertyDetailsExternalServiceQuery;
 import com.kynsoft.propertyacqcenter.application.response.dashboardInfo.DashboardInfoResponse;
 import com.kynsoft.propertyacqcenter.application.response.rentcast.EstimatedValueResponse;
-import com.kynsoft.propertyacqcenter.application.response.rentcast.PropertyResponse;
 import com.kynsoft.propertyacqcenter.application.response.rentcast.RentEstimateResponse;
-import com.kynsoft.propertyacqcenter.application.response.rentcast.SaleListingResponse;
 import org.springframework.web.bind.annotation.*;
 
 import org.springframework.http.ResponseEntity;
@@ -26,18 +25,19 @@ public class RentCastController {
         this.mediator = mediator;
     }
 
-    /**
-     * Endpoint para obtener los detalles de una propiedad por dirección.
-     * Ejemplo: GET /api/rentcast/property?address=2537 NW 116 Terrace, Coral
-     * Spring, Florida
-     *
-     * @param address
-     * @return
-     */
     @GetMapping("/property")
-    public ResponseEntity<PropertyResponse> getPropertyDetails(@RequestParam String address) {
-        GetPropertyDetailsExternalServiceQuery query = new GetPropertyDetailsExternalServiceQuery(address);
-        PropertyResponse response = mediator.send(query);
+    public ResponseEntity<PaginatedResponse> getPropertyDetails(@RequestParam(defaultValue = "", required = false) String address,
+                                                               @RequestParam(defaultValue = "", required = false) String city,
+                                                               @RequestParam(defaultValue = "", required = false) String state,
+                                                               @RequestParam(defaultValue = "", required = false) String zipCode,
+                                                               @RequestParam(defaultValue = "Single Family", required = false) String propertyType,
+                                                               @RequestParam(defaultValue = "-1", required = false) Double latitude,
+                                                               @RequestParam(defaultValue = "-1", required = false) Double longitude,
+                                                               @RequestParam(defaultValue = "-1", required = false) Double bedrooms,
+                                                               @RequestParam(defaultValue = "-1", required = false) Double bathrooms
+                                                               ) {
+        GetPropertyDetailsExternalServiceQuery query = new GetPropertyDetailsExternalServiceQuery(address, city, state, propertyType, zipCode, latitude, longitude, bedrooms, bathrooms);
+        PaginatedResponse response = mediator.send(query);
 
         return ResponseEntity.ok(response);
     }
@@ -54,25 +54,50 @@ public class RentCastController {
     }
 
     @GetMapping("/value/details")
-    public ResponseEntity<EstimatedValueResponse> valueDetails(@RequestParam String address) {
-        GetEstimateValueExternalServiceQuery query = new GetEstimateValueExternalServiceQuery(address);
+    public ResponseEntity<EstimatedValueResponse> valueDetails(@RequestParam(defaultValue = "", required = false) String address,
+                                                            @RequestParam(defaultValue = "Single Family", required = false) String propertyType,
+                                                            @RequestParam(defaultValue = "-1", required = false) double latitude,
+                                                            @RequestParam(defaultValue = "-1", required = false) double longitude,
+                                                            @RequestParam(defaultValue = "-1", required = false) double bedrooms,
+                                                            @RequestParam(defaultValue = "-1", required = false) double bathrooms,
+                                                            @RequestParam(defaultValue = "-1", required = false) double squareFootage,
+                                                            @RequestParam(defaultValue = "0", required = false) int daysOld) {
+        GetEstimateValueExternalServiceQuery query = new GetEstimateValueExternalServiceQuery(address, propertyType, latitude, longitude, bedrooms, bathrooms, squareFootage, daysOld);
         EstimatedValueResponse response = mediator.send(query);
 
         return ResponseEntity.ok(response);
     }
 
     @GetMapping("/rent/details")
-    public ResponseEntity<RentEstimateResponse> rentDetails(@RequestParam String address) {
-        GetRentEstimateExternalServiceQuery query = new GetRentEstimateExternalServiceQuery(address);
+    public ResponseEntity<RentEstimateResponse> rentDetails(@RequestParam(defaultValue = "", required = false) String address,
+                                                            @RequestParam(defaultValue = "Single Family", required = false) String propertyType,
+                                                            @RequestParam(defaultValue = "-1", required = false) double latitude,
+                                                            @RequestParam(defaultValue = "-1", required = false) double longitude,
+                                                            @RequestParam(defaultValue = "-1", required = false) double bedrooms,
+                                                            @RequestParam(defaultValue = "-1", required = false) double bathrooms,
+                                                            @RequestParam(defaultValue = "-1", required = false) double squareFootage,
+                                                            @RequestParam(defaultValue = "0", required = false) int daysOld) {
+        GetRentEstimateExternalServiceQuery query = new GetRentEstimateExternalServiceQuery(address, propertyType, latitude, longitude, bedrooms, bathrooms, squareFootage, daysOld);
         RentEstimateResponse response = mediator.send(query);
 
         return ResponseEntity.ok(response);
     }
 
     @GetMapping("/sale")
-    public SaleListingResponse getSaleListings(@RequestParam String address) {
-        GetSaleListingsExternalServiceQuery query = new GetSaleListingsExternalServiceQuery(address);
-        SaleListingResponse response = mediator.send(query);
+    public PaginatedResponse getSaleListings(@RequestParam(defaultValue = "", required = false) String address,
+                                               @RequestParam(defaultValue = "Single Family", required = false) String propertyType,
+                                               @RequestParam(defaultValue = "", required = false) String city,
+                                               @RequestParam(defaultValue = "", required = false) String state,
+                                               @RequestParam(defaultValue = "", required = false) String zipCode,
+                                               @RequestParam(defaultValue = "-1", required = false) double latitude,
+                                               @RequestParam(defaultValue = "-1", required = false) double longitude,
+                                               @RequestParam(defaultValue = "-1", required = false) double radius,
+                                               @RequestParam(defaultValue = "-1", required = false) double bedrooms,
+                                               @RequestParam(defaultValue = "-1", required = false) double bathrooms,
+                                               @RequestParam(defaultValue = "Active", required = false) String status,
+                                               @RequestParam(defaultValue = "0", required = false) Integer daysOld) {
+        GetSaleListingsExternalServiceQuery query = new GetSaleListingsExternalServiceQuery(address, propertyType, city, state, zipCode, latitude, longitude, radius, bedrooms, bathrooms, status, daysOld);
+        PaginatedResponse response = mediator.send(query);
         return response;
     }
 }

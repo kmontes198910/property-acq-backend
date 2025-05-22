@@ -60,7 +60,15 @@ public class RentCastPropertyServiceImpl {
 
     //TODO: La response de este metodo, lo vamos a trasformar en la capa de application.
     //@Cacheable(value = "propertyCache", key = "#address", unless = "#result == null")
-    public List<PropertyResponse> getPropertyDetails(String address) {
+    public List<PropertyResponse> getPropertyDetails(String address,
+                                                     String city,
+                                                     String state,
+                                                     String propertyType,
+                                                     String zipCode,
+                                                     double latitude,
+                                                     double longitude,
+                                                     double bedrooms,
+                                                     double bathrooms) {
         try {
             String cleanedAddress = address.trim(); // Elimina espacios al inicio/final
             String encodedAddress = URLEncoder.encode(cleanedAddress, StandardCharsets.UTF_8);
@@ -69,8 +77,43 @@ public class RentCastPropertyServiceImpl {
 //            if (property.isPresent()) {
 //                return this.createResponse(property);
 //            } else {
+            String addressUrl = !address.equals("") ? "address=" + cleanedAddress : null;
+            String cityUrl = !city.equals("") ? "city=" + city : null;
+            String stateUrl = !state.equals("") ? "state=" + state : null;
+            String zipCodeUrl = !zipCode.equals("") ? "zipCode=" + zipCode : null;
+
+            String latitudeUrl = latitude != -1 ? "latitude=" + latitude : null;
+            String longitudeUrl = longitude != -1 ? "longitude=" + longitude : null;
+            String bedroomsUrl = bedrooms != -1 ? "bedrooms=" + bedrooms : null;
+            String bathroomsUrl = bathrooms != -1 ? "bathrooms=" + bathrooms : null;
             //verdadero
-            String url = BASE_URL + "/properties?address=" + cleanedAddress;
+            String url = BASE_URL + "/properties?propertyType=" + propertyType;
+
+            if (addressUrl != null) {
+                url = url + "&" + addressUrl;
+            }
+            if (cityUrl != null) {
+                url = url + "&" + cityUrl;
+            }
+            if (stateUrl != null) {
+                url = url + "&" + stateUrl;
+            }
+            if (zipCodeUrl != null) {
+                url = url + "&" + zipCodeUrl;
+            }
+            if (latitudeUrl != null) {
+                url = url + "&" + latitudeUrl;
+            }
+            if (longitudeUrl != null) {
+                url = url + "&" + longitudeUrl;
+            }
+            if (bedroomsUrl != null) {
+                url = url + "&" + bedroomsUrl;
+            }
+            if (bathroomsUrl != null) {
+                url = url + "&" + bathroomsUrl;
+            }
+            //String url = BASE_URL + "/properties?address=" + cleanedAddress;
 //                String url = BASE_URL + "/property/fake";
 
             System.err.println("Url: " + url);

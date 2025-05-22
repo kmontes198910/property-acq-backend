@@ -9,5 +9,13 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 public class GetPropertyDetailsExternalServiceQuery implements IQuery {
-    private String address;
+    private String address;    
+    private String city;
+    private String state;
+    private String propertyType;
+    private String zipCode;
+    private double latitude;
+    private double longitude;
+    private double bedrooms;
+    private double bathrooms;
 }
