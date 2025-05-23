@@ -4,6 +4,7 @@ import com.kynsof.patients.application.command.patients.create.request.CreatePat
 import com.kynsof.patients.application.command.patients.create.request.CreatePatientsRequest;
 import com.kynsof.patients.domain.dto.enumTye.BloodType;
 import com.kynsof.patients.domain.dto.enumTye.GenderType;
+import com.kynsof.patients.infrastructure.entity.IdentificationType;
 import com.kynsof.share.core.domain.bus.command.ICommand;
 import com.kynsof.share.core.domain.bus.command.ICommandMessage;
 import lombok.Getter;
@@ -15,6 +16,7 @@ import java.util.UUID;
 @Setter
 public class CreatePatientsCommand implements ICommand {
     private UUID id;
+    private IdentificationType identificationType;
     private String identification;
     private String name;
     private String lastName;
@@ -25,10 +27,11 @@ public class CreatePatientsCommand implements ICommand {
     private String educationalLevel;
     private BloodType bloodType;
 
-    public CreatePatientsCommand(UUID id, String identification, String name, String lastName, GenderType gender,
+    public CreatePatientsCommand(UUID id, IdentificationType identificationType, String identification, String name, String lastName, GenderType gender,
                                  String photo, CreatePatientContactInfoRequest createContactInfoRequest, String profession,
                                  String educationalLevel, BloodType bloodType) {
         this.id = id;
+        this.identificationType = identificationType;
         this.identification = identification;
         this.name = name;
         this.lastName = lastName;
@@ -41,8 +44,12 @@ public class CreatePatientsCommand implements ICommand {
     }
 
     public static CreatePatientsCommand fromRequest(CreatePatientsRequest request) {
-        return new CreatePatientsCommand(request.getId(), request.getIdentification(), request.getName(),
-                request.getLastName(), request.getGender(),
+        return new CreatePatientsCommand(request.getId(),
+                request.getIdentificationType(),
+                request.getIdentification(),
+                request.getName(),
+                request.getLastName(),
+                request.getGender(),
                 request.getImage(),
                 request.getContactInfo(),
                 request.getProfession(),

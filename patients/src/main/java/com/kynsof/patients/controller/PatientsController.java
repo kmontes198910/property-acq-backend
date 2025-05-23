@@ -13,9 +13,6 @@ import com.kynsof.patients.application.command.patients.patientsKeyCloack.patien
 import com.kynsof.patients.application.command.patients.update.UpdatePatientMessage;
 import com.kynsof.patients.application.command.patients.update.UpdatePatientsCommand;
 import com.kynsof.patients.application.command.patients.update.UpdatePatientsRequest;
-import com.kynsof.patients.application.command.patients.updatePatientAdmin.CreatePatientAdminCommand;
-import com.kynsof.patients.application.command.patients.updatePatientAdmin.CreatePatientAdminMessage;
-import com.kynsof.patients.application.command.patients.updatePatientAdmin.CreatePatientsAdminRequest;
 import com.kynsof.patients.application.query.patients.getById.FindPatientsByIdQuery;
 import com.kynsof.patients.application.query.patients.getById.PatientByIdResponse;
 import com.kynsof.patients.application.query.patients.getByIdHttpReplicate.FindHttpPatientsByIdQuery;

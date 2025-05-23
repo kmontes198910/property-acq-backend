@@ -4,6 +4,7 @@ import com.kynsof.patients.application.command.dependents.create.request.CreateD
 import com.kynsof.patients.domain.dto.enumTye.DisabilityType;
 import com.kynsof.patients.domain.dto.enumTye.FamilyRelationship;
 import com.kynsof.patients.domain.dto.enumTye.GenderType;
+import com.kynsof.patients.infrastructure.entity.IdentificationType;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -15,6 +16,7 @@ import java.util.UUID;
 public class UpdateDependentPatientsRequest {
 
     private UUID primeId;
+    private IdentificationType identificationType;
     private String identification;
     private String name;
     private String lastName;

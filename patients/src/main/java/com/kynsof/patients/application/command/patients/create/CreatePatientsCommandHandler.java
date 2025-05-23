@@ -55,6 +55,7 @@ public class CreatePatientsCommandHandler implements ICommandHandler<CreatePatie
                 Status.ACTIVE,
                 command.getPhoto()
         );
+        patientDto.setIdentificationType(command.getIdentificationType());
         patientDto.setProfession(command.getProfession());
         patientDto.setEducationalLevel(command.getEducationalLevel());
         patientDto.setBloodType(command.getBloodType());

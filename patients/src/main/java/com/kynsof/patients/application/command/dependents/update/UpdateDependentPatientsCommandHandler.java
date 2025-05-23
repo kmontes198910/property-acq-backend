@@ -35,6 +35,7 @@ public class UpdateDependentPatientsCommandHandler implements ICommandHandler<Up
 
         DependentPatientDto update = new DependentPatientDto(
                 command.getId(),
+                command.getIdentificationType(),
                 command.getIdentification(),
                 command.getName(),
                 command.getLastName(),
