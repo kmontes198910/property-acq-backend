@@ -29,10 +29,11 @@ public class UpdatePatientsCommand implements ICommand {
     private BloodType bloodType;
     private DisabilityType disabilityType;
     private int gestationTime;
+    private String skinColor;
 
     public UpdatePatientsCommand(UUID id,IdentificationType identificationType, String identification, String name, String lastName, GenderType gender, String photo,
                                  CreatePatientContactInfoRequest createContactInfoRequest, String profession,
-                                 String educationalLevel, BloodType bloodType, DisabilityType disabilityType, int gestationTime) {
+                                 String educationalLevel, BloodType bloodType, DisabilityType disabilityType, int gestationTime, String skinColor) {
         this.identificationType = identificationType;
         this.identification = identification;
         this.name = name;
@@ -46,6 +47,7 @@ public class UpdatePatientsCommand implements ICommand {
         this.bloodType = bloodType;
         this.disabilityType = disabilityType;
         this.gestationTime = gestationTime;
+        this.skinColor = skinColor;
     }
 
     public static UpdatePatientsCommand fromRequest(UUID id, UpdatePatientsRequest request) {
@@ -61,7 +63,8 @@ public class UpdatePatientsCommand implements ICommand {
                 request.getEducationalLevel(),
                 request.getBloodType(),
                 request.getDisabilityType(),
-                request.getGestationTime());
+                request.getGestationTime(),
+                request.getSkinColor());
     }
 
     @Override

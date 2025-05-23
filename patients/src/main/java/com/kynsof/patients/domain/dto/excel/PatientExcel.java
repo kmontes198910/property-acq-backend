@@ -25,6 +25,8 @@ public class PatientExcel {
     private String telephone;
     @ExcelProperty("Fecha Nacimiento")
     private String birthdayDate;
+    @ExcelProperty("Color de piel")
+    private String skinColor;
 
     private int rowIndex;
 }

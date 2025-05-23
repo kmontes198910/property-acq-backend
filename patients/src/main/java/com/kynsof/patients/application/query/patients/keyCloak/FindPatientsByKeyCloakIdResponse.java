@@ -30,6 +30,7 @@ public class FindPatientsByKeyCloakIdResponse implements IResponse {
     private DisabilityType disabilityType;
     private ContactInfoResponse contactInfo;
     private FamilyRelationship familyRelationship;
+    private String skinColor;
 
     public FindPatientsByKeyCloakIdResponse(PatientByIdDto patients) {
         this.id = patients.getId();
@@ -43,6 +44,7 @@ public class FindPatientsByKeyCloakIdResponse implements IResponse {
         disabilityType = patients.getDisabilityType();
         gestationTime = patients.getGestationTime();
         familyRelationship = patients.getFamilyRelationship();
+        this.skinColor = patients.getSkinColor();
         if (patients.getContactInfoDto() != null) {
             this.contactInfo = new ContactInfoResponse(patients.getContactInfoDto());
         }

@@ -36,6 +36,7 @@ public class PatientByIdResponse implements IResponse {
     private String educationalLevel;
     private String clinicalHistoryNumber;
     private BloodType bloodType;
+    private String skinColor;
 
     public PatientByIdResponse(PatientByIdDto patients) {
         this.id = patients.getId();
@@ -57,6 +58,7 @@ public class PatientByIdResponse implements IResponse {
             this.contactInfo = new ContactInfoResponse(patients.getContactInfoDto());
         }
         this.bloodType = patients.getBloodType();
+        this.skinColor = patients.getSkinColor();
     }
 
 }

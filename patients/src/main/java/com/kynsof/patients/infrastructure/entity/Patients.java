@@ -36,7 +36,7 @@ public class Patients implements Serializable {
     private String identification;
 
     @Convert(converter = IdentificationTypeConverter.class)
-    @Column(name = "id_type", nullable = false, length = 2)
+    @Column(name = "identification_type", nullable = false, length = 2)
     private IdentificationType idType; // RUC, CEDULA, PASAPORTE, etc.
 
     private String firstName;
@@ -92,6 +92,8 @@ public class Patients implements Serializable {
     private String educationalLevel;
 
     private String clinicalHistoryNumber;
+    
+    private String skinColor;
 
     @CreationTimestamp
     @Column(updatable = false)
@@ -117,6 +119,8 @@ public class Patients implements Serializable {
         this.bloodType = patients.getBloodType() != null ? patients.getBloodType() : BloodType.UNKNOWN;
         this.clinicalHistoryNumber = generateClinicalHistoryNumber();
         this.idType = patients.getIdentificationType() != null ? patients.getIdentificationType() : IdentificationType.CEDULA;
+        this.skinColor = patients.getSkinColor();
+        this.skinColor = patients.getSkinColor();
     }
 
     public Patients(DependentPatientDto patients) {
@@ -146,6 +150,7 @@ public class Patients implements Serializable {
         patientDto.setClinicalHistoryNumber(clinicalHistoryNumber);
         patientDto.setBloodType(bloodType);
         patientDto.setIdentificationType(idType);
+        patientDto.setSkinColor(skinColor);
         return patientDto;
     }
 
@@ -153,7 +158,7 @@ public class Patients implements Serializable {
         ContactInfoDto contactInfoDto = contactInformation != null ? contactInformation.toAggregate() : null;
         return new PatientByIdDto(id,idType, identification, firstName, lastName, gender, status,
                 hasDisability, isPregnant, photo, disabilityType, gestationTime, familyRelationship,
-                contactInfoDto, profession, educationalLevel, clinicalHistoryNumber, bloodType);
+                contactInfoDto, profession, educationalLevel, clinicalHistoryNumber, bloodType, skinColor);
     }
 
     // Método estático para generar número de historia clínica de 12 dígitos

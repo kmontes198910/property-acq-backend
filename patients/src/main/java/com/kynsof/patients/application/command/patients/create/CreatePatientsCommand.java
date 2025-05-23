@@ -26,10 +26,11 @@ public class CreatePatientsCommand implements ICommand {
     private String profession;
     private String educationalLevel;
     private BloodType bloodType;
+    private String skinColor;
 
     public CreatePatientsCommand(UUID id, IdentificationType identificationType, String identification, String name, String lastName, GenderType gender,
                                  String photo, CreatePatientContactInfoRequest createContactInfoRequest, String profession,
-                                 String educationalLevel, BloodType bloodType) {
+                                 String educationalLevel, BloodType bloodType, String skinColor) {
         this.id = id;
         this.identificationType = identificationType;
         this.identification = identification;
@@ -41,6 +42,7 @@ public class CreatePatientsCommand implements ICommand {
         this.profession = profession;
         this.educationalLevel = educationalLevel;
         this.bloodType = bloodType;
+        this.skinColor = skinColor;
     }
 
     public static CreatePatientsCommand fromRequest(CreatePatientsRequest request) {
@@ -54,7 +56,8 @@ public class CreatePatientsCommand implements ICommand {
                 request.getContactInfo(),
                 request.getProfession(),
                 request.getEducationalLevel(),
-                request.getBloodType()
+                request.getBloodType(),
+                request.getSkinColor()
         );
     }
 

@@ -37,4 +37,5 @@ public class PatientByIdDto implements Serializable {
     private String educationalLevel;
     private String clinicalHistoryNumber;
     private BloodType bloodType;
+    private String skinColor;
 }

@@ -34,6 +34,7 @@ public class PatientDto implements Serializable {
     private String profession;
     private String educationalLevel;
     private String clinicalHistoryNumber;
+    private String skinColor;
 
     public PatientDto(UUID id, String identification, String name, String lastName, GenderType gender, Status status,
                      Boolean hasDisability, Boolean isPregnant, String photo,

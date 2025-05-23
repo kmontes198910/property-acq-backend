@@ -24,4 +24,5 @@ public class UpdatePatientsRequest {
     private BloodType bloodType;
     private DisabilityType disabilityType;
     private int gestationTime;
+    private String skinColor;
 }

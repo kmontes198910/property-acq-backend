@@ -24,4 +24,5 @@ public class CreatePatientsRequest {
     private String profession;
     private String educationalLevel;
     private BloodType bloodType;
+    private String skinColor;
 }
