@@ -27,7 +27,7 @@ public class CreateLabTestRequestCommand implements ICommand {
 
     public static CreateLabTestRequestCommand fromRequest(CreateLabTestRequestRequest request, UUID userId) {
         return CreateLabTestRequestCommand.builder()
-                .id(UUID.randomUUID())
+                .id(request.getId())
                 .patientId(request.getPatientId())
                 .doctorId(request.getDoctorId())
                 .creationDate(LocalDate.now())

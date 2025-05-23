@@ -13,6 +13,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class CreateLabTestRequestRequest {
+    private UUID id;
     private UUID patientId;
     private UUID doctorId;
     private String status;
