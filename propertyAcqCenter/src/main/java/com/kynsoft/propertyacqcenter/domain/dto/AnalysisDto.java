@@ -8,6 +8,7 @@ import com.kynsoft.propertyacqcenter.domain.dto.analysis.PropertyComparableDto;
 import com.kynsoft.propertyacqcenter.domain.dto.analysis.SaleValueDto;
 import com.kynsoft.propertyacqcenter.domain.dto.analysis.StatisticsDto;
 import com.kynsoft.propertyacqcenter.domain.dto.analysis.TaxAssessmentAnalysisDto;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 import lombok.AllArgsConstructor;
@@ -33,4 +34,5 @@ public class AnalysisDto {
     private List<TaxAssessmentAnalysisDto> taxAssessments;
     private List<PropertyComparableDto> comparables;
     private UUID createdBy;
+    private LocalDateTime createdAt;
 }

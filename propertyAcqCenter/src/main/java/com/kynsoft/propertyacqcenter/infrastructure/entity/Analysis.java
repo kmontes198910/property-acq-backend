@@ -19,6 +19,7 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
@@ -27,6 +28,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
 
 @Entity
 @Table(name = "analysis")
@@ -74,6 +76,10 @@ public class Analysis {
 
     @Column(name = "created_by")
     private UUID createdBy;
+
+    @CreationTimestamp
+    @Column(name = "created_at", updatable = false)
+    private LocalDateTime createdAt;
 
     public Analysis(AnalysisDto dto) {
         this.id = dto.getId();
@@ -144,6 +150,7 @@ public class Analysis {
                 .taxAssessments(taxAssessments != null ? taxAssessments.stream().map(TaxAssessmentAnalysis::toAggregate).collect(Collectors.toList()) : null)
                 .statistics(statistics != null ? statistics.toAggregate() : null)
                 .createdBy(createdBy)
+                .createdAt(createdAt)
                 .build();
     }
 
