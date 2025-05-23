@@ -3,6 +3,7 @@ package com.kynsoft.invoiceservice.infrastructure.entities;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -91,6 +92,18 @@ public class InvoiceIssuer {
     @OneToMany(mappedBy = "invoiceIssuer", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     @Builder.Default
     private List<InvoiceIssuingSequence> sequences = new ArrayList<>();
+
+    @Column(name = "created_at", nullable = false)
+    private LocalDateTime createdAt;
+
+    @Column(name = "updated_at")
+    private LocalDateTime updatedAt;
+
+    @Column(name = "created_by")
+    private UUID createdBy;
+
+    @Column(name = "updated_by")
+    private UUID updatedBy;
 
     // Helper methods for bidirectional relationships
     public void addSequence(InvoiceIssuingSequence sequence) {
