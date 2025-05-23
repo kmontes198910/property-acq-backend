@@ -12,5 +12,6 @@ public enum InvoiceStatus {
     REJECTED,           // Rechazada - Rechazada por el SRI
     ANNULLED,           // Anulada - Anulada por el emisor
     DELIVERED,          // Entregada - Enviada al cliente/comprador
+    RECEIVED,
     ERROR               // Error - Error en el proceso
 }
