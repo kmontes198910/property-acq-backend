@@ -33,4 +33,5 @@ public class UpdatePropertyRequest {
     private Double askingPrice;
     private String formattedAddress;
     private PropertyStatus propertyStatus;
+    private Boolean isManual;
 }

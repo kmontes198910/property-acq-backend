@@ -36,4 +36,5 @@ public class PropertyDto {
     private Double askingPrice;
     private PropertyStatus propertyStatus;
     private LocalDateTime createdAt;
+    private Boolean isManual;
 }
