@@ -14,10 +14,11 @@ import org.springframework.data.jpa.repository.EntityGraph;
 
 @Repository
 public interface AnalysisReadDataJPARepository extends JpaRepository<Analysis, UUID>, JpaSpecificationExecutor<Analysis> {
-    @EntityGraph(attributePaths = {"property", "opportunity", "mortageDebt", "compsAtAGlance", "lastSale", "saleValue", "taxAssessments", "comparables"})
+    @EntityGraph(attributePaths = {"property", "opportunity", "mortageDebt", "compsAtAGlance", "lastSale", "saleValue", "taxAssessments", "comparables", "statistics"})
     @Override
     Page<Analysis> findAll(Specification<Analysis> specification, Pageable pageable);
 
+    @EntityGraph(attributePaths = {"property", "opportunity", "mortageDebt", "compsAtAGlance", "lastSale", "saleValue", "taxAssessments", "comparables", "statistics"})
     @Override
     Optional<Analysis> findById(UUID id);
 }

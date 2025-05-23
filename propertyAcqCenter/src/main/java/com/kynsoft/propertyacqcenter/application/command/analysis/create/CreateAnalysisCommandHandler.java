@@ -9,6 +9,7 @@ import com.kynsoft.propertyacqcenter.domain.dto.analysis.MortageDebtDto;
 import com.kynsoft.propertyacqcenter.domain.dto.analysis.OpportunityDto;
 import com.kynsoft.propertyacqcenter.domain.dto.analysis.PropertyComparableDto;
 import com.kynsoft.propertyacqcenter.domain.dto.analysis.SaleValueDto;
+import com.kynsoft.propertyacqcenter.domain.dto.analysis.StatisticsDto;
 import com.kynsoft.propertyacqcenter.domain.dto.analysis.TaxAssessmentAnalysisDto;
 import com.kynsoft.propertyacqcenter.domain.services.IAnalysisService;
 import com.kynsoft.propertyacqcenter.domain.services.IPropertyService;
@@ -63,6 +64,13 @@ public class CreateAnalysisCommandHandler implements ICommandHandler<CreateAnaly
                 .comparables( this.comparables(command))
                 .saleValue(this.salesValues(command))
                 .taxAssessments(this.taxAssessmentAnalysis(command))
+                .statistics(StatisticsDto.builder()
+                        .id(UUID.randomUUID())
+                        .estimatedValuePrice(command.getStatistics().getEstimatedValuePrice())
+                        .estimatedValuePriceRangeLow(command.getStatistics().getEstimatedValuePriceRangeLow())
+                        .estimatedValuePriceRangeHigh(command.getStatistics().getEstimatedValuePriceRangeHigh())
+                        .estimatedValueAveragePrice(command.getStatistics().getEstimatedValueAveragePrice())
+                        .build())
                 .build());
     }
 

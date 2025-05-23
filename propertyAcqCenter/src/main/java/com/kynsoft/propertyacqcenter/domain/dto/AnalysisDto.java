@@ -6,6 +6,7 @@ import com.kynsoft.propertyacqcenter.domain.dto.analysis.MortageDebtDto;
 import com.kynsoft.propertyacqcenter.domain.dto.analysis.OpportunityDto;
 import com.kynsoft.propertyacqcenter.domain.dto.analysis.PropertyComparableDto;
 import com.kynsoft.propertyacqcenter.domain.dto.analysis.SaleValueDto;
+import com.kynsoft.propertyacqcenter.domain.dto.analysis.StatisticsDto;
 import com.kynsoft.propertyacqcenter.domain.dto.analysis.TaxAssessmentAnalysisDto;
 import java.util.List;
 import java.util.UUID;
@@ -24,6 +25,7 @@ public class AnalysisDto {
     private UUID id;
     private PropertyDto property;
     private OpportunityDto opportunity;
+    private StatisticsDto statistics;
     private MortageDebtDto mortageDebt;
     private CompsAtAGlanceDto compsAtAGlance;
     private LastSaleDto lastSale;
