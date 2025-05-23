@@ -1,4 +1,4 @@
-package com.kynsoft.medicaltest.application.query.labTestRequest.getbyid;
+package com.kynsoft.medicaltest.application.query.labTestRequest.search;
 
 import com.kynsof.share.core.domain.bus.query.IResponse;
 import com.kynsoft.medicaltest.domain.dto.*;
@@ -10,8 +10,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.UUID;
 
 @Builder
@@ -19,7 +17,7 @@ import java.util.UUID;
 @AllArgsConstructor
 @Getter
 @Setter
-public class LabTestRequestResponse implements IResponse, Serializable {
+public class LabTestRequestSearchResponse implements IResponse, Serializable {
 
     private UUID id;
     private UUID patientId;
@@ -28,15 +26,13 @@ public class LabTestRequestResponse implements IResponse, Serializable {
     private String status;
     private String observations;
     private UUID businessId;
-    private List<LabTestItemResponse> examinations = new ArrayList<>();
     private UUID createdBy;
     private UUID updatedBy;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
     private boolean isActive;
-    private PatientDto patient;
 
-    public LabTestRequestResponse(LabTestRequestDto dto) {
+    public LabTestRequestSearchResponse(LabTestRequestDto dto) {
         this.id = dto.getId();
         this.patientId = dto.getPatientId();
         this.doctorId = dto.getDoctorId();
@@ -49,20 +45,6 @@ public class LabTestRequestResponse implements IResponse, Serializable {
         this.createdAt = dto.getCreatedAt();
         this.updatedAt = dto.getUpdatedAt();
         this.isActive = dto.isActive();
-        this.patient = dto.getPatient();
-        if (dto.getExaminations() != null) {
-            for (LabTestItemRequestDto examination : dto.getExaminations()) {
-                examinations.add(LabTestItemResponse.builder()
-                        .code(examination.getCode())
-                        .completionDate(examination.getCompletionDate())
-                        .examinationType(examination.getExaminationType())
-                        .id(examination.getId())
-                        .observations(examination.getObservations())
-                        .status(examination.getStatus())
-                        .build()
-                );
-            }
-        }
     }
 
 }

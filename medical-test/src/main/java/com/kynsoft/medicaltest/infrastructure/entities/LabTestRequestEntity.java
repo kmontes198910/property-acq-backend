@@ -15,6 +15,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "lab_test_requests")
@@ -30,6 +31,10 @@ public class LabTestRequestEntity {
 
     @Column(name = "patient_id", nullable = false)
     private UUID patientId;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "patient_fk_id", nullable = true)
+    private Patient patient;
 
     @Column(name = "doctor_id", nullable = false)
     private UUID doctorId;
@@ -47,7 +52,6 @@ public class LabTestRequestEntity {
     private UUID businessId;
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
-    @Builder.Default
     private List<LabTestItemRequestEntity> examinations = new ArrayList<>();
 
     @CreationTimestamp
@@ -70,6 +74,7 @@ public class LabTestRequestEntity {
     public LabTestRequestEntity(LabTestRequestDto dto) {
         this.id = dto.getId();
         this.patientId = dto.getPatientId();
+        this.patient = dto.getPatient() != null ? new Patient(dto.getPatient()) : null;
         this.doctorId = dto.getDoctorId();
         this.status = dto.getStatus();
         this.observations = dto.getObservations();
@@ -103,8 +108,40 @@ public class LabTestRequestEntity {
                 .createdBy(createdBy)
                 .isActive(isActive)
                 .creationDate(creationDate)
+                .patient(patient != null ? patient.toAggregate() : null)
+                .examinations(examinations != null ? examinations.stream().map(LabTestItemRequestEntity::toAggregate).collect(Collectors.toList()) : null)
                 .build();
-                
+    }
+
+    public LabTestRequestDto toAggregateBasic() {
+        return LabTestRequestDto.builder()
+                .id(id)
+                .patientId(patientId)
+                .doctorId(doctorId)
+                .status(status)
+                .observations(observations)
+                .businessId(businessId)
+                .isActive(isActive)
+                .creationDate(creationDate)
+                .patient(patient != null ? patient.toAggregate() : null)
+                .build();
+    }
+
+    public LabTestRequestDto toAggregateSimple() {
+        return LabTestRequestDto.builder()
+                .id(id)
+                .patientId(patientId)
+                .doctorId(doctorId)
+                .status(status)
+                .observations(observations)
+                .businessId(businessId)
+                .createdAt(createdAt)
+                .updatedAt(updatedAt)
+                .updatedBy(updatedBy)
+                .createdBy(createdBy)
+                .isActive(isActive)
+                .creationDate(creationDate)
+                .build();
     }
 
     @PrePersist

@@ -3,7 +3,9 @@ package com.kynsoft.medicaltest.application.command.labTestRequest.create;
 import com.kynsof.share.core.domain.bus.command.ICommandHandler;
 import com.kynsoft.medicaltest.domain.dto.LabTestItemRequestDto;
 import com.kynsoft.medicaltest.domain.dto.LabTestRequestDto;
+import com.kynsoft.medicaltest.domain.dto.PatientDto;
 import com.kynsoft.medicaltest.domain.service.ILabTestRequestService;
+import com.kynsoft.medicaltest.domain.service.IPatientsService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
@@ -16,14 +18,17 @@ import java.util.UUID;
 public class CreateLabTestRequestCommandHandler implements ICommandHandler<CreateLabTestRequestCommand> {
 
     private final ILabTestRequestService labTestRequestService;
+    private final IPatientsService patientsService;
 
-    public CreateLabTestRequestCommandHandler(ILabTestRequestService labTestRequestService) {
+    public CreateLabTestRequestCommandHandler(ILabTestRequestService labTestRequestService, IPatientsService patientsService) {
         this.labTestRequestService = labTestRequestService;
+        this.patientsService = patientsService;
     }
 
     @Override
     public void handle(CreateLabTestRequestCommand command) {
         log.info("Creando nuevo examen de laboratorio: {}", command.getId());
+        PatientDto patient = this.patientsService.findById(command.getPatientId());
 
         // Crear DTO a partir del comando
         LabTestRequestDto dto = LabTestRequestDto.builder()
@@ -37,6 +42,7 @@ public class CreateLabTestRequestCommandHandler implements ICommandHandler<Creat
                 .isActive(command.isActive())
                 .createdBy(command.getCreatedBy())
                 .examinations(examinations(command))
+                .patient(patient)
                 .build();
         // Guardar a través del servicio
         labTestRequestService.create(dto);
