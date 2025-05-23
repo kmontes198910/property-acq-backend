@@ -62,7 +62,6 @@ public class LabTestItemRequestEntity {
     private UUID updatedBy;
 
     @OneToMany(mappedBy = "labTestItem", cascade = CascadeType.ALL, orphanRemoval = true)
-    @Builder.Default
     private List<LabTestResultEntity> testResults = new ArrayList<>();
 
     public LabTestItemRequestEntity(LabTestItemRequestDto dto) {
@@ -76,6 +75,37 @@ public class LabTestItemRequestEntity {
         this.createdBy = dto.getCreatedBy();
         this.updatedBy = dto.getUpdatedBy();
         //this.testResults = testResults;
+    }
+
+    public LabTestItemRequestDto toAggregate() {
+        return LabTestItemRequestDto.builder()
+                .id(id)
+                .code(code)
+                .completionDate(completionDate)
+                .examinationType(examinationType)
+                .observations(observations)
+                .status(status)
+                .createdAt(createdAt)
+                .updatedAt(updatedAt)
+                .createdBy(createdBy)
+                .updatedBy(updatedBy)
+                .build();
+    }
+
+    public LabTestItemRequestDto toAggregateSimple() {
+        return LabTestItemRequestDto.builder()
+                .id(id)
+                .code(code)
+                .order(order.toAggregateSimple())
+                .completionDate(completionDate)
+                .examinationType(examinationType)
+                .observations(observations)
+                .status(status)
+                .createdAt(createdAt)
+                .updatedAt(updatedAt)
+                .createdBy(createdBy)
+                .updatedBy(updatedBy)
+                .build();
     }
 
     @PrePersist

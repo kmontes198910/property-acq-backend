@@ -1,4 +1,4 @@
-package com.kynsoft.medicaltest.application.command.labTestRequest.create;
+package com.kynsoft.medicaltest.application.query.labTestRequest.getbyid;
 
 import java.time.LocalDate;
 import lombok.AllArgsConstructor;
@@ -7,13 +7,16 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.UUID;
+
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
 @Setter
-public class LabTestItemRequestRequest {
-
+public class LabTestItemResponse {
+    
+    private UUID id;
     private String code;
     private String examinationType;
     private String status;
