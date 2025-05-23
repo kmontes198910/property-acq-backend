@@ -1,6 +1,10 @@
 package com.kynsoft.medicaltest.infrastructure.repository.query;
 
+import com.kynsoft.medicaltest.infrastructure.entities.LabTestEntity;
 import com.kynsoft.medicaltest.infrastructure.entities.LabTestItemRequestEntity;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -36,4 +40,5 @@ public interface LabTestItemRequestRedRepository extends JpaRepository<LabTestIt
      * Encuentra exámenes completados en un rango de fechas
      */
     List<LabTestItemRequestEntity> findByCompletionDateBetween(LocalDateTime start, LocalDateTime end);
+    Page<LabTestItemRequestEntity> findAll(Specification specification, Pageable pageable);
 }

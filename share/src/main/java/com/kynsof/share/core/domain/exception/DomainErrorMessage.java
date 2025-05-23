@@ -94,7 +94,8 @@ public enum DomainErrorMessage implements IDomainErrorMessage {
     BILLING_SERVICE_NOT_FOUND(659, Series.DOMAIN_ERROR, "Ya se encuentra registrado un pago con ese código para el paciente."),
     PAYMENT_NOT_PRESENT(2001, Series.DOMAIN_ERROR, "La información de pago no está disponible."),
     PAYMENT_NOT_REVERSE(2002, Series.DOMAIN_ERROR, "El pago solo puede ser reversado antes de las 12:00 PM del mismo día."),
-    ACCOUNT_RECONCILIATION_NOT_FOUND(1018, Series.DOMAIN_ERROR, "Cuadre Contable no encontrado.");
+    ACCOUNT_RECONCILIATION_NOT_FOUND(1018, Series.DOMAIN_ERROR, "Cuadre Contable no encontrado."),
+    ALREADY_EXISTS(1019,Series.DOMAIN_ERROR , "Ya existe un registro con el mismo código."),;
     private static final DomainErrorMessage[] VALUES;
 
     static {

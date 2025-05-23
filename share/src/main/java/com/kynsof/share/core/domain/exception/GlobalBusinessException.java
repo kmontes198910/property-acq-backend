@@ -4,7 +4,7 @@ import com.kynsof.share.core.domain.response.ErrorField;
 import lombok.Getter;
 
 @Getter
-public class GlobalBusinessException {
+public class GlobalBusinessException extends Throwable {
 
     private final DomainErrorMessage error;
 
