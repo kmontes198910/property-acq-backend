@@ -7,6 +7,7 @@ import com.kynsof.patients.domain.dto.enumTye.BloodType;
 import com.kynsof.patients.domain.dto.enumTye.DisabilityType;
 import com.kynsof.patients.domain.dto.enumTye.FamilyRelationship;
 import com.kynsof.patients.domain.dto.enumTye.GenderType;
+import com.kynsof.patients.infrastructure.entity.IdentificationType;
 import com.kynsof.share.core.domain.bus.query.IResponse;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -19,7 +20,7 @@ import java.util.UUID;
 @Setter
 public class PatientByIdResponse implements IResponse {
     private UUID id;
-
+   private IdentificationType identificationType;
     private String identification;
     private String name;
     private String lastName;
@@ -35,9 +36,11 @@ public class PatientByIdResponse implements IResponse {
     private String educationalLevel;
     private String clinicalHistoryNumber;
     private BloodType bloodType;
+    private String skinColor;
 
     public PatientByIdResponse(PatientByIdDto patients) {
         this.id = patients.getId();
+        this.identificationType = patients.getIdentificationType();
         this.identification = patients.getIdentification();
         this.name = patients.getName();
         this.lastName = patients.getLastName();
@@ -55,6 +58,7 @@ public class PatientByIdResponse implements IResponse {
             this.contactInfo = new ContactInfoResponse(patients.getContactInfoDto());
         }
         this.bloodType = patients.getBloodType();
+        this.skinColor = patients.getSkinColor();
     }
 
 }

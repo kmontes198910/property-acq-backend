@@ -24,6 +24,7 @@ public class CreateDependentByPatientIdCommandHandler implements ICommandHandler
 
         serviceImpl.updateDependent(new DependentPatientDto(
                 dependent.getId(),
+                dependent.getIdentificationType(),
                 dependent.getIdentification(),
                 dependent.getName(),
                 dependent.getLastName(),

@@ -5,6 +5,7 @@ import com.kynsof.patients.application.command.dependents.create.request.CreateD
 import com.kynsof.patients.domain.dto.enumTye.DisabilityType;
 import com.kynsof.patients.domain.dto.enumTye.FamilyRelationship;
 import com.kynsof.patients.domain.dto.enumTye.GenderType;
+import com.kynsof.patients.infrastructure.entity.IdentificationType;
 import com.kynsof.share.core.domain.bus.command.ICommand;
 import com.kynsof.share.core.domain.bus.command.ICommandMessage;
 import lombok.Getter;
@@ -17,6 +18,7 @@ import java.util.UUID;
 public class CreateDependentPatientsCommand implements ICommand {
     private UUID id;
     private UUID primeId;
+    private IdentificationType identificationType;
     private String identification;
     private String name;
     private String lastName;
@@ -31,11 +33,12 @@ public class CreateDependentPatientsCommand implements ICommand {
     private CreateDependentContactInfoRequest createContactInfoRequest;
     private DisabilityType disabilityType;
 
-    public CreateDependentPatientsCommand(UUID primeId, String identification, String name, String lastName, GenderType gender, Double weight,
+    public CreateDependentPatientsCommand(UUID primeId, IdentificationType identificationType, String identification, String name, String lastName, GenderType gender, Double weight,
                                           Double height, Boolean hasDisability, Boolean isPregnant,
                                           FamilyRelationship familyRelationship, String photo, int gestationTime,
                                           CreateDependentContactInfoRequest createContactInfoRequest, DisabilityType disabilityType) {
         this.primeId = primeId;
+        this.identificationType = identificationType;
         this.identification = identification;
         this.name = name;
         this.lastName = lastName;
@@ -52,7 +55,9 @@ public class CreateDependentPatientsCommand implements ICommand {
     }
 
     public static CreateDependentPatientsCommand fromRequest(CreateDependentPatientsRequest request) {
-        return new CreateDependentPatientsCommand(request.getPrimeId(), request.getIdentification(), request.getName(),
+        return new CreateDependentPatientsCommand(request.getPrimeId(),
+                request.getIdentificationType(),
+                request.getIdentification(), request.getName(),
                 request.getLastName(), request.getGender(), request.getWeight(), request.getHeight(),
                 request.getHasDisability(), request.getIsPregnant(),  request.getFamilyRelationship(),
                 request.getImage(), request.getGestationTime(), request.getContactInfo(), request.getDisabilityType());

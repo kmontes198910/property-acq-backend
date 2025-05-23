@@ -35,6 +35,10 @@ public class Patients implements Serializable {
 
     private String identification;
 
+    @Convert(converter = IdentificationTypeConverter.class)
+    @Column(name = "identification_type", nullable = false, length = 2)
+    private IdentificationType idType; // RUC, CEDULA, PASAPORTE, etc.
+
     private String firstName;
 
     private String lastName;
@@ -88,6 +92,8 @@ public class Patients implements Serializable {
     private String educationalLevel;
 
     private String clinicalHistoryNumber;
+    
+    private String skinColor;
 
     @CreationTimestamp
     @Column(updatable = false)
@@ -112,6 +118,9 @@ public class Patients implements Serializable {
         this.educationalLevel = patients.getEducationalLevel();
         this.bloodType = patients.getBloodType() != null ? patients.getBloodType() : BloodType.UNKNOWN;
         this.clinicalHistoryNumber = generateClinicalHistoryNumber();
+        this.idType = patients.getIdentificationType() != null ? patients.getIdentificationType() : IdentificationType.CEDULA;
+        this.skinColor = patients.getSkinColor();
+        this.skinColor = patients.getSkinColor();
     }
 
     public Patients(DependentPatientDto patients) {
@@ -129,6 +138,7 @@ public class Patients implements Serializable {
         this.gestationTime = patients.getGestationTime();
         this.bloodType = BloodType.UNKNOWN;
         this.familyRelationship = patients.getFamilyRelationship() != null ? patients.getFamilyRelationship() : FamilyRelationship.UNDEFINED;
+        this.idType = patients.getIdentificationType() != null ? patients.getIdentificationType() : IdentificationType.CEDULA;
     }
 
     public PatientDto toAggregate() {
@@ -139,14 +149,16 @@ public class Patients implements Serializable {
         patientDto.setEducationalLevel(educationalLevel);
         patientDto.setClinicalHistoryNumber(clinicalHistoryNumber);
         patientDto.setBloodType(bloodType);
+        patientDto.setIdentificationType(idType);
+        patientDto.setSkinColor(skinColor);
         return patientDto;
     }
 
     public PatientByIdDto toAggregateById() {
         ContactInfoDto contactInfoDto = contactInformation != null ? contactInformation.toAggregate() : null;
-        return new PatientByIdDto(id, identification, firstName, lastName, gender, status,
+        return new PatientByIdDto(id,idType, identification, firstName, lastName, gender, status,
                 hasDisability, isPregnant, photo, disabilityType, gestationTime, familyRelationship,
-                contactInfoDto, profession, educationalLevel, clinicalHistoryNumber, bloodType);
+                contactInfoDto, profession, educationalLevel, clinicalHistoryNumber, bloodType, skinColor);
     }
 
     // Método estático para generar número de historia clínica de 12 dígitos

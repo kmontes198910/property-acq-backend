@@ -5,6 +5,7 @@ import com.kynsof.patients.domain.dto.enumTye.DisabilityType;
 import com.kynsof.patients.domain.dto.enumTye.FamilyRelationship;
 import com.kynsof.patients.domain.dto.enumTye.GenderType;
 import com.kynsof.patients.domain.dto.enumTye.Status;
+import com.kynsof.patients.infrastructure.entity.IdentificationType;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
@@ -19,6 +20,7 @@ import java.util.UUID;
 public class PatientByIdDto implements Serializable {
 
     private UUID id;
+    private IdentificationType identificationType;
     private String identification;
     private String name;
     private String lastName;
@@ -35,4 +37,5 @@ public class PatientByIdDto implements Serializable {
     private String educationalLevel;
     private String clinicalHistoryNumber;
     private BloodType bloodType;
+    private String skinColor;
 }

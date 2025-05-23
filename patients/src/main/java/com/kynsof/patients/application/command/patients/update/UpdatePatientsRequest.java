@@ -4,6 +4,7 @@ import com.kynsof.patients.application.command.patients.create.request.CreatePat
 import com.kynsof.patients.domain.dto.enumTye.BloodType;
 import com.kynsof.patients.domain.dto.enumTye.DisabilityType;
 import com.kynsof.patients.domain.dto.enumTye.GenderType;
+import com.kynsof.patients.infrastructure.entity.IdentificationType;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -12,6 +13,7 @@ import lombok.Setter;
 public class UpdatePatientsRequest {
 
     private String identification;
+    private IdentificationType identificationType;
     private String name;
     private String lastName;
     private GenderType gender;
@@ -22,4 +24,5 @@ public class UpdatePatientsRequest {
     private BloodType bloodType;
     private DisabilityType disabilityType;
     private int gestationTime;
+    private String skinColor;
 }

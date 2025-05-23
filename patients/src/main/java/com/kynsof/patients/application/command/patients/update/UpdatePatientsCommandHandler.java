@@ -53,6 +53,7 @@ public class UpdatePatientsCommandHandler implements ICommandHandler<UpdatePatie
         patientDto.setBloodType(command.getBloodType());
         patientDto.setDisabilityType(command.getDisabilityType());
         patientDto.setGestationTime(command.getGestationTime());
+        patientDto.setSkinColor(command.getSkinColor());
         serviceImpl.update(patientDto);
 
         if (contactInfoDto.getId() == null) {

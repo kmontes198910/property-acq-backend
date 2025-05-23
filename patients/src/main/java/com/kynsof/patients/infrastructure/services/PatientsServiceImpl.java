@@ -86,6 +86,7 @@ public class PatientsServiceImpl implements IPatientsService {
         existingPatient.setBloodType(patientDto.getBloodType());
         existingPatient.setGestationTime(patientDto.getGestationTime());
         existingPatient.setDisabilityType(patientDto.getDisabilityType());
+        existingPatient.setSkinColor(patientDto.getSkinColor());
         // Persistir los cambios
         repositoryCommand.save(existingPatient);
 
