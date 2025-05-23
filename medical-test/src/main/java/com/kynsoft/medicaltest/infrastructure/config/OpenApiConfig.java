@@ -34,7 +34,7 @@ import static io.swagger.v3.oas.annotations.enums.SecuritySchemeType.HTTP;
         ),
         security = @SecurityRequirement(name = "bearer-jwt"),
         servers = {
-                @Server(url = "http://localhost:8080", description = "Servidor de desarrollo"),
+                @Server(url = "http://localhost:9901", description = "Servidor de desarrollo"),
                 @Server(url = "https://api.medinec.com", description = "Servidor de producción")
         }
 )
