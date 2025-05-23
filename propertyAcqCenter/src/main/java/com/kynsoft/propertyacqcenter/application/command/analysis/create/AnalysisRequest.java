@@ -13,6 +13,7 @@ import lombok.Setter;
 public class AnalysisRequest {
     private String property;
     private OpportunityRequest opportunity;
+    private StatisticsRequest statistics;
     private MortageDebtRequest mortageDebt;
     private CompsAtAGlanceRequest compsAtAGlance;
     private LastSaleRequest lastSale;

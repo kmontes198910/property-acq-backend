@@ -7,6 +7,7 @@ import com.kynsoft.propertyacqcenter.infrastructure.entity.analysis.MortageDebt;
 import com.kynsoft.propertyacqcenter.infrastructure.entity.analysis.Opportunity;
 import com.kynsoft.propertyacqcenter.infrastructure.entity.analysis.PropertyComparable;
 import com.kynsoft.propertyacqcenter.infrastructure.entity.analysis.SaleValue;
+import com.kynsoft.propertyacqcenter.infrastructure.entity.analysis.Statistics;
 import com.kynsoft.propertyacqcenter.infrastructure.entity.analysis.TaxAssessmentAnalysis;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -47,6 +48,10 @@ public class Analysis {
     private Opportunity opportunity;
 
     @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "statistics_id", referencedColumnName = "id")
+    private Statistics statistics;
+
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "mortage_debt_id", referencedColumnName = "id")
     private MortageDebt mortageDebt;
 
@@ -78,6 +83,10 @@ public class Analysis {
         if (dto.getOpportunity() != null) {
             this.opportunity = new Opportunity(dto.getOpportunity());
             this.opportunity.setAnalysis(this);
+        }
+        if (dto.getStatistics() != null) {
+            this.statistics = new Statistics(dto.getStatistics());
+            this.statistics.setAnalysis(this);
         }
 
         if (dto.getMortageDebt() != null) {
@@ -133,6 +142,7 @@ public class Analysis {
                 .opportunity(opportunity != null ? opportunity.toAggregate() : null)
                 .saleValue(saleValue != null ? saleValue.stream().map(SaleValue::toAggregate).collect(Collectors.toList()) : null)
                 .taxAssessments(taxAssessments != null ? taxAssessments.stream().map(TaxAssessmentAnalysis::toAggregate).collect(Collectors.toList()) : null)
+                .statistics(statistics != null ? statistics.toAggregate() : null)
                 .createdBy(createdBy)
                 .build();
     }

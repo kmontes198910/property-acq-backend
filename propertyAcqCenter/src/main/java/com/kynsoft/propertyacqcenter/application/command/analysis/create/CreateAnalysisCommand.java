@@ -16,6 +16,7 @@ public class CreateAnalysisCommand implements ICommand {
     private UUID userId;
     private String property;
     private OpportunityRequest opportunity;
+    private StatisticsRequest statistics;
     private MortageDebtRequest mortageDebt;
     private CompsAtAGlanceRequest compsAtAGlance;
     private LastSaleRequest lastSale;
@@ -23,10 +24,11 @@ public class CreateAnalysisCommand implements ICommand {
     private List<TaxAssessmentAnalysisRequest> taxAssessments;
     private List<PropertyComparableRequest> comparables;
 
-    public CreateAnalysisCommand(UUID userId, String property, OpportunityRequest opportunity, MortageDebtRequest mortageDebt, CompsAtAGlanceRequest compsAtAGlance, LastSaleRequest lastSale, List<SaleValueRequest> saleValue, List<TaxAssessmentAnalysisRequest> taxAssessments, List<PropertyComparableRequest> comparables) {
+    public CreateAnalysisCommand(UUID userId, String property, StatisticsRequest statistics, OpportunityRequest opportunity, MortageDebtRequest mortageDebt, CompsAtAGlanceRequest compsAtAGlance, LastSaleRequest lastSale, List<SaleValueRequest> saleValue, List<TaxAssessmentAnalysisRequest> taxAssessments, List<PropertyComparableRequest> comparables) {
         this.id = UUID.randomUUID();
         this.userId = userId;
         this.property = property;
+        this.statistics = statistics;
         this.opportunity = opportunity;
         this.mortageDebt = mortageDebt;
         this.compsAtAGlance = compsAtAGlance;
@@ -40,6 +42,7 @@ public class CreateAnalysisCommand implements ICommand {
         return new CreateAnalysisCommand(
                 userId,
                 request.getProperty(),
+                request.getStatistics(),
                 request.getOpportunity(),
                 request.getMortageDebt(),
                 request.getCompsAtAGlance(),
