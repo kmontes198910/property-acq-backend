@@ -2,7 +2,7 @@ name: ci-medical-test-dev
 
 env:
   SERVICE_NAME: 'medical-test'
-  SERVICE_PATH: 'digitalSignature'
+  SERVICE_PATH: 'medical-test'
 
 on:
   workflow_dispatch:
