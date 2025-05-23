@@ -15,6 +15,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "lab_test_requests")
@@ -51,7 +52,6 @@ public class LabTestRequestEntity {
     private UUID businessId;
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
-    @Builder.Default
     private List<LabTestItemRequestEntity> examinations = new ArrayList<>();
 
     @CreationTimestamp
@@ -109,6 +109,7 @@ public class LabTestRequestEntity {
                 .isActive(isActive)
                 .creationDate(creationDate)
                 .patient(patient != null ? patient.toAggregate() : null)
+                .examinations(examinations != null ? examinations.stream().map(LabTestItemRequestEntity::toAggregate).collect(Collectors.toList()) : null)
                 .build();
     }
 

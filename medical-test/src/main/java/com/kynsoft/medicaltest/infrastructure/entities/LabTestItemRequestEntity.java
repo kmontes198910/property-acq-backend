@@ -1,6 +1,7 @@
 package com.kynsoft.medicaltest.infrastructure.entities;
 
 import com.kynsoft.medicaltest.domain.dto.LabTestItemRequestDto;
+import com.kynsoft.medicaltest.domain.dto.LabTestRequestDto;
 import jakarta.persistence.*;
 import java.time.LocalDate;
 import lombok.AllArgsConstructor;
@@ -62,7 +63,6 @@ public class LabTestItemRequestEntity {
     private UUID updatedBy;
 
     @OneToMany(mappedBy = "labTestItem", cascade = CascadeType.ALL, orphanRemoval = true)
-    @Builder.Default
     private List<LabTestResultEntity> testResults = new ArrayList<>();
 
     public LabTestItemRequestEntity(LabTestItemRequestDto dto) {
@@ -76,6 +76,17 @@ public class LabTestItemRequestEntity {
         this.createdBy = dto.getCreatedBy();
         this.updatedBy = dto.getUpdatedBy();
         //this.testResults = testResults;
+    }
+
+    public LabTestItemRequestDto toAggregate() {
+        return LabTestItemRequestDto.builder()
+                .id(id)
+                .code(code)
+                .completionDate(completionDate)
+                .examinationType(examinationType)
+                .observations(observations)
+                .status(status)
+                .build();
     }
 
     @PrePersist

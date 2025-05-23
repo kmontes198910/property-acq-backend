@@ -4,6 +4,7 @@ import com.kynsof.share.core.domain.request.FilterCriteria;
 import com.kynsof.share.core.domain.response.PaginatedResponse;
 import com.kynsof.share.core.infrastructure.specifications.GenericSpecificationsBuilder;
 import com.kynsoft.medicaltest.application.query.labTestRequest.getbyid.LabTestRequestResponse;
+import com.kynsoft.medicaltest.application.query.labTestRequest.search.LabTestRequestSearchResponse;
 import com.kynsoft.medicaltest.domain.dto.LabTestRequestDto;
 import com.kynsoft.medicaltest.domain.service.ILabTestRequestService;
 import com.kynsoft.medicaltest.infrastructure.entities.LabTestRequestEntity;
@@ -33,7 +34,7 @@ public class LabTestRequestServiceImpl implements ILabTestRequestService {
     public LabTestRequestDto findById(UUID id) {
         LabTestRequestEntity entity = readRepository.findById(id)
                 .orElseThrow(() -> new NoSuchElementException("Parámetro de examen no encontrado con ID: " + id));
-        return mapToDomain(entity);
+        return entity.toAggregate();
     }
 
     @Override
@@ -79,9 +80,9 @@ public class LabTestRequestServiceImpl implements ILabTestRequestService {
     }
 
     private PaginatedResponse getPaginatedResponse(Page<LabTestRequestEntity> data) {
-        List<LabTestRequestResponse> objects = new ArrayList<>();
+        List<LabTestRequestSearchResponse> objects = new ArrayList<>();
         for (LabTestRequestEntity p : data.getContent()) {
-            objects.add(new LabTestRequestResponse(p.toAggregateSimple()));
+            objects.add(new LabTestRequestSearchResponse(p.toAggregateSimple()));
         }
         return new PaginatedResponse(objects, data.getTotalPages(), data.getNumberOfElements(),
                 data.getTotalElements(), data.getSize(), data.getNumber());
