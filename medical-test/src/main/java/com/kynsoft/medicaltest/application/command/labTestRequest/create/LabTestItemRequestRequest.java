@@ -7,16 +7,13 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.UUID;
-
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
 @Setter
 public class LabTestItemRequestRequest {
-    
-    private UUID id;
+
     private String code;
     private String examinationType;
     private String status;
