@@ -33,6 +33,7 @@ public class LabTestRequestResponse implements IResponse, Serializable {
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
     private boolean isActive;
+    private PatientDto patient;
 
     public LabTestRequestResponse(LabTestRequestDto dto) {
         this.id = dto.getId();
@@ -48,6 +49,7 @@ public class LabTestRequestResponse implements IResponse, Serializable {
         this.createdAt = dto.getCreatedAt();
         this.updatedAt = dto.getUpdatedAt();
         this.isActive = dto.isActive();
+        this.patient = dto.getPatient();
     }
 
 }

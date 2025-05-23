@@ -31,6 +31,10 @@ public class LabTestRequestEntity {
     @Column(name = "patient_id", nullable = false)
     private UUID patientId;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "patient_fk_id", nullable = true)
+    private Patient patient;
+
     @Column(name = "doctor_id", nullable = false)
     private UUID doctorId;
 
@@ -70,6 +74,7 @@ public class LabTestRequestEntity {
     public LabTestRequestEntity(LabTestRequestDto dto) {
         this.id = dto.getId();
         this.patientId = dto.getPatientId();
+        this.patient = dto.getPatient() != null ? new Patient(dto.getPatient()) : null;
         this.doctorId = dto.getDoctorId();
         this.status = dto.getStatus();
         this.observations = dto.getObservations();
@@ -103,8 +108,25 @@ public class LabTestRequestEntity {
                 .createdBy(createdBy)
                 .isActive(isActive)
                 .creationDate(creationDate)
+                .patient(patient != null ? patient.toAggregate() : null)
                 .build();
-                
+    }
+
+    public LabTestRequestDto toAggregateSimple() {
+        return LabTestRequestDto.builder()
+                .id(id)
+                .patientId(patientId)
+                .doctorId(doctorId)
+                .status(status)
+                .observations(observations)
+                .businessId(businessId)
+                .createdAt(createdAt)
+                .updatedAt(updatedAt)
+                .updatedBy(updatedBy)
+                .createdBy(createdBy)
+                .isActive(isActive)
+                .creationDate(creationDate)
+                .build();
     }
 
     @PrePersist

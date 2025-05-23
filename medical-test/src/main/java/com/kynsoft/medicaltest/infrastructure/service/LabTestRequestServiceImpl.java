@@ -7,6 +7,7 @@ import com.kynsoft.medicaltest.application.query.labTestRequest.getbyid.LabTestR
 import com.kynsoft.medicaltest.domain.dto.LabTestRequestDto;
 import com.kynsoft.medicaltest.domain.service.ILabTestRequestService;
 import com.kynsoft.medicaltest.infrastructure.entities.LabTestRequestEntity;
+import com.kynsoft.medicaltest.infrastructure.entities.Patient;
 import com.kynsoft.medicaltest.infrastructure.repository.command.LabTestRequestWriteRepository;
 import com.kynsoft.medicaltest.infrastructure.repository.query.LabTestRequestReadRepository;
 import java.util.ArrayList;
@@ -55,6 +56,7 @@ public class LabTestRequestServiceImpl implements ILabTestRequestService {
         entity.setObservations(dto.getObservations());
         entity.setBusinessId(dto.getBusinessId());
         entity.setUpdatedBy(dto.getUpdatedBy());
+        entity.setPatient(new Patient(dto.getPatient()));
 
         writeRepository.save(entity);
     }
@@ -79,7 +81,7 @@ public class LabTestRequestServiceImpl implements ILabTestRequestService {
     private PaginatedResponse getPaginatedResponse(Page<LabTestRequestEntity> data) {
         List<LabTestRequestResponse> objects = new ArrayList<>();
         for (LabTestRequestEntity p : data.getContent()) {
-            objects.add(new LabTestRequestResponse(p.toAggregate()));
+            objects.add(new LabTestRequestResponse(p.toAggregateSimple()));
         }
         return new PaginatedResponse(objects, data.getTotalPages(), data.getNumberOfElements(),
                 data.getTotalElements(), data.getSize(), data.getNumber());
@@ -105,6 +107,7 @@ public class LabTestRequestServiceImpl implements ILabTestRequestService {
                 .updatedAt(entity.getUpdatedAt())
                 .createdBy(entity.getCreatedBy())
                 .updatedBy(entity.getUpdatedBy())
+                .patient(entity.getPatient().toAggregate())
                 .build();
     }
 }

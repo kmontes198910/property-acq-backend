@@ -19,6 +19,7 @@ public class LabTestRequestDto {
 
     private UUID id;
     private UUID patientId;
+    private PatientDto patient;
     private UUID doctorId;
     private LocalDate creationDate;
     private String status;
