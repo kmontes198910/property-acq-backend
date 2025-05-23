@@ -1,5 +1,9 @@
 package com.kynsoft.medicaltest.infrastructure.service;
 
+import com.kynsof.share.core.domain.request.FilterCriteria;
+import com.kynsof.share.core.domain.response.PaginatedResponse;
+import com.kynsof.share.core.infrastructure.specifications.GenericSpecificationsBuilder;
+import com.kynsoft.medicaltest.application.query.labtestparameter.getbyid.LabTestParameterResponse;
 import com.kynsoft.medicaltest.domain.dto.LabTestParameterDto;
 import com.kynsoft.medicaltest.domain.service.ILabTestParameterService;
 import com.kynsoft.medicaltest.infrastructure.entities.LabTestEntity;
@@ -8,9 +12,13 @@ import com.kynsoft.medicaltest.infrastructure.repository.command.LabTestParamete
 import com.kynsoft.medicaltest.infrastructure.repository.query.LabTestParameterReadJpaRepository;
 import com.kynsoft.medicaltest.infrastructure.repository.query.LabTestReadRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.UUID;
@@ -21,6 +29,7 @@ import java.util.stream.Collectors;
  */
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class LabTestParameterServiceImpl implements ILabTestParameterService {
 
     private final LabTestParameterReadJpaRepository parameterReadRepository;
@@ -83,6 +92,37 @@ public class LabTestParameterServiceImpl implements ILabTestParameterService {
             throw new NoSuchElementException("Parámetro de examen no encontrado con ID: " + id);
         }
         parameterWriteRepository.deleteById(id);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public PaginatedResponse search(Pageable pageable, List<FilterCriteria> filter) {
+        log.info("Buscando parámetros de exámenes de laboratorio con criterios de filtrado: {}", filter);
+        GenericSpecificationsBuilder<LabTestParameterEntity> specifications = new GenericSpecificationsBuilder<>(filter);
+        Page<LabTestParameterEntity> data = parameterReadRepository.findAll(specifications, pageable);
+        return getPaginatedResponse(data);
+    }
+    
+    /**
+     * Convierte los resultados de página a respuesta paginada
+     * 
+     * @param data Página de entidades de parámetros
+     * @return Respuesta paginada con DTOs
+     */
+    private PaginatedResponse getPaginatedResponse(Page<LabTestParameterEntity> data) {
+        List<LabTestParameterResponse> parameters = new ArrayList<>();
+        for (LabTestParameterEntity entity : data.getContent()) {
+            LabTestParameterDto dto = mapToDomain(entity);
+            parameters.add(new LabTestParameterResponse(dto));
+        }
+        return new PaginatedResponse(
+            parameters, 
+            data.getTotalPages(), 
+            data.getNumberOfElements(),
+            data.getTotalElements(), 
+            data.getSize(), 
+            data.getNumber()
+        );
     }
 
     /**

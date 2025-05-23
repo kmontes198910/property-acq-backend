@@ -1,6 +1,9 @@
 package com.kynsoft.medicaltest.domain.service;
 
+import com.kynsof.share.core.domain.request.FilterCriteria;
+import com.kynsof.share.core.domain.response.PaginatedResponse;
 import com.kynsoft.medicaltest.domain.dto.LabTestParameterDto;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 import java.util.UUID;
@@ -51,4 +54,6 @@ public interface ILabTestParameterService {
      * @param id El ID del parámetro a eliminar
      */
     void delete(UUID id);
+
+    PaginatedResponse search(Pageable pageable, List<FilterCriteria> filter);
 }
