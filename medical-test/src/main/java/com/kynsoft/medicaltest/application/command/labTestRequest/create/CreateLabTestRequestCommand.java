@@ -30,7 +30,7 @@ public class CreateLabTestRequestCommand implements ICommand {
                 .id(UUID.randomUUID())
                 .patientId(request.getPatientId())
                 .doctorId(request.getDoctorId())
-                .creationDate(request.getCreationDate())
+                .creationDate(LocalDate.now())
                 .status(request.getStatus())
                 .observations(request.getObservations())
                 .businessId(request.getBusinessId())

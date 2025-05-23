@@ -15,7 +15,6 @@ import lombok.NoArgsConstructor;
 public class CreateLabTestRequestRequest {
     private UUID patientId;
     private UUID doctorId;
-    private LocalDate creationDate;
     private String status;
     private String observations;
     private UUID businessId;
