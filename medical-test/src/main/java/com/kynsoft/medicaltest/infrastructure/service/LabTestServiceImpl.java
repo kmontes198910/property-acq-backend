@@ -187,12 +187,12 @@ public class LabTestServiceImpl implements ILabTestService {
                 .updatedBy(entity.getUpdatedBy())
                 .build();
         
-        // Mapear parámetros si existen
-        if (entity.getParameters() != null && !entity.getParameters().isEmpty()) {
-            dto.setParameters(entity.getParameters().stream()
-                    .map(this::mapParameterToDomain)
-                    .collect(Collectors.toList()));
-        }
+//        // Mapear parámetros si existen
+//        if (entity.getParameters() != null && !entity.getParameters().isEmpty()) {
+//            dto.setParameters(entity.getParameters().stream()
+//                    .map(this::mapParameterToDomain)
+//                    .collect(Collectors.toList()));
+//        }
         
         return dto;
     }

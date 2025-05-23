@@ -42,7 +42,7 @@ public class LabTestEntity {
     @Column(name = "description", columnDefinition = "TEXT")
     private String description;
     
-    @OneToMany(mappedBy = "labTest", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "labTest", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     @Builder.Default
     private List<LabTestParameterEntity> parameters = new ArrayList<>();
     
