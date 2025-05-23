@@ -55,6 +55,8 @@ public class Property {
     @Column(name = "created_at", updatable = false)
     private LocalDateTime createdAt;
 
+    private Boolean isManual;
+
     public Property(PropertyDto dto) {
         this.id = dto.getId();
         this.formattedAddress = dto.getFormattedAddress();
@@ -78,6 +80,7 @@ public class Property {
         this.bathrooms = dto.getBathrooms();
         this.askingPrice = dto.getAskingPrice();
         this.propertyStatus = dto.getPropertyStatus();
+        this.isManual = dto.getIsManual();
     }
 
     public PropertyDto toAggregate() {
@@ -105,6 +108,7 @@ public class Property {
                 .askingPrice(askingPrice)
                 .propertyStatus(propertyStatus)
                 .createdAt(createdAt)
+                .isManual(isManual)
                 .build();
     }
 

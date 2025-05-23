@@ -34,4 +34,5 @@ public class CreatePropertyRequest {
     private Double bathrooms;
     private Double askingPrice;
     private PropertyStatus propertyStatus;
+    private Boolean isManual;
 }

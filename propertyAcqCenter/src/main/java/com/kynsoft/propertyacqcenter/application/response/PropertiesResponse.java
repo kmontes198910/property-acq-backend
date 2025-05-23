@@ -37,6 +37,7 @@ public class PropertiesResponse implements IResponse {
     private String formattedAddress;
     private PropertyStatus propertyStatus;
     private LocalDateTime createdAt;
+    private Boolean isManual;
 
     public PropertiesResponse(PropertyDto dto) {
         this.id = dto.getId();
@@ -62,6 +63,7 @@ public class PropertiesResponse implements IResponse {
         this.formattedAddress = dto.getFormattedAddress();
         this.propertyStatus = dto.getPropertyStatus();
         this.createdAt = dto.getCreatedAt();
+        this.isManual = dto.getIsManual();
     }
 
 }

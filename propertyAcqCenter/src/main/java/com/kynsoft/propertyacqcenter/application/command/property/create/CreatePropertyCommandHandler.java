@@ -40,6 +40,7 @@ public class CreatePropertyCommandHandler implements ICommandHandler<CreatePrope
                 .askingPrice(command.getAskingPrice())
                 .formattedAddress(command.getFormattedAddress())
                 .propertyStatus(command.getPropertyStatus())
+                .isManual(command.getIsManual())
                 .build()
         );
     }
