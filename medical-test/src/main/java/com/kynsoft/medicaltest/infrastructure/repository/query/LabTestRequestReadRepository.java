@@ -1,6 +1,10 @@
 package com.kynsoft.medicaltest.infrastructure.repository.query;
 
+import com.kynsoft.medicaltest.infrastructure.entities.LabTestParameterEntity;
 import com.kynsoft.medicaltest.infrastructure.entities.LabTestRequestEntity;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -38,4 +42,5 @@ public interface LabTestRequestReadRepository extends JpaRepository<LabTestReque
      * Encuentra órdenes por ID de negocio
      */
     List<LabTestRequestEntity> findByBusinessId(UUID businessId);
+    Page<LabTestRequestEntity> findAll(Specification specification, Pageable pageable);
 }
