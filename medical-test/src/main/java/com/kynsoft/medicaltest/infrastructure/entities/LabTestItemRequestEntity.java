@@ -1,7 +1,6 @@
 package com.kynsoft.medicaltest.infrastructure.entities;
 
 import com.kynsoft.medicaltest.domain.dto.LabTestItemRequestDto;
-import com.kynsoft.medicaltest.domain.dto.LabTestRequestDto;
 import jakarta.persistence.*;
 import java.time.LocalDate;
 import lombok.AllArgsConstructor;
@@ -86,6 +85,26 @@ public class LabTestItemRequestEntity {
                 .examinationType(examinationType)
                 .observations(observations)
                 .status(status)
+                .createdAt(createdAt)
+                .updatedAt(updatedAt)
+                .createdBy(createdBy)
+                .updatedBy(updatedBy)
+                .build();
+    }
+
+    public LabTestItemRequestDto toAggregateSimple() {
+        return LabTestItemRequestDto.builder()
+                .id(id)
+                .code(code)
+                .order(order.toAggregateSimple())
+                .completionDate(completionDate)
+                .examinationType(examinationType)
+                .observations(observations)
+                .status(status)
+                .createdAt(createdAt)
+                .updatedAt(updatedAt)
+                .createdBy(createdBy)
+                .updatedBy(updatedBy)
                 .build();
     }
 

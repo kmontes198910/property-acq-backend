@@ -113,6 +113,20 @@ public class LabTestRequestEntity {
                 .build();
     }
 
+    public LabTestRequestDto toAggregateBasic() {
+        return LabTestRequestDto.builder()
+                .id(id)
+                .patientId(patientId)
+                .doctorId(doctorId)
+                .status(status)
+                .observations(observations)
+                .businessId(businessId)
+                .isActive(isActive)
+                .creationDate(creationDate)
+                .patient(patient != null ? patient.toAggregate() : null)
+                .build();
+    }
+
     public LabTestRequestDto toAggregateSimple() {
         return LabTestRequestDto.builder()
                 .id(id)
