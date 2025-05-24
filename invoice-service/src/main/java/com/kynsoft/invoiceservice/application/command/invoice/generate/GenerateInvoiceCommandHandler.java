@@ -369,7 +369,7 @@ public class GenerateInvoiceCommandHandler implements ICommandHandler<GenerateIn
                 .withObligadoContabilidad(obligadoContabilidad)
                 //.withAgenteRetencion("3867")
                 //.withContribuyenteEspecial("7345")
-                .withContribuyenteRimpe(Regimen.NEGOCIO_POPULAR)//Agregar a la empresa el tipo de régimen
+             //   .withContribuyenteRimpe(Regimen.NEGOCIO_POPULAR)//Agregar a la empresa el tipo de régimen
                 .withNombreComercial(issuer.getCommercialName())
                 .withTipoIdentificacionComprador(customerIdentificationType)
                 .withRazonSocialComprador(customer.getBusinessName())
@@ -381,6 +381,10 @@ public class GenerateInvoiceCommandHandler implements ICommandHandler<GenerateIn
                 .withPagos(payments)
                 .withInfoAdicional(new ArrayList<>())
                 .build();
+
+        if(issuer.getRimpeRegime() != null && !issuer.getRimpeRegime().isEmpty()) {
+            factura.setContribuyenteRimpe(issuer.getRimpeRegime());
+        }
 
         if (issuer.getRetentionAgent() != null && !issuer.getRetentionAgent().isEmpty()) {
             factura.setAgenteRetencion(issuer.getRetentionAgent());

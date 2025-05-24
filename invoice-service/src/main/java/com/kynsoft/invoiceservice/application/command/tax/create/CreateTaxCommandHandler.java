@@ -46,6 +46,7 @@ public class CreateTaxCommandHandler implements ICommandHandler<CreateTaxCommand
         
         // Guardar el impuesto
         Tax savedTax = taxService.create(tax);
+        command.setId(savedTax.getId());
         
         log.info("Impuesto creado exitosamente con ID: {}", savedTax.getId());
 

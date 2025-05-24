@@ -67,7 +67,8 @@ public class InvoiceIssuer {
     private Boolean microenterprisesRegime;
 
     @Column(name = "rimpe_regime")
-    private String rimpeRegime;
+    @com.kynsoft.invoiceservice.domain.validator.ValidRimpeRegime
+    private String rimpeRegime; // Puede ser CONTRIBUYENTE RÉGIMEN RIMPE, CONTRIBUYENTE NEGOCIO POPULAR - RÉGIMEN RIMPE o null
 
     @Column(name = "logo_url")
     private String logoUrl;

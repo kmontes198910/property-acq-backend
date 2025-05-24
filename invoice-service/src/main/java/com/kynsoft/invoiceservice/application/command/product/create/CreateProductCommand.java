@@ -20,6 +20,11 @@ public class CreateProductCommand implements ICommand {
     private Integer stock;
     private String taxCode;
     private BigDecimal taxPercentage;
+    private String iceCode;
+    private BigDecimal icePercentage;
+    private String rentCode;
+    private BigDecimal rentTaxPercentage;
+    private String productType;
     private Boolean isService;
     private UUID categoryId;
     private UUID createdBy;
@@ -38,6 +43,11 @@ public class CreateProductCommand implements ICommand {
         command.setStock(request.getStock());
         command.setTaxCode(request.getTaxCode());
         command.setTaxPercentage(request.getTaxPercentage());
+        command.setIceCode(request.getIceCode());
+        command.setIcePercentage(request.getIcePercentage());
+        command.setRentCode(request.getRentCode());
+        command.setRentTaxPercentage(request.getRentTaxPercentage());
+        command.setProductType(request.getProductType());
         command.setIsService(request.getIsService());
         command.setCategoryId(request.getCategoryId());
         command.setCreatedBy(createdBy);

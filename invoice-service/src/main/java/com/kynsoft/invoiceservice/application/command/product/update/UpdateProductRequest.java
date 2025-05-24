@@ -17,6 +17,11 @@ public class UpdateProductRequest {
     private Integer stock;
     private String taxCode;
     private BigDecimal taxPercentage;
+    private String iceCode;
+    private BigDecimal icePercentage;
+    private String rentCode;
+    private BigDecimal rentTaxPercentage;
+    private String productType;
     private Boolean isService;
     private Boolean status;
     private UUID categoryId;
