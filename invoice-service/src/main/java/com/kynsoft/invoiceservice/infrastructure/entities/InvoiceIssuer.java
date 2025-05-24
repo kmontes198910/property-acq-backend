@@ -73,10 +73,6 @@ public class InvoiceIssuer {
     @Column(name = "logo_url")
     private String logoUrl;
 
-    @Column(name = "environment", columnDefinition = "varchar(1)")
-    @Builder.Default
-    private String environment = "1";
-
     // Agregando campo para enviar correos a destinatarios
     @Column(name = "send_emails")
     private Boolean sendEmails;

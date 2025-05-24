@@ -50,18 +50,6 @@ public class UpdateInvoiceIssuerCommandHandler implements ICommandHandler<Update
         issuer.setLogoUrl(command.getLogoUrl());
         issuer.setSendEmails(command.getSendEmails());
         
-        // Validar y ajustar el valor del campo environment para que solo tenga un carácter
-        String environment = command.getEnvironment();
-        if (environment != null && !environment.isEmpty()) {
-            // Tomar solo el primer carácter del valor proporcionado
-            environment = environment.substring(0, 1);
-            log.info("Environment value adjusted to: {}", environment);
-            issuer.setEnvironment(environment);
-        } else if (environment == null || environment.isEmpty()) {
-            // Mantener el valor actual si el nuevo es nulo o vacío
-            log.info("Keeping current environment value: {}", issuer.getEnvironment());
-        }
-        
         issuer.setStatus(command.getStatus());
         
         // Solo actualizar estos campos si no son nulos, ya que son sensibles

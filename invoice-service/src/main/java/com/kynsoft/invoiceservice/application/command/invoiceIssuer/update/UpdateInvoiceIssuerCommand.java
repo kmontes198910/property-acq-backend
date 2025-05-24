@@ -25,7 +25,6 @@ public class UpdateInvoiceIssuerCommand implements ICommand {
     private String retentionAgent;
     private String rimpeRegime;
     private String logoUrl;
-    private String environment;
     private String website;
     private Boolean accountingObligated;
     private Boolean microenterprisesRegime;
@@ -55,7 +54,6 @@ public class UpdateInvoiceIssuerCommand implements ICommand {
         command.setRetentionAgent(request.getRetentionAgent());
         command.setRimpeRegime(request.getRimpeRegime());
         command.setLogoUrl(request.getLogoUrl());
-        command.setEnvironment(request.getEnvironment());
         command.setWebsite(request.getWebsite());
         command.setAccountingObligated(request.getAccountingObligated());
         command.setMicroenterprisesRegime(request.getMicroenterprisesRegime());
