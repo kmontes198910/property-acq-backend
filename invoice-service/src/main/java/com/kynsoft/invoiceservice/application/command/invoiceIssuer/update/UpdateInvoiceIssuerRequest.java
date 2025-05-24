@@ -20,6 +20,7 @@ public class UpdateInvoiceIssuerRequest {
     private String rimpeRegime;
     private String logoUrl;
     private String website;
+    private String colorFactura;
     /**
      * Indica si el emisor está obligado a llevar contabilidad
      */

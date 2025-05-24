@@ -42,6 +42,7 @@ public class UpdateInvoiceIssuerCommandHandler implements ICommandHandler<Update
         issuer.setEmail(command.getEmail());
         issuer.setPhone(command.getPhone());
         issuer.setWebsite(command.getWebsite());
+        issuer.setColorFactura(command.getColorFactura());
         issuer.setSpecialTaxpayer(command.getSpecialTaxpayer());
         issuer.setRetentionAgent(command.getRetentionAgent());
         issuer.setAccountingObligated(command.getAccountingObligated());

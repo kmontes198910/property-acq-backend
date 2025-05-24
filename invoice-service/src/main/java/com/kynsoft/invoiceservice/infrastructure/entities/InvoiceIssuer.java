@@ -33,6 +33,10 @@ public class InvoiceIssuer {
     @Column(name = "currency")
     private String currency;
 
+    // Agregando campo color de factura
+    @Column(name = "color_factura")
+    private String colorFactura;
+
     @Column(name = "establishment")
     private String establishment;
 

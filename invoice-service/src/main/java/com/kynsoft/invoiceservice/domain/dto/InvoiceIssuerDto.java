@@ -24,6 +24,7 @@ public class InvoiceIssuerDto {
     private String businessName;
     private String commercialName;
     private String currency;
+    private String colorFactura;
     private String establishment;
     private boolean pointOfSale;
     private String address;
@@ -70,6 +71,7 @@ public class InvoiceIssuerDto {
                 .businessName(issuer.getBusinessName())
                 .commercialName(issuer.getCommercialName())
                 .currency(issuer.getCurrency())
+                .colorFactura(issuer.getColorFactura())
                 .establishment(issuer.getEstablishment())
                 .pointOfSale(issuer.getPointOfSale())
                 .address(issuer.getAddress())
@@ -103,6 +105,7 @@ public class InvoiceIssuerDto {
                 .businessName(this.businessName)
                 .commercialName(this.commercialName)
                 .currency(this.currency)
+                .colorFactura(this.colorFactura)
                 .establishment(this.establishment)
                 .pointOfSale(this.pointOfSale)
                 .address(this.address)

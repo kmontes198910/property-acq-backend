@@ -26,6 +26,7 @@ public class CreateInvoiceIssuerCommand implements ICommand {
     private String logoUrl;
     private Boolean status;
     private String website;
+    private String colorFactura;
     private Boolean accountingObligated;
     private Boolean microenterprisesRegime;
     private Boolean sendEmails;
@@ -54,6 +55,7 @@ public class CreateInvoiceIssuerCommand implements ICommand {
         command.setLogoUrl(request.getLogoUrl());
         command.setStatus(request.getStatus());
         command.setWebsite(request.getWebsite());
+        command.setColorFactura(request.getColorFactura());
         command.setAccountingObligated(request.getAccountingObligated());
         command.setMicroenterprisesRegime(request.getMicroenterprisesRegime());
         command.setSendEmails(request.getSendEmails());

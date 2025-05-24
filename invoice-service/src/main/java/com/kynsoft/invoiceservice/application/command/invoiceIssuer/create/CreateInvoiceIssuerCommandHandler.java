@@ -36,6 +36,7 @@ public class CreateInvoiceIssuerCommandHandler implements ICommandHandler<Create
                 .website(command.getWebsite())
                 .phone(command.getPhone())
                 .currency("USD") // Default currency
+                .colorFactura(command.getColorFactura())
                 .specialTaxpayer(command.getSpecialTaxpayer())
                 .retentionAgent(command.getRetentionAgent())
                 .accountingObligated(command.getAccountingObligated())
