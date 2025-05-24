@@ -32,6 +32,9 @@ public class LabTestParameterEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "lab_test_id", nullable = false)
     private LabTestEntity labTest;
+
+    @Column(name = "lab_test_id", insertable = false, updatable = false)
+    private UUID labTestId;
     
     @Column(name = "name", nullable = false)
     private String name;

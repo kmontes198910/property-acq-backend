@@ -28,7 +28,6 @@ import ec.e.facturacion.sri.ws.recepcion.prueba.RespuestaSolicitud;
 import ec.e.facturacion.sri.ws.soap.servicio.SRIAutorizacionServicio;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import ec.e.facturacion.sri.ws.soap.servicio.SRIRecepcionServicio;
 
@@ -54,6 +53,7 @@ public class GenerateInvoiceCommandHandler implements ICommandHandler<GenerateIn
     private final InvoiceService invoiceService;
     private final ICustomerService customerService;
     private final IInvoiceIssuerService invoiceIssuerService;
+    public String claveAcceso;
 
     @Override
     public void handle(GenerateInvoiceCommand command) {
@@ -64,33 +64,29 @@ public class GenerateInvoiceCommandHandler implements ICommandHandler<GenerateIn
             // Esta fase puede tomar tiempo pero no requiere estar en una transacción
             log.info("Fase 1: Preparando datos para la factura");
             InvoicePreparationResult prepResult = prepareInvoiceData(command);
-            
+
             // Fase 2: Persistencia de datos (transaccional)
             // Esta fase es rápida y solo interactúa con la base de datos
             log.info("Fase 2: Persistiendo la factura en base de datos");
             UUID invoiceId = invoiceService.create(prepResult.getInvoiceDto());
-            
+
             // Actualización del comando con los resultados
             command.setId(invoiceId);
             command.setAccessKey(prepResult.getAccessKey());
             log.info("Factura generada con ID: {} y clave de acceso: {}", invoiceId, prepResult.getAccessKey());
-            
+
             // Fase 3: Procesamiento posterior (no transaccional)
             // Esta fase puede ser ejecutada de forma asíncrona si es necesario
             // ya que la factura ya está guardada en la base de datos
-             generateDocumentsAsync(prepResult.getFactura(), invoiceId);
-            
-            // Comentado para evitar bloquear la transacción:
-            // ByteArrayOutputStream xmlFactura = generateXmlAndInvoiceFile(factura);
-            // ByteArrayOutputStream pdfInvoice = generatePDFInvoice(factura);
-            // sendInvoiceSRI(xmlFactura, factura);
+            generateDocumentsAsync(prepResult.getFactura(), invoiceId, command.getCreatedBy());
+
         } catch (Exception e) {
             log.error("Error al generar factura: {}", e.getMessage(), e);
             throw new BusinessInvoiceException(DomainErrorInvoiceMessage.GENERAL_ERROR,
                     "Error al generar factura: " + e.getMessage());
         }
     }
-    
+
     /**
      * Prepara todos los datos necesarios para generar una factura sin interactuar con la base de datos.
      * Esta fase no requiere transacción y puede tomar tiempo.
@@ -120,35 +116,36 @@ public class GenerateInvoiceCommandHandler implements ICommandHandler<GenerateIn
         InvoiceDto invoiceDto = convertFacturaToInvoiceDto(factura, customer, issuerDto, command.getCreatedBy());
         log.info("InvoiceDto preparado - Cliente ID: {}, Cliente Núm. ID: {}",
                 invoiceDto.getCustomer().getId(), invoiceDto.getCustomer().getIdentificationNumber());
-
+        claveAcceso = factura.getClaveAcceso();
+        System.out.println("Clave de acceso: " + claveAcceso);
         // 7. Devolver el resultado de la preparación
         return InvoicePreparationResult.builder()
                 .invoiceDto(invoiceDto)
                 .factura(factura)
-                .accessKey(factura.getClaveAcceso())
+                .accessKey(claveAcceso)
                 .build();
     }
-    
+
     /**
      * Método para generar documentos de forma asíncrona después de guardar la factura.
      * Este método podría implementarse usando @Async o un sistema de mensajería.
      */
 
-    @Async
-    public void generateDocumentsAsync(Factura factura, UUID invoiceId) {
+   // @Async
+    public void generateDocumentsAsync(Factura factura, UUID invoice, UUID userId) {
         try {
-            log.info("Iniciando generación asíncrona de documentos para factura: {}", invoiceId);
+            log.info("Iniciando generación asíncrona de documentos para factura: {}", invoice);
             ByteArrayOutputStream xmlFactura = generateXmlAndInvoiceFile(factura);
             ByteArrayOutputStream pdfInvoice = generatePDFInvoice(factura);
-            sendInvoiceSRI(xmlFactura, factura);
-            log.info("Documentos generados correctamente para factura: {}", invoiceId);
+            sendInvoiceSRI(xmlFactura, factura, invoice, userId);
+            log.info("Documentos generados correctamente para factura: {}", invoice);
         } catch (Exception e) {
             log.error("Error en generación asíncrona de documentos: {}", e.getMessage(), e);
         }
     }
 
 
-    private static void sendInvoiceSRI(ByteArrayOutputStream xmlFactura, Factura factura) {
+    private  void sendInvoiceSRI(ByteArrayOutputStream xmlFactura, Factura factura, UUID invoice, UUID userId) {
         try {
             // Crear instancia del servicio (true para modo prueba)
             SRIRecepcionServicio sriRecepcion = new SRIRecepcionServicio();
@@ -157,11 +154,17 @@ public class GenerateInvoiceCommandHandler implements ICommandHandler<GenerateIn
             RespuestaSolicitud respuestaRecepcion = sriRecepcion.enviarComprobante(xmlFactura.toByteArray(),
                     Ambiente.PRUEBA);
 
+            // Obtener la clave de acceso de la factura
+            //Cambiar el estado de la factura al estado que me responda
+            //Mostrar el mensaje de error si no se recibe la respuesta guardar
+
             // Imprimir la respuesta
             SRIImprimirRecepcionUtil.imprimirRespuestaRecepcion(respuestaRecepcion);
 
             if (respuestaRecepcion.getEstado().equals(Estados.RECIBIDA))
                 try {
+
+                    invoiceService.changeStatus(invoice, InvoiceStatus.RECEIVED, userId);
                     // Crear instancia del servicio (true para modo prueba)
                     SRIAutorizacionServicio sriAutorizacion = new SRIAutorizacionServicio();
 
@@ -169,7 +172,15 @@ public class GenerateInvoiceCommandHandler implements ICommandHandler<GenerateIn
                     RespuestaComprobante respuestaAutorizacion = sriAutorizacion
                             .autorizarComprobante(factura.getClaveAcceso(), Ambiente.PRUEBA);
 
+                    if(respuestaAutorizacion.getAutorizaciones().getAutorizacion().get(0).getEstado().equals(Estados.AUTORIZADO)) {
+                        invoiceService.changeStatus(invoice, InvoiceStatus.AUTHORIZED,userId);
+                    } else {
+
+                        invoiceService.changeStatus(invoice, InvoiceStatus.REJECTED, userId);
+                    }
+
                     SRIImprimirAutorizacionUtil.imprimirRespuestaAutorizacion(respuestaAutorizacion);
+
 
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -255,15 +266,15 @@ public class GenerateInvoiceCommandHandler implements ICommandHandler<GenerateIn
     /**
      * Obtiene y actualiza el siguiente número secuencial para un tipo de documento de un emisor.
      * Este método actualiza la secuencia en la base de datos.
-     * 
-     * @param issuer DTO del emisor de facturas
+     *
+     * @param issuer       DTO del emisor de facturas
      * @param documentType Tipo de documento (ej. "01" para facturas)
      * @return Secuencial formateado a 9 dígitos
      * @throws BusinessInvoiceException si no se encuentra una secuencia activa para el tipo de documento
      */
     private String getNextSequentialFromIssuer(InvoiceIssuerDto issuer, String documentType) {
         log.info("Obteniendo siguiente secuencial para emisor ID: {}, tipo documento: {}", issuer.getId(), documentType);
-        
+
         // Buscar la secuencia para el tipo de documento específico
         Optional<InvoiceIssuingSequenceDto> sequenceOpt = issuer.getSequences().stream()
                 .filter(seq -> documentType.equals(seq.getDocumentType()) && Boolean.TRUE.equals(seq.getIsActive()))
@@ -282,7 +293,7 @@ public class GenerateInvoiceCommandHandler implements ICommandHandler<GenerateIn
 
         // Incrementar el secuencial
         Long nextSequential = sequenceDto.getCurrentSequential() + 1;
-        
+
         // Actualizar la secuencia en la base de datos
         try {
             // Usar el servicio para actualizar la secuencia en la base de datos
@@ -294,7 +305,7 @@ public class GenerateInvoiceCommandHandler implements ICommandHandler<GenerateIn
                     DomainErrorInvoiceMessage.GENERAL_ERROR,
                     "Error al actualizar secuencial en la base de datos: " + e.getMessage());
         }
-        
+
         // También actualizar el objeto DTO local para consistencia
         sequenceDto.setCurrentSequential(nextSequential);
         sequenceDto.setLastUsedDate(LocalDateTime.now());
@@ -324,17 +335,17 @@ public class GenerateInvoiceCommandHandler implements ICommandHandler<GenerateIn
             // Crear el builder del detalle con los valores básicos
             Factura.DetalleFactura.Builder detalleBuilder = new Factura.DetalleFactura.Builder(
                     detalleDTO.getCodigoPrincipal(),
-                    detalleDTO.getDescripcion(), 
-                    detalleDTO.getCantidad(), 
+                    detalleDTO.getDescripcion(),
+                    detalleDTO.getCantidad(),
                     detalleDTO.getPrecioUnitario(),
                     Factura.Impuesto.IVA(detalleDTO.getTipoImpuesto(), detalleDTO.getPorcentajeImpuesto()))
                     .withUnidadMedida(detalleDTO.getUnidadMedida())
                     .withDescuento(detalleDTO.getDescuento());
-                    
+
             // Agregar impuesto ICE si es necesario (comentado actualmente)
-             if (detalleDTO.getCodigoImpuestoICE() != null && detalleDTO.getPorcentajeImpuestoICE() != null) {
-                 detalleBuilder.withImpuestoICE(Factura.Impuesto.ICE(detalleDTO.getCodigoImpuestoICE(), detalleDTO.getPorcentajeImpuestoICE()));
-             }
+            if (detalleDTO.getCodigoImpuestoICE() != null && detalleDTO.getPorcentajeImpuestoICE() != null) {
+                detalleBuilder.withImpuestoICE(Factura.Impuesto.ICE(detalleDTO.getCodigoImpuestoICE(), detalleDTO.getPorcentajeImpuestoICE()));
+            }
 
             // Construir el detalle final
             Factura.DetalleFactura detalle = detalleBuilder.build();
@@ -378,6 +389,8 @@ public class GenerateInvoiceCommandHandler implements ICommandHandler<GenerateIn
             factura.setContribuyenteEspecial(issuer.getSpecialTaxpayer());
         }
 
+        //  System.out.println(factura.getClaveAcceso());
+
         return factura;
     }
 
@@ -402,12 +415,11 @@ public class GenerateInvoiceCommandHandler implements ICommandHandler<GenerateIn
 
                 // Actualizar el cliente a través del servicio
                 customerService.update(customerDto);
-                log.info("Cliente actualizado con ID: {} y número de identificación: {}", 
-                         customerDto.getId(), customerDto.getIdentificationNumber());
-            }
-            else {
-                log.info("Cliente existente sin cambios, ID: {} y número de identificación: {}", 
-                         customerDto.getId(), customerDto.getIdentificationNumber());
+                log.info("Cliente actualizado con ID: {} y número de identificación: {}",
+                        customerDto.getId(), customerDto.getIdentificationNumber());
+            } else {
+                log.info("Cliente existente sin cambios, ID: {} y número de identificación: {}",
+                        customerDto.getId(), customerDto.getIdentificationNumber());
             }
         } catch (Exception e) {
             // Cliente no encontrado, crearlo
@@ -426,11 +438,11 @@ public class GenerateInvoiceCommandHandler implements ICommandHandler<GenerateIn
 
             // Crear el cliente a través del servicio
             UUID customerId = customerService.create(customerDto);
-            
+
             // Buscar el cliente recién creado para obtener todos sus datos
             customerDto = customerService.findById(customerId);
-            log.info("Cliente creado correctamente con ID: {} y número de identificación: {}", 
-                     customerId, customerDto.getIdentificationNumber());
+            log.info("Cliente creado correctamente con ID: {} y número de identificación: {}",
+                    customerId, customerDto.getIdentificationNumber());
         }
 
         // Convertir el DTO a la entidad Customer para mantener la compatibilidad con el resto del método
@@ -449,9 +461,9 @@ public class GenerateInvoiceCommandHandler implements ICommandHandler<GenerateIn
     /**
      * Convierte un objeto Factura creado por el API de facturación a un objeto InvoiceDto
      * utilizado por el sistema para guardar en la base de datos.
-     * 
-     * @param factura Objeto Factura generado
-     * @param customer Cliente asociado a la factura
+     *
+     * @param factura   Objeto Factura generado
+     * @param customer  Cliente asociado a la factura
      * @param issuerDto Emisor asociado a la factura
      * @param createdBy ID del usuario que crea la factura
      * @return InvoiceDto con los datos de la factura
@@ -463,7 +475,7 @@ public class GenerateInvoiceCommandHandler implements ICommandHandler<GenerateIn
                 .issuerId(issuerDto.getId())
                 .documentNumber(factura.getEstab() + "-" + factura.getPtoEmi() + "-" + factura.getSecuencial())
                 .sequential(factura.getSecuencial())
-                .accessKey(factura.getClaveAcceso())
+                .accessKey(claveAcceso)
                 .emissionDate(LocalDateTime.now()) // Fecha de emisión actual
                 // Agregar la guía de remisión si existe en el objeto factura
                 .remissionGuide(null) // Se debe actualizar si la factura incluye guía de remisión
@@ -505,7 +517,7 @@ public class GenerateInvoiceCommandHandler implements ICommandHandler<GenerateIn
         if (factura.getDetalles() != null) {
             for (int i = 0; i < factura.getDetalles().size(); i++) {
                 Factura.DetalleFactura detalle = factura.getDetalles().get(i);
-                
+
                 // Crear lista de impuestos para este detalle
                 List<InvoiceDetailTaxDto> detailTaxes = new ArrayList<>();
                 BigDecimal totalWithTax = BigDecimal.ZERO;
@@ -525,7 +537,7 @@ public class GenerateInvoiceCommandHandler implements ICommandHandler<GenerateIn
                 }
 
                 // Calcular el subtotal con impuestos (precio total + impuestos)
-                
+
                 InvoiceDetailDto detailDto = InvoiceDetailDto.builder()
                         .id(UUID.randomUUID())
                         .lineNumber(i + 1) // Número de línea secuencial empezando desde 1
@@ -555,7 +567,7 @@ public class GenerateInvoiceCommandHandler implements ICommandHandler<GenerateIn
                         .amount(pago.getTotal())
                         .reference(pago.getDescripcion()) // Usar descripción como referencia
                         .build();
-                
+
                 paymentDtos.add(paymentDto);
             }
         }
@@ -570,7 +582,7 @@ public class GenerateInvoiceCommandHandler implements ICommandHandler<GenerateIn
                         .name(campo.getNombre())
                         .value(campo.getValor())
                         .build();
-                
+
                 additionalFieldDtos.add(fieldDto);
             }
         }
@@ -582,37 +594,38 @@ public class GenerateInvoiceCommandHandler implements ICommandHandler<GenerateIn
             for (Factura.Impuesto impuesto : factura.getTotalConImpuestos()) {
                 InvoiceTaxDto taxDto = InvoiceTaxDto.builder()
                         .id(UUID.randomUUID())
-                        .code(impuesto.getCodigo()) 
-                        .description(impuesto.getCodigoPorcentaje()) 
+                        .code(impuesto.getCodigo())
+                        .description(impuesto.getCodigoPorcentaje())
                         .rate(impuesto.getTarifa())
                         .baseAmount(impuesto.getBaseImponible())
                         .taxAmount(impuesto.getValor())
                         .build();
-                
+
                 taxDtos.add(taxDto);
             }
         }
         invoiceDto.setTaxes(taxDtos);
-        
+
         // El emisor ya fue establecido arriba, no es necesario volver a establecerlo
 
         return invoiceDto;
     }
-    
+
     /**
      * Calcula el monto total de impuestos de una factura sumando todos los valores de impuestos
+     *
      * @param factura Factura con impuestos
      * @return Monto total de impuestos
      */
     private BigDecimal calculateTotalTaxAmount(Factura factura) {
         BigDecimal totalTaxes = BigDecimal.ZERO;
-        
+
         if (factura.getTotalConImpuestos() != null) {
             for (Factura.Impuesto impuesto : factura.getTotalConImpuestos()) {
                 totalTaxes = totalTaxes.add(impuesto.getValor());
             }
         }
-        
+
         return totalTaxes;
     }
 

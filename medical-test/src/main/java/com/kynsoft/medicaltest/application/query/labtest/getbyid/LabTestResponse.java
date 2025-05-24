@@ -22,7 +22,7 @@ public class LabTestResponse implements IResponse, Serializable {
     private final String name;
     private final String category;
     private final String description;
-    private final List<LabTestParameterResponse> parameters;
+   // private final List<LabTestParameterResponse> parameters;
     private final LocalDateTime createdAt;
     private final LocalDateTime updatedAt;
     private final UUID createdBy;
@@ -39,11 +39,11 @@ public class LabTestResponse implements IResponse, Serializable {
         this.name = labTestDto.getName();
         this.category = labTestDto.getCategory();
         this.description = labTestDto.getDescription();
-        this.parameters = labTestDto.getParameters() != null 
-            ? labTestDto.getParameters().stream()
-                .map(LabTestParameterResponse::new)
-                .collect(Collectors.toList())
-            : new ArrayList<>();
+//        this.parameters = labTestDto.getParameters() != null
+//            ? labTestDto.getParameters().stream()
+//                .map(LabTestParameterResponse::new)
+//                .collect(Collectors.toList())
+//            : new ArrayList<>();
         this.createdAt = labTestDto.getCreatedAt();
         this.updatedAt = labTestDto.getUpdatedAt();
         this.createdBy = labTestDto.getCreatedBy();

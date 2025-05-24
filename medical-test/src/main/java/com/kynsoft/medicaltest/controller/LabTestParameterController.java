@@ -1,5 +1,8 @@
 package com.kynsoft.medicaltest.controller;
 
+import com.kynsof.share.core.domain.request.PageableUtil;
+import com.kynsof.share.core.domain.request.SearchRequest;
+import com.kynsof.share.core.domain.response.PaginatedResponse;
 import com.kynsof.share.core.infrastructure.bus.IMediator;
 import com.kynsoft.medicaltest.application.command.labtestparameter.create.CreateLabTestParameterCommand;
 import com.kynsoft.medicaltest.application.command.labtestparameter.create.CreateLabTestParameterMessage;
@@ -12,7 +15,9 @@ import com.kynsoft.medicaltest.application.command.labtestparameter.delete.Delet
 import com.kynsoft.medicaltest.application.query.labtestparameter.getbyid.GetLabTestParameterByIdQuery;
 import com.kynsoft.medicaltest.application.query.labtestparameter.getbyid.LabTestParameterResponse;
 import com.kynsoft.medicaltest.application.query.labtestparameter.getbylabtest.GetLabTestParametersByLabTestIdQuery;
+import com.kynsoft.medicaltest.application.query.labtestparameter.search.SearchLabTestParameterQuery;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -100,6 +105,20 @@ public class LabTestParameterController {
     @DeleteMapping("/{id}")
     public ResponseEntity<?> delete(@PathVariable UUID id) {
         DeleteLabTestParameterMessage response = mediator.send(new DeleteLabTestParameterCommand(id));
+        return ResponseEntity.ok(response);
+    }
+    
+    /**
+     * Busca parámetros de exámenes de laboratorio con filtros
+     *
+     * @param request La solicitud con los criterios de búsqueda
+     * @return ResponseEntity con los resultados paginados
+     */
+    @PostMapping("/search")
+    public ResponseEntity<?> search(@RequestBody SearchRequest request) {
+        Pageable pageable = PageableUtil.createPageable(request);
+        SearchLabTestParameterQuery query = new SearchLabTestParameterQuery(pageable, request.getFilter(), request.getQuery());
+        PaginatedResponse response = mediator.send(query);
         return ResponseEntity.ok(response);
     }
 }
