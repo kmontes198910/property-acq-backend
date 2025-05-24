@@ -36,6 +36,9 @@ public class LabTestParameterEntity {
     @Column(name = "lab_test_id", insertable = false, updatable = false)
     private UUID labTestId;
     
+    @Column(name = "code", nullable = true)
+    private String code;
+
     @Column(name = "name", nullable = false)
     private String name;
     

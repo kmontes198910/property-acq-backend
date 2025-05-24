@@ -16,6 +16,7 @@ import java.util.UUID;
 public class UpdateLabTestParameterCommand implements ICommand {
     
     private final UUID id;
+    private final String code;
     private final String name;
     private final String unit;
     private final BigDecimal referenceRangeMin;
@@ -34,6 +35,7 @@ public class UpdateLabTestParameterCommand implements ICommand {
     public static UpdateLabTestParameterCommand fromRequest(UpdateLabTestParameterRequest request, UUID id, UUID userId) {
         return new UpdateLabTestParameterCommand(
                 id,
+                request.getCode(),
                 request.getName(),
                 request.getUnit(),
                 request.getReferenceRangeMin(),

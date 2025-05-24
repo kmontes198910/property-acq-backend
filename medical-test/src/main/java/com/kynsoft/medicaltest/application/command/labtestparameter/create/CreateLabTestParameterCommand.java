@@ -19,6 +19,7 @@ import java.util.UUID;
 public class CreateLabTestParameterCommand implements ICommand {
     private  UUID id;
     private final UUID labTestId;
+    private String code;
     private final String name;
     private final String unit;
     private final BigDecimal referenceRangeMin;
@@ -37,6 +38,7 @@ public class CreateLabTestParameterCommand implements ICommand {
         return new CreateLabTestParameterCommand(
                 UUID.randomUUID(),
                 request.getLabTestId(),
+                request.getCode(),
                 request.getName(),
                 request.getUnit(),
                 request.getReferenceRangeMin(),

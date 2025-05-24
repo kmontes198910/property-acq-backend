@@ -134,6 +134,7 @@ public class LabTestParameterServiceImpl implements ILabTestParameterService {
     private LabTestParameterDto mapToDomain(LabTestParameterEntity entity) {
         return LabTestParameterDto.builder()
                 .id(entity.getId())
+                .code(entity.getCode())
                 .name(entity.getName())
                 .unit(entity.getUnit())
                 .referenceRangeMin(entity.getReferenceRangeMin())
@@ -156,6 +157,7 @@ public class LabTestParameterServiceImpl implements ILabTestParameterService {
     private LabTestParameterEntity mapToEntity(LabTestParameterDto dto) {
         return LabTestParameterEntity.builder()
                 .id(dto.getId())
+                .code(dto.getCode())
                 .name(dto.getName())
                 .unit(dto.getUnit())
                 .referenceRangeMin(dto.getReferenceRangeMin())
