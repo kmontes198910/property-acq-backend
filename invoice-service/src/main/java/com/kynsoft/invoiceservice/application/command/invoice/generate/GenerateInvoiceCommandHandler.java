@@ -28,6 +28,7 @@ import ec.e.facturacion.sri.ws.recepcion.prueba.RespuestaSolicitud;
 import ec.e.facturacion.sri.ws.soap.servicio.SRIAutorizacionServicio;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import ec.e.facturacion.sri.ws.soap.servicio.SRIRecepcionServicio;
 
@@ -54,7 +55,8 @@ public class GenerateInvoiceCommandHandler implements ICommandHandler<GenerateIn
     private final ICustomerService customerService;
     private final IInvoiceIssuerService invoiceIssuerService;
     public String claveAcceso;
-
+    @Value("${sri.ambiente}")
+    private String sriAmbiente;
     @Override
     public void handle(GenerateInvoiceCommand command) {
         log.info("Generando nueva factura para el emisor ID: {}", command.getIssuerId());
@@ -151,8 +153,10 @@ public class GenerateInvoiceCommandHandler implements ICommandHandler<GenerateIn
             SRIRecepcionServicio sriRecepcion = new SRIRecepcionServicio();
 
             // Enviar el comprobante al SRI para recepcionar
+            Integer ambienteEnum = "PRODUCCION".equalsIgnoreCase(sriAmbiente) ? Ambiente.PRODUCCION : Ambiente.PRUEBA;
+
             RespuestaSolicitud respuestaRecepcion = sriRecepcion.enviarComprobante(xmlFactura.toByteArray(),
-                    Ambiente.PRUEBA);
+                    ambienteEnum);
 
             // Obtener la clave de acceso de la factura
             //Cambiar el estado de la factura al estado que me responda
