@@ -83,6 +83,13 @@ public class Property {
         this.isManual = dto.getIsManual();
     }
 
+    public PropertyDto toAggregateBasic() {
+        return PropertyDto.builder()
+                .id(this.id)
+                .formattedAddress(formattedAddress)
+                .build();
+    }
+
     public PropertyDto toAggregate() {
         return PropertyDto.builder()
                 .id(this.id)

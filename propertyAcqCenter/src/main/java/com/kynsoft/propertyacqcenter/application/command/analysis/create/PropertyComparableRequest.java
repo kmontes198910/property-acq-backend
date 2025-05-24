@@ -20,4 +20,5 @@ public class PropertyComparableRequest {
     private Double price;
     private Double latitude;
     private Double longitude;
+    private Integer daysOnMarket;
 }

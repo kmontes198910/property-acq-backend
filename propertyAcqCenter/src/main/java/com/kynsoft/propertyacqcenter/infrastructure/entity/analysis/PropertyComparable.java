@@ -39,6 +39,7 @@ public class PropertyComparable {
     private Double price;
     private Double latitude;
     private Double longitude;
+    private Integer daysOnMarket;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "analysis_id", nullable = false)
@@ -56,6 +57,7 @@ public class PropertyComparable {
         this.latitude = dto.getLatitude();
         this.longitude = dto.getLongitude();
         this.analysis = dto.getAnalysis() != null ? new Analysis(dto.getAnalysis()) : null;
+        this.daysOnMarket = dto.getDaysOnMarket();
     }
 
     public PropertyComparableDto toAggregate() {
@@ -70,6 +72,7 @@ public class PropertyComparable {
                 .propertyType(propertyType)
                 .squareFootage(squareFootage)
                 .yearBuilt(yearBuilt)
+                .daysOnMarket(daysOnMarket)
                 .build();
     }
 
