@@ -73,7 +73,9 @@ public class LabTestParameterServiceImpl implements ILabTestParameterService {
         LabTestParameterEntity entity = parameterReadRepository.findById(id)
                 .orElseThrow(() -> new NoSuchElementException("Parámetro de examen no encontrado con ID: " + id));
 
+
         // Actualizar solo los campos permitidos
+        entity.setCode(dto.getCode());
         entity.setName(dto.getName());
         entity.setUnit(dto.getUnit());
         entity.setReferenceRangeMin(dto.getReferenceRangeMin());
