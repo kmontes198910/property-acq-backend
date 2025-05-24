@@ -89,6 +89,7 @@ public class CreateAnalysisCommandHandler implements ICommandHandler<CreateAnaly
                         .propertyType(x.getPropertyType())
                         .squareFootage(x.getSquareFootage())
                         .yearBuilt(x.getYearBuilt())
+                        .daysOnMarket(x.getDaysOnMarket())
                         .build()
                 );
             });
