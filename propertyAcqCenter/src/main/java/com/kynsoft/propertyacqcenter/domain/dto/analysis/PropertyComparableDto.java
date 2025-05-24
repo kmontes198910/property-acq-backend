@@ -26,4 +26,5 @@ public class PropertyComparableDto {
     private Double latitude;
     private Double longitude;
     private AnalysisDto analysis;
+    private Integer daysOnMarket;
 }
