@@ -5,7 +5,7 @@ import com.kynsof.share.core.domain.response.PaginatedResponse;
 import com.kynsof.share.core.infrastructure.specifications.GenericSpecificationsBuilder;
 import com.kynsoft.propertyacqcenter.application.response.PropertyDocumentResponse;
 import com.kynsoft.propertyacqcenter.domain.dto.PropertyDocumentDto;
-import com.kynsoft.propertyacqcenter.domain.dto.exception.AddressNotFoundException;
+import com.kynsoft.propertyacqcenter.domain.dto.exception.PropertyDocumentNotFoundException;
 import com.kynsoft.propertyacqcenter.domain.services.IPropertyDocumentService;
 import com.kynsoft.propertyacqcenter.infrastructure.entity.Property;
 import com.kynsoft.propertyacqcenter.infrastructure.entity.PropertyDocument;
@@ -71,7 +71,7 @@ public class PropertyDocumentServiceImpl implements IPropertyDocumentService {
         if (entity.isPresent()) {
             return entity.get().toAggregate();
         }
-        throw new AddressNotFoundException(id);
+        throw new PropertyDocumentNotFoundException(id);
     }
 
     private PropertyDocument findByIdSimple(UUID id) {
@@ -79,7 +79,7 @@ public class PropertyDocumentServiceImpl implements IPropertyDocumentService {
         if (entity.isPresent()) {
             return entity.get();
         }
-        throw new AddressNotFoundException(id);
+        throw new PropertyDocumentNotFoundException(id);
     }
 
     @Override
