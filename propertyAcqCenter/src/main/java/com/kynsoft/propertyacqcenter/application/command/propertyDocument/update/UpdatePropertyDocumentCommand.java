@@ -2,6 +2,7 @@ package com.kynsoft.propertyacqcenter.application.command.propertyDocument.updat
 
 import com.kynsof.share.core.domain.bus.command.ICommand;
 import com.kynsof.share.core.domain.bus.command.ICommandMessage;
+import java.time.LocalDate;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -16,19 +17,37 @@ public class UpdatePropertyDocumentCommand implements ICommand {
     private String property;
     private String filePath;
 
-    public UpdatePropertyDocumentCommand(UUID id, String filePath, String property, String fileName) {
+    private Boolean ownersContractRead;
+    private Boolean assignmentOfContractRead;
+    private LocalDate closingDate;
+    private String platMapOrSurvey;
+    private String earnestMoneyDeposit;
+
+    public UpdatePropertyDocumentCommand(UUID id, String fileName, String property, String filePath, 
+                                         Boolean ownersContractRead, Boolean assignmentOfContractRead, 
+                                         LocalDate closingDate, String platMapOrSurvey, String earnestMoneyDeposit) {
         this.id = id;
-        this.filePath = filePath;
-        this.property = property;
         this.fileName = fileName;
+        this.property = property;
+        this.filePath = filePath;
+        this.ownersContractRead = ownersContractRead;
+        this.assignmentOfContractRead = assignmentOfContractRead;
+        this.closingDate = closingDate;
+        this.platMapOrSurvey = platMapOrSurvey;
+        this.earnestMoneyDeposit = earnestMoneyDeposit;
     }
 
     public static UpdatePropertyDocumentCommand fromRequest(UpdatePropertyDocumentRequest request, UUID id) {
         return new UpdatePropertyDocumentCommand(
                 id,
-                request.getFilePath(),
+                request.getFileName(),
                 request.getProperty(),
-                request.getFileName()
+                request.getFilePath(),
+                request.getOwnersContractRead(),
+                request.getAssignmentOfContractRead(),
+                request.getClosingDate(),
+                request.getPlatMapOrSurvey(),
+                request.getEarnestMoneyDeposit()
         );
     }
 

@@ -26,6 +26,11 @@ public class CreatePropertyDocumentCommandHandler implements ICommandHandler<Cre
                 .id(command.getId())
                 .fileName(command.getFileName())
                 .property(propertyDto)
+                .ownersContractRead(command.getOwnersContractRead())
+                .assignmentOfContractRead(command.getAssignmentOfContractRead())
+                .closingDate(command.getClosingDate())
+                .platMapOrSurvey(command.getPlatMapOrSurvey())
+                .earnestMoneyDeposit(command.getEarnestMoneyDeposit())
                 .build());
     }
 }

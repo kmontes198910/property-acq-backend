@@ -26,6 +26,11 @@ public class UpdatePropertyDocumentCommandHandler implements ICommandHandler<Upd
                 .id(command.getId())
                 .fileName(command.getFileName())
                 .property(propertyDto)
+                .ownersContractRead(command.getOwnersContractRead())
+                .assignmentOfContractRead(command.getAssignmentOfContractRead())
+                .closingDate(command.getClosingDate())
+                .platMapOrSurvey(command.getPlatMapOrSurvey())
+                .earnestMoneyDeposit(command.getEarnestMoneyDeposit())
                 .build());
     }
 }

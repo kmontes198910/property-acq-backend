@@ -48,6 +48,11 @@ public class PropertyDocumentServiceImpl implements IPropertyDocumentService {
         update.setFileName(object.getFileName());
         update.setFilePath(object.getFilePath());
         update.setUpdatedBy(object.getUpdatedBy());
+        update.setOwnersContractRead(object.getOwnersContractRead());
+        update.setAssignmentOfContractRead(object.getAssignmentOfContractRead());
+        update.setClosingDate(object.getClosingDate());
+        update.setPlatMapOrSurvey(object.getPlatMapOrSurvey());
+        update.setEarnestMoneyDeposit(object.getEarnestMoneyDeposit());
 
         update.setUpdatedAt(LocalDateTime.now());
         repositoryCommand.save(update);
