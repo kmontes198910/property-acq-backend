@@ -14,6 +14,7 @@ import org.springframework.data.jpa.repository.EntityGraph;
 
 @Repository
 public interface PropertyDocumentReadDataJPARepository extends JpaRepository<PropertyDocument, UUID>, JpaSpecificationExecutor<PropertyDocument> {
+    @EntityGraph(attributePaths = {"property"})
     @Override
     Page<PropertyDocument> findAll(Specification<PropertyDocument> specification, Pageable pageable);
 
