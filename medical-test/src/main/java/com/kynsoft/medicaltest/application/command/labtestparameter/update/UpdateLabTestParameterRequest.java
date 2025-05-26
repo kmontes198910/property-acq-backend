@@ -15,7 +15,7 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 @AllArgsConstructor
 public class UpdateLabTestParameterRequest {
-    
+    private String code;
     private String name;
     private String unit;
     private BigDecimal referenceRangeMin;

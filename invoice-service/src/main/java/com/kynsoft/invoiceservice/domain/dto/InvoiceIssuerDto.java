@@ -24,6 +24,7 @@ public class InvoiceIssuerDto {
     private String businessName;
     private String commercialName;
     private String currency;
+    private String colorFactura;
     private String establishment;
     private boolean pointOfSale;
     private String address;
@@ -37,7 +38,6 @@ public class InvoiceIssuerDto {
     private Boolean microenterprisesRegime;
     private String rimpeRegime;
     private String logoUrl;
-    private String environment;
     private Boolean sendEmails;
     private Boolean status;
     private String digitalCertP12;
@@ -71,6 +71,7 @@ public class InvoiceIssuerDto {
                 .businessName(issuer.getBusinessName())
                 .commercialName(issuer.getCommercialName())
                 .currency(issuer.getCurrency())
+                .colorFactura(issuer.getColorFactura())
                 .establishment(issuer.getEstablishment())
                 .pointOfSale(issuer.getPointOfSale())
                 .address(issuer.getAddress())
@@ -84,7 +85,6 @@ public class InvoiceIssuerDto {
                 .microenterprisesRegime(issuer.getMicroenterprisesRegime())
                 .rimpeRegime(issuer.getRimpeRegime())
                 .logoUrl(issuer.getLogoUrl())
-                .environment(issuer.getEnvironment())
                 .sendEmails(issuer.getSendEmails())
                 .status(issuer.getStatus())
                 .digitalCertP12(issuer.getDigitalCertP12())
@@ -105,6 +105,7 @@ public class InvoiceIssuerDto {
                 .businessName(this.businessName)
                 .commercialName(this.commercialName)
                 .currency(this.currency)
+                .colorFactura(this.colorFactura)
                 .establishment(this.establishment)
                 .pointOfSale(this.pointOfSale)
                 .address(this.address)
@@ -118,7 +119,6 @@ public class InvoiceIssuerDto {
                 .microenterprisesRegime(this.microenterprisesRegime)
                 .rimpeRegime(this.rimpeRegime)
                 .logoUrl(this.logoUrl)
-                .environment(this.environment)
                 .sendEmails(this.sendEmails)
                 .status(this.status)
                 .digitalCertP12(this.digitalCertP12)

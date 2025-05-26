@@ -29,7 +29,7 @@ public class InvoiceIssuerResponse implements IResponse {
     private String retentionAgent;
     private String rimpeRegime;
     private String logoUrl;
-    private String environment;
+    private String colorFactura;
     private Boolean status;
     
     /**
@@ -63,7 +63,7 @@ public class InvoiceIssuerResponse implements IResponse {
                 .retentionAgent(issuer.getRetentionAgent())
                 .rimpeRegime(issuer.getRimpeRegime())
                 .logoUrl(issuer.getLogoUrl())
-                .environment(issuer.getEnvironment())
+                .colorFactura(issuer.getColorFactura())
                 .status(issuer.getStatus())
                 .build();
     }
@@ -89,8 +89,9 @@ public class InvoiceIssuerResponse implements IResponse {
                 .specialTaxpayer(dto.getSpecialTaxpayer())
                 .retentionAgent(dto.getRetentionAgent())
                 .rimpeRegime(dto.getRimpeRegime())
+                .colorFactura(dto.getColorFactura())
                 .logoUrl(dto.getLogoUrl())
-                .environment(dto.getEnvironment())
+                .colorFactura(dto.getColorFactura())
                 .status(dto.getStatus())
                 .build();
     }

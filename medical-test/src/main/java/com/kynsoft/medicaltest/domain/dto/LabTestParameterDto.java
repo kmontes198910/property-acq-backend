@@ -19,6 +19,7 @@ import java.util.UUID;
 public class LabTestParameterDto {
     
     private UUID id;
+    private String code;
     private UUID labTestId;
     private String name;
     private String unit;

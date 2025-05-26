@@ -42,6 +42,7 @@ public class UpdateInvoiceIssuerCommandHandler implements ICommandHandler<Update
         issuer.setEmail(command.getEmail());
         issuer.setPhone(command.getPhone());
         issuer.setWebsite(command.getWebsite());
+        issuer.setColorFactura(command.getColorFactura());
         issuer.setSpecialTaxpayer(command.getSpecialTaxpayer());
         issuer.setRetentionAgent(command.getRetentionAgent());
         issuer.setAccountingObligated(command.getAccountingObligated());
@@ -49,18 +50,6 @@ public class UpdateInvoiceIssuerCommandHandler implements ICommandHandler<Update
         issuer.setRimpeRegime(command.getRimpeRegime());
         issuer.setLogoUrl(command.getLogoUrl());
         issuer.setSendEmails(command.getSendEmails());
-        
-        // Validar y ajustar el valor del campo environment para que solo tenga un carácter
-        String environment = command.getEnvironment();
-        if (environment != null && !environment.isEmpty()) {
-            // Tomar solo el primer carácter del valor proporcionado
-            environment = environment.substring(0, 1);
-            log.info("Environment value adjusted to: {}", environment);
-            issuer.setEnvironment(environment);
-        } else if (environment == null || environment.isEmpty()) {
-            // Mantener el valor actual si el nuevo es nulo o vacío
-            log.info("Keeping current environment value: {}", issuer.getEnvironment());
-        }
         
         issuer.setStatus(command.getStatus());
         

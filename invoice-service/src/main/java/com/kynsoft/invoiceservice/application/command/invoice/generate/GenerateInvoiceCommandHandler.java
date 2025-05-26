@@ -28,6 +28,7 @@ import ec.e.facturacion.sri.ws.recepcion.prueba.RespuestaSolicitud;
 import ec.e.facturacion.sri.ws.soap.servicio.SRIAutorizacionServicio;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import ec.e.facturacion.sri.ws.soap.servicio.SRIRecepcionServicio;
 
@@ -54,6 +55,8 @@ public class GenerateInvoiceCommandHandler implements ICommandHandler<GenerateIn
     private final ICustomerService customerService;
     private final IInvoiceIssuerService invoiceIssuerService;
     public String claveAcceso;
+    @Value("${sri.ambiente}")
+    private String sriAmbiente;
 
     @Override
     public void handle(GenerateInvoiceCommand command) {
@@ -78,7 +81,7 @@ public class GenerateInvoiceCommandHandler implements ICommandHandler<GenerateIn
             // Fase 3: Procesamiento posterior (no transaccional)
             // Esta fase puede ser ejecutada de forma asíncrona si es necesario
             // ya que la factura ya está guardada en la base de datos
-            generateDocumentsAsync(prepResult.getFactura(), invoiceId, command.getCreatedBy());
+        //    generateDocumentsAsync(prepResult.getFactura(), invoiceId, command.getCreatedBy());
 
         } catch (Exception e) {
             log.error("Error al generar factura: {}", e.getMessage(), e);
@@ -116,8 +119,7 @@ public class GenerateInvoiceCommandHandler implements ICommandHandler<GenerateIn
         InvoiceDto invoiceDto = convertFacturaToInvoiceDto(factura, customer, issuerDto, command.getCreatedBy());
         log.info("InvoiceDto preparado - Cliente ID: {}, Cliente Núm. ID: {}",
                 invoiceDto.getCustomer().getId(), invoiceDto.getCustomer().getIdentificationNumber());
-        claveAcceso = factura.getClaveAcceso();
-        System.out.println("Clave de acceso: " + claveAcceso);
+
         // 7. Devolver el resultado de la preparación
         return InvoicePreparationResult.builder()
                 .invoiceDto(invoiceDto)
@@ -131,7 +133,7 @@ public class GenerateInvoiceCommandHandler implements ICommandHandler<GenerateIn
      * Este método podría implementarse usando @Async o un sistema de mensajería.
      */
 
-   // @Async
+    // @Async
     public void generateDocumentsAsync(Factura factura, UUID invoice, UUID userId) {
         try {
             log.info("Iniciando generación asíncrona de documentos para factura: {}", invoice);
@@ -145,14 +147,16 @@ public class GenerateInvoiceCommandHandler implements ICommandHandler<GenerateIn
     }
 
 
-    private  void sendInvoiceSRI(ByteArrayOutputStream xmlFactura, Factura factura, UUID invoice, UUID userId) {
+    private void sendInvoiceSRI(ByteArrayOutputStream xmlFactura, Factura factura, UUID invoice, UUID userId) {
         try {
             // Crear instancia del servicio (true para modo prueba)
             SRIRecepcionServicio sriRecepcion = new SRIRecepcionServicio();
 
             // Enviar el comprobante al SRI para recepcionar
+            Integer ambienteEnum = "PRODUCCION".equalsIgnoreCase(sriAmbiente) ? Ambiente.PRODUCCION : Ambiente.PRUEBA;
+
             RespuestaSolicitud respuestaRecepcion = sriRecepcion.enviarComprobante(xmlFactura.toByteArray(),
-                    Ambiente.PRUEBA);
+                    ambienteEnum);
 
             // Obtener la clave de acceso de la factura
             //Cambiar el estado de la factura al estado que me responda
@@ -172,8 +176,8 @@ public class GenerateInvoiceCommandHandler implements ICommandHandler<GenerateIn
                     RespuestaComprobante respuestaAutorizacion = sriAutorizacion
                             .autorizarComprobante(factura.getClaveAcceso(), Ambiente.PRUEBA);
 
-                    if(respuestaAutorizacion.getAutorizaciones().getAutorizacion().get(0).getEstado().equals(Estados.AUTORIZADO)) {
-                        invoiceService.changeStatus(invoice, InvoiceStatus.AUTHORIZED,userId);
+                    if (respuestaAutorizacion.getAutorizaciones().getAutorizacion().get(0).getEstado().equals(Estados.AUTORIZADO)) {
+                        invoiceService.changeStatus(invoice, InvoiceStatus.AUTHORIZED, userId);
                     } else {
 
                         invoiceService.changeStatus(invoice, InvoiceStatus.REJECTED, userId);
@@ -369,7 +373,7 @@ public class GenerateInvoiceCommandHandler implements ICommandHandler<GenerateIn
                 .withObligadoContabilidad(obligadoContabilidad)
                 //.withAgenteRetencion("3867")
                 //.withContribuyenteEspecial("7345")
-                .withContribuyenteRimpe(Regimen.NEGOCIO_POPULAR)//Agregar a la empresa el tipo de régimen
+                //   .withContribuyenteRimpe(Regimen.NEGOCIO_POPULAR)//Agregar a la empresa el tipo de régimen
                 .withNombreComercial(issuer.getCommercialName())
                 .withTipoIdentificacionComprador(customerIdentificationType)
                 .withRazonSocialComprador(customer.getBusinessName())
@@ -381,6 +385,10 @@ public class GenerateInvoiceCommandHandler implements ICommandHandler<GenerateIn
                 .withPagos(payments)
                 .withInfoAdicional(new ArrayList<>())
                 .build();
+
+        if (issuer.getRimpeRegime() != null && !issuer.getRimpeRegime().isEmpty()) {
+            factura.setContribuyenteRimpe(issuer.getRimpeRegime());
+        }
 
         if (issuer.getRetentionAgent() != null && !issuer.getRetentionAgent().isEmpty()) {
             factura.setAgenteRetencion(issuer.getRetentionAgent());
@@ -470,6 +478,8 @@ public class GenerateInvoiceCommandHandler implements ICommandHandler<GenerateIn
      */
     private InvoiceDto convertFacturaToInvoiceDto(Factura factura, Customer customer, InvoiceIssuerDto issuerDto, UUID createdBy) {
         // Crear el InvoiceDto básico
+        claveAcceso = factura.getClaveAcceso();
+        System.out.println("Clave de acceso: " + claveAcceso);
         InvoiceDto invoiceDto = InvoiceDto.builder()
                 .id(UUID.randomUUID())
                 .issuerId(issuerDto.getId())
@@ -566,6 +576,8 @@ public class GenerateInvoiceCommandHandler implements ICommandHandler<GenerateIn
                         .paymentType(pago.getFormaPago())
                         .amount(pago.getTotal())
                         .reference(pago.getDescripcion()) // Usar descripción como referencia
+                        .unidadTiempo(pago.getUnidadTiempo())
+                        .plazo(pago.getPlazo())
                         .build();
 
                 paymentDtos.add(paymentDto);

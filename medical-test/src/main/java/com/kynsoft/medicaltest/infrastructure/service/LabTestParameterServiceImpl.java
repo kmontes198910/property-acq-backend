@@ -73,7 +73,9 @@ public class LabTestParameterServiceImpl implements ILabTestParameterService {
         LabTestParameterEntity entity = parameterReadRepository.findById(id)
                 .orElseThrow(() -> new NoSuchElementException("Parámetro de examen no encontrado con ID: " + id));
 
+
         // Actualizar solo los campos permitidos
+        entity.setCode(dto.getCode());
         entity.setName(dto.getName());
         entity.setUnit(dto.getUnit());
         entity.setReferenceRangeMin(dto.getReferenceRangeMin());
@@ -134,6 +136,7 @@ public class LabTestParameterServiceImpl implements ILabTestParameterService {
     private LabTestParameterDto mapToDomain(LabTestParameterEntity entity) {
         return LabTestParameterDto.builder()
                 .id(entity.getId())
+                .code(entity.getCode())
                 .name(entity.getName())
                 .unit(entity.getUnit())
                 .referenceRangeMin(entity.getReferenceRangeMin())
@@ -156,6 +159,7 @@ public class LabTestParameterServiceImpl implements ILabTestParameterService {
     private LabTestParameterEntity mapToEntity(LabTestParameterDto dto) {
         return LabTestParameterEntity.builder()
                 .id(dto.getId())
+                .code(dto.getCode())
                 .name(dto.getName())
                 .unit(dto.getUnit())
                 .referenceRangeMin(dto.getReferenceRangeMin())

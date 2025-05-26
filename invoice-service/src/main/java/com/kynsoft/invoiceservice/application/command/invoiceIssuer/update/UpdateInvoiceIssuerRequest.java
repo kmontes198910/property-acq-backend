@@ -19,17 +19,8 @@ public class UpdateInvoiceIssuerRequest {
     private String retentionAgent;
     private String rimpeRegime;
     private String logoUrl;
-    /**
-     * Ambiente del emisor. Se espera un solo carácter.
-     * Ejemplos de valores válidos:
-     * - "1": Ambiente de pruebas
-     * - "2": Ambiente de producción
-     * 
-     * Nota: Si se proporciona un valor con más de un carácter,
-     * solo se utilizará el primero.
-     */
-    private String environment;
     private String website;
+    private String colorFactura;
     /**
      * Indica si el emisor está obligado a llevar contabilidad
      */

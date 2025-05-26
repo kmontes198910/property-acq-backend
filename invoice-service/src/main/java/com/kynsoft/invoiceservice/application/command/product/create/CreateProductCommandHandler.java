@@ -54,6 +54,11 @@ public class CreateProductCommandHandler implements ICommandHandler<CreateProduc
                 .stock(command.getStock())
                 .taxCode(command.getTaxCode())
                 .taxPercentage(command.getTaxPercentage())
+                .iceCode(command.getIceCode())
+                .icePercentage(command.getIcePercentage())
+                .rentCode(command.getRentCode())
+                .rentTaxPercentage(command.getRentTaxPercentage())
+                .productType(command.getProductType())
                 .isService(command.getIsService())
                 .status(true) // Por defecto, un nuevo producto está activo
                 .category(category)

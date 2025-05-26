@@ -33,6 +33,10 @@ public class InvoiceIssuer {
     @Column(name = "currency")
     private String currency;
 
+    // Agregando campo color de factura
+    @Column(name = "color_factura")
+    private String colorFactura;
+
     @Column(name = "establishment")
     private String establishment;
 
@@ -67,14 +71,11 @@ public class InvoiceIssuer {
     private Boolean microenterprisesRegime;
 
     @Column(name = "rimpe_regime")
-    private String rimpeRegime;
+    @com.kynsoft.invoiceservice.domain.validator.ValidRimpeRegime
+    private String rimpeRegime; // Puede ser CONTRIBUYENTE RÉGIMEN RIMPE, CONTRIBUYENTE NEGOCIO POPULAR - RÉGIMEN RIMPE o null
 
     @Column(name = "logo_url")
     private String logoUrl;
-
-    @Column(name = "environment", columnDefinition = "varchar(1)")
-    @Builder.Default
-    private String environment = "1";
 
     // Agregando campo para enviar correos a destinatarios
     @Column(name = "send_emails")

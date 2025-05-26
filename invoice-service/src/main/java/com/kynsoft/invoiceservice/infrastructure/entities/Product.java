@@ -45,6 +45,21 @@ public class Product {
     @Column(name = "tax_percentage", nullable = false, precision = 5, scale = 2)
     private BigDecimal taxPercentage;
     
+    @Column(name = "ice_code")
+    private String iceCode;
+    
+    @Column(name = "ice_percentage", precision = 5, scale = 2)
+    private BigDecimal icePercentage;
+    
+    @Column(name = "rent_code")
+    private String rentCode;
+    
+    @Column(name = "rent_tax_percentage", precision = 5, scale = 2)
+    private BigDecimal rentTaxPercentage;
+    
+    @Column(name = "product_type")
+    private String productType;
+    
     @Column(name = "is_service")
     private Boolean isService;
     

@@ -1,20 +1,23 @@
 package com.kynsoft.invoiceservice.infrastructure.entities;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
+import lombok.*;
 import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 @Entity
 @Table(name = "invoices")
-@Data
+@Getter
+@Setter
+@ToString(exclude = {"details", "payments", "additionalFields", "taxes"})
+@EqualsAndHashCode(of = "id")
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
@@ -87,15 +90,15 @@ public class Invoice {
     
     @OneToMany(mappedBy = "invoice", cascade = CascadeType.ALL, orphanRemoval = true)
     @Builder.Default
-    private List<InvoicePayment> payments = new ArrayList<>();
+    private Set<InvoicePayment> payments = new LinkedHashSet<>();
     
     @OneToMany(mappedBy = "invoice", cascade = CascadeType.ALL, orphanRemoval = true)
     @Builder.Default
-    private List<InvoiceAdditionalField> additionalFields = new ArrayList<>();
+    private Set<InvoiceAdditionalField> additionalFields = new LinkedHashSet<>();
     
     @OneToMany(mappedBy = "invoice", cascade = CascadeType.ALL, orphanRemoval = true)
     @Builder.Default
-    private List<InvoiceTax> taxes = new ArrayList<>();
+    private Set<InvoiceTax> taxes = new LinkedHashSet<>();
     
     @PrePersist
     protected void onCreate() {

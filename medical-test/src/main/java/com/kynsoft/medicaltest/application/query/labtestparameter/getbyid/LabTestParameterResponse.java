@@ -21,6 +21,7 @@ import java.util.UUID;
 public class LabTestParameterResponse implements IResponse {
     
     private UUID id;
+    private String code;
     private UUID labTestId;
     private String name;
     private String unit;
@@ -40,6 +41,7 @@ public class LabTestParameterResponse implements IResponse {
      */
     public LabTestParameterResponse(LabTestParameterDto dto) {
         this.id = dto.getId();
+        this.code = dto.getCode();
         this.labTestId = dto.getLabTestId();
         this.name = dto.getName();
         this.unit = dto.getUnit();

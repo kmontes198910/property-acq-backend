@@ -20,6 +20,7 @@ public class CreateLabTestParameterCommandHandler implements ICommandHandler<Cre
         LabTestParameterDto dto = LabTestParameterDto.builder()
                 .labTestId(command.getLabTestId())
                 .name(command.getName())
+                .code(command.getCode())
                 .unit(command.getUnit())
                 .referenceRangeMin(command.getReferenceRangeMin())
                 .referenceRangeMax(command.getReferenceRangeMax())

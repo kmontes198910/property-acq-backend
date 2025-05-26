@@ -57,7 +57,6 @@ public class CreateLabTestRequestCommandHandler implements ICommandHandler<Creat
                         .code(x.getCode())
                         .examinationType(x.getExaminationType())
                         .status(x.getStatus())
-                        .completionDate(x.getCompletionDate())
                         .observations(x.getObservations())
                         .createdBy(command.getCreatedBy())
                         .build()

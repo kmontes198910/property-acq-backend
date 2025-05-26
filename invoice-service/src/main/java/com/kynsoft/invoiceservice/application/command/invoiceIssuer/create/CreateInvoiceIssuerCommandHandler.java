@@ -23,18 +23,6 @@ public class CreateInvoiceIssuerCommandHandler implements ICommandHandler<Create
     public void handle(CreateInvoiceIssuerCommand command) {
         log.info("Creating new invoice issuer: {}", command.getBusinessName());
         
-        // Validar y ajustar el valor del campo environment para que solo tenga un carácter
-        String environment = command.getEnvironment();
-        if (environment != null && !environment.isEmpty()) {
-            // Tomar solo el primer carácter del valor proporcionado
-            environment = environment.substring(0, 1);
-            log.info("Environment value adjusted to: {}", environment);
-        } else {
-            // Valor por defecto si es nulo o vacío
-            environment = "1";
-            log.info("Using default environment value: {}", environment);
-        }
-        
         InvoiceIssuer issuer = InvoiceIssuer.builder()
                 .id(UUID.randomUUID())
                 .ruc(command.getRuc())
@@ -48,13 +36,13 @@ public class CreateInvoiceIssuerCommandHandler implements ICommandHandler<Create
                 .website(command.getWebsite())
                 .phone(command.getPhone())
                 .currency("USD") // Default currency
+                .colorFactura(command.getColorFactura())
                 .specialTaxpayer(command.getSpecialTaxpayer())
                 .retentionAgent(command.getRetentionAgent())
                 .accountingObligated(command.getAccountingObligated())
                 .microenterprisesRegime(command.getMicroenterprisesRegime())
                 .rimpeRegime(command.getRimpeRegime())
                 .logoUrl(command.getLogoUrl())
-                .environment(environment) // Usar el valor validado
                 .sendEmails(command.getSendEmails())
                 .status(command.getStatus())
                 .digitalCertP12(command.getDigitalCertP12())

@@ -18,6 +18,7 @@ import java.util.UUID;
 public class CreateLabTestParameterRequest {
     
     private UUID labTestId;
+    private String code;
     private String name;
     private String unit;
     private BigDecimal referenceRangeMin;

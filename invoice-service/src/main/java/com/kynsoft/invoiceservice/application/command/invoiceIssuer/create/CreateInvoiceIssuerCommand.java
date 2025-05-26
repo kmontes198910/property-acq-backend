@@ -24,9 +24,9 @@ public class CreateInvoiceIssuerCommand implements ICommand {
     private String retentionAgent;
     private String rimpeRegime;
     private String logoUrl;
-    private String environment;
     private Boolean status;
     private String website;
+    private String colorFactura;
     private Boolean accountingObligated;
     private Boolean microenterprisesRegime;
     private Boolean sendEmails;
@@ -53,9 +53,9 @@ public class CreateInvoiceIssuerCommand implements ICommand {
         command.setRetentionAgent(request.getRetentionAgent());
         command.setRimpeRegime(request.getRimpeRegime());
         command.setLogoUrl(request.getLogoUrl());
-        command.setEnvironment(request.getEnvironment());
         command.setStatus(request.getStatus());
         command.setWebsite(request.getWebsite());
+        command.setColorFactura(request.getColorFactura());
         command.setAccountingObligated(request.getAccountingObligated());
         command.setMicroenterprisesRegime(request.getMicroenterprisesRegime());
         command.setSendEmails(request.getSendEmails());

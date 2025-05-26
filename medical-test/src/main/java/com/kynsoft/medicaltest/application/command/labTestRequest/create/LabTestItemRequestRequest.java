@@ -17,6 +17,5 @@ public class LabTestItemRequestRequest {
     private String code;
     private String examinationType;
     private String status;
-    private LocalDate completionDate;
     private String observations;    
 }

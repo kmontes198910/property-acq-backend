@@ -40,7 +40,8 @@ public class LabTestRequestServiceImpl implements ILabTestRequestService {
     @Override
     @Transactional
     public void create(LabTestRequestDto labTest) {
-        writeRepository.save(new LabTestRequestEntity(labTest));
+        LabTestRequestEntity labTestRequestEntity =  new LabTestRequestEntity(labTest);
+        writeRepository.save(labTestRequestEntity);
     }
 
     @Override
