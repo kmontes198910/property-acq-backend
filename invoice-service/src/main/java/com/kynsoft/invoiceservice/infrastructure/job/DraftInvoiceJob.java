@@ -6,6 +6,7 @@ import com.kynsoft.invoiceservice.infrastructure.entities.InvoiceStatus;
 import com.kynsoft.invoiceservice.infrastructure.repository.query.InvoiceDetailRepository;
 import com.kynsoft.invoiceservice.infrastructure.repository.query.InvoiceRepository;
 import com.kynsoft.invoiceservice.infrastructure.service.InvoiceLoaderService;
+import ec.e.facturacion.sri.constante.Regimen;
 import ec.e.facturacion.sri.modelo.Factura;
 import ec.e.facturacion.sri.modelo.ComprobanteBase;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -15,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
+
 @Component
 public class DraftInvoiceJob {
     private final InvoiceRepository invoiceRepository;
@@ -22,7 +24,7 @@ public class DraftInvoiceJob {
     private final InvoiceLoaderService invoiceLoaderService;
 
     public DraftInvoiceJob(
-            InvoiceRepository invoiceRepository, 
+            InvoiceRepository invoiceRepository,
             InvoiceDetailRepository invoiceDetailRepository,
             InvoiceLoaderService invoiceLoaderService) {
         this.invoiceRepository = invoiceRepository;
@@ -42,7 +44,7 @@ public class DraftInvoiceJob {
         List<ProcessInvoice> facturas = facturasBorrador.stream()
                 .map(this::convertToFactura)
                 .toList();
-                
+
         System.out.println("Facturas en estado DRAFT encontradas: " + facturas.size());
         // Aquí puedes agregar la lógica que necesites con las facturas tipo Factura
     }
@@ -79,6 +81,7 @@ public class DraftInvoiceJob {
                         .orElse(impuestos.get(0));
             }
 
+
             return new Factura.DetalleFactura.Builder(
                     det.getMainCode(),
                     det.getDescription(),
@@ -110,6 +113,14 @@ public class DraftInvoiceJob {
         Factura.Builder builder = new Factura.Builder(
                 ruc, razonSocial, dirMatriz, correo, telefono, estab, ptoEmi, secuencial, fechaEmision, detalles
         );
+        builder.withContribuyenteRimpe(invoice.getIssuer().getMicroenterprisesRegime()? invoice.getIssuer().getRimpeRegime() :null);
+
+        builder.withTipoIdentificacionComprador(invoice.getCustomer() != null ? invoice.getCustomer().getIdType().getCode() : "05")
+                .withRazonSocialComprador(invoice.getCustomer() != null ? invoice.getCustomer().getBusinessName() : "CONSUMIDOR FINAL")
+                .withIdentificacionComprador(invoice.getCustomer() != null ? invoice.getCustomer().getIdNumber() : "9999999999999")
+                .withDireccionComprador(invoice.getCustomer() != null ? invoice.getCustomer().getAddress() : "SIN DIRECCIÓN")
+                .withCorreoComprador(invoice.getCustomer() != null ? invoice.getCustomer().getEmail() : "SIN CORREO")
+                .withTelefonoComprador(invoice.getCustomer() != null ? invoice.getCustomer().getPhone() : "SIN TELÉFONO");
 
         builder.withNombreComercial(nombreComercial);
 
