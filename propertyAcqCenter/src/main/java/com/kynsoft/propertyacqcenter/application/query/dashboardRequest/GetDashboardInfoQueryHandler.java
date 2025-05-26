@@ -64,6 +64,11 @@ public class GetDashboardInfoQueryHandler implements IQueryHandler<GetDashboardI
                             .squareFootage(comparable.getSquareFootage() != null ? comparable.getSquareFootage() : null)
                             .daysOnMarket(comparable.getDaysOnMarket() != null ? comparable.getDaysOnMarket() : null)
                             .distance(comparable.getDistance() != null ? comparable.getDistance() : null)
+                            .yearBuilt(comparable.getYearBuilt() != null ? comparable.getYearBuilt() : null)
+                            .id(comparable.getId() != null ? comparable.getId() : null)
+                            .listedDate(comparable.getListedDate() != null ? comparable.getListedDate() : null)
+                            .bedrooms(comparable.getBedrooms() != null ? comparable.getBedrooms() : null)
+                            .bathrooms(comparable.getBathrooms() != null ? comparable.getBathrooms() : null)
                             .build());
                     estimatedValueAveragePrice = estimatedValueAveragePrice + comparable.getPrice();
                     countestimatedValue = countestimatedValue + 1;
@@ -92,6 +97,11 @@ public class GetDashboardInfoQueryHandler implements IQueryHandler<GetDashboardI
                             .squareFootage(comparable.getSquareFootage() != null ? comparable.getSquareFootage() : null)
                             .daysOnMarket(comparable.getDaysOnMarket() != null ? comparable.getDaysOnMarket() : null)
                             .distance(comparable.getDistance() != null ? comparable.getDistance() : null)
+                            .yearBuilt(comparable.getYearBuilt() != null ? comparable.getYearBuilt() : null)
+                            .id(comparable.getId() != null ? comparable.getId() : null)
+                            .listedDate(comparable.getListedDate() != null ? comparable.getListedDate() : null)
+                            .bedrooms(comparable.getBedrooms() != null ? comparable.getBedrooms() : null)
+                            .bathrooms(comparable.getBathrooms() != null ? comparable.getBathrooms() : null)
                             .build());
                     estimatedRentValueAveragePrice = estimatedRentValueAveragePrice + comparable.getPrice();
                     countEstimatedRentValue = countEstimatedRentValue + 1;
