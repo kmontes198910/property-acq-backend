@@ -11,6 +11,7 @@ import lombok.Setter;
 public class DashboardComparablesResponse implements IResponse {
 
     private String formattedAddress;
+    private String id;
     private String propertyType;
     private String lastSeenDate;
     private Integer squareFootage;
@@ -21,4 +22,7 @@ public class DashboardComparablesResponse implements IResponse {
     private Double longitude;
     private Integer daysOnMarket;
     private Double distance;
+    private String listedDate;
+    private Integer bedrooms;
+    private Double bathrooms;
 }
