@@ -576,6 +576,8 @@ public class GenerateInvoiceCommandHandler implements ICommandHandler<GenerateIn
                         .paymentType(pago.getFormaPago())
                         .amount(pago.getTotal())
                         .reference(pago.getDescripcion()) // Usar descripción como referencia
+                        .unidadTiempo(pago.getUnidadTiempo())
+                        .plazo(pago.getPlazo())
                         .build();
 
                 paymentDtos.add(paymentDto);

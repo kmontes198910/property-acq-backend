@@ -17,7 +17,7 @@ public class InvoicePaymentDto {
     private UUID id;
     private String paymentType;
     private String reference;
-    private int plazo;
+    private BigDecimal plazo;
     private String unidadTiempo;
     private BigDecimal amount;
 }

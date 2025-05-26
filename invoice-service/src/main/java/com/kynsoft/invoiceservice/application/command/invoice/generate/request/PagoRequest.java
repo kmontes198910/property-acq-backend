@@ -16,5 +16,4 @@ public class PagoRequest {
     private String descripcion;
     private BigDecimal plazo;
     private String unidadTiempo;
-    private BigDecimal monto;
 }

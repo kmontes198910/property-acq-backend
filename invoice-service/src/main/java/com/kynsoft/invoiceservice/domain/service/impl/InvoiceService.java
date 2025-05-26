@@ -641,7 +641,7 @@ public class InvoiceService implements IInvoiceService {
                         .paymentType(payment.getPaymentMethod()) // Mapeo de paymentMethod a paymentType
                         .amount(payment.getAmount())
                         .reference(payment.getPaymentMethodName()) // Mapeo de paymentMethodName a reference
-                        .plazo(payment.getTimeValue() != null ? payment.getTimeValue() : 0) // Usar timeValue como plazo
+                        .plazo(payment.getTimeValue() != null ? payment.getTimeValue() : BigDecimal.ZERO) // Usar timeValue como plazo
                         .unidadTiempo(payment.getTimeUnit() != null ? payment.getTimeUnit() : "DIA") // Usar timeUnit, si no existe usar DIA
                         .build();
                 paymentDtos.add(paymentDto);

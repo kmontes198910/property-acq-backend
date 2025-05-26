@@ -10,6 +10,7 @@ import com.kynsoft.invoiceservice.infrastructure.repository.query.InvoiceReposit
 import com.kynsoft.invoiceservice.infrastructure.service.InvoiceLoaderService;
 import ec.e.facturacion.sri.constante.Ambiente;
 import ec.e.facturacion.sri.constante.Estados;
+import ec.e.facturacion.sri.constante.Regimen;
 import ec.e.facturacion.sri.modelo.Factura;
 import ec.e.facturacion.sri.modelo.ComprobanteBase;
 import ec.e.facturacion.sri.pdf.generador.FacturaPDFGenerador;
@@ -129,7 +130,7 @@ public class DraftInvoiceJob {
                         pagoDTO.getPaymentMethod(),
                         pagoDTO.getPaymentMethodName(),
                         pagoDTO.getAmount(),
-                        pagoDTO.getTimeValue() != null ? java.math.BigDecimal.valueOf(pagoDTO.getTimeValue()) : null,
+                        pagoDTO.getTimeValue() != null ? pagoDTO.getTimeValue() : BigDecimal.ZERO,
                         pagoDTO.getTimeUnit()))
                 .toList());
 
@@ -142,7 +143,7 @@ public class DraftInvoiceJob {
         Factura.Builder builder = new Factura.Builder(
                 ruc, razonSocial, dirMatriz, correo, telefono, estab, ptoEmi, secuencial, fechaEmision, detalles
         );
-        builder.withContribuyenteRimpe(invoice.getIssuer().getMicroenterprisesRegime() ? invoice.getIssuer().getRimpeRegime() : null);
+        builder.withContribuyenteRimpe(Regimen.REGIMEN_RIMPE);
 
         builder.withTipoIdentificacionComprador(invoice.getCustomer() != null ? invoice.getCustomer().getIdType().getCode() : "05")
                 .withRazonSocialComprador(invoice.getCustomer() != null ? invoice.getCustomer().getBusinessName() : "CONSUMIDOR FINAL")

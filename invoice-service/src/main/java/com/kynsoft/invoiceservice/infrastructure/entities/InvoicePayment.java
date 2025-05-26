@@ -34,7 +34,7 @@ public class InvoicePayment {
     private String timeUnit; // dias, meses, años
     
     @Column(name = "time_value")
-    private Integer timeValue; // Valor del plazo
+    private BigDecimal timeValue; // Valor del plazo
     
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "invoice_id")
