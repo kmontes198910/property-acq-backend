@@ -13,8 +13,11 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 public class InvoicePaymentDto {
+
     private UUID id;
     private String paymentType;
-    private BigDecimal amount;
     private String reference;
+    private int plazo;
+    private String unidadTiempo;
+    private BigDecimal amount;
 }

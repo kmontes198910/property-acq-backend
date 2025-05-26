@@ -524,8 +524,8 @@ public class InvoiceService implements IInvoiceService {
                 .paymentMethodName(dto.getReference()) // Usar reference como nombre del método de pago
                 .amount(dto.getAmount())
                 // Establecer valores predeterminados para campos adicionales
-                .timeUnit(null) // Estos valores pueden ser actualizados según la lógica de negocio
-                .timeValue(null)
+                .timeUnit(dto.getUnidadTiempo()) // Estos valores pueden ser actualizados según la lógica de negocio
+                .timeValue(dto.getPlazo()) // Usar plazo si existe, sino 0
                 .build();
     }
     
@@ -641,6 +641,8 @@ public class InvoiceService implements IInvoiceService {
                         .paymentType(payment.getPaymentMethod()) // Mapeo de paymentMethod a paymentType
                         .amount(payment.getAmount())
                         .reference(payment.getPaymentMethodName()) // Mapeo de paymentMethodName a reference
+                        .plazo(payment.getTimeValue() != null ? payment.getTimeValue() : 0) // Usar timeValue como plazo
+                        .unidadTiempo(payment.getTimeUnit() != null ? payment.getTimeUnit() : "DIA") // Usar timeUnit, si no existe usar DIA
                         .build();
                 paymentDtos.add(paymentDto);
             }
