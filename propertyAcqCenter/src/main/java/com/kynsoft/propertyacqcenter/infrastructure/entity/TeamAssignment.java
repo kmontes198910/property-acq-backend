@@ -1,8 +1,7 @@
 package com.kynsoft.propertyacqcenter.infrastructure.entity;
 
-import com.kynsoft.propertyacqcenter.domain.dto.PropertyDocumentDto;
+import com.kynsoft.propertyacqcenter.domain.dto.TeamAssignmentDto;
 import jakarta.persistence.*;
-import java.time.LocalDate;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -11,13 +10,13 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
-@Table(name = "property_documents")
+@Table(name = "team_assignment")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class PropertyDocument {
+public class TeamAssignment {
 
     @Id
     @Column(name = "id", nullable = false)
@@ -27,11 +26,12 @@ public class PropertyDocument {
     @JoinColumn(name = "property_id", nullable = false)
     private Property property;
 
-    @Column(name = "file_name", nullable = false)
-    private String fileName;
-
-    @Column(name = "file_path", nullable = false)
-    private String filePath;
+    private String buyerEntityName;
+    private String buyerContactRep;
+    private String titleEscrowCompany;
+    private String lenderCompany;
+    private String projectManager;
+    private String legalContact;
 
     @CreationTimestamp
     @Column(name = "created_at", updatable = false)
@@ -47,41 +47,33 @@ public class PropertyDocument {
     @Column(name = "updated_by")
     private UUID updatedBy;
 
-    private Boolean ownersContractRead;
-    private Boolean assignmentOfContractRead;
-    private LocalDate closingDate;
-    private String platMapOrSurvey;
-    private String earnestMoneyDeposit;
-
-    public PropertyDocument(PropertyDocumentDto dto) {
+    public TeamAssignment(TeamAssignmentDto dto) {
         this.id = dto.getId() != null ? dto.getId() : UUID.randomUUID();
         this.property = dto.getProperty() != null ? new Property(dto.getProperty()) : null;
-        this.fileName = dto.getFileName();
-        this.filePath = dto.getFilePath();
+        this.buyerEntityName = dto.getBuyerEntityName();
+        this.buyerContactRep = dto.getBuyerContactRep();
+        this.titleEscrowCompany = dto.getTitleEscrowCompany();
+        this.lenderCompany = dto.getLenderCompany();
+        this.projectManager = dto.getProjectManager();
+        this.legalContact = dto.getLegalContact();
         this.createdBy = dto.getCreatedBy();
         this.updatedBy = dto.getUpdatedBy();
-        this.ownersContractRead = dto.getOwnersContractRead();
-        this.assignmentOfContractRead = dto.getAssignmentOfContractRead();
-        this.closingDate = dto.getClosingDate();
-        this.platMapOrSurvey = dto.getPlatMapOrSurvey();
-        this.earnestMoneyDeposit = dto.getEarnestMoneyDeposit();
     }
 
-    public PropertyDocumentDto toAggregate() {
-        return PropertyDocumentDto.builder()
+    public TeamAssignmentDto toAggregate() {
+        return TeamAssignmentDto.builder()
                 .id(this.id)
-                .fileName(this.fileName)
-                .filePath(this.filePath)
                 .createdAt(this.createdAt)
                 .updatedAt(this.updatedAt)
                 .createdBy(this.createdBy)
                 .updatedBy(this.updatedBy)
                 .property(this.property.toAggregateBasic())
-                .ownersContractRead(ownersContractRead)
-                .assignmentOfContractRead(assignmentOfContractRead)
-                .closingDate(closingDate)
-                .platMapOrSurvey(platMapOrSurvey)
-                .earnestMoneyDeposit(earnestMoneyDeposit)
+                .buyerEntityName(buyerEntityName)
+                .buyerContactRep(buyerContactRep)
+                .titleEscrowCompany(titleEscrowCompany)
+                .lenderCompany(lenderCompany)
+                .projectManager(projectManager)
+                .legalContact(legalContact)
                 .build();
     }
 }

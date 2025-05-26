@@ -41,6 +41,7 @@ public class CreatePropertyCommandHandler implements ICommandHandler<CreatePrope
                 .formattedAddress(command.getFormattedAddress())
                 .propertyStatus(command.getPropertyStatus())
                 .isManual(command.getIsManual())
+                .daysOnMarket(command.getDaysOnMarket())
                 .build()
         );
     }

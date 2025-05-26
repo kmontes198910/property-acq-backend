@@ -1,5 +1,6 @@
 package com.kynsoft.propertyacqcenter.domain.dto;
 
+import java.time.LocalDate;
 import lombok.*;
 
 import java.time.LocalDateTime;
@@ -20,4 +21,10 @@ public class PropertyDocumentDto {
     private LocalDateTime updatedAt;
     private UUID createdBy;
     private UUID updatedBy;
+
+    private Boolean ownersContractRead;
+    private Boolean assignmentOfContractRead;
+    private LocalDate closingDate;
+    private String platMapOrSurvey;
+    private String earnestMoneyDeposit;
 }

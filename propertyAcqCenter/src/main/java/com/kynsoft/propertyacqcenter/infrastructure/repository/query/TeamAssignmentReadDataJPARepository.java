@@ -1,6 +1,6 @@
 package com.kynsoft.propertyacqcenter.infrastructure.repository.query;
 
-import com.kynsoft.propertyacqcenter.infrastructure.entity.PropertyDocument;
+import com.kynsoft.propertyacqcenter.infrastructure.entity.TeamAssignment;
 import java.util.Optional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -13,12 +13,12 @@ import java.util.UUID;
 import org.springframework.data.jpa.repository.EntityGraph;
 
 @Repository
-public interface PropertyDocumentReadDataJPARepository extends JpaRepository<PropertyDocument, UUID>, JpaSpecificationExecutor<PropertyDocument> {
+public interface TeamAssignmentReadDataJPARepository extends JpaRepository<TeamAssignment, UUID>, JpaSpecificationExecutor<TeamAssignment> {
     @EntityGraph(attributePaths = {"property"})
     @Override
-    Page<PropertyDocument> findAll(Specification<PropertyDocument> specification, Pageable pageable);
+    Page<TeamAssignment> findAll(Specification<TeamAssignment> specification, Pageable pageable);
 
     @EntityGraph(attributePaths = {"property"})
     @Override
-    Optional<PropertyDocument> findById(UUID id);
+    Optional<TeamAssignment> findById(UUID id);
 }
