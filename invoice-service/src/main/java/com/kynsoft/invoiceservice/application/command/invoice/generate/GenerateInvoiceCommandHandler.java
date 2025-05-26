@@ -57,6 +57,7 @@ public class GenerateInvoiceCommandHandler implements ICommandHandler<GenerateIn
     public String claveAcceso;
     @Value("${sri.ambiente}")
     private String sriAmbiente;
+
     @Override
     public void handle(GenerateInvoiceCommand command) {
         log.info("Generando nueva factura para el emisor ID: {}", command.getIssuerId());
@@ -132,7 +133,7 @@ public class GenerateInvoiceCommandHandler implements ICommandHandler<GenerateIn
      * Este método podría implementarse usando @Async o un sistema de mensajería.
      */
 
-   // @Async
+    // @Async
     public void generateDocumentsAsync(Factura factura, UUID invoice, UUID userId) {
         try {
             log.info("Iniciando generación asíncrona de documentos para factura: {}", invoice);
@@ -146,7 +147,7 @@ public class GenerateInvoiceCommandHandler implements ICommandHandler<GenerateIn
     }
 
 
-    private  void sendInvoiceSRI(ByteArrayOutputStream xmlFactura, Factura factura, UUID invoice, UUID userId) {
+    private void sendInvoiceSRI(ByteArrayOutputStream xmlFactura, Factura factura, UUID invoice, UUID userId) {
         try {
             // Crear instancia del servicio (true para modo prueba)
             SRIRecepcionServicio sriRecepcion = new SRIRecepcionServicio();
@@ -175,8 +176,8 @@ public class GenerateInvoiceCommandHandler implements ICommandHandler<GenerateIn
                     RespuestaComprobante respuestaAutorizacion = sriAutorizacion
                             .autorizarComprobante(factura.getClaveAcceso(), Ambiente.PRUEBA);
 
-                    if(respuestaAutorizacion.getAutorizaciones().getAutorizacion().get(0).getEstado().equals(Estados.AUTORIZADO)) {
-                        invoiceService.changeStatus(invoice, InvoiceStatus.AUTHORIZED,userId);
+                    if (respuestaAutorizacion.getAutorizaciones().getAutorizacion().get(0).getEstado().equals(Estados.AUTORIZADO)) {
+                        invoiceService.changeStatus(invoice, InvoiceStatus.AUTHORIZED, userId);
                     } else {
 
                         invoiceService.changeStatus(invoice, InvoiceStatus.REJECTED, userId);
@@ -372,7 +373,7 @@ public class GenerateInvoiceCommandHandler implements ICommandHandler<GenerateIn
                 .withObligadoContabilidad(obligadoContabilidad)
                 //.withAgenteRetencion("3867")
                 //.withContribuyenteEspecial("7345")
-             //   .withContribuyenteRimpe(Regimen.NEGOCIO_POPULAR)//Agregar a la empresa el tipo de régimen
+                //   .withContribuyenteRimpe(Regimen.NEGOCIO_POPULAR)//Agregar a la empresa el tipo de régimen
                 .withNombreComercial(issuer.getCommercialName())
                 .withTipoIdentificacionComprador(customerIdentificationType)
                 .withRazonSocialComprador(customer.getBusinessName())
@@ -385,7 +386,7 @@ public class GenerateInvoiceCommandHandler implements ICommandHandler<GenerateIn
                 .withInfoAdicional(new ArrayList<>())
                 .build();
 
-        if(issuer.getRimpeRegime() != null && !issuer.getRimpeRegime().isEmpty()) {
+        if (issuer.getRimpeRegime() != null && !issuer.getRimpeRegime().isEmpty()) {
             factura.setContribuyenteRimpe(issuer.getRimpeRegime());
         }
 
