@@ -29,15 +29,33 @@ public interface InvoiceReadRepository extends JpaRepository<Invoice, UUID>, Jpa
     /**
      * Busca facturas por ID del cliente
      * @param customerId ID del cliente
-     * @return Lista de facturas asociadas al cliente
+     * @return Lista de facturas asociadas al cliente con todas sus relaciones cargadas
      */
+    @org.springframework.data.jpa.repository.EntityGraph(attributePaths = {
+            "issuer",
+            "customer",
+            "details",
+            "details.taxes",
+            "payments",
+            "additionalFields",
+            "taxes"
+    })
     List<Invoice> findByCustomerId(UUID customerId);
     
     /**
      * Busca facturas que contengan el número de documento especificado
      * @param documentNumber Número de documento (completo o parcial)
-     * @return Lista de facturas que coinciden con el criterio
+     * @return Lista de facturas que coinciden con el criterio con todas sus relaciones cargadas
      */
+    @org.springframework.data.jpa.repository.EntityGraph(attributePaths = {
+            "issuer",
+            "customer",
+            "details",
+            "details.taxes",
+            "payments",
+            "additionalFields",
+            "taxes"
+    })
     List<Invoice> findByDocumentNumberContaining(String documentNumber);
     
     /**
@@ -45,6 +63,15 @@ public interface InvoiceReadRepository extends JpaRepository<Invoice, UUID>, Jpa
      * @param status Estado de la factura
      * @return Lista de facturas en el estado especificado
      */
+    @org.springframework.data.jpa.repository.EntityGraph(attributePaths = {
+            "issuer",
+            "customer",
+            "details",
+            "details.taxes",
+            "payments",
+            "additionalFields",
+            "taxes"
+    })
     List<Invoice> findByStatus(InvoiceStatus status);
     
     /**
@@ -52,8 +79,17 @@ public interface InvoiceReadRepository extends JpaRepository<Invoice, UUID>, Jpa
      * @param customerId ID del cliente (opcional)
      * @param documentNumber Número de documento (opcional)
      * @param status Estado de la factura (opcional)
-     * @return Lista de facturas que cumplen con los criterios de búsqueda
+     * @return Lista de facturas que cumplen con los criterios de búsqueda con todas sus relaciones cargadas
      */
+    @org.springframework.data.jpa.repository.EntityGraph(attributePaths = {
+            "issuer",
+            "customer",
+            "details",
+            "details.taxes",
+            "payments",
+            "additionalFields",
+            "taxes"
+    })
     @Query("SELECT i FROM Invoice i WHERE " +
            "(:customerId IS NULL OR i.customer.id = :customerId) AND " +
            "(:documentNumber IS NULL OR i.documentNumber LIKE %:documentNumber%) AND " +

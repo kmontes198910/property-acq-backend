@@ -80,7 +80,7 @@ public class GenerateInvoiceCommandHandler implements ICommandHandler<GenerateIn
             // Fase 3: Procesamiento posterior (no transaccional)
             // Esta fase puede ser ejecutada de forma asíncrona si es necesario
             // ya que la factura ya está guardada en la base de datos
-            generateDocumentsAsync(prepResult.getFactura(), invoiceId, command.getCreatedBy());
+        //    generateDocumentsAsync(prepResult.getFactura(), invoiceId, command.getCreatedBy());
 
         } catch (Exception e) {
             log.error("Error al generar factura: {}", e.getMessage(), e);
@@ -118,8 +118,7 @@ public class GenerateInvoiceCommandHandler implements ICommandHandler<GenerateIn
         InvoiceDto invoiceDto = convertFacturaToInvoiceDto(factura, customer, issuerDto, command.getCreatedBy());
         log.info("InvoiceDto preparado - Cliente ID: {}, Cliente Núm. ID: {}",
                 invoiceDto.getCustomer().getId(), invoiceDto.getCustomer().getIdentificationNumber());
-        claveAcceso = factura.getClaveAcceso();
-        System.out.println("Clave de acceso: " + claveAcceso);
+
         // 7. Devolver el resultado de la preparación
         return InvoicePreparationResult.builder()
                 .invoiceDto(invoiceDto)
@@ -478,6 +477,8 @@ public class GenerateInvoiceCommandHandler implements ICommandHandler<GenerateIn
      */
     private InvoiceDto convertFacturaToInvoiceDto(Factura factura, Customer customer, InvoiceIssuerDto issuerDto, UUID createdBy) {
         // Crear el InvoiceDto básico
+        claveAcceso = factura.getClaveAcceso();
+        System.out.println("Clave de acceso: " + claveAcceso);
         InvoiceDto invoiceDto = InvoiceDto.builder()
                 .id(UUID.randomUUID())
                 .issuerId(issuerDto.getId())

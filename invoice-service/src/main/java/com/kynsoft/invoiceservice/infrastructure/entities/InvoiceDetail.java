@@ -1,19 +1,22 @@
 package com.kynsoft.invoiceservice.infrastructure.entities;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
+import lombok.*;
 import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 @Entity
 @Table(name = "invoice_details")
-@Data
+@Getter
+@Setter
+@ToString(exclude = {"invoice", "taxes", "additionalInfo"})
+@EqualsAndHashCode(of = "id")
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
@@ -63,11 +66,11 @@ public class InvoiceDetail {
     
     @OneToMany(mappedBy = "invoiceDetail", cascade = CascadeType.ALL, orphanRemoval = true)
     @Builder.Default
-    private List<InvoiceDetailAdditional> additionalInfo = new ArrayList<>();
+    private Set<InvoiceDetailAdditional> additionalInfo = new LinkedHashSet<>();
     
     @OneToMany(mappedBy = "invoiceDetail", cascade = CascadeType.ALL, orphanRemoval = true)
     @Builder.Default
-    private List<InvoiceDetailTax> taxes = new ArrayList<>();
+    private Set<InvoiceDetailTax> taxes = new LinkedHashSet<>();
 
     // Helper method
     public void addAdditionalInfo(InvoiceDetailAdditional additional) {
