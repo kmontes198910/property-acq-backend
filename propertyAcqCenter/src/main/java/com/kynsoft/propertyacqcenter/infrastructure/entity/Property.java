@@ -46,6 +46,7 @@ public class Property {
     private Integer bedrooms;
     private Double bathrooms;
     private Double askingPrice;
+    private Integer daysOnMarket;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "property_status", nullable = true)
@@ -81,6 +82,7 @@ public class Property {
         this.askingPrice = dto.getAskingPrice();
         this.propertyStatus = dto.getPropertyStatus();
         this.isManual = dto.getIsManual();
+        this.daysOnMarket = dto.getDaysOnMarket();
     }
 
     public PropertyDto toAggregateBasic() {
@@ -116,6 +118,7 @@ public class Property {
                 .propertyStatus(propertyStatus)
                 .createdAt(createdAt)
                 .isManual(isManual)
+                .daysOnMarket(daysOnMarket)
                 .build();
     }
 

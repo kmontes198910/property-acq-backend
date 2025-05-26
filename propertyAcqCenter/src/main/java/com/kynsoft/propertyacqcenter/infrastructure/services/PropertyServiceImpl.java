@@ -64,6 +64,7 @@ public class PropertyServiceImpl implements IPropertyService {
         update.setAskingPrice(object.getAskingPrice());
         update.setFormattedAddress(object.getFormattedAddress());
         update.setPropertyStatus(object.getPropertyStatus());
+        update.setDaysOnMarket(object.getDaysOnMarket());
 
         repositoryCommand.save(update);
     }

@@ -35,4 +35,5 @@ public class CreatePropertyRequest {
     private Double askingPrice;
     private PropertyStatus propertyStatus;
     private Boolean isManual;
+    private Integer daysOnMarket;
 }
