@@ -16,7 +16,7 @@ import java.util.UUID;
 public class PropertyDocumentResponse implements IResponse {
 
     private UUID id;
-    private PropertyDto property;
+    private PropertiesBasicResponse property;
     private String fileName;
     private String filePath;
     private LocalDateTime createdAt;
@@ -32,7 +32,7 @@ public class PropertyDocumentResponse implements IResponse {
 
     public PropertyDocumentResponse(PropertyDocumentDto dto) {
         this.id = dto.getId();
-        this.property = dto.getProperty();
+        this.property = dto.getProperty() != null ? new PropertiesBasicResponse(dto.getProperty()) : null;
         this.fileName = dto.getFileName();
         this.filePath = dto.getFilePath();
         this.createdAt = dto.getCreatedAt();
