@@ -40,6 +40,7 @@ public class UpdatePropertyCommandHandler implements ICommandHandler<UpdatePrope
                 .formattedAddress(command.getFormattedAddress())
                 .propertyStatus(command.getPropertyStatus())
                 .isManual(command.getIsManual())
+                .daysOnMarket(command.getDaysOnMarket())
                 .build());
     }
 }

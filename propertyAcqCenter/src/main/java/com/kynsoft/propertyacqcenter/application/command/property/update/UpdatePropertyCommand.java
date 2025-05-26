@@ -37,6 +37,7 @@ public class UpdatePropertyCommand implements ICommand {
     private String formattedAddress;
     private PropertyStatus propertyStatus;
     private Boolean isManual;
+    private Integer daysOnMarket;
 
     public UpdatePropertyCommand(String id, PropertyType propertyType, int lotSize, 
                                  String apn, int yearBuilt, String county, Boolean occupancy, 
@@ -45,7 +46,7 @@ public class UpdatePropertyCommand implements ICommand {
                                  String roofType, String structureType, String hoa,
                                  Integer bedrooms, Double bathrooms, Double askingPrice,
                                  String formattedAddress, PropertyStatus propertyStatus,
-                                 Boolean isManual) {
+                                 Boolean isManual, Integer daysOnMarket) {
         this.id = id;
         this.propertyType = propertyType;
         this.lotSize = lotSize;
@@ -69,6 +70,7 @@ public class UpdatePropertyCommand implements ICommand {
         this.formattedAddress = formattedAddress;
         this.propertyStatus = propertyStatus;
         this.isManual = isManual;
+        this.daysOnMarket = daysOnMarket;
     }
 
     public static UpdatePropertyCommand fromRequest(UpdatePropertyRequest request, String id) {
@@ -95,7 +97,8 @@ public class UpdatePropertyCommand implements ICommand {
                 request.getAskingPrice(),
                 request.getFormattedAddress(),
                 request.getPropertyStatus(),
-                request.getIsManual()
+                request.getIsManual(),
+                request.getDaysOnMarket()
         );
     }
 

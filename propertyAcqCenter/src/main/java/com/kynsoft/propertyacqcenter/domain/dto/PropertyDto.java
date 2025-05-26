@@ -37,4 +37,5 @@ public class PropertyDto {
     private PropertyStatus propertyStatus;
     private LocalDateTime createdAt;
     private Boolean isManual;
+    private Integer daysOnMarket;
 }

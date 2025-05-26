@@ -38,6 +38,7 @@ public class PropertiesResponse implements IResponse {
     private PropertyStatus propertyStatus;
     private LocalDateTime createdAt;
     private Boolean isManual;
+    private Integer daysOnMarket;
 
     public PropertiesResponse(PropertyDto dto) {
         this.id = dto.getId();
@@ -64,6 +65,7 @@ public class PropertiesResponse implements IResponse {
         this.propertyStatus = dto.getPropertyStatus();
         this.createdAt = dto.getCreatedAt();
         this.isManual = dto.getIsManual();
+        this.daysOnMarket = dto.getDaysOnMarket();
     }
 
 }

@@ -37,6 +37,7 @@ public class CreatePropertyCommand implements ICommand {
     private Double askingPrice;
     private PropertyStatus propertyStatus;
     private Boolean isManual;
+    private Integer daysOnMarket;
 
     public CreatePropertyCommand(String id, String formattedAddress, PropertyType propertyType, int lotSize, 
                                  String apn, int yearBuilt, String county, Boolean occupancy, 
@@ -44,7 +45,7 @@ public class CreatePropertyCommand implements ICommand {
                                  String zipCode, double unitCount, int squareFootage,
                                  String roofType, String structureType, String hoa,
                                  Integer bedrooms, Double bathrooms, Double askingPrice,
-                                 PropertyStatus propertyStatus, Boolean isManual) {
+                                 PropertyStatus propertyStatus, Boolean isManual, Integer daysOnMarket) {
         this.id = id;
         this.formattedAddress = formattedAddress;
         this.propertyType = propertyType;
@@ -68,6 +69,7 @@ public class CreatePropertyCommand implements ICommand {
         this.askingPrice = askingPrice;
         this.propertyStatus = propertyStatus;
         this.isManual = isManual;
+        this.daysOnMarket = daysOnMarket;
     }
 
     public static CreatePropertyCommand fromRequest(CreatePropertyRequest request) {
@@ -94,7 +96,8 @@ public class CreatePropertyCommand implements ICommand {
                 request.getBathrooms(),
                 request.getAskingPrice(),
                 request.getPropertyStatus(),
-                request.getIsManual()
+                request.getIsManual(),
+                request.getDaysOnMarket()
         );
     }
 

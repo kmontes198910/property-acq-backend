@@ -34,4 +34,5 @@ public class UpdatePropertyRequest {
     private String formattedAddress;
     private PropertyStatus propertyStatus;
     private Boolean isManual;
+    private Integer daysOnMarket;
 }
