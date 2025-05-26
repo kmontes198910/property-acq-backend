@@ -5,8 +5,9 @@ import com.kynsof.share.core.domain.response.PaginatedResponse;
 import com.kynsof.share.core.infrastructure.specifications.GenericSpecificationsBuilder;
 import com.kynsoft.propertyacqcenter.application.response.TeamAssignmentResponse;
 import com.kynsoft.propertyacqcenter.domain.dto.TeamAssignmentDto;
-import com.kynsoft.propertyacqcenter.domain.dto.exception.AddressNotFoundException;
+import com.kynsoft.propertyacqcenter.domain.dto.exception.TeamAssignmentNotFoundException;
 import com.kynsoft.propertyacqcenter.domain.services.ITeamAssignmentService;
+import com.kynsoft.propertyacqcenter.infrastructure.entity.Property;
 import com.kynsoft.propertyacqcenter.infrastructure.entity.TeamAssignment;
 import com.kynsoft.propertyacqcenter.infrastructure.repository.command.TeamAssignmentWriteDataJPARepository;
 import com.kynsoft.propertyacqcenter.infrastructure.repository.query.TeamAssignmentReadDataJPARepository;
@@ -43,6 +44,13 @@ public class TeamAssignmentServiceImpl implements ITeamAssignmentService {
     @Transactional
     public void update(TeamAssignmentDto object) {
         TeamAssignment update = new TeamAssignment(this.findById(object.getId()));
+        update.setBuyerContactRep(object.getBuyerContactRep());
+        update.setBuyerEntityName(object.getBuyerEntityName());
+        update.setLegalContact(object.getLegalContact());
+        update.setLenderCompany(object.getLenderCompany());
+        update.setProjectManager(object.getProjectManager());
+        update.setProperty(new Property(object.getProperty()));
+        update.setTitleEscrowCompany(object.getTitleEscrowCompany());
 
         update.setUpdatedAt(LocalDateTime.now());
         repositoryCommand.save(update);
@@ -61,7 +69,7 @@ public class TeamAssignmentServiceImpl implements ITeamAssignmentService {
         if (entity.isPresent()) {
             return entity.get().toAggregate();
         }
-        throw new AddressNotFoundException(id);
+        throw new TeamAssignmentNotFoundException(id);
     }
 
     @Override
