@@ -17,6 +17,6 @@ public class GetEstimateValueExternalServiceQueryHandler implements IQueryHandle
     @Override
     public EstimatedValueResponse handle(GetEstimateValueExternalServiceQuery query) {
 
-        return this.resCastEstimateValueServiceImpl.getEstimatedValue(query.getAddress(), query.getPropertyType(), query.getLatitude(), query.getLongitude(), query.getBedrooms(), query.getBathrooms(), query.getSquareFootage(), query.getDaysOld());
+        return this.resCastEstimateValueServiceImpl.getEstimatedValue(query.getAddress(), query.getPropertyType(), query.getLatitude(), query.getLongitude(), query.getBedrooms(), query.getBathrooms(), query.getSquareFootage(), query.getDaysOld(), query.getCompCount());
     }
 }

@@ -48,7 +48,7 @@ public class GetDashboardInfoQueryHandler implements IQueryHandler<GetDashboardI
             List<DashboardComparablesResponse> comparablesResponse = new ArrayList<>();
             //TODO: PropertyEstimated
             if (query.getEstimate().equals(EstimateEnum.PROPERTY_ESTIMATED)) {
-                EstimatedValueResponse estimatedValue = this.estimateValueService.getEstimatedValue(query.getAddress(), "Single Family", -1, -1, -1, -1, -1, 0);
+                EstimatedValueResponse estimatedValue = this.estimateValueService.getEstimatedValue(query.getAddress(), "", -1, -1, -1, -1, -1, 0, 5);
                 int estimatedValueAveragePrice = 0;
                 int countestimatedValue = 0;
 
@@ -82,7 +82,7 @@ public class GetDashboardInfoQueryHandler implements IQueryHandler<GetDashboardI
 
             //TODO: rentEstimated
             if (query.getEstimate().equals(EstimateEnum.RENT_ESTIMATED)) {
-                RentEstimateResponse rentEstimateValue = this.rentCastRentEstimateService.getRentEstimate(query.getAddress(), "Single Family", -1, -1, -1, -1, -1, 0);
+                RentEstimateResponse rentEstimateValue = this.rentCastRentEstimateService.getRentEstimate(query.getAddress(), "", -1, -1, -1, -1, -1, 0, 5);
                 int estimatedRentValueAveragePrice = 0;
                 int countEstimatedRentValue = 0;
                 for (RentEstimateResponse.ComparableRentProperty comparable : rentEstimateValue.getComparables()) {

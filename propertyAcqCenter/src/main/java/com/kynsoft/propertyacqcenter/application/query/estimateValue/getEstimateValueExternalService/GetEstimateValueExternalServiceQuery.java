@@ -17,4 +17,5 @@ public class GetEstimateValueExternalServiceQuery implements IQuery {
     private double bathrooms;
     private double squareFootage;
     private int daysOld;
+    private int compCount;
 }
