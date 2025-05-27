@@ -46,11 +46,13 @@ public class RentCastEstimateValueServiceImpl {
                                                     double bedrooms,
                                                     double bathrooms,
                                                     double squareFootage,
-                                                    int daysOld) {
+                                                    int daysOld,
+                                                    int compCount) {
         try {
             String cleanedAddress = address.trim(); // Elimina espacios al inicio/final
             //verdadero
             String addressUrl = !address.equals("") ? "address=" + cleanedAddress : null;
+            String propertyTypeUrl = !propertyType.equals("") ? "propertyType=" + propertyType : null;
 
             String latitudeUrl = latitude != -1 ? "latitude=" + latitude : null;
             String longitudeUrl = longitude != -1 ? "longitude=" + longitude : null;
@@ -59,10 +61,13 @@ public class RentCastEstimateValueServiceImpl {
             String squareFootageUrl = squareFootage != -1 ? "squareFootage=" + squareFootage : null;
             String daysOldUrl = daysOld != 0 ? "daysOld=" + daysOld : null;
 
-            String url = BASE_URL + "/avm/value?propertyType=" + propertyType;
+            String url = BASE_URL + "/avm/value?compCount=" + compCount;
             //String url = BASE_URL + "/avm/value?address=" + cleanedAddress;
             //String url = BASE_URL + "/value/fake";
 
+            if (propertyTypeUrl != null) {
+                url = url + "&" + propertyTypeUrl;
+            }
             if (addressUrl != null) {
                 url = url + "&" + addressUrl;
             }
