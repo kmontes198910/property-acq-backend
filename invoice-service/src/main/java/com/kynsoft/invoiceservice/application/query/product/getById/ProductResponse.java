@@ -8,6 +8,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Data
@@ -24,10 +25,19 @@ public class ProductResponse implements IResponse {
     private Integer stock;
     private String taxCode;
     private BigDecimal taxPercentage;
+    private String iceCode;
+    private BigDecimal icePercentage;
+    private String rentCode;
+    private BigDecimal rentTaxPercentage;
+    private String productType;
     private Boolean isService;
     private Boolean status;
+    private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
+    private UUID createdBy;
+    private UUID updatedBy;
     private CategoryInfo category;
-    
+
     @Data
     @Builder
     @NoArgsConstructor
@@ -36,7 +46,7 @@ public class ProductResponse implements IResponse {
         private UUID id;
         private String name;
     }
-    
+
     public static ProductResponse fromEntity(Product product) {
         ProductResponseBuilder builder = ProductResponse.builder()
                 .id(product.getId())
@@ -48,16 +58,25 @@ public class ProductResponse implements IResponse {
                 .stock(product.getStock())
                 .taxCode(product.getTaxCode())
                 .taxPercentage(product.getTaxPercentage())
+                .iceCode(product.getIceCode())
+                .icePercentage(product.getIcePercentage())
+                .rentCode(product.getRentCode())
+                .rentTaxPercentage(product.getRentTaxPercentage())
+                .productType(product.getProductType())
                 .isService(product.getIsService())
-                .status(product.getStatus());
-                
+                .status(product.getStatus())
+                .createdAt(product.getCreatedAt())
+                .updatedAt(product.getUpdatedAt())
+                .createdBy(product.getCreatedBy())
+                .updatedBy(product.getUpdatedBy());
+
         if (product.getCategory() != null) {
             builder.category(CategoryInfo.builder()
                     .id(product.getCategory().getId())
                     .name(product.getCategory().getName())
                     .build());
         }
-        
+
         return builder.build();
     }
 }
