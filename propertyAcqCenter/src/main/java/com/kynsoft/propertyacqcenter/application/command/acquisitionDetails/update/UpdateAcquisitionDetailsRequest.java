@@ -25,4 +25,5 @@ public class UpdateAcquisitionDetailsRequest {
     private Double afterRepairValue;
     private Boolean floodZoneDetermination;
     private Boolean propertyRented;
+    private String property;
 }

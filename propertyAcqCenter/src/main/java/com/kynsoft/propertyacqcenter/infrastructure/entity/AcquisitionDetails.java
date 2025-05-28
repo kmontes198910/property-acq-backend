@@ -24,14 +24,18 @@ public class AcquisitionDetails {
     @Id
     @Column(name = "id", nullable = false)
     private UUID id;
+    
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "property_id", nullable = false)
+    private Property property;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "seller_name_id", nullable = false)
     private LegalEntity sellerName;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "seller_contact_info_id", nullable = false)
-    private LegalEntity sellerContactInfo;
+    @JoinColumn(name = "company_id", nullable = false)
+    private Company sellerContactInfo;
 
     @Column(name = "contract_execution_date", nullable = false)
     private LocalDate contractExecutionDate;
@@ -88,7 +92,7 @@ public class AcquisitionDetails {
     public AcquisitionDetails(AcquisitionDetailsDto dto) {
         this.id = dto.getId() != null ? dto.getId() : UUID.randomUUID();
         this.sellerName = dto.getSellerName() != null ? new LegalEntity(dto.getSellerName()) : null;
-        this.sellerContactInfo = dto.getSellerContactInfo() != null ? new LegalEntity(dto.getSellerContactInfo()) : null;
+        this.sellerContactInfo = dto.getSellerContactInfo() != null ? new Company(dto.getSellerContactInfo()) : null;
         this.contractExecutionDate = dto.getContractExecutionDate();
         this.acquisitionType = dto.getAcquisitionType();
         this.sourceType = dto.getSourceType();
@@ -105,6 +109,7 @@ public class AcquisitionDetails {
         this.updatedBy = dto.getUpdatedBy();
         this.createdAt = dto.getCreatedAt();
         this.updatedAt = dto.getUpdatedAt();
+        this.property = dto.getProperty() != null ? new Property(dto.getProperty()) : null;
     }
 
     public AcquisitionDetailsDto toAggregate() {
@@ -115,6 +120,7 @@ public class AcquisitionDetails {
                 .sourceType(sourceType)
                 .sellerName(sellerName != null ? sellerName.toAggregateBasic() : null)
                 .sellerContactInfo(sellerContactInfo != null ? sellerContactInfo.toAggregateBasic() : null)
+                .property(property != null ? property.toAggregateBasic() : null)
                 .askingPrice(askingPrice)
                 .purchasePrice(purchasePrice)
                 .expectedClosingDate(expectedClosingDate)

@@ -15,7 +15,8 @@ public class CreateAcquisitionDetailsRequest {
     private AcquisitionType acquisitionType; // Purchase, Assignment, Inherited, JV
     private SourceType sourceType; // Broker, Wholesaler, Direct-to-Seller, etc.
     private UUID sellerName;//Relacion con Legal entity
-    private UUID sellerContactInfo;//Relacion con Legal entity
+    private UUID sellerContactInfo;//Relacion con Company
+    private String property;
     private Double askingPrice;
     private Double purchasePrice;
     private LocalDate expectedClosingDate;

@@ -29,12 +29,13 @@ public class CreateAcquisitionDetailsCommand implements ICommand {
     private Double afterRepairValue;
     private Boolean floodZoneDetermination;
     private Boolean propertyRented;
+    private String property;
 
     public CreateAcquisitionDetailsCommand(LocalDate contractExecutionDate, AcquisitionType acquisitionType, 
                                            SourceType sourceType, UUID sellerName, UUID sellerContactInfo, Double askingPrice, 
                                            Double purchasePrice, LocalDate expectedClosingDate, Double rentalPrice, 
                                            Boolean emdRequirements, Double emdOfferedAmount, Double afterRepairValue, 
-                                           Boolean floodZoneDetermination, Boolean propertyRented) {
+                                           Boolean floodZoneDetermination, Boolean propertyRented, String property) {
         this.id = UUID.randomUUID();
         this.contractExecutionDate = contractExecutionDate;
         this.acquisitionType = acquisitionType;
@@ -50,6 +51,7 @@ public class CreateAcquisitionDetailsCommand implements ICommand {
         this.afterRepairValue = afterRepairValue;
         this.floodZoneDetermination = floodZoneDetermination;
         this.propertyRented = propertyRented;
+        this.property = property;
     }
 
     public static CreateAcquisitionDetailsCommand fromRequest(CreateAcquisitionDetailsRequest request) {
@@ -67,7 +69,8 @@ public class CreateAcquisitionDetailsCommand implements ICommand {
                 request.getEmdOfferedAmount(),
                 request.getAfterRepairValue(),
                 request.getFloodZoneDetermination(),
-                request.getPropertyRented()
+                request.getPropertyRented(),
+                request.getProperty()
         );
     }
 

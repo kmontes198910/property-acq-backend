@@ -22,7 +22,7 @@ public class AcquisitionDetailsDto {
     private AcquisitionType acquisitionType; // Purchase, Assignment, Inherited, JV
     private SourceType sourceType; // Broker, Wholesaler, Direct-to-Seller, etc.
     private LegalEntityDto sellerName;//Relacion con Legal entity
-    private LegalEntityDto sellerContactInfo;//Relacion con Legal entity
+    private CompanyDto sellerContactInfo;//Relacion con Legal entity
     private Double askingPrice;
     private Double purchasePrice;
     private LocalDate expectedClosingDate;
@@ -32,6 +32,7 @@ public class AcquisitionDetailsDto {
     private Double afterRepairValue;
     private Boolean floodZoneDetermination;
     private Boolean propertyRented;
+    private PropertyDto property;
 
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;

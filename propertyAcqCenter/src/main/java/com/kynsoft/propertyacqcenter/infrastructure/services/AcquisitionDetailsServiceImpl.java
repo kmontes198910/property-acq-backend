@@ -8,7 +8,9 @@ import com.kynsoft.propertyacqcenter.domain.dto.AcquisitionDetailsDto;
 import com.kynsoft.propertyacqcenter.domain.dto.exception.AcquisitionDetailsNotFoundException;
 import com.kynsoft.propertyacqcenter.domain.services.IAcquisitionDetailsService;
 import com.kynsoft.propertyacqcenter.infrastructure.entity.AcquisitionDetails;
+import com.kynsoft.propertyacqcenter.infrastructure.entity.Company;
 import com.kynsoft.propertyacqcenter.infrastructure.entity.LegalEntity;
+import com.kynsoft.propertyacqcenter.infrastructure.entity.Property;
 import com.kynsoft.propertyacqcenter.infrastructure.repository.command.AcquisitionDetailsWriteDataJPARepository;
 import com.kynsoft.propertyacqcenter.infrastructure.repository.query.AcquisitionDetailsReadDataJPARepository;
 import org.springframework.data.domain.Pageable;
@@ -56,11 +58,12 @@ public class AcquisitionDetailsServiceImpl implements IAcquisitionDetailsService
         update.setPropertyRented(object.getPropertyRented());
         update.setPurchasePrice(object.getPurchasePrice());
         update.setRentalPrice(object.getRentalPrice());
-        update.setSellerContactInfo(new LegalEntity(object.getSellerContactInfo()));
+        update.setSellerContactInfo(new Company(object.getSellerContactInfo()));
         update.setSellerName(new LegalEntity(object.getSellerName()));
         update.setSourceType(object.getSourceType());
         update.setUpdatedBy(object.getUpdatedBy());
         update.setUpdatedAt(LocalDateTime.now());
+        update.setProperty(new Property(object.getProperty()));
 
         repositoryCommand.save(update);
     }

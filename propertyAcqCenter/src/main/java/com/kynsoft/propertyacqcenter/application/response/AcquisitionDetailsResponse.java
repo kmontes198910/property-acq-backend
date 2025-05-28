@@ -24,7 +24,8 @@ public class AcquisitionDetailsResponse implements IResponse {
     private AcquisitionType acquisitionType; // Purchase, Assignment, Inherited, JV
     private SourceType sourceType; // Broker, Wholesaler, Direct-to-Seller, etc.
     private LegalEntityBasicResponse sellerName;//Relacion con Legal entity
-    private LegalEntityBasicResponse sellerContactInfo;//Relacion con Legal entity
+    private CompanyBasicResponse sellerContactInfo;//Relacion con Legal entity
+    private PropertiesBasicResponse properties;//Relacion con Legal entity
     private Double askingPrice;
     private Double purchasePrice;
     private LocalDate expectedClosingDate;
@@ -46,7 +47,8 @@ public class AcquisitionDetailsResponse implements IResponse {
         this.acquisitionType = dto.getAcquisitionType();
         this.sourceType = dto.getSourceType();
         this.sellerName = dto.getSellerName() != null ? new LegalEntityBasicResponse(dto.getSellerName()) : null;
-        this.sellerContactInfo = dto.getSellerContactInfo() != null ? new LegalEntityBasicResponse(dto.getSellerContactInfo()) : null;
+        this.sellerContactInfo = dto.getSellerContactInfo() != null ? new CompanyBasicResponse(dto.getSellerContactInfo()) : null;
+        this.properties = dto.getProperty() != null ? new PropertiesBasicResponse(dto.getProperty()) : null;
         this.askingPrice = dto.getAskingPrice();
         this.purchasePrice = dto.getPurchasePrice();
         this.expectedClosingDate = dto.getExpectedClosingDate();

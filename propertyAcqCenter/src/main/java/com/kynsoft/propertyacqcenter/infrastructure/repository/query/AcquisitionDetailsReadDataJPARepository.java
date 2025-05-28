@@ -13,11 +13,11 @@ import java.util.UUID;
 import org.springframework.data.jpa.repository.EntityGraph;
 @Repository
 public interface AcquisitionDetailsReadDataJPARepository extends JpaRepository<AcquisitionDetails, UUID>, JpaSpecificationExecutor<AcquisitionDetails> {
-    @EntityGraph(attributePaths = {"sellerName", "sellerName.parent", "sellerName.owners", "sellerContactInfo", "sellerContactInfo.parent", "sellerContactInfo.owners"})
+    @EntityGraph(attributePaths = {"sellerName", "sellerContactInfo", "property"})
     @Override
     Page<AcquisitionDetails> findAll(Specification<AcquisitionDetails> specification, Pageable pageable);
 
-    @EntityGraph(attributePaths = {"sellerName", "sellerName.parent", "sellerName.owners", "sellerContactInfo", "sellerContactInfo.parent", "sellerContactInfo.owners"})
+    @EntityGraph(attributePaths = {"sellerName", "sellerContactInfo", "property"})
     @Override
     Optional<AcquisitionDetails> findById(UUID id);
 }
