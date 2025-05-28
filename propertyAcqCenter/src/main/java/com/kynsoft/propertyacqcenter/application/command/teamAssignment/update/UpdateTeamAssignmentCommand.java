@@ -19,9 +19,12 @@ public class UpdateTeamAssignmentCommand implements ICommand {
     private String projectManager;
     private String legalContact;
     private String property;
+    private String seller;
+    private String hoa;
 
     public UpdateTeamAssignmentCommand(UUID id, String buyerEntityName, String buyerContactRep, String titleEscrowCompany, 
-                                       String lenderCompany, String projectManager, String legalContact, String property) {
+                                       String lenderCompany, String projectManager, String legalContact, String property,
+                                       String seller, String hoa) {
         this.id = id;
         this.buyerEntityName = buyerEntityName;
         this.buyerContactRep = buyerContactRep;
@@ -30,6 +33,8 @@ public class UpdateTeamAssignmentCommand implements ICommand {
         this.projectManager = projectManager;
         this.legalContact = legalContact;
         this.property = property;
+        this.seller = seller;
+        this.hoa = hoa;
     }
 
     public static UpdateTeamAssignmentCommand fromRequest(UpdateTeamAssignmentRequest request, UUID id) {
@@ -41,7 +46,9 @@ public class UpdateTeamAssignmentCommand implements ICommand {
                 request.getLenderCompany(),
                 request.getProjectManager(),
                 request.getLegalContact(),
-                request.getProperty()
+                request.getProperty(),
+                request.getSeller(),
+                request.getHoa()
         );
     }
 

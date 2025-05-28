@@ -22,6 +22,8 @@ public class TeamAssignmentDto {
     private String projectManager;
     private String legalContact;
     private PropertyDto property;
+    private String seller;
+    private String hoa;
 
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;

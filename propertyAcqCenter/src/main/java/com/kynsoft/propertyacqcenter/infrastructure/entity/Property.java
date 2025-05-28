@@ -46,10 +46,19 @@ public class Property {
     private Integer bedrooms;
     private Double bathrooms;
     private Double askingPrice;
+    private Double purchasePrice;
+    private Double rentalPrice;
+    private Double afterRepairValue;
+    private Boolean floodZoneDetermination;
+    private Boolean propertyRented;
     private Integer daysOnMarket;
+//
+//    @Enumerated(EnumType.STRING)
+//    @Column(name = "property_status", nullable = true)
+//    private PropertyStatus propertyStatus;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "property_status", nullable = true)
+    @Column(name = "status_property", nullable = true)
     private PropertyStatus propertyStatus;
 
     @CreationTimestamp
@@ -60,6 +69,11 @@ public class Property {
 
     public Property(PropertyDto dto) {
         this.id = dto.getId();
+        this.purchasePrice = dto.getPurchasePrice();
+        this.rentalPrice = dto.getRentalPrice();
+        this.afterRepairValue = dto.getAfterRepairValue();
+        this.floodZoneDetermination = dto.getFloodZoneDetermination();
+        this.propertyRented = dto.getPropertyRented();
         this.formattedAddress = dto.getFormattedAddress();
         this.propertyType = dto.getPropertyType();
         this.lotSize = dto.getLotSize();
@@ -95,6 +109,11 @@ public class Property {
     public PropertyDto toAggregate() {
         return PropertyDto.builder()
                 .id(this.id)
+                .purchasePrice(purchasePrice)
+                .rentalPrice(rentalPrice)
+                .afterRepairValue(afterRepairValue)
+                .floodZoneDetermination(floodZoneDetermination)
+                .propertyRented(propertyRented)
                 .formattedAddress(formattedAddress)
                 .addressLine1(addressLine1)
                 .addressLine2(addressLine2)

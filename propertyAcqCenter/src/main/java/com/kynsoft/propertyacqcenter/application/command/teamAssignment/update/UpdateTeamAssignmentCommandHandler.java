@@ -30,6 +30,8 @@ public class UpdateTeamAssignmentCommandHandler implements ICommandHandler<Updat
                 .lenderCompany(command.getLenderCompany())
                 .projectManager(command.getProjectManager())
                 .legalContact(command.getLegalContact())
+                .seller(command.getSeller())
+                .hoa(command.getHoa())
                 .build());
     }
 }

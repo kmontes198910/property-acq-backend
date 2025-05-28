@@ -38,4 +38,9 @@ public class PropertyDto {
     private LocalDateTime createdAt;
     private Boolean isManual;
     private Integer daysOnMarket;
+    private Double purchasePrice;
+    private Double rentalPrice;
+    private Double afterRepairValue;
+    private Boolean floodZoneDetermination;
+    private Boolean propertyRented;
 }

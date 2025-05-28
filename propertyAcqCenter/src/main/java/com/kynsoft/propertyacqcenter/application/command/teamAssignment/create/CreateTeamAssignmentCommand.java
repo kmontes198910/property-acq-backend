@@ -2,7 +2,6 @@ package com.kynsoft.propertyacqcenter.application.command.teamAssignment.create;
 
 import com.kynsof.share.core.domain.bus.command.ICommand;
 import com.kynsof.share.core.domain.bus.command.ICommandMessage;
-import java.time.LocalDate;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -20,9 +19,12 @@ public class CreateTeamAssignmentCommand implements ICommand {
     private String projectManager;
     private String legalContact;
     private String property;
+    private String seller;
+    private String hoa;
 
     public CreateTeamAssignmentCommand(String buyerEntityName, String buyerContactRep, String titleEscrowCompany, 
-                                       String lenderCompany, String projectManager, String legalContact, String property) {
+                                       String lenderCompany, String projectManager, String legalContact, 
+                                       String property, String seller, String hoa) {
         this.id = UUID.randomUUID();
         this.buyerEntityName = buyerEntityName;
         this.buyerContactRep = buyerContactRep;
@@ -31,6 +33,8 @@ public class CreateTeamAssignmentCommand implements ICommand {
         this.projectManager = projectManager;
         this.legalContact = legalContact;
         this.property = property;
+        this.seller = seller;
+        this.hoa = hoa;
     }
 
     public static CreateTeamAssignmentCommand fromRequest(CreateTeamAssignmentRequest request) {
@@ -41,7 +45,9 @@ public class CreateTeamAssignmentCommand implements ICommand {
                 request.getLenderCompany(),
                 request.getProjectManager(),
                 request.getLegalContact(),
-                request.getProperty()
+                request.getProperty(),
+                request.getSeller(),
+                request.getHoa()
         );
     }
 

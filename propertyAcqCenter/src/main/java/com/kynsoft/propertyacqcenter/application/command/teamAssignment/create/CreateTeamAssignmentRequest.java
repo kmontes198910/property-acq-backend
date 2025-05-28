@@ -14,4 +14,6 @@ public class CreateTeamAssignmentRequest {
     private String projectManager;
     private String legalContact;
     private String property;
+    private String seller;
+    private String hoa;
 }
