@@ -42,6 +42,11 @@ public class CreatePropertyCommandHandler implements ICommandHandler<CreatePrope
                 .propertyStatus(command.getPropertyStatus())
                 .isManual(command.getIsManual())
                 .daysOnMarket(command.getDaysOnMarket())
+                .purchasePrice(command.getRentalPrice())
+                .rentalPrice(command.getRentalPrice())
+                .afterRepairValue(command.getAfterRepairValue())
+                .floodZoneDetermination(command.getFloodZoneDetermination())
+                .propertyRented(command.getPropertyRented())
                 .build()
         );
     }

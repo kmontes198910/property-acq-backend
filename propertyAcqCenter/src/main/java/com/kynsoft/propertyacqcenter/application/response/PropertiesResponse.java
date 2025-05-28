@@ -40,7 +40,18 @@ public class PropertiesResponse implements IResponse {
     private Boolean isManual;
     private Integer daysOnMarket;
 
+    private Double purchasePrice;
+    private Double rentalPrice;
+    private Double afterRepairValue;
+    private Boolean floodZoneDetermination;
+    private Boolean propertyRented;
+
     public PropertiesResponse(PropertyDto dto) {
+        this.purchasePrice = dto.getPurchasePrice();
+        this.rentalPrice = dto.getRentalPrice();
+        this.afterRepairValue = dto.getAfterRepairValue();
+        this.floodZoneDetermination = dto.getFloodZoneDetermination();
+        this.propertyRented = dto.getPropertyRented();
         this.id = dto.getId();
         this.propertyType = dto.getPropertyType();
         this.lotSize = dto.getLotSize();

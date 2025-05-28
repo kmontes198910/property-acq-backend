@@ -39,6 +39,12 @@ public class UpdatePropertyCommand implements ICommand {
     private Boolean isManual;
     private Integer daysOnMarket;
 
+    private Double purchasePrice;
+    private Double rentalPrice;
+    private Double afterRepairValue;
+    private Boolean floodZoneDetermination;
+    private Boolean propertyRented;
+
     public UpdatePropertyCommand(String id, PropertyType propertyType, int lotSize, 
                                  String apn, int yearBuilt, String county, Boolean occupancy, 
                                  String addressLine1, String addressLine2, String city, String state, 
@@ -46,8 +52,15 @@ public class UpdatePropertyCommand implements ICommand {
                                  String roofType, String structureType, String hoa,
                                  Integer bedrooms, Double bathrooms, Double askingPrice,
                                  String formattedAddress, PropertyStatus propertyStatus,
-                                 Boolean isManual, Integer daysOnMarket) {
+                                 Boolean isManual, Integer daysOnMarket,
+                                 Double purchasePrice, Double rentalPrice, Double afterRepairValue, Boolean floodZoneDetermination,
+                                 Boolean propertyRented) {
         this.id = id;
+        this.purchasePrice = purchasePrice;
+        this.rentalPrice = rentalPrice;
+        this.afterRepairValue = afterRepairValue;
+        this.floodZoneDetermination = floodZoneDetermination;
+        this.propertyRented = propertyRented;
         this.propertyType = propertyType;
         this.lotSize = lotSize;
         this.apn = apn;
@@ -98,7 +111,12 @@ public class UpdatePropertyCommand implements ICommand {
                 request.getFormattedAddress(),
                 request.getPropertyStatus(),
                 request.getIsManual(),
-                request.getDaysOnMarket()
+                request.getDaysOnMarket(),
+                request.getPurchasePrice(),
+                request.getRentalPrice(),
+                request.getAfterRepairValue(),
+                request.getFloodZoneDetermination(),
+                request.getPropertyRented()
         );
     }
 

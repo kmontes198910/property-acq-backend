@@ -35,4 +35,11 @@ public class UpdatePropertyRequest {
     private PropertyStatus propertyStatus;
     private Boolean isManual;
     private Integer daysOnMarket;
+
+    private Double purchasePrice;
+    private Double rentalPrice;
+    private Double afterRepairValue;
+    private Boolean floodZoneDetermination;
+    private Boolean propertyRented;
+
 }
