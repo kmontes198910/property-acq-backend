@@ -51,6 +51,8 @@ public class TeamAssignmentServiceImpl implements ITeamAssignmentService {
         update.setProjectManager(object.getProjectManager());
         update.setProperty(new Property(object.getProperty()));
         update.setTitleEscrowCompany(object.getTitleEscrowCompany());
+        update.setSeller(object.getSeller());
+        update.setHoa(object.getHoa());
 
         update.setUpdatedAt(LocalDateTime.now());
         repositoryCommand.save(update);

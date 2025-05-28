@@ -24,6 +24,8 @@ public class TeamAssignmentResponse implements IResponse {
     private String projectManager;
     private String legalContact;
     private PropertiesBasicResponse property;
+    private String seller;
+    private String hoa;
 
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
@@ -43,6 +45,8 @@ public class TeamAssignmentResponse implements IResponse {
         this.updatedAt = dto.getUpdatedAt();
         this.createdBy = dto.getCreatedBy();
         this.updatedBy = dto.getUpdatedBy();
+        this.hoa = dto.getHoa();
+        this.seller = dto.getSeller();
     }
 
 }

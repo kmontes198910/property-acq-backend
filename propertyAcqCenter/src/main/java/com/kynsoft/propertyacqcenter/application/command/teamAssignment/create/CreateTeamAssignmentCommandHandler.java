@@ -30,6 +30,8 @@ public class CreateTeamAssignmentCommandHandler implements ICommandHandler<Creat
                 .lenderCompany(command.getLenderCompany())
                 .projectManager(command.getProjectManager())
                 .legalContact(command.getLegalContact())
+                .seller(command.getSeller())
+                .hoa(command.getHoa())
                 .build());
     }
 }

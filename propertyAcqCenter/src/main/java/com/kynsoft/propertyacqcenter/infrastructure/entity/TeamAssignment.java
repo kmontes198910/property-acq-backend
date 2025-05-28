@@ -32,6 +32,8 @@ public class TeamAssignment {
     private String lenderCompany;
     private String projectManager;
     private String legalContact;
+    private String seller;
+    private String hoa;
 
     @CreationTimestamp
     @Column(name = "created_at", updatable = false)
@@ -58,6 +60,8 @@ public class TeamAssignment {
         this.legalContact = dto.getLegalContact();
         this.createdBy = dto.getCreatedBy();
         this.updatedBy = dto.getUpdatedBy();
+        this.hoa = dto.getHoa();
+        this.seller = dto.getSeller();
     }
 
     public TeamAssignmentDto toAggregate() {
@@ -74,6 +78,8 @@ public class TeamAssignment {
                 .lenderCompany(lenderCompany)
                 .projectManager(projectManager)
                 .legalContact(legalContact)
+                .hoa(hoa)
+                .seller(seller)
                 .build();
     }
 }
