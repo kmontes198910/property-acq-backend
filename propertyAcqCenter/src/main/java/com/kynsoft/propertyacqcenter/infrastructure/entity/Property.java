@@ -47,9 +47,13 @@ public class Property {
     private Double bathrooms;
     private Double askingPrice;
     private Integer daysOnMarket;
+//
+//    @Enumerated(EnumType.STRING)
+//    @Column(name = "property_status", nullable = true)
+//    private PropertyStatus propertyStatus;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "property_status", nullable = true)
+    @Column(name = "status_property", nullable = true)
     private PropertyStatus propertyStatus;
 
     @CreationTimestamp
