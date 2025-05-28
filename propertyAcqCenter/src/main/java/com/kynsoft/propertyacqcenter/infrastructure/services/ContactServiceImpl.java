@@ -74,6 +74,7 @@ public class ContactServiceImpl implements IContactService {
             contact.setNotes(contactDto.getNotes());
             contact.setIsActive(contactDto.getIsActive());
             contact.setSubCategory(new SubCategory(contactDto.getSubCategory()));
+            contact.setPersonalEmail(contactDto.getPersonalEmail());
 
             // Guardar los cambios
             repositoryCommand.save(contact);
