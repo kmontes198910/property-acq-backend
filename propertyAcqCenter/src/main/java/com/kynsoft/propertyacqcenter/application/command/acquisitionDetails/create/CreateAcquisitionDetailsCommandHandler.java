@@ -5,6 +5,7 @@ import com.kynsoft.propertyacqcenter.domain.dto.AcquisitionDetailsDto;
 import com.kynsoft.propertyacqcenter.domain.dto.CompanyDto;
 import com.kynsoft.propertyacqcenter.domain.dto.LegalEntityDto;
 import com.kynsoft.propertyacqcenter.domain.dto.PropertyDto;
+import com.kynsoft.propertyacqcenter.domain.enums.PropertyStatus;
 import com.kynsoft.propertyacqcenter.domain.services.IAcquisitionDetailsService;
 import com.kynsoft.propertyacqcenter.domain.services.ICompanyService;
 import com.kynsoft.propertyacqcenter.domain.services.ILegalEntityService;
@@ -51,6 +52,10 @@ public class CreateAcquisitionDetailsCommandHandler implements ICommandHandler<C
                 .property(property)
                 .build()
         );
+
+        //Si no existen errores, cambiar el estado a ACQUISITION
+        property.setPropertyStatus(PropertyStatus.ACQUISITION);
+        this.propertyService.update(property);
     }
 
 }
