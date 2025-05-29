@@ -33,7 +33,7 @@ public class LabTestItemRequestEntity {
     @JoinColumn(name = "order_id", nullable = false)
     private LabTestRequestEntity order;
 
-    @Column(name = "order_id", nullable = false)
+    @Column(name = "order_id", insertable = false, updatable = false)
     private UUID orderId;
 
     @Column(name = "code", nullable = false)
@@ -70,6 +70,7 @@ public class LabTestItemRequestEntity {
     public LabTestItemRequestEntity(LabTestItemRequestDto dto) {
         this.id = dto.getId();
         this.order = dto.getOrder() != null ? new LabTestRequestEntity(dto.getOrder()) : null;
+        // orderId se establecerá automáticamente cuando se persista la entidad
         this.code = dto.getCode();
         this.examinationType = dto.getExaminationType();
         this.status = dto.getStatus();
