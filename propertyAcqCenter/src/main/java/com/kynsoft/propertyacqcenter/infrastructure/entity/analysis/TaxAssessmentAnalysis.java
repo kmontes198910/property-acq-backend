@@ -50,6 +50,7 @@ public class TaxAssessmentAnalysis {
                 .improvements(improvements)
                 .land(land)
                 .value(value)
+                .year(year)
                 .build();
     }
 
