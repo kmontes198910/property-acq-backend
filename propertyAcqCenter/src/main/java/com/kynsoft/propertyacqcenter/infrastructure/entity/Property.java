@@ -1,9 +1,12 @@
 package com.kynsoft.propertyacqcenter.infrastructure.entity;
 
 import com.kynsoft.propertyacqcenter.domain.dto.PropertyDto;
+import com.kynsoft.propertyacqcenter.domain.enums.AcquisitionType;
 import com.kynsoft.propertyacqcenter.domain.enums.PropertyStatus;
 import com.kynsoft.propertyacqcenter.domain.enums.PropertyType;
+import com.kynsoft.propertyacqcenter.domain.enums.SourceType;
 import jakarta.persistence.*;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
@@ -67,6 +70,35 @@ public class Property {
 
     private Boolean isManual;
 
+    //Acquisition
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "seller_name_id", nullable = true)
+    private LegalEntity sellerName;//
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "company_id", nullable = true)
+    private Company sellerContactInfo;//
+
+    @Column(name = "contract_execution_date", nullable = true)
+    private LocalDate contractExecutionDate;//
+
+    @Column(name = "expected_closing_date", nullable = true)
+    private LocalDate expectedClosingDate;//
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "acquisition_type", nullable = true)
+    private AcquisitionType acquisitionType;//
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "source_type", nullable = true)
+    private SourceType sourceType;//
+
+    @Column(name = "emd_offered_amount", nullable = true)
+    private Double emdOfferedAmount;//
+
+    @Column(name = "emd_requirements", nullable = true)
+    private Boolean emdRequirements;//
+
     public Property(PropertyDto dto) {
         this.id = dto.getId();
         this.purchasePrice = dto.getPurchasePrice();
@@ -97,6 +129,16 @@ public class Property {
         this.propertyStatus = dto.getPropertyStatus();
         this.isManual = dto.getIsManual();
         this.daysOnMarket = dto.getDaysOnMarket();
+
+        //Acquisition
+        this.sellerName = dto.getSellerName() != null ? new LegalEntity(dto.getSellerName()) : null;
+        this.sellerContactInfo = dto.getSellerContactInfo() != null ? new Company(dto.getSellerContactInfo()) : null;
+        this.contractExecutionDate = dto.getContractExecutionDate();
+        this.acquisitionType = dto.getAcquisitionType();
+        this.sourceType = dto.getSourceType();
+        this.expectedClosingDate = dto.getExpectedClosingDate();
+        this.emdRequirements = dto.getEmdRequirements();
+        this.emdOfferedAmount = dto.getEmdOfferedAmount();
     }
 
     public PropertyDto toAggregateBasic() {
@@ -138,6 +180,15 @@ public class Property {
                 .createdAt(createdAt)
                 .isManual(isManual)
                 .daysOnMarket(daysOnMarket)
+
+                .contractExecutionDate(contractExecutionDate)
+                .acquisitionType(acquisitionType)
+                .sourceType(sourceType)
+                .sellerName(sellerName != null ? sellerName.toAggregateBasic() : null)
+                .sellerContactInfo(sellerContactInfo != null ? sellerContactInfo.toAggregateBasic() : null)
+                .expectedClosingDate(expectedClosingDate)
+                .emdRequirements(emdRequirements)
+                .emdOfferedAmount(emdOfferedAmount)
                 .build();
     }
 

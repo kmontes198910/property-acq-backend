@@ -8,6 +8,8 @@ import com.kynsoft.propertyacqcenter.domain.dto.PropertyDto;
 import com.kynsoft.propertyacqcenter.domain.dto.exception.PropertyNotFoundException;
 import com.kynsoft.propertyacqcenter.domain.dto.exception.property.PropertyIdMustBeUniqueException;
 import com.kynsoft.propertyacqcenter.domain.services.IPropertyService;
+import com.kynsoft.propertyacqcenter.infrastructure.entity.Company;
+import com.kynsoft.propertyacqcenter.infrastructure.entity.LegalEntity;
 import com.kynsoft.propertyacqcenter.infrastructure.entity.Property;
 import com.kynsoft.propertyacqcenter.infrastructure.repository.command.PropertyWriteDataJPARepository;
 import com.kynsoft.propertyacqcenter.infrastructure.repository.query.PropertyReadDataJPARepository;
@@ -70,6 +72,16 @@ public class PropertyServiceImpl implements IPropertyService {
         update.setAfterRepairValue(object.getAfterRepairValue());
         update.setFloodZoneDetermination(object.getFloodZoneDetermination());
         update.setPropertyRented(object.getPropertyRented());
+
+        //Acquisition
+        update.setContractExecutionDate(object.getContractExecutionDate());
+        update.setAcquisitionType(object.getAcquisitionType());
+        update.setEmdOfferedAmount(object.getEmdOfferedAmount());
+        update.setEmdRequirements(object.getEmdRequirements());
+        update.setExpectedClosingDate(object.getExpectedClosingDate());
+        update.setSellerContactInfo(new Company(object.getSellerContactInfo()));
+        update.setSellerName(new LegalEntity(object.getSellerName()));
+        update.setSourceType(object.getSourceType());
 
         repositoryCommand.save(update);
     }

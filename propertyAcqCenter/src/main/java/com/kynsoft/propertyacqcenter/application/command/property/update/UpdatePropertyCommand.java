@@ -2,8 +2,12 @@ package com.kynsoft.propertyacqcenter.application.command.property.update;
 
 import com.kynsof.share.core.domain.bus.command.ICommand;
 import com.kynsof.share.core.domain.bus.command.ICommandMessage;
+import com.kynsoft.propertyacqcenter.domain.enums.AcquisitionType;
 import com.kynsoft.propertyacqcenter.domain.enums.PropertyStatus;
 import com.kynsoft.propertyacqcenter.domain.enums.PropertyType;
+import com.kynsoft.propertyacqcenter.domain.enums.SourceType;
+import java.time.LocalDate;
+import java.util.UUID;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -45,6 +49,15 @@ public class UpdatePropertyCommand implements ICommand {
     private Boolean floodZoneDetermination;
     private Boolean propertyRented;
 
+    private LocalDate contractExecutionDate;
+    private AcquisitionType acquisitionType; // Purchase, Assignment, Inherited, JV
+    private SourceType sourceType; // Broker, Wholesaler, Direct-to-Seller, etc.
+    private UUID sellerName;//Relacion con Legal entity
+    private UUID sellerContactInfo;//Relacion con Company
+    private LocalDate expectedClosingDate;
+    private Boolean emdRequirements;
+    private Double emdOfferedAmount;
+
     public UpdatePropertyCommand(String id, PropertyType propertyType, int lotSize, 
                                  String apn, int yearBuilt, String county, Boolean occupancy, 
                                  String addressLine1, String addressLine2, String city, String state, 
@@ -54,7 +67,10 @@ public class UpdatePropertyCommand implements ICommand {
                                  String formattedAddress, PropertyStatus propertyStatus,
                                  Boolean isManual, Integer daysOnMarket,
                                  Double purchasePrice, Double rentalPrice, Double afterRepairValue, Boolean floodZoneDetermination,
-                                 Boolean propertyRented) {
+                                 Boolean propertyRented,
+                                 LocalDate contractExecutionDate, AcquisitionType acquisitionType, SourceType sourceType,
+                                 UUID sellerName, UUID sellerContactInfo, LocalDate expectedClosingDate,
+                                 Boolean emdRequirements, Double emdOfferedAmount) {
         this.id = id;
         this.purchasePrice = purchasePrice;
         this.rentalPrice = rentalPrice;
@@ -84,6 +100,14 @@ public class UpdatePropertyCommand implements ICommand {
         this.propertyStatus = propertyStatus;
         this.isManual = isManual;
         this.daysOnMarket = daysOnMarket;
+        this.contractExecutionDate = contractExecutionDate;
+        this.acquisitionType = acquisitionType;
+        this.sourceType = sourceType;
+        this.sellerName = sellerName;
+        this.sellerContactInfo = sellerContactInfo;
+        this.expectedClosingDate = expectedClosingDate;
+        this.emdRequirements = emdRequirements;
+        this.emdOfferedAmount = emdOfferedAmount;
     }
 
     public static UpdatePropertyCommand fromRequest(UpdatePropertyRequest request, String id) {
@@ -116,7 +140,15 @@ public class UpdatePropertyCommand implements ICommand {
                 request.getRentalPrice(),
                 request.getAfterRepairValue(),
                 request.getFloodZoneDetermination(),
-                request.getPropertyRented()
+                request.getPropertyRented(),
+                request.getContractExecutionDate(),
+                request.getAcquisitionType(),
+                request.getSourceType(),
+                request.getSellerName(),
+                request.getSellerContactInfo(),
+                request.getExpectedClosingDate(),
+                request.getEmdRequirements(),
+                request.getEmdOfferedAmount()
         );
     }
 
