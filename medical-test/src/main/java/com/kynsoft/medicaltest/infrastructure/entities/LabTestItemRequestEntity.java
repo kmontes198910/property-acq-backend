@@ -33,6 +33,9 @@ public class LabTestItemRequestEntity {
     @JoinColumn(name = "order_id", nullable = false)
     private LabTestRequestEntity order;
 
+    @Column(name = "order_id", nullable = false)
+    private UUID orderId;
+
     @Column(name = "code", nullable = false)
     private String code;
 
