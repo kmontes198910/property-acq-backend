@@ -2,8 +2,11 @@ package com.kynsoft.propertyacqcenter.application.response;
 
 import com.kynsof.share.core.domain.bus.query.IResponse;
 import com.kynsoft.propertyacqcenter.domain.dto.PropertyDto;
+import com.kynsoft.propertyacqcenter.domain.enums.AcquisitionType;
 import com.kynsoft.propertyacqcenter.domain.enums.PropertyStatus;
 import com.kynsoft.propertyacqcenter.domain.enums.PropertyType;
+import com.kynsoft.propertyacqcenter.domain.enums.SourceType;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import lombok.*;
 
@@ -46,6 +49,16 @@ public class PropertiesResponse implements IResponse {
     private Boolean floodZoneDetermination;
     private Boolean propertyRented;
 
+    //Acquisition
+    private LocalDate contractExecutionDate;
+    private AcquisitionType acquisitionType; // Purchase, Assignment, Inherited, JV
+    private SourceType sourceType; // Broker, Wholesaler, Direct-to-Seller, etc.
+    private LegalEntityBasicResponse sellerName;//Relacion con Legal entity
+    private CompanyBasicResponse sellerContactInfo;//Relacion con Legal entity
+    private LocalDate expectedClosingDate;
+    private Boolean emdRequirements;
+    private Double emdOfferedAmount;
+
     public PropertiesResponse(PropertyDto dto) {
         this.purchasePrice = dto.getPurchasePrice();
         this.rentalPrice = dto.getRentalPrice();
@@ -77,6 +90,16 @@ public class PropertiesResponse implements IResponse {
         this.createdAt = dto.getCreatedAt();
         this.isManual = dto.getIsManual();
         this.daysOnMarket = dto.getDaysOnMarket();
+
+        //Acquisition
+        this.contractExecutionDate = dto.getContractExecutionDate();
+        this.acquisitionType = dto.getAcquisitionType();
+        this.sourceType = dto.getSourceType();
+        this.sellerName = dto.getSellerName() != null ? new LegalEntityBasicResponse(dto.getSellerName()) : null;
+        this.sellerContactInfo = dto.getSellerContactInfo() != null ? new CompanyBasicResponse(dto.getSellerContactInfo()) : null;
+        this.expectedClosingDate = dto.getExpectedClosingDate();
+        this.emdRequirements = dto.getEmdRequirements();
+        this.emdOfferedAmount = dto.getEmdOfferedAmount();
     }
 
 }

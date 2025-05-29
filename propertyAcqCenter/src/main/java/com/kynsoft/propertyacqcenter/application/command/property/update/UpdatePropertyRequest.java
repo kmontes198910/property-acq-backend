@@ -1,7 +1,11 @@
 package com.kynsoft.propertyacqcenter.application.command.property.update;
 
+import com.kynsoft.propertyacqcenter.domain.enums.AcquisitionType;
 import com.kynsoft.propertyacqcenter.domain.enums.PropertyStatus;
 import com.kynsoft.propertyacqcenter.domain.enums.PropertyType;
+import com.kynsoft.propertyacqcenter.domain.enums.SourceType;
+import java.time.LocalDate;
+import java.util.UUID;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -41,5 +45,14 @@ public class UpdatePropertyRequest {
     private Double afterRepairValue;
     private Boolean floodZoneDetermination;
     private Boolean propertyRented;
+
+    private LocalDate contractExecutionDate;
+    private AcquisitionType acquisitionType; // Purchase, Assignment, Inherited, JV
+    private SourceType sourceType; // Broker, Wholesaler, Direct-to-Seller, etc.
+    private UUID sellerName;//Relacion con Legal entity
+    private UUID sellerContactInfo;//Relacion con Company
+    private LocalDate expectedClosingDate;
+    private Boolean emdRequirements;
+    private Double emdOfferedAmount;
 
 }

@@ -1,7 +1,11 @@
 package com.kynsoft.propertyacqcenter.application.command.property.update;
 
 import com.kynsof.share.core.domain.bus.command.ICommandHandler;
+import com.kynsoft.propertyacqcenter.domain.dto.CompanyDto;
+import com.kynsoft.propertyacqcenter.domain.dto.LegalEntityDto;
 import com.kynsoft.propertyacqcenter.domain.dto.PropertyDto;
+import com.kynsoft.propertyacqcenter.domain.services.ICompanyService;
+import com.kynsoft.propertyacqcenter.domain.services.ILegalEntityService;
 import com.kynsoft.propertyacqcenter.domain.services.IPropertyService;
 import org.springframework.stereotype.Component;
 
@@ -9,13 +13,19 @@ import org.springframework.stereotype.Component;
 public class UpdatePropertyCommandHandler implements ICommandHandler<UpdatePropertyCommand> {
 
     private final IPropertyService propertyService;
+    private final ICompanyService companyService;
+    private final ILegalEntityService legalEntityService;
 
-    public UpdatePropertyCommandHandler(IPropertyService propertyService) {
+    public UpdatePropertyCommandHandler(IPropertyService propertyService, ICompanyService companyService, ILegalEntityService legalEntityService) {
         this.propertyService = propertyService;
+        this.companyService = companyService;
+        this.legalEntityService = legalEntityService;
     }
 
     @Override
     public void handle(UpdatePropertyCommand command) {
+        LegalEntityDto sellerName = this.legalEntityService.findById(command.getSellerName());
+        CompanyDto sellerContactInfo = this.companyService.findById(command.getSellerContactInfo());
         propertyService.update(PropertyDto.builder()
                 .addressLine1(command.getAddressLine1())
                 .addressLine2(command.getAddressLine2())
@@ -46,6 +56,15 @@ public class UpdatePropertyCommandHandler implements ICommandHandler<UpdatePrope
                 .afterRepairValue(command.getAfterRepairValue())
                 .floodZoneDetermination(command.getFloodZoneDetermination())
                 .propertyRented(command.getPropertyRented())
+
+                .contractExecutionDate(command.getContractExecutionDate())
+                .acquisitionType(command.getAcquisitionType())
+                .sourceType(command.getSourceType())
+                .sellerName(sellerName)
+                .sellerContactInfo(sellerContactInfo)
+                .expectedClosingDate(command.getExpectedClosingDate())
+                .emdRequirements(command.getEmdRequirements())
+                .emdOfferedAmount(command.getEmdOfferedAmount())
                 .build());
     }
 }

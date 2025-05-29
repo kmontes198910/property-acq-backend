@@ -17,25 +17,28 @@ import lombok.Setter;
 @NoArgsConstructor
 @Builder
 public class AcquisitionDetailsDto {
+
     private UUID id;
     private LocalDate contractExecutionDate;
     private AcquisitionType acquisitionType; // Purchase, Assignment, Inherited, JV
     private SourceType sourceType; // Broker, Wholesaler, Direct-to-Seller, etc.
     private LegalEntityDto sellerName;//Relacion con Legal entity
     private CompanyDto sellerContactInfo;//Relacion con Legal entity
-    private Double askingPrice;
-    private Double purchasePrice;
-    private LocalDate expectedClosingDate;
-    private Double rentalPrice;
     private Boolean emdRequirements;
     private Double emdOfferedAmount;
-    private Double afterRepairValue;
-    private Boolean floodZoneDetermination;
-    private Boolean propertyRented;
+    private LocalDate expectedClosingDate;
     private PropertyDto property;
 
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
     private UUID createdBy;
     private UUID updatedBy;
+
+    private Boolean floodZoneDetermination;//
+    private Boolean propertyRented;//
+    private Double askingPrice;//
+    private Double purchasePrice;//
+    private Double rentalPrice;//
+    private Double afterRepairValue;//
+
 }
