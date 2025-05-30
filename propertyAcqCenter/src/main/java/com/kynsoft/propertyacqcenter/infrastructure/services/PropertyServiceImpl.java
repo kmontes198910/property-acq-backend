@@ -79,8 +79,8 @@ public class PropertyServiceImpl implements IPropertyService {
         update.setEmdOfferedAmount(object.getEmdOfferedAmount());
         update.setEmdRequirements(object.getEmdRequirements());
         update.setExpectedClosingDate(object.getExpectedClosingDate());
-        update.setSellerContactInfo(new Contact(object.getSellerContactInfo()));
-        update.setSellerName(new LegalEntity(object.getSellerName()));
+        update.setSellerContactInfo(object.getSellerContactInfo() != null ? new Contact(object.getSellerContactInfo()) : null);
+        update.setSellerName(object.getSellerContactInfo() != null ? new LegalEntity(object.getSellerName()) : null);
         update.setSourceType(object.getSourceType());
 
         repositoryCommand.save(update);
