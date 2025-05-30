@@ -83,7 +83,7 @@ public class LabTestRequestServiceImpl implements ILabTestRequestService {
     private PaginatedResponse getPaginatedResponse(Page<LabTestRequestEntity> data) {
         List<LabTestRequestSearchResponse> objects = new ArrayList<>();
         for (LabTestRequestEntity p : data.getContent()) {
-            objects.add(new LabTestRequestSearchResponse(p.toAggregateSimple()));
+            objects.add(new LabTestRequestSearchResponse(p.toAggregate()));
         }
         return new PaginatedResponse(objects, data.getTotalPages(), data.getNumberOfElements(),
                 data.getTotalElements(), data.getSize(), data.getNumber());
