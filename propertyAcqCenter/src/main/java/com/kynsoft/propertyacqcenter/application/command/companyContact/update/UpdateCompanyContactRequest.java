@@ -1,5 +1,6 @@
 package com.kynsoft.propertyacqcenter.application.command.companyContact.update;
 
+import com.kynsoft.propertyacqcenter.domain.enums.DepartmentType;
 import java.util.UUID;
 import lombok.Getter;
 import lombok.Setter;
@@ -14,7 +15,7 @@ public class UpdateCompanyContactRequest {
     private String email;
     private String phoneNumber;
     private String position;
-    private String department;
+    private DepartmentType department;
     private String category;
     private String notes;
     private Boolean isActive;
