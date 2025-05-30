@@ -55,7 +55,7 @@ public class LabTestRequestEntity {
     @Column(name = "business_id", nullable = false)
     private UUID businessId;
 
-    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private List<LabTestItemRequestEntity> examinations = new ArrayList<>();
 
     @CreationTimestamp
