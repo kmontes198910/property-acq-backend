@@ -58,15 +58,11 @@ public class UpdateProductCommandHandler implements ICommandHandler<UpdateProduc
         product.setMainCode(command.getMainCode());
         product.setAuxiliaryCode(command.getAuxiliaryCode());
         product.setPrice(command.getPrice());
-        product.setStock(command.getStock());
         product.setTaxCode(command.getTaxCode());
         product.setTaxPercentage(command.getTaxPercentage());
         product.setIceCode(command.getIceCode());
         product.setIcePercentage(command.getIcePercentage());
-        product.setRentCode(command.getRentCode());
-        product.setRentTaxPercentage(command.getRentTaxPercentage());
         product.setProductType(command.getProductType());
-        product.setIsService(command.getIsService());
         product.setStatus(command.getStatus());
         product.setUpdatedBy(command.getUpdatedBy()); // Agregar campo de auditoría
         

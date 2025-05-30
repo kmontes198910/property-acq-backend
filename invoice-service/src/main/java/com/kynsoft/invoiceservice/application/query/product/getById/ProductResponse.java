@@ -22,15 +22,11 @@ public class ProductResponse implements IResponse {
     private String mainCode;
     private String auxiliaryCode;
     private BigDecimal price;
-    private Integer stock;
     private String taxCode;
     private BigDecimal taxPercentage;
     private String iceCode;
     private BigDecimal icePercentage;
-    private String rentCode;
-    private BigDecimal rentTaxPercentage;
     private String productType;
-    private Boolean isService;
     private Boolean status;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
@@ -55,15 +51,11 @@ public class ProductResponse implements IResponse {
                 .mainCode(product.getMainCode())
                 .auxiliaryCode(product.getAuxiliaryCode())
                 .price(product.getPrice())
-                .stock(product.getStock())
                 .taxCode(product.getTaxCode())
                 .taxPercentage(product.getTaxPercentage())
                 .iceCode(product.getIceCode())
                 .icePercentage(product.getIcePercentage())
-                .rentCode(product.getRentCode())
-                .rentTaxPercentage(product.getRentTaxPercentage())
                 .productType(product.getProductType())
-                .isService(product.getIsService())
                 .status(product.getStatus())
                 .createdAt(product.getCreatedAt())
                 .updatedAt(product.getUpdatedAt())

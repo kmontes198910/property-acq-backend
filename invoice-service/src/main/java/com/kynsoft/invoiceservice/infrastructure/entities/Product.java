@@ -36,9 +36,6 @@ public class Product {
     @Column(nullable = false, precision = 19, scale = 4)
     private BigDecimal price;
     
-    @Column(nullable = false)
-    private Integer stock;
-    
     @Column(name = "tax_code", nullable = false)
     private String taxCode;
     
@@ -51,17 +48,8 @@ public class Product {
     @Column(name = "ice_percentage", precision = 5, scale = 2)
     private BigDecimal icePercentage;
     
-    @Column(name = "rent_code")
-    private String rentCode;
-    
-    @Column(name = "rent_tax_percentage", precision = 5, scale = 2)
-    private BigDecimal rentTaxPercentage;
-    
     @Column(name = "product_type")
     private String productType;
-    
-    @Column(name = "is_service")
-    private Boolean isService;
     
     @Column(nullable = false)
     private Boolean status;
