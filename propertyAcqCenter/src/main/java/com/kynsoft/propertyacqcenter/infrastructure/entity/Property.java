@@ -76,8 +76,8 @@ public class Property {
     private LegalEntity sellerName;//
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "company_id", nullable = true)
-    private Company sellerContactInfo;//
+    @JoinColumn(name = "contact_id", nullable = true)
+    private Contact sellerContactInfo;//
 
     @Column(name = "contract_execution_date", nullable = true)
     private LocalDate contractExecutionDate;//
@@ -132,7 +132,7 @@ public class Property {
 
         //Acquisition
         this.sellerName = dto.getSellerName() != null ? new LegalEntity(dto.getSellerName()) : null;
-        this.sellerContactInfo = dto.getSellerContactInfo() != null ? new Company(dto.getSellerContactInfo()) : null;
+        this.sellerContactInfo = dto.getSellerContactInfo() != null ? new Contact(dto.getSellerContactInfo()) : null;
         this.contractExecutionDate = dto.getContractExecutionDate();
         this.acquisitionType = dto.getAcquisitionType();
         this.sourceType = dto.getSourceType();

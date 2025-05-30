@@ -53,7 +53,7 @@ public class PropertyDto {
     private AcquisitionType acquisitionType; // Purchase, Assignment, Inherited, JV//
     private SourceType sourceType; // Broker, Wholesaler, Direct-to-Seller, etc.//
     private LegalEntityDto sellerName;//Relacion con Legal entity//
-    private CompanyDto sellerContactInfo;//Relacion con Legal entity//
+    private ContactDto sellerContactInfo;//Relacion con Contact//
     private Boolean emdRequirements;//
     private Double emdOfferedAmount;//
     private LocalDate expectedClosingDate;//
