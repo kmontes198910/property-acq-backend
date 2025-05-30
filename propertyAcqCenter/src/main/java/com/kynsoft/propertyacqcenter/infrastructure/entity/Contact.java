@@ -112,6 +112,15 @@ public class Contact {
                 .subCategory(subCategory != null ? this.subCategory.toAggregate() : null)
                 .build();
     }
+
+    public ContactDto toAggregateBasic() {
+        return ContactDto.builder()
+                .id(this.id)
+                .firstName(this.firstName)
+                .lastName(this.lastName)
+                .email(this.email)
+                .build();
+    }
     
     /**
      * Constructor a partir de un DTO

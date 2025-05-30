@@ -8,7 +8,7 @@ import com.kynsoft.propertyacqcenter.domain.dto.PropertyDto;
 import com.kynsoft.propertyacqcenter.domain.dto.exception.PropertyNotFoundException;
 import com.kynsoft.propertyacqcenter.domain.dto.exception.property.PropertyIdMustBeUniqueException;
 import com.kynsoft.propertyacqcenter.domain.services.IPropertyService;
-import com.kynsoft.propertyacqcenter.infrastructure.entity.Company;
+import com.kynsoft.propertyacqcenter.infrastructure.entity.Contact;
 import com.kynsoft.propertyacqcenter.infrastructure.entity.LegalEntity;
 import com.kynsoft.propertyacqcenter.infrastructure.entity.Property;
 import com.kynsoft.propertyacqcenter.infrastructure.repository.command.PropertyWriteDataJPARepository;
@@ -79,7 +79,7 @@ public class PropertyServiceImpl implements IPropertyService {
         update.setEmdOfferedAmount(object.getEmdOfferedAmount());
         update.setEmdRequirements(object.getEmdRequirements());
         update.setExpectedClosingDate(object.getExpectedClosingDate());
-        update.setSellerContactInfo(new Company(object.getSellerContactInfo()));
+        update.setSellerContactInfo(new Contact(object.getSellerContactInfo()));
         update.setSellerName(new LegalEntity(object.getSellerName()));
         update.setSourceType(object.getSourceType());
 
