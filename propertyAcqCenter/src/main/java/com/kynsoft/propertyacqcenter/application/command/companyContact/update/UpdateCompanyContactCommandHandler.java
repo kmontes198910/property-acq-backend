@@ -27,7 +27,7 @@ public class UpdateCompanyContactCommandHandler implements ICommandHandler<Updat
         CompanyDto companyDto = this.companyService.findById(command.getCompany());
         SubCategoryDto subCategoryDto = this.subCategoryService.findById(command.getSubCategory());
         this.companyContactService.validateEmail(command.getEmail(), command.getId());
-        this.companyContactService.validatePersonEmail(command.getPersonalEmail(), command.getId());
+        //this.companyContactService.validatePersonEmail(command.getPersonalEmail(), command.getId());
         companyContactService.update(CompanyContactDto.builder()
                 .id(command.getId())
                 .category(command.getCategory())
