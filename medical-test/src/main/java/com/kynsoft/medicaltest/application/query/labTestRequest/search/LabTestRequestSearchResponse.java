@@ -21,6 +21,8 @@ public class LabTestRequestSearchResponse implements IResponse, Serializable {
 
     private UUID id;
     private UUID patientId;
+    private String patientName;
+    private String patientidentificationnumber;
     private UUID doctorId;
     private LocalDate creationDate;
     private String status;
@@ -35,6 +37,10 @@ public class LabTestRequestSearchResponse implements IResponse, Serializable {
     public LabTestRequestSearchResponse(LabTestRequestDto dto) {
         this.id = dto.getId();
         this.patientId = dto.getPatientId();
+        if (dto.getPatient() != null) {
+            this.patientName = dto.getPatient().getName()+" "+dto.getPatient().getLastName();
+            this.patientidentificationnumber = dto.getPatient().getIdentification();
+        }
         this.doctorId = dto.getDoctorId();
         this.creationDate = dto.getCreationDate();
         this.status = dto.getStatus();
