@@ -1,10 +1,10 @@
 package com.kynsoft.propertyacqcenter.application.command.property.create;
 
 import com.kynsof.share.core.domain.bus.command.ICommandHandler;
-import com.kynsoft.propertyacqcenter.domain.dto.CompanyDto;
+import com.kynsoft.propertyacqcenter.domain.dto.ContactDto;
 import com.kynsoft.propertyacqcenter.domain.dto.LegalEntityDto;
 import com.kynsoft.propertyacqcenter.domain.dto.PropertyDto;
-import com.kynsoft.propertyacqcenter.domain.services.ICompanyService;
+import com.kynsoft.propertyacqcenter.domain.services.IContactService;
 import com.kynsoft.propertyacqcenter.domain.services.ILegalEntityService;
 import com.kynsoft.propertyacqcenter.domain.services.IPropertyService;
 import org.springframework.stereotype.Component;
@@ -13,19 +13,19 @@ import org.springframework.stereotype.Component;
 public class CreatePropertyCommandHandler implements ICommandHandler<CreatePropertyCommand> {
 
     private final IPropertyService propertyService;
-    private final ICompanyService companyService;
+    private final IContactService contactService;
     private final ILegalEntityService legalEntityService;
 
-    public CreatePropertyCommandHandler(IPropertyService propertyService, ICompanyService companyService, ILegalEntityService legalEntityService) {
+    public CreatePropertyCommandHandler(IPropertyService propertyService, IContactService contactService, ILegalEntityService legalEntityService) {
         this.propertyService = propertyService;
-        this.companyService = companyService;
+        this.contactService = contactService;
         this.legalEntityService = legalEntityService;
     }
 
     @Override
     public void handle(CreatePropertyCommand command) {
         LegalEntityDto sellerName = command.getSellerName() != null ? this.legalEntityService.findById(command.getSellerName()) : null;
-        CompanyDto sellerContactInfo = command.getSellerContactInfo() != null ? this.companyService.findById(command.getSellerContactInfo()) : null;
+        ContactDto sellerContactInfo = command.getSellerContactInfo() != null ? this.contactService.findById(command.getSellerContactInfo()) : null;
         this.propertyService.validatePropertyId(command.getId());
         propertyService.create(PropertyDto.builder()
                 .addressLine1(command.getAddressLine1())
