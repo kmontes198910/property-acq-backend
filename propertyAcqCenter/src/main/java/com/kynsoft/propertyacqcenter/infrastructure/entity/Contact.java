@@ -139,7 +139,7 @@ public class Contact {
         this.isActive = dto.getIsActive();
         this.createdAt = dto.getCreatedAt();
         this.updatedAt = dto.getUpdatedAt();
-        this.legalEntity = new LegalEntity(dto.getLegalEntity());
+        this.legalEntity = dto.getLegalEntity() != null ? new LegalEntity(dto.getLegalEntity()) : null;
         this.personalEmail = dto.getPersonalEmail();
         this.subCategory = dto.getSubCategory() != null ? new SubCategory(dto.getSubCategory()) : null;
         // Las relaciones con LegalEntity y Business deben ser establecidas externamente
