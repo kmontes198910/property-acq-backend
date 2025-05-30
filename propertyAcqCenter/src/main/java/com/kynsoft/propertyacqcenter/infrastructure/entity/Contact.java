@@ -2,6 +2,7 @@ package com.kynsoft.propertyacqcenter.infrastructure.entity;
 
 import com.kynsoft.propertyacqcenter.domain.dto.ContactDto;
 import com.kynsoft.propertyacqcenter.domain.enums.ContactType;
+import com.kynsoft.propertyacqcenter.domain.enums.DepartmentType;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
@@ -41,9 +42,10 @@ public class Contact {
     @Column(name = "position")
     private String position;
     
-    @Column(name = "department")
-    private String department;
-    
+    @Enumerated(EnumType.STRING)
+    @Column(name = "department_type", nullable = true)
+    private DepartmentType department;
+
     @Column(name = "category")
     private ContactType category;
     
