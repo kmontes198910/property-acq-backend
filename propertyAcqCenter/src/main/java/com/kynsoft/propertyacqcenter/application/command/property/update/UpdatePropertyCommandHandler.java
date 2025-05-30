@@ -24,8 +24,8 @@ public class UpdatePropertyCommandHandler implements ICommandHandler<UpdatePrope
 
     @Override
     public void handle(UpdatePropertyCommand command) {
-        LegalEntityDto sellerName = this.legalEntityService.findById(command.getSellerName());
-        CompanyDto sellerContactInfo = this.companyService.findById(command.getSellerContactInfo());
+        LegalEntityDto sellerName = command.getSellerName() != null ? this.legalEntityService.findById(command.getSellerName()) : null;
+        CompanyDto sellerContactInfo = command.getSellerContactInfo() != null ? this.companyService.findById(command.getSellerContactInfo()) : null;
         propertyService.update(PropertyDto.builder()
                 .addressLine1(command.getAddressLine1())
                 .addressLine2(command.getAddressLine2())
