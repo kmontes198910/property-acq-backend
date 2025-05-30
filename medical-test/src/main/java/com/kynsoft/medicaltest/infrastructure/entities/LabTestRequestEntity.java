@@ -33,14 +33,14 @@ public class LabTestRequestEntity {
     private UUID patientId;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "patient_id", nullable = true)
+    @JoinColumn(name = "patient_id", nullable = true,referencedColumnName = "id", insertable = false, updatable = false)
     private Patient patient;
 
     @Column(name = "doctor_id", nullable = false)
     private UUID doctorId;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "doctor_id", nullable = true)
+    @JoinColumn(name = "doctor_id", nullable = true,referencedColumnName = "id", insertable = false, updatable = false)
     private Doctor doctor;
 
     @Column(name = "creation_date", nullable = false)
