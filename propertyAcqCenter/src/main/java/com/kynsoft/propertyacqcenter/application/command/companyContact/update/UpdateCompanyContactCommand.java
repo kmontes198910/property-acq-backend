@@ -2,6 +2,7 @@ package com.kynsoft.propertyacqcenter.application.command.companyContact.update;
 
 import com.kynsof.share.core.domain.bus.command.ICommand;
 import com.kynsof.share.core.domain.bus.command.ICommandMessage;
+import com.kynsoft.propertyacqcenter.domain.enums.DepartmentType;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -18,7 +19,7 @@ public class UpdateCompanyContactCommand implements ICommand {
     private String email;
     private String phoneNumber;
     private String position;
-    private String department;
+    private DepartmentType department;
     private String category;
     private String notes;
     private Boolean isActive;
@@ -26,7 +27,7 @@ public class UpdateCompanyContactCommand implements ICommand {
     private UUID subCategory;
 
     public UpdateCompanyContactCommand(UUID id, UUID company, String firstName, String lastName, 
-                                       String email, String phoneNumber, String position, String department, 
+                                       String email, String phoneNumber, String position, DepartmentType department, 
                                        String category, String notes, Boolean isActive, String personalEmail,
                                        UUID subCategory) {
         this.id = id;

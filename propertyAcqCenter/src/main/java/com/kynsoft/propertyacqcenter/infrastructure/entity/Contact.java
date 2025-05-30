@@ -2,6 +2,7 @@ package com.kynsoft.propertyacqcenter.infrastructure.entity;
 
 import com.kynsoft.propertyacqcenter.domain.dto.ContactDto;
 import com.kynsoft.propertyacqcenter.domain.enums.ContactType;
+import com.kynsoft.propertyacqcenter.domain.enums.DepartmentType;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
@@ -41,9 +42,10 @@ public class Contact {
     @Column(name = "position")
     private String position;
     
-    @Column(name = "department")
-    private String department;
-    
+    @Enumerated(EnumType.STRING)
+    @Column(name = "department_type", nullable = true)
+    private DepartmentType department;
+
     @Column(name = "category")
     private ContactType category;
     
@@ -139,7 +141,7 @@ public class Contact {
         this.isActive = dto.getIsActive();
         this.createdAt = dto.getCreatedAt();
         this.updatedAt = dto.getUpdatedAt();
-        this.legalEntity = new LegalEntity(dto.getLegalEntity());
+        this.legalEntity = dto.getLegalEntity() != null ? new LegalEntity(dto.getLegalEntity()) : null;
         this.personalEmail = dto.getPersonalEmail();
         this.subCategory = dto.getSubCategory() != null ? new SubCategory(dto.getSubCategory()) : null;
         // Las relaciones con LegalEntity y Business deben ser establecidas externamente

@@ -3,6 +3,7 @@ package com.kynsoft.propertyacqcenter.application.command.contact.create;
 import com.kynsof.share.core.domain.bus.command.ICommand;
 import com.kynsof.share.core.domain.bus.command.ICommandMessage;
 import com.kynsoft.propertyacqcenter.domain.enums.ContactType;
+import com.kynsoft.propertyacqcenter.domain.enums.DepartmentType;
 import lombok.Getter;
 
 import java.util.UUID;
@@ -18,7 +19,7 @@ public class CreateContactCommand implements ICommand {
     private String email;
     private String phoneNumber;
     private String position;
-    private String department;
+    private DepartmentType department;
     private ContactType category;
     private String notes;
     private Boolean isActive;
@@ -27,7 +28,7 @@ public class CreateContactCommand implements ICommand {
     private UUID subCategory;
 
     public CreateContactCommand(String firstName, String lastName, String email, 
-            String phoneNumber, String position, String department, ContactType category, 
+            String phoneNumber, String position, DepartmentType department, ContactType category, 
             String notes, Boolean isActive, UUID legalEntityId, String personalEmail, UUID subCategory) {
         this.id = UUID.randomUUID();
         this.firstName = firstName;

@@ -3,6 +3,7 @@ package com.kynsoft.propertyacqcenter.application.command.contact.update;
 import com.kynsof.share.core.domain.bus.command.ICommand;
 import com.kynsof.share.core.domain.bus.command.ICommandMessage;
 import com.kynsoft.propertyacqcenter.domain.enums.ContactType;
+import com.kynsoft.propertyacqcenter.domain.enums.DepartmentType;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -18,7 +19,7 @@ public class UpdateContactCommand implements ICommand {
     private String email;
     private String phoneNumber;
     private String position;
-    private String department;
+    private DepartmentType department;
     private ContactType category;
     private String notes;
     private Boolean isActive;
