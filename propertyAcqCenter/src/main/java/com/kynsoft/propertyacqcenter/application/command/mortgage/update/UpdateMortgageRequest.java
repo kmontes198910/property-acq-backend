@@ -1,18 +1,14 @@
-package com.kynsoft.propertyacqcenter.domain.dto;
+package com.kynsoft.propertyacqcenter.application.command.mortgage.update;
 
 import java.time.LocalDate;
-import lombok.Builder;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
-import java.util.UUID;
+@Getter
+@Setter
+public class UpdateMortgageRequest {
 
-@Data
-@Builder
-public class MortgageDto {
-
-    private UUID id;
-    private PropertyDto property;
-
+    private String property;
     private String mortgageType;//TODO: por definir
     private Double mortgageAmount;
     private Double downPayment;

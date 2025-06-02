@@ -4,7 +4,6 @@ import com.kynsof.share.core.domain.bus.command.ICommandHandler;
 import com.kynsoft.propertyacqcenter.domain.dto.InsuranceBrokerDto;
 import com.kynsoft.propertyacqcenter.domain.dto.LegalEntityDto;
 import com.kynsoft.propertyacqcenter.domain.dto.PropertyDto;
-import com.kynsoft.propertyacqcenter.domain.enums.PropertyStatus;
 import com.kynsoft.propertyacqcenter.domain.services.IInsuranceBrokerService;
 import com.kynsoft.propertyacqcenter.domain.services.ILegalEntityService;
 import com.kynsoft.propertyacqcenter.domain.services.IPropertyService;
@@ -37,9 +36,6 @@ public class UpdateInsuranceBrokerCommandHandler implements ICommandHandler<Upda
                 .lenderInsurance(command.getLenderInsurance())
                 .build()
         );
-
-        property.setPropertyStatus(PropertyStatus.ACQUISITION);
-        this.propertyService.update(property);
     }
 
 }
