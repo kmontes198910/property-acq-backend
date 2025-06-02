@@ -23,7 +23,7 @@ spec:
           image: kmontes2020/medinec-digital-signature:v1
           imagePullPolicy: Always
           ports:
-            - containerPort: 8090
+            - containerPort: 9909
               protocol: TCP
           envFrom:
             - secretRef:
@@ -31,3 +31,19 @@ spec:
       imagePullSecrets:
         - name: dokcer-hub
       restartPolicy: Always
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: digital-signature
+  namespace: medinec
+spec:
+  selector:
+    app: digital-signature
+  ports:
+    - protocol: TCP
+      port: 9909
+      targetPort: 9909
+  type: ClusterIP
