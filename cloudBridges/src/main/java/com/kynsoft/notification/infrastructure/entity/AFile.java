@@ -12,6 +12,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Entity
 @Getter
@@ -23,7 +24,20 @@ public class AFile extends BaseEntity {
     private String name;
     private String url;
     private String objetId;
-    private  String path;
+    private String path;
+    private String userId;
+    private String userName;
+    private String mimeType;
+    private Long size;
+    private String secureViewUrl;
+    
+    @Column(name = "object_id")
+    private UUID objectId;
+    
+    private String objectType;
+    
+    @Column(name = "business_id")
+    private UUID businessId;
 
     @CreationTimestamp
     @Column(updatable = false)
@@ -38,10 +52,31 @@ public class AFile extends BaseEntity {
         this.url = file.getUrl();
         this.objetId = file.getObjetId();
         this.path = file.getPath();
-
+        this.userId = file.getUserId();
+        this.userName = file.getUserName();
+        this.mimeType = file.getMimeType();
+        this.size = file.getSize();
+        this.objectId = file.getObjectId();
+        this.objectType = file.getObjectType();
+        this.businessId = file.getBusinessId();
+        this.secureViewUrl = file.getSecureViewUrl();
     }
 
-    public AFileDto toAggregate () {
-        return new AFileDto(id, name,  url, objetId, path);
+    @Override
+    public UUID getId() {
+        return super.getId();
+    }
+
+    public AFileDto toAggregate() {
+        AFileDto dto = new AFileDto(id, name, url, objetId, path, userId, userName);
+        dto.setMimeType(mimeType);
+        dto.setSize(size);
+        dto.setObjectId(objectId);
+        dto.setObjectType(objectType);
+        dto.setBusinessId(businessId);
+        dto.setCreatedAt(createdAt);
+        dto.setUpdatedAt(updatedAt);
+        dto.setSecureViewUrl(secureViewUrl);
+        return dto;
     }
 }

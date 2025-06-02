@@ -18,15 +18,15 @@ public class ModuleResponse implements IResponse {
     private UUID id;
     private String name;
     private String description;
-    private String image;
-    Set<PermissionDto> permissions = new HashSet<>();
+    Set<PermissionSimpleResponse> permissions = new HashSet<>();
 
     public ModuleResponse(ModuleDto object) {
         this.id = object.getId();
         this.name = object.getName();
         this.description = object.getDescription();
-        this.image = object.getImage();
-        permissions.addAll(object.getPermissions());
+        object.getPermissions().forEach(permission -> {
+            this.permissions.add(new PermissionSimpleResponse(permission));
+        });
     }
 
     public ModuleResponse(UUID id, String name) {

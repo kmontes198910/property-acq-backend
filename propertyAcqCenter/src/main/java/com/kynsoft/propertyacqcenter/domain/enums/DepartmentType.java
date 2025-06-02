@@ -1,0 +1,5 @@
+package com.kynsoft.propertyacqcenter.domain.enums;
+
+public enum DepartmentType {
+    GENERAL_MANAGEMENT, SALES_MARKETING, ADMIN_FINANCE, LEGAL_NOTARY, PROPERTY_MANAGEMENT, CUSTOMER_SERVICE, HUMAN_RESOURCES, TECHNOLOGY
+}

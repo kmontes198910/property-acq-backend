@@ -7,7 +7,7 @@ import com.kynsoft.notification.domain.service.IAFileService;
 import org.springframework.stereotype.Component;
 
 @Component
-public class FindByIdAFileQueryHandler implements IQueryHandler<FindByIdAFileQuery, FileResponse>  {
+public class FindByIdAFileQueryHandler implements IQueryHandler<FindByIdAFileQuery, FileResponse> {
 
     private final IAFileService serviceImpl;
 
@@ -17,8 +17,7 @@ public class FindByIdAFileQueryHandler implements IQueryHandler<FindByIdAFileQue
 
     @Override
     public FileResponse handle(FindByIdAFileQuery query) {
-        AFileDto userSystemDto = serviceImpl.findById(query.getId());
-
-        return new FileResponse(userSystemDto);
+        AFileDto fileDto = serviceImpl.findById(query.getId());
+        return new FileResponse(fileDto);
     }
 }

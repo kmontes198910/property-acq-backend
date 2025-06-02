@@ -4,13 +4,14 @@ import com.kynsof.identity.domain.dto.enumType.EBusinessStatus;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
 @Getter
 @Setter
-public class BusinessDto {
+public class BusinessDto  implements Serializable {
     private UUID id;
     private String name;
     private String latitude;
@@ -27,13 +28,15 @@ public class BusinessDto {
     private double balance;
     private String phone;
     private String email;
+    private String webSite;
+    private String storageCapacity;
 
     private GeographicLocationDto geographicLocationDto;
     private List<ModuleDto> moduleDtoList;
 
     public BusinessDto(UUID id, String name, String latitude, String longitude, String description, String logo,
                        String ruc, EBusinessStatus status, GeographicLocationDto geographicLocationDto, String address,
-                       String phone, String email) {
+                       String phone, String email, String webSite, String storageCapacity) {
         this.id = id;
         this.name = name;
         this.latitude = latitude;
@@ -46,6 +49,8 @@ public class BusinessDto {
         this.address = address;
         this.phone = phone;
         this.email = email;
+        this.webSite = webSite;
+        this.storageCapacity = storageCapacity;
     }
 
 }

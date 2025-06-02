@@ -19,21 +19,43 @@ COPY . /build
 RUN mvn dependency:go-offline -s settings.xml && \
     mvn clean package -DskipTests
 
-# Etapa final: imagen ligera de distroless
-FROM gcr.io/distroless/java17-debian11
-#FROM eclipse-temurin:17-jdk
+# Etapa final: imagen con Java 17 y las dependencias necesarias para JasperReports
+FROM eclipse-temurin:17-jre-jammy
 
 # Establece la zona horaria
 ENV TZ="America/Guayaquil"
 
+# Instala fuentes y bibliotecas necesarias para JasperReports
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends \
+    fontconfig \
+    libfreetype6 \
+    fonts-dejavu \
+    fonts-liberation \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
+
 # Copia el JAR generado desde la etapa de construcción
 COPY --from=builder /build/target/report-1.0.0.jar /app/report-1.0.0.jar
-COPY src/main/resources/templates/receta.jrxml /app/resources/templates/receta.jrxml
+
+## Copia los recursos necesarios para JasperReports
+#COPY --from=builder /build/src/main/resources/templates /app/resources/templates
+#COPY --from=builder /build/receta.jrxml /app/receta.jrxml
+#COPY --from=builder /build/receta.jasper /app/receta.jasper
+
+# Crea directorios necesarios para la aplicación
+RUN mkdir -p /app/temp /app/jasper-output
+
 # Expone el puerto que utiliza la aplicación
 EXPOSE 9909
 
-# Variables de entorno para depuración y monitoreo
-#ENV JAVA_TOOL_OPTIONS="-Xmx1024m -XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=/app/ -Dlogging.level.org.springframework=DEBUG"
+# Permisos para directorios de trabajo
+RUN chmod -R 777 /app/temp /app/jasper-output
+
+# Variables de entorno para configurar Jasper Reports
+ENV JASPER_TEMP_DIR=/app/temp
+ENV JASPER_OUTPUT_DIR=/app/jasper-output
+ENV JAVA_TOOL_OPTIONS="-Dnet.sf.jasperreports.compiler.class=net.sf.jasperreports.engine.design.JRJdtCompiler -Dnet.sf.jasperreports.compiler.temp.dir=/app/temp -Dnet.sf.jasperreports.compiler.useThreadContextClassLoader=true -Djava.awt.headless=true"
 
 # Comando de inicio de la aplicación con más memoria y recolección de basura mejorada
 ENTRYPOINT ["java", "-Xmx1024m", "-XX:+UseG1GC", "-jar", "/app/report-1.0.0.jar"]

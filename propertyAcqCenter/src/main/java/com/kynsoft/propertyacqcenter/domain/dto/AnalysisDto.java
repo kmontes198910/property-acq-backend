@@ -1,0 +1,38 @@
+package com.kynsoft.propertyacqcenter.domain.dto;
+
+import com.kynsoft.propertyacqcenter.domain.dto.analysis.CompsAtAGlanceDto;
+import com.kynsoft.propertyacqcenter.domain.dto.analysis.LastSaleDto;
+import com.kynsoft.propertyacqcenter.domain.dto.analysis.MortageDebtDto;
+import com.kynsoft.propertyacqcenter.domain.dto.analysis.OpportunityDto;
+import com.kynsoft.propertyacqcenter.domain.dto.analysis.PropertyComparableDto;
+import com.kynsoft.propertyacqcenter.domain.dto.analysis.SaleValueDto;
+import com.kynsoft.propertyacqcenter.domain.dto.analysis.StatisticsDto;
+import com.kynsoft.propertyacqcenter.domain.dto.analysis.TaxAssessmentAnalysisDto;
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.UUID;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+@AllArgsConstructor
+@NoArgsConstructor
+@Setter
+@Getter
+@Builder
+public class AnalysisDto {
+    private UUID id;
+    private PropertyDto property;
+    private OpportunityDto opportunity;
+    private StatisticsDto statistics;
+    private MortageDebtDto mortageDebt;
+    private CompsAtAGlanceDto compsAtAGlance;
+    private LastSaleDto lastSale;
+    private List<SaleValueDto> saleValue;
+    private List<TaxAssessmentAnalysisDto> taxAssessments;
+    private List<PropertyComparableDto> comparables;
+    private UUID createdBy;
+    private LocalDateTime createdAt;
+}

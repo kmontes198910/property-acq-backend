@@ -10,6 +10,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -28,6 +29,8 @@ public class BusinessByIdResponse implements IResponse, Serializable {
     private EBusinessStatus status;
     private String phone;
     private String email;
+    private String webSite;
+    private String storageCapacity;
 
     private GeographicLocationResponse geolocation;
     private List<ModuleResponse> modules;
@@ -45,10 +48,12 @@ public class BusinessByIdResponse implements IResponse, Serializable {
         this.address = object.getAddress() != null ? object.getAddress() : null;
         this.phone = object.getPhone();
         this.email = object.getEmail();
-        modules = object.getModuleDtoList().stream()
+        this.webSite = object.getWebSite();
+        this.storageCapacity = object.getStorageCapacity();
+        modules = object.getModuleDtoList() !=null ? object.getModuleDtoList().stream()
                 .map(moduleDto ->
                         new ModuleResponse(moduleDto.getId(), moduleDto.getName()))
-                .toList();
+                .toList(): new ArrayList<>();
     }
 
     public BusinessByIdResponse(UUID id, String name) {

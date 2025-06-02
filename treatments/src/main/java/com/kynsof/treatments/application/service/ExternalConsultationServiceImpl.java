@@ -10,6 +10,7 @@ import com.kynsof.share.core.infrastructure.specifications.GenericSpecifications
 import com.kynsof.share.utils.GeneratorRandomNumber;
 import com.kynsof.treatments.application.query.externalConsultation.getall.ExternalConsultationResponse;
 import com.kynsof.treatments.domain.dto.ExternalConsultationDto;
+import com.kynsof.treatments.domain.dto.LabOrderDto;
 import com.kynsof.treatments.domain.dto.OptometryExamDto;
 import com.kynsof.treatments.domain.service.IExternalConsultationService;
 import com.kynsof.treatments.infrastructure.entity.ExternalConsultation;
@@ -18,6 +19,7 @@ import com.kynsof.treatments.infrastructure.repositories.command.ExternalConsult
 import com.kynsof.treatments.infrastructure.repositories.command.OptometryExamenWriteDataJPARepository;
 import com.kynsof.treatments.infrastructure.repositories.query.ExternalConsultationReadDataJPARepository;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -34,7 +36,8 @@ public class ExternalConsultationServiceImpl implements IExternalConsultationSer
     private final OptometryExamenWriteDataJPARepository repositoryOptometryExamen;
 
     public ExternalConsultationServiceImpl(ExternalConsultationWriteDataJPARepository repositoryCommand,
-                                           ExternalConsultationReadDataJPARepository repositoryQuery, OptometryExamenWriteDataJPARepository repositoryOptometryExamen) {
+                                           ExternalConsultationReadDataJPARepository repositoryQuery, 
+                                           OptometryExamenWriteDataJPARepository repositoryOptometryExamen) {
         this.repositoryCommand = repositoryCommand;
         this.repositoryQuery = repositoryQuery;
         this.repositoryOptometryExamen = repositoryOptometryExamen;
@@ -198,5 +201,101 @@ public class ExternalConsultationServiceImpl implements IExternalConsultationSer
                         "count", result[2]
                 ))
                 .toList();
+    }
+
+    @Override
+    public PaginatedResponse findAllLabOrders(Pageable pageable, UUID patientId, UUID doctorId, UUID resourceId) {
+        // Obtenemos todas las consultas con exámenes de tipo LAB_TESTS y aplicamos los filtros
+        List<ExternalConsultation> consultations = this.repositoryQuery.findAllWithLabTestsFiltered(
+                patientId, doctorId, resourceId);
+        
+        // Convertimos las consultas a DTOs de LabOrder
+        List<LabOrderDto> labOrders = consultations.stream()
+                .map(consultation -> new LabOrderDto(consultation.toAggregate()))
+                .filter(labOrder -> labOrder.getLabTests() != null && !labOrder.getLabTests().isEmpty())
+                .collect(Collectors.toList());
+        
+        // Aplicamos paginación manual
+        int start = (int) pageable.getOffset();
+        int end = Math.min((start + pageable.getPageSize()), labOrders.size());
+        
+        // Si start es mayor o igual al tamaño de la lista, ajustamos para evitar errores
+        if (start >= labOrders.size()) {
+            start = 0;
+            end = Math.min(pageable.getPageSize(), labOrders.size());
+        }
+        
+        // Creamos una sub-lista con los elementos correspondientes a la página actual
+        List<LabOrderDto> pageContent = (start < end)
+                ? labOrders.subList(start, end)
+                : Collections.emptyList();
+                
+        // Creamos una implementación de Page para mantener la coherencia con el patrón de respuesta paginada
+        Page<LabOrderDto> page = new PageImpl<>(
+                pageContent,
+                pageable,
+                labOrders.size()
+        );
+        
+        // Retornamos la respuesta paginada
+        return new PaginatedResponse(
+                page.getContent(),
+                page.getTotalPages(),
+                page.getNumberOfElements(),
+                page.getTotalElements(),
+                page.getSize(),
+                page.getNumber()
+        );
+    }
+
+    @Override
+    public PaginatedResponse findAllLabOrdersByBusiness(Pageable pageable, UUID businessId, UUID patientId, UUID doctorId, UUID resourceId) {
+        if (businessId == null) {
+            throw new BusinessNotFoundException(
+                    new GlobalBusinessException(DomainErrorMessage.BUSINESS_NOT_FOUND,
+                            new ErrorField("businessId", "Business ID is required.")));
+        }
+        
+        // Obtenemos todas las consultas con exámenes de tipo LAB_TESTS para la empresa especificada
+        List<ExternalConsultation> consultations = this.repositoryQuery.findAllWithLabTestsByBusinessIdFiltered(
+                businessId, patientId, doctorId, resourceId);
+        
+        // Convertimos las consultas a DTOs de LabOrder
+        List<LabOrderDto> labOrders = consultations.stream()
+                .map(consultation -> new LabOrderDto(consultation.toAggregate()))
+                .filter(labOrder -> labOrder.getLabTests() != null && !labOrder.getLabTests().isEmpty())
+                .collect(Collectors.toList());
+        
+        // Aplicamos paginación manual
+        int start = (int) pageable.getOffset();
+        int end = Math.min((start + pageable.getPageSize()), labOrders.size());
+        
+        // Si start es mayor o igual al tamaño de la lista, ajustamos para evitar errores
+        if (start >= labOrders.size()) {
+            start = 0;
+            end = Math.min(pageable.getPageSize(), labOrders.size());
+        }
+        
+        // Creamos una sub-lista con los elementos correspondientes a la página actual
+        List<LabOrderDto> pageContent = (start < end)
+                ? labOrders.subList(start, end)
+                : Collections.emptyList();
+                
+        // Creamos una implementación de Page para mantener la coherencia con el patrón de respuesta paginada
+        Page<LabOrderDto> page = new PageImpl<>(
+                pageContent,
+                pageable,
+                labOrders.size()
+        );
+        
+        // Retornamos la respuesta paginada
+        return new PaginatedResponse(
+                page.getContent(),
+                page.getTotalPages(),
+                page.getNumberOfElements(),
+                page.getTotalElements(),
+                page.getSize(),
+                page.getNumber()
+        );
     }
 }

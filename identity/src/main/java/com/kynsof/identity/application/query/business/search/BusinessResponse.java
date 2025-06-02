@@ -8,13 +8,15 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.UUID;
 
 @AllArgsConstructor
 @Getter
 @Setter
-public class BusinessResponse implements IResponse {
+public class BusinessResponse implements IResponse, Serializable {
+
     private UUID id;
     private String name;
     private String latitude;
@@ -28,6 +30,8 @@ public class BusinessResponse implements IResponse {
     private Double balance;
     private String phone;
     private String email;
+    private String webSite;
+    private String storageCapacity;
 
     private GeographicLocationResponse geolocation;
 
@@ -46,8 +50,8 @@ public class BusinessResponse implements IResponse {
         this.balance = object.getBalance();
         this.phone = object.getPhone();
         this.email = object.getEmail();
+        this.webSite = object.getWebSite();
+        this.storageCapacity = object.getStorageCapacity();
     }
-
-
 
 }

@@ -1,7 +1,5 @@
 package com.kynsoft.report.applications.command.jasperReportTemplate.create;
 
-
-import com.kynsof.share.core.application.FileServices.IFileUploadService;
 import com.kynsof.share.core.domain.bus.command.ICommandHandler;
 import com.kynsoft.report.domain.dto.DBConnectionDto;
 import com.kynsoft.report.domain.dto.JasperReportTemplateDto;
@@ -10,153 +8,194 @@ import com.kynsoft.report.domain.services.IDBConnectionService;
 import com.kynsoft.report.domain.services.IJasperReportTemplateService;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperCompileManager;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.design.JasperDesign;
+import net.sf.jasperreports.engine.util.JRSaver;
+import net.sf.jasperreports.engine.xml.JRXmlLoader;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import java.io.File;
-import java.io.FileOutputStream;
+import java.io.*;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Base64;
 import java.util.UUID;
 
 @Component
 public class CreateJasperReportTemplateCommandHandler implements ICommandHandler<CreateJasperReportTemplateCommand> {
-
+    private static final Logger logger = LoggerFactory.getLogger(CreateJasperReportTemplateCommandHandler.class);
+    
     private final IJasperReportTemplateService service;
     private final IDBConnectionService connectionService;
-    private final IFileUploadService fileUploadService;
+    
+    @Value("${jasper.reports.output.path:/app/jasper-output}")
+    private String jasperOutputPath;
 
-    public CreateJasperReportTemplateCommandHandler(IJasperReportTemplateService service, IDBConnectionService conectionService, IFileUploadService fileUploadService) {
+    public CreateJasperReportTemplateCommandHandler(IJasperReportTemplateService service,
+                                                    IDBConnectionService conectionService) {
         this.service = service;
         this.connectionService = conectionService;
-        this.fileUploadService = fileUploadService;
     }
 
     @Override
     public void handle(CreateJasperReportTemplateCommand command) {
-        DBConnectionDto dbConnectionDto = command.getDbConection() != null ? this.connectionService.findById(command.getDbConection()) : null;
-        System.err.println("Create Report Template");
+        logger.info("Iniciando creación de plantilla de reporte: {}", command.getName());
+        
         try {
-            // 1️⃣ Obtener el contenido del archivo en bytes
+            // Validar y obtener el contenido del archivo
+            validateCommand(command);
+            
             byte[] jrxmlBytes = command.getFile();
-            if (jrxmlBytes == null || jrxmlBytes.length == 0) {
-                throw new RuntimeException("El archivo JRXML está vacío o no se proporcionó.");
-            }
-
-            Path jarPath = Paths.get("").toAbsolutePath(); // Obtiene la ruta de ejecución del JAR
-            System.out.println("El JAR se está ejecutando en: " + jarPath);
-            String jrxmlFilePath = jarPath + File.separator + "receta.jrxml";
-            String jasperFilePath = jarPath + File.separator + "receta.jasper";
-
-            try (FileOutputStream fos = new FileOutputStream(jrxmlFilePath)) {
-                fos.write(jrxmlBytes);
-                fos.flush();
-            }
-
-            // Compilar y guardar el reporte .jasper
-            try {
-                System.setProperty("net.sf.jasperreports.compiler.class", "net.sf.jasperreports.engine.design.JRJdtCompiler");
-                JasperCompileManager.compileReportToFile(jrxmlFilePath, jasperFilePath);
-//                JasperReport jasperReport = JasperCompileManager.compileReport(jrxmlFilePath);
-//                JRSaver.saveObject(jasperReport, jasperFilePath);
-
-                System.err.println("Reporte compilado correctamente en: " + jasperFilePath);
-            } catch (JRException e) {
-                e.printStackTrace();
-                System.err.println();
-                throw new RuntimeException("Error al compilar el reporte: " + e.getMessage());
-            }
-//            // Establece el thread context class loader
-//            Thread.currentThread().setContextClassLoader(this.getClass().getClassLoader());
-//
-//            // Configura para usar el compilador Eclipse (JDT)
-//            System.setProperty("net.sf.jasperreports.compiler.useThreadContextClassLoader", "true");
-//            System.setProperty("net.sf.jasperreports.compiler.class", "net.sf.jasperreports.engine.design.JRJdtCompiler");
-//            InputStream jrxmlInputStream = new ByteArrayInputStream(jrxmlBytes);
-//            JasperReport jasperReport = JasperCompileManager.compileReport(jrxmlInputStream);
-
-
-
-            // 4️⃣ Convertir `JasperReport` a bytes
-//            ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-//            ObjectOutputStream objectOutputStream = new ObjectOutputStream(outputStream);
-//            objectOutputStream.writeObject(jasperReport);
-//            objectOutputStream.flush();
-//            byte[] jasperBytes = outputStream.toByteArray();
-//            objectOutputStream.close();
-//            outputStream.close();
-
-            // ✅ Log para depuración
-            System.out.println("Archivo Jasper compilado correctamente.");
-
-            // 5️⃣ Llamar al endpoint `/upload` para subir el archivo compilado a S3
-            //  uploadJasperToS3(jasperBytes, command.getCode());
-
-
-            // 5️⃣ Guardar la referencia en base de datos (si aplica)
-            // UploadResponse result=  uploadJasperToS3(jasperBytes, command.getCode());
-         //   UploadResponse result = fileUploadService.uploadJasperToS3(jasperBytes, command.getCode(),
-                //    "jasper-reports/");
-
-           // System.err.println("Url del Jasper: " + result.getUrl());
-            JasperReportTemplateDto templateDto = new JasperReportTemplateDto(
-                    UUID.randomUUID(),
-                    command.getCode(),
-                    command.getName(),
-                    command.getDescription(),
-                    "result.getUrl()",
-                    command.getType(),
-                    dbConnectionDto,
-                    Status.ACTIVE
-            );
-
+            File tempDir = setupTempDirectory();
+            configureJasperProperties(tempDir);
+            
+            // Compilar el reporte
+            JasperReport jasperReport = compileReport(jrxmlBytes);
+            byte[] jasperBytes = convertToBytes(jasperReport);
+            
+            // Guardar el archivo y crear DTO
+            String jasperFilePath = saveJasperFile(command, jasperBytes);
+            String jasperBase64 = Base64.getEncoder().encodeToString(jasperBytes);
+            
+            // Crear y guardar la plantilla
+            DBConnectionDto dbConnectionDto = command.getDbConection() != null ? 
+                    this.connectionService.findById(command.getDbConection()) : null;
+            
+            JasperReportTemplateDto templateDto = createTemplateDto(
+                    command, jasperFilePath, jasperBase64, dbConnectionDto);
+            
             service.create(templateDto);
-
-            System.err.println("OK");
+            logger.info("Plantilla de reporte guardada con éxito: {}", command.getName());
+            
         } catch (Exception e) {
-            System.err.println(e.getMessage());
-            throw new RuntimeException(e);
-
+            logger.error("Error al crear plantilla: {}", e.getMessage(), e);
+            throw new RuntimeException("Error al crear la plantilla: " + e.getMessage(), e);
         }
-
     }
-//
-//    private UploadResponse uploadJasperToS3(byte[] jasperBytes, String fileName) {
-//        RestTemplate restTemplate = new RestTemplate();
-//
-//        // Crear el cuerpo de la solicitud multipart
-//        MultiValueMap<String, Object> body = new LinkedMultiValueMap<>();
-//        body.add("fileService", new ByteArrayResource(jasperBytes) {
-//            @Override
-//            public String getFilename() {
-//                return fileName + ".jasper";
-//            }
-//        });
-//        body.add("folderPath", "jasper-reports/");
-//        body.add("objectId", fileName);
-//
-//        // Crear la cabecera con tipo de contenido multipart/form-data
-//        HttpHeaders headers = new HttpHeaders();
-//        headers.setContentType(MediaType.MULTIPART_FORM_DATA);
-//
-//        HttpEntity<MultiValueMap<String, Object>> requestEntity = new HttpEntity<>(body, headers);
-//
-//        // URL del servicio donde subimos el archivo
-//        String uploadUrl = "http://localhost:8097/api/files/upload";
-//
-//        // Enviar la petición y obtener la respuesta bloqueante
-//        ResponseEntity<Map> response = restTemplate.exchange(
-//                uploadUrl, HttpMethod.POST, requestEntity, Map.class
-//        );
-//
-//        // Extraer solo `data` y mapear a `UploadResponse`
-//        if (response.getBody() != null) {
-//            Map<String, Object> bodyResponse = (Map<String, Object>) response.getBody().get("body");
-//            if (bodyResponse != null && bodyResponse.containsKey("data")) {
-//                Map<String, Object> data = (Map<String, Object>) bodyResponse.get("data");
-//                return new UploadResponse((String) data.get("url"), (String) data.get("id")); // ✅ Mapea a `UploadResponse`
-//            }
-//        }
-//
-//        throw new RuntimeException("❌ No se pudo extraer `url` e `id` de la respuesta");
-//    }
+    
+    private void validateCommand(CreateJasperReportTemplateCommand command) {
+        if (command.getFile() == null || command.getFile().length == 0) {
+            throw new IllegalArgumentException("El archivo JRXML está vacío o no se proporcionó");
+        }
+        
+        if (command.getCode() == null || command.getCode().isEmpty()) {
+            throw new IllegalArgumentException("El código de la plantilla es obligatorio");
+        }
+        
+        if (command.getName() == null || command.getName().isEmpty()) {
+            throw new IllegalArgumentException("El nombre de la plantilla es obligatorio");
+        }
+    }
+    
+    private File setupTempDirectory() {
+        File tempDir = new File("/tmp");
+        if (!tempDir.exists() || !tempDir.canWrite()) {
+            tempDir = new File(System.getProperty("java.io.tmpdir"));
+        }
+        
+        if (!tempDir.canWrite()) {
+            throw new RuntimeException("No hay acceso de escritura al directorio temporal: " + tempDir.getAbsolutePath());
+        }
+        
+        logger.debug("Usando directorio temporal: {}", tempDir.getAbsolutePath());
+        return tempDir;
+    }
+    
+    private void configureJasperProperties(File tempDir) {
+        // Propiedades esenciales para la compilación
+        System.setProperty("net.sf.jasperreports.compiler.class", "net.sf.jasperreports.engine.design.JRJdtCompiler");
+        System.setProperty("net.sf.jasperreports.compiler.temp.dir", tempDir.getAbsolutePath());
+        System.setProperty("net.sf.jasperreports.compiler.classpath", System.getProperty("java.class.path"));
+        System.setProperty("net.sf.jasperreports.compiler.useThreadContextClassLoader", "true");
+        
+        // Propiedades para manejar casos específicos
+        System.setProperty("net.sf.jasperreports.compiler.xml.validation", "false");
+        System.setProperty("net.sf.jasperreports.compiler.max.java.method.size", "65536");
+        System.setProperty("net.sf.jasperreports.awt.ignore.missing.font", "true");
+    }
+    
+    private JasperReport compileReport(byte[] jrxmlBytes) throws JRException {
+        ClassLoader originalClassLoader = Thread.currentThread().getContextClassLoader();
+        
+        try {
+            Thread.currentThread().setContextClassLoader(this.getClass().getClassLoader());
+            
+            InputStream jrxmlInputStream = new ByteArrayInputStream(jrxmlBytes);
+            JasperDesign jasperDesign = JRXmlLoader.load(jrxmlInputStream);
+            
+            logger.debug("Iniciando compilación del reporte...");
+            JasperReport jasperReport = JasperCompileManager.compileReport(jasperDesign);
+            logger.debug("Reporte compilado correctamente en memoria");
+            
+            return jasperReport;
+        } catch (JRException e) {
+            logCompilationError(e);
+            throw e;
+        } finally {
+            Thread.currentThread().setContextClassLoader(originalClassLoader);
+        }
+    }
+    
+    private void logCompilationError(JRException e) {
+        logger.error("Error en compilación: {}", e.toString());
+        Throwable cause = e.getCause();
+        while (cause != null) {
+            logger.error("Causado por: {}", cause.toString());
+            cause = cause.getCause();
+        }
+    }
+    
+    private byte[] convertToBytes(JasperReport jasperReport) throws JRException {
+        ByteArrayOutputStream jasperOutputStream = new ByteArrayOutputStream();
+        JRSaver.saveObject(jasperReport, jasperOutputStream);
+        byte[] jasperBytes = jasperOutputStream.toByteArray();
+        logger.debug("Archivo Jasper compilado. Tamaño: {} bytes", jasperBytes.length);
+        return jasperBytes;
+    }
+    
+    private String saveJasperFile(CreateJasperReportTemplateCommand command, byte[] jasperBytes) {
+        // Verificar y crear directorio de salida
+        File outputDir = new File(jasperOutputPath);
+        if (!outputDir.exists() && !outputDir.mkdirs()) {
+            logger.warn("No se pudo crear el directorio: {}", jasperOutputPath);
+        }
+        
+        // Crear nombre de archivo sin espacios ni caracteres especiales
+        String sanitizedName = command.getName().replaceAll("[^a-zA-Z0-9_-]", "_");
+        String jasperFileName = command.getCode() + "_" + sanitizedName + ".jasper";
+        Path jasperFilePath = Paths.get(jasperOutputPath, jasperFileName);
+        
+        try {
+            Files.write(jasperFilePath, jasperBytes);
+            logger.info("Archivo Jasper guardado en: {}", jasperFilePath);
+            return jasperFilePath.toString();
+        } catch (IOException e) {
+            logger.warn("Error al guardar el archivo Jasper: {}", e.getMessage());
+            // Continuamos aunque haya error al guardar el archivo
+            return null;
+        }
+    }
+    
+    private JasperReportTemplateDto createTemplateDto(
+            CreateJasperReportTemplateCommand command, 
+            String jasperFilePath, 
+            String jasperBase64, 
+            DBConnectionDto dbConnectionDto) {
+        
+        return new JasperReportTemplateDto(
+            UUID.randomUUID(),
+            command.getCode(),
+            command.getName(),
+            command.getDescription(),
+            jasperFilePath, // Ruta del archivo Jasper o null si falló el guardado
+            jasperBase64,   // Base64 para respaldo
+            command.getType(),
+            null,           // createdAt será establecido por la base de datos
+            dbConnectionDto,
+            Status.ACTIVE
+        );
+    }
 }

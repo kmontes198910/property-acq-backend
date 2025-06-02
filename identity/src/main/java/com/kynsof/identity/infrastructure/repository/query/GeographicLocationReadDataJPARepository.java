@@ -1,7 +1,7 @@
 package com.kynsof.identity.infrastructure.repository.query;
 
-import com.kynsof.identity.infrastructure.identity.GeographicLocation;
-import com.kynsof.identity.infrastructure.identity.projection.ProvinceCantonParishProjection;
+import com.kynsof.identity.infrastructure.entities.GeographicLocation;
+import com.kynsof.identity.infrastructure.entities.projection.ProvinceCantonParishProjection;
 import feign.Param;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

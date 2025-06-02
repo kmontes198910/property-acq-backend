@@ -15,8 +15,8 @@ public class OpenApiConfig {
 
     private Info apiInfo() {
         return new Info()
-                .title("RHHH Services")
-                .description("API Documentation Patients Services")
+                .title("RRHH Services")
+                .description("API Documentation RRHH Services")
                 .version("1.0.0");
                 /*.license(new License()
                         .name(openApiProperties.getLicense())

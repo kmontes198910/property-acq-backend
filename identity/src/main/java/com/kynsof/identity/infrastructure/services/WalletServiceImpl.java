@@ -2,7 +2,7 @@ package com.kynsof.identity.infrastructure.services;
 
 import com.kynsof.identity.domain.dto.WalletDto;
 import com.kynsof.identity.domain.interfaces.service.IWalletService;
-import com.kynsof.identity.infrastructure.identity.Wallet;
+import com.kynsof.identity.infrastructure.entities.Wallet;
 import com.kynsof.identity.infrastructure.repository.command.WalletWriteDataJPARepository;
 import com.kynsof.identity.infrastructure.repository.query.WalletReadDataJPARepository;
 import org.springframework.stereotype.Service;

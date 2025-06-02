@@ -22,9 +22,12 @@ public class CreateBusinessCommand implements ICommand {
     private UUID geographicLocation;
     private final String phone;
     private final String email;
+    private String webSite;
+    private String storageCapacity;
 
     public CreateBusinessCommand(String name, String latitude, String longitude, String description, String logo,
-                                 String ruc, UUID geographicLocation, String address, String phone, String email) {
+                                 String ruc, UUID geographicLocation, String address, String phone, String email,
+                                 String webSite, String storageCapacity) {
         this.phone = phone;
         this.email = email;
         this.id = UUID.randomUUID();
@@ -36,6 +39,8 @@ public class CreateBusinessCommand implements ICommand {
         this.ruc = ruc;
         this.geographicLocation = geographicLocation;
         this.address = address;
+        this.webSite = webSite;
+        this.storageCapacity = storageCapacity;
     }
 
     public static CreateBusinessCommand fromRequest(CreateBusinessRequest request) {
@@ -49,7 +54,10 @@ public class CreateBusinessCommand implements ICommand {
                 request.getGeographicLocation(),
                 request.getAddress(),
                 request.getPhone(),
-                request.getEmail());
+                request.getEmail(),
+                request.getWebSite(),
+                request.getStorageCapacity()
+        );
     }
 
     @Override

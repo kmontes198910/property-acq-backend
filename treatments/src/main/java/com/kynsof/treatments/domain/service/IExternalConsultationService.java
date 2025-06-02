@@ -32,4 +32,25 @@ public interface IExternalConsultationService {
     List<Map<String, Object>> getTop10SpecialitiesByConsultationCount(UUID businessId, int year);
 
     List<Map<String, Object>> getTop10Diagnoses(UUID businessId, int year);
+
+    /**
+     * Obtiene todas las órdenes de laboratorio con filtros opcionales
+     * @param pageable Información de paginación
+     * @param patientId ID del paciente (opcional)
+     * @param doctorId ID del doctor (opcional)
+     * @param resourceId ID del recurso/examen (opcional)
+     * @return Respuesta paginada con órdenes de laboratorio
+     */
+    PaginatedResponse findAllLabOrders(Pageable pageable, UUID patientId, UUID doctorId, UUID resourceId);
+
+    /**
+     * Obtiene todas las órdenes de laboratorio para una empresa específica con filtros opcionales
+     * @param pageable Información de paginación
+     * @param businessId ID de la empresa
+     * @param patientId ID del paciente (opcional)
+     * @param doctorId ID del doctor (opcional)
+     * @param resourceId ID del recurso/examen (opcional)
+     * @return Respuesta paginada con órdenes de laboratorio para la empresa especificada
+     */
+    PaginatedResponse findAllLabOrdersByBusiness(Pageable pageable, UUID businessId, UUID patientId, UUID doctorId, UUID resourceId);
 }

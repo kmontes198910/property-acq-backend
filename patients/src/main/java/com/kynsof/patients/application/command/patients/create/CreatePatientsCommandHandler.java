@@ -8,6 +8,8 @@ import com.kynsof.patients.domain.rules.dependent.DependentMustBeUniqueRule;
 import com.kynsof.patients.domain.service.IContactInfoService;
 import com.kynsof.patients.domain.service.IGeographicLocationService;
 import com.kynsof.patients.domain.service.IPatientsService;
+import com.kynsof.patients.infrastructure.services.rabbitMQ.dto.RabbitMQPatientDto;
+import com.kynsof.patients.infrastructure.services.rabbitMQ.eventPublisher.EventPatientPublisherService;
 import com.kynsof.patients.infrastructure.services.rabbitMQ.patientCreate.CreatePatientProducer;
 import com.kynsof.patients.infrastructure.services.rabbitMQ.patientCreate.Person;
 import com.kynsof.share.core.domain.RulesChecker;
@@ -15,6 +17,7 @@ import com.kynsof.share.core.domain.bus.command.ICommandHandler;
 import org.springframework.stereotype.Component;
 
 import java.util.UUID;
+import org.springframework.transaction.annotation.Transactional;
 
 @Component
 public class CreatePatientsCommandHandler implements ICommandHandler<CreatePatientsCommand> {
@@ -23,18 +26,23 @@ public class CreatePatientsCommandHandler implements ICommandHandler<CreatePatie
     private final IContactInfoService contactInfoService;
     private final IGeographicLocationService geographicLocationService;
     private final CreatePatientProducer createPatientProducer;
+    private final EventPatientPublisherService patientPublisherService;
 
-
-    public CreatePatientsCommandHandler(IPatientsService serviceImpl, IContactInfoService contactInfoService,
-                                        IGeographicLocationService geographicLocationService, CreatePatientProducer publisher
+    public CreatePatientsCommandHandler(IPatientsService serviceImpl,
+            IContactInfoService contactInfoService,
+            IGeographicLocationService geographicLocationService,
+            CreatePatientProducer publisher,
+            EventPatientPublisherService patientPublisherService
     ) {
         this.serviceImpl = serviceImpl;
         this.contactInfoService = contactInfoService;
         this.geographicLocationService = geographicLocationService;
         this.createPatientProducer = publisher;
+        this.patientPublisherService = patientPublisherService;
     }
 
     @Override
+    @Transactional
     public void handle(CreatePatientsCommand command) {
         RulesChecker.checkRule(new DependentMustBeUniqueRule(this.serviceImpl, command.getIdentification(), command.getId()));
         GeographicLocationDto parroquia = command.getCreateContactInfoRequest().getParroquia() != null ? geographicLocationService.findById(command.getCreateContactInfoRequest().getParroquia()) : null;
@@ -47,8 +55,11 @@ public class CreatePatientsCommandHandler implements ICommandHandler<CreatePatie
                 Status.ACTIVE,
                 command.getPhoto()
         );
+        patientDto.setIdentificationType(command.getIdentificationType());
         patientDto.setProfession(command.getProfession());
         patientDto.setEducationalLevel(command.getEducationalLevel());
+        patientDto.setBloodType(command.getBloodType());
+        patientDto.setSkinColor(command.getSkinColor());
 
         UUID id = serviceImpl.create(patientDto);
         command.setId(id);
@@ -68,11 +79,21 @@ public class CreatePatientsCommandHandler implements ICommandHandler<CreatePatie
                     command.getCreateContactInfoRequest().getMaritalStatus()
             ));
 
-        }catch (Exception ignored) {
+        } catch (Exception ignored) {
 
         }
 
-        replicatePerson(command, id);
+        this.patientPublisherService.publishEvent(new RabbitMQPatientDto(
+                patientDto.getId(),
+                patientDto.getIdentification(),
+                command.getCreateContactInfoRequest().getEmail(),
+                patientDto.getName(),
+                patientDto.getLastName(),
+                patientDto.getPhoto(),
+                patientDto.getProfession(),
+                patientDto.getStatus().toString()
+        ));
+//        replicatePerson(command, id);
     }
 
     private void replicatePerson(CreatePatientsCommand command, UUID id) {

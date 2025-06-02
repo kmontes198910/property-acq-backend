@@ -1,0 +1,131 @@
+package com.kynsoft.propertyacqcenter.infrastructure.entity;
+
+import com.kynsoft.propertyacqcenter.domain.dto.CompanyContactDto;
+import com.kynsoft.propertyacqcenter.domain.enums.DepartmentType;
+import jakarta.persistence.*;
+import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
+import java.time.LocalDateTime;
+import java.util.UUID;
+
+@Entity
+@Table(name = "company_contacts")
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+public class CompanyContact {
+
+    @Id
+    @Column(name = "id", nullable = false)
+    private UUID id;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "company_id", nullable = false)
+    private Company company;
+
+    @Column(name = "first_name", nullable = false)
+    private String firstName;
+
+    @Column(name = "last_name", nullable = false)
+    private String lastName;
+
+    @Column(name = "email")
+    private String email;
+
+    @Column(name = "personal_email")
+    private String personalEmail;
+
+    @Column(name = "phone_number")
+    private String phoneNumber;
+
+    @Column(name = "position")
+    private String position;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "department_type", nullable = true)
+    private DepartmentType department;
+
+    @Column(name = "category")
+    private String category;
+
+    @Column(name = "notes", columnDefinition = "TEXT")
+    private String notes;
+
+    @Column(name = "is_active")
+    private Boolean isActive;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "sub_category")
+    private SubCategory subCategory;
+
+    @CreationTimestamp
+    @Column(name = "created_at", updatable = false)
+    private LocalDateTime createdAt;
+
+    @UpdateTimestamp
+    @Column(name = "updated_at")
+    private LocalDateTime updatedAt;
+
+    public CompanyContact(CompanyContactDto dto) {
+        this.id = dto.getId();
+        this.company = dto.getCompany() != null ? new Company(dto.getCompany()) : null;
+        this.firstName = dto.getFirstName();
+        this.lastName = dto.getLastName();
+        this.email = dto.getEmail();
+        this.phoneNumber = dto.getPhoneNumber();
+        this.position = dto.getPosition();
+        this.department = dto.getDepartment();
+        this.category = dto.getCategory();
+        this.notes = dto.getNotes();
+        this.isActive = dto.getIsActive();
+        this.createdAt = dto.getCreatedAt();
+        this.updatedAt = dto.getUpdatedAt();
+        this.personalEmail = dto.getPersonalEmail();
+        this.subCategory = dto.getSubCategory() != null ? new SubCategory(dto.getSubCategory()) : null;
+    }
+
+    public CompanyContactDto toAggregateSimple() {
+        return CompanyContactDto.builder()
+                .id(this.id)
+                .company(company != null ? this.company.toAggregateSimple() : null)
+                .firstName(firstName)
+                .lastName(lastName)
+                .email(email)
+                .phoneNumber(phoneNumber)
+                .position(position)
+                .department(department)
+                .category(category)
+                .notes(notes)
+                .isActive(isActive)
+                .createdAt(this.createdAt)
+                .updatedAt(this.updatedAt)
+                .personalEmail(personalEmail)
+                .subCategory(subCategory != null ? this.subCategory.toAggregate() : null)
+                .build();
+    }
+
+    public CompanyContactDto toAggregate() {
+        return CompanyContactDto.builder()
+                .id(this.id)
+                .firstName(firstName)
+                .lastName(lastName)
+                .email(email)
+                .phoneNumber(phoneNumber)
+                .position(position)
+                .department(department)
+                .category(category)
+                .notes(notes)
+                .isActive(isActive)
+                .createdAt(this.createdAt)
+                .updatedAt(this.updatedAt)
+                .company(company != null ? this.company.toAggregateBasic() : null)
+                .personalEmail(personalEmail)
+                .subCategory(subCategory != null ? this.subCategory.toAggregate() : null)
+                .build();
+    }
+
+}

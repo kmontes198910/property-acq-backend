@@ -1,0 +1,66 @@
+package com.kynsoft.cirugia.application.command.surgery.create;
+
+import com.kynsof.share.core.domain.bus.command.ICommand;
+import com.kynsof.share.core.domain.bus.command.ICommandMessage;
+import lombok.Getter;
+import lombok.Setter;
+
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.util.UUID;
+
+@Getter
+@Setter
+public class CreateSurgeryCommand implements ICommand {
+    private UUID id;
+    private UUID patientId;
+    private UUID doctorId;
+    private UUID specialtyId;
+    private UUID operatingRoomId;
+    private UUID businessId;
+    private String surgeryType;
+    private Boolean requiresHospitalization;
+    private LocalDate scheduledDate;
+    private LocalTime startTime;
+    private LocalTime endingTime;
+    private UUID createdBy;
+
+    public CreateSurgeryCommand(UUID patientId, UUID doctorId, UUID specialtyId, UUID operatingRoomId,
+                               UUID businessId, String surgeryType,
+                               Boolean requiresHospitalization, LocalDate scheduledDate, 
+                               LocalTime startTime, LocalTime endingTime, UUID createdBy) {
+        this.id = UUID.randomUUID();
+        this.patientId = patientId;
+        this.doctorId = doctorId;
+        this.specialtyId = specialtyId;
+        this.operatingRoomId = operatingRoomId;
+        this.businessId = businessId;
+        this.surgeryType = surgeryType;
+        this.requiresHospitalization = requiresHospitalization;
+        this.scheduledDate = scheduledDate;
+        this.startTime = startTime;
+        this.endingTime = endingTime;
+        this.createdBy = createdBy;
+    }
+
+    public static CreateSurgeryCommand fromRequest(CreateSurgeryRequest request, UUID createdBy) {
+        return new CreateSurgeryCommand(
+                request.getPatientId(),
+                request.getDoctorId(),
+                request.getSpecialtyId(),
+                request.getOperatingRoomId(),
+                request.getBusinessId(),
+                request.getSurgeryType(),
+                request.getRequiresHospitalization(),
+                request.getScheduledDate(),
+                request.getStartTime(),
+                request.getEndingTime(),
+               createdBy
+        );
+    }
+
+    @Override
+    public ICommandMessage getMessage() {
+        return new CreateSurgeryMessage(id);
+    }
+}

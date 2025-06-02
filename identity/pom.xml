@@ -1,29 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-		 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>3.2.5</version>
+		<version>3.2.6</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-
 	<groupId>com.kynsoft</groupId>
 	<artifactId>identity</artifactId>
 	<version>1.0.0</version>
 	<name>identity</name>
+	<description>Microservicio de gestión de identity</description>
 	<properties>
 		<java.version>17</java.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<spring-boot.version>3.2.5</spring-boot.version>
-		<spring-boot-maven-plugin.version>3.4.3</spring-boot-maven-plugin.version>
+		<spring-boot.version>3.2.6</spring-boot.version>
+		<spring-boot-maven-plugin.version>3.2.6</spring-boot-maven-plugin.version>
 		<spring-cloud.version>2023.0.4</spring-cloud.version>
 		<springdoc-openapi.version>2.2.0</springdoc-openapi.version>
 		<maven-compiler-plugin.version>3.14.0</maven-compiler-plugin.version>
 	</properties>
-
 	<dependencyManagement>
 		<dependencies>
 			<!-- Override Lombok provided by Spring Boot -->
@@ -100,10 +98,6 @@
 			<version>0.0.1-SNAPSHOT</version>
 			<scope>compile</scope>
 		</dependency>
-		<dependency>
-			<groupId> org.springframework.data</groupId>
-			<artifactId>spring-data-envers</artifactId>
-	 </dependency>
 
 		<!--Keycloack-->
 		<dependency>
@@ -127,11 +121,6 @@
 		</dependency>
 
 		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-webflux</artifactId>
-		</dependency>
-
-		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
 			<optional>true</optional>
@@ -144,35 +133,30 @@
 		</dependency>
 
 		<dependency>
-			<groupId>org.springdoc</groupId>
-			<artifactId>springdoc-openapi-starter-webflux-ui</artifactId>
-			<version>${springdoc-openapi.version}</version>
-		</dependency>
-
-
-		<dependency>
 			<groupId>org.redisson</groupId>
 			<artifactId>redisson</artifactId>
-			<version>3.32.0</version> <!-- Verifica siempre la última versión -->
-		</dependency>
-        <dependency>
-            <groupId>org.springframework.amqp</groupId>
-            <artifactId>spring-rabbit</artifactId>
-        </dependency>
-        <!-- Firma electrónica -->
-		<dependency>
-			<groupId>com.itextpdf</groupId>
-			<artifactId>itext7-core</artifactId>
-			<version>8.0.2</version>
-			<type>pom</type>
-		</dependency>
-		<dependency>
-			<groupId>org.bouncycastle</groupId>
-			<artifactId>bcprov-jdk15to18</artifactId>
-			<version>1.78</version>
+			<version>3.32.0</version>
 		</dependency>
 
-    </dependencies>
+		<dependency>
+			<groupId>org.springframework.amqp</groupId>
+			<artifactId>spring-rabbit</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>io.github.resilience4j</groupId>
+			<artifactId>resilience4j-spring-boot2</artifactId>
+			<version>2.1.0</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springdoc</groupId>
+			<artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+			<version>2.2.0</version>
+		</dependency>
+
+	
+	</dependencies>
 	<build>
 		<plugins>
 			<plugin>

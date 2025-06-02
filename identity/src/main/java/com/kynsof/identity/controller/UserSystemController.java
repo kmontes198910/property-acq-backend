@@ -81,14 +81,6 @@ public class UserSystemController {
         return ResponseEntity.ok(response);
     }
 
-//    @PutMapping(path = "/update/step/two")
-//    public ResponseEntity<?> updateStepTwo(@RequestBody UpdateUserSystemStepTwoRequest request) {
-//
-//        UpdateUserSystemStepTwoCommand command = UpdateUserSystemStepTwoCommand.fromRequest(request);
-//        UpdateUserSystemStepTwoMessage response = mediator.send(command);
-//        return ResponseEntity.ok(response);
-//    }
-
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteServices(@PathVariable("id") UUID id) {
 

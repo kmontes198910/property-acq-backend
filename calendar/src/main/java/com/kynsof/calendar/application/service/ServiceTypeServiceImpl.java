@@ -3,6 +3,7 @@ package com.kynsof.calendar.application.service;
 import com.kynsof.calendar.application.query.ServiceTypeResponse;
 import com.kynsof.calendar.domain.dto.ServiceTypeDto;
 import com.kynsof.calendar.domain.service.IServiceTypeService;
+import com.kynsof.calendar.infrastructure.config.CalendarCacheConfig;
 import com.kynsof.calendar.infrastructure.entity.ServiceType;
 import com.kynsof.calendar.infrastructure.repository.command.ServiceTypeWriteDataJPARepository;
 import com.kynsof.calendar.infrastructure.repository.query.ServiceTypeReadDataJPARepository;
@@ -37,13 +38,13 @@ public class ServiceTypeServiceImpl implements IServiceTypeService {
     }
 
     @Override
-    @CacheEvict(cacheNames = {"serviceType", "serviceTypeAll"}, allEntries = true)
+    @CacheEvict(cacheNames = {CalendarCacheConfig.SERVICE_TYPE_CACHE}, allEntries = true)
     public UUID create(ServiceTypeDto object) {
         return this.repositoryCommand.save(new ServiceType(object)).getId();
     }
 
     @Override
-    @CacheEvict(cacheNames = {"serviceType", "serviceTypeAll"}, allEntries = true)
+    @CacheEvict(cacheNames = {CalendarCacheConfig.SERVICE_TYPE_CACHE}, allEntries = true)
     public void update(ServiceTypeDto objectDto) {
         ServiceType update = new ServiceType(objectDto);
         update.setUpdatedAt(LocalDateTime.now());
@@ -51,7 +52,7 @@ public class ServiceTypeServiceImpl implements IServiceTypeService {
     }
 
     @Override
-    @CacheEvict(cacheNames = {"serviceType", "serviceTypeAll"}, allEntries = true)
+    @CacheEvict(cacheNames = {CalendarCacheConfig.SERVICE_TYPE_CACHE}, allEntries = true)
     public void delete(UUID id) {
         try {
             this.repositoryCommand.deleteById(id);
@@ -61,7 +62,7 @@ public class ServiceTypeServiceImpl implements IServiceTypeService {
     }
 
     @Override
-    @Cacheable(cacheNames = "serviceType", key = "#id", unless = "#result == null")
+    @Cacheable(cacheNames = CalendarCacheConfig.SERVICE_TYPE_CACHE, key = "#id", unless = "#result == null")
     public ServiceTypeDto findById(UUID id) {
         Optional<ServiceType> object = this.repositoryQuery.findById(id);
         if (object.isPresent()) {
@@ -71,7 +72,9 @@ public class ServiceTypeServiceImpl implements IServiceTypeService {
     }
 
     @Override
-    @Cacheable(cacheNames = "serviceTypeAll", unless = "#result == null")
+    @Cacheable(value = CalendarCacheConfig.SERVICE_TYPE_CACHE,
+            key = "'search:' + #pageable.pageNumber + ':' + #pageable.pageSize + ':' + #pageable.sort + ':' + T(java.util.Objects).hash(#filterCriteria)",
+            unless = "#result == null")
     public PaginatedResponse search(Pageable pageable, List<FilterCriteria> filterCriteria) {
         GenericSpecificationsBuilder<ServiceType> specifications = new GenericSpecificationsBuilder<>(filterCriteria);
         Page<ServiceType> data = this.repositoryQuery.findAll(specifications, pageable);

@@ -1,0 +1,91 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: property-acq-dev-client
+  namespace: property-acq-dev
+  labels:
+    app: property-acq-dev-client
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: property-acq-dev-client
+  template:
+    metadata:
+      labels:
+        app: property-acq-dev-client
+    spec:
+      containers:
+        - name: property-acq-dev-client
+          image: kmontes2020/property-acq-client-dev:v1
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 3000
+              name: http
+              protocol: TCP
+          env:
+            - name: AUTH_ORIGIN
+              value: https://property-acq-dev.kynsoft.net
+            - name: VITE_APP_BASE_URL
+              value: http://gateway-service:8080
+            - name: NUXT_PUBLIC_SOCKET_URL
+              value: https://socket-property-acq-dev.kynsoft.net/ws
+            - name: AUTH_SECRET
+              value: https://socket-property-acq-dev.kynsoft.net/ws
+            - name: VITE_APP_CLIENT_ID
+              value: https://socket-property-acq-dev.kynsoft.net/ws
+            - name: VITE_APP_CLIENT_SECRET
+              value: https://socket-property-acq-dev.kynsoft.net/ws
+          resources:
+            limits:
+              cpu: 500m
+              memory: 256Mi
+            requests:
+              cpu: 100m
+              memory: 128Mi
+          livenessProbe:
+            httpGet:
+              path: /
+              port: http
+              scheme: HTTP
+            initialDelaySeconds: 60
+            periodSeconds: 30
+            timeoutSeconds: 2
+            failureThreshold: 5
+          readinessProbe:
+            httpGet:
+              path: /
+              port: http
+              scheme: HTTP
+            initialDelaySeconds: 15
+            periodSeconds: 10
+            timeoutSeconds: 2
+            failureThreshold: 3
+          securityContext:
+            runAsUser: 1000
+            runAsNonRoot: true
+            readOnlyRootFilesystem: true
+            allowPrivilegeEscalation: false
+      restartPolicy: Always
+      imagePullSecrets:
+        - name: docker-hub
+      securityContext:
+        seccompProfile:
+          type: RuntimeDefault
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: property-acq-dev-client
+  namespace: property-acq-dev
+  labels:
+    app: property-acq-dev-client
+spec:
+  selector:
+    app: property-acq-dev-client
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 3000
+      name: http
+  type: ClusterIP

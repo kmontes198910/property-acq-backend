@@ -7,6 +7,8 @@ import com.kynsof.patients.domain.dto.enumTye.Status;
 import com.kynsof.patients.domain.service.IContactInfoService;
 import com.kynsof.patients.domain.service.IGeographicLocationService;
 import com.kynsof.patients.domain.service.IPatientsService;
+import com.kynsof.patients.infrastructure.services.rabbitMQ.dto.RabbitMQPatientDto;
+import com.kynsof.patients.infrastructure.services.rabbitMQ.eventPublisher.EventPatientPublisherService;
 import com.kynsof.patients.infrastructure.services.rabbitMQ.patientCreate.Person;
 import com.kynsof.patients.infrastructure.services.rabbitMQ.patientUpdate.UpdatePatientProducer;
 import com.kynsof.share.core.domain.bus.command.ICommandHandler;
@@ -21,14 +23,18 @@ public class UpdatePatientsCommandHandler implements ICommandHandler<UpdatePatie
     private final IContactInfoService contactInfoService;
     private final IGeographicLocationService geographicLocationService;
     private final UpdatePatientProducer updatePatientProducer;
+    private final EventPatientPublisherService patientPublisherService;
 
     public UpdatePatientsCommandHandler(IPatientsService serviceImpl,
-                                        IContactInfoService contactInfoService,
-                                        IGeographicLocationService geographicLocationService, UpdatePatientProducer updatePatientProducer) {
+            IContactInfoService contactInfoService,
+            IGeographicLocationService geographicLocationService,
+            UpdatePatientProducer updatePatientProducer,
+            EventPatientPublisherService patientPublisherService) {
         this.serviceImpl = serviceImpl;
         this.contactInfoService = contactInfoService;
         this.geographicLocationService = geographicLocationService;
         this.updatePatientProducer = updatePatientProducer;
+        this.patientPublisherService = patientPublisherService;
     }
 
     @Override
@@ -44,6 +50,10 @@ public class UpdatePatientsCommandHandler implements ICommandHandler<UpdatePatie
         patientDto.setPhoto(command.getPhoto());
         patientDto.setProfession(command.getProfession());
         patientDto.setEducationalLevel(command.getEducationalLevel());
+        patientDto.setBloodType(command.getBloodType());
+        patientDto.setDisabilityType(command.getDisabilityType());
+        patientDto.setGestationTime(command.getGestationTime());
+        patientDto.setSkinColor(command.getSkinColor());
         serviceImpl.update(patientDto);
 
         if (contactInfoDto.getId() == null) {
@@ -68,7 +78,17 @@ public class UpdatePatientsCommandHandler implements ICommandHandler<UpdatePatie
             contactInfoDto.setMaritalStatus(command.getCreateContactInfoRequest().getMaritalStatus());
             contactInfoService.update(contactInfoDto);
         }
-        replicatePerson(command, command.getId());
+        this.patientPublisherService.publishEvent(new RabbitMQPatientDto(
+                patientDto.getId(),
+                patientDto.getIdentification(),
+                command.getCreateContactInfoRequest().getEmail(),
+                patientDto.getName(),
+                patientDto.getLastName(),
+                patientDto.getPhoto(),
+                patientDto.getProfession(),
+                patientDto.getStatus().toString()
+        ));
+//        replicatePerson(command, command.getId());
     }
 
     private void replicatePerson(UpdatePatientsCommand command, UUID id) {

@@ -31,4 +31,24 @@ public class TokenResponse implements IResponse {
     private String sessionState;
 
     private String scope;
+    
+    // Campos para manejo de errores
+    private String error;
+    
+    @JsonProperty("error_description")
+    private String errorDescription;
+    
+    // Campo para verificar si es un error de autenticación
+    private boolean authenticated = true;
+    
+    // Se asegura que scanAvailable no aparezca al serializar el objeto a JSON
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    private boolean scanAvailable;
+    
+    // Nuevos campos para formato de error estandarizado
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    private String errorField = "email/password";
+    
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    private String errorMessage = "The username or password is incorrect. Please try again.";
 }

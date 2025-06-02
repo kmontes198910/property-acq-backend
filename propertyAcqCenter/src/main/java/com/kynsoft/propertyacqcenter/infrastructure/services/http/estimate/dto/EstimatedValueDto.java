@@ -1,0 +1,22 @@
+package com.kynsoft.propertyacqcenter.infrastructure.services.http.estimate.dto;
+
+import java.util.List;
+import java.util.UUID;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+@Setter
+@Getter
+@AllArgsConstructor
+@NoArgsConstructor
+public class EstimatedValueDto {
+    private UUID id;
+    private Integer rent;
+    private Integer rentRangeLow;
+    private Integer rentRangeHigh;
+    private Double latitude;
+    private Double longitude;
+    private List<ComparablePropertyDto> comparables;
+}

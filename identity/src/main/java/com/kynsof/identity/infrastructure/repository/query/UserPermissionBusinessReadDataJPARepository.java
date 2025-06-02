@@ -1,7 +1,7 @@
 package com.kynsof.identity.infrastructure.repository.query;
 
-import com.kynsof.identity.infrastructure.identity.Permission;
-import com.kynsof.identity.infrastructure.identity.UserPermissionBusiness;
+import com.kynsof.identity.infrastructure.entities.Permission;
+import com.kynsof.identity.infrastructure.entities.UserPermissionBusiness;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;

@@ -3,7 +3,7 @@ package com.kynsof.identity.infrastructure.services;
 import com.kynsof.identity.application.query.paymentdev.getbyid.PaymentDevResponse;
 import com.kynsof.identity.domain.dto.PaymentDevDto;
 import com.kynsof.identity.domain.interfaces.service.IPaymentDevService;
-import com.kynsof.identity.infrastructure.identity.PaymentDev;
+import com.kynsof.identity.infrastructure.entities.PaymentDev;
 import com.kynsof.identity.infrastructure.repository.command.PaymentDevWriteDataJPARepository;
 import com.kynsof.identity.infrastructure.repository.query.PaymentDevReadDataJPARepository;
 import com.kynsof.share.core.domain.exception.BusinessNotFoundException;

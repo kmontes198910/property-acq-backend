@@ -1,8 +1,10 @@
 package com.kynsof.patients.domain.dto;
 
+import com.kynsof.patients.domain.dto.enumTye.BloodType;
 import com.kynsof.patients.domain.dto.enumTye.DisabilityType;
 import com.kynsof.patients.domain.dto.enumTye.GenderType;
 import com.kynsof.patients.domain.dto.enumTye.Status;
+import com.kynsof.patients.infrastructure.entity.IdentificationType;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -15,6 +17,7 @@ import java.util.UUID;
 public class PatientDto implements Serializable {
 
     private  UUID id;
+    private IdentificationType identificationType;
     private  String identification;
     private  String name;
     private  String lastName;
@@ -25,11 +28,13 @@ public class PatientDto implements Serializable {
     private  String photo;
     private  DisabilityType disabilityType;
     private  int gestationTime;
+    private  BloodType bloodType;
 
     private ContactInfoDto contactInfo;
     private String profession;
     private String educationalLevel;
     private String clinicalHistoryNumber;
+    private String skinColor;
 
     public PatientDto(UUID id, String identification, String name, String lastName, GenderType gender, Status status,
                      Boolean hasDisability, Boolean isPregnant, String photo,

@@ -4,6 +4,7 @@ import com.kynsof.patients.application.command.dependents.create.request.CreateD
 import com.kynsof.patients.domain.dto.enumTye.DisabilityType;
 import com.kynsof.patients.domain.dto.enumTye.FamilyRelationship;
 import com.kynsof.patients.domain.dto.enumTye.GenderType;
+import com.kynsof.patients.infrastructure.entity.IdentificationType;
 import com.kynsof.share.core.domain.bus.command.ICommand;
 import com.kynsof.share.core.domain.bus.command.ICommandMessage;
 import lombok.Getter;
@@ -17,6 +18,7 @@ import java.util.UUID;
 public class UpdateDependentPatientsCommand implements ICommand {
     private UUID id;
     private UUID primeId;
+    private IdentificationType identificationType;
     private String identification;
     private String name;
     private String lastName;
@@ -32,12 +34,13 @@ public class UpdateDependentPatientsCommand implements ICommand {
     private CreateDependentContactInfoRequest createContactInfoRequest;
     private DisabilityType disabilityType;
 
-    public UpdateDependentPatientsCommand(UUID id,UUID primeId, String identification, String name, String lastName,
+    public UpdateDependentPatientsCommand(UUID id,IdentificationType identificationType, UUID primeId, String identification, String name, String lastName,
                                           GenderType gender, Double weight, Double height, Boolean hasDisability,
                                           Boolean isPregnant, LocalDate birthDate, FamilyRelationship familyRelationship,
                                           String photo, int gestationTime,
                                           CreateDependentContactInfoRequest createContactInfoRequest, DisabilityType disabilityType){
         this.id = id;
+        this.identificationType = identificationType;
         this.identification = identification;
         this.name = name;
         this.lastName = lastName;
@@ -57,7 +60,9 @@ public class UpdateDependentPatientsCommand implements ICommand {
     }
 
     public static UpdateDependentPatientsCommand fromRequest(UUID id, UpdateDependentPatientsRequest request) {
-        return new UpdateDependentPatientsCommand(id,request.getPrimeId(),request.getIdentification(),
+        return new UpdateDependentPatientsCommand(id,
+                request.getIdentificationType(),
+                request.getPrimeId(),request.getIdentification(),
                 request.getName(), request.getLastName(), request.getGender(),
                 request.getWeight(),request.getHeight(),request.getHasDisability(),request.getIsPregnant(),
                 request.getBirthDate(), request.getFamilyRelationship(), request.getImage(),request.getGestationTime(),

@@ -1,7 +1,7 @@
 package com.kynsof.identity.infrastructure.services;
 
 import com.kynsof.identity.domain.interfaces.service.IUserTypePermissionService;
-import com.kynsof.identity.infrastructure.identity.UserTypePermission;
+import com.kynsof.identity.infrastructure.entities.UserTypePermission;
 import com.kynsof.identity.infrastructure.repository.query.UserTypePermissionReadDataJPARepository;
 import com.kynsof.share.core.domain.EUserType;
 import org.springframework.stereotype.Service;

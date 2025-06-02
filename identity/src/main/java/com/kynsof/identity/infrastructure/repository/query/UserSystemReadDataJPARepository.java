@@ -1,7 +1,7 @@
 package com.kynsof.identity.infrastructure.repository.query;
 
 import com.kynsof.identity.domain.dto.UserStatus;
-import com.kynsof.identity.infrastructure.identity.UserSystem;
+import com.kynsof.identity.infrastructure.entities.UserSystem;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;

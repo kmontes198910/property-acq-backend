@@ -26,8 +26,6 @@
 
     <dependencyManagement>
         <dependencies>
-            <!-- Override Lombok provided by Spring Boot -->
-
             <dependency>
                 <!-- Import dependency management from Spring Cloud -->
                 <groupId>org.springframework.cloud</groupId>
@@ -74,7 +72,6 @@
             <artifactId>spring-boot-starter-actuator</artifactId>
         </dependency>
 
-
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
@@ -85,10 +82,9 @@
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
 
-
         <dependency>
             <groupId>org.springdoc</groupId>
-            <artifactId>springdoc-openapi-starter-webflux-ui</artifactId>
+            <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
             <version>${springdoc-openapi.version}</version>
         </dependency>
 
@@ -102,6 +98,7 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-redis</artifactId>
         </dependency>
+        
         <dependency>
             <groupId>com.knsof</groupId>
             <artifactId>share</artifactId>
@@ -109,36 +106,22 @@
             <scope>compile</scope>
         </dependency>
 
-            <dependency>
-                <groupId>com.mailjet</groupId>
-                <artifactId>mailjet-client</artifactId>
-                <version>5.2.5</version>
-            </dependency>
+        <dependency>
+            <groupId>com.mailjet</groupId>
+            <artifactId>mailjet-client</artifactId>
+            <version>5.2.5</version>
+        </dependency>
 
-        <dependency>
-            <groupId>software.amazon.awssdk</groupId>
-            <artifactId>bom</artifactId>
-            <version>2.21.7</version>
-            <type>pom</type>
-        </dependency>
-        <dependency>
-            <groupId>software.amazon.awssdk</groupId>
-            <artifactId>auth</artifactId>
-            <version>2.21.7</version>
-        </dependency>
-        <dependency>
-            <groupId>software.amazon.awssdk</groupId>
-            <artifactId>aws-core</artifactId>
-            <version>2.21.7</version>
-        </dependency>
         <dependency>
             <groupId>software.amazon.awssdk</groupId>
             <artifactId>s3</artifactId>
             <version>2.21.7</version>
         </dependency>
+        
         <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-test</artifactId>
+            <groupId>software.amazon.awssdk</groupId>
+            <artifactId>auth</artifactId>
+            <version>2.21.7</version>
         </dependency>
 
         <dependency>
@@ -150,11 +133,16 @@
         <dependency>
             <groupId>org.redisson</groupId>
             <artifactId>redisson</artifactId>
-            <version>3.32.0</version> <!-- Verifica siempre la última versión -->
+            <version>3.32.0</version>
         </dependency>
+        
         <dependency>
             <groupId>org.springframework.amqp</groupId>
             <artifactId>spring-rabbit</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-test</artifactId>
         </dependency>
 
     </dependencies>

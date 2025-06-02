@@ -16,6 +16,8 @@ import com.kynsoft.rrhh.domain.interfaces.services.IUserBusinessRelationService;
 import com.kynsoft.rrhh.domain.rules.assistant.AssistantEmailMustBeUniqueRule;
 import com.kynsoft.rrhh.domain.rules.assistant.AssistantIdentificationMustBeUniqueRule;
 import com.kynsoft.rrhh.infrastructure.services.UserSystemService;
+import com.kynsoft.rrhh.infrastructure.services.rabbitMQ.Dto.AssistantRabbitMqDto;
+import com.kynsoft.rrhh.infrastructure.services.rabbitMQ.eventPublisher.EventAssistantPublisherService;
 import com.kynsoft.rrhh.infrastructure.util.PasswordGenerator;
 import org.springframework.stereotype.Component;
 
@@ -23,6 +25,7 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 import java.time.LocalDateTime;
 import java.util.UUID;
+import org.springframework.transaction.annotation.Transactional;
 
 // Otros imports
 
@@ -33,19 +36,21 @@ public class CreateAssistantCommandHandler implements ICommandHandler<CreateAssi
     private final IBusinessService businessService;
     private final IUserBusinessRelationService userBusinessRelationService;
     private final UserSystemService userSystemService;
-
+    private final EventAssistantPublisherService eventAssistantPublisherService;
 
     // Inyección de RestTemplate
     public CreateAssistantCommandHandler(IAssistantService service, IBusinessService businessService,
-                                         IUserBusinessRelationService userBusinessRelationService, UserSystemService userSystemService) {
+                                         IUserBusinessRelationService userBusinessRelationService, UserSystemService userSystemService,
+                                         EventAssistantPublisherService eventAssistantPublisherService) {
         this.service = service;
         this.businessService = businessService;
         this.userBusinessRelationService = userBusinessRelationService;
-
+        this.eventAssistantPublisherService = eventAssistantPublisherService;
         this.userSystemService = userSystemService;
     }
 
     @Override
+    @Transactional
     public void handle(CreateAssistantCommand command) {
         RulesChecker.checkRule(new ValidateObjectNotNullRule<>(command.getStatus(), "Assistant.status", "Assistant status cannot be null."));
 
@@ -73,6 +78,15 @@ public class CreateAssistantCommandHandler implements ICommandHandler<CreateAssi
             this.userBusinessRelationService.create(new UserBusinessRelationDto(UUID.randomUUID(),
                     assistantSave, businessDto, "ACTIVE", LocalDateTime.now()));
 
+            this.eventAssistantPublisherService.publishEvent(new AssistantRabbitMqDto(
+                    assistantSave.getId(), 
+                    assistantSave.getIdentification(), 
+                    assistantSave.getName(), 
+                    assistantSave.getLastName(), 
+                    "", 
+                    assistantSave.getStatus(), 
+                    assistantSave.getImage()
+            ));
 
         } catch (Exception ex) {
             throw new BusinessException(DomainErrorMessage.DOCTOR_NOT_FOUND, "Ocurrió un error al crear al usuario.");

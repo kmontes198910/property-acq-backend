@@ -5,13 +5,14 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.UUID;
 
 @Setter
 @Getter
 @NoArgsConstructor
-public class UserSystemDto {
+public class UserSystemDto implements Serializable {
     private UUID id;
     private String identification;
     private String email;

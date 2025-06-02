@@ -51,4 +51,39 @@ public interface ExternalConsultationReadDataJPARepository extends JpaRepository
             @Param("year") int year,
             Pageable pageable);
 
+    /**
+     * Busca todas las consultas externas que tengan al menos un examen de tipo LAB_TESTS 
+     * y filtra opcionalmente por paciente, doctor y/o ID del recurso/examen
+     * @param patientId ID del paciente (opcional)
+     * @param doctorId ID del doctor (opcional)
+     * @param resourceId ID del recurso/examen (opcional)
+     * @return Lista de consultas externas con exámenes de tipo LAB_TESTS filtradas según los parámetros
+     */
+    @Query("SELECT DISTINCT ec FROM ExternalConsultation ec JOIN ec.exams e WHERE e.type = 'LAB_TESTS' " +
+           "AND (:patientId IS NULL OR ec.patient.id = :patientId) " +
+           "AND (:doctorId IS NULL OR ec.doctor.id = :doctorId) " +
+           "AND (:resourceId IS NULL OR e.id = :resourceId)")
+    List<ExternalConsultation> findAllWithLabTestsFiltered(
+            @Param("patientId") UUID patientId,
+            @Param("doctorId") UUID doctorId,
+            @Param("resourceId") UUID resourceId);
+
+    /**
+     * Busca todas las consultas externas que tengan al menos un examen de tipo LAB_TESTS para una empresa específica
+     * y filtra opcionalmente por paciente, doctor y/o ID del recurso/examen
+     * @param businessId ID de la empresa
+     * @param patientId ID del paciente (opcional)
+     * @param doctorId ID del doctor (opcional)
+     * @param resourceId ID del recurso/examen (opcional)
+     * @return Lista de consultas externas con exámenes de tipo LAB_TESTS para la empresa especificada y filtradas según los parámetros
+     */
+    @Query("SELECT DISTINCT ec FROM ExternalConsultation ec JOIN ec.exams e WHERE e.type = 'LAB_TESTS' AND ec.business.id = :businessId " +
+           "AND (:patientId IS NULL OR ec.patient.id = :patientId) " +
+           "AND (:doctorId IS NULL OR ec.doctor.id = :doctorId) " +
+           "AND (:resourceId IS NULL OR e.id = :resourceId)")
+    List<ExternalConsultation> findAllWithLabTestsByBusinessIdFiltered(
+            @Param("businessId") UUID businessId,
+            @Param("patientId") UUID patientId,
+            @Param("doctorId") UUID doctorId,
+            @Param("resourceId") UUID resourceId);
 }

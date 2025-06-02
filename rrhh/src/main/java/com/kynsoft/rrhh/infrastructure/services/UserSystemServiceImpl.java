@@ -10,11 +10,14 @@ import com.kynsof.share.core.infrastructure.specifications.GenericSpecifications
 import com.kynsoft.rrhh.application.query.users.getbyid.UserSystemsByIdResponse;
 import com.kynsoft.rrhh.domain.dto.UserSystemDto;
 import com.kynsoft.rrhh.domain.interfaces.services.IUserSystemService;
+import com.kynsoft.rrhh.infrastructure.config.RRHHCacheConfig;
 import com.kynsoft.rrhh.infrastructure.identity.Assistant;
 import com.kynsoft.rrhh.infrastructure.identity.Doctor;
 import com.kynsoft.rrhh.infrastructure.identity.UserSystem;
 import com.kynsoft.rrhh.infrastructure.repository.command.UserSystemsWriteDataJPARepository;
 import com.kynsoft.rrhh.infrastructure.repository.query.UserSystemReadDataJPARepository;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -38,6 +41,7 @@ public class UserSystemServiceImpl implements IUserSystemService {
     }
 
     @Override
+    @CacheEvict(value = {RRHHCacheConfig.USERS_BY_ID_CACHE, RRHHCacheConfig.USERS_BY_IDENTIFICATION_CACHE}, allEntries = true)
     public UUID create(UserSystemDto userSystemDto) {
         UserSystem data = new UserSystem(userSystemDto);
         UserSystem userSystem = this.repositoryCommand.save(data);
@@ -45,6 +49,7 @@ public class UserSystemServiceImpl implements IUserSystemService {
     }
 
     @Override
+    @CacheEvict(value = {RRHHCacheConfig.USERS_BY_ID_CACHE, RRHHCacheConfig.USERS_BY_IDENTIFICATION_CACHE}, allEntries = true)
     public void update(UserSystemDto userSystemDto) {
         UserSystem update = new UserSystem(userSystemDto);
         update.setUpdatedAt(LocalDateTime.now());
@@ -52,10 +57,12 @@ public class UserSystemServiceImpl implements IUserSystemService {
     }
 
     @Override
+    @CacheEvict(value = {RRHHCacheConfig.USERS_BY_ID_CACHE, RRHHCacheConfig.USERS_BY_IDENTIFICATION_CACHE}, allEntries = true)
     public void delete(UUID id) {
     }
 
     @Override
+    @Cacheable(value = RRHHCacheConfig.USERS_BY_ID_CACHE, key = "#id")
     public UserSystemDto findById(UUID id) {
         Optional<UserSystem> userSystem = this.repositoryQuery.findById(id);
         if (userSystem.isPresent()) {
@@ -63,7 +70,9 @@ public class UserSystemServiceImpl implements IUserSystemService {
         }
         throw new BusinessNotFoundException(new GlobalBusinessException(DomainErrorMessage.USER_NOT_FOUND, new ErrorField("User.id", "User not found.")));
     }
+    
     @Override
+    @Cacheable(value = RRHHCacheConfig.USERS_BY_IDENTIFICATION_CACHE, key = "#identification")
     public UserSystemDto getUserByIdentification(String identification) {
         Optional<UserSystem> userSystemOptional = repositoryQuery.findByIdentification(identification);
         if (userSystemOptional.isPresent()) {

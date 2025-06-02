@@ -28,7 +28,6 @@
 
     <dependencyManagement>
         <dependencies>
-
             <dependency>
                 <!-- Import dependency management from Spring Cloud -->
                 <groupId>org.springframework.cloud</groupId>
@@ -50,50 +49,46 @@
     </dependencyManagement>
 
     <dependencies>
+        <!-- Dependencia compartida -->
         <dependency>
             <groupId>com.knsof</groupId>
             <artifactId>share</artifactId>
             <version>0.0.1-SNAPSHOT</version>
             <scope>compile</scope>
+            <!-- Excluir WebFlux -->
+            <exclusions>
+                <exclusion>
+                    <groupId>org.springframework</groupId>
+                    <artifactId>spring-webflux</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>io.projectreactor</groupId>
+                    <artifactId>reactor-core</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
+        
+        <!-- Dependencias de Spring Cloud -->
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-config</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-actuator</artifactId>
-        </dependency>
-
-        <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
         </dependency>
-
+        
+        <!-- Dependencias principales de Spring Boot -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
-
-        <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-            <optional>true</optional>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springdoc</groupId>
-            <artifactId>springdoc-openapi-starter-webflux-ui</artifactId>
-            <version>${springdoc-openapi.version}</version>
-        </dependency>
-
         <dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-configuration-processor</artifactId>
-            <optional>true</optional>
+            <artifactId>spring-boot-starter-actuator</artifactId>
         </dependency>
-
-
+        
+        <!-- Base de datos -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-jpa</artifactId>
@@ -104,23 +99,73 @@
             <version>42.7.2</version>
             <scope>runtime</scope>
         </dependency>
-
-
+        
+        <!-- Cache con Redis -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-redis</artifactId>
         </dependency>
-
-
         <dependency>
             <groupId>org.redisson</groupId>
             <artifactId>redisson</artifactId>
-            <version>3.32.0</version> <!-- Verifica siempre la última versión -->
+            <version>3.32.0</version>
         </dependency>
-
+        
+        <!-- Mensajería con RabbitMQ -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-amqp</artifactId>
+        </dependency>
+        
+        <!-- Quitar la dependencia de SpringDoc/Swagger -->
+        
+        <!-- Herramientas de desarrollo -->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <optional>true</optional>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-configuration-processor</artifactId>
+            <optional>true</optional>
+        </dependency>
+
+        <!-- Agregar explícitamente Tomcat como servidor web -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-tomcat</artifactId>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>io.swagger.core.v3</groupId>
+            <artifactId>swagger-models-jakarta</artifactId>
+            <version>2.2.22</version>
+            <scope>compile</scope>
+        </dependency>
+
+        <!-- Documentación API - Swagger UI para Spring MVC -->
+        <dependency>
+            <groupId>org.springdoc</groupId>
+            <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+            <version>${springdoc-openapi.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>io.swagger.core.v3</groupId>
+                    <artifactId>swagger-annotations-jakarta</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-starter-webflux</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        
+        <!-- Agregar una versión específica de las anotaciones de Swagger para evitar conflictos -->
+        <dependency>
+            <groupId>io.swagger.core.v3</groupId>
+            <artifactId>swagger-annotations-jakarta</artifactId>
+            <version>2.2.15</version>
         </dependency>
     </dependencies>
 
@@ -129,13 +174,13 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>
-                <version>3.3.0</version> <!-- Usa la versión más reciente -->
+                <version>3.3.0</version>
                 <configuration>
                     <archive>
                         <manifest>
                             <addClasspath>true</addClasspath>
                             <classpathPrefix>lib/</classpathPrefix>
-                            <mainClass>com.kynsof.treatments.TreatmentsApplication</mainClass> <!-- Reemplaza con tu clase que contiene el método main -->
+                            <mainClass>com.kynsof.treatments.TreatmentsApplication</mainClass>
                         </manifest>
                     </archive>
                 </configuration>
@@ -151,13 +196,14 @@
                             <artifactId>lombok</artifactId>
                         </exclude>
                     </excludes>
+                    <excludeDevtools>true</excludeDevtools>
+                    <mainClass>com.kynsof.treatments.TreatmentsApplication</mainClass>
                 </configuration>
             </plugin>
-
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.11.0</version>
+                <version>${maven-compiler-plugin.version}</version>
                 <configuration>
                     <compilerArgs>
                         <arg>-parameters</arg>
@@ -173,5 +219,4 @@
             </plugin>
         </plugins>
     </build>
-
 </project>

@@ -1,0 +1,17 @@
+version: '3'
+services:
+  medical-test-db:
+    image: postgres:15
+    container_name: medical-test-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: medicaltest
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - medical-test-data:/var/lib/postgresql/data
+
+volumes:
+  medical-test-data:

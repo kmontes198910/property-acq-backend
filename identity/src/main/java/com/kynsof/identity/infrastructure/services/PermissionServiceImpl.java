@@ -4,7 +4,7 @@ import com.kynsof.identity.application.query.permission.search.PermissionSearchR
 import com.kynsof.identity.domain.dto.PermissionDto;
 import com.kynsof.identity.domain.dto.enumType.PermissionStatusEnm;
 import com.kynsof.identity.domain.interfaces.service.IPermissionService;
-import com.kynsof.identity.infrastructure.identity.Permission;
+import com.kynsof.identity.infrastructure.entities.Permission;
 import com.kynsof.identity.infrastructure.repository.command.PermissionWriteDataJPARepository;
 import com.kynsof.identity.infrastructure.repository.query.PermissionReadDataJPARepository;
 import com.kynsof.share.core.domain.exception.BusinessNotFoundException;

@@ -1,0 +1,34 @@
+package com.kynsoft.propertyacqcenter.application.command.legalEntity.update;
+
+import com.kynsoft.propertyacqcenter.domain.enums.EntityStatus;
+import com.kynsoft.propertyacqcenter.domain.enums.EntityType;
+import com.kynsoft.propertyacqcenter.domain.enums.Month;
+import java.time.LocalDate;
+import java.util.UUID;
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
+public class UpdateLegalEntityRequest {
+
+    private String name;
+    private String taxId;
+    private EntityType entityType;
+    private UUID business;
+    private String formationState;
+    private LocalDate formationDate;
+    private Month fiscalYearEnd;
+    private String businessDescription;
+    private String website;
+    private Double annualRevenue;
+    private LocalDate dateOfLastAnnualReport;
+    private UUID parentEntityId;
+    private String notes;
+    private EntityStatus status;
+    private String owner;
+    private String entityExperience;
+    private Float entityFico;
+    private String authorizedSignerGovernmentIdCopy;
+    private String authorizedSignerGovernmentIdCopyFileName;
+}

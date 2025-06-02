@@ -1,175 +1,139 @@
 package com.kynsoft.notification.controller;
 
-import com.kynsof.share.core.domain.request.PageableUtil;
-import com.kynsof.share.core.domain.request.SearchRequest;
+import com.kynsof.share.core.domain.response.ApiError;
 import com.kynsof.share.core.domain.response.ApiResponse;
 import com.kynsof.share.core.infrastructure.bus.IMediator;
-import com.kynsoft.notification.application.command.file.deleteFileS3.DeleteFileS3Command;
-import com.kynsoft.notification.application.command.file.deleteFileS3.DeleteFileS3Message;
 import com.kynsoft.notification.application.command.file.saveFileS3.SaveFileS3Command;
 import com.kynsoft.notification.application.command.file.saveFileS3.SaveFileS3Message;
-import com.kynsoft.notification.application.query.file.search.GetSearchAFileQuery;
-import com.kynsoft.notification.domain.dto.AFileDto;
-import com.kynsoft.notification.domain.dto.FileInfoDto;
-import com.kynsoft.notification.domain.service.IAFileService;
-import com.kynsoft.notification.infrastructure.service.AmazonClient;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.buffer.DataBufferUtils;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.http.codec.multipart.FilePart;
-import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import reactor.core.publisher.Mono;
 
-import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
-import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/files")
 public class FileController {
+    
+    private static final Logger logger = LoggerFactory.getLogger(FileController.class);
     private final IMediator mediator;
 
-    private final AmazonClient amazonClient;
-
-    private final IAFileService fileService;
-
     @Autowired
-    public FileController(IMediator mediator, AmazonClient amazonClient, IAFileService fileService) {
+    public FileController(IMediator mediator) {
         this.mediator = mediator;
-        this.amazonClient = amazonClient;
-        this.fileService = fileService;
     }
 
+    /**
+     * Carga un archivo en S3
+     */
     @PostMapping(value = "")
-    public Mono<ResponseEntity<ApiResponse<?>>> upload(
-            @RequestPart("file") FilePart filePart,
+    public ResponseEntity<ApiResponse<?>> upload(
+            @RequestPart("file") MultipartFile file,
             @RequestPart("objectId") String objectId) {
-        // Asignar cadena vacía si objectId es null
-       String valueId = (objectId == null) ? "" : objectId;
-        return DataBufferUtils.join(filePart.content())
-                .flatMap(dataBuffer -> {
-                    byte[] bytes = new byte[dataBuffer.readableByteCount()];
-                    dataBuffer.read(bytes);
-                    DataBufferUtils.release(dataBuffer);
-
-                    // Obtener el tipo de contenido (MIME type)
-                    String contentType = Objects.requireNonNull(filePart.headers().getContentType()).toString();
-
-                    // Crear MultipartFile a partir de bytes y tipo MIME
-                    MultipartFile multipartFile = new MockMultipartFile(
-                            UUID.randomUUID().toString(),
-                            filePart.filename(),
-                            contentType,
-                            bytes
-                    );
-
-                    try {
-                        // Pasar el objectId al comando junto con el archivo
-                        SaveFileS3Message response = mediator.send(new SaveFileS3Command(multipartFile, filePart.filename(), valueId,""));
-                        return Mono.just(ResponseEntity.ok(ApiResponse.success(response)));
-                    } catch (Exception e) {
-                        return Mono.error(e);
-                    }
-                });
+        
+        logger.info("Recibida solicitud para cargar archivo: {}, objectId: {}", 
+                file.getOriginalFilename(), objectId);
+        
+        return processFileUpload(file, objectId, "");
     }
 
-    @PostMapping(value = "upload", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public Mono<?> uploadFile(
-            @RequestPart("file") Mono<FilePart> filePartMono,
+    /**
+     * Carga un archivo en S3 con posibilidad de especificar una ruta de carpeta
+     * @param file Archivo a cargar
+     * @param objectId ID del objeto asociado (opcional)
+     * @param folderPath Ruta de la carpeta donde se guardará el archivo
+     * @return Respuesta con la información del archivo cargado
+     */
+    @PostMapping(value = "upload")
+    public ResponseEntity<ApiResponse<?>> uploadFile(
+            @RequestPart("file") MultipartFile file,
             @RequestPart(value = "objectId", required = false) String objectId,
-            @RequestPart(value = "folderPath") String folderPath) {
-
-        String valueId = Optional.ofNullable(objectId).orElse(""); // Si es null, asigna ""
-
-        return filePartMono
-                .flatMap(filePart -> DataBufferUtils.join(filePart.content())
-                        .flatMap(dataBuffer -> {
-                            try {
-                                byte[] bytes = new byte[dataBuffer.readableByteCount()];
-                                dataBuffer.read(bytes);
-                                DataBufferUtils.release(dataBuffer); // Liberar memoria
-
-                                // Obtener el tipo de contenido
-                                String contentType = Optional.ofNullable(filePart.headers().getContentType())
-                                        .map(MediaType::toString)
-                                        .orElse("application/octet-stream"); // Valor por defecto
-
-                                // Crear MultipartFile simulado
-                                MultipartFile multipartFile = new MockMultipartFile(
-                                        filePart.filename(), // Nombre del archivo
-                                        filePart.filename(),
-                                        contentType,
-                                        bytes
-                                );
-
-                                SaveFileS3Message response = mediator.send(new SaveFileS3Command(multipartFile,
-                                        filePart.filename(), valueId,folderPath));
-                                return Mono.just(ResponseEntity.ok(ApiResponse.success(response)));
-
-                            } catch (Exception e) {
-                                return Mono.error(new RuntimeException("Error al procesar el archivo", e));
-                            }
-                        })
-                );
+            @RequestPart(value = "folderPath") String folderPath,
+            @RequestHeader(value = "X-User-Id", required = false) String userId,
+            @RequestHeader(value = "X-User-Name", required = false) String userName) {
+        
+        logger.info("Recibida solicitud para cargar archivo con folderPath: {}, objectId: {}", 
+                folderPath, objectId);
+        
+        return processFileUpload(file, objectId, folderPath, userId, userName);
     }
 
-    @PostMapping("/delete")
-    public ResponseEntity<?> deleteFile(@RequestBody String url) {
+    /**
+     * Método común para procesar la carga del archivo
+     */
+    private ResponseEntity<ApiResponse<?>> processFileUpload(
+            MultipartFile file,
+            String objectId,
+            String folderPath) {
+        return processFileUpload(file, objectId, folderPath, "", "");
+    }
+
+    /**
+     * Método común para procesar la carga del archivo con información de usuario
+     */
+    private ResponseEntity<ApiResponse<?>> processFileUpload(
+            MultipartFile file,
+            String objectId,
+            String folderPath,
+            String userId,
+            String userName ) {
+
+        String valueId = Optional.ofNullable(objectId).orElse("");
+        String folder = Optional.ofNullable(folderPath).filter(f -> !f.isEmpty()).orElse("");
+
         try {
-            DeleteFileS3Command command = new DeleteFileS3Command(url);
-            DeleteFileS3Message message =mediator.send(command);
-            return ResponseEntity.ok(message);
+            // Validación del archivo
+            if (file.isEmpty()) {
+                throw new IllegalArgumentException("El archivo está vacío");
+            }
+
+            // Información del usuario
+            userId = Optional.ofNullable(userId).orElse("");
+            userName = Optional.ofNullable(userName).orElse("");
+
+            logger.info("Procesando subida de archivo por usuario: {} (ID: {})", userName, userId);
+
+            // Extraer información del archivo
+            String contentType = file.getContentType();
+            if (contentType == null) {
+                contentType = "application/octet-stream";
+            }
+
+            String filename = file.getOriginalFilename();
+            if (filename == null) {
+                filename = "file_" + System.currentTimeMillis();
+            }
+
+            // Crear comando
+            SaveFileS3Command command = new SaveFileS3Command(
+                    file,
+                    filename,
+                    valueId,
+                    folder,
+                    userId,
+                    userName,
+                    null // businessId se puede establecer aquí si es necesario
+            );
+
+            // Ejecutar comando
+            SaveFileS3Message response = mediator.send(command);
+            logger.info("Archivo cargado exitosamente por {} (ID: {}): {}",
+                    userName, userId, response.getId());
+
+            return ResponseEntity.ok(ApiResponse.success(response));
+
         } catch (Exception e) {
-            return ResponseEntity.badRequest().body("Failed to delete file: " + e.getMessage());
+            logger.error("Error al procesar el archivo {}: {}",
+                    file.getOriginalFilename(), e.getMessage(), e);
+            return ResponseEntity.badRequest().body(
+                    ApiResponse.fail(new ApiError(400, e.getMessage()))
+            );
         }
     }
 
-    @GetMapping("/load")
-    public ResponseEntity<AFileDto> loadFile(@RequestParam("url") String fileUrl) {
-        try {
-            AFileDto file = amazonClient.loadFile(fileUrl);
-            return ResponseEntity.ok(file);
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().build();
-        }
-    }
-
-    @GetMapping("/load/by/id")
-    public ResponseEntity<AFileDto> loadFile(@RequestParam("id") UUID id) {
-
-        try {
-            AFileDto fileSave = this.fileService.findById(id);
-
-            AFileDto file = amazonClient.loadFile(fileSave.getUrl());
-            return ResponseEntity.ok(file);
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().build();
-        }
-    }
-
-    @GetMapping()
-    public List<FileInfoDto> listFiles(@RequestParam("bucketName") String bucketName) {
-        return amazonClient.listAllFiles(bucketName);
-    }
-
-
-    @GetMapping("/buckets")
-    public List<String> listBuckets() {
-        return amazonClient.listAllBuckets();
-    }
-
-    @PostMapping("/search")
-    public ResponseEntity<?> search(@RequestBody SearchRequest searchRequest){
-        GetSearchAFileQuery searchCampaignQuery = new GetSearchAFileQuery(
-                PageableUtil.createPageable(searchRequest),
-                searchRequest.getFilter(),
-                searchRequest.getQuery());
-        return ResponseEntity.ok(mediator.send(searchCampaignQuery));
-    }
 }
 
 

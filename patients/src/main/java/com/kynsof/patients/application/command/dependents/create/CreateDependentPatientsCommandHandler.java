@@ -40,6 +40,7 @@ public class CreateDependentPatientsCommandHandler implements ICommandHandler<Cr
         RulesChecker.checkRule(new DependentMustBeUniqueRule(this.serviceImpl, command.getIdentification(), idDependent));
         DependentPatientDto dependentPatientDto = new DependentPatientDto(
                 idDependent,
+                command.getIdentificationType(),
                 command.getIdentification(),
                 command.getName(),
                 command.getLastName(),

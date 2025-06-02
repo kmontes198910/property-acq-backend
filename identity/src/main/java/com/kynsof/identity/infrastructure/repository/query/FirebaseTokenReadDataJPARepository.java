@@ -1,6 +1,6 @@
 package com.kynsof.identity.infrastructure.repository.query;
 
-import com.kynsof.identity.infrastructure.identity.FirebaseToken;
+import com.kynsof.identity.infrastructure.entities.FirebaseToken;
 import io.lettuce.core.dynamic.annotation.Param;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

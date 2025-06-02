@@ -61,6 +61,9 @@ public class ExternalConsultation {
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "externalConsultation")
     private List<Exam> exams;
 
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "externalConsultation")
+    private List<Result> results = new ArrayList<>();
+
     @ManyToOne
     @JoinColumn(name = "business_id")
     private Business business;

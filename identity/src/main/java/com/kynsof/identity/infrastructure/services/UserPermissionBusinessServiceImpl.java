@@ -4,8 +4,8 @@ import com.kynsof.identity.application.query.userPermissionBusiness.getbyid.User
 import com.kynsof.identity.domain.dto.PermissionDto;
 import com.kynsof.identity.domain.dto.UserPermissionBusinessDto;
 import com.kynsof.identity.domain.interfaces.service.IUserPermissionBusinessService;
-import com.kynsof.identity.infrastructure.identity.Permission;
-import com.kynsof.identity.infrastructure.identity.UserPermissionBusiness;
+import com.kynsof.identity.infrastructure.entities.Permission;
+import com.kynsof.identity.infrastructure.entities.UserPermissionBusiness;
 import com.kynsof.identity.infrastructure.repository.command.UserPermissionBusinessWriteDataJPARepository;
 import com.kynsof.identity.infrastructure.repository.query.UserPermissionBusinessReadDataJPARepository;
 import com.kynsof.share.core.domain.exception.BusinessNotFoundException;

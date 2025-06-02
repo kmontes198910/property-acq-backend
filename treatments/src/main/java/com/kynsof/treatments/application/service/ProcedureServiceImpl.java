@@ -65,7 +65,7 @@ public class ProcedureServiceImpl implements IProcedureService {
 
     private void filterCreteria(List<FilterCriteria> filterCriteria) {
         for (FilterCriteria filter : filterCriteria) {
-            if ("status".equals(filter.getKey()) && filter.getValue() instanceof String) {
+            if ("type".equals(filter.getKey()) && filter.getValue() instanceof String) {
                 try {
                     MedicalExamCategory enumValue = MedicalExamCategory.valueOf((String) filter.getValue());
                     filter.setValue(enumValue);

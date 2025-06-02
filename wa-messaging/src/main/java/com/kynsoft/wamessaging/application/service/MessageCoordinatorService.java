@@ -1,0 +1,317 @@
+package com.kynsoft.wamessaging.application.service;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.kynsoft.wamessaging.application.request.MessageResponse;
+import com.kynsoft.wamessaging.application.request.SendMessageRequest;
+import com.kynsoft.wamessaging.application.request.WhatsAppApiResponse;
+import com.kynsoft.wamessaging.infrastructure.entity.MessageStatus;
+import com.kynsoft.wamessaging.infrastructure.entity.MessageType;
+import com.kynsoft.wamessaging.infrastructure.entity.WhatsAppMessage;
+import com.kynsoft.wamessaging.domain.service.WhatsAppApiClient;
+import com.kynsoft.wamessaging.domain.service.WhatsAppMessageService;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.time.LocalDateTime;
+import java.util.*;
+
+/**
+ * Servicio para la coordinación del envío de mensajes
+ */
+@Service
+@RequiredArgsConstructor
+@Slf4j
+public class MessageCoordinatorService {
+
+    private final WhatsAppMessageService messageService;
+    private final WhatsAppApiClient apiClient;
+    private final ObjectMapper objectMapper;
+
+    /**
+     * Procesa una solicitud de envío de mensaje
+     */
+    @Transactional
+    public MessageResponse queueMessage(SendMessageRequest request)  {
+        try {
+            log.info("Encolando mensaje para el destinatario: {}", request.getRecipientPhone());
+
+            // Crear y guardar el mensaje con estado PENDING
+            WhatsAppMessage message = WhatsAppMessage.builder()
+                    .recipientPhone(request.getRecipientPhone())
+                    .recipientName(request.getRecipientName())
+                    .messageContent(objectMapper.writeValueAsString(request.getMessageContent()))// ✔️ genera JSON válido)
+                    .messageType(request.getMessageType())
+                    .templateName(request.getTemplateName())
+                    .status(MessageStatus.PENDING)
+                    .retryCount(0)
+                    .createdAt(LocalDateTime.now())
+                    .build();
+
+            message = messageService.saveMessage(message);
+
+            // Convertir a DTO de respuesta
+            return convertToDto(message);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    /**
+     * Envía un mensaje específico a través de la API de WhatsApp
+     */
+    @Transactional
+    public MessageResponse sendMessage(UUID messageId) {
+        log.info("Enviando mensaje con ID: {}", messageId);
+
+        Optional<WhatsAppMessage> messageOpt = messageService.findById(messageId);
+
+        if (messageOpt.isEmpty()) {
+            log.error("Mensaje no encontrado: {}", messageId);
+            return null;
+        }
+
+        WhatsAppMessage message = messageOpt.get();
+
+        // Marcar el mensaje como en procesamiento
+        message = messageService.updateMessageStatus(messageId, MessageStatus.PROCESSING, null, null);
+
+        // Enviar el mensaje según su tipo
+        WhatsAppApiResponse apiResponse;
+        try {
+            if (message.getMessageType() == MessageType.TEXT) {
+                apiResponse = apiClient.sendTextMessage(
+                        message.getRecipientPhone(),
+                        message.getMessageContent()
+                );
+            } else if (message.getMessageType() == MessageType.TEMPLATE) {
+                Map<String, Object> templateData;
+
+                try {
+                    // Primero leer el JSON string a un Map usando readValue
+                    templateData = objectMapper.readValue(
+                            message.getMessageContent(),
+                            new TypeReference<Map<String, Object>>() {}
+                    );
+                } catch (JsonProcessingException e) {
+                    log.error("Error al procesar JSON de messageContent", e);
+                    throw new IllegalStateException("Formato inválido en messageContent para TEMPLATE: " + e.getMessage());
+                } catch (Exception e) {
+                    log.error("Error al convertir messageContent a Map<String,Object>", e);
+                    throw new IllegalStateException("Error inesperado procesando messageContent: " + e.getMessage());
+                }
+
+                apiResponse = apiClient.sendTemplateMessage(
+                        message.getRecipientPhone(),
+                        message.getRecipientName(),
+                        message.getTemplateName(),
+                        templateData
+                );
+            } else if (message.getMessageType() == MessageType.IMAGE
+                       || message.getMessageType() == MessageType.DOCUMENT
+                       || message.getMessageType() == MessageType.AUDIO
+                       || message.getMessageType() == MessageType.VIDEO) {
+                apiResponse = apiClient.sendMediaMessage(
+                        message.getRecipientPhone(),
+                        message.getMessageContent(),
+                        message.getMessageType()
+                );
+            } else {
+                throw new IllegalArgumentException("Tipo de mensaje no soportado: " + message.getMessageType());
+            }
+        } catch (Exception e) {
+            log.error("Error al enviar mensaje WhatsApp", e);
+            message = messageService.updateMessageStatus(
+                    messageId,
+                    MessageStatus.FAILED,
+                    null,
+                    "Error interno: " + e.getMessage()
+            );
+
+            // Si hay una excepción, incrementar contador de reintentos
+            messageService.incrementRetryCount(messageId);
+            return convertToDto(message);
+        }
+
+            // Actualizar el estado del mensaje según la respuesta de la API
+            if (apiResponse.isSuccessful()) {
+                message = messageService.updateMessageStatus(
+                        messageId,
+                        MessageStatus.SENT,
+                        apiResponse.getId(),
+                        null
+                );return convertToDto(message);
+            } else {
+                message = messageService.updateMessageStatus(
+                        messageId,
+                        MessageStatus.FAILED,
+                        null,
+                        apiResponse.getErrorMessage()
+                );
+
+                // Si hay un error, incrementar contador de reintentos para futuros intentos
+                messageService.incrementRetryCount(messageId);
+                return convertToDto(message);
+            }
+
+
+    }
+
+    /**
+     * Actualiza el estado de un mensaje basado en una notificación de webhook
+     */
+    @Transactional
+    public MessageResponse updateMessageStatus(String externalId, MessageStatus newStatus, String errorMessage) {
+        log.info("Actualizando estado del mensaje externo {} a {}", externalId, newStatus);
+
+        Optional<WhatsAppMessage> messageOpt = messageService.findByExternalId(externalId);
+
+        if (messageOpt.isEmpty()) {
+            log.warn("No se encontró mensaje con ID externo: {}", externalId);
+            return null;
+        }
+
+        WhatsAppMessage message = messageOpt.get();
+        message = messageService.updateMessageStatus(message.getId(), newStatus, externalId, errorMessage);
+
+        return convertToDto(message);
+    }
+
+    /**
+     * Consulta un mensaje por su ID
+     */
+    public MessageResponse getMessage(UUID messageId) {
+        log.info("Consultando mensaje con ID: {}", messageId);
+
+        Optional<WhatsAppMessage> messageOpt = messageService.findById(messageId);
+
+        if (messageOpt.isEmpty()) {
+            log.warn("Mensaje no encontrado: {}", messageId);
+            return null;
+        }
+
+        return convertToDto(messageOpt.get());
+    }
+
+    /**
+     * Busca mensajes según varios criterios
+     */
+    public Page<MessageResponse> searchMessages(
+            LocalDateTime startDate,
+            LocalDateTime endDate,
+            MessageStatus status,
+            String phone,
+            Pageable pageable) {
+
+        log.info("Buscando mensajes con filtros - desde: {}, hasta: {}, estado: {}, teléfono: {}",
+                startDate, endDate, status, phone);
+
+        Page<WhatsAppMessage> messages = messageService.searchMessages(startDate, endDate, status, phone, pageable);
+
+        return messages.map(this::convertToDto);
+    }
+
+    /**
+     * Reintenta el envío de un mensaje fallido
+     */
+    @Transactional
+    public MessageResponse retryMessage(UUID messageId) {
+        log.info("Reintentando envío del mensaje: {}", messageId);
+
+        Optional<WhatsAppMessage> messageOpt = messageService.findById(messageId);
+
+        if (messageOpt.isEmpty()) {
+            log.error("Mensaje no encontrado para reintento: {}", messageId);
+            throw new IllegalArgumentException("Mensaje no encontrado: " + messageId);
+        }
+
+        WhatsAppMessage message = messageOpt.get();
+
+        // Solo se puede reintentar mensajes fallidos
+        if (message.getStatus() != MessageStatus.FAILED) {
+            log.error("No se puede reintentar un mensaje que no esté en estado FAILED. Estado actual: {}", message.getStatus());
+            throw new IllegalStateException("Solo se pueden reintentar mensajes en estado FAILED");
+        }
+
+        // Marcar como pendiente para que el procesador lo tome
+        message = messageService.updateMessageStatus(messageId, MessageStatus.RETRYING, null, null);
+
+        return convertToDto(message);
+    }
+
+    /**
+     * Cancela un mensaje pendiente
+     */
+    @Transactional
+    public MessageResponse cancelMessage(UUID messageId) {
+        log.info("Cancelando mensaje: {}", messageId);
+
+        Optional<WhatsAppMessage> messageOpt = messageService.findById(messageId);
+
+        if (messageOpt.isEmpty()) {
+            log.error("Mensaje no encontrado para cancelación: {}", messageId);
+            throw new IllegalArgumentException("Mensaje no encontrado: " + messageId);
+        }
+
+        WhatsAppMessage message = messageOpt.get();
+
+        // Solo se pueden cancelar mensajes pendientes o en reintento
+        List<MessageStatus> cancelableStatuses = Arrays.asList(
+                MessageStatus.PENDING,
+                MessageStatus.RETRYING);
+
+        if (!cancelableStatuses.contains(message.getStatus())) {
+            log.error("No se puede cancelar un mensaje que no esté en estado PENDING o RETRYING. Estado actual: {}", message.getStatus());
+            throw new IllegalStateException("Solo se pueden cancelar mensajes en estado PENDING o RETRYING");
+        }
+
+        // Marcar como cancelado
+        message = messageService.updateMessageStatus(messageId, MessageStatus.CANCELLED, null, "Mensaje cancelado manualmente");
+
+        return convertToDto(message);
+    }
+
+    /**
+     * Procesa mensajes pendientes en lote
+     */
+    @Transactional
+    public List<MessageResponse> processNextBatch(int batchSize) {
+        log.info("Procesando siguiente lote de mensajes pendientes, tamaño: {}", batchSize);
+
+        List<MessageStatus> statusesToProcess = Arrays.asList(
+                MessageStatus.PENDING,
+                MessageStatus.RETRYING);
+
+        List<WhatsAppMessage> messagesToProcess = messageService.findMessagesToProcess(statusesToProcess, batchSize);
+
+        return messagesToProcess.stream()
+                .map(message -> sendMessage(message.getId()))
+                .collect(java.util.stream.Collectors.toList());
+    }
+
+    /**
+     * Convierte una entidad de mensaje a un DTO de respuesta
+     */
+    private MessageResponse convertToDto(WhatsAppMessage message) {
+        return MessageResponse.builder()
+                .id(message.getId())
+                .recipientPhone(message.getRecipientPhone())
+                .recipientName(message.getRecipientName())
+                .messageContent(message.getMessageContent())
+                .messageType(message.getMessageType().name())
+                .status(message.getStatus())
+                .externalId(message.getExternalId())
+                .errorMessage(message.getErrorMessage())
+                .retryCount(message.getRetryCount())
+                .createdAt(message.getCreatedAt())
+                .updatedAt(message.getUpdatedAt())
+                .sentAt(message.getSentAt())
+                .build();
+    }
+
+}

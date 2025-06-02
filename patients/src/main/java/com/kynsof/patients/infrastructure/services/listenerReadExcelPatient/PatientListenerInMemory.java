@@ -104,6 +104,7 @@ public class PatientListenerInMemory extends AnalysisEventListener<PatientExcel>
         p.setFirstName(data.getName());
         p.setLastName(data.getLastName());
         p.setGender(GenderType.valueOf(data.getGender()));
+        p.setSkinColor(data.getSkinColor());
         return p;
     }
 

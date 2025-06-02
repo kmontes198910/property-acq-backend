@@ -20,5 +20,6 @@ public class UpdateBusinessRequest {
     private String address;
     private String phone;
     private String email;
-
+    private String webSite;
+    private String storageCapacity;
 }
