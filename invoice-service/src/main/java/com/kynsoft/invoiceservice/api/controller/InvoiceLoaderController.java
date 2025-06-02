@@ -24,7 +24,6 @@ public class InvoiceLoaderController {
     @GetMapping("/{id}")
     public ResponseEntity<Map<String, Object>> getInvoiceById(@PathVariable UUID id) {
         Invoice invoice = invoiceLoaderService.loadCompleteInvoice(id);
-        
         if (invoice == null) {
             return ResponseEntity.notFound().build();
         }
