@@ -29,7 +29,6 @@ import java.util.concurrent.ConcurrentHashMap;
 public class GenerateReportCommandHandler implements ICommandHandler<GenerateReportCommand> {
     private static final Logger logger = LoggerFactory.getLogger(GenerateReportCommandHandler.class);
     private static final String POSTGRESQL_DRIVER = "org.postgresql.Driver";
-    
     @Value("${jasperreports.virtualizer.directory:/tmp/jasper-temp}")
     private String virtualizerDirectory;
     

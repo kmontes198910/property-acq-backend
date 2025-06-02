@@ -1,13 +1,13 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: digital-signature
+  name: medical-test
   namespace: medinec
 spec:
   replicas: 1
   selector:
     matchLabels:
-      workload.user.cattle.io/workloadselector: apps.deployment-medinec-digital-signature
+      workload.user.cattle.io/workloadselector: apps.deployment-medinec-medical-test
   strategy:
     rollingUpdate:
       maxSurge: 25%
@@ -15,19 +15,19 @@ spec:
   template:
     metadata:
       labels:
-        app: digital-signature
-        workload.user.cattle.io/workloadselector: apps.deployment-medinec-digital-signature
+        app: medical-test
+        workload.user.cattle.io/workloadselector: apps.deployment-medinec-medical-test
     spec:
       containers:
-        - name: digital-signature
-          image: kmontes2020/medinec-digital-signature:v1
+        - name: medical-test
+          image: kmontes2020/medinec-medical-test:v1
           imagePullPolicy: Always
           ports:
             - containerPort: 9909
               protocol: TCP
           envFrom:
             - secretRef:
-                name: digital-signature-secret
+                name: medical-test-secret
       imagePullSecrets:
         - name: dokcer-hub
       restartPolicy: Always
@@ -37,11 +37,11 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: digital-signature
+  name: medical-test
   namespace: medinec
 spec:
   selector:
-    app: digital-signature
+    app: medical-test
   ports:
     - protocol: TCP
       port: 9909
