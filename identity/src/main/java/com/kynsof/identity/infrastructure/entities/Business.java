@@ -37,7 +37,6 @@ public class Business {
     private String email;
     private String webSite;
     private String storageCapacity;
-
     @OneToMany(mappedBy = "business")
     private Set<UserPermissionBusiness> userPermissionBusinesses = new HashSet<>();
     @ManyToOne(fetch = FetchType.EAGER)
