@@ -24,9 +24,6 @@ public class CreatePropertyCommandHandler implements ICommandHandler<CreatePrope
 
     @Override
     public void handle(CreatePropertyCommand command) {
-        System.err.println("#################################################");
-        System.err.println("Llego");
-        System.err.println("#################################################");
         LegalEntityDto sellerName = command.getSellerName() != null ? this.legalEntityService.findById(command.getSellerName()) : null;
         ContactDto sellerContactInfo = command.getSellerContactInfo() != null ? this.contactService.findById(command.getSellerContactInfo()) : null;
         this.propertyService.validatePropertyId(command.getId());
@@ -70,6 +67,7 @@ public class CreatePropertyCommandHandler implements ICommandHandler<CreatePrope
                 .emdRequirements(command.getEmdRequirements())
                 .emdOfferedAmount(command.getEmdOfferedAmount())
 
+                .isMortgage(command.getIsMortgage())
                 .distressed(command.getDistressed())
                 .lenghOfOwership(command.getLenghOfOwership())
                 .openBalanceMortagage(command.getOpenBalanceMortagage())

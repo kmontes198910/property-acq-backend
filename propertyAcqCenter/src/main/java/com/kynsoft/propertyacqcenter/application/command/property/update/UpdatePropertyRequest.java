@@ -56,7 +56,8 @@ public class UpdatePropertyRequest {
     private Double emdOfferedAmount;
 
     //Mortagage
-    private String distressed;//
+    private Boolean isMortgage;//
+    private Boolean distressed;//
     private String lenghOfOwership;//
     private Double openBalanceMortagage;//
     private Double involuntaryLiensAmount;//

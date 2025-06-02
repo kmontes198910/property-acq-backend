@@ -60,7 +60,8 @@ public class PropertiesResponse implements IResponse {
     private Double emdOfferedAmount;
 
     //Mortagage
-    private String distressed;//
+    private Boolean isMortgage;//
+    private Boolean distressed;//
     private String lenghOfOwership;//
     private Double openBalanceMortagage;//
     private Double involuntaryLiensAmount;//
@@ -111,6 +112,7 @@ public class PropertiesResponse implements IResponse {
         this.emdRequirements = dto.getEmdRequirements();
         this.emdOfferedAmount = dto.getEmdOfferedAmount();
 
+        this.isMortgage = dto.getIsMortgage();
         this.distressed = dto.getDistressed();
         this.lenghOfOwership = dto.getLenghOfOwership();
         this.openBalanceMortagage = dto.getOpenBalanceMortagage();

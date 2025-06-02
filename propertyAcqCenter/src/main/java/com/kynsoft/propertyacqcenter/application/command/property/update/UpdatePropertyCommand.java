@@ -59,7 +59,8 @@ public class UpdatePropertyCommand implements ICommand {
     private Double emdOfferedAmount;
 
     //Mortagage
-    private String distressed;//
+    private Boolean isMortgage;//
+    private Boolean distressed;//
     private String lenghOfOwership;//
     private Double openBalanceMortagage;//
     private Double involuntaryLiensAmount;//
@@ -81,8 +82,8 @@ public class UpdatePropertyCommand implements ICommand {
                                  LocalDate contractExecutionDate, AcquisitionType acquisitionType, SourceType sourceType,
                                  UUID sellerName, UUID sellerContactInfo, LocalDate expectedClosingDate,
                                  Boolean emdRequirements, Double emdOfferedAmount,
-                                 String distressed, String lenghOfOwership, Double openBalanceMortagage, Double involuntaryLiensAmount,
-                                 Double publicRecord, Double mls) {
+                                 Boolean distressed, String lenghOfOwership, Double openBalanceMortagage, Double involuntaryLiensAmount,
+                                 Double publicRecord, Double mls, Boolean isMortgage) {
         this.id = id;
         this.purchasePrice = purchasePrice;
         this.rentalPrice = rentalPrice;
@@ -120,6 +121,7 @@ public class UpdatePropertyCommand implements ICommand {
         this.expectedClosingDate = expectedClosingDate;
         this.emdRequirements = emdRequirements;
         this.emdOfferedAmount = emdOfferedAmount;
+        this.isMortgage = isMortgage;
         this.distressed = distressed;
         this.lenghOfOwership = lenghOfOwership;
         this.openBalanceMortagage = openBalanceMortagage;
@@ -172,7 +174,8 @@ public class UpdatePropertyCommand implements ICommand {
                 request.getOpenBalanceMortagage(),
                 request.getInvoluntaryLiensAmount(),
                 request.getPublicRecord(),
-                request.getMls()
+                request.getMls(),
+                request.getIsMortgage()
         );
     }
 

@@ -84,6 +84,7 @@ public class PropertyServiceImpl implements IPropertyService {
         update.setSourceType(object.getSourceType());
 
         //Mortagage
+        update.setIsMortgage(object.getIsMortgage());
         update.setDistressed(object.getDistressed());
         update.setLenghOfOwership(object.getLenghOfOwership());
         update.setOpenBalanceMortagage(object.getOpenBalanceMortagage());

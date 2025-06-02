@@ -100,8 +100,11 @@ public class Property {
     private Boolean emdRequirements;//
 
     //Mortagage
-    @Column(name = "distressed", nullable = true)
-    private String distressed;//
+    @Column(name = "is_distressed", nullable = true)
+    private Boolean distressed;//
+
+    @Column(name = "is_mortgage", nullable = true)
+    private Boolean isMortgage;//
 
     @Column(name = "lengh_of_owership", nullable = true)
     private String lenghOfOwership;//
@@ -162,6 +165,7 @@ public class Property {
 
         //Mortagage
         this.distressed = dto.getDistressed();
+        this.isMortgage = dto.getIsMortgage();
         this.lenghOfOwership = dto.getLenghOfOwership();
         this.openBalanceMortagage = dto.getOpenBalanceMortagage();
         this.involuntaryLiensAmount = dto.getInvoluntaryLiensAmount();
@@ -221,6 +225,7 @@ public class Property {
                 .emdOfferedAmount(emdOfferedAmount)
 
                 .distressed(distressed)
+                .isMortgage(isMortgage)
                 .lenghOfOwership(lenghOfOwership)
                 .openBalanceMortagage(openBalanceMortagage)
                 .involuntaryLiensAmount(involuntaryLiensAmount)
