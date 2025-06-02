@@ -66,6 +66,7 @@ public class UpdatePropertyCommandHandler implements ICommandHandler<UpdatePrope
                 .emdRequirements(command.getEmdRequirements())
                 .emdOfferedAmount(command.getEmdOfferedAmount())
 
+                .isMortgage(command.getIsMortgage())
                 .distressed(command.getDistressed())
                 .lenghOfOwership(command.getLenghOfOwership())
                 .openBalanceMortagage(command.getOpenBalanceMortagage())

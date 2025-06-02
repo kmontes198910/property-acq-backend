@@ -59,7 +59,8 @@ public class CreatePropertyCommand implements ICommand {
     private Double emdOfferedAmount;
 
     //Mortagage
-    private String distressed;//
+    private Boolean isMortgage;//
+    private Boolean distressed;//
     private String lenghOfOwership;//
     private Double openBalanceMortagage;//
     private Double involuntaryLiensAmount;//
@@ -80,8 +81,8 @@ public class CreatePropertyCommand implements ICommand {
                                  LocalDate contractExecutionDate, AcquisitionType acquisitionType, SourceType sourceType,
                                  UUID sellerName, UUID sellerContactInfo, LocalDate expectedClosingDate,
                                  Boolean emdRequirements, Double emdOfferedAmount,
-                                 String distressed, String lenghOfOwership, Double openBalanceMortagage, Double involuntaryLiensAmount,
-                                 Double publicRecord, Double mls) {
+                                 Boolean distressed, String lenghOfOwership, Double openBalanceMortagage, Double involuntaryLiensAmount,
+                                 Double publicRecord, Double mls, Boolean isMortgage) {
         this.id = id;
         this.purchasePrice = purchasePrice;
         this.rentalPrice = rentalPrice;
@@ -125,6 +126,7 @@ public class CreatePropertyCommand implements ICommand {
         this.involuntaryLiensAmount = involuntaryLiensAmount;
         this.publicRecord = publicRecord;
         this.mls = mls;
+        this.isMortgage = isMortgage;
     }
 
     public static CreatePropertyCommand fromRequest(CreatePropertyRequest request) {
@@ -171,7 +173,8 @@ public class CreatePropertyCommand implements ICommand {
                 request.getOpenBalanceMortagage(),
                 request.getInvoluntaryLiensAmount(),
                 request.getPublicRecord(),
-                request.getMls()
+                request.getMls(),
+                request.getIsMortgage()
         );
     }
 

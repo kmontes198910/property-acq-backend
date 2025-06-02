@@ -60,7 +60,8 @@ public class PropertyDto {
     private LocalDate expectedClosingDate;//
 
     //Mortagage
-    private String distressed;//
+    private Boolean distressed;//
+    private Boolean isMortgage;//
     private String lenghOfOwership;//
     private Double openBalanceMortagage;//
     private Double involuntaryLiensAmount;//
