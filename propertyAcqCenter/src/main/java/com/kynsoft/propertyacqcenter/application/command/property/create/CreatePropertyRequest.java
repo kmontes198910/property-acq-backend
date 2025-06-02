@@ -55,4 +55,14 @@ public class CreatePropertyRequest {
     private LocalDate expectedClosingDate;
     private Boolean emdRequirements;
     private Double emdOfferedAmount;
+
+    //Mortagage
+    private String distressed;//
+    private String lenghOfOwership;//
+    private Double openBalanceMortagage;//
+    private Double involuntaryLiensAmount;//
+
+    //last sale
+    private Double publicRecord;//
+    private Double mls;//
 }

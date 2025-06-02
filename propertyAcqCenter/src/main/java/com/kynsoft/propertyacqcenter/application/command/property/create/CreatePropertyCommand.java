@@ -58,6 +58,16 @@ public class CreatePropertyCommand implements ICommand {
     private Boolean emdRequirements;
     private Double emdOfferedAmount;
 
+    //Mortagage
+    private String distressed;//
+    private String lenghOfOwership;//
+    private Double openBalanceMortagage;//
+    private Double involuntaryLiensAmount;//
+
+    //last sale
+    private Double publicRecord;//
+    private Double mls;//
+
     public CreatePropertyCommand(String id, String formattedAddress, PropertyType propertyType, int lotSize, 
                                  String apn, int yearBuilt, String county, Boolean occupancy, 
                                  String addressLine1, String addressLine2, String city, String state, 
@@ -69,7 +79,9 @@ public class CreatePropertyCommand implements ICommand {
                                  Boolean propertyRented,
                                  LocalDate contractExecutionDate, AcquisitionType acquisitionType, SourceType sourceType,
                                  UUID sellerName, UUID sellerContactInfo, LocalDate expectedClosingDate,
-                                 Boolean emdRequirements, Double emdOfferedAmount) {
+                                 Boolean emdRequirements, Double emdOfferedAmount,
+                                 String distressed, String lenghOfOwership, Double openBalanceMortagage, Double involuntaryLiensAmount,
+                                 Double publicRecord, Double mls) {
         this.id = id;
         this.purchasePrice = purchasePrice;
         this.rentalPrice = rentalPrice;
@@ -107,6 +119,12 @@ public class CreatePropertyCommand implements ICommand {
         this.expectedClosingDate = expectedClosingDate;
         this.emdRequirements = emdRequirements;
         this.emdOfferedAmount = emdOfferedAmount;
+        this.distressed = distressed;
+        this.lenghOfOwership = lenghOfOwership;
+        this.openBalanceMortagage = openBalanceMortagage;
+        this.involuntaryLiensAmount = involuntaryLiensAmount;
+        this.publicRecord = publicRecord;
+        this.mls = mls;
     }
 
     public static CreatePropertyCommand fromRequest(CreatePropertyRequest request) {
@@ -147,7 +165,13 @@ public class CreatePropertyCommand implements ICommand {
                 request.getSellerContactInfo(),
                 request.getExpectedClosingDate(),
                 request.getEmdRequirements(),
-                request.getEmdOfferedAmount()
+                request.getEmdOfferedAmount(),
+                request.getDistressed(),
+                request.getLenghOfOwership(),
+                request.getOpenBalanceMortagage(),
+                request.getInvoluntaryLiensAmount(),
+                request.getPublicRecord(),
+                request.getMls()
         );
     }
 

@@ -83,6 +83,16 @@ public class PropertyServiceImpl implements IPropertyService {
         update.setSellerName(object.getSellerContactInfo() != null ? new LegalEntity(object.getSellerName()) : null);
         update.setSourceType(object.getSourceType());
 
+        //Mortagage
+        update.setDistressed(object.getDistressed());
+        update.setLenghOfOwership(object.getLenghOfOwership());
+        update.setOpenBalanceMortagage(object.getOpenBalanceMortagage());
+        update.setInvoluntaryLiensAmount(object.getInvoluntaryLiensAmount());
+
+        //last sale
+        update.setPublicRecord(object.getPublicRecord());
+        update.setMls(object.getMls());
+
         repositoryCommand.save(update);
     }
 

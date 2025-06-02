@@ -99,6 +99,26 @@ public class Property {
     @Column(name = "emd_requirements", nullable = true)
     private Boolean emdRequirements;//
 
+    //Mortagage
+    @Column(name = "distressed", nullable = true)
+    private String distressed;//
+
+    @Column(name = "lengh_of_owership", nullable = true)
+    private String lenghOfOwership;//
+
+    @Column(name = "open_balance_mortagage", nullable = true)
+    private Double openBalanceMortagage;//
+
+    @Column(name = "involuntary_liens_amount", nullable = true)
+    private Double involuntaryLiensAmount;//
+
+    //last sale
+    @Column(name = "public_record", nullable = true)
+    private Double publicRecord;//
+
+    @Column(name = "mls", nullable = true)
+    private Double mls;//
+
     public Property(PropertyDto dto) {
         this.id = dto.getId();
         this.purchasePrice = dto.getPurchasePrice();
@@ -139,6 +159,16 @@ public class Property {
         this.expectedClosingDate = dto.getExpectedClosingDate();
         this.emdRequirements = dto.getEmdRequirements();
         this.emdOfferedAmount = dto.getEmdOfferedAmount();
+
+        //Mortagage
+        this.distressed = dto.getDistressed();
+        this.lenghOfOwership = dto.getLenghOfOwership();
+        this.openBalanceMortagage = dto.getOpenBalanceMortagage();
+        this.involuntaryLiensAmount = dto.getInvoluntaryLiensAmount();
+
+        //last sale
+        this.publicRecord = dto.getPublicRecord();
+        this.mls = dto.getMls();
     }
 
     public PropertyDto toAggregateBasic() {
@@ -189,6 +219,13 @@ public class Property {
                 .expectedClosingDate(expectedClosingDate)
                 .emdRequirements(emdRequirements)
                 .emdOfferedAmount(emdOfferedAmount)
+
+                .distressed(distressed)
+                .lenghOfOwership(lenghOfOwership)
+                .openBalanceMortagage(openBalanceMortagage)
+                .involuntaryLiensAmount(involuntaryLiensAmount)
+                .publicRecord(publicRecord)
+                .mls(mls)
                 .build();
     }
 

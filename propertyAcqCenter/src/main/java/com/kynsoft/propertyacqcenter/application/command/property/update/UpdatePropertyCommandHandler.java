@@ -65,6 +65,13 @@ public class UpdatePropertyCommandHandler implements ICommandHandler<UpdatePrope
                 .expectedClosingDate(command.getExpectedClosingDate())
                 .emdRequirements(command.getEmdRequirements())
                 .emdOfferedAmount(command.getEmdOfferedAmount())
+
+                .distressed(command.getDistressed())
+                .lenghOfOwership(command.getLenghOfOwership())
+                .openBalanceMortagage(command.getOpenBalanceMortagage())
+                .involuntaryLiensAmount(command.getInvoluntaryLiensAmount())
+                .publicRecord(command.getPublicRecord())
+                .mls(command.getMls())
                 .build());
     }
 }
