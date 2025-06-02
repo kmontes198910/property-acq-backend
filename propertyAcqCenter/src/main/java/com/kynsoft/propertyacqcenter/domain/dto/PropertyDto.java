@@ -11,6 +11,7 @@ import lombok.*;
 @Builder
 @Setter
 @Getter
+@AllArgsConstructor
 public class PropertyDto {
 
     private String id;
@@ -57,4 +58,14 @@ public class PropertyDto {
     private Boolean emdRequirements;//
     private Double emdOfferedAmount;//
     private LocalDate expectedClosingDate;//
+
+    //Mortagage
+    private String distressed;//
+    private String lenghOfOwership;//
+    private Double openBalanceMortagage;//
+    private Double involuntaryLiensAmount;//
+
+    //last sale
+    private Double publicRecord;//
+    private Double mls;//
 }

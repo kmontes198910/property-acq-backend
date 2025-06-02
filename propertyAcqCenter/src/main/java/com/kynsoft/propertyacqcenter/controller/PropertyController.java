@@ -32,6 +32,9 @@ public class PropertyController {
 
     @PostMapping("")
     public ResponseEntity<CreatePropertyMessage> createAllergy(@RequestBody CreatePropertyRequest request) {
+        System.err.println("#################################################");
+        System.err.println("Llego");
+        System.err.println("#################################################");
         CreatePropertyCommand createCommand = CreatePropertyCommand.fromRequest(request);
         CreatePropertyMessage response = mediator.send(createCommand);
 

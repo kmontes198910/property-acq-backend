@@ -59,6 +59,16 @@ public class PropertiesResponse implements IResponse {
     private Boolean emdRequirements;
     private Double emdOfferedAmount;
 
+    //Mortagage
+    private String distressed;//
+    private String lenghOfOwership;//
+    private Double openBalanceMortagage;//
+    private Double involuntaryLiensAmount;//
+
+    //last sale
+    private Double publicRecord;//
+    private Double mls;//
+
     public PropertiesResponse(PropertyDto dto) {
         this.purchasePrice = dto.getPurchasePrice();
         this.rentalPrice = dto.getRentalPrice();
@@ -100,6 +110,14 @@ public class PropertiesResponse implements IResponse {
         this.expectedClosingDate = dto.getExpectedClosingDate();
         this.emdRequirements = dto.getEmdRequirements();
         this.emdOfferedAmount = dto.getEmdOfferedAmount();
+
+        this.distressed = dto.getDistressed();
+        this.lenghOfOwership = dto.getLenghOfOwership();
+        this.openBalanceMortagage = dto.getOpenBalanceMortagage();
+        this.involuntaryLiensAmount = dto.getInvoluntaryLiensAmount();
+
+        this.publicRecord = dto.getPublicRecord();
+        this.mls = dto.getMls();
     }
 
 }
