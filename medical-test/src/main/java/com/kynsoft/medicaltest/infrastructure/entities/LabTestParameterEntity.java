@@ -42,18 +42,6 @@ public class LabTestParameterEntity {
     @Column(name = "name", nullable = false)
     private String name;
     
-    @Column(name = "unit", nullable = false)
-    private String unit;
-    
-    @Column(name = "reference_range_min", precision = 10, scale = 4)
-    private BigDecimal referenceRangeMin;
-    
-    @Column(name = "reference_range_max", precision = 10, scale = 4)
-    private BigDecimal referenceRangeMax;
-    
-    @Column(name = "gender_specific", nullable = false)
-    private Boolean genderSpecific;
-    
     @CreationTimestamp
     @Column(updatable = false)
     private LocalDateTime createdAt;

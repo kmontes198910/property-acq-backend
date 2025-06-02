@@ -77,10 +77,6 @@ public class LabTestParameterServiceImpl implements ILabTestParameterService {
         // Actualizar solo los campos permitidos
         entity.setCode(dto.getCode());
         entity.setName(dto.getName());
-        entity.setUnit(dto.getUnit());
-        entity.setReferenceRangeMin(dto.getReferenceRangeMin());
-        entity.setReferenceRangeMax(dto.getReferenceRangeMax());
-        entity.setGenderSpecific(dto.getGenderSpecific());
         entity.setUpdatedBy(userId);
 
         LabTestParameterEntity savedEntity = parameterWriteRepository.save(entity);
@@ -138,10 +134,6 @@ public class LabTestParameterServiceImpl implements ILabTestParameterService {
                 .id(entity.getId())
                 .code(entity.getCode())
                 .name(entity.getName())
-                .unit(entity.getUnit())
-                .referenceRangeMin(entity.getReferenceRangeMin())
-                .referenceRangeMax(entity.getReferenceRangeMax())
-                .genderSpecific(entity.getGenderSpecific())
                 .createdAt(entity.getCreatedAt())
                 .updatedAt(entity.getUpdatedAt())
                 .createdBy(entity.getCreatedBy())
@@ -161,10 +153,6 @@ public class LabTestParameterServiceImpl implements ILabTestParameterService {
                 .id(dto.getId())
                 .code(dto.getCode())
                 .name(dto.getName())
-                .unit(dto.getUnit())
-                .referenceRangeMin(dto.getReferenceRangeMin())
-                .referenceRangeMax(dto.getReferenceRangeMax())
-                .genderSpecific(dto.getGenderSpecific())
                 .createdBy(dto.getCreatedBy())
                 .updatedBy(dto.getUpdatedBy())
                 .build();

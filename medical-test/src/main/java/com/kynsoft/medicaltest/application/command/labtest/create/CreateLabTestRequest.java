@@ -19,6 +19,5 @@ import java.util.List;
 public class CreateLabTestRequest {
     private String code;
     private String name;
-    private String category;
     private String description;
 }

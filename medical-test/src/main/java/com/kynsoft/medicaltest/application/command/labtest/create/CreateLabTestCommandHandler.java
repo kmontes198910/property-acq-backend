@@ -30,7 +30,6 @@ public class CreateLabTestCommandHandler implements ICommandHandler<CreateLabTes
                 .id(command.getId())
                 .code(command.getCode())
                 .name(command.getName())
-                .category(command.getCategory())
                 .description(command.getDescription())
                 .createdAt(LocalDateTime.now())
                 .updatedAt(LocalDateTime.now())

@@ -18,10 +18,6 @@ public class UpdateLabTestParameterCommand implements ICommand {
     private final UUID id;
     private final String code;
     private final String name;
-    private final String unit;
-    private final BigDecimal referenceRangeMin;
-    private final BigDecimal referenceRangeMax;
-    private final Boolean genderSpecific;
     private final UUID userId;
 
     /**
@@ -37,10 +33,6 @@ public class UpdateLabTestParameterCommand implements ICommand {
                 id,
                 request.getCode(),
                 request.getName(),
-                request.getUnit(),
-                request.getReferenceRangeMin(),
-                request.getReferenceRangeMax(),
-                request.getGenderSpecific(),
                 userId
         );
     }

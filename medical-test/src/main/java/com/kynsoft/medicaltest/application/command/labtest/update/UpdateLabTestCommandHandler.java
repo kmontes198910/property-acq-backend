@@ -44,10 +44,6 @@ public class UpdateLabTestCommandHandler implements ICommandHandler<UpdateLabTes
             existingLabTest.setName(command.getName());
         }
         
-        if (command.getCategory() != null) {
-            existingLabTest.setCategory(command.getCategory());
-        }
-        
         if (command.getDescription() != null) {
             existingLabTest.setDescription(command.getDescription());
         }

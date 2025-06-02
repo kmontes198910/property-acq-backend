@@ -36,9 +36,6 @@ public class LabTestEntity {
     @Column(name = "name", nullable = false)
     private String name;
     
-    @Column(name = "category", nullable = false)
-    private String category;
-    
     @Column(name = "description", columnDefinition = "TEXT")
     private String description;
     

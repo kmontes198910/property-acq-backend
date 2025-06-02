@@ -21,10 +21,6 @@ public class CreateLabTestParameterCommandHandler implements ICommandHandler<Cre
                 .labTestId(command.getLabTestId())
                 .name(command.getName())
                 .code(command.getCode())
-                .unit(command.getUnit())
-                .referenceRangeMin(command.getReferenceRangeMin())
-                .referenceRangeMax(command.getReferenceRangeMax())
-                .genderSpecific(command.getGenderSpecific())
                 .build();
 
         LabTestParameterDto createdDto = labTestParameterService.create(dto, command.getUserId());

@@ -56,15 +56,7 @@ public class LabTestServiceImpl implements ILabTestService {
         return labTestReadRepository.findByCode(code).map(this::mapToDomain);
     }
 
-    @Override
-    @Transactional(readOnly = true)
-    public List<LabTestDto> findByCategory(String category) {
-        log.info("Buscando exámenes de laboratorio por categoría: {}", category);
-        return labTestReadRepository.findByCategory(category)
-                .stream()
-                .map(this::mapToDomain)
-                .collect(Collectors.toList());
-    }
+    // El método findByCategory ha sido removido porque el campo category ya no existe
 
     @Override
     @Transactional
@@ -179,7 +171,6 @@ public class LabTestServiceImpl implements ILabTestService {
                 .id(entity.getId())
                 .code(entity.getCode())
                 .name(entity.getName())
-                .category(entity.getCategory())
                 .description(entity.getDescription())
                 .createdAt(entity.getCreatedAt())
                 .updatedAt(entity.getUpdatedAt())
@@ -208,7 +199,6 @@ public class LabTestServiceImpl implements ILabTestService {
                 .id(dto.getId())
                 .code(dto.getCode())
                 .name(dto.getName())
-                .category(dto.getCategory())
                 .description(dto.getDescription())
                 .createdAt(dto.getCreatedAt())
                 .updatedAt(dto.getUpdatedAt())
@@ -238,10 +228,6 @@ public class LabTestServiceImpl implements ILabTestService {
         return LabTestParameterDto.builder()
                 .id(entity.getId())
                 .name(entity.getName())
-                .unit(entity.getUnit())
-                .referenceRangeMin(entity.getReferenceRangeMin())
-                .referenceRangeMax(entity.getReferenceRangeMax())
-                .genderSpecific(entity.getGenderSpecific())
                 .createdAt(entity.getCreatedAt())
                 .updatedAt(entity.getUpdatedAt())
                 .createdBy(entity.getCreatedBy())
@@ -261,10 +247,6 @@ public class LabTestServiceImpl implements ILabTestService {
                 .id(dto.getId() != null ? dto.getId() : UUID.randomUUID())
                 .labTest(labTest)
                 .name(dto.getName())
-                .unit(dto.getUnit())
-                .referenceRangeMin(dto.getReferenceRangeMin())
-                .referenceRangeMax(dto.getReferenceRangeMax())
-                .genderSpecific(dto.getGenderSpecific())
                 .createdAt(dto.getCreatedAt() != null ? dto.getCreatedAt() : LocalDateTime.now())
                 .updatedAt(dto.getUpdatedAt() != null ? dto.getUpdatedAt() : LocalDateTime.now())
                 .createdBy(dto.getCreatedBy())

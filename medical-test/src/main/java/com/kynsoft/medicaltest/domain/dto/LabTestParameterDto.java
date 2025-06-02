@@ -22,10 +22,6 @@ public class LabTestParameterDto {
     private String code;
     private UUID labTestId;
     private String name;
-    private String unit;
-    private BigDecimal referenceRangeMin;
-    private BigDecimal referenceRangeMax;
-    private Boolean genderSpecific;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
     private UUID createdBy;

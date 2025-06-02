@@ -21,16 +21,16 @@ import java.util.UUID;
 @Service
 public class DoctorServiceImpl implements IDoctorService {
 
-    @Autowired
-    private DoctorWriteDataJPARepository repositoryCommand;
+    private final DoctorWriteDataJPARepository repositoryCommand;
 
-    @Autowired
-    private DoctorReadDataJPARepository repositoryQuery;
+    private final DoctorReadDataJPARepository repositoryQuery;
 
     private final DoctorHttpUUIDService doctorHttpUUIDService;
 
-    public DoctorServiceImpl(DoctorHttpUUIDService doctorHttpUUIDService) {
+    public DoctorServiceImpl(DoctorHttpUUIDService doctorHttpUUIDService, DoctorWriteDataJPARepository repositoryCommand, DoctorReadDataJPARepository repositoryQuery) {
         this.doctorHttpUUIDService = doctorHttpUUIDService;
+        this.repositoryCommand = repositoryCommand;
+        this.repositoryQuery = repositoryQuery;
     }
 
     @Override

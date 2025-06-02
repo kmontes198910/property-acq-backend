@@ -24,7 +24,6 @@ public class UpdateLabTestCommand implements ICommand {
     private UUID id;
     private String code;
     private String name;
-    private String category;
     private String description;
     private UUID updatedBy;
     
@@ -41,7 +40,6 @@ public class UpdateLabTestCommand implements ICommand {
                 .id(id)
                 .code(request.getCode())
                 .name(request.getName())
-                .category(request.getCategory())
                 .description(request.getDescription())
                 .updatedBy(userId)
                 .build();
