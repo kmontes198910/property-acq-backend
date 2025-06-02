@@ -21,7 +21,6 @@ public class CreateAllergyCommand implements ICommand {
         this.name = name;
         this.medicalInformationId = medicalInformationId;
     }
-
     public static CreateAllergyCommand fromRequest(CreateAllergyEntityRequest request) {
         return new CreateAllergyCommand(request.getMedicalInformationId(), request.getCode(), request.getName());
     }
