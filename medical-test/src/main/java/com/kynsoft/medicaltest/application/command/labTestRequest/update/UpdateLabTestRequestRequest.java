@@ -12,11 +12,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class UpdateLabTestRequestRequest {
-    private UUID patientId;
-    private UUID doctorId;
-    private LocalDate creationDate;
     private String status;
     private String observations;
-    private UUID businessId;
-    private boolean isActive;
 }
