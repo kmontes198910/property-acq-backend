@@ -1,0 +1,105 @@
+package com.kynsoft.propertyacqcenter.infrastructure.services;
+
+import com.kynsof.share.core.domain.request.FilterCriteria;
+import com.kynsof.share.core.domain.response.PaginatedResponse;
+import com.kynsof.share.core.infrastructure.specifications.GenericSpecificationsBuilder;
+import com.kynsoft.propertyacqcenter.application.response.IncomeResponse;
+import com.kynsoft.propertyacqcenter.domain.dto.IncomeDto;
+import com.kynsoft.propertyacqcenter.domain.dto.exception.IncomeForPropertyNotFoundException;
+import com.kynsoft.propertyacqcenter.domain.dto.exception.IncomeNotFoundException;
+import com.kynsoft.propertyacqcenter.domain.services.IIncomeService;
+import com.kynsoft.propertyacqcenter.infrastructure.entity.Income;
+import com.kynsoft.propertyacqcenter.infrastructure.entity.Property;
+import com.kynsoft.propertyacqcenter.infrastructure.repository.command.IncomeWriteDataJPARepository;
+import com.kynsoft.propertyacqcenter.infrastructure.repository.query.IncomeReadDataJPARepository;
+import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
+import org.springframework.data.domain.Page;
+
+@Service
+public class IncomeServiceImpl implements IIncomeService {
+
+    private final IncomeReadDataJPARepository repositoryQuery;
+    private final IncomeWriteDataJPARepository repositoryCommand;
+
+    public IncomeServiceImpl(IncomeReadDataJPARepository repositoryQuery,
+                             IncomeWriteDataJPARepository repositoryCommand) {
+        this.repositoryQuery = repositoryQuery;
+        this.repositoryCommand = repositoryCommand;
+    }
+
+    @Override
+    @Transactional
+    public UUID create(IncomeDto object) {
+        return repositoryCommand.save(new Income(object)).getId();
+    }
+
+    @Override
+    @Transactional
+    public void update(IncomeDto object) {
+        Income update = this.findByIdSimple(object.getId());
+        update.setProperty(new Property(object.getProperty()));
+        update.setGrossMonthlyIncome(object.getGrossMonthlyIncome());
+        update.setIncreaseFixedDollarAmount(object.getIncreaseFixedDollarAmount());
+        update.setIncreaseRate(object.getIncreaseRate());
+        update.setIncreaseTypePercentage(object.getIncreaseTypePercentage());
+        update.setTotalNetMonthlyIncome(object.getTotalNetMonthlyIncome());
+        repositoryCommand.save(update);
+    }
+
+    @Override
+    @Transactional
+    public void delete(UUID id) {
+        this.findByIdSimple(id);
+        repositoryCommand.deleteById(id);
+    }
+
+    @Override
+    public IncomeDto findById(UUID id) {
+        Optional<Income> entity = repositoryQuery.findById(id);
+        if (entity.isPresent()) {
+            return entity.get().toAggregate();
+        }
+        throw new IncomeNotFoundException(id);
+    }
+
+    private Income findByIdSimple(UUID id) {
+        Optional<Income> entity = repositoryQuery.findById(id);
+        if (entity.isPresent()) {
+            return entity.get();
+        }
+        throw new IncomeNotFoundException(id);
+    }
+
+    @Override
+    public PaginatedResponse search(Pageable pageable, List<FilterCriteria> filterCriteria) {
+        GenericSpecificationsBuilder<Income> specifications = new GenericSpecificationsBuilder<>(filterCriteria);
+        Page<Income> data = this.repositoryQuery.findAll(specifications, pageable);
+
+        return getPaginatedResponse(data);
+    }
+
+    private PaginatedResponse getPaginatedResponse(Page<Income> data) {
+        List<IncomeResponse> objects = new ArrayList<>();
+        for (Income p : data.getContent()) {
+            objects.add(new IncomeResponse(p.toAggregate()));
+        }
+        return new PaginatedResponse(objects, data.getTotalPages(), data.getNumberOfElements(),
+                data.getTotalElements(), data.getSize(), data.getNumber());
+    }
+
+    @Override
+    public IncomeDto findByPropertyId(String propertyId) {
+        Optional<Income> entity = repositoryQuery.findByPropertyId(propertyId);
+        if (entity.isPresent()) {
+            return entity.get().toAggregate();
+        }
+        throw new IncomeForPropertyNotFoundException();
+    }
+}

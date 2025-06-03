@@ -2,22 +2,23 @@ package com.kynsoft.propertyacqcenter.domain.services;
 
 import com.kynsof.share.core.domain.request.FilterCriteria;
 import com.kynsof.share.core.domain.response.PaginatedResponse;
-import com.kynsoft.propertyacqcenter.domain.dto.PurchaseDto;
+import com.kynsoft.propertyacqcenter.domain.dto.IncomeDto;
 import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 import java.util.UUID;
 
-public interface IPurchaseService {
-    UUID create(PurchaseDto address);
-    
-    void update(PurchaseDto address);
-    
+public interface IIncomeService {
+
+    UUID create(IncomeDto dto);
+
+    void update(IncomeDto dto);
+
     void delete(UUID id);
-    
-    PurchaseDto findById(UUID id);
-    
+
+    IncomeDto findById(UUID id);
+
     PaginatedResponse search(Pageable pageable, List<FilterCriteria> filterCriteria);
 
-    PurchaseDto findByPropertyId(String propertyId);
+    IncomeDto findByPropertyId(String propertyId);
 }
