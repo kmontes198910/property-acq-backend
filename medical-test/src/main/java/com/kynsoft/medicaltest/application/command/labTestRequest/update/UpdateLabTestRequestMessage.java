@@ -25,6 +25,6 @@ public class UpdateLabTestRequestMessage implements ICommandMessage {
      */
     public UpdateLabTestRequestMessage(UUID id) {
         this.id = id;
-        this.message = "Examen de laboratorio creado exitosamente";
+        this.message = "Examen de laboratorio actualizado exitosamente";
     }
 }

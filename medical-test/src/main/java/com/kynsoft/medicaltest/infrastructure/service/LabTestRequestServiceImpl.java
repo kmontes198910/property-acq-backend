@@ -51,15 +51,9 @@ public class LabTestRequestServiceImpl implements ILabTestRequestService {
                 .orElseThrow(() -> new NoSuchElementException("Parámetro de examen no encontrado con ID: " + dto.getId()));
 
         // Actualizar solo los campos permitidos
-        entity.setPatientId(dto.getPatientId());
-        entity.setDoctorId(dto.getDoctorId());
-        entity.setCreationDate(dto.getCreationDate());
         entity.setStatus(dto.getStatus());
         entity.setObservations(dto.getObservations());
-        entity.setBusinessId(dto.getBusinessId());
         entity.setUpdatedBy(dto.getUpdatedBy());
-        entity.setPatient(new Patient(dto.getPatient()));
-
         writeRepository.save(entity);
     }
 
