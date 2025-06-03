@@ -17,8 +17,4 @@ import java.math.BigDecimal;
 public class UpdateLabTestParameterRequest {
     private String code;
     private String name;
-    private String unit;
-    private BigDecimal referenceRangeMin;
-    private BigDecimal referenceRangeMax;
-    private Boolean genderSpecific;
 }

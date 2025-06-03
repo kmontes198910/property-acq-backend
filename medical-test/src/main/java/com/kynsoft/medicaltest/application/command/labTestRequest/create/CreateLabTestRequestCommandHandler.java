@@ -1,9 +1,11 @@
 package com.kynsoft.medicaltest.application.command.labTestRequest.create;
 
 import com.kynsof.share.core.domain.bus.command.ICommandHandler;
+import com.kynsoft.medicaltest.domain.dto.DoctorDto;
 import com.kynsoft.medicaltest.domain.dto.LabTestItemRequestDto;
 import com.kynsoft.medicaltest.domain.dto.LabTestRequestDto;
 import com.kynsoft.medicaltest.domain.dto.PatientDto;
+import com.kynsoft.medicaltest.domain.service.IDoctorService;
 import com.kynsoft.medicaltest.domain.service.ILabTestRequestService;
 import com.kynsoft.medicaltest.domain.service.IPatientsService;
 import lombok.extern.slf4j.Slf4j;
@@ -19,17 +21,19 @@ public class CreateLabTestRequestCommandHandler implements ICommandHandler<Creat
 
     private final ILabTestRequestService labTestRequestService;
     private final IPatientsService patientsService;
+    private final IDoctorService doctorService;
 
-    public CreateLabTestRequestCommandHandler(ILabTestRequestService labTestRequestService, IPatientsService patientsService) {
+    public CreateLabTestRequestCommandHandler(ILabTestRequestService labTestRequestService, IPatientsService patientsService, IDoctorService doctorService) {
         this.labTestRequestService = labTestRequestService;
         this.patientsService = patientsService;
+        this.doctorService = doctorService;
     }
 
     @Override
     public void handle(CreateLabTestRequestCommand command) {
         log.info("Creando nuevo examen de laboratorio: {}", command.getId());
         PatientDto patient = this.patientsService.findById(command.getPatientId());
-
+        DoctorDto doctor = this.doctorService.findById(command.getDoctorId());
         // Crear DTO a partir del comando
         LabTestRequestDto dto = LabTestRequestDto.builder()
                 .id(command.getId())

@@ -22,7 +22,6 @@ public class LabTestDto {
     private UUID id;
     private String code;
     private String name;
-    private String category;
     private String description;
     @Builder.Default
     private List<LabTestParameterDto> parameters = new ArrayList<>();

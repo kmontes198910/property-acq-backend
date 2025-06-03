@@ -20,7 +20,6 @@ import java.util.UUID;
 public class UpdateLabTestRequest {
     private String code;
     private String name;
-    private String category;
     private String description;
     private List<LabTestParameterRequest> parameters;
     

@@ -23,10 +23,6 @@ public class UpdateLabTestParameterCommandHandler implements ICommandHandler<Upd
         // Actualizamos solo los campos que pueden cambiar
         existingDto.setCode(command.getCode());
         existingDto.setName(command.getName());
-        existingDto.setUnit(command.getUnit());
-        existingDto.setReferenceRangeMin(command.getReferenceRangeMin());
-        existingDto.setReferenceRangeMax(command.getReferenceRangeMax());
-        existingDto.setGenderSpecific(command.getGenderSpecific());
 
         LabTestParameterDto updatedDto = labTestParameterService.update(command.getId(), existingDto, command.getUserId());
 

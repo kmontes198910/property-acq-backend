@@ -25,13 +25,7 @@ public interface LabTestReadRepository extends JpaRepository<LabTestEntity, UUID
      */
     Optional<LabTestEntity> findByCode(String code);
     
-    /**
-     * Busca exámenes de laboratorio por categoría
-     * 
-     * @param category La categoría de exámenes a buscar
-     * @return Lista de exámenes de laboratorio de la categoría especificada
-     */
-    List<LabTestEntity> findByCategory(String category);
+    // El método findByCategory ha sido removido porque el campo category ya no existe
 
     Page<LabTestEntity> findAll(Specification specification, Pageable pageable);
 }

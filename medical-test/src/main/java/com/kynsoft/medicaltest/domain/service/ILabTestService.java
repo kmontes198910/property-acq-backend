@@ -30,13 +30,7 @@ public interface ILabTestService {
      */
     Optional<LabTestDto> findByCode(String code);
     
-    /**
-     * Busca exámenes de laboratorio por categoría
-     * 
-     * @param category La categoría de exámenes a buscar
-     * @return Lista de DTOs de exámenes de la categoría especificada
-     */
-    List<LabTestDto> findByCategory(String category);
+    // El método findByCategory ha sido removido porque el campo category ya no existe
     
     /**
      * Crea un nuevo examen de laboratorio

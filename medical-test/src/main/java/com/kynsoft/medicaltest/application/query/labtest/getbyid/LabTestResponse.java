@@ -20,7 +20,6 @@ public class LabTestResponse implements IResponse, Serializable {
     private final UUID id;
     private final String code;
     private final String name;
-    private final String category;
     private final String description;
    // private final List<LabTestParameterResponse> parameters;
     private final LocalDateTime createdAt;
@@ -37,7 +36,6 @@ public class LabTestResponse implements IResponse, Serializable {
         this.id = labTestDto.getId();
         this.code = labTestDto.getCode();
         this.name = labTestDto.getName();
-        this.category = labTestDto.getCategory();
         this.description = labTestDto.getDescription();
 //        this.parameters = labTestDto.getParameters() != null
 //            ? labTestDto.getParameters().stream()
@@ -57,31 +55,13 @@ public class LabTestResponse implements IResponse, Serializable {
     public static class LabTestParameterResponse implements Serializable {
         private final UUID id;
         private final String name;
-        private final String unit;
-        private final String referenceRange;
-        private final Boolean genderSpecific;
         
         public LabTestParameterResponse(LabTestParameterDto dto) {
             this.id = dto.getId();
             this.name = dto.getName();
-            this.unit = dto.getUnit();
-            this.referenceRange = formatReferenceRange(dto);
-            this.genderSpecific = dto.getGenderSpecific();
+
         }
         
-        /**
-         * Formatea el rango de referencia para presentación
-         */
-        private String formatReferenceRange(LabTestParameterDto dto) {
-            if (dto.getReferenceRangeMin() != null && dto.getReferenceRangeMax() != null) {
-                return dto.getReferenceRangeMin() + " - " + dto.getReferenceRangeMax();
-            } else if (dto.getReferenceRangeMin() != null) {
-                return "≥ " + dto.getReferenceRangeMin();
-            } else if (dto.getReferenceRangeMax() != null) {
-                return "≤ " + dto.getReferenceRangeMax();
-            } else {
-                return "No definido";
-            }
-        }
+
     }
 }

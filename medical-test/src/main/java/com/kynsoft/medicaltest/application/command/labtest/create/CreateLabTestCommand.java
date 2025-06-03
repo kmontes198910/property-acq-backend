@@ -22,7 +22,6 @@ public class CreateLabTestCommand implements ICommand {
     private UUID id;
     private String code;
     private String name;
-    private String category;
     private String description;
     private UUID createdBy;
     
@@ -38,7 +37,6 @@ public class CreateLabTestCommand implements ICommand {
                 .id(UUID.randomUUID())
                 .code(request.getCode())
                 .name(request.getName())
-                .category(request.getCategory())
                 .description(request.getDescription())
                 .createdBy(userId)
                 .build();
