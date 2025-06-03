@@ -13,6 +13,7 @@ import com.kynsoft.propertyacqcenter.application.command.purchase.update.UpdateP
 import com.kynsoft.propertyacqcenter.application.command.purchase.update.UpdatePurchaseMessage;
 import com.kynsoft.propertyacqcenter.application.command.purchase.update.UpdatePurchaseRequest;
 import com.kynsoft.propertyacqcenter.application.query.purchase.getById.GetByIdPurchaseQuery;
+import com.kynsoft.propertyacqcenter.application.query.purchase.getByPropertyId.FindByPurchaseByPropertyIdQuery;
 import com.kynsoft.propertyacqcenter.application.query.purchase.search.GetSearchPurchaseQuery;
 import com.kynsoft.propertyacqcenter.application.response.PurchaseResponse;
 import java.util.UUID;
@@ -59,6 +60,15 @@ public class PurchaseController {
     public ResponseEntity<?> getById(@PathVariable UUID id) {
 
         GetByIdPurchaseQuery query = new GetByIdPurchaseQuery(id);
+        PurchaseResponse response = mediator.send(query);
+
+        return ResponseEntity.ok(response);
+    }
+
+    @GetMapping(path = "/property/{id}")
+    public ResponseEntity<?> getByPropertyId(@PathVariable String id) {
+
+        FindByPurchaseByPropertyIdQuery query = new FindByPurchaseByPropertyIdQuery(id);
         PurchaseResponse response = mediator.send(query);
 
         return ResponseEntity.ok(response);

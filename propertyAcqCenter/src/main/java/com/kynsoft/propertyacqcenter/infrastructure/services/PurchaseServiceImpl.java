@@ -5,6 +5,7 @@ import com.kynsof.share.core.domain.response.PaginatedResponse;
 import com.kynsof.share.core.infrastructure.specifications.GenericSpecificationsBuilder;
 import com.kynsoft.propertyacqcenter.application.response.PurchaseResponse;
 import com.kynsoft.propertyacqcenter.domain.dto.PurchaseDto;
+import com.kynsoft.propertyacqcenter.domain.dto.exception.PurchaseForPropertyNotFoundException;
 import com.kynsoft.propertyacqcenter.domain.dto.exception.PurchaseNotFoundException;
 import com.kynsoft.propertyacqcenter.domain.services.IPurchaseService;
 import com.kynsoft.propertyacqcenter.infrastructure.entity.Property;
@@ -91,5 +92,14 @@ public class PurchaseServiceImpl implements IPurchaseService {
         }
         return new PaginatedResponse(objects, data.getTotalPages(), data.getNumberOfElements(),
                 data.getTotalElements(), data.getSize(), data.getNumber());
+    }
+
+    @Override
+    public PurchaseDto findByPropertyId(String propertyId) {
+        Optional<Purchase> entity = repositoryQuery.findByPropertyId(propertyId);
+        if (entity.isPresent()) {
+            return entity.get().toAggregate();
+        }
+        throw new PurchaseForPropertyNotFoundException();
     }
 }
