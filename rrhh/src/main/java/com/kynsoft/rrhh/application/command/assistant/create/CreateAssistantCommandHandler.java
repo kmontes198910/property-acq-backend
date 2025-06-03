@@ -96,6 +96,7 @@ public class CreateAssistantCommandHandler implements ICommandHandler<CreateAssi
             ));
 
         } catch (Exception ex) {
+            log.error("Error al crear el usuario del sistema para el asistente: {}", command.getEmail(), ex);
             throw new BusinessException(DomainErrorMessage.DOCTOR_NOT_FOUND, "Ocurrió un error al crear al usuario.");
         }
     }
