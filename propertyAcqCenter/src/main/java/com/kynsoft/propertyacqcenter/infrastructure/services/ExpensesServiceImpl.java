@@ -5,8 +5,8 @@ import com.kynsof.share.core.domain.response.PaginatedResponse;
 import com.kynsof.share.core.infrastructure.specifications.GenericSpecificationsBuilder;
 import com.kynsoft.propertyacqcenter.application.response.ExpensesResponse;
 import com.kynsoft.propertyacqcenter.domain.dto.ExpensesDto;
-import com.kynsoft.propertyacqcenter.domain.dto.exception.PurchaseForPropertyNotFoundException;
-import com.kynsoft.propertyacqcenter.domain.dto.exception.PurchaseNotFoundException;
+import com.kynsoft.propertyacqcenter.domain.dto.exception.ExpensesNotFoundException;
+import com.kynsoft.propertyacqcenter.domain.dto.exception.ExpresesForPropertyNotFoundException;
 import com.kynsoft.propertyacqcenter.domain.services.IExpensesService;
 import com.kynsoft.propertyacqcenter.infrastructure.entity.Expenses;
 import com.kynsoft.propertyacqcenter.infrastructure.repository.command.ExpensesWriteDataJPARepository;
@@ -88,7 +88,7 @@ public class ExpensesServiceImpl implements IExpensesService {
         if (entity.isPresent()) {
             return entity.get().toAggregate();
         }
-        throw new PurchaseNotFoundException(id);
+        throw new ExpensesNotFoundException(id);
     }
 
     private Expenses findByIdSimple(UUID id) {
@@ -96,7 +96,7 @@ public class ExpensesServiceImpl implements IExpensesService {
         if (entity.isPresent()) {
             return entity.get();
         }
-        throw new PurchaseNotFoundException(id);
+        throw new ExpensesNotFoundException(id);
     }
 
     @Override
@@ -122,6 +122,6 @@ public class ExpensesServiceImpl implements IExpensesService {
         if (entity.isPresent()) {
             return entity.get().toAggregate();
         }
-        throw new PurchaseForPropertyNotFoundException();
+        throw new ExpresesForPropertyNotFoundException();
     }
 }
