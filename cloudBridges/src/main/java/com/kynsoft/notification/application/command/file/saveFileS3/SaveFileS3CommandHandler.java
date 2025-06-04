@@ -106,14 +106,14 @@ public class SaveFileS3CommandHandler implements ICommandHandler<SaveFileS3Comma
 
             logger.info("Archivo guardado en base de datos con ID: {}", id);
 //
-//            // Generar la URL segura para el cliente (no exponer la URL de S3)
-//            String secureUrl = secureFilesPath + id;
-//            String secureViewUrl = secureViewPath + id;
-//            fileDto.setSecureViewUrl(secureViewUrl);
-//            fileService.update(fileDto);
+            // Generar la URL segura para el cliente (no exponer la URL de S3)
+            String secureUrl = secureFilesPath + id;
+            String secureViewUrl = secureViewPath + id;
+            fileDto.setSecureViewUrl(secureViewUrl);
+            fileService.update(fileDto);
             command.setFileId(id);
-//            command.setUrl(secureUrl);
-//            command.setViewUrl(secureViewUrl);
+            command.setUrl(secureUrl);
+            command.setViewUrl(secureViewUrl);
         } catch (IOException e) {
             logger.error("Error de E/S al guardar el archivo: {}", e.getMessage(), e);
             throw new RuntimeException("Error al guardar el archivo: " + e.getMessage(), e);
