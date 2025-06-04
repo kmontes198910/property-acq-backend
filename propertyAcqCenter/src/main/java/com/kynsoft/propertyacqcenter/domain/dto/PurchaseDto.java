@@ -19,7 +19,7 @@ public class PurchaseDto implements Serializable {
     private PropertyType propertyType;
     private ForeclosureStatus foreclosureStatus;
 
-    private String improvements;
+    private Double improvements;
     private Double purchasePrice;
     private Double estimatedMarketValue;
 }

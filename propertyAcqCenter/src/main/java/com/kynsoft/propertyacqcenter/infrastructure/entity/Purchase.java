@@ -31,7 +31,8 @@ public class Purchase implements Serializable {
     @Enumerated(EnumType.STRING)
     private ForeclosureStatus foreclosureStatus;
 
-    private String improvements;//TODO: por definir
+    @Column(name = "purchase_improvements", nullable = true)
+    private Double improvements;//TODO: por definir
     private Double purchasePrice;
     private Double estimatedMarketValue;
 

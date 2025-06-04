@@ -21,7 +21,7 @@ public class PurchaseResponse implements Serializable, IResponse {
     private PropertyType propertyType;
     private ForeclosureStatus foreclosureStatus;
 
-    private String improvements;
+    private Double improvements;
     private Double purchasePrice;
     private Double estimatedMarketValue;
 

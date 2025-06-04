@@ -17,12 +17,12 @@ public class UpdatePurchaseCommand implements ICommand {
     private String property;
     private PropertyType propertyType;
     private ForeclosureStatus foreclosureStatus;
-    private String improvements;
+    private Double improvements;
     private Double purchasePrice;
     private Double estimatedMarketValue;
 
     public UpdatePurchaseCommand(UUID id, String property, PropertyType propertyType, 
-                                 ForeclosureStatus foreclosureStatus, String improvements, 
+                                 ForeclosureStatus foreclosureStatus, Double improvements, 
                                  Double purchasePrice, Double estimatedMarketValue) {
         this.id = id;
         this.property = property;
