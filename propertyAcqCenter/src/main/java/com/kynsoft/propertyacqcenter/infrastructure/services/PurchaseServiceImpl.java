@@ -50,6 +50,42 @@ public class PurchaseServiceImpl implements IPurchaseService {
         update.setImprovements(object.getImprovements());
         update.setPropertyType(object.getPropertyType());
         update.setPurchasePrice(object.getPurchasePrice());
+
+        update.setAcHeatPump(object.getAcHeatPump());
+        update.setBasement(object.getBasement());
+        update.setCeiling(object.getCeiling());
+        update.setDeck(object.getDeck());
+        update.setElectrical(object.getElectrical());
+        update.setExteriorPaint(object.getExteriorPaint());
+        update.setFundation(object.getFundation());
+        update.setHeating(object.getHeating());
+        update.setKetchen(object.getKetchen());
+        update.setPoolSpaRepair(object.getPoolSpaRepair());
+        update.setSkylight(object.getSkylight());
+        update.setOther(object.getOther());
+        update.setAlarm(object.getAlarm());
+        update.setBathroom(object.getBathroom());
+        update.setChimney(object.getChimney());
+        update.setDoor(object.getDoor());
+        update.setEquipment(object.getEquipment());
+        update.setFireplace(object.getFireplace());
+        update.setGarage(object.getGarage());
+        update.setInteriorPaint(object.getInteriorPaint());
+        update.setLandscaping(object.getLandscaping());
+        update.setPorch(object.getPorch());
+        update.setWalls(object.getWalls());
+        update.setAttic(object.getAttic());
+        update.setCarpet(object.getCarpet());
+        update.setCladding(object.getCladding());
+        update.setDriveway(object.getDriveway());
+        update.setExterior(object.getExterior());
+        update.setFlooring(object.getFlooring());
+        update.setGlutter(object.getGlutter());
+        update.setIrrigationSpri(object.getIrrigationSpri());
+        update.setPlumbing(object.getPlumbing());
+        update.setRoof(object.getRoof());
+        update.setWindowValue(object.getWindow());
+
         repositoryCommand.save(update);
     }
 
