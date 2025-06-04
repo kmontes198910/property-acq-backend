@@ -12,6 +12,7 @@ import com.kynsof.identity.infrastructure.entities.Permission;
 import com.kynsof.identity.infrastructure.entities.UserTypePermission;
 import com.kynsof.share.core.domain.RulesChecker;
 import com.kynsof.share.core.domain.bus.command.ICommandHandler;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -20,6 +21,7 @@ import java.util.List;
 import java.util.UUID;
 
 @Component
+@Slf4j
 public class CreateUserSystemCommandHandler implements ICommandHandler<CreateUserSystemCommand> {
 
     private final IUserSystemService userSystemService;
@@ -44,6 +46,7 @@ public class CreateUserSystemCommandHandler implements ICommandHandler<CreateUse
 
     @Override
     public void handle(CreateUserSystemCommand command) {
+        log.info("Creating user system with command: {}", command);
         RulesChecker.checkRule(new ModuleEmailMustBeUniqueRule(this.userSystemService, command.getEmail(), UUID.randomUUID()));
         RulesChecker.checkRule(new ModuleUserNameMustBeUniqueRule(this.userSystemService, command.getUserName(), UUID.randomUUID()));
 

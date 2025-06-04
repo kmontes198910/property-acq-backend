@@ -95,6 +95,11 @@ public class PatientVaccineServiceImpl implements IPatientVaccineService {
 
     @Override
     public void delete(UUID id) {
+        Optional<PatientVaccine> patientVaccine = this.repositoryQuery.findById(id);
+        if (!patientVaccine.isPresent()) {
+            throw new BusinessNotFoundException(new GlobalBusinessException(DomainErrorMessage.PATIENT_VACCINE_NOT_FOUND, new ErrorField("id", "Relationship not found.")));
+        }
+        
         try {
             this.repositoryCommand.deleteById(id);
         } catch (Exception e) {

@@ -7,9 +7,13 @@ import com.kynsof.share.core.infrastructure.bus.IMediator;
 import com.kynsof.treatments.application.command.patientVaccine.create.CreatePatientVaccineCommand;
 import com.kynsof.treatments.application.command.patientVaccine.create.CreatePatientVaccineMessage;
 import com.kynsof.treatments.application.command.patientVaccine.create.CreatePatientVaccineRequest;
+import com.kynsof.treatments.application.command.patientVaccine.delete.PatientPatientVaccineMessage;
+import com.kynsof.treatments.application.command.patientVaccine.delete.PatientsPatientVaccineCommand;
 import com.kynsof.treatments.application.command.patientVaccine.update.UpdatePatientVaccineCommand;
 import com.kynsof.treatments.application.command.patientVaccine.update.UpdatePatientVaccineMessage;
 import com.kynsof.treatments.application.command.patientVaccine.update.UpdatePatientVaccineRequest;
+import com.kynsof.treatments.application.command.vaccine.delete.VaccineDeleteCommand;
+import com.kynsof.treatments.application.command.vaccine.delete.VaccineDeleteMessage;
 import com.kynsof.treatments.application.query.patientVaccine.getById.FindByIdPatientVaccineQuery;
 import com.kynsof.treatments.application.query.patientVaccine.getall.PatientVaccineResponse;
 import com.kynsof.treatments.application.query.patientVaccine.search.GetSearchPatientsVaccineQuery;
@@ -71,6 +75,14 @@ public class PatientVaccineController {
     public ResponseEntity<UpdatePatientVaccineMessage> update(@PathVariable UUID id, @RequestBody UpdatePatientVaccineRequest request) {
         UpdatePatientVaccineCommand command = UpdatePatientVaccineCommand.fromRequest(id,request );
         UpdatePatientVaccineMessage response = mediator.send(command);
+        return ResponseEntity.ok(response);
+    }
+
+    @DeleteMapping(path = "/{id}")
+    public ResponseEntity<?> delete(@PathVariable UUID id) {
+
+        PatientsPatientVaccineCommand query = new PatientsPatientVaccineCommand(id);
+        PatientPatientVaccineMessage response = mediator.send(query);
         return ResponseEntity.ok(response);
     }
 

@@ -19,16 +19,19 @@ import com.kynsoft.rrhh.infrastructure.services.UserSystemService;
 import com.kynsoft.rrhh.infrastructure.services.rabbitMQ.Dto.AssistantRabbitMqDto;
 import com.kynsoft.rrhh.infrastructure.services.rabbitMQ.eventPublisher.EventAssistantPublisherService;
 import com.kynsoft.rrhh.infrastructure.util.PasswordGenerator;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.time.LocalDateTime;
 import java.util.UUID;
+
 import org.springframework.transaction.annotation.Transactional;
 
 // Otros imports
 
+@Slf4j
 @Component
 public class CreateAssistantCommandHandler implements ICommandHandler<CreateAssistantCommand> {
 
@@ -59,7 +62,10 @@ public class CreateAssistantCommandHandler implements ICommandHandler<CreateAssi
         BusinessDto businessDto = this.businessService.findById(command.getBusiness());
 
         try {
+            // Consumir el servicio createUserSystem
+            log.info("Consumiendo servicio createUserSystem para crear usuario del sistema: {}", command.getEmail());
             var id = consumeCreateUserSystemService(command);
+            log.info("Usuario del sistema creado con ID: {}", id);
             AssistantDto assistantSave = new AssistantDto(
                     UUID.fromString(id),
                     command.getIdentification(),
@@ -74,28 +80,30 @@ public class CreateAssistantCommandHandler implements ICommandHandler<CreateAssi
             );
 
             service.create(assistantSave);
+            log.info("Creando nuevo asistente: {}", assistantSave.getId());
 
             this.userBusinessRelationService.create(new UserBusinessRelationDto(UUID.randomUUID(),
                     assistantSave, businessDto, "ACTIVE", LocalDateTime.now()));
-
+            log.info("Creando nueva relación de usuario y negocio: {}", assistantSave.getId());
             this.eventAssistantPublisherService.publishEvent(new AssistantRabbitMqDto(
-                    assistantSave.getId(), 
-                    assistantSave.getIdentification(), 
-                    assistantSave.getName(), 
-                    assistantSave.getLastName(), 
-                    "", 
-                    assistantSave.getStatus(), 
+                    assistantSave.getId(),
+                    assistantSave.getIdentification(),
+                    assistantSave.getName(),
+                    assistantSave.getLastName(),
+                    "",
+                    assistantSave.getStatus(),
                     assistantSave.getImage()
             ));
 
         } catch (Exception ex) {
+            log.error("Error al crear el usuario del sistema para el asistente: {}", command.getEmail(), ex);
             throw new BusinessException(DomainErrorMessage.DOCTOR_NOT_FOUND, "Ocurrió un error al crear al usuario.");
         }
     }
 
     // Método para consumir el servicio createUserSystem
     private String consumeCreateUserSystemService(CreateAssistantCommand command) throws IOException, URISyntaxException, InterruptedException {
-
+        log.info("Iniciando el proceso de creación de usuario del sistema para el asistente: {}", command.getEmail());
         CreateUserSystemRequest createUserSystemRequest = new CreateUserSystemRequest();
         createUserSystemRequest.setUserName(command.getEmail());
         createUserSystemRequest.setEmail(command.getEmail());
@@ -106,8 +114,8 @@ public class CreateAssistantCommandHandler implements ICommandHandler<CreateAssi
         createUserSystemRequest.setImage(command.getImage());
         createUserSystemRequest.setBusinessId(command.getBusiness().toString());
 
+        log.info("Usuario del sistema creado exitosamente para el asistente: {}", command.getEmail());
         return userSystemService.createUserSystem(createUserSystemRequest);
-
     }
 
 }
