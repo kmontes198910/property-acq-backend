@@ -54,7 +54,7 @@ public class PropertyImagesServiceImpl implements IPropertyImagesService {
     @Override
     @Transactional
     public void delete(UUID id) {
-        this.getById(id);
+        //this.getById(id);
         repositoryCommand.deleteById(id);
     }
 
