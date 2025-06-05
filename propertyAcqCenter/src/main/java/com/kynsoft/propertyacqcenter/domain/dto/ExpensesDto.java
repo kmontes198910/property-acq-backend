@@ -43,4 +43,5 @@ public class ExpensesDto implements Serializable {
     private Double repairMaintenance;
     private Double telephone;
     private Double miscellaneous;
+    private Double legal;
 }

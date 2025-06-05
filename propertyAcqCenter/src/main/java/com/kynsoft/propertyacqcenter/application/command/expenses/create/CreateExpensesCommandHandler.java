@@ -52,6 +52,7 @@ public class CreateExpensesCommandHandler implements ICommandHandler<CreateExpen
                 .repairMaintenance(command.getRepairMaintenance())
                 .telephone(command.getTelephone())
                 .miscellaneous(command.getMiscellaneous())
+                .legal(command.getLegal())
                 .build()
         );
     }

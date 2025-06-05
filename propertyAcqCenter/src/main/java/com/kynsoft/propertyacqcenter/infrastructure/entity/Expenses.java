@@ -51,6 +51,7 @@ public class Expenses implements Serializable {
     private Double repairMaintenance;
     private Double telephone;
     private Double miscellaneous;
+    private Double legal;
 
     public Expenses(ExpensesDto dto) {
         this.id = dto.getId();
@@ -83,6 +84,7 @@ public class Expenses implements Serializable {
         this.repairMaintenance = dto.getRepairMaintenance();
         this.telephone = dto.getTelephone();
         this.miscellaneous = dto.getMiscellaneous();
+        this.legal = dto.getLegal();
     }
 
     public ExpensesDto toAggregate() {
@@ -117,6 +119,7 @@ public class Expenses implements Serializable {
                 .repairMaintenance(repairMaintenance)
                 .telephone(telephone)
                 .miscellaneous(miscellaneous)
+                .legal(legal)
                 .build();
     }
 }
