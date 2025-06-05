@@ -27,8 +27,6 @@ public class CreateExpensesCommandHandler implements ICommandHandler<CreateExpen
                 .property(property)
                 .totalAmountExpenses(command.getTotalAmountExpenses())
                 .increaseRate(command.getIncreaseRate())
-                .percentage(command.getPercentage())
-                .fixedDollarAmount(command.getFixedDollarAmount())
                 .accounting(command.getAccounting())
                 .electricity(command.getElectricity())
                 .gas(command.getGas())

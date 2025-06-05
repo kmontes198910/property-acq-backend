@@ -11,8 +11,6 @@ public class CreateExpensesRequest {
     private String property;
     private Double totalAmountExpenses;
     private Double increaseRate;
-    private Boolean percentage;
-    private Boolean fixedDollarAmount;
     private IncreaseType increaseType;
 
     private Double accounting;

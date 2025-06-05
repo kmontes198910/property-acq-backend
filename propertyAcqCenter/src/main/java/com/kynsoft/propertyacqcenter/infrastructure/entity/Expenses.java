@@ -29,8 +29,6 @@ public class Expenses implements Serializable {
 
     private Double totalAmountExpenses;
     private Double increaseRate;
-    private Boolean percentage;
-    private Boolean fixedDollarAmount;
 
     private Double accounting;
     private Double electricity;
@@ -62,8 +60,6 @@ public class Expenses implements Serializable {
         this.property = dto.getProperty() != null ? new Property(dto.getProperty()) : null;
         this.totalAmountExpenses = dto.getTotalAmountExpenses();
         this.increaseRate = dto.getIncreaseRate();
-        this.percentage = dto.getPercentage();
-        this.fixedDollarAmount = dto.getFixedDollarAmount();
 
         this.accounting = dto.getAccounting();
         this.electricity = dto.getElectricity();
@@ -98,8 +94,6 @@ public class Expenses implements Serializable {
                 .property(property.toAggregateBasic())
                 .totalAmountExpenses(totalAmountExpenses)
                 .increaseRate(increaseRate)
-                .percentage(percentage)
-                .fixedDollarAmount(fixedDollarAmount)
                 .increaseType(increaseType)
 
                 .accounting(accounting)

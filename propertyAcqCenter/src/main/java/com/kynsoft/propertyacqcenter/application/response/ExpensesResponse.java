@@ -21,8 +21,6 @@ public class ExpensesResponse implements Serializable, IResponse {
 
     private Double totalAmountExpenses;
     private Double increaseRate;
-    private Boolean percentage;
-    private Boolean fixedDollarAmount;
 
     private Double accounting;
     private Double electricity;
@@ -54,8 +52,6 @@ public class ExpensesResponse implements Serializable, IResponse {
         this.property = dto.getProperty() != null ? new PropertiesBasicResponse(dto.getProperty()) : null;
         this.totalAmountExpenses = dto.getTotalAmountExpenses();
         this.increaseRate = dto.getIncreaseRate();
-        this.percentage = dto.getPercentage();
-        this.fixedDollarAmount = dto.getFixedDollarAmount();
         this.accounting = dto.getAccounting();
         this.electricity = dto.getElectricity();
         this.gas = dto.getGas();

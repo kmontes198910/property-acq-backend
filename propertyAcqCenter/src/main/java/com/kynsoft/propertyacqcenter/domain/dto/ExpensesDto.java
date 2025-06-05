@@ -19,8 +19,6 @@ public class ExpensesDto implements Serializable {
 
     private Double totalAmountExpenses;
     private Double increaseRate;
-    private Boolean percentage;
-    private Boolean fixedDollarAmount;
 
     private Double accounting;
     private Double electricity;

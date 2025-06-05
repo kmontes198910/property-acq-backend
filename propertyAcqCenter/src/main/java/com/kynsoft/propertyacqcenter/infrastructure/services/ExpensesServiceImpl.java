@@ -46,8 +46,6 @@ public class ExpensesServiceImpl implements IExpensesService {
 
         update.setTotalAmountExpenses(object.getTotalAmountExpenses());
         update.setIncreaseRate(object.getIncreaseRate());
-        update.setPercentage(object.getPercentage());
-        update.setFixedDollarAmount(object.getFixedDollarAmount());
         update.setAccounting(object.getAccounting());
         update.setElectricity(object.getElectricity());
         update.setGas(object.getGas());

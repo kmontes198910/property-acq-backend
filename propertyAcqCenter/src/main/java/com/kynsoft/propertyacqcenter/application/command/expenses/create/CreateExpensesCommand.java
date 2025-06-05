@@ -16,8 +16,6 @@ public class CreateExpensesCommand implements ICommand {
     private String property;
     private Double totalAmountExpenses;
     private Double increaseRate;
-    private Boolean percentage;
-    private Boolean fixedDollarAmount;
     private IncreaseType increaseType;
 
     private Double accounting;
@@ -46,7 +44,6 @@ public class CreateExpensesCommand implements ICommand {
     private Double legal;
 
     public CreateExpensesCommand(String property, Double totalAmountExpenses, Double increaseRate, 
-                                 Boolean percentage, Boolean fixedDollarAmount, 
                                  Double accounting, Double electricity, Double gas, 
                                  Double mortgageInsurance, Double poolSpaService, 
                                  Double sewerWater, Double trash, Double advertising, 
@@ -61,8 +58,6 @@ public class CreateExpensesCommand implements ICommand {
         this.property = property;
         this.totalAmountExpenses = totalAmountExpenses;
         this.increaseRate = increaseRate;
-        this.percentage = percentage;
-        this.fixedDollarAmount = fixedDollarAmount;
         this.accounting = accounting;
         this.electricity = electricity;
         this.gas = gas;
@@ -95,8 +90,6 @@ public class CreateExpensesCommand implements ICommand {
                 request.getProperty(),
                 request.getTotalAmountExpenses(),
                 request.getIncreaseRate(),
-                request.getPercentage(),
-                request.getFixedDollarAmount(),
                 request.getAccounting(),
                 request.getElectricity(),
                 request.getGas(),
