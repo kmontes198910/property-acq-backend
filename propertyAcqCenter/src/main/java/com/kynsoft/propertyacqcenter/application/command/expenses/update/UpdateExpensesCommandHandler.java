@@ -53,6 +53,7 @@ public class UpdateExpensesCommandHandler implements ICommandHandler<UpdateExpen
                 .telephone(command.getTelephone())
                 .miscellaneous(command.getMiscellaneous())
                 .legal(command.getLegal())
+                .increaseType(command.getIncreaseType())
                 .build()
         );
     }

@@ -2,6 +2,7 @@ package com.kynsoft.propertyacqcenter.application.response;
 
 import com.kynsof.share.core.domain.bus.query.IResponse;
 import com.kynsoft.propertyacqcenter.domain.dto.*;
+import com.kynsoft.propertyacqcenter.domain.enums.IncreaseType;
 import lombok.*;
 
 import java.io.Serializable;
@@ -16,6 +17,7 @@ public class ExpensesResponse implements Serializable, IResponse {
 
     private UUID id;
     private PropertiesBasicResponse property;
+    private IncreaseType increaseType;
 
     private Double totalAmountExpenses;
     private Double increaseRate;
@@ -78,6 +80,7 @@ public class ExpensesResponse implements Serializable, IResponse {
         this.telephone = dto.getTelephone();
         this.miscellaneous = dto.getMiscellaneous();
         this.legal = dto.getLegal();
+        this.increaseType = dto.getIncreaseType();
     }
 
 }

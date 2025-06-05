@@ -32,7 +32,7 @@ public class Purchase implements Serializable {
     private ForeclosureStatus foreclosureStatus;
 
     @Column(name = "purchase_improvements", nullable = true)
-    private Double improvements;//TODO: por definir
+    private Double improvements;//TODO: por definir, es un autocalculable
     private Double purchasePrice;
     private Double estimatedMarketValue;
 

@@ -1,5 +1,6 @@
 package com.kynsoft.propertyacqcenter.application.command.expenses.create;
 
+import com.kynsoft.propertyacqcenter.domain.enums.IncreaseType;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -12,6 +13,7 @@ public class CreateExpensesRequest {
     private Double increaseRate;
     private Boolean percentage;
     private Boolean fixedDollarAmount;
+    private IncreaseType increaseType;
 
     private Double accounting;
     private Double electricity;

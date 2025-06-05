@@ -53,6 +53,7 @@ public class CreateExpensesCommandHandler implements ICommandHandler<CreateExpen
                 .telephone(command.getTelephone())
                 .miscellaneous(command.getMiscellaneous())
                 .legal(command.getLegal())
+                .increaseType(command.getIncreaseType())
                 .build()
         );
     }

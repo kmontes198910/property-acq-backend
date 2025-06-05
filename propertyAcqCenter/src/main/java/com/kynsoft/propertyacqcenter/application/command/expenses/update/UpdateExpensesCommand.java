@@ -2,6 +2,7 @@ package com.kynsoft.propertyacqcenter.application.command.expenses.update;
 
 import com.kynsof.share.core.domain.bus.command.ICommand;
 import com.kynsof.share.core.domain.bus.command.ICommandMessage;
+import com.kynsoft.propertyacqcenter.domain.enums.IncreaseType;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -17,6 +18,7 @@ public class UpdateExpensesCommand implements ICommand {
     private Double increaseRate;
     private Boolean percentage;
     private Boolean fixedDollarAmount;
+    private IncreaseType increaseType;
 
     private Double accounting;
     private Double electricity;
@@ -53,7 +55,8 @@ public class UpdateExpensesCommand implements ICommand {
                                  Double propertyTaxes, Double supplies, Double workmans, 
                                  Double associationFees, Double floodInsurance, Double landscaping, 
                                  Double licenses, Double payroll, Double repairMaintenance, 
-                                 Double telephone, Double miscellaneous, Double legal) {
+                                 Double telephone, Double miscellaneous, Double legal,
+                                 IncreaseType increaseType) {
         this.id = id;
         this.property = property;
         this.totalAmountExpenses = totalAmountExpenses;
@@ -84,6 +87,7 @@ public class UpdateExpensesCommand implements ICommand {
         this.telephone = telephone;
         this.miscellaneous = miscellaneous;
         this.legal = legal;
+        this.increaseType = increaseType;
     }
 
     public static UpdateExpensesCommand fromRequest(UpdateExpensesRequest request, UUID id) {
@@ -117,7 +121,8 @@ public class UpdateExpensesCommand implements ICommand {
                 request.getRepairMaintenance(),
                 request.getTelephone(),
                 request.getMiscellaneous(),
-                request.getLegal()
+                request.getLegal(),
+                request.getIncreaseType()
         );
     }
 

@@ -1,5 +1,6 @@
 package com.kynsoft.propertyacqcenter.domain.dto;
 
+import com.kynsoft.propertyacqcenter.domain.enums.IncreaseType;
 import lombok.*;
 
 import java.io.Serializable;
@@ -14,6 +15,7 @@ public class ExpensesDto implements Serializable {
 
     private UUID id;
     private PropertyDto property;
+    private IncreaseType increaseType;
 
     private Double totalAmountExpenses;
     private Double increaseRate;
