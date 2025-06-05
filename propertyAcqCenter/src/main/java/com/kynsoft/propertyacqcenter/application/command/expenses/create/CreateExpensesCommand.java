@@ -2,6 +2,7 @@ package com.kynsoft.propertyacqcenter.application.command.expenses.create;
 
 import com.kynsof.share.core.domain.bus.command.ICommand;
 import com.kynsof.share.core.domain.bus.command.ICommandMessage;
+import com.kynsoft.propertyacqcenter.domain.enums.IncreaseType;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -15,8 +16,7 @@ public class CreateExpensesCommand implements ICommand {
     private String property;
     private Double totalAmountExpenses;
     private Double increaseRate;
-    private Boolean percentage;
-    private Boolean fixedDollarAmount;
+    private IncreaseType increaseType;
 
     private Double accounting;
     private Double electricity;
@@ -44,7 +44,6 @@ public class CreateExpensesCommand implements ICommand {
     private Double legal;
 
     public CreateExpensesCommand(String property, Double totalAmountExpenses, Double increaseRate, 
-                                 Boolean percentage, Boolean fixedDollarAmount, 
                                  Double accounting, Double electricity, Double gas, 
                                  Double mortgageInsurance, Double poolSpaService, 
                                  Double sewerWater, Double trash, Double advertising, 
@@ -53,13 +52,12 @@ public class CreateExpensesCommand implements ICommand {
                                  Double propertyTaxes, Double supplies, Double workmans, 
                                  Double associationFees, Double floodInsurance, Double landscaping, 
                                  Double licenses, Double payroll, Double repairMaintenance, 
-                                 Double telephone, Double miscellaneous, Double legal) {
+                                 Double telephone, Double miscellaneous, Double legal,
+                                 IncreaseType increaseType) {
         this.id = UUID.randomUUID();
         this.property = property;
         this.totalAmountExpenses = totalAmountExpenses;
         this.increaseRate = increaseRate;
-        this.percentage = percentage;
-        this.fixedDollarAmount = fixedDollarAmount;
         this.accounting = accounting;
         this.electricity = electricity;
         this.gas = gas;
@@ -84,6 +82,7 @@ public class CreateExpensesCommand implements ICommand {
         this.telephone = telephone;
         this.miscellaneous = miscellaneous;
         this.legal = legal;
+        this.increaseType = increaseType;
     }
 
     public static CreateExpensesCommand fromRequest(CreateExpensesRequest request) {
@@ -91,8 +90,6 @@ public class CreateExpensesCommand implements ICommand {
                 request.getProperty(),
                 request.getTotalAmountExpenses(),
                 request.getIncreaseRate(),
-                request.getPercentage(),
-                request.getFixedDollarAmount(),
                 request.getAccounting(),
                 request.getElectricity(),
                 request.getGas(),
@@ -116,7 +113,8 @@ public class CreateExpensesCommand implements ICommand {
                 request.getRepairMaintenance(),
                 request.getTelephone(),
                 request.getMiscellaneous(),
-                request.getLegal()
+                request.getLegal(),
+                request.getIncreaseType()
         );
     }
 

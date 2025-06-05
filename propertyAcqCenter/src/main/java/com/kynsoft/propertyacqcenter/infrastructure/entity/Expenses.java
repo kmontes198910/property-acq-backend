@@ -1,6 +1,7 @@
 package com.kynsoft.propertyacqcenter.infrastructure.entity;
 
 import com.kynsoft.propertyacqcenter.domain.dto.ExpensesDto;
+import com.kynsoft.propertyacqcenter.domain.enums.IncreaseType;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -23,10 +24,11 @@ public class Expenses implements Serializable {
     @JoinColumn(name = "property_id")
     private Property property;
 
+    @Enumerated(EnumType.STRING)
+    private IncreaseType increaseType;
+
     private Double totalAmountExpenses;
     private Double increaseRate;
-    private Boolean percentage;
-    private Boolean fixedDollarAmount;
 
     private Double accounting;
     private Double electricity;
@@ -58,8 +60,6 @@ public class Expenses implements Serializable {
         this.property = dto.getProperty() != null ? new Property(dto.getProperty()) : null;
         this.totalAmountExpenses = dto.getTotalAmountExpenses();
         this.increaseRate = dto.getIncreaseRate();
-        this.percentage = dto.getPercentage();
-        this.fixedDollarAmount = dto.getFixedDollarAmount();
 
         this.accounting = dto.getAccounting();
         this.electricity = dto.getElectricity();
@@ -85,6 +85,7 @@ public class Expenses implements Serializable {
         this.telephone = dto.getTelephone();
         this.miscellaneous = dto.getMiscellaneous();
         this.legal = dto.getLegal();
+        this.increaseType = dto.getIncreaseType();
     }
 
     public ExpensesDto toAggregate() {
@@ -93,8 +94,7 @@ public class Expenses implements Serializable {
                 .property(property.toAggregateBasic())
                 .totalAmountExpenses(totalAmountExpenses)
                 .increaseRate(increaseRate)
-                .percentage(percentage)
-                .fixedDollarAmount(fixedDollarAmount)
+                .increaseType(increaseType)
 
                 .accounting(accounting)
                 .electricity(electricity)

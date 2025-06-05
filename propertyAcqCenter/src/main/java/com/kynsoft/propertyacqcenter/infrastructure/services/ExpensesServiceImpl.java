@@ -46,8 +46,6 @@ public class ExpensesServiceImpl implements IExpensesService {
 
         update.setTotalAmountExpenses(object.getTotalAmountExpenses());
         update.setIncreaseRate(object.getIncreaseRate());
-        update.setPercentage(object.getPercentage());
-        update.setFixedDollarAmount(object.getFixedDollarAmount());
         update.setAccounting(object.getAccounting());
         update.setElectricity(object.getElectricity());
         update.setGas(object.getGas());
@@ -72,6 +70,7 @@ public class ExpensesServiceImpl implements IExpensesService {
         update.setTelephone(object.getTelephone());
         update.setMiscellaneous(object.getMiscellaneous());
         update.setLegal(object.getLegal());
+        update.setIncreaseType(object.getIncreaseType());
 
         repositoryCommand.save(update);
     }
