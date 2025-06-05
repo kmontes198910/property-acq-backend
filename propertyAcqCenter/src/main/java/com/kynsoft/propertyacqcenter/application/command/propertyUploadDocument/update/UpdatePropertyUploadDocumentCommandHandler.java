@@ -29,6 +29,7 @@ public class UpdatePropertyUploadDocumentCommandHandler implements ICommandHandl
                 .document(command.getDocument())
                 .property(property)
                 .fileName(command.getFileName())
+                .filePath(command.getFilePath())
                 .build();
 
         this.propertyUploadDocumentService.update(doc);

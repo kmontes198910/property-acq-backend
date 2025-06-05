@@ -45,6 +45,7 @@ public class ExpensesResponse implements Serializable, IResponse {
     private Double repairMaintenance;
     private Double telephone;
     private Double miscellaneous;
+    private Double legal;
 
     public ExpensesResponse(ExpensesDto dto) {
         this.id = dto.getId();
@@ -76,6 +77,7 @@ public class ExpensesResponse implements Serializable, IResponse {
         this.repairMaintenance = dto.getRepairMaintenance();
         this.telephone = dto.getTelephone();
         this.miscellaneous = dto.getMiscellaneous();
+        this.legal = dto.getLegal();
     }
 
 }

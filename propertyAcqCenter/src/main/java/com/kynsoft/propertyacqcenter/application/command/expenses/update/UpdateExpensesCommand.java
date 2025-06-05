@@ -41,6 +41,7 @@ public class UpdateExpensesCommand implements ICommand {
     private Double repairMaintenance;
     private Double telephone;
     private Double miscellaneous;
+    private Double legal;
 
     public UpdateExpensesCommand(UUID id, String property, Double totalAmountExpenses, Double increaseRate, 
                                  Boolean percentage, Boolean fixedDollarAmount, 
@@ -52,7 +53,7 @@ public class UpdateExpensesCommand implements ICommand {
                                  Double propertyTaxes, Double supplies, Double workmans, 
                                  Double associationFees, Double floodInsurance, Double landscaping, 
                                  Double licenses, Double payroll, Double repairMaintenance, 
-                                 Double telephone, Double miscellaneous) {
+                                 Double telephone, Double miscellaneous, Double legal) {
         this.id = id;
         this.property = property;
         this.totalAmountExpenses = totalAmountExpenses;
@@ -82,6 +83,7 @@ public class UpdateExpensesCommand implements ICommand {
         this.repairMaintenance = repairMaintenance;
         this.telephone = telephone;
         this.miscellaneous = miscellaneous;
+        this.legal = legal;
     }
 
     public static UpdateExpensesCommand fromRequest(UpdateExpensesRequest request, UUID id) {
@@ -114,7 +116,8 @@ public class UpdateExpensesCommand implements ICommand {
                 request.getPayroll(),
                 request.getRepairMaintenance(),
                 request.getTelephone(),
-                request.getMiscellaneous()
+                request.getMiscellaneous(),
+                request.getLegal()
         );
     }
 

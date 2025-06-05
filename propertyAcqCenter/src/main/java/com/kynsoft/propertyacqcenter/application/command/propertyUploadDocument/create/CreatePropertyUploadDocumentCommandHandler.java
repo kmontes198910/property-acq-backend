@@ -29,6 +29,7 @@ public class CreatePropertyUploadDocumentCommandHandler implements ICommandHandl
                 .document(command.getDocument())
                 .property(property)
                 .fileName(command.getFileName())
+                .filePath(command.getFilePath())
                 .build();
 
         this.propertyUploadDocumentService.create(doc);

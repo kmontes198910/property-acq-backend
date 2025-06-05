@@ -71,6 +71,7 @@ public class ExpensesServiceImpl implements IExpensesService {
         update.setRepairMaintenance(object.getRepairMaintenance());
         update.setTelephone(object.getTelephone());
         update.setMiscellaneous(object.getMiscellaneous());
+        update.setLegal(object.getLegal());
 
         repositoryCommand.save(update);
     }

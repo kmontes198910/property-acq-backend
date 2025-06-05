@@ -36,5 +36,6 @@ public class UpdateExpensesRequest {
     private Double repairMaintenance;
     private Double telephone;
     private Double miscellaneous;
+    private Double legal;
 
 }

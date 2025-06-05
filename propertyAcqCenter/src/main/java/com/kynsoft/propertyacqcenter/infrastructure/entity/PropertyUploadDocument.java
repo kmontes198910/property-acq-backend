@@ -28,6 +28,9 @@ public class PropertyUploadDocument {
     @Column(name = "document", nullable = false)
     private String document;
 
+    @Column(name = "file_path", nullable = true)
+    private String filePath;
+
     @CreationTimestamp
     @Column(name = "created_at", updatable = false)
     private LocalDateTime createdAt;
@@ -48,6 +51,7 @@ public class PropertyUploadDocument {
                 .updatedAt(this.updatedAt)
                 .property(this.property != null ? this.property.toAggregateBasic() : null)
                 .fileName(fileName)
+                .filePath(filePath)
                 .build();
     }
 
@@ -62,6 +66,7 @@ public class PropertyUploadDocument {
         this.document = dto.getDocument();
         this.property = new Property(dto.getProperty());
         this.fileName = dto.getFileName();
+        this.filePath = dto.getFilePath();
     }
 
 }
