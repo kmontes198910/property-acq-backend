@@ -5,14 +5,11 @@ import com.kynsof.share.core.domain.exception.DomainErrorMessage;
 import com.kynsof.share.core.domain.exception.GlobalBusinessException;
 import com.kynsof.share.core.domain.response.ErrorField;
 import com.kynsoft.propertyacqcenter.application.response.rentcast.RentEstimateResponse;
-import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.web.client.RestClientException;
 
@@ -38,10 +35,6 @@ public class RentCastRentEstimateServiceImpl {
         return new HttpEntity<>(headers);
     }
 
-    private String encode(String value) {
-        return URLEncoder.encode(value, StandardCharsets.UTF_8);
-    }
-
     //TODO: La response de este metodo, lo vamos a trasformar en la capa de application.
     //@Cacheable(value = "propertyCache", key = "#address", unless = "#result == null")
     public RentEstimateResponse getRentEstimate(String address,
@@ -52,6 +45,7 @@ public class RentCastRentEstimateServiceImpl {
                                                 double bathrooms,
                                                 double squareFootage,
                                                 int daysOld,
+                                                double maxRadius,
                                                 int compCount) {
         try {
             String cleanedAddress = address.trim(); // Elimina espacios al inicio/final
@@ -63,6 +57,7 @@ public class RentCastRentEstimateServiceImpl {
             String latitudeUrl = latitude != -1 ? "latitude=" + latitude : null;
             String longitudeUrl = longitude != -1 ? "longitude=" + longitude : null;
             String bedroomsUrl = bedrooms != -1 ? "bedrooms=" + bedrooms : null;
+            String maxRadiusUrl = maxRadius != -1 ? "maxRadius=" + maxRadius : null;
             String bathroomsUrl = bathrooms != -1 ? "bathrooms=" + bathrooms : null;
             String squareFootageUrl = squareFootage != -1 ? "squareFootage=" + squareFootage : null;
             String daysOldUrl = daysOld != 0 ? "daysOld=" + daysOld : null;
@@ -87,6 +82,9 @@ public class RentCastRentEstimateServiceImpl {
             }
             if (bathroomsUrl != null) {
                 url = url + "&" + bathroomsUrl;
+            }
+            if (maxRadiusUrl != null) {
+                url = url + "&" + maxRadiusUrl;
             }
             if (daysOldUrl != null) {
                 url = url + "&" + daysOldUrl;
