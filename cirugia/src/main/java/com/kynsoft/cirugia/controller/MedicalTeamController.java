@@ -8,20 +8,6 @@ import com.kynsoft.cirugia.application.command.medicalteam.create.CreateMedicalT
 import com.kynsoft.cirugia.application.command.medicalteam.create.CreateMedicalTeamMessage;
 import com.kynsoft.cirugia.application.command.medicalteam.create.CreateMedicalTeamRequest;
 import com.kynsoft.cirugia.application.command.medicalteam.delete.DeleteMedicalTeamCommand;
-import com.kynsoft.cirugia.application.query.medicalteam.getbysurgeryid.GetMedicalTeamBySurgeryIdQuery;
-import com.kynsoft.cirugia.application.query.medicalteam.getbysurgeryid.MedicalTeamListResponse;
-import com.kynsoft.cirugia.application.query.medicalteam.search.SearchMedicalTeamsQuery;.kynsoft.cirugia.controller;
-
-import com.kynsof.share.core.domain.request.PageableUtil;
-import com.kynsof.share.core.domain.request.SearchRequest;
-import com.kynsof.share.core.domain.response.PaginatedResponse;
-import com.kynsof.share.core.infrastructure.bus.IMediator;
-import com.kynsoft.cirugia.application.command.medicalteam.create.CreateMedicalTeamCommand;
-import com.kynsoft.cirugia.application.command.medicalteam.create.CreateMedicalTeamMessage;
-import com.kynsoft.cirugia.application.command.medicalteam.create.CreateMedicalTeamRequest;
-import com.kynsoft.cirugia.application.command.medicalteam.delete.DeleteMedicalTeamCommand;
-import com.kynsoft.cirugia.application.query.medicalteam.getbysurgeryid.GetMedicalTeamBySurgeryIdQuery;
-import com.kynsoft.cirugia.application.query.medicalteam.getbysurgeryid.MedicalTeamListResponse;
 import com.kynsoft.cirugia.application.query.medicalteam.search.SearchMedicalTeamsQuery;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
