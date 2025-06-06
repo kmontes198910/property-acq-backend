@@ -9,6 +9,7 @@ import com.kynsoft.cirugia.application.command.surgery.create.CreateSurgeryMessa
 import com.kynsoft.cirugia.application.command.surgery.update.UpdateSurgeryMessage;
 import com.kynsoft.cirugia.application.query.surgery.SurgeryListResponse;
 import com.kynsoft.cirugia.application.query.surgery.SurgeryResponse;
+import com.kynsoft.cirugia.application.query.surgery.getSurgeryByIdPlanification.GetSurgeryPlanificationByIdQuery;
 import com.kynsoft.cirugia.application.query.surgery.getbyid.GetSurgeryByIdQuery;
 import com.kynsoft.cirugia.application.query.surgery.listbybusiness.ListSurgeriesByBusinessQuery;
 import com.kynsoft.cirugia.application.query.surgery.listbypatient.ListSurgeriesByPatientQuery;
@@ -51,6 +52,14 @@ public class SurgeryController {
     public ResponseEntity<SurgeryResponse> getById(@PathVariable UUID id,
                                                    @RequestHeader(USER_ID_HEADER) String userId) {
         GetSurgeryByIdQuery query = new GetSurgeryByIdQuery(id, UUID.fromString(userId));
+        SurgeryResponse response = mediator.send(query);
+        return ResponseEntity.ok(response);
+    }
+
+    @GetMapping(path = "/planification/{id}")
+    public ResponseEntity<SurgeryResponse> getPlanificationById(@PathVariable UUID id,
+                                                   @RequestHeader(USER_ID_HEADER) String userId) {
+        GetSurgeryPlanificationByIdQuery query = new GetSurgeryPlanificationByIdQuery(id, UUID.fromString(userId));
         SurgeryResponse response = mediator.send(query);
         return ResponseEntity.ok(response);
     }

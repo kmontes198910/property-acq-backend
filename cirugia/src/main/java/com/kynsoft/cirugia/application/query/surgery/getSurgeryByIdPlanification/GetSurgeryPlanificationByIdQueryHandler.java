@@ -1,8 +1,7 @@
-package com.kynsoft.cirugia.application.query.surgery.getbyid;
+package com.kynsoft.cirugia.application.query.surgery.getSurgeryByIdPlanification;
 
 import com.kynsof.share.core.domain.bus.query.IQueryHandler;
 import com.kynsof.share.core.domain.exception.BusinessNotFoundException;
-import com.kynsof.share.core.domain.exception.DoctorIsNotPermisionNotFoundException;
 import com.kynsof.share.core.domain.exception.DomainErrorMessage;
 import com.kynsof.share.core.domain.exception.GlobalBusinessException;
 import com.kynsof.share.core.domain.response.ErrorField;
@@ -20,14 +19,14 @@ import java.util.Optional;
 @Component
 @RequiredArgsConstructor
 @Slf4j
-public class GetSurgeryByIdQueryHandler implements IQueryHandler<GetSurgeryByIdQuery, SurgeryResponse> {
+public class GetSurgeryPlanificationByIdQueryHandler implements IQueryHandler<GetSurgeryPlanificationByIdQuery, SurgeryResponse> {
 
     private final ISurgeryService service;
     private final IMedicalTeamService medicalTeamService;
 
     @Override
     @Transactional(readOnly = true)
-    public SurgeryResponse handle(GetSurgeryByIdQuery query) {
+    public SurgeryResponse handle(GetSurgeryPlanificationByIdQuery query) {
         log.info("Finding surgery with ID: {}", query.getId());
 
 
@@ -38,14 +37,6 @@ public class GetSurgeryByIdQueryHandler implements IQueryHandler<GetSurgeryByIdQ
                 new GlobalBusinessException(DomainErrorMessage.BUSINESS_NOT_FOUND, 
                 new ErrorField("id", "Surgery not found with ID: " + query.getId())));
         }
-        boolean isAuthorized = medicalTeamService.isMemberInSurgeryTeam(query.getId(), query.getUserId());
-
-        if (!isAuthorized) {
-            throw new DoctorIsNotPermisionNotFoundException(
-                new GlobalBusinessException(DomainErrorMessage.ESPECIALITY_IS_NOT_ACCESS,
-                new ErrorField("userId", "El usuario no tiene permiso para acceder a esta cirugía.")));
-        }
-
         return new SurgeryResponse(surgeryEntity.get());
     }
 }
