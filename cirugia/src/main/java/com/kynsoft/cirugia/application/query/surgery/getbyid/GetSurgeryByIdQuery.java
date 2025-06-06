@@ -8,8 +8,10 @@ import java.util.UUID;
 @Getter
 public class GetSurgeryByIdQuery implements IQuery {
     private final UUID id;
+    private final UUID userId;
 
-    public GetSurgeryByIdQuery(UUID id) {
+    public GetSurgeryByIdQuery(UUID id, UUID userId) {
         this.id = id;
+        this.userId = userId;
     }
 }

@@ -8,6 +8,20 @@ import com.kynsoft.cirugia.application.command.medicalteam.create.CreateMedicalT
 import com.kynsoft.cirugia.application.command.medicalteam.create.CreateMedicalTeamMessage;
 import com.kynsoft.cirugia.application.command.medicalteam.create.CreateMedicalTeamRequest;
 import com.kynsoft.cirugia.application.command.medicalteam.delete.DeleteMedicalTeamCommand;
+import com.kynsoft.cirugia.application.query.medicalteam.getbysurgeryid.GetMedicalTeamBySurgeryIdQuery;
+import com.kynsoft.cirugia.application.query.medicalteam.getbysurgeryid.MedicalTeamListResponse;
+import com.kynsoft.cirugia.application.query.medicalteam.search.SearchMedicalTeamsQuery;.kynsoft.cirugia.controller;
+
+import com.kynsof.share.core.domain.request.PageableUtil;
+import com.kynsof.share.core.domain.request.SearchRequest;
+import com.kynsof.share.core.domain.response.PaginatedResponse;
+import com.kynsof.share.core.infrastructure.bus.IMediator;
+import com.kynsoft.cirugia.application.command.medicalteam.create.CreateMedicalTeamCommand;
+import com.kynsoft.cirugia.application.command.medicalteam.create.CreateMedicalTeamMessage;
+import com.kynsoft.cirugia.application.command.medicalteam.create.CreateMedicalTeamRequest;
+import com.kynsoft.cirugia.application.command.medicalteam.delete.DeleteMedicalTeamCommand;
+import com.kynsoft.cirugia.application.query.medicalteam.getbysurgeryid.GetMedicalTeamBySurgeryIdQuery;
+import com.kynsoft.cirugia.application.query.medicalteam.getbysurgeryid.MedicalTeamListResponse;
 import com.kynsoft.cirugia.application.query.medicalteam.search.SearchMedicalTeamsQuery;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -55,8 +69,8 @@ public class MedicalTeamController {
         logUserInfo(userId, userName);
         if (userId != null) {
             try {
-                UUID userUuid = UUID.fromString(userId);
-
+                // Verificar que el formato del UUID sea válido
+                UUID.fromString(userId);
             } catch (IllegalArgumentException e) {
                 log.warn("Invalid user ID format in header: {}", userId);
             }
@@ -117,6 +131,64 @@ public class MedicalTeamController {
         SearchMedicalTeamsQuery query = new SearchMedicalTeamsQuery(pageable, request.getFilter(), request.getQuery());
         PaginatedResponse data = mediator.send(query);
         return ResponseEntity.ok(data);
+    }
+    
+    /**
+     * Obtiene todos los miembros del equipo médico para una cirugía específica
+     * @param surgeryId ID de la cirugía
+     * @return Lista de miembros del equipo médico para la cirugía especificada
+     */
+    @Operation(summary = "Obtener equipo médico por ID de cirugía", 
+               description = "Obtiene todos los integrantes del equipo médico asociados a una cirugía específica")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Consulta realizada correctamente"),
+        @ApiResponse(responseCode = "404", description = "No se encontraron miembros del equipo médico para la cirugía especificada"),
+        @ApiResponse(responseCode = "500", description = "Error interno del servidor")
+    })
+    @GetMapping("/surgery/{surgeryId}")
+    public ResponseEntity<?> findBySurgeryId(
+            @Parameter(description = "ID de la cirugía", required = true)
+            @PathVariable UUID surgeryId,
+            @RequestHeader(value = USER_ID_HEADER, required = false) String userId,
+            @RequestHeader(value = USER_NAME_HEADER, required = false) String userName) {
+        
+        logUserInfo(userId, userName);
+        log.info("Fetching medical team members for surgery ID: {}", surgeryId);
+        
+        com.kynsoft.cirugia.application.query.medicalteam.getbysurgeryid.GetMedicalTeamBySurgeryIdQuery query = 
+                new com.kynsoft.cirugia.application.query.medicalteam.getbysurgeryid.GetMedicalTeamBySurgeryIdQuery(surgeryId);
+        com.kynsoft.cirugia.application.query.medicalteam.getbysurgeryid.MedicalTeamListResponse response = mediator.send(query);
+        return ResponseEntity.ok(response);
+    }
+    
+    /**
+     * Verifica si un miembro específico forma parte del equipo médico de una cirugía
+     * @param surgeryId ID de la cirugía
+     * @param memberId ID del miembro del equipo médico
+     * @return true si el miembro forma parte del equipo médico de la cirugía, false en caso contrario
+     */
+    @Operation(summary = "Verificar si un miembro forma parte del equipo médico de una cirugía", 
+               description = "Verifica si un miembro específico está asignado al equipo médico de una cirugía determinada")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Consulta realizada correctamente"),
+        @ApiResponse(responseCode = "500", description = "Error interno del servidor")
+    })
+    @GetMapping("/surgery/{surgeryId}/member/{memberId}")
+    public ResponseEntity<?> isMemberInSurgeryTeam(
+            @Parameter(description = "ID de la cirugía", required = true)
+            @PathVariable UUID surgeryId,
+            @Parameter(description = "ID del miembro", required = true)
+            @PathVariable UUID memberId,
+            @RequestHeader(value = USER_ID_HEADER, required = false) String userId,
+            @RequestHeader(value = USER_NAME_HEADER, required = false) String userName) {
+        
+        logUserInfo(userId, userName);
+        log.info("Checking if member ID: {} is part of the medical team for surgery ID: {}", memberId, surgeryId);
+        
+        com.kynsoft.cirugia.application.query.medicalteam.ismemberinsurgery.IsMemberInSurgeryTeamQuery query = 
+                new com.kynsoft.cirugia.application.query.medicalteam.ismemberinsurgery.IsMemberInSurgeryTeamQuery(surgeryId, memberId);
+        com.kynsoft.cirugia.application.query.medicalteam.ismemberinsurgery.IsMemberInSurgeryTeamResponse response = mediator.send(query);
+        return ResponseEntity.ok(response);
     }
     
     /**

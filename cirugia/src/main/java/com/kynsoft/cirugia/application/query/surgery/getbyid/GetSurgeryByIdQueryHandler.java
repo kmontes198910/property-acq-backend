@@ -6,6 +6,7 @@ import com.kynsof.share.core.domain.exception.DomainErrorMessage;
 import com.kynsof.share.core.domain.exception.GlobalBusinessException;
 import com.kynsof.share.core.domain.response.ErrorField;
 import com.kynsoft.cirugia.application.query.surgery.SurgeryResponse;
+import com.kynsoft.cirugia.domain.service.IMedicalTeamService;
 import com.kynsoft.cirugia.domain.service.ISurgeryService;
 import com.kynsoft.cirugia.infrastructure.entities.SurgeryEntity;
 import lombok.RequiredArgsConstructor;
@@ -21,12 +22,14 @@ import java.util.Optional;
 public class GetSurgeryByIdQueryHandler implements IQueryHandler<GetSurgeryByIdQuery, SurgeryResponse> {
 
     private final ISurgeryService service;
+    private final IMedicalTeamService medicalTeamService;
 
     @Override
     @Transactional(readOnly = true)
     public SurgeryResponse handle(GetSurgeryByIdQuery query) {
         log.info("Finding surgery with ID: {}", query.getId());
-        
+
+
         Optional<SurgeryEntity> surgeryEntity = service.getSurgeryEntityById(query.getId());
         
         if (surgeryEntity.isEmpty()) {
@@ -34,7 +37,14 @@ public class GetSurgeryByIdQueryHandler implements IQueryHandler<GetSurgeryByIdQ
                 new GlobalBusinessException(DomainErrorMessage.BUSINESS_NOT_FOUND, 
                 new ErrorField("id", "Surgery not found with ID: " + query.getId())));
         }
-        
+        boolean isAuthorized = medicalTeamService.isMemberInSurgeryTeam(query.getId(), query.getUserId());
+
+        if (!isAuthorized) {
+            throw new BusinessNotFoundException(
+                new GlobalBusinessException(DomainErrorMessage.BUSINESS_NOT_FOUND,
+                new ErrorField("userId", "User is not authorized to access this surgery")));
+        }
+
         return new SurgeryResponse(surgeryEntity.get());
     }
 }

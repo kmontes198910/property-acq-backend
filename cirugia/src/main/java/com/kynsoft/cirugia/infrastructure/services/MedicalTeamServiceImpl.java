@@ -90,6 +90,44 @@ public class MedicalTeamServiceImpl implements IMedicalTeamService {
         return getPaginatedResponse(data);
     }
     
+    @Override
+    @Transactional(readOnly = true)
+    @Cacheable(cacheNames = SurgeryCacheConfig.TEAM_MEDICAL_CACHE,
+            key = "'medicalTeamsBySurgery:' + #surgeryId",
+            unless = "#result == null || #result.isEmpty()")
+    public List<MedicalTeam> findBySurgeryId(UUID surgeryId) {
+        log.info("Fetching all medical team members for surgery ID: {}", surgeryId);
+        
+        List<MedicalTeamEntity> medicalTeamEntities = medicalTeamReadRepository.findBySurgeryId(surgeryId);
+        return medicalTeamEntities.stream()
+                .map(this::mapToDomain)
+                .collect(Collectors.toList());
+    }
+    
+    @Override
+    @Transactional(readOnly = true)
+    @Cacheable(cacheNames = SurgeryCacheConfig.TEAM_MEDICAL_CACHE,
+            key = "'isMemberInSurgeryTeam:' + #surgeryId + ':' + #memberId",
+            unless = "#result == false")
+    public boolean isMemberInSurgeryTeam(UUID surgeryId, UUID memberId) {
+        log.info("Checking if member ID: {} is part of the medical team for surgery ID: {}", memberId, surgeryId);
+        
+        List<MedicalTeamEntity> surgeryTeam = medicalTeamReadRepository.findBySurgeryId(surgeryId);
+        
+        if (surgeryTeam.isEmpty()) {
+            log.info("No medical team found for surgery ID: {}", surgeryId);
+            return false;
+        }
+        
+        boolean isMemberInTeam = surgeryTeam.stream()
+                .anyMatch(member -> member.getMemberId().equals(memberId));
+        
+        log.info("Member ID: {} is{} part of the medical team for surgery ID: {}", 
+                memberId, isMemberInTeam ? "" : " not", surgeryId);
+        
+        return isMemberInTeam;
+    }
+    
     private PaginatedResponse getPaginatedResponse(Page<MedicalTeamEntity> data) {
         List<MedicalTeamSearchResponse> items = data.getContent().stream()
                 .map(entity -> MedicalTeamSearchResponse.builder()

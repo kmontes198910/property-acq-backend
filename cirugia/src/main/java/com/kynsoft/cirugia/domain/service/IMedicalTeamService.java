@@ -15,4 +15,21 @@ public interface IMedicalTeamService {
     void deleteMedicalTeam(UUID id);
 
     PaginatedResponse search(Pageable pageable, List<FilterCriteria> filterCriteria);
+    
+    /**
+     * Obtiene todos los integrantes del equipo médico para una cirugía específica.
+     * 
+     * @param surgeryId Identificador único de la cirugía
+     * @return Lista de integrantes del equipo médico para la cirugía especificada
+     */
+    List<MedicalTeam> findBySurgeryId(UUID surgeryId);
+    
+    /**
+     * Verifica si un miembro específico forma parte del equipo médico de una cirugía determinada.
+     * 
+     * @param surgeryId Identificador único de la cirugía
+     * @param memberId Identificador único del miembro del equipo médico
+     * @return true si el miembro forma parte del equipo médico de la cirugía, false en caso contrario
+     */
+    boolean isMemberInSurgeryTeam(UUID surgeryId, UUID memberId);
 }
