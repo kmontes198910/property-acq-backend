@@ -48,8 +48,9 @@ public class SurgeryController {
     }
 
     @GetMapping(path = "/{id}")
-    public ResponseEntity<SurgeryResponse> getById(@PathVariable UUID id) {
-        GetSurgeryByIdQuery query = new GetSurgeryByIdQuery(id);
+    public ResponseEntity<SurgeryResponse> getById(@PathVariable UUID id,
+                                                   @RequestHeader(USER_ID_HEADER) String userId) {
+        GetSurgeryByIdQuery query = new GetSurgeryByIdQuery(id, UUID.fromString(userId));
         SurgeryResponse response = mediator.send(query);
         return ResponseEntity.ok(response);
     }
