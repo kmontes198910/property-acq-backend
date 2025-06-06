@@ -58,7 +58,7 @@ public class PurchaseResponse implements Serializable, IResponse {
     private Double irrigationSpri;
     private Double plumbing;
     private Double roof;
-    private Double windowValue;
+    private Double window;
 
     public PurchaseResponse(PurchaseDto dto) {
         this.id = dto.getId();
@@ -102,7 +102,7 @@ public class PurchaseResponse implements Serializable, IResponse {
         this.plumbing = dto.getPlumbing();
         this.plumbing = dto.getPlumbing();
         this.roof = dto.getRoof();
-        this.windowValue = dto.getWindow();
+        this.window = dto.getWindow();
     }
 
 }
