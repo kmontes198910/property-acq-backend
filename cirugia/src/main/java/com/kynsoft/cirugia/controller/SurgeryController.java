@@ -21,6 +21,7 @@ import com.kynsoft.cirugia.application.command.surgery.update.UpdateSurgeryReque
 import com.kynsoft.cirugia.application.command.surgery.changestatus.ChangeSurgeryStatusCommand;
 import com.kynsoft.cirugia.application.command.surgery.changestatus.ChangeSurgeryStatusRequest;
 import com.kynsoft.cirugia.application.command.surgery.delete.DeleteSurgeryCommand;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -29,6 +30,7 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/surgeries")
+@Slf4j
 public class SurgeryController {
 
     private final IMediator mediator;
@@ -51,6 +53,7 @@ public class SurgeryController {
     @GetMapping(path = "/{id}")
     public ResponseEntity<SurgeryResponse> getById(@PathVariable UUID id,
                                                    @RequestHeader(USER_ID_HEADER) String userId) {
+        log.error("El ID del usuario es: {}", userId);
         GetSurgeryByIdQuery query = new GetSurgeryByIdQuery(id, UUID.fromString(userId));
         SurgeryResponse response = mediator.send(query);
         return ResponseEntity.ok(response);
