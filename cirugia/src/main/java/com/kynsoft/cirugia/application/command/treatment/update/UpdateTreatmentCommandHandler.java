@@ -35,6 +35,7 @@ public class UpdateTreatmentCommandHandler implements ICommandHandler<UpdateTrea
         Treatment treatment = Treatment.builder()
                 .id(command.getId())
                 .surgeryId(existingTreatment.getSurgeryId())
+                .patientId(existingTreatment.getPatientId())
                 .name(command.getName() != null ? command.getName() : existingTreatment.getName())
                 .description(command.getDescription() != null ? command.getDescription() : existingTreatment.getDescription())
                 .quantity(command.getQuantity() != null ? command.getQuantity() : existingTreatment.getQuantity())
