@@ -40,6 +40,7 @@ public class UpdateTreatmentCommandHandler implements ICommandHandler<UpdateTrea
                 .description(command.getDescription() != null ? command.getDescription() : existingTreatment.getDescription())
                 .quantity(command.getQuantity() != null ? command.getQuantity() : existingTreatment.getQuantity())
                 .medicineUnit(command.getMedicineUnit() != null ? command.getMedicineUnit() : existingTreatment.getMedicineUnit())
+                .presentacion(command.getPresentacion() != null ? command.getPresentacion() : existingTreatment.getPresentacion())
                 .status(command.getStatus() != null ? command.getStatus() : existingTreatment.getStatus())
                 .process(command.getProcess() != null ? command.getProcess() : existingTreatment.getProcess())
                 .createdAt(existingTreatment.getCreatedAt())

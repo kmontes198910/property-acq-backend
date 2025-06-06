@@ -45,6 +45,9 @@ public class TreatmentEntity {
     @Column(name = "medicine_unit", length = 50)
     private String medicineUnit;
     
+    @Column(name = "presentacion", length = 100)
+    private String presentacion;
+    
     @Column(name = "status", nullable = false)
     private String status;
     

@@ -17,6 +17,7 @@ public class TreatmentResponse implements IResponse, Serializable {
     private final String description;
     private final int quantity;
     private final String medicineUnit;
+    private final String presentacion;
     private final String status;
     private final String process;
     private final LocalDateTime createdAt;
@@ -32,6 +33,7 @@ public class TreatmentResponse implements IResponse, Serializable {
         this.description = treatment.getDescription();
         this.quantity = treatment.getQuantity();
         this.medicineUnit = treatment.getMedicineUnit();
+        this.presentacion = treatment.getPresentacion();
         this.status = treatment.getStatus();
         this.process = treatment.getProcess();
         this.createdAt = treatment.getCreatedAt();

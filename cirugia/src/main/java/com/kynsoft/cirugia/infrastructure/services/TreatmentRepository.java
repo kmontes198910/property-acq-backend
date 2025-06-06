@@ -109,6 +109,7 @@ public class TreatmentRepository implements ITreatmentRepository {
         entity.setDescription(dto.getDescription());
         entity.setQuantity(dto.getQuantity());
         entity.setMedicineUnit(dto.getMedicineUnit());
+        entity.setPresentacion(dto.getPresentacion());
         entity.setStatus(dto.getStatus());
         entity.setProcess(dto.getProcess());
         entity.setCreatedAt(dto.getCreatedAt());
@@ -127,12 +128,14 @@ public class TreatmentRepository implements ITreatmentRepository {
                 .description(entity.getDescription())
                 .quantity(entity.getQuantity())
                 .medicineUnit(entity.getMedicineUnit())
+                .presentacion(entity.getPresentacion())
                 .status(entity.getStatus())
                 .process(entity.getProcess())
                 .createdAt(entity.getCreatedAt())
                 .updatedAt(entity.getUpdatedAt())
                 .createdBy(entity.getCreatedBy())
                 .updatedBy(entity.getUpdatedBy())
+                .patientId(entity.getPatientId())
                 .build();
     }
 }

@@ -53,6 +53,11 @@ public class Treatment {
     private String medicineUnit;
     
     /**
+     * Presentación del medicamento (tabletas, jarabe, crema, etc.)
+     */
+    private String presentacion;
+    
+    /**
      * Estado actual del tratamiento (PROGRAMADO, EN_PROCESO, COMPLETADO, etc.)
      */
     private String status;

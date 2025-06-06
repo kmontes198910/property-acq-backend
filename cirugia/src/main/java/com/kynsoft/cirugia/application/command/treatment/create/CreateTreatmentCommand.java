@@ -17,6 +17,7 @@ public class CreateTreatmentCommand implements ICommand {
     private String description;
     private int quantity;
     private String medicineUnit;
+    private String presentacion;
     private String status;
     private String process;
     private UUID createdBy;
@@ -33,6 +34,7 @@ public class CreateTreatmentCommand implements ICommand {
         command.setDescription(request.getDescription());
         command.setQuantity(request.getQuantity());
         command.setMedicineUnit(request.getMedicineUnit());
+        command.setPresentacion(request.getPresentacion());
         command.setStatus(request.getStatus());
         command.setProcess(request.getProcess());
         command.setCreatedBy(userId != null ? UUID.fromString(userId) : null);

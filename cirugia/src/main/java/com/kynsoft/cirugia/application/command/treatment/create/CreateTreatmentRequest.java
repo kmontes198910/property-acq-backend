@@ -18,6 +18,7 @@ public class CreateTreatmentRequest {
     private String description;
     private int quantity;
     private String medicineUnit;
+    private String presentacion;
     private String status;
     private String process;
 }

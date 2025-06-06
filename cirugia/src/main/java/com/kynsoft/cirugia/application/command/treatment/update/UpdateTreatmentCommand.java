@@ -15,6 +15,7 @@ public class UpdateTreatmentCommand implements ICommand {
     private String description;
     private Integer quantity;
     private String medicineUnit;
+    private String presentacion;
     private String status;
     private String process;
     private UUID updatedBy;
@@ -26,6 +27,7 @@ public class UpdateTreatmentCommand implements ICommand {
         command.setDescription(request.getDescription());
         command.setQuantity(request.getQuantity());
         command.setMedicineUnit(request.getMedicineUnit());
+        command.setPresentacion(request.getPresentacion());
         command.setStatus(request.getStatus());
         command.setProcess(request.getProcess());
         command.setUpdatedBy(userId != null ? UUID.fromString(userId) : null);

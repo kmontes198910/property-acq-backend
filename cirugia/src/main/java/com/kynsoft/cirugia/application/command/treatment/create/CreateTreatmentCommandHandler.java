@@ -32,6 +32,7 @@ public class CreateTreatmentCommandHandler implements ICommandHandler<CreateTrea
                 .description(command.getDescription())
                 .quantity(command.getQuantity())
                 .medicineUnit(command.getMedicineUnit())
+                .presentacion(command.getPresentacion())
                 .status(command.getStatus())
                 .process(command.getProcess())
                 .createdBy(command.getCreatedBy())

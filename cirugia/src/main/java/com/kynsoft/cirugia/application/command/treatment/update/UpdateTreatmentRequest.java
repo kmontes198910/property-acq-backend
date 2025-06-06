@@ -16,6 +16,7 @@ public class UpdateTreatmentRequest {
     private String description;
     private Integer quantity;
     private String medicineUnit;
+    private String presentacion;
     private String status;
     private String process;
 }
