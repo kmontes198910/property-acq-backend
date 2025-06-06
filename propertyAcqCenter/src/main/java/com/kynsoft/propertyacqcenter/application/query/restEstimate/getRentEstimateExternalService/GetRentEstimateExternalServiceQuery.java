@@ -17,6 +17,7 @@ public class GetRentEstimateExternalServiceQuery implements IQuery {
     private double bedrooms;
     private double bathrooms;
     private double squareFootage;
+    private double maxRadius;
     private int daysOld;
     private int compCount;
 }
