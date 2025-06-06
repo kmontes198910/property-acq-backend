@@ -25,7 +25,7 @@ public class CreatePurchaseCommandHandler implements ICommandHandler<CreatePurch
         this.purchaseService.create(PurchaseDto.builder()
                 .id(command.getId())
                 .property(property)
-                .propertyType(command.getPropertyType())
+                .purchaseType(command.getPurchaseType())
                 .estimatedMarketValue(command.getEstimatedMarketValue())
                 .foreclosureStatus(command.getForeclosureStatus())
                 .improvements(command.getImprovements())
