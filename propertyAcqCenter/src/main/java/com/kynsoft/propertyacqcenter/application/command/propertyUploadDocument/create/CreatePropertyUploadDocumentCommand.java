@@ -13,21 +13,24 @@ public class CreatePropertyUploadDocumentCommand implements ICommand {
 
     private UUID id;
     private String fileName;
+    private String filePath;
     private String document;
     private String property;
 
-    public CreatePropertyUploadDocumentCommand(String fileName, String document, String property) {
+    public CreatePropertyUploadDocumentCommand(String fileName, String document, String property, String filePath) {
         this.id = UUID.randomUUID();
         this.fileName = fileName;
         this.document = document;
         this.property = property;
+        this.filePath = filePath;
     }
 
     public static CreatePropertyUploadDocumentCommand fromRequest(CreatePropertyUploadDocumentRequest request){
         return new CreatePropertyUploadDocumentCommand(
                 request.getFileName(),
                 request.getDocument(),
-                request.getProperty()
+                request.getProperty(),
+                request.getFilePath()
         );
     }
 

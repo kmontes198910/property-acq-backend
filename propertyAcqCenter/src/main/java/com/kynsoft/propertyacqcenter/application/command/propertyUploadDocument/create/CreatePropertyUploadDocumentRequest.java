@@ -6,6 +6,7 @@ import lombok.Getter;
 public class CreatePropertyUploadDocumentRequest {
 
     private String fileName;
+    private String filePath;
     private String document;
     private String property;
 }

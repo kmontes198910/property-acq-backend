@@ -1,5 +1,6 @@
 package com.kynsoft.propertyacqcenter.application.command.expenses.update;
 
+import com.kynsoft.propertyacqcenter.domain.enums.IncreaseType;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -10,8 +11,7 @@ public class UpdateExpensesRequest {
     private String property;
     private Double totalAmountExpenses;
     private Double increaseRate;
-    private Boolean percentage;
-    private Boolean fixedDollarAmount;
+    private IncreaseType increaseType;
 
     private Double accounting;
     private Double electricity;
@@ -36,5 +36,6 @@ public class UpdateExpensesRequest {
     private Double repairMaintenance;
     private Double telephone;
     private Double miscellaneous;
+    private Double legal;
 
 }

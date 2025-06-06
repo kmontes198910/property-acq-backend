@@ -16,6 +16,7 @@ public class PropertyUploadDocumentResponse implements IResponse {
 
     private UUID id;
     private String fileName;
+    private String filePath;
     private String document;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
@@ -24,6 +25,7 @@ public class PropertyUploadDocumentResponse implements IResponse {
     public PropertyUploadDocumentResponse(PropertyUploadDocumentDto dto) {
         this.id = dto.getId();
         this.fileName = dto.getFileName();
+        this.filePath = dto.getFilePath();
         this.document = dto.getDocument();
         this.createdAt = dto.getCreatedAt();
         this.updatedAt = dto.getUpdatedAt();
