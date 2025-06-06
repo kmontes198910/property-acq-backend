@@ -22,7 +22,6 @@ public class ConsolidatedDashboardController {
     public ConsolidatedDashboardController(WebClient.Builder webClientBuilder) {
         this.webClientBuilder = webClientBuilder;
     }
-
     @GetMapping("/overview/{businessId}")
     public Mono<Map<String, Object>> getDashboardOverview(@PathVariable UUID businessId) {
         WebClient webClient = webClientBuilder.build();
