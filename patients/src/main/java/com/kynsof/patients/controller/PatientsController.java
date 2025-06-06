@@ -158,7 +158,10 @@ public class PatientsController {
     public ResponseEntity<ApiResponse<?>> me(@RequestHeader(value = "X-User-Id", required = false) String userId,
                                             @RequestHeader(value = "X-User-Email", required = false) String userEmail,
                                             @RequestHeader(value = "X-User-Roles", required = false) String userRoles) {
-        
+        log.error("Endpoint /me accedido por usuario con ID: {}, Email: {}, Roles: {}",
+                  userId != null ? userId : "N/A",
+                  userEmail != null ? userEmail : "N/A",
+                  userRoles != null ? userRoles : "N/A");
         // Priorizar el ID enviado por el gateway, si está presente
         String patientId = (userId != null && !userId.isEmpty()) ? userId : null;
         
