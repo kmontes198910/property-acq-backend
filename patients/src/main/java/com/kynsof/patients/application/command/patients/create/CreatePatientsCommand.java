@@ -26,11 +26,12 @@ public class CreatePatientsCommand implements ICommand {
     private String profession;
     private String educationalLevel;
     private BloodType bloodType;
+    private int gestationTime;
     private String skinColor;
 
     public CreatePatientsCommand(UUID id, IdentificationType identificationType, String identification, String name, String lastName, GenderType gender,
                                  String photo, CreatePatientContactInfoRequest createContactInfoRequest, String profession,
-                                 String educationalLevel, BloodType bloodType, String skinColor) {
+                                 String educationalLevel, BloodType bloodType, String skinColor, int gestationTime) {
         this.id = id;
         this.identificationType = identificationType;
         this.identification = identification;
@@ -43,6 +44,7 @@ public class CreatePatientsCommand implements ICommand {
         this.educationalLevel = educationalLevel;
         this.bloodType = bloodType;
         this.skinColor = skinColor;
+        this.gestationTime = gestationTime;
     }
 
     public static CreatePatientsCommand fromRequest(CreatePatientsRequest request) {
@@ -57,7 +59,8 @@ public class CreatePatientsCommand implements ICommand {
                 request.getProfession(),
                 request.getEducationalLevel(),
                 request.getBloodType(),
-                request.getSkinColor()
+                request.getSkinColor(),
+                request.getGestationTime()
         );
     }
 

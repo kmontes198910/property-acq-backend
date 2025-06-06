@@ -25,4 +25,5 @@ public class CreatePatientsRequest {
     private String educationalLevel;
     private BloodType bloodType;
     private String skinColor;
+    private int gestationTime;
 }
