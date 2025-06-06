@@ -6,9 +6,11 @@ import com.kynsoft.propertyacqcenter.application.query.dashboardRequest.Estimate
 import com.kynsoft.propertyacqcenter.application.query.dashboardRequest.GetDashboardInfoQuery;
 import com.kynsoft.propertyacqcenter.application.query.estimateValue.getEstimateValueExternalService.GetEstimateValueExternalServiceQuery;
 import com.kynsoft.propertyacqcenter.application.query.estimateValue.getSaleListingsExternalService.GetSaleListingsExternalServiceQuery;
+import com.kynsoft.propertyacqcenter.application.query.market.getMarketExternalService.GetMarketExternalServiceQuery;
 import com.kynsoft.propertyacqcenter.application.query.restEstimate.getRentEstimateExternalService.GetRentEstimateExternalServiceQuery;
 import com.kynsoft.propertyacqcenter.application.query.property.getPropertyDetailsExternalService.GetPropertyDetailsExternalServiceQuery;
 import com.kynsoft.propertyacqcenter.application.response.dashboardInfo.DashboardInfoResponse;
+import com.kynsoft.propertyacqcenter.application.response.market.RealEstateResponse;
 import com.kynsoft.propertyacqcenter.application.response.rentcast.EstimatedValueResponse;
 import com.kynsoft.propertyacqcenter.application.response.rentcast.RentEstimateResponse;
 import org.springframework.web.bind.annotation.*;
@@ -49,6 +51,18 @@ public class RentCastController {
     {
         GetDashboardInfoQuery query = new GetDashboardInfoQuery(address, estimate);
         DashboardInfoResponse response = mediator.send(query);
+
+        return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/market")
+    public ResponseEntity<RealEstateResponse> getMarketInfo(
+            @RequestParam(defaultValue = "All", required = false) String dataType,
+            @RequestParam(defaultValue = "", required = false) String zipCode,
+            @RequestParam(defaultValue = "0", required = false) int historyRange)
+    {
+        GetMarketExternalServiceQuery query = new GetMarketExternalServiceQuery(dataType, historyRange, zipCode);
+        RealEstateResponse response = mediator.send(query);
 
         return ResponseEntity.ok(response);
     }
