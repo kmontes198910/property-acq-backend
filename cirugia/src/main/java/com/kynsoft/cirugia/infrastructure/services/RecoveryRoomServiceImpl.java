@@ -85,7 +85,9 @@ public class RecoveryRoomServiceImpl implements IRecoveryRoomService {
         log.info("Creando nueva sala de recuperación: {}", recoveryRoom.getName());
         
         // Establecer valores iniciales
-        recoveryRoom.setId(UUID.randomUUID());
+        if(recoveryRoom.getId()== null) {
+            recoveryRoom.setId(UUID.randomUUID());
+        }
         recoveryRoom.setCreatedAt(LocalDateTime.now());
         recoveryRoom.setUpdatedAt(LocalDateTime.now());
         

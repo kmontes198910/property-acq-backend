@@ -83,8 +83,11 @@ public class RecoveryBedServiceImpl implements IRecoveryBedService {
     @CacheEvict(value = SurgeryCacheConfig.RECOVERY_BED_CACHE, allEntries = true)
     public RecoveryBed create(RecoveryBed recoveryBed) {
         log.info("Creating new recovery bed: {}", recoveryBed);
-        
-        recoveryBed.setId(UUID.randomUUID());
+
+        if(recoveryBed.getId() == null) {
+
+            recoveryBed.setId(UUID.randomUUID());
+        }
         recoveryBed.setCreatedAt(LocalDateTime.now());
         recoveryBed.setUpdatedAt(LocalDateTime.now());
         
