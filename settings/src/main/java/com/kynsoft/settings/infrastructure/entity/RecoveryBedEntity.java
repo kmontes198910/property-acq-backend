@@ -74,9 +74,4 @@ public class RecoveryBedEntity {
     @JoinColumn(name = "recovery_room_id", referencedColumnName = "id", insertable = false, updatable = false)
     private RecoveryRoomEntity recoveryRoom;
 
-    @OneToMany(mappedBy = "recoveryBed")
-    private List<SurgeryEntity> surgeries;
-
-    @OneToMany(mappedBy = "recoveryBed")
-    private List<BedAssignmentEntity> bedAssignments;
 }
