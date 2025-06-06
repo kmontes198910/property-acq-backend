@@ -2,7 +2,7 @@ package com.kynsoft.propertyacqcenter.infrastructure.entity;
 
 import com.kynsoft.propertyacqcenter.domain.dto.PurchaseDto;
 import com.kynsoft.propertyacqcenter.domain.enums.ForeclosureStatus;
-import com.kynsoft.propertyacqcenter.domain.enums.PropertyType;
+import com.kynsoft.propertyacqcenter.domain.enums.PurchaseType;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -26,7 +26,7 @@ public class Purchase implements Serializable {
     private Property property;
 
     @Enumerated(EnumType.STRING)
-    private PropertyType propertyType;
+    private PurchaseType purchaseType;
 
     @Enumerated(EnumType.STRING)
     private ForeclosureStatus foreclosureStatus;
@@ -73,7 +73,7 @@ public class Purchase implements Serializable {
 
     public Purchase(PurchaseDto dto) {
         this.id = dto.getId();
-        this.propertyType = dto.getPropertyType();
+        this.purchaseType = dto.getPurchaseType();
         this.foreclosureStatus = dto.getForeclosureStatus();
         this.improvements = dto.getImprovements();
         this.purchasePrice = dto.getPurchasePrice();
@@ -154,7 +154,7 @@ public class Purchase implements Serializable {
                 .roof(roof)
                 .window(windowValue)
                 .property(property.toAggregateBasic())
-                .propertyType(propertyType)
+                .purchaseType(purchaseType)
                 .foreclosureStatus(foreclosureStatus)
                 .improvements(improvements)
                 .purchasePrice(purchasePrice)

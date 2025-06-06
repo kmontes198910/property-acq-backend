@@ -3,7 +3,7 @@ package com.kynsoft.propertyacqcenter.application.response;
 import com.kynsof.share.core.domain.bus.query.IResponse;
 import com.kynsoft.propertyacqcenter.domain.dto.*;
 import com.kynsoft.propertyacqcenter.domain.enums.ForeclosureStatus;
-import com.kynsoft.propertyacqcenter.domain.enums.PropertyType;
+import com.kynsoft.propertyacqcenter.domain.enums.PurchaseType;
 import lombok.*;
 
 import java.io.Serializable;
@@ -18,7 +18,7 @@ public class PurchaseResponse implements Serializable, IResponse {
 
     private UUID id;
     private PropertiesBasicResponse property;
-    private PropertyType propertyType;
+    private PurchaseType purchaseType;
     private ForeclosureStatus foreclosureStatus;
 
     private Double improvements;
@@ -63,7 +63,7 @@ public class PurchaseResponse implements Serializable, IResponse {
     public PurchaseResponse(PurchaseDto dto) {
         this.id = dto.getId();
         this.property = dto.getProperty() != null ? new PropertiesBasicResponse(dto.getProperty()) : null;
-        this.propertyType = dto.getPropertyType();
+        this.purchaseType = dto.getPurchaseType();
         this.foreclosureStatus = dto.getForeclosureStatus();
         this.improvements = dto.getImprovements();
         this.purchasePrice = dto.getPurchasePrice();

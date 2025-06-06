@@ -69,6 +69,7 @@ public class GetDashboardInfoQueryHandler implements IQueryHandler<GetDashboardI
                             .listedDate(comparable.getListedDate() != null ? comparable.getListedDate() : null)
                             .bedrooms(comparable.getBedrooms() != null ? comparable.getBedrooms() : null)
                             .bathrooms(comparable.getBathrooms() != null ? comparable.getBathrooms() : null)
+                            .daysOld(comparable.getDaysOld() != null ? comparable.getDaysOld() : null)
                             .build());
                     estimatedValueAveragePrice = estimatedValueAveragePrice + comparable.getPrice();
                     countestimatedValue = countestimatedValue + 1;
@@ -82,7 +83,7 @@ public class GetDashboardInfoQueryHandler implements IQueryHandler<GetDashboardI
 
             //TODO: rentEstimated
             if (query.getEstimate().equals(EstimateEnum.RENT_ESTIMATED)) {
-                RentEstimateResponse rentEstimateValue = this.rentCastRentEstimateService.getRentEstimate(query.getAddress(), "", -1, -1, -1, -1, -1, 0, 5);
+                RentEstimateResponse rentEstimateValue = this.rentCastRentEstimateService.getRentEstimate(query.getAddress(), "", -1, -1, -1, -1, -1, 0, -1, 5);
                 int estimatedRentValueAveragePrice = 0;
                 int countEstimatedRentValue = 0;
                 for (RentEstimateResponse.ComparableRentProperty comparable : rentEstimateValue.getComparables()) {
@@ -102,6 +103,7 @@ public class GetDashboardInfoQueryHandler implements IQueryHandler<GetDashboardI
                             .listedDate(comparable.getListedDate() != null ? comparable.getListedDate() : null)
                             .bedrooms(comparable.getBedrooms() != null ? comparable.getBedrooms() : null)
                             .bathrooms(comparable.getBathrooms() != null ? comparable.getBathrooms() : null)
+                            .daysOld(comparable.getDaysOld() != null ? comparable.getDaysOld() : null)
                             .build());
                     estimatedRentValueAveragePrice = estimatedRentValueAveragePrice + comparable.getPrice();
                     countEstimatedRentValue = countEstimatedRentValue + 1;

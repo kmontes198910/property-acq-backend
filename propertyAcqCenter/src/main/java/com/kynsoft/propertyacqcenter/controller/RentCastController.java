@@ -92,8 +92,9 @@ public class RentCastController {
                                                             @RequestParam(defaultValue = "-1", required = false) double bathrooms,
                                                             @RequestParam(defaultValue = "-1", required = false) double squareFootage,
                                                             @RequestParam(defaultValue = "0", required = false) int daysOld,
+                                                            @RequestParam(defaultValue = "-1", required = false) double maxRadius,
                                                             @RequestParam(defaultValue = "5", required = false) int compCount) {
-        GetRentEstimateExternalServiceQuery query = new GetRentEstimateExternalServiceQuery(address, propertyType, latitude, longitude, bedrooms, bathrooms, squareFootage, daysOld, compCount);
+        GetRentEstimateExternalServiceQuery query = new GetRentEstimateExternalServiceQuery(address, propertyType, latitude, longitude, bedrooms, bathrooms, squareFootage, maxRadius, daysOld, compCount);
         RentEstimateResponse response = mediator.send(query);
 
         return ResponseEntity.ok(response);

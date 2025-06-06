@@ -26,6 +26,7 @@ public class GetRentValueExternalServiceQueryHandler implements IQueryHandler<Ge
                 query.getBathrooms(), 
                 query.getSquareFootage(), 
                 query.getDaysOld(),
+                query.getMaxRadius(),
                 query.getCompCount()
         );
     }

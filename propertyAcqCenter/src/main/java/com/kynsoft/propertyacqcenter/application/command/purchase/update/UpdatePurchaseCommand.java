@@ -3,7 +3,7 @@ package com.kynsoft.propertyacqcenter.application.command.purchase.update;
 import com.kynsof.share.core.domain.bus.command.ICommand;
 import com.kynsof.share.core.domain.bus.command.ICommandMessage;
 import com.kynsoft.propertyacqcenter.domain.enums.ForeclosureStatus;
-import com.kynsoft.propertyacqcenter.domain.enums.PropertyType;
+import com.kynsoft.propertyacqcenter.domain.enums.PurchaseType;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -15,7 +15,7 @@ public class UpdatePurchaseCommand implements ICommand {
 
     private UUID id;
     private String property;
-    private PropertyType propertyType;
+    private PurchaseType purchaseType;
     private ForeclosureStatus foreclosureStatus;
     private Double improvements;
     private Double purchasePrice;
@@ -56,10 +56,10 @@ public class UpdatePurchaseCommand implements ICommand {
     private Double roof;
     private Double window;
 
-    public UpdatePurchaseCommand(UUID id, String property, PropertyType propertyType, ForeclosureStatus foreclosureStatus, Double improvements, Double purchasePrice, Double estimatedMarketValue, Double acHeatPump, Double basement, Double ceiling, Double deck, Double electrical, Double exteriorPaint, Double fundation, Double heating, Double ketchen, Double poolSpaRepair, Double skylight, Double other, Double alarm, Double bathroom, Double chimney, Double door, Double equipment, Double fireplace, Double garage, Double interiorPaint, Double landscaping, Double porch, Double walls, Double attic, Double carpet, Double cladding, Double driveway, Double exterior, Double flooring, Double glutter, Double irrigationSpri, Double plumbing, Double roof, Double window) {
+    public UpdatePurchaseCommand(UUID id, String property, PurchaseType purchaseType, ForeclosureStatus foreclosureStatus, Double improvements, Double purchasePrice, Double estimatedMarketValue, Double acHeatPump, Double basement, Double ceiling, Double deck, Double electrical, Double exteriorPaint, Double fundation, Double heating, Double ketchen, Double poolSpaRepair, Double skylight, Double other, Double alarm, Double bathroom, Double chimney, Double door, Double equipment, Double fireplace, Double garage, Double interiorPaint, Double landscaping, Double porch, Double walls, Double attic, Double carpet, Double cladding, Double driveway, Double exterior, Double flooring, Double glutter, Double irrigationSpri, Double plumbing, Double roof, Double window) {
         this.id = id;
         this.property = property;
-        this.propertyType = propertyType;
+        this.purchaseType = purchaseType;
         this.foreclosureStatus = foreclosureStatus;
         this.improvements = improvements;
         this.purchasePrice = purchasePrice;
@@ -104,7 +104,7 @@ public class UpdatePurchaseCommand implements ICommand {
         return new UpdatePurchaseCommand(
                 id,
                 request.getProperty(),
-                request.getPropertyType(),
+                request.getPurchaseType(),
                 request.getForeclosureStatus(),
                 request.getImprovements(),
                 request.getPurchasePrice(),

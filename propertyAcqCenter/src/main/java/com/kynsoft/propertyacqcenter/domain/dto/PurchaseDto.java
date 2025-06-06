@@ -1,7 +1,7 @@
 package com.kynsoft.propertyacqcenter.domain.dto;
 
 import com.kynsoft.propertyacqcenter.domain.enums.ForeclosureStatus;
-import com.kynsoft.propertyacqcenter.domain.enums.PropertyType;
+import com.kynsoft.propertyacqcenter.domain.enums.PurchaseType;
 import lombok.*;
 
 import java.io.Serializable;
@@ -16,7 +16,7 @@ public class PurchaseDto implements Serializable {
 
     private UUID id;
     private PropertyDto property;
-    private PropertyType propertyType;
+    private PurchaseType purchaseType;
     private ForeclosureStatus foreclosureStatus;
 
     private Double improvements;
