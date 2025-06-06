@@ -25,7 +25,7 @@ public class UpdatePurchaseCommandHandler implements ICommandHandler<UpdatePurch
         this.purchaseService.update(PurchaseDto.builder()
                 .id(command.getId())
                 .property(property)
-                .propertyType(command.getPropertyType())
+                .purchaseType(command.getPurchaseType())
                 .estimatedMarketValue(command.getEstimatedMarketValue())
                 .foreclosureStatus(command.getForeclosureStatus())
                 .improvements(command.getImprovements())

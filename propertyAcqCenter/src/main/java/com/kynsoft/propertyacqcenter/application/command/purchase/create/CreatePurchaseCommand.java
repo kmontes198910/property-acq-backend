@@ -3,7 +3,7 @@ package com.kynsoft.propertyacqcenter.application.command.purchase.create;
 import com.kynsof.share.core.domain.bus.command.ICommand;
 import com.kynsof.share.core.domain.bus.command.ICommandMessage;
 import com.kynsoft.propertyacqcenter.domain.enums.ForeclosureStatus;
-import com.kynsoft.propertyacqcenter.domain.enums.PropertyType;
+import com.kynsoft.propertyacqcenter.domain.enums.PurchaseType;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -15,7 +15,7 @@ public class CreatePurchaseCommand implements ICommand {
 
     private UUID id;
     private String property;
-    private PropertyType propertyType;
+    private PurchaseType purchaseType;
     private ForeclosureStatus foreclosureStatus;
     private Double improvements;
     private Double purchasePrice;
@@ -56,7 +56,7 @@ public class CreatePurchaseCommand implements ICommand {
     private Double roof;
     private Double window;
 
-    public CreatePurchaseCommand(String property, PropertyType propertyType, ForeclosureStatus foreclosureStatus, 
+    public CreatePurchaseCommand(String property, PurchaseType purchaseType, ForeclosureStatus foreclosureStatus, 
                                  Double improvements, Double purchasePrice, Double estimatedMarketValue, Double acHeatPump, 
                                  Double basement, Double ceiling, Double deck, Double electrical, Double exteriorPaint, 
                                  Double fundation, Double heating, Double ketchen, Double poolSpaRepair, Double skylight, 
@@ -67,7 +67,7 @@ public class CreatePurchaseCommand implements ICommand {
                                  Double roof, Double window) {
         this.id = UUID.randomUUID();
         this.property = property;
-        this.propertyType = propertyType;
+        this.purchaseType = purchaseType;
         this.foreclosureStatus = foreclosureStatus;
         this.improvements = improvements;
         this.purchasePrice = purchasePrice;
@@ -112,7 +112,7 @@ public class CreatePurchaseCommand implements ICommand {
     public static CreatePurchaseCommand fromRequest(CreatePurchaseRequest request) {
         return new CreatePurchaseCommand(
                 request.getProperty(),
-                request.getPropertyType(),
+                request.getPurchaseType(),
                 request.getForeclosureStatus(),
                 request.getImprovements(),
                 request.getPurchasePrice(),
