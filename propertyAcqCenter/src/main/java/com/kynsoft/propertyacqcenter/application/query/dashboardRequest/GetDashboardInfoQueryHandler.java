@@ -69,6 +69,7 @@ public class GetDashboardInfoQueryHandler implements IQueryHandler<GetDashboardI
                             .listedDate(comparable.getListedDate() != null ? comparable.getListedDate() : null)
                             .bedrooms(comparable.getBedrooms() != null ? comparable.getBedrooms() : null)
                             .bathrooms(comparable.getBathrooms() != null ? comparable.getBathrooms() : null)
+                            .daysOld(comparable.getDaysOld() != null ? comparable.getDaysOld() : null)
                             .build());
                     estimatedValueAveragePrice = estimatedValueAveragePrice + comparable.getPrice();
                     countestimatedValue = countestimatedValue + 1;
@@ -102,6 +103,7 @@ public class GetDashboardInfoQueryHandler implements IQueryHandler<GetDashboardI
                             .listedDate(comparable.getListedDate() != null ? comparable.getListedDate() : null)
                             .bedrooms(comparable.getBedrooms() != null ? comparable.getBedrooms() : null)
                             .bathrooms(comparable.getBathrooms() != null ? comparable.getBathrooms() : null)
+                            .daysOld(comparable.getDaysOld() != null ? comparable.getDaysOld() : null)
                             .build());
                     estimatedRentValueAveragePrice = estimatedRentValueAveragePrice + comparable.getPrice();
                     countEstimatedRentValue = countEstimatedRentValue + 1;

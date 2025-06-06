@@ -25,4 +25,5 @@ public class DashboardComparablesResponse implements IResponse {
     private String listedDate;
     private Integer bedrooms;
     private Double bathrooms;
+    private Integer daysOld;
 }
