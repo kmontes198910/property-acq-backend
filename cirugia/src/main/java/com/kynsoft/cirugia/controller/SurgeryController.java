@@ -50,7 +50,7 @@ public class SurgeryController {
         return ResponseEntity.ok(data);
     }
 
-    @GetMapping(path = "/{id}/{userId}")
+    @GetMapping(path = "/{id}/userId/{userId}")
     public ResponseEntity<SurgeryResponse> getById(@PathVariable UUID id, @PathVariable UUID userId) {
         log.error("El ID del usuario es: {}", userId);
         GetSurgeryByIdQuery query = new GetSurgeryByIdQuery(id, userId);
