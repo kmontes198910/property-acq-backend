@@ -22,6 +22,9 @@ public class SubCategory {
     @Column(name = "name", nullable = false)
     private String name;
 
+    @Column(name = "code", nullable = true)
+    private String code;
+
     @Column(name = "description")
     private String description;
 
@@ -32,6 +35,7 @@ public class SubCategory {
     public SubCategory(SubCategoryDto dto) {
         this.id = dto.getId();
         this.name = dto.getName();
+        this.code = dto.getCode();
         this.description = dto.getDescription();
         this.category = dto.getCategory();
     }
@@ -40,6 +44,7 @@ public class SubCategory {
         return SubCategoryDto.builder()
                 .id(this.id)
                 .name(name)
+                .code(code)
                 .description(description)
                 .category(category)
                 .build();

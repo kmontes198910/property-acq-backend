@@ -14,12 +14,14 @@ public class SubCategoryResponse {
 
     private UUID id;
     private String name;
+    private String code;
     private String description;
     private ContactType category;
 
     public SubCategoryResponse(SubCategoryDto dto) {
         this.id = dto.getId();
         this.name = dto.getName();
+        this.code = dto.getCode();
         this.description = dto.getDescription();
         this.category = dto.getCategory();
     }

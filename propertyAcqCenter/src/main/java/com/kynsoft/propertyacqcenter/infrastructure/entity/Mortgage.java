@@ -26,9 +26,9 @@ public class Mortgage implements Serializable {
     private Property property;
 
     @Enumerated(EnumType.STRING)
-    private MortgageType mortgageType;
-    private Double mortgageAmount;
-    private Double downPayment;
+    private MortgageType mortgageType;//
+    private Double mortgageAmount;//
+    private Double downPayment;//
     private Integer fixedRateTermYears;
     private Double fixedMortgageRatePercentage;
     private LocalDate firstPaymentDate;
