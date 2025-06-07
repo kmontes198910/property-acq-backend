@@ -27,6 +27,8 @@ public class Surgery implements Serializable {
     private LocalTime startTime;
     private LocalTime endingTime;
     private Boolean requiresHospitalization;
+    private String consentimientoInformadoCirugia;
+    private String consentimientoInformadoAnestesia;
     private String status;  // SCHEDULED, IN_PROGRESS, COMPLETED, CANCELLED
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;

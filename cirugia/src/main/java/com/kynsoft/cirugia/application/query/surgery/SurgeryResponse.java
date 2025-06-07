@@ -38,6 +38,8 @@ public class SurgeryResponse implements IResponse, Serializable {
     private UUID createdBy;
     private UUID updatedBy;
     private UUID businessId;
+    private String consentimientoInformadoCirugia;
+    private String consentimientoInformadoAnestesia;
 
     // Constructor adicional para mapear directamente desde la entidad con relaciones cargadas
     public SurgeryResponse(SurgeryEntity entity) {
@@ -55,6 +57,8 @@ public class SurgeryResponse implements IResponse, Serializable {
         this.createdBy = entity.getCreatedBy();
         this.updatedBy = entity.getUpdatedBy();
         this.businessId = entity.getBusinessId();
+        this.consentimientoInformadoCirugia = entity.getConsentimientoInformadoCirugia();
+        this.consentimientoInformadoAnestesia = entity.getConsentimientoInformadoAnestesia();
 
         if (entity.getPatient() != null) {
             this.patient = new PatientResponse(entity.getPatient());

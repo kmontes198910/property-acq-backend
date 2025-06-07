@@ -46,7 +46,7 @@ public class UpdateSurgeryCommand implements ICommand {
         command.startTime = request.getStartTime();
         command.endingTime = request.getEndingTime();
         command.requiresHospitalization = request.getRequiresHospitalization();
-        command.updatedBy =updatedBy;
+        command.updatedBy = updatedBy;
         
         return command;
     }

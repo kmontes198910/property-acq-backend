@@ -7,6 +7,7 @@ import com.kynsof.share.core.infrastructure.bus.IMediator;
 import com.kynsoft.cirugia.application.command.surgery.changestatus.ChangeSurgeryStatusMessage;
 import com.kynsoft.cirugia.application.command.surgery.create.CreateSurgeryMessage;
 import com.kynsoft.cirugia.application.command.surgery.update.UpdateSurgeryMessage;
+import com.kynsoft.cirugia.application.command.surgery.updateconsent.UpdateConsentimientoMessage;
 import com.kynsoft.cirugia.application.query.surgery.SurgeryListResponse;
 import com.kynsoft.cirugia.application.query.surgery.SurgeryResponse;
 import com.kynsoft.cirugia.application.query.surgery.getSurgeryByIdPlanification.GetSurgeryPlanificationByIdQuery;
@@ -21,6 +22,9 @@ import com.kynsoft.cirugia.application.command.surgery.update.UpdateSurgeryReque
 import com.kynsoft.cirugia.application.command.surgery.changestatus.ChangeSurgeryStatusCommand;
 import com.kynsoft.cirugia.application.command.surgery.changestatus.ChangeSurgeryStatusRequest;
 import com.kynsoft.cirugia.application.command.surgery.delete.DeleteSurgeryCommand;
+import com.kynsoft.cirugia.application.command.surgery.updateconsent.UpdateConsentimientoCommand;
+import com.kynsoft.cirugia.application.command.surgery.updateconsent.UpdateConsentimientoMessage;
+import com.kynsoft.cirugia.application.command.surgery.updateconsent.UpdateConsentimientoRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
@@ -116,5 +120,15 @@ public class SurgeryController {
         DeleteSurgeryCommand command = new DeleteSurgeryCommand(id);
         mediator.send(command);
         return ResponseEntity.noContent().build();
+    }
+    
+    @PatchMapping("/{id}/consentimiento")
+    public ResponseEntity<?> updateConsentimiento(
+            @PathVariable UUID id,
+            @RequestBody UpdateConsentimientoRequest request,
+            @RequestHeader(USER_ID_HEADER) String userId) {
+        UpdateConsentimientoCommand command = UpdateConsentimientoCommand.fromRequest(id, request, UUID.fromString(userId));
+        UpdateConsentimientoMessage response = mediator.send(command);
+        return ResponseEntity.ok(response);
     }
 }

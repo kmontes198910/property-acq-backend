@@ -73,6 +73,12 @@ public class SurgeryEntity {
     @Column(name = "requires_hospitalization")
     private Boolean requiresHospitalization;
 
+    @Column(name = "consentimiento_informado_cirugia", columnDefinition = "TEXT")
+    private String consentimientoInformadoCirugia;
+
+    @Column(name = "consentimiento_informado_anestesia", columnDefinition = "TEXT")
+    private String consentimientoInformadoAnestesia;
+
     @Column(name = "status", nullable = false)
     private String status;
 
