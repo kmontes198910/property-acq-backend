@@ -25,7 +25,8 @@ public class Mortgage implements Serializable {
     @JoinColumn(name = "property_id")
     private Property property;
 
-    private MortgageType mortgageType;//TODO: por definir
+    @Enumerated(EnumType.STRING)
+    private MortgageType mortgageType;
     private Double mortgageAmount;
     private Double downPayment;
     private Integer fixedRateTermYears;
