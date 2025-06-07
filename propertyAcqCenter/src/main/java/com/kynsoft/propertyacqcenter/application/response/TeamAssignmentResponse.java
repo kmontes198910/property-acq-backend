@@ -17,15 +17,15 @@ import lombok.Setter;
 @Builder
 public class TeamAssignmentResponse implements IResponse {
     private UUID id;
-    private String buyerEntityName;
-    private String buyerContactRep;
-    private String titleEscrowCompany;
-    private String lenderCompany;
-    private String projectManager;
-    private String legalContact;
+    private CompanyContactSearchResponse buyerEntityName;
+    private CompanyContactSearchResponse buyerContactRep;
+    private CompanyContactSearchResponse titleEscrowCompany;
+    private CompanyContactSearchResponse lenderCompany;
+    private CompanyContactSearchResponse projectManager;
+    private CompanyContactSearchResponse legalContact;
     private PropertiesBasicResponse property;
-    private String seller;
-    private String hoa;
+    private CompanyContactSearchResponse seller;
+    private CompanyContactSearchResponse hoa;
 
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
@@ -34,19 +34,19 @@ public class TeamAssignmentResponse implements IResponse {
 
     public TeamAssignmentResponse(TeamAssignmentDto dto) {
         this.id = dto.getId();
-        this.buyerEntityName = dto.getBuyerEntityName();
-        this.buyerContactRep = dto.getBuyerContactRep();
-        this.titleEscrowCompany = dto.getTitleEscrowCompany();
-        this.lenderCompany = dto.getLenderCompany();
-        this.projectManager = dto.getProjectManager();
-        this.legalContact = dto.getLegalContact();
+        this.buyerEntityName = dto.getBuyerEntityName() != null ? new CompanyContactSearchResponse(dto.getBuyerEntityName()) : null;
+        this.buyerContactRep = dto.getBuyerContactRep() != null ? new CompanyContactSearchResponse(dto.getBuyerContactRep()) : null;
+        this.titleEscrowCompany = dto.getTitleEscrowCompany() != null ? new CompanyContactSearchResponse(dto.getTitleEscrowCompany()) : null;
+        this.lenderCompany = dto.getLenderCompany() != null ? new CompanyContactSearchResponse(dto.getLenderCompany()) : null;
+        this.projectManager = dto.getProjectManager() != null ? new CompanyContactSearchResponse(dto.getProjectManager()) : null;
+        this.legalContact = dto.getLegalContact() != null ? new CompanyContactSearchResponse(dto.getLegalContact()) : null;
         this.property = dto.getProperty() != null ? new PropertiesBasicResponse(dto.getProperty()) : null;
         this.createdAt = dto.getCreatedAt();
         this.updatedAt = dto.getUpdatedAt();
         this.createdBy = dto.getCreatedBy();
         this.updatedBy = dto.getUpdatedBy();
-        this.hoa = dto.getHoa();
-        this.seller = dto.getSeller();
+        this.hoa = dto.getHoa() != null ? new CompanyContactSearchResponse(dto.getHoa()) : null;
+        this.seller = dto.getSeller() != null ? new CompanyContactSearchResponse(dto.getSeller()) : null;
     }
 
 }

@@ -7,6 +7,7 @@ import com.kynsoft.propertyacqcenter.application.response.TeamAssignmentResponse
 import com.kynsoft.propertyacqcenter.domain.dto.TeamAssignmentDto;
 import com.kynsoft.propertyacqcenter.domain.dto.exception.TeamAssignmentNotFoundException;
 import com.kynsoft.propertyacqcenter.domain.services.ITeamAssignmentService;
+import com.kynsoft.propertyacqcenter.infrastructure.entity.CompanyContact;
 import com.kynsoft.propertyacqcenter.infrastructure.entity.Property;
 import com.kynsoft.propertyacqcenter.infrastructure.entity.TeamAssignment;
 import com.kynsoft.propertyacqcenter.infrastructure.repository.command.TeamAssignmentWriteDataJPARepository;
@@ -44,15 +45,15 @@ public class TeamAssignmentServiceImpl implements ITeamAssignmentService {
     @Transactional
     public void update(TeamAssignmentDto object) {
         TeamAssignment update = new TeamAssignment(this.findById(object.getId()));
-        update.setBuyerContactRep(object.getBuyerContactRep());
-        update.setBuyerEntityName(object.getBuyerEntityName());
-        update.setLegalContact(object.getLegalContact());
-        update.setLenderCompany(object.getLenderCompany());
-        update.setProjectManager(object.getProjectManager());
+        update.setBuyerContactRep(object.getBuyerContactRep() != null ? new CompanyContact(object.getBuyerContactRep()) : null);
+        update.setBuyerEntityName(object.getBuyerEntityName() != null ? new CompanyContact(object.getBuyerEntityName()) : null);
+        update.setLegalContact(object.getLegalContact() != null ? new CompanyContact(object.getLegalContact()) : null);
+        update.setLenderCompany(object.getLenderCompany() != null ? new CompanyContact(object.getLenderCompany()) : null);
+        update.setProjectManager(object.getProjectManager() != null ? new CompanyContact(object.getProjectManager()) : null);
         update.setProperty(new Property(object.getProperty()));
-        update.setTitleEscrowCompany(object.getTitleEscrowCompany());
-        update.setSeller(object.getSeller());
-        update.setHoa(object.getHoa());
+        update.setTitleEscrowCompany(object.getTitleEscrowCompany() != null ? new CompanyContact(object.getTitleEscrowCompany()) : null);
+        update.setSeller(object.getSeller() != null ? new CompanyContact(object.getSeller()) : null);
+        update.setHoa(object.getHoa() != null ? new CompanyContact(object.getHoa()) : null);
 
         update.setUpdatedAt(LocalDateTime.now());
         repositoryCommand.save(update);
