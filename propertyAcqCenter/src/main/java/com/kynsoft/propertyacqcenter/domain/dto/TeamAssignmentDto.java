@@ -15,15 +15,15 @@ import lombok.Setter;
 @Builder
 public class TeamAssignmentDto {
     private UUID id;
-    private String buyerEntityName;
-    private String buyerContactRep;
-    private String titleEscrowCompany;
-    private String lenderCompany;
-    private String projectManager;
-    private String legalContact;
+    private CompanyContactDto buyerEntityName;
+    private CompanyContactDto buyerContactRep;
+    private CompanyContactDto titleEscrowCompany;
+    private CompanyContactDto lenderCompany;
+    private CompanyContactDto projectManager;
+    private CompanyContactDto legalContact;
     private PropertyDto property;
-    private String seller;
-    private String hoa;
+    private CompanyContactDto seller;
+    private CompanyContactDto hoa;
 
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
