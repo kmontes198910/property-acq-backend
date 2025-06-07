@@ -2,7 +2,6 @@ package com.kynsoft.propertyacqcenter.application.response;
 
 import com.kynsof.share.core.domain.bus.query.IResponse;
 import com.kynsoft.propertyacqcenter.domain.dto.*;
-import com.kynsoft.propertyacqcenter.domain.enums.ForeclosureStatus;
 import com.kynsoft.propertyacqcenter.domain.enums.PurchaseType;
 import lombok.*;
 
@@ -19,7 +18,11 @@ public class PurchaseResponse implements Serializable, IResponse {
     private UUID id;
     private PropertiesBasicResponse property;
     private PurchaseType purchaseType;
-    private ForeclosureStatus foreclosureStatus;
+    //private ForeclosureStatus foreclosureStatus;
+    private Boolean foreclosure;
+    private Double amountOfDefault;
+    private Double accruedInterest;
+    private Double otherFees;
 
     private Double improvements;
     private Double purchasePrice;
@@ -64,7 +67,10 @@ public class PurchaseResponse implements Serializable, IResponse {
         this.id = dto.getId();
         this.property = dto.getProperty() != null ? new PropertiesBasicResponse(dto.getProperty()) : null;
         this.purchaseType = dto.getPurchaseType();
-        this.foreclosureStatus = dto.getForeclosureStatus();
+        this.foreclosure = dto.getForeclosure();
+        this.amountOfDefault = dto.getAmountOfDefault();
+        this.accruedInterest = dto.getAccruedInterest();
+        this.otherFees = dto.getOtherFees();
         this.improvements = dto.getImprovements();
         this.purchasePrice = dto.getPurchasePrice();
         this.estimatedMarketValue = dto.getEstimatedMarketValue();

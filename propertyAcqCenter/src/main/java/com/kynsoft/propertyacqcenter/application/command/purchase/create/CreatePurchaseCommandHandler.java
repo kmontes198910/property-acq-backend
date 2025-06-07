@@ -27,7 +27,10 @@ public class CreatePurchaseCommandHandler implements ICommandHandler<CreatePurch
                 .property(property)
                 .purchaseType(command.getPurchaseType())
                 .estimatedMarketValue(command.getEstimatedMarketValue())
-                .foreclosureStatus(command.getForeclosureStatus())
+                .foreclosure(command.getForeclosure())
+                .amountOfDefault(command.getAmountOfDefault())
+                .accruedInterest(command.getAccruedInterest())
+                .otherFees(command.getOtherFees())
                 .improvements(command.getImprovements())
                 .purchasePrice(command.getPurchasePrice())
 

@@ -19,7 +19,7 @@ import java.util.UUID;
 public class RecoveryBedEntity {
     
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
+    //@GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
     
     @Column(name = "bed_number", nullable = false)

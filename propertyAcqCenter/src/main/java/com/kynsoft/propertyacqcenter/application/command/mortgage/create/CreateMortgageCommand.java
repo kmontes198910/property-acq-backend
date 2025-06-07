@@ -2,6 +2,7 @@ package com.kynsoft.propertyacqcenter.application.command.mortgage.create;
 
 import com.kynsof.share.core.domain.bus.command.ICommand;
 import com.kynsof.share.core.domain.bus.command.ICommandMessage;
+import com.kynsoft.propertyacqcenter.domain.enums.MortgageType;
 import java.time.LocalDate;
 import lombok.Getter;
 import lombok.Setter;
@@ -14,7 +15,7 @@ public class CreateMortgageCommand implements ICommand {
 
     private UUID id;
     private String property;
-    private String mortgageType;//TODO: por definir
+    private MortgageType mortgageType;//TODO: por definir
     private Double mortgageAmount;
     private Double downPayment;
     private Integer fixedRateTermYears;
@@ -24,7 +25,7 @@ public class CreateMortgageCommand implements ICommand {
     private Double balloonPayment;
     private String adjustableRateDetails;//TODO: por definir
 
-    public CreateMortgageCommand(String property, String mortgageType, Double mortgageAmount, 
+    public CreateMortgageCommand(String property, MortgageType mortgageType, Double mortgageAmount, 
                                  Double downPayment, Integer fixedRateTermYears, Double fixedMortgageRatePercentage, 
                                  LocalDate firstPaymentDate, String compoundFrequency, Double balloonPayment, String adjustableRateDetails) {
         this.id = UUID.randomUUID();

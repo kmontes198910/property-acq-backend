@@ -1,6 +1,5 @@
 package com.kynsoft.propertyacqcenter.application.command.purchase.create;
 
-import com.kynsoft.propertyacqcenter.domain.enums.ForeclosureStatus;
 import com.kynsoft.propertyacqcenter.domain.enums.PurchaseType;
 import lombok.Getter;
 import lombok.Setter;
@@ -11,7 +10,12 @@ public class CreatePurchaseRequest {
 
     private String property;
     private PurchaseType purchaseType;
-    private ForeclosureStatus foreclosureStatus;
+    //private ForeclosureStatus foreclosureStatus;
+    private Boolean foreclosure;
+    private Double amountOfDefault;
+    private Double accruedInterest;
+    private Double otherFees;
+
     private Double improvements;
     private Double purchasePrice;
     private Double estimatedMarketValue;

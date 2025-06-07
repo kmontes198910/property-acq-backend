@@ -11,7 +11,12 @@ public class UpdatePurchaseRequest {
 
     private String property;
     private PurchaseType purchaseType;
-    private ForeclosureStatus foreclosureStatus;
+    //private ForeclosureStatus foreclosureStatus;
+    private Boolean foreclosure;
+    private Double amountOfDefault;
+    private Double accruedInterest;
+    private Double otherFees;
+
     private Double improvements;
     private Double purchasePrice;
     private Double estimatedMarketValue;

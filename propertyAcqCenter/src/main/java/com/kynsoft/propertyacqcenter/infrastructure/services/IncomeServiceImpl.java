@@ -50,6 +50,26 @@ public class IncomeServiceImpl implements IIncomeService {
         update.setIncreaseRate(object.getIncreaseRate());
         update.setIncreaseTypePercentage(object.getIncreaseTypePercentage());
         update.setTotalNetMonthlyIncome(object.getTotalNetMonthlyIncome());
+
+        update.setUnitType(object.getUnitType());
+        update.setQuantity(object.getQuantity());
+        update.setRentMo(object.getRentMo());
+        update.setSqft(object.getSqft());
+        update.setSqftValue(object.getSqftValue());
+        update.setOccupancy(object.getOccupancy());
+        update.setAnnualIncrease(object.getAnnualIncrease());
+        update.setDepositForfeitures(object.getDepositForfeitures());
+        update.setIncomefromInterest(object.getIncomefromInterest());
+        update.setVendingMachines(object.getVendingMachines());
+        update.setLateCharges(object.getLateCharges());
+        update.setLaundryRoom(object.getLaundryRoom());
+        update.setOther(object.getOther());
+        update.setPropertyManagementRate(object.getPropertyManagementRate());
+        update.setLeasingCommissionRate(object.getLeasingCommissionRate());
+        update.setLeasingCommision(object.getLeasingCommision());
+        update.setPorcentageIncreaseType(object.getPorcentageIncreaseType());
+        update.setFixedDollarAmount(object.getFixedDollarAmount());
+
         repositoryCommand.save(update);
     }
 
