@@ -2,7 +2,6 @@ package com.kynsoft.propertyacqcenter.application.command.purchase.update;
 
 import com.kynsof.share.core.domain.bus.command.ICommand;
 import com.kynsof.share.core.domain.bus.command.ICommandMessage;
-import com.kynsoft.propertyacqcenter.domain.enums.ForeclosureStatus;
 import com.kynsoft.propertyacqcenter.domain.enums.PurchaseType;
 import lombok.Getter;
 import lombok.Setter;
@@ -16,7 +15,12 @@ public class UpdatePurchaseCommand implements ICommand {
     private UUID id;
     private String property;
     private PurchaseType purchaseType;
-    private ForeclosureStatus foreclosureStatus;
+    //private ForeclosureStatus foreclosureStatus;
+    private Boolean foreclosure;
+    private Double amountOfDefault;
+    private Double accruedInterest;
+    private Double otherFees;
+
     private Double improvements;
     private Double purchasePrice;
     private Double estimatedMarketValue;
@@ -56,11 +60,25 @@ public class UpdatePurchaseCommand implements ICommand {
     private Double roof;
     private Double window;
 
-    public UpdatePurchaseCommand(UUID id, String property, PurchaseType purchaseType, ForeclosureStatus foreclosureStatus, Double improvements, Double purchasePrice, Double estimatedMarketValue, Double acHeatPump, Double basement, Double ceiling, Double deck, Double electrical, Double exteriorPaint, Double fundation, Double heating, Double ketchen, Double poolSpaRepair, Double skylight, Double other, Double alarm, Double bathroom, Double chimney, Double door, Double equipment, Double fireplace, Double garage, Double interiorPaint, Double landscaping, Double porch, Double walls, Double attic, Double carpet, Double cladding, Double driveway, Double exterior, Double flooring, Double glutter, Double irrigationSpri, Double plumbing, Double roof, Double window) {
+    public UpdatePurchaseCommand(UUID id, String property, PurchaseType purchaseType, 
+                                 Boolean foreclosure, Double improvements, Double purchasePrice, 
+                                 Double estimatedMarketValue, Double acHeatPump, Double basement, 
+                                 Double ceiling, Double deck, Double electrical, Double exteriorPaint, 
+                                 Double fundation, Double heating, Double ketchen, Double poolSpaRepair, 
+                                 Double skylight, Double other, Double alarm, Double bathroom, 
+                                 Double chimney, Double door, Double equipment, Double fireplace, 
+                                 Double garage, Double interiorPaint, Double landscaping, Double porch, 
+                                 Double walls, Double attic, Double carpet, Double cladding, Double driveway, 
+                                 Double exterior, Double flooring, Double glutter, Double irrigationSpri, 
+                                 Double plumbing, Double roof, Double window,
+                                 Double amountOfDefault, Double accruedInterest, Double otherFees) {
         this.id = id;
         this.property = property;
         this.purchaseType = purchaseType;
-        this.foreclosureStatus = foreclosureStatus;
+        this.foreclosure = foreclosure;
+        this.amountOfDefault = amountOfDefault;
+        this.accruedInterest = accruedInterest;
+        this.otherFees = otherFees;
         this.improvements = improvements;
         this.purchasePrice = purchasePrice;
         this.estimatedMarketValue = estimatedMarketValue;
@@ -105,7 +123,7 @@ public class UpdatePurchaseCommand implements ICommand {
                 id,
                 request.getProperty(),
                 request.getPurchaseType(),
-                request.getForeclosureStatus(),
+                request.getForeclosure(),
                 request.getImprovements(),
                 request.getPurchasePrice(),
                 request.getEstimatedMarketValue(),
@@ -142,7 +160,10 @@ public class UpdatePurchaseCommand implements ICommand {
                 request.getIrrigationSpri(),
                 request.getPlumbing(),
                 request.getRoof(),
-                request.getWindow()
+                request.getWindow(),
+                request.getAmountOfDefault(),
+                request.getAccruedInterest(),
+                request.getOtherFees()
         );
     }
 

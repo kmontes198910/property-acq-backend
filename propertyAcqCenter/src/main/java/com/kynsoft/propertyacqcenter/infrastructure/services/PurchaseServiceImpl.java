@@ -46,7 +46,10 @@ public class PurchaseServiceImpl implements IPurchaseService {
         Purchase update = this.findByIdSimple(object.getId());
         update.setProperty(new Property(object.getProperty()));
         update.setEstimatedMarketValue(object.getEstimatedMarketValue());
-        update.setForeclosureStatus(object.getForeclosureStatus());
+        update.setForeclosure(object.getForeclosure());
+        update.setAmountOfDefault(object.getAmountOfDefault());
+        update.setAccruedInterest(object.getAccruedInterest());
+        update.setOtherFees(object.getOtherFees());
         update.setImprovements(object.getImprovements());
         update.setPurchaseType(object.getPurchaseType());
         update.setPurchasePrice(object.getPurchasePrice());
