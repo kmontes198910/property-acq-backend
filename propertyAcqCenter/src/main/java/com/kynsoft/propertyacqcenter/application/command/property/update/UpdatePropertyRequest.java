@@ -65,4 +65,10 @@ public class UpdatePropertyRequest {
     //last sale
     private Double publicRecord;//
     private Double mls;//
+
+    private Double buildingArea;
+    private Double livingArea;
+    private Double grossArea;
+    private Double taxableArea;
+    private Double garageArea;
 }
