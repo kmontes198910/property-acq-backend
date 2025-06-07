@@ -1,5 +1,6 @@
 package com.kynsoft.propertyacqcenter.domain.dto;
 
+import com.kynsoft.propertyacqcenter.domain.enums.MortgageType;
 import java.time.LocalDate;
 import lombok.Builder;
 import lombok.Data;
@@ -13,7 +14,7 @@ public class MortgageDto {
     private UUID id;
     private PropertyDto property;
 
-    private String mortgageType;//TODO: por definir
+    private MortgageType mortgageType;//TODO: por definir
     private Double mortgageAmount;
     private Double downPayment;
     private Integer fixedRateTermYears;

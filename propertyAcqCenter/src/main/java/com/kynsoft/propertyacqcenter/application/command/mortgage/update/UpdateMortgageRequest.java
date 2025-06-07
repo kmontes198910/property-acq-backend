@@ -1,5 +1,6 @@
 package com.kynsoft.propertyacqcenter.application.command.mortgage.update;
 
+import com.kynsoft.propertyacqcenter.domain.enums.MortgageType;
 import java.time.LocalDate;
 import lombok.Getter;
 import lombok.Setter;
@@ -9,7 +10,7 @@ import lombok.Setter;
 public class UpdateMortgageRequest {
 
     private String property;
-    private String mortgageType;//TODO: por definir
+    private MortgageType mortgageType;//TODO: por definir
     private Double mortgageAmount;
     private Double downPayment;
     private Integer fixedRateTermYears;

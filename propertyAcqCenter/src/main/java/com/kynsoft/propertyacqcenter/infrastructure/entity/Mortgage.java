@@ -1,6 +1,7 @@
 package com.kynsoft.propertyacqcenter.infrastructure.entity;
 
 import com.kynsoft.propertyacqcenter.domain.dto.MortgageDto;
+import com.kynsoft.propertyacqcenter.domain.enums.MortgageType;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -24,7 +25,7 @@ public class Mortgage implements Serializable {
     @JoinColumn(name = "property_id")
     private Property property;
 
-    private String mortgageType;//TODO: por definir
+    private MortgageType mortgageType;//TODO: por definir
     private Double mortgageAmount;
     private Double downPayment;
     private Integer fixedRateTermYears;
