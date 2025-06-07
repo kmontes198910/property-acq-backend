@@ -69,6 +69,12 @@ public class UpdatePropertyCommand implements ICommand {
     private Double publicRecord;//
     private Double mls;//
 
+    private Double buildingArea;
+    private Double livingArea;
+    private Double grossArea;
+    private Double taxableArea;
+    private Double garageArea;
+
     public UpdatePropertyCommand(String id, PropertyType propertyType, int lotSize, 
                                  String apn, int yearBuilt, String county, Boolean occupancy, 
                                  String addressLine1, String addressLine2, String city, String state, 
@@ -83,8 +89,14 @@ public class UpdatePropertyCommand implements ICommand {
                                  UUID sellerName, UUID sellerContactInfo, LocalDate expectedClosingDate,
                                  Boolean emdRequirements, Double emdOfferedAmount,
                                  Boolean distressed, String lenghOfOwership, Double openBalanceMortagage, Double involuntaryLiensAmount,
-                                 Double publicRecord, Double mls, Boolean isMortgage) {
+                                 Double publicRecord, Double mls, Boolean isMortgage,
+                                 Double buildingArea, Double livingArea, Double grossArea, Double taxableArea, Double garageArea) {
         this.id = id;
+        this.buildingArea = buildingArea;
+        this.taxableArea = taxableArea;
+        this.garageArea = garageArea;
+        this.grossArea = grossArea;
+        this.livingArea = livingArea;
         this.purchasePrice = purchasePrice;
         this.rentalPrice = rentalPrice;
         this.afterRepairValue = afterRepairValue;
@@ -175,7 +187,12 @@ public class UpdatePropertyCommand implements ICommand {
                 request.getInvoluntaryLiensAmount(),
                 request.getPublicRecord(),
                 request.getMls(),
-                request.getIsMortgage()
+                request.getIsMortgage(),
+                request.getBuildingArea(),
+                request.getLivingArea(),
+                request.getGrossArea(),
+                request.getTaxableArea(),
+                request.getGarageArea()
         );
     }
 

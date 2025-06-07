@@ -73,6 +73,13 @@ public class UpdatePropertyCommandHandler implements ICommandHandler<UpdatePrope
                 .involuntaryLiensAmount(command.getInvoluntaryLiensAmount())
                 .publicRecord(command.getPublicRecord())
                 .mls(command.getMls())
+
+                .buildingArea(command.getBuildingArea())
+                .livingArea(command.getLivingArea())
+                .grossArea(command.getGrossArea())
+                .taxableArea(command.getTaxableArea())
+                .garageArea(command.getGarageArea())
                 .build());
     }
 }
+
