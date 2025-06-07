@@ -34,6 +34,7 @@ public class CreateMortgageCommandHandler implements ICommandHandler<CreateMortg
                 .compoundFrequency(command.getCompoundFrequency())
                 .balloonPayment(command.getBalloonPayment())
                 .adjustableRateDetails(command.getAdjustableRateDetails())
+                .fixedRateTermMonths(command.getFixedRateTermMonths())
                 .build()
         );
     }
