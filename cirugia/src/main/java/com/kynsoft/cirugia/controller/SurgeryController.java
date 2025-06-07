@@ -50,11 +50,10 @@ public class SurgeryController {
         return ResponseEntity.ok(data);
     }
 
-    @GetMapping(path = "/{id}")
-    public ResponseEntity<SurgeryResponse> getById(@PathVariable UUID id,
-                                                   @RequestHeader(USER_ID_HEADER) String userId) {
+    @GetMapping(path = "/{id}/{userId}")
+    public ResponseEntity<SurgeryResponse> getById(@PathVariable UUID id, @PathVariable UUID userId) {
         log.error("El ID del usuario es: {}", userId);
-        GetSurgeryByIdQuery query = new GetSurgeryByIdQuery(id, UUID.fromString(userId));
+        GetSurgeryByIdQuery query = new GetSurgeryByIdQuery(id, userId);
         SurgeryResponse response = mediator.send(query);
         return ResponseEntity.ok(response);
     }
