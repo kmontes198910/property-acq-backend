@@ -1,5 +1,6 @@
 package com.kynsoft.propertyacqcenter.domain.dto;
 
+import com.kynsoft.propertyacqcenter.domain.enums.MortgageFrequencyInterestCompounded;
 import com.kynsoft.propertyacqcenter.domain.enums.MortgageType;
 import java.time.LocalDate;
 import lombok.Builder;
@@ -20,8 +21,10 @@ public class MortgageDto {
     private Integer fixedRateTermYears;
     private Double fixedMortgageRatePercentage;
     private LocalDate firstPaymentDate;
-    private String compoundFrequency;//TODO: por definir
-    private Double balloonPayment;
-    private String adjustableRateDetails;//TODO: por definir
+    private MortgageFrequencyInterestCompounded compoundFrequency;
+    private Boolean balloonPayment;
+    private Boolean adjustableRateDetails;//TODO: por definir
+    private Integer paymentCuantity;
+    private Integer fixedRateTermMonths;
 
 }

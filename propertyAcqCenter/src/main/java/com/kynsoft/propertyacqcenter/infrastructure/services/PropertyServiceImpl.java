@@ -28,8 +28,8 @@ public class PropertyServiceImpl implements IPropertyService {
     private final PropertyReadDataJPARepository repositoryQuery;
     private final PropertyWriteDataJPARepository repositoryCommand;
 
-    public PropertyServiceImpl(PropertyReadDataJPARepository repositoryQuery, 
-                               PropertyWriteDataJPARepository repositoryCommand) {
+    public PropertyServiceImpl(PropertyReadDataJPARepository repositoryQuery,
+            PropertyWriteDataJPARepository repositoryCommand) {
         this.repositoryQuery = repositoryQuery;
         this.repositoryCommand = repositoryCommand;
     }
@@ -93,6 +93,12 @@ public class PropertyServiceImpl implements IPropertyService {
         //last sale
         update.setPublicRecord(object.getPublicRecord());
         update.setMls(object.getMls());
+
+        update.setBuildingArea(object.getBuildingArea());
+        update.setLivingArea(object.getLivingArea());
+        update.setGrossArea(object.getGrossArea());
+        update.setTaxableArea(object.getTaxableArea());
+        update.setGarageArea(object.getGarageArea());
 
         repositoryCommand.save(update);
     }

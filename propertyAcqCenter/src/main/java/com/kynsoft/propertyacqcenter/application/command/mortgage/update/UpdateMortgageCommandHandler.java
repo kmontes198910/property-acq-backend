@@ -34,6 +34,7 @@ public class UpdateMortgageCommandHandler implements ICommandHandler<UpdateMortg
                 .compoundFrequency(command.getCompoundFrequency())
                 .balloonPayment(command.getBalloonPayment())
                 .adjustableRateDetails(command.getAdjustableRateDetails())
+                .fixedRateTermMonths(command.getFixedRateTermMonths())
                 .build()
         );
     }

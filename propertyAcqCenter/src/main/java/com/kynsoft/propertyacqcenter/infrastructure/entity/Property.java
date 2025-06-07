@@ -122,6 +122,21 @@ public class Property {
     @Column(name = "mls", nullable = true)
     private Double mls;//
 
+    @Column(name = "building_area", nullable = true)
+    private Double buildingArea;//
+
+    @Column(name = "living_area", nullable = true)
+    private Double livingArea;//
+
+    @Column(name = "gross_area", nullable = true)
+    private Double grossArea;//
+
+    @Column(name = "taxable_area", nullable = true)
+    private Double taxableArea;//
+
+    @Column(name = "garage_area", nullable = true)
+    private Double garageArea;//
+
     public Property(PropertyDto dto) {
         this.id = dto.getId();
         this.purchasePrice = dto.getPurchasePrice();
@@ -173,6 +188,12 @@ public class Property {
         //last sale
         this.publicRecord = dto.getPublicRecord();
         this.mls = dto.getMls();
+
+        this.buildingArea = dto.getBuildingArea();
+        this.livingArea = dto.getLivingArea();
+        this.grossArea = dto.getGrossArea();
+        this.taxableArea = dto.getTaxableArea();
+        this.garageArea = dto.getGarageArea();
     }
 
     public PropertyDto toAggregateBasic() {
@@ -185,6 +206,11 @@ public class Property {
     public PropertyDto toAggregate() {
         return PropertyDto.builder()
                 .id(this.id)
+                .buildingArea(buildingArea)
+                .livingArea(livingArea)
+                .grossArea(grossArea)
+                .taxableArea(taxableArea)
+                .garageArea(garageArea)
                 .purchasePrice(purchasePrice)
                 .rentalPrice(rentalPrice)
                 .afterRepairValue(afterRepairValue)

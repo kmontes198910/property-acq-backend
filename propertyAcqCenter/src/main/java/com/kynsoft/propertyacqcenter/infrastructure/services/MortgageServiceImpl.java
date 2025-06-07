@@ -53,6 +53,7 @@ public class MortgageServiceImpl implements IMortgageService {
         update.setCompoundFrequency(object.getCompoundFrequency());
         update.setBalloonPayment(object.getBalloonPayment());
         update.setAdjustableRateDetails(object.getAdjustableRateDetails());
+        update.setFixedRateTermMonths(object.getFixedRateTermMonths());
 
         repositoryCommand.save(update);
     }
