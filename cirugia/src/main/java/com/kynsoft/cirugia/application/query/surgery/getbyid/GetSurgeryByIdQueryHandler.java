@@ -40,11 +40,11 @@ public class GetSurgeryByIdQueryHandler implements IQueryHandler<GetSurgeryByIdQ
         }
         boolean isAuthorized = medicalTeamService.isMemberInSurgeryTeam(query.getId(), query.getUserId());
 
-        if (!isAuthorized) {
-            throw new DoctorIsNotPermisionNotFoundException(
-                new GlobalBusinessException(DomainErrorMessage.ESPECIALITY_IS_NOT_ACCESS,
-                new ErrorField("userId", "El usuario no tiene permiso para acceder a esta cirugía.")));
-        }
+//        if (!isAuthorized) {
+//            throw new DoctorIsNotPermisionNotFoundException(
+//                new GlobalBusinessException(DomainErrorMessage.ESPECIALITY_IS_NOT_ACCESS,
+//                new ErrorField("userId", "El usuario no tiene permiso para acceder a esta cirugía.")));
+//        }
 
         return new SurgeryResponse(surgeryEntity.get());
     }
