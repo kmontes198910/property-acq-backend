@@ -1,7 +1,6 @@
 package com.kynsoft.propertyacqcenter.infrastructure.entity;
 
 import com.kynsoft.propertyacqcenter.domain.dto.PurchaseDto;
-import com.kynsoft.propertyacqcenter.domain.enums.ForeclosureStatus;
 import com.kynsoft.propertyacqcenter.domain.enums.PurchaseType;
 import jakarta.persistence.*;
 import lombok.*;
@@ -28,8 +27,13 @@ public class Purchase implements Serializable {
     @Enumerated(EnumType.STRING)
     private PurchaseType purchaseType;
 
-    @Enumerated(EnumType.STRING)
-    private ForeclosureStatus foreclosureStatus;
+    //@Enumerated(EnumType.STRING)
+    //private ForeclosureStatus foreclosureStatus;
+    @Column(name = "foreclosure", nullable = true)
+    private Boolean foreclosure;
+    private Double amountOfDefault;
+    private Double accruedInterest;
+    private Double otherFees;
 
     @Column(name = "purchase_improvements", nullable = true)
     private Double improvements;//TODO: por definir, es un autocalculable
@@ -74,7 +78,10 @@ public class Purchase implements Serializable {
     public Purchase(PurchaseDto dto) {
         this.id = dto.getId();
         this.purchaseType = dto.getPurchaseType();
-        this.foreclosureStatus = dto.getForeclosureStatus();
+        this.foreclosure = dto.getForeclosure();
+        this.amountOfDefault = dto.getAmountOfDefault();
+        this.accruedInterest = dto.getAccruedInterest();
+        this.otherFees = dto.getOtherFees();
         this.improvements = dto.getImprovements();
         this.purchasePrice = dto.getPurchasePrice();
         this.estimatedMarketValue = dto.getEstimatedMarketValue();
@@ -155,7 +162,10 @@ public class Purchase implements Serializable {
                 .window(windowValue)
                 .property(property.toAggregateBasic())
                 .purchaseType(purchaseType)
-                .foreclosureStatus(foreclosureStatus)
+                .foreclosure(foreclosure)
+                .amountOfDefault(amountOfDefault)
+                .accruedInterest(accruedInterest)
+                .otherFees(otherFees)
                 .improvements(improvements)
                 .purchasePrice(purchasePrice)
                 .estimatedMarketValue(estimatedMarketValue)

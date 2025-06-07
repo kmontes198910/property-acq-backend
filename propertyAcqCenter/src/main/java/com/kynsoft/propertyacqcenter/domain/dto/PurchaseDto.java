@@ -17,7 +17,11 @@ public class PurchaseDto implements Serializable {
     private UUID id;
     private PropertyDto property;
     private PurchaseType purchaseType;
-    private ForeclosureStatus foreclosureStatus;
+    //private ForeclosureStatus foreclosureStatus;
+    private Boolean foreclosure;
+    private Double amountOfDefault;
+    private Double accruedInterest;
+    private Double otherFees;
 
     private Double improvements;
     private Double purchasePrice;
