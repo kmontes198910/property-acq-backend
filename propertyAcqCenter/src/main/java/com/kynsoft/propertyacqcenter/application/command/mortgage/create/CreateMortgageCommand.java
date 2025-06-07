@@ -2,6 +2,7 @@ package com.kynsoft.propertyacqcenter.application.command.mortgage.create;
 
 import com.kynsof.share.core.domain.bus.command.ICommand;
 import com.kynsof.share.core.domain.bus.command.ICommandMessage;
+import com.kynsoft.propertyacqcenter.domain.enums.MortgageFrequencyInterestCompounded;
 import com.kynsoft.propertyacqcenter.domain.enums.MortgageType;
 import java.time.LocalDate;
 import lombok.Getter;
@@ -15,19 +16,21 @@ public class CreateMortgageCommand implements ICommand {
 
     private UUID id;
     private String property;
-    private MortgageType mortgageType;//TODO: por definir
+    private MortgageType mortgageType;
     private Double mortgageAmount;
     private Double downPayment;
     private Integer fixedRateTermYears;
     private Double fixedMortgageRatePercentage;
     private LocalDate firstPaymentDate;
-    private String compoundFrequency;//TODO: por definir
-    private Double balloonPayment;
-    private String adjustableRateDetails;//TODO: por definir
+    private MortgageFrequencyInterestCompounded compoundFrequency;
+    private Boolean balloonPayment;
+    private Boolean adjustableRateDetails;
+    private Integer fixedRateTermMonths;
 
     public CreateMortgageCommand(String property, MortgageType mortgageType, Double mortgageAmount, 
                                  Double downPayment, Integer fixedRateTermYears, Double fixedMortgageRatePercentage, 
-                                 LocalDate firstPaymentDate, String compoundFrequency, Double balloonPayment, String adjustableRateDetails) {
+                                 LocalDate firstPaymentDate, MortgageFrequencyInterestCompounded compoundFrequency, 
+                                 Boolean balloonPayment, Boolean adjustableRateDetails, Integer fixedRateTermMonths) {
         this.id = UUID.randomUUID();
         this.property = property;
         this.mortgageType = mortgageType;
@@ -39,6 +42,7 @@ public class CreateMortgageCommand implements ICommand {
         this.compoundFrequency = compoundFrequency;
         this.balloonPayment = balloonPayment;
         this.adjustableRateDetails = adjustableRateDetails;
+        this.fixedRateTermMonths = fixedRateTermMonths;
     }
 
     public static CreateMortgageCommand fromRequest(CreateMortgageRequest request) {
@@ -52,7 +56,8 @@ public class CreateMortgageCommand implements ICommand {
                 request.getFirstPaymentDate(),
                 request.getCompoundFrequency(),
                 request.getBalloonPayment(),
-                request.getAdjustableRateDetails()
+                request.getAdjustableRateDetails(),
+                request.getFixedRateTermMonths()
         );
     }
 

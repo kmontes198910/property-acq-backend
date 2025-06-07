@@ -2,6 +2,7 @@ package com.kynsoft.propertyacqcenter.application.response;
 
 import com.kynsof.share.core.domain.bus.query.IResponse;
 import com.kynsoft.propertyacqcenter.domain.dto.MortgageDto;
+import com.kynsoft.propertyacqcenter.domain.enums.MortgageFrequencyInterestCompounded;
 import com.kynsoft.propertyacqcenter.domain.enums.MortgageType;
 import java.time.LocalDate;
 import lombok.Builder;
@@ -20,15 +21,16 @@ public class MortgageResponse implements IResponse {
     private UUID id;
     private PropertiesBasicResponse property;
 
-    private MortgageType mortgageType;//TODO: por definir
+    private MortgageType mortgageType;
     private Double mortgageAmount;
     private Double downPayment;
     private Integer fixedRateTermYears;
     private Double fixedMortgageRatePercentage;
     private LocalDate firstPaymentDate;
-    private String compoundFrequency;//TODO: por definir
-    private Double balloonPayment;
-    private String adjustableRateDetails;//TODO: por definir
+    private MortgageFrequencyInterestCompounded compoundFrequency;
+    private Boolean balloonPayment;
+    private Boolean adjustableRateDetails;
+    private Integer fixedRateTermMonths;
 
     public MortgageResponse(MortgageDto dto) {
         this.id = dto.getId();
@@ -42,6 +44,7 @@ public class MortgageResponse implements IResponse {
         this.compoundFrequency = dto.getCompoundFrequency();
         this.balloonPayment = dto.getBalloonPayment();
         this.adjustableRateDetails = dto.getAdjustableRateDetails();
+        this.fixedRateTermMonths = dto.getFixedRateTermMonths();
     }
 
 }
