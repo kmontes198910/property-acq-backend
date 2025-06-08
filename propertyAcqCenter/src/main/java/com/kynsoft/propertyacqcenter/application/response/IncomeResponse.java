@@ -2,6 +2,7 @@ package com.kynsoft.propertyacqcenter.application.response;
 
 import com.kynsof.share.core.domain.bus.query.IResponse;
 import com.kynsoft.propertyacqcenter.domain.dto.*;
+import com.kynsoft.propertyacqcenter.domain.enums.IncreaseType;
 import lombok.*;
 
 import java.io.Serializable;
@@ -19,8 +20,8 @@ public class IncomeResponse implements Serializable, IResponse {
     private Double grossMonthlyIncome;
     private Double totalNetMonthlyIncome;
     private Double increaseRate;
-    private Boolean increaseTypePercentage;
-    private Boolean increaseFixedDollarAmount;
+
+    private IncreaseType increaseType;
 
     //Detail Breakdown
     private Double unitType;
@@ -55,8 +56,7 @@ public class IncomeResponse implements Serializable, IResponse {
         this.grossMonthlyIncome = dto.getGrossMonthlyIncome();
         this.totalNetMonthlyIncome = dto.getTotalNetMonthlyIncome();
         this.increaseRate = dto.getIncreaseRate();
-        this.increaseTypePercentage = dto.getIncreaseTypePercentage();
-        this.increaseFixedDollarAmount = dto.getIncreaseFixedDollarAmount();
+        this.increaseType = dto.getIncreaseType();
 
         this.unitType = dto.getUnitType();
         this.quantity = dto.getQuantity();
