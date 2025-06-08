@@ -232,7 +232,6 @@ public class DigitalSignatureCertificateController {
                 pageable, 
                 request.getFilter(), 
                 request.getQuery());
-        
         PaginatedResponse response = mediator.send(query);
         
         return ResponseEntity.ok(response);
