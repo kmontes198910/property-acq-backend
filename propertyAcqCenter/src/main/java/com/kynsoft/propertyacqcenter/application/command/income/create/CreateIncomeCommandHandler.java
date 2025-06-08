@@ -28,8 +28,6 @@ public class CreateIncomeCommandHandler implements ICommandHandler<CreateIncomeC
                 .grossMonthlyIncome(command.getGrossMonthlyIncome())
                 .totalNetMonthlyIncome(command.getTotalNetMonthlyIncome())
                 .increaseRate(command.getIncreaseRate())
-                .increaseFixedDollarAmount(command.getIncreaseFixedDollarAmount())
-                .increaseTypePercentage(command.getIncreaseTypePercentage())
                 .unitType(command.getUnitType())
                 .quantity(command.getQuantity())
                 .rentMo(command.getRentMo())

@@ -18,8 +18,6 @@ public class IncomeDto implements Serializable {
     private Double grossMonthlyIncome;
     private Double totalNetMonthlyIncome;
     private Double increaseRate;
-    private Boolean increaseTypePercentage;
-    private Boolean increaseFixedDollarAmount;
 
     private IncreaseType increaseType;
 

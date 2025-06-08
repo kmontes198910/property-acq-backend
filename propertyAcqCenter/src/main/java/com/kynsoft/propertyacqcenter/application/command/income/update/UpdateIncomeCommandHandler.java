@@ -28,8 +28,6 @@ public class UpdateIncomeCommandHandler implements ICommandHandler<UpdateIncomeC
                 .grossMonthlyIncome(command.getGrossMonthlyIncome())
                 .totalNetMonthlyIncome(command.getTotalNetMonthlyIncome())
                 .increaseRate(command.getIncreaseRate())
-                .increaseFixedDollarAmount(command.getIncreaseFixedDollarAmount())
-                .increaseTypePercentage(command.getIncreaseTypePercentage())
                 .unitType(command.getUnitType())
                 .quantity(command.getQuantity())
                 .rentMo(command.getRentMo())

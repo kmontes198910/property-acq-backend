@@ -17,8 +17,6 @@ public class CreateIncomeCommand implements ICommand {
     private Double grossMonthlyIncome;
     private Double totalNetMonthlyIncome;
     private Double increaseRate;
-    private Boolean increaseTypePercentage;
-    private Boolean increaseFixedDollarAmount;
 
     private IncreaseType increaseType;
 
@@ -50,7 +48,7 @@ public class CreateIncomeCommand implements ICommand {
     private Double fixedDollarAmount;
 
     public CreateIncomeCommand(String property, Double grossMonthlyIncome, Double totalNetMonthlyIncome, 
-                               Double increaseRate, Boolean increaseTypePercentage, Boolean increaseFixedDollarAmount, 
+                               Double increaseRate, 
                                Double unitType, Double quantity, Double rentMo, Double sqft, Double sqftValue, 
                                Double occupancy, Double annualIncrease, Double depositForfeitures, 
                                Double sectino8Income, Double incomefromInterest, Double vendingMachines, 
@@ -62,8 +60,6 @@ public class CreateIncomeCommand implements ICommand {
         this.grossMonthlyIncome = grossMonthlyIncome;
         this.totalNetMonthlyIncome = totalNetMonthlyIncome;
         this.increaseRate = increaseRate;
-        this.increaseTypePercentage = increaseTypePercentage;
-        this.increaseFixedDollarAmount = increaseFixedDollarAmount;
         this.unitType = unitType;
         this.quantity = quantity;
         this.rentMo = rentMo;
@@ -92,8 +88,6 @@ public class CreateIncomeCommand implements ICommand {
                 request.getGrossMonthlyIncome(),
                 request.getTotalNetMonthlyIncome(),
                 request.getIncreaseRate(),
-                request.getIncreaseTypePercentage(),
-                request.getIncreaseFixedDollarAmount(),
                 request.getUnitType(),
                 request.getQuantity(),
                 request.getRentMo(),

@@ -27,8 +27,6 @@ public class Income implements Serializable {
     private Double grossMonthlyIncome;
     private Double totalNetMonthlyIncome;
     private Double increaseRate;
-    private Boolean increaseTypePercentage;
-    private Boolean increaseFixedDollarAmount;
 
     @Enumerated(EnumType.STRING)
     private IncreaseType increaseType;
@@ -65,8 +63,6 @@ public class Income implements Serializable {
         this.grossMonthlyIncome = dto.getGrossMonthlyIncome();
         this.totalNetMonthlyIncome = dto.getTotalNetMonthlyIncome();
         this.increaseRate = dto.getIncreaseRate();
-        this.increaseTypePercentage = dto.getIncreaseTypePercentage();
-        this.increaseFixedDollarAmount = dto.getIncreaseFixedDollarAmount();
         this.increaseType = dto.getIncreaseType();
         this.property = dto.getProperty() != null ? new Property(dto.getProperty()) : null;
 
@@ -101,8 +97,6 @@ public class Income implements Serializable {
                 .grossMonthlyIncome(grossMonthlyIncome)
                 .totalNetMonthlyIncome(totalNetMonthlyIncome)
                 .increaseRate(increaseRate)
-                .increaseTypePercentage(increaseTypePercentage)
-                .increaseFixedDollarAmount(increaseFixedDollarAmount)
                 .unitType(unitType)
                 .quantity(quantity)
                 .rentMo(rentMo)

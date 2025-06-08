@@ -20,8 +20,6 @@ public class IncomeResponse implements Serializable, IResponse {
     private Double grossMonthlyIncome;
     private Double totalNetMonthlyIncome;
     private Double increaseRate;
-    private Boolean increaseTypePercentage;
-    private Boolean increaseFixedDollarAmount;
 
     private IncreaseType increaseType;
 
@@ -58,8 +56,6 @@ public class IncomeResponse implements Serializable, IResponse {
         this.grossMonthlyIncome = dto.getGrossMonthlyIncome();
         this.totalNetMonthlyIncome = dto.getTotalNetMonthlyIncome();
         this.increaseRate = dto.getIncreaseRate();
-        this.increaseTypePercentage = dto.getIncreaseTypePercentage();
-        this.increaseFixedDollarAmount = dto.getIncreaseFixedDollarAmount();
         this.increaseType = dto.getIncreaseType();
 
         this.unitType = dto.getUnitType();
