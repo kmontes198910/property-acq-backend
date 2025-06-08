@@ -1,5 +1,6 @@
 package com.kynsoft.propertyacqcenter.application.command.income.create;
 
+import com.kynsoft.propertyacqcenter.domain.enums.IncreaseType;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -13,6 +14,8 @@ public class CreateIncomeRequest {
     private Double increaseRate;
     private Boolean increaseTypePercentage;
     private Boolean increaseFixedDollarAmount;
+
+    private IncreaseType increaseType;
 
     //Detail Breakdown
     private Double unitType;

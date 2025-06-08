@@ -1,5 +1,6 @@
 package com.kynsoft.propertyacqcenter.domain.dto;
 
+import com.kynsoft.propertyacqcenter.domain.enums.IncreaseType;
 import lombok.*;
 
 import java.io.Serializable;
@@ -19,6 +20,8 @@ public class IncomeDto implements Serializable {
     private Double increaseRate;
     private Boolean increaseTypePercentage;
     private Boolean increaseFixedDollarAmount;
+
+    private IncreaseType increaseType;
 
     //Detail Breakdown
     private Double unitType;

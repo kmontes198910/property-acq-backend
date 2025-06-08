@@ -49,6 +49,7 @@ public class UpdateIncomeCommandHandler implements ICommandHandler<UpdateIncomeC
                 .leasingCommision(command.getLeasingCommision())
                 .porcentageIncreaseType(command.getPorcentageIncreaseType())
                 .fixedDollarAmount(command.getFixedDollarAmount())
+                .increaseType(command.getIncreaseType())
                 .build()
         );
     }

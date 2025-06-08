@@ -69,6 +69,7 @@ public class IncomeServiceImpl implements IIncomeService {
         update.setLeasingCommision(object.getLeasingCommision());
         update.setPorcentageIncreaseType(object.getPorcentageIncreaseType());
         update.setFixedDollarAmount(object.getFixedDollarAmount());
+        update.setIncreaseType(object.getIncreaseType());
 
         repositoryCommand.save(update);
     }

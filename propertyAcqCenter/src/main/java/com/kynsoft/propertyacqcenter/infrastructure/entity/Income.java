@@ -1,6 +1,7 @@
 package com.kynsoft.propertyacqcenter.infrastructure.entity;
 
 import com.kynsoft.propertyacqcenter.domain.dto.IncomeDto;
+import com.kynsoft.propertyacqcenter.domain.enums.IncreaseType;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -28,6 +29,9 @@ public class Income implements Serializable {
     private Double increaseRate;
     private Boolean increaseTypePercentage;
     private Boolean increaseFixedDollarAmount;
+
+    @Enumerated(EnumType.STRING)
+    private IncreaseType increaseType;
 
     //Detail Breakdown
     private Double unitType;
@@ -63,6 +67,7 @@ public class Income implements Serializable {
         this.increaseRate = dto.getIncreaseRate();
         this.increaseTypePercentage = dto.getIncreaseTypePercentage();
         this.increaseFixedDollarAmount = dto.getIncreaseFixedDollarAmount();
+        this.increaseType = dto.getIncreaseType();
         this.property = dto.getProperty() != null ? new Property(dto.getProperty()) : null;
 
         this.unitType = dto.getUnitType();
@@ -117,6 +122,7 @@ public class Income implements Serializable {
                 .leasingCommision(leasingCommision)
                 .porcentageIncreaseType(porcentageIncreaseType)
                 .fixedDollarAmount(fixedDollarAmount)
+                .increaseType(increaseType)
                 .build();
     }
 }

@@ -2,6 +2,7 @@ package com.kynsoft.propertyacqcenter.application.command.income.create;
 
 import com.kynsof.share.core.domain.bus.command.ICommand;
 import com.kynsof.share.core.domain.bus.command.ICommandMessage;
+import com.kynsoft.propertyacqcenter.domain.enums.IncreaseType;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -18,6 +19,8 @@ public class CreateIncomeCommand implements ICommand {
     private Double increaseRate;
     private Boolean increaseTypePercentage;
     private Boolean increaseFixedDollarAmount;
+
+    private IncreaseType increaseType;
 
     //Detail Breakdown
     private Double unitType;
@@ -46,7 +49,14 @@ public class CreateIncomeCommand implements ICommand {
     private Double porcentageIncreaseType;
     private Double fixedDollarAmount;
 
-    public CreateIncomeCommand(String property, Double grossMonthlyIncome, Double totalNetMonthlyIncome, Double increaseRate, Boolean increaseTypePercentage, Boolean increaseFixedDollarAmount, Double unitType, Double quantity, Double rentMo, Double sqft, Double sqftValue, Double occupancy, Double annualIncrease, Double depositForfeitures, Double sectino8Income, Double incomefromInterest, Double vendingMachines, Double lateCharges, Double laundryRoom, Double other, Double propertyManagementRate, Double leasingCommissionRate, Double leasingCommision, Double porcentageIncreaseType, Double fixedDollarAmount) {
+    public CreateIncomeCommand(String property, Double grossMonthlyIncome, Double totalNetMonthlyIncome, 
+                               Double increaseRate, Boolean increaseTypePercentage, Boolean increaseFixedDollarAmount, 
+                               Double unitType, Double quantity, Double rentMo, Double sqft, Double sqftValue, 
+                               Double occupancy, Double annualIncrease, Double depositForfeitures, 
+                               Double sectino8Income, Double incomefromInterest, Double vendingMachines, 
+                               Double lateCharges, Double laundryRoom, Double other, Double propertyManagementRate, 
+                               Double leasingCommissionRate, Double leasingCommision, Double porcentageIncreaseType, 
+                               Double fixedDollarAmount, IncreaseType increaseType) {
         this.id = UUID.randomUUID();
         this.property = property;
         this.grossMonthlyIncome = grossMonthlyIncome;
@@ -73,6 +83,7 @@ public class CreateIncomeCommand implements ICommand {
         this.leasingCommision = leasingCommision;
         this.porcentageIncreaseType = porcentageIncreaseType;
         this.fixedDollarAmount = fixedDollarAmount;
+        this.increaseType = increaseType;
     }
 
     public static CreateIncomeCommand fromRequest(CreateIncomeRequest request) {
@@ -101,7 +112,8 @@ public class CreateIncomeCommand implements ICommand {
                 request.getLeasingCommissionRate(),
                 request.getLeasingCommision(),
                 request.getPorcentageIncreaseType(),
-                request.getFixedDollarAmount()
+                request.getFixedDollarAmount(),
+                request.getIncreaseType()
         );
     }
 
