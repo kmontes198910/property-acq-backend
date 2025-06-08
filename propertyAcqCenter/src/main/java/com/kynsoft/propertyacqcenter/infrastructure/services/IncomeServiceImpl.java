@@ -46,9 +46,7 @@ public class IncomeServiceImpl implements IIncomeService {
         Income update = this.findByIdSimple(object.getId());
         update.setProperty(new Property(object.getProperty()));
         update.setGrossMonthlyIncome(object.getGrossMonthlyIncome());
-        update.setIncreaseFixedDollarAmount(object.getIncreaseFixedDollarAmount());
         update.setIncreaseRate(object.getIncreaseRate());
-        update.setIncreaseTypePercentage(object.getIncreaseTypePercentage());
         update.setTotalNetMonthlyIncome(object.getTotalNetMonthlyIncome());
 
         update.setUnitType(object.getUnitType());
@@ -69,6 +67,7 @@ public class IncomeServiceImpl implements IIncomeService {
         update.setLeasingCommision(object.getLeasingCommision());
         update.setPorcentageIncreaseType(object.getPorcentageIncreaseType());
         update.setFixedDollarAmount(object.getFixedDollarAmount());
+        update.setIncreaseType(object.getIncreaseType());
 
         repositoryCommand.save(update);
     }
