@@ -21,6 +21,7 @@ public class UpdateSubCompanyTypeCommandHandler implements ICommandHandler<Updat
     @Override
     public void handle(UpdateSubCompanyTypeCommand command) {
         CompanyTypeDto companyTypeDto = this.companyTypeService.findById(command.getCompanyType());
+        this.subCompanyTypeService.validateCode(command.getCode(), command.getId());
         subCompanyTypeService.update(new SubCompanyTypeDto(
                 command.getId(), 
                 companyTypeDto,
