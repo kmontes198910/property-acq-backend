@@ -101,6 +101,8 @@ public class Company {
         return CompanyDto.builder()
                 .id(this.id)
                 .title(this.title)
+                .subCompanyType(subCompanyType != null ? this.subCompanyType.toAggregate() : null)
+                .companyType(this.companyType != null ? this.companyType.toAggregate() : null)
                 .ownershipPercentage(this.ownershipPercentage)
                 .signatureAuthority(this.signatureAuthority)
                 .notes(this.notes)
