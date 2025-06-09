@@ -4,6 +4,7 @@ import com.kynsof.share.core.domain.request.FilterCriteria;
 import com.kynsof.share.core.domain.response.PaginatedResponse;
 import com.kynsof.share.core.infrastructure.specifications.GenericSpecificationsBuilder;
 import com.kynsoft.invoiceservice.application.query.customer.get.CustomerDto;
+import com.kynsoft.invoiceservice.application.query.invoice.search.InvoiceListResponse;
 import com.kynsoft.invoiceservice.domain.dto.*;
 import com.kynsoft.invoiceservice.domain.exception.BusinessInvoiceException;
 import com.kynsoft.invoiceservice.domain.exception.DomainErrorInvoiceMessage;
@@ -394,8 +395,41 @@ public class InvoiceService implements IInvoiceService {
         Page<Invoice> page = invoiceRepository.findAll(specifications, pageable);
         
         // Convertir los resultados a DTOs
-        List<InvoiceDto> invoiceDtos = page.getContent().stream()
-                .map(this::mapEntityToDto)
+        List<InvoiceListResponse> invoiceDtos = page.getContent().stream()
+                .map(invoice ->  {
+                    return InvoiceListResponse.builder()
+                            .id(invoice.getId())
+                            .documentNumber(invoice.getDocumentNumber())
+                            .sequential(invoice.getSequential())
+                            .accessKey(invoice.getAccessKey())
+                            .emissionDate(invoice.getEmissionDate())
+                            .subtotal(invoice.getSubtotal())
+                            .discount(invoice.getDiscount())
+                            .taxAmount(invoice.getTaxAmount())
+                            .totalAmount(invoice.getTotalAmount())
+                            .tip(invoice.getTip())
+                            .status(invoice.getStatus())
+                            .remissionGuide(invoice.getRemissionGuide())
+                            .createdAt(invoice.getCreatedAt())
+                            .updatedAt(invoice.getUpdatedAt())
+                            .createdBy(invoice.getCreatedBy())
+                            .updatedBy(invoice.getUpdatedBy())
+
+                            // Mapear cliente
+                            .customer(CustomerDto.builder()
+                                    .id(invoice.getCustomer().getId())
+                                    .identificationNumber(invoice.getCustomer().getIdNumber())
+                                    .identificationType(invoice.getCustomer().getIdType())
+                                    .businessName(invoice.getCustomer().getBusinessName())
+                                    .address(invoice.getCustomer().getAddress())
+                                    .email(invoice.getCustomer().getEmail())
+                                    .phoneNumber(invoice.getCustomer().getPhone())
+                                    .isActive(invoice.getCustomer().getIsActive())
+                                    .build())
+                            // Mapear detalles, pagos, campos adicionales e impuestos si es necesario
+                            // ...
+                            .build();
+                })
                 .collect(Collectors.toList());
         
         // Construir y devolver la respuesta paginada usando el constructor
