@@ -24,7 +24,6 @@ public class CompanyAddressResponse implements IResponse {
     private String state;
     private String zipCode;
     private String country;
-    private Boolean isPrimary;
     private String nickName;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
@@ -41,7 +40,6 @@ public class CompanyAddressResponse implements IResponse {
         this.state = dto.getState();
         this.zipCode = dto.getZipCode();
         this.country = dto.getCountry();
-        this.isPrimary = dto.getIsPrimary();
         this.createdAt = dto.getCreatedAt();
         this.updatedAt = dto.getUpdatedAt();
         this.createdBy = dto.getCreatedBy();

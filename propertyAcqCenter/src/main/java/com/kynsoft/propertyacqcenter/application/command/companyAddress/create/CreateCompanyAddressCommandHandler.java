@@ -39,7 +39,6 @@ public class CreateCompanyAddressCommandHandler implements ICommandHandler<Creat
                         .state(command.getState())
                         .zipCode(command.getZipCode())
                         .country(command.getCountry())
-                        .isPrimary(command.getIsPrimary())
                         .nickName(command.getNickName())
                         .build()
         );

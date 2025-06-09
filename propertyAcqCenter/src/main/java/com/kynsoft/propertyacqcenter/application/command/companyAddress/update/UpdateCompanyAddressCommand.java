@@ -21,12 +21,11 @@ public class UpdateCompanyAddressCommand implements ICommand {
     private String state;
     private String zipCode;
     private String country;
-    private Boolean isPrimary;
     private String nickName;
 
     public UpdateCompanyAddressCommand(UUID id, UUID company, AddressType addressType, 
                                        String streetAddress1, String streetAddress2, String city, 
-                                       String state, String zipCode, String country, Boolean isPrimary,
+                                       String state, String zipCode, String country,
                                        String nickName) {
         this.id = id;
         this.company = company;
@@ -37,7 +36,6 @@ public class UpdateCompanyAddressCommand implements ICommand {
         this.state = state;
         this.zipCode = zipCode;
         this.country = country;
-        this.isPrimary = isPrimary;
         this.nickName = nickName;
     }
 
@@ -52,7 +50,6 @@ public class UpdateCompanyAddressCommand implements ICommand {
                 request.getState(),
                 request.getZipCode(),
                 request.getCountry(),
-                request.getIsPrimary(),
                 request.getNickName()
         );
     }

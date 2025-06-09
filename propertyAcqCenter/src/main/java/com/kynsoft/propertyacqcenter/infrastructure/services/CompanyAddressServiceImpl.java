@@ -6,7 +6,6 @@ import com.kynsof.share.core.infrastructure.specifications.GenericSpecifications
 import com.kynsoft.propertyacqcenter.application.response.CompanyAddressSearchResponse;
 import com.kynsoft.propertyacqcenter.domain.dto.CompanyAddressDto;
 import com.kynsoft.propertyacqcenter.domain.dto.exception.CompanyAddressNotFoundException;
-import com.kynsoft.propertyacqcenter.domain.dto.exception.address.AddressLegalEntityIsPrimaryException;
 import com.kynsoft.propertyacqcenter.domain.dto.exception.companyAddress.CompanyAddressLegalEntityIsPrimaryException;
 import com.kynsoft.propertyacqcenter.domain.enums.AddressType;
 import com.kynsoft.propertyacqcenter.domain.services.ICompanyAddressService;
@@ -51,7 +50,6 @@ public class CompanyAddressServiceImpl implements ICompanyAddressService {
         update.setAddressType(object.getAddressType());
         update.setCity(object.getCity());
         update.setCountry(object.getCountry());
-        update.setIsPrimary(object.getIsPrimary());
         update.setState(object.getState());
         update.setStreetAddress1(object.getStreetAddress1());
         update.setStreetAddress2(object.getStreetAddress2());
