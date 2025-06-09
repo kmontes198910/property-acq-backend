@@ -6,6 +6,7 @@ import com.kynsof.share.core.infrastructure.specifications.GenericSpecifications
 import com.kynsoft.propertyacqcenter.application.response.SubCompanyTypeResponse;
 import com.kynsoft.propertyacqcenter.domain.dto.SubCompanyTypeDto;
 import com.kynsoft.propertyacqcenter.domain.dto.exception.ConstructionTypeNotFoundException;
+import com.kynsoft.propertyacqcenter.domain.dto.exception.subCompanyType.CodeMustBeUniqueException;
 import com.kynsoft.propertyacqcenter.infrastructure.entity.SubCompanyType;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -95,6 +96,19 @@ public class SubCompanyTypeServiceImpl implements ISubCompanyTypeService {
         }
         return new PaginatedResponse(objects, data.getTotalPages(), data.getNumberOfElements(),
                 data.getTotalElements(), data.getSize(), data.getNumber());
+    }
+
+    @Override
+    public int countByCode(String code, UUID id) {
+        return this.repositoryQuery.countByCode(code, id);
+    }
+
+    @Override
+    public void validateCode(String code, UUID id) {
+        int count = this.countByCode(code, id);
+        if (count > 0) {
+            throw new CodeMustBeUniqueException(code);
+        }
     }
 
 }

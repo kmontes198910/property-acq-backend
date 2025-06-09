@@ -21,6 +21,7 @@ public class CreateSubCompanyTypeCommandHandler implements ICommandHandler<Creat
     @Override
     public void handle(CreateSubCompanyTypeCommand command) {
         CompanyTypeDto companyTypeDto = this.companyTypeService.findById(command.getCompanyType());
+        this.subCompanyTypeService.validateCode(command.getCode(), command.getId());
         subCompanyTypeService.create(new SubCompanyTypeDto(
                 command.getId(), 
                 companyTypeDto,

@@ -17,6 +17,5 @@ public class CreateCompanyAddressRequest {
     private String state;
     private String zipCode;
     private String country;
-    private Boolean isPrimary;
     private String nickName;
 }

@@ -66,6 +66,7 @@ public class SubCompanyType {
         return SubCompanyTypeDto.builder()
                 .id(this.id)
                 .name(this.name)
+                .companyType(companyType != null ? companyType.toAggregate() : null)
                 .description(this.description)
                 .code(this.code)
                 .isSpecialized(this.isSpecialized)

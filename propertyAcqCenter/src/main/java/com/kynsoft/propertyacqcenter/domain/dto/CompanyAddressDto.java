@@ -22,7 +22,6 @@ public class CompanyAddressDto {
     private String state;
     private String zipCode;
     private String country;
-    private Boolean isPrimary;
     private String nickName;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
