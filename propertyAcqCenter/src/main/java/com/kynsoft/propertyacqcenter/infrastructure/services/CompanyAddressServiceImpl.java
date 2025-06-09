@@ -6,6 +6,9 @@ import com.kynsof.share.core.infrastructure.specifications.GenericSpecifications
 import com.kynsoft.propertyacqcenter.application.response.CompanyAddressSearchResponse;
 import com.kynsoft.propertyacqcenter.domain.dto.CompanyAddressDto;
 import com.kynsoft.propertyacqcenter.domain.dto.exception.CompanyAddressNotFoundException;
+import com.kynsoft.propertyacqcenter.domain.dto.exception.address.AddressLegalEntityIsPrimaryException;
+import com.kynsoft.propertyacqcenter.domain.dto.exception.companyAddress.CompanyAddressLegalEntityIsPrimaryException;
+import com.kynsoft.propertyacqcenter.domain.enums.AddressType;
 import com.kynsoft.propertyacqcenter.domain.services.ICompanyAddressService;
 import com.kynsoft.propertyacqcenter.infrastructure.entity.Company;
 import com.kynsoft.propertyacqcenter.infrastructure.entity.CompanyAddress;
@@ -98,5 +101,18 @@ public class CompanyAddressServiceImpl implements ICompanyAddressService {
         }
         return new PaginatedResponse(objects, data.getTotalPages(), data.getNumberOfElements(),
                 data.getTotalElements(), data.getSize(), data.getNumber());
+    }
+
+    @Override
+    public int countByCompanyAddressAndIsPrimary(UUID company, UUID id) {
+        return this.repositoryQuery.countByCompanyAddressAndIsPrimary(company, AddressType.PRINCIPAL, id);
+    }
+
+    @Override
+    public void validateAccountNumber(UUID legalEntity, UUID id) {
+        int count = this.countByCompanyAddressAndIsPrimary(legalEntity, id);
+        if (count > 0) {
+            throw new CompanyAddressLegalEntityIsPrimaryException();
+        }
     }
 }

@@ -3,6 +3,7 @@ package com.kynsoft.propertyacqcenter.application.command.companyAddress.update;
 import com.kynsof.share.core.domain.bus.command.ICommandHandler;
 import com.kynsoft.propertyacqcenter.domain.dto.CompanyAddressDto;
 import com.kynsoft.propertyacqcenter.domain.dto.CompanyDto;
+import com.kynsoft.propertyacqcenter.domain.enums.AddressType;
 import com.kynsoft.propertyacqcenter.domain.services.ICompanyAddressService;
 import com.kynsoft.propertyacqcenter.domain.services.ICompanyService;
 import org.springframework.stereotype.Component;
@@ -14,7 +15,7 @@ public class UpdateCompanyAddressCommandHandler implements ICommandHandler<Updat
     private final ICompanyService companyService;
 
     public UpdateCompanyAddressCommandHandler(ICompanyAddressService companyAddressService,
-                                              ICompanyService companyService) {
+            ICompanyService companyService) {
         this.companyAddressService = companyAddressService;
         this.companyService = companyService;
     }
@@ -22,6 +23,10 @@ public class UpdateCompanyAddressCommandHandler implements ICommandHandler<Updat
     @Override
     public void handle(UpdateCompanyAddressCommand command) {
         CompanyDto companyDto = this.companyService.findById(command.getCompany());
+        if (command.getAddressType().equals(AddressType.PRINCIPAL)) {
+            this.companyAddressService.validateAccountNumber(companyDto.getId(), command.getId());
+        }
+
         companyAddressService.update(
                 CompanyAddressDto
                         .builder()
