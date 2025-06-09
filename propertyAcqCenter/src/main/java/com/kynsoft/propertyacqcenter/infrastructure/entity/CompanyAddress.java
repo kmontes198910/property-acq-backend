@@ -49,9 +49,6 @@ public class CompanyAddress {
     @Column(name = "country", nullable = false)
     private String country;
 
-    @Column(name = "is_primary")
-    private Boolean isPrimary;
-
     @Column(name = "nick_name")
     private String nickName;
 
@@ -79,7 +76,6 @@ public class CompanyAddress {
         this.state = dto.getState();
         this.zipCode = dto.getZipCode();
         this.country = dto.getCountry();
-        this.isPrimary = dto.getIsPrimary();
         this.nickName = dto.getNickName();
         this.createdBy = dto.getCreatedBy();
         this.updatedBy = dto.getUpdatedBy();
@@ -96,7 +92,6 @@ public class CompanyAddress {
                 .state(state)
                 .zipCode(zipCode)
                 .country(country)
-                .isPrimary(isPrimary)
                 .nickName(nickName)
                 .createdAt(this.createdAt)
                 .updatedAt(this.updatedAt)
@@ -116,7 +111,6 @@ public class CompanyAddress {
                 .state(state)
                 .zipCode(zipCode)
                 .country(country)
-                .isPrimary(isPrimary)
                 .nickName(nickName)
                 .createdAt(this.createdAt)
                 .updatedAt(this.updatedAt)

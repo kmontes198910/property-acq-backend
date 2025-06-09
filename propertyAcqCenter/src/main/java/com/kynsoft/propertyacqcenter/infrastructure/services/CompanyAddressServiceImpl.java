@@ -6,6 +6,8 @@ import com.kynsof.share.core.infrastructure.specifications.GenericSpecifications
 import com.kynsoft.propertyacqcenter.application.response.CompanyAddressSearchResponse;
 import com.kynsoft.propertyacqcenter.domain.dto.CompanyAddressDto;
 import com.kynsoft.propertyacqcenter.domain.dto.exception.CompanyAddressNotFoundException;
+import com.kynsoft.propertyacqcenter.domain.dto.exception.companyAddress.CompanyAddressLegalEntityIsPrimaryException;
+import com.kynsoft.propertyacqcenter.domain.enums.AddressType;
 import com.kynsoft.propertyacqcenter.domain.services.ICompanyAddressService;
 import com.kynsoft.propertyacqcenter.infrastructure.entity.Company;
 import com.kynsoft.propertyacqcenter.infrastructure.entity.CompanyAddress;
@@ -48,7 +50,6 @@ public class CompanyAddressServiceImpl implements ICompanyAddressService {
         update.setAddressType(object.getAddressType());
         update.setCity(object.getCity());
         update.setCountry(object.getCountry());
-        update.setIsPrimary(object.getIsPrimary());
         update.setState(object.getState());
         update.setStreetAddress1(object.getStreetAddress1());
         update.setStreetAddress2(object.getStreetAddress2());
@@ -98,5 +99,18 @@ public class CompanyAddressServiceImpl implements ICompanyAddressService {
         }
         return new PaginatedResponse(objects, data.getTotalPages(), data.getNumberOfElements(),
                 data.getTotalElements(), data.getSize(), data.getNumber());
+    }
+
+    @Override
+    public int countByCompanyAddressAndIsPrimary(UUID company, UUID id) {
+        return this.repositoryQuery.countByCompanyAddressAndIsPrimary(company, AddressType.PRINCIPAL, id);
+    }
+
+    @Override
+    public void validateAccountNumber(UUID legalEntity, UUID id) {
+        int count = this.countByCompanyAddressAndIsPrimary(legalEntity, id);
+        if (count > 0) {
+            throw new CompanyAddressLegalEntityIsPrimaryException();
+        }
     }
 }

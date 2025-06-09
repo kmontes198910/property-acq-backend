@@ -3,6 +3,7 @@ package com.kynsoft.propertyacqcenter.application.command.companyAddress.create;
 import com.kynsof.share.core.domain.bus.command.ICommandHandler;
 import com.kynsoft.propertyacqcenter.domain.dto.CompanyAddressDto;
 import com.kynsoft.propertyacqcenter.domain.dto.CompanyDto;
+import com.kynsoft.propertyacqcenter.domain.enums.AddressType;
 import com.kynsoft.propertyacqcenter.domain.services.ICompanyAddressService;
 import com.kynsoft.propertyacqcenter.domain.services.ICompanyService;
 import org.springframework.stereotype.Component;
@@ -22,6 +23,10 @@ public class CreateCompanyAddressCommandHandler implements ICommandHandler<Creat
     @Override
     public void handle(CreateCompanyAddressCommand command) {
         CompanyDto companyDto = this.companyService.findById(command.getCompany());
+        if (command.getAddressType().equals(AddressType.PRINCIPAL)) {
+            this.companyAddressService.validateAccountNumber(companyDto.getId(), command.getId());
+        }
+
         companyAddressService.create(
                 CompanyAddressDto
                         .builder()
@@ -34,7 +39,6 @@ public class CreateCompanyAddressCommandHandler implements ICommandHandler<Creat
                         .state(command.getState())
                         .zipCode(command.getZipCode())
                         .country(command.getCountry())
-                        .isPrimary(command.getIsPrimary())
                         .nickName(command.getNickName())
                         .build()
         );

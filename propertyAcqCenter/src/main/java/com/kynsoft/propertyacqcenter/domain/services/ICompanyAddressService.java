@@ -18,4 +18,8 @@ public interface ICompanyAddressService {
     CompanyAddressDto findById(UUID id);
 
     PaginatedResponse search(Pageable pageable, List<FilterCriteria> filterCriteria);
+
+    int countByCompanyAddressAndIsPrimary(UUID company, UUID id);
+
+    void validateAccountNumber(UUID legalEntity, UUID id);
 }
