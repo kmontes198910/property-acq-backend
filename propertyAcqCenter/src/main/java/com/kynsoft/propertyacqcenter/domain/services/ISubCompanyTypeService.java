@@ -18,4 +18,8 @@ public interface ISubCompanyTypeService {
     SubCompanyTypeDto findById(UUID id);
     
     PaginatedResponse search(Pageable pageable, List<FilterCriteria> filterCriteria);
+
+    int countByCode(String code, UUID id);
+
+    void validateCode(String code, UUID id);
 }

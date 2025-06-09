@@ -11,6 +11,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.repository.EntityGraph;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 @Repository
 public interface SubCompanyTypeReadDataJPARepository extends JpaRepository<SubCompanyType, UUID>, JpaSpecificationExecutor<SubCompanyType> {
@@ -20,4 +22,8 @@ public interface SubCompanyTypeReadDataJPARepository extends JpaRepository<SubCo
     @EntityGraph(attributePaths = {"companyType"})
     @Override
     Optional<SubCompanyType> findById(UUID id);
+
+    @Query("SELECT COUNT(a) FROM SubCompanyType a WHERE a.code = :code AND a.id <> :id")
+    int countByCode(@Param("code") String code, @Param("id") UUID id);
+
 }
