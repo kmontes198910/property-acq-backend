@@ -16,6 +16,7 @@ import org.springframework.data.repository.query.Param;
 
 @Repository
 public interface SubCompanyTypeReadDataJPARepository extends JpaRepository<SubCompanyType, UUID>, JpaSpecificationExecutor<SubCompanyType> {
+    @EntityGraph(attributePaths = {"companyType"})
     @Override
     Page<SubCompanyType> findAll(Specification<SubCompanyType> specification, Pageable pageable);
 
