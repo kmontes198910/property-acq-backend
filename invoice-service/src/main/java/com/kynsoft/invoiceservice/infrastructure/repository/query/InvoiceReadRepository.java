@@ -99,5 +99,8 @@ public interface InvoiceReadRepository extends JpaRepository<Invoice, UUID>, Jpa
             @Param("documentNumber") String documentNumber,
             @Param("status") InvoiceStatus status);
 
+    @org.springframework.data.jpa.repository.EntityGraph(attributePaths = {
+            "customer"
+    })
     Page<Invoice> findAll(Specification specification, Pageable pageable);
 }
