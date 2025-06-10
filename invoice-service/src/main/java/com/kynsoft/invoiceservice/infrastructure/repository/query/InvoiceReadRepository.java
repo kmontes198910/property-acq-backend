@@ -103,4 +103,16 @@ public interface InvoiceReadRepository extends JpaRepository<Invoice, UUID>, Jpa
             "customer"
     })
     Page<Invoice> findAll(Specification specification, Pageable pageable);
+
+    @org.springframework.data.jpa.repository.EntityGraph(attributePaths = {
+            "issuer",
+            "customer",
+            "details",
+            "details.taxes",
+            "payments",
+            "additionalFields",
+            "taxes"
+    })
+    Optional<Invoice> findById(UUID id);
+
 }
