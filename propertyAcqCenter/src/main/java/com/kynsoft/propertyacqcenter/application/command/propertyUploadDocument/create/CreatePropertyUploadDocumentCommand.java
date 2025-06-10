@@ -2,6 +2,7 @@ package com.kynsoft.propertyacqcenter.application.command.propertyUploadDocument
 
 import com.kynsof.share.core.domain.bus.command.ICommand;
 import com.kynsof.share.core.domain.bus.command.ICommandMessage;
+import com.kynsoft.propertyacqcenter.domain.enums.PropertyDocumentType;
 import lombok.Getter;
 
 import java.util.UUID;
@@ -16,13 +17,15 @@ public class CreatePropertyUploadDocumentCommand implements ICommand {
     private String filePath;
     private String document;
     private String property;
+    private PropertyDocumentType documentType;
 
-    public CreatePropertyUploadDocumentCommand(String fileName, String document, String property, String filePath) {
+    public CreatePropertyUploadDocumentCommand(String fileName, String document, String property, String filePath, PropertyDocumentType documentType) {
         this.id = UUID.randomUUID();
         this.fileName = fileName;
         this.document = document;
         this.property = property;
         this.filePath = filePath;
+        this.documentType = documentType;
     }
 
     public static CreatePropertyUploadDocumentCommand fromRequest(CreatePropertyUploadDocumentRequest request){
@@ -30,7 +33,8 @@ public class CreatePropertyUploadDocumentCommand implements ICommand {
                 request.getFileName(),
                 request.getDocument(),
                 request.getProperty(),
-                request.getFilePath()
+                request.getFilePath(),
+                request.getDocumentType()
         );
     }
 

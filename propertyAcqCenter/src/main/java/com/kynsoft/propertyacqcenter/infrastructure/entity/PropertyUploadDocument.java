@@ -1,6 +1,7 @@
 package com.kynsoft.propertyacqcenter.infrastructure.entity;
 
 import com.kynsoft.propertyacqcenter.domain.dto.PropertyUploadDocumentDto;
+import com.kynsoft.propertyacqcenter.domain.enums.PropertyDocumentType;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
@@ -21,6 +22,10 @@ public class PropertyUploadDocument {
     @Id
     @Column(name = "id", nullable = false)
     private UUID id;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "document_type", nullable = true)
+    private PropertyDocumentType documentType;
 
     @Column(name = "file_name")
     private String fileName;
@@ -46,6 +51,7 @@ public class PropertyUploadDocument {
     public PropertyUploadDocumentDto toAggregate() {
         return PropertyUploadDocumentDto.builder()
                 .id(this.id)
+                .documentType(documentType)
                 .createdAt(this.createdAt)
                 .document(document)
                 .updatedAt(this.updatedAt)
@@ -67,6 +73,7 @@ public class PropertyUploadDocument {
         this.property = new Property(dto.getProperty());
         this.fileName = dto.getFileName();
         this.filePath = dto.getFilePath();
+        this.documentType = dto.getDocumentType();
     }
 
 }
