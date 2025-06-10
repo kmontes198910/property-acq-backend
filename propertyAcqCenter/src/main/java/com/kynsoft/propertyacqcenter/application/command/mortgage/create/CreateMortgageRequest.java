@@ -1,6 +1,7 @@
 package com.kynsoft.propertyacqcenter.application.command.mortgage.create;
 
 import com.kynsoft.propertyacqcenter.domain.enums.MortgageFrequencyInterestCompounded;
+import com.kynsoft.propertyacqcenter.domain.enums.MortgageLifetimeRateCap;
 import com.kynsoft.propertyacqcenter.domain.enums.MortgageType;
 import java.time.LocalDate;
 import lombok.Getter;
@@ -34,5 +35,6 @@ public class CreateMortgageRequest {
 
     private Boolean accelerationWeeklyPayments;
     private Boolean accelerationExtraPayments;
+    private MortgageLifetimeRateCap lifetimeRateCap;//
 
 }

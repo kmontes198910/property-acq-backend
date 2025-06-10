@@ -2,6 +2,7 @@ package com.kynsoft.propertyacqcenter.infrastructure.entity;
 
 import com.kynsoft.propertyacqcenter.domain.dto.MortgageDto;
 import com.kynsoft.propertyacqcenter.domain.enums.MortgageFrequencyInterestCompounded;
+import com.kynsoft.propertyacqcenter.domain.enums.MortgageLifetimeRateCap;
 import com.kynsoft.propertyacqcenter.domain.enums.MortgageType;
 import jakarta.persistence.*;
 import lombok.*;
@@ -28,6 +29,10 @@ public class Mortgage implements Serializable {
 
     @Enumerated(EnumType.STRING)
     private MortgageType mortgageType;//
+
+    @Enumerated(EnumType.STRING)
+    private MortgageLifetimeRateCap lifetimeRateCap;//
+
     private Double mortgageAmount;//
     private Double downPayment;//
     private Integer fixedRateTermYears;
@@ -79,6 +84,7 @@ public class Mortgage implements Serializable {
         this.property = dto.getProperty() != null ? new Property(dto.getProperty()) : null;
         this.paymentCuantity = dto.getPaymentCuantity();
         this.fixedRateTermMonths = dto.getFixedRateTermMonths();
+        this.lifetimeRateCap = dto.getLifetimeRateCap();
     }
 
     public MortgageDto toAggregate() {
@@ -106,6 +112,7 @@ public class Mortgage implements Serializable {
                 .adjustableRateDetails(adjustableRateDetails)
                 .property(property.toAggregateBasic())
                 .paymentCuantity(paymentCuantity)
+                .lifetimeRateCap(lifetimeRateCap)
                 .build();
     }
 }

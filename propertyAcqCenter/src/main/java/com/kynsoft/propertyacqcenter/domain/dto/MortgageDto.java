@@ -1,6 +1,7 @@
 package com.kynsoft.propertyacqcenter.domain.dto;
 
 import com.kynsoft.propertyacqcenter.domain.enums.MortgageFrequencyInterestCompounded;
+import com.kynsoft.propertyacqcenter.domain.enums.MortgageLifetimeRateCap;
 import com.kynsoft.propertyacqcenter.domain.enums.MortgageType;
 import java.time.LocalDate;
 import lombok.Builder;
@@ -39,5 +40,6 @@ public class MortgageDto {
 
     private Boolean accelerationWeeklyPayments;
     private Boolean accelerationExtraPayments;
+    private MortgageLifetimeRateCap lifetimeRateCap;//
 
 }

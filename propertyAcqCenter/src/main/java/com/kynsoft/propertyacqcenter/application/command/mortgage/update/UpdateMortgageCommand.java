@@ -3,6 +3,7 @@ package com.kynsoft.propertyacqcenter.application.command.mortgage.update;
 import com.kynsof.share.core.domain.bus.command.ICommand;
 import com.kynsof.share.core.domain.bus.command.ICommandMessage;
 import com.kynsoft.propertyacqcenter.domain.enums.MortgageFrequencyInterestCompounded;
+import com.kynsoft.propertyacqcenter.domain.enums.MortgageLifetimeRateCap;
 import com.kynsoft.propertyacqcenter.domain.enums.MortgageType;
 import java.time.LocalDate;
 import lombok.Getter;
@@ -39,6 +40,7 @@ public class UpdateMortgageCommand implements ICommand {
 
     private Boolean accelerationWeeklyPayments;
     private Boolean accelerationExtraPayments;
+    private MortgageLifetimeRateCap lifetimeRateCap;//
 
     public UpdateMortgageCommand(UUID id, String property, MortgageType mortgageType, Double mortgageAmount, 
                                  Double downPayment, Integer fixedRateTermYears, Double fixedMortgageRatePercentage, 
@@ -46,7 +48,8 @@ public class UpdateMortgageCommand implements ICommand {
                                  Boolean balloonPayment, Boolean adjustableRateDetails, Integer fixedRateTermMonths,
                                  String adjustableRateType, String hybridArmType, Double fixedRateTerm,
                                  Double rateChangeInterval, Double expectedRateChange, Double limitRate,
-                                 Double limitIncrease, Double howManyPayments, Boolean accelerationWeeklyPayments, Boolean accelerationExtraPayments) {
+                                 Double limitIncrease, Double howManyPayments, Boolean accelerationWeeklyPayments, 
+                                 Boolean accelerationExtraPayments, MortgageLifetimeRateCap lifetimeRateCap) {
         this.id = id;
         this.property = property;
         this.adjustableRateType = adjustableRateType;
@@ -69,6 +72,7 @@ public class UpdateMortgageCommand implements ICommand {
         this.balloonPayment = balloonPayment;
         this.adjustableRateDetails = adjustableRateDetails;
         this.fixedRateTermMonths = fixedRateTermMonths;
+        this.lifetimeRateCap = lifetimeRateCap;
     }
 
     public static UpdateMortgageCommand fromRequest(UpdateMortgageRequest request, UUID id) {
@@ -94,7 +98,8 @@ public class UpdateMortgageCommand implements ICommand {
                 request.getLimitIncrease(),
                 request.getHowManyPayments(),
                 request.getAccelerationWeeklyPayments(),
-                request.getAccelerationExtraPayments()
+                request.getAccelerationExtraPayments(),
+                request.getLifetimeRateCap()
         );
     }
 

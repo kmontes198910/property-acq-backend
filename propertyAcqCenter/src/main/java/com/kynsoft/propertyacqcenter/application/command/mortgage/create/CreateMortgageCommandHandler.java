@@ -46,6 +46,7 @@ public class CreateMortgageCommandHandler implements ICommandHandler<CreateMortg
                 .howManyPayments(command.getHowManyPayments())
                 .accelerationWeeklyPayments(command.getAccelerationWeeklyPayments())
                 .accelerationExtraPayments(command.getAccelerationExtraPayments())
+                .lifetimeRateCap(command.getLifetimeRateCap())
                 .build()
         );
     }
