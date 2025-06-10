@@ -1,5 +1,6 @@
 package com.kynsoft.propertyacqcenter.domain.dto;
 
+import com.kynsoft.propertyacqcenter.domain.enums.PropertyDocumentType;
 import lombok.*;
 
 import java.time.LocalDateTime;
@@ -19,4 +20,5 @@ public class PropertyUploadDocumentDto {
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
     private PropertyDto property;
+    private PropertyDocumentType documentType;
 }

@@ -49,6 +49,7 @@ public class PropertyUploadDocumentServiceImpl implements IPropertyUploadDocumen
         update.setProperty(new Property(object.getProperty()));
         update.setUpdatedAt(LocalDateTime.now());
         update.setFilePath(object.getFilePath());
+        update.setDocumentType(object.getDocumentType());
 
         repositoryCommand.save(update);
     }

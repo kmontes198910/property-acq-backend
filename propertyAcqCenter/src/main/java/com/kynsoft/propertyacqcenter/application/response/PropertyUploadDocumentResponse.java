@@ -2,6 +2,7 @@ package com.kynsoft.propertyacqcenter.application.response;
 
 import com.kynsof.share.core.domain.bus.query.IResponse;
 import com.kynsoft.propertyacqcenter.domain.dto.*;
+import com.kynsoft.propertyacqcenter.domain.enums.PropertyDocumentType;
 import lombok.*;
 
 import java.time.LocalDateTime;
@@ -21,6 +22,7 @@ public class PropertyUploadDocumentResponse implements IResponse {
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
     private PropertiesBasicResponse property;
+    private PropertyDocumentType documentType;
 
     public PropertyUploadDocumentResponse(PropertyUploadDocumentDto dto) {
         this.id = dto.getId();
@@ -30,6 +32,7 @@ public class PropertyUploadDocumentResponse implements IResponse {
         this.createdAt = dto.getCreatedAt();
         this.updatedAt = dto.getUpdatedAt();
         this.property = dto.getProperty() != null ? new PropertiesBasicResponse(dto.getProperty()) : null;
+        this.documentType = dto.getDocumentType();
     }
 
 }
