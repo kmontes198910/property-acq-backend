@@ -3,6 +3,7 @@ package com.kynsoft.propertyacqcenter.application.command.income.create;
 import com.kynsof.share.core.domain.bus.command.ICommand;
 import com.kynsof.share.core.domain.bus.command.ICommandMessage;
 import com.kynsoft.propertyacqcenter.domain.enums.IncreaseType;
+import java.util.List;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -47,6 +48,8 @@ public class CreateIncomeCommand implements ICommand {
     private Double porcentageIncreaseType;
     private Double fixedDollarAmount;
 
+    private List<IncomeDetailsBreakdownRequest> detailsBreakdown;
+
     public CreateIncomeCommand(String property, Double grossMonthlyIncome, Double totalNetMonthlyIncome, 
                                Double increaseRate, 
                                Double unitType, Double quantity, Double rentMo, Double sqft, Double sqftValue, 
@@ -54,7 +57,8 @@ public class CreateIncomeCommand implements ICommand {
                                Double sectino8Income, Double incomefromInterest, Double vendingMachines, 
                                Double lateCharges, Double laundryRoom, Double other, Double propertyManagementRate, 
                                Double leasingCommissionRate, Double leasingCommision, Double porcentageIncreaseType, 
-                               Double fixedDollarAmount, IncreaseType increaseType) {
+                               Double fixedDollarAmount, IncreaseType increaseType,
+                               List<IncomeDetailsBreakdownRequest> detailsBreakdown) {
         this.id = UUID.randomUUID();
         this.property = property;
         this.grossMonthlyIncome = grossMonthlyIncome;
@@ -80,6 +84,7 @@ public class CreateIncomeCommand implements ICommand {
         this.porcentageIncreaseType = porcentageIncreaseType;
         this.fixedDollarAmount = fixedDollarAmount;
         this.increaseType = increaseType;
+        this.detailsBreakdown = detailsBreakdown;
     }
 
     public static CreateIncomeCommand fromRequest(CreateIncomeRequest request) {
@@ -107,7 +112,8 @@ public class CreateIncomeCommand implements ICommand {
                 request.getLeasingCommision(),
                 request.getPorcentageIncreaseType(),
                 request.getFixedDollarAmount(),
-                request.getIncreaseType()
+                request.getIncreaseType(),
+                request.getDetailsBreakdown()
         );
     }
 

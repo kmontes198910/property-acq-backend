@@ -6,6 +6,7 @@ import com.kynsoft.propertyacqcenter.domain.enums.IncreaseType;
 import lombok.*;
 
 import java.io.Serializable;
+import java.util.List;
 import java.util.UUID;
 
 @NoArgsConstructor
@@ -50,6 +51,8 @@ public class IncomeResponse implements Serializable, IResponse {
     private Double porcentageIncreaseType;
     private Double fixedDollarAmount;
 
+    private List<IncomeDetailsBreakdownDto> detailsBreakdown;
+
     public IncomeResponse(IncomeDto dto) {
         this.id = dto.getId();
         this.property = dto.getProperty() != null ? new PropertiesBasicResponse(dto.getProperty()) : null;
@@ -80,6 +83,8 @@ public class IncomeResponse implements Serializable, IResponse {
 
         this.porcentageIncreaseType = dto.getPorcentageIncreaseType();
         this.fixedDollarAmount = dto.getFixedDollarAmount();
+
+        this.detailsBreakdown = dto.getDetailsBreakdown();
     }
 
 }

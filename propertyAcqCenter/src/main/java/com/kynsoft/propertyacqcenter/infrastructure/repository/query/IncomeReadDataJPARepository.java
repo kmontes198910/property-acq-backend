@@ -13,14 +13,14 @@ import java.util.UUID;
 import org.springframework.data.jpa.repository.EntityGraph;
 @Repository
 public interface IncomeReadDataJPARepository extends JpaRepository<Income, UUID>, JpaSpecificationExecutor<Income> {
-    @EntityGraph(attributePaths = {"property"})
+    @EntityGraph(attributePaths = {"property", "detailsBreakdown"})
     @Override
     Page<Income> findAll(Specification<Income> specification, Pageable pageable);
 
-    @EntityGraph(attributePaths = {"property"})
+    @EntityGraph(attributePaths = {"property", "detailsBreakdown"})
     @Override
     Optional<Income> findById(UUID id);
 
-    @EntityGraph(attributePaths = {"property"})
+    @EntityGraph(attributePaths = {"property", "detailsBreakdown"})
     Optional<Income> findByPropertyId(String propertyId);
 }

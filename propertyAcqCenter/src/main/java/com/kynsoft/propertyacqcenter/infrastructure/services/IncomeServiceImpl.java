@@ -9,6 +9,7 @@ import com.kynsoft.propertyacqcenter.domain.dto.exception.IncomeForPropertyNotFo
 import com.kynsoft.propertyacqcenter.domain.dto.exception.IncomeNotFoundException;
 import com.kynsoft.propertyacqcenter.domain.services.IIncomeService;
 import com.kynsoft.propertyacqcenter.infrastructure.entity.Income;
+import com.kynsoft.propertyacqcenter.infrastructure.entity.IncomeDetailsBreakdown;
 import com.kynsoft.propertyacqcenter.infrastructure.entity.Property;
 import com.kynsoft.propertyacqcenter.infrastructure.repository.command.IncomeWriteDataJPARepository;
 import com.kynsoft.propertyacqcenter.infrastructure.repository.query.IncomeReadDataJPARepository;
@@ -17,8 +18,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.UUID;
 import org.springframework.data.domain.Page;
 
@@ -69,6 +72,15 @@ public class IncomeServiceImpl implements IIncomeService {
         update.setFixedDollarAmount(object.getFixedDollarAmount());
         update.setIncreaseType(object.getIncreaseType());
 
+        Set<IncomeDetailsBreakdown> detailsBreakdown = new HashSet<>();
+        if (object.getDetailsBreakdown() != null) {
+            object.getDetailsBreakdown().forEach(dbr -> {
+                IncomeDetailsBreakdown i = new IncomeDetailsBreakdown(dbr);
+                i.setIncome(update);
+                detailsBreakdown.add(i);
+            });
+        }
+        update.setDetailsBreakdown(detailsBreakdown);
         repositoryCommand.save(update);
     }
 
