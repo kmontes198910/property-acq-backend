@@ -1,6 +1,8 @@
 package com.kynsoft.propertyacqcenter.application.command.income.update;
 
+import com.kynsoft.propertyacqcenter.application.command.income.create.IncomeDetailsBreakdownRequest;
 import com.kynsoft.propertyacqcenter.domain.enums.IncreaseType;
+import java.util.List;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -42,4 +44,5 @@ public class UpdateIncomeRequest {
     private Double porcentageIncreaseType;
     private Double fixedDollarAmount;
 
+    private List<UpdateIncomeDetailsBreakdownRequest> detailsBreakdown;
 }

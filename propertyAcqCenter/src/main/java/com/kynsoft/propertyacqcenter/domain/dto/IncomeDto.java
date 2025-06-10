@@ -4,6 +4,7 @@ import com.kynsoft.propertyacqcenter.domain.enums.IncreaseType;
 import lombok.*;
 
 import java.io.Serializable;
+import java.util.List;
 import java.util.UUID;
 
 @NoArgsConstructor
@@ -48,4 +49,5 @@ public class IncomeDto implements Serializable {
     private Double porcentageIncreaseType;
     private Double fixedDollarAmount;
 
+    private List<IncomeDetailsBreakdownDto> detailsBreakdown;
 }

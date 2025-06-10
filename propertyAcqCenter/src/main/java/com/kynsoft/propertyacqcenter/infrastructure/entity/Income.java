@@ -6,7 +6,10 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "income")
@@ -23,6 +26,9 @@ public class Income implements Serializable {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "property_id")
     private Property property;
+
+    @OneToMany(mappedBy = "income", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<IncomeDetailsBreakdown> detailsBreakdown = new HashSet<>();
 
     private Double grossMonthlyIncome;
     private Double totalNetMonthlyIncome;
@@ -60,6 +66,13 @@ public class Income implements Serializable {
 
     public Income(IncomeDto dto) {
         this.id = dto.getId();
+        if (dto.getDetailsBreakdown() != null) {
+            dto.getDetailsBreakdown().forEach(dbr -> {
+                IncomeDetailsBreakdown i = new IncomeDetailsBreakdown(dbr);
+                i.setIncome(this);
+                this.detailsBreakdown.add(i);
+            });
+        }
         this.grossMonthlyIncome = dto.getGrossMonthlyIncome();
         this.totalNetMonthlyIncome = dto.getTotalNetMonthlyIncome();
         this.increaseRate = dto.getIncreaseRate();
@@ -94,6 +107,7 @@ public class Income implements Serializable {
         return IncomeDto.builder()
                 .id(this.id)
                 .property(property.toAggregateBasic())
+                .detailsBreakdown(depositForfeitures != null ? detailsBreakdown.stream().map(IncomeDetailsBreakdown::toAggregate).collect(Collectors.toList()) : null)
                 .grossMonthlyIncome(grossMonthlyIncome)
                 .totalNetMonthlyIncome(totalNetMonthlyIncome)
                 .increaseRate(increaseRate)

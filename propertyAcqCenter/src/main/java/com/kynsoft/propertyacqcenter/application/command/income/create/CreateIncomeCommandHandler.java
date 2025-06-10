@@ -1,10 +1,14 @@
 package com.kynsoft.propertyacqcenter.application.command.income.create;
 
 import com.kynsof.share.core.domain.bus.command.ICommandHandler;
+import com.kynsoft.propertyacqcenter.domain.dto.IncomeDetailsBreakdownDto;
 import com.kynsoft.propertyacqcenter.domain.dto.IncomeDto;
 import com.kynsoft.propertyacqcenter.domain.dto.PropertyDto;
 import com.kynsoft.propertyacqcenter.domain.services.IIncomeService;
 import com.kynsoft.propertyacqcenter.domain.services.IPropertyService;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -48,8 +52,29 @@ public class CreateIncomeCommandHandler implements ICommandHandler<CreateIncomeC
                 .porcentageIncreaseType(command.getPorcentageIncreaseType())
                 .fixedDollarAmount(command.getFixedDollarAmount())
                 .increaseType(command.getIncreaseType())
+                .detailsBreakdown(this.detailsBreakdownValues(command))
                 .build()
         );
+    }
+
+    private List<IncomeDetailsBreakdownDto> detailsBreakdownValues(CreateIncomeCommand command){
+        List<IncomeDetailsBreakdownDto> values = new ArrayList<>();
+        if (command.getDetailsBreakdown() != null) {
+            command.getDetailsBreakdown().forEach(x -> {
+                values.add(IncomeDetailsBreakdownDto.builder()
+                        .id(UUID.randomUUID())
+                        .unitType(x.getUnitType())
+                        .quantity(x.getQuantity())
+                        .rentMo(x.getRentMo())
+                        .sqft(x.getSqft())
+                        .sqftValue(x.getSqftValue())
+                        .occupancy(x.getOccupancy())
+                        .annualIncrease(x.getAnnualIncrease())
+                        .build()
+                );
+            });
+        }
+        return values;
     }
 
 }
