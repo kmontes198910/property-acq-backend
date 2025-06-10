@@ -45,6 +45,7 @@
 //    private final InvoiceService invoiceService;
 //    @Value("${sri.ambiente}")
 //    private String sriAmbiente;
+//
 //    public DraftInvoiceJob(
 //            InvoiceRepository invoiceRepository,
 //            InvoiceService invoiceService) {
@@ -259,51 +260,50 @@
 //
 //
 //    private void sendInvoiceSRI(ByteArrayOutputStream xmlFactura, Factura factura, UUID invoice, UUID userId) {
-//        try {
+//
+//        // Crear instancia del servicio (true para modo prueba)
+//        SRIRecepcionServicio sriRecepcion = new SRIRecepcionServicio();
+//
+//        // Enviar el comprobante al SRI para recepcionar
+//        Integer ambienteEnum = "PRODUCCION".equalsIgnoreCase(sriAmbiente) ? Ambiente.PRODUCCION : Ambiente.PRUEBA;
+//
+//        RespuestaSolicitud respuestaRecepcion = sriRecepcion.enviarComprobante(xmlFactura.toByteArray(),
+//                ambienteEnum);
+//
+//        // Obtener la clave de acceso de la factura
+//        //Cambiar el estado de la factura al estado que me responda
+//        //Mostrar el mensaje de error si no se recibe la respuesta guardar
+//
+//        // Imprimir la respuesta
+//        SRIImprimirRecepcionUtil.imprimirRespuestaRecepcion(respuestaRecepcion);
+//
+//        if (respuestaRecepcion.getEstado().equals(Estados.RECIBIDA)) {
+//            invoiceService.changeStatus(invoice, InvoiceStatus.RECEIVED, userId);
 //            // Crear instancia del servicio (true para modo prueba)
-//            SRIRecepcionServicio sriRecepcion = new SRIRecepcionServicio();
+//            SRIAutorizacionServicio sriAutorizacion = new SRIAutorizacionServicio();
 //
-//            // Enviar el comprobante al SRI para recepcionar
-//            Integer ambienteEnum = "PRODUCCION".equalsIgnoreCase(sriAmbiente) ? Ambiente.PRODUCCION : Ambiente.PRUEBA;
+//            // Enviar el comprobante al SRI para autorizar
+//            RespuestaComprobante respuestaAutorizacion = sriAutorizacion
+//                    .autorizarComprobante(factura.getClaveAcceso(), Ambiente.PRUEBA);
 //
-//            RespuestaSolicitud respuestaRecepcion = sriRecepcion.enviarComprobante(xmlFactura.toByteArray(),
-//                    ambienteEnum);
+//            if (respuestaAutorizacion.getAutorizaciones().getAutorizacion().get(0).getEstado().equals(Estados.AUTORIZADO)) {
+//                invoiceService.changeStatus(invoice, InvoiceStatus.AUTHORIZED, userId);
+//            } else {
 //
-//            // Obtener la clave de acceso de la factura
-//            //Cambiar el estado de la factura al estado que me responda
-//            //Mostrar el mensaje de error si no se recibe la respuesta guardar
+//                invoiceService.changeStatus(invoice, InvoiceStatus.REJECTED, userId);
+//            }
 //
-//            // Imprimir la respuesta
-//            SRIImprimirRecepcionUtil.imprimirRespuestaRecepcion(respuestaRecepcion);
-//
-//            if (respuestaRecepcion.getEstado().equals(Estados.RECIBIDA))
-//                try {
-//
-//                    invoiceService.changeStatus(invoice, InvoiceStatus.RECEIVED, userId);
-//                    // Crear instancia del servicio (true para modo prueba)
-//                    SRIAutorizacionServicio sriAutorizacion = new SRIAutorizacionServicio();
-//
-//                    // Enviar el comprobante al SRI para autorizar
-//                    RespuestaComprobante respuestaAutorizacion = sriAutorizacion
-//                            .autorizarComprobante(factura.getClaveAcceso(), Ambiente.PRUEBA);
-//
-//                    if (respuestaAutorizacion.getAutorizaciones().getAutorizacion().get(0).getEstado().equals(Estados.AUTORIZADO)) {
-//                        invoiceService.changeStatus(invoice, InvoiceStatus.AUTHORIZED, userId);
-//                    } else {
-//
-//                        invoiceService.changeStatus(invoice, InvoiceStatus.REJECTED, userId);
-//                    }
-//
-//                    SRIImprimirAutorizacionUtil.imprimirRespuestaAutorizacion(respuestaAutorizacion);
-//
-//
-//                } catch (Exception e) {
-//                    e.printStackTrace();
-//                }
-//
-//        } catch (Exception e) {
-//            e.printStackTrace();
+//            SRIImprimirAutorizacionUtil.imprimirRespuestaAutorizacion(respuestaAutorizacion);
+//        } else if (respuestaRecepcion.getEstado().equals(Estados.DEVUELTA)) {
+//            invoiceService.changeStatus(invoice, InvoiceStatus.REJECTED, userId);
+//            throw new BusinessInvoiceException(DomainErrorInvoiceMessage.GENERAL_ERROR,
+//                    "Factura rechazada por el SRI: " + respuestaRecepcion.getComprobantes().getComprobante().get(0).getMensajes().getMensaje().get(0).getMensaje());
+//        } else {
+//            invoiceService.changeStatus(invoice, InvoiceStatus.ERROR, userId);
+//            throw new BusinessInvoiceException(DomainErrorInvoiceMessage.GENERAL_ERROR,
+//                    "Estado de la factura no reconocido: " + respuestaRecepcion.getEstado());
 //        }
+//
 //    }
 //
 //

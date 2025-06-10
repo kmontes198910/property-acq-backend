@@ -15,8 +15,6 @@ import java.util.UUID;
 @Table(name = "invoice_details")
 @Getter
 @Setter
-@ToString(exclude = {"invoice", "taxes", "additionalInfo"})
-@EqualsAndHashCode(of = "id")
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
@@ -68,7 +66,7 @@ public class InvoiceDetail {
     @Builder.Default
     private Set<InvoiceDetailAdditional> additionalInfo = new LinkedHashSet<>();
     
-    @OneToMany(mappedBy = "invoiceDetail", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "invoiceDetail", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     @Builder.Default
     private Set<InvoiceDetailTax> taxes = new LinkedHashSet<>();
 

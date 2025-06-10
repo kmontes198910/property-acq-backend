@@ -11,7 +11,6 @@ import java.util.UUID;
 @Getter
 @Setter
 @ToString(exclude = "invoiceDetail")
-@EqualsAndHashCode(of = "id")
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor

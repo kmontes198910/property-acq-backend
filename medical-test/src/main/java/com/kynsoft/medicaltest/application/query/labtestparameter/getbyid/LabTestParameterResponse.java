@@ -1,6 +1,7 @@
 package com.kynsoft.medicaltest.application.query.labtestparameter.getbyid;
 
 import com.kynsof.share.core.domain.bus.query.IResponse;
+import com.kynsoft.medicaltest.application.query.labtest.getbyid.LabTestResponse;
 import com.kynsoft.medicaltest.domain.dto.LabTestParameterDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -28,6 +29,7 @@ public class LabTestParameterResponse implements IResponse {
     private LocalDateTime updatedAt;
     private UUID createdBy;
     private UUID updatedBy;
+    private LabTestResponse labTest;
 
     /**
      * Constructor que crea una respuesta a partir de un DTO
@@ -43,6 +45,11 @@ public class LabTestParameterResponse implements IResponse {
         this.updatedAt = dto.getUpdatedAt();
         this.createdBy = dto.getCreatedBy();
         this.updatedBy = dto.getUpdatedBy();
+        if (dto.getLabTest() != null) {
+            this.labTest = new LabTestResponse(dto.getLabTest());
+        } else {
+            this.labTest = null;
+        }
     }
 
 
