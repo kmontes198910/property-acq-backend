@@ -1,5 +1,6 @@
 package com.kynsoft.medicaltest.infrastructure.entities;
 
+import com.kynsoft.medicaltest.domain.dto.LabTestDto;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -74,5 +75,18 @@ public class LabTestEntity {
     public void removeParameter(LabTestParameterEntity parameter) {
         parameters.remove(parameter);
         parameter.setLabTest(null);
+    }
+
+    public LabTestDto toAggregate() {
+        return LabTestDto.builder()
+                .id(id)
+                .code(code)
+                .name(name)
+                .description(description)
+                .createdAt(createdAt)
+                .updatedAt(updatedAt)
+                .createdBy(createdBy)
+                .updatedBy(updatedBy)
+                .build();
     }
 }

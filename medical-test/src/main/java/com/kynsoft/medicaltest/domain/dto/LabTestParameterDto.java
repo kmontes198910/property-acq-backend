@@ -26,4 +26,5 @@ public class LabTestParameterDto {
     private LocalDateTime updatedAt;
     private UUID createdBy;
     private UUID updatedBy;
+    private LabTestDto labTest; // DTO de LabTest asociado
 }

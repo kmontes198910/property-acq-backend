@@ -139,6 +139,7 @@ public class LabTestParameterServiceImpl implements ILabTestParameterService {
                 .createdBy(entity.getCreatedBy())
                 .updatedBy(entity.getUpdatedBy())
                 .labTestId(entity.getLabTest().getId())
+                .labTest(entity.getLabTest() != null ? entity.getLabTest().toAggregate() : null)
                 .build();
     }
 
