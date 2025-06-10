@@ -99,7 +99,7 @@ public class CreateDoctorCommandHandler implements ICommandHandler<CreateDoctorC
     // Método para consumir el servicio createUserSystem
     private String consumeCreateUserSystemService(CreateDoctorCommand command) throws IOException, URISyntaxException, InterruptedException {
         CreateUserSystemRequest createUserSystemRequest = new CreateUserSystemRequest();
-        createUserSystemRequest.setUserName(command.getEmail());
+        createUserSystemRequest.setUserName(command.getIdentification());
         createUserSystemRequest.setEmail(command.getEmail());
         createUserSystemRequest.setName(command.getName());
         createUserSystemRequest.setLastName(command.getLastName());
