@@ -27,12 +27,38 @@ public class UpdateMortgageCommand implements ICommand {
     private Boolean adjustableRateDetails;
     private Integer fixedRateTermMonths;
 
+    private String adjustableRateType;
+    private String hybridArmType;
+    private Double fixedRateTerm;
+    private Double rateChangeInterval;
+    private Double expectedRateChange;
+    private Double limitRate;
+    private Double limitIncrease;
+
+    private Double howManyPayments;
+
+    private Boolean accelerationWeeklyPayments;
+    private Boolean accelerationExtraPayments;
+
     public UpdateMortgageCommand(UUID id, String property, MortgageType mortgageType, Double mortgageAmount, 
                                  Double downPayment, Integer fixedRateTermYears, Double fixedMortgageRatePercentage, 
                                  LocalDate firstPaymentDate, MortgageFrequencyInterestCompounded compoundFrequency, 
-                                 Boolean balloonPayment, Boolean adjustableRateDetails, Integer fixedRateTermMonths) {
+                                 Boolean balloonPayment, Boolean adjustableRateDetails, Integer fixedRateTermMonths,
+                                 String adjustableRateType, String hybridArmType, Double fixedRateTerm,
+                                 Double rateChangeInterval, Double expectedRateChange, Double limitRate,
+                                 Double limitIncrease, Double howManyPayments, Boolean accelerationWeeklyPayments, Boolean accelerationExtraPayments) {
         this.id = id;
         this.property = property;
+        this.adjustableRateType = adjustableRateType;
+        this.hybridArmType= hybridArmType;
+        this.fixedRateTerm = fixedRateTerm;
+        this.rateChangeInterval = rateChangeInterval;
+        this.expectedRateChange = expectedRateChange;
+        this.limitRate = limitRate;
+        this.limitIncrease = limitIncrease;
+        this.howManyPayments = howManyPayments;
+        this.accelerationWeeklyPayments = accelerationWeeklyPayments;
+        this.accelerationExtraPayments = accelerationExtraPayments;
         this.mortgageType = mortgageType;
         this.mortgageAmount = mortgageAmount;
         this.downPayment = downPayment;
@@ -58,7 +84,17 @@ public class UpdateMortgageCommand implements ICommand {
                 request.getCompoundFrequency(),
                 request.getBalloonPayment(),
                 request.getAdjustableRateDetails(),
-                request.getFixedRateTermMonths()
+                request.getFixedRateTermMonths(),
+                request.getAdjustableRateType(),
+                request.getHybridArmType(),
+                request.getFixedRateTerm(),
+                request.getRateChangeInterval(),
+                request.getExpectedRateChange(),
+                request.getLimitRate(),
+                request.getLimitIncrease(),
+                request.getHowManyPayments(),
+                request.getAccelerationWeeklyPayments(),
+                request.getAccelerationExtraPayments()
         );
     }
 

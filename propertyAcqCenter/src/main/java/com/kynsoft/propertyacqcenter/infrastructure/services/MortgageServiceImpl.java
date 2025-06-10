@@ -28,7 +28,7 @@ public class MortgageServiceImpl implements IMortgageService {
     private final MortgageWriteDataJPARepository repositoryCommand;
 
     public MortgageServiceImpl(MortgageReadDataJPARepository repositoryQuery,
-                               MortgageWriteDataJPARepository repositoryCommand) {
+            MortgageWriteDataJPARepository repositoryCommand) {
         this.repositoryQuery = repositoryQuery;
         this.repositoryCommand = repositoryCommand;
     }
@@ -55,6 +55,16 @@ public class MortgageServiceImpl implements IMortgageService {
         update.setAdjustableRateDetails(object.getAdjustableRateDetails());
         update.setFixedRateTermMonths(object.getFixedRateTermMonths());
 
+        update.setAdjustableRateType(object.getAdjustableRateType());
+        update.setHybridArmType(object.getHybridArmType());
+        update.setFixedRateTerm(object.getFixedRateTerm());
+        update.setRateChangeInterval(object.getRateChangeInterval());
+        update.setExpectedRateChange(object.getExpectedRateChange());
+        update.setLimitRate(object.getLimitRate());
+        update.setLimitIncrease(object.getLimitIncrease());
+        update.setHowManyPayments(object.getHowManyPayments());
+        update.setAccelerationWeeklyPayments(object.getAccelerationWeeklyPayments());
+        update.setAccelerationExtraPayments(object.getAccelerationExtraPayments());
         repositoryCommand.save(update);
     }
 
