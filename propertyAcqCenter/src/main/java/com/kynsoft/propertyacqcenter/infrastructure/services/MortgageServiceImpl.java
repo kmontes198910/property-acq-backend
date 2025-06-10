@@ -65,6 +65,7 @@ public class MortgageServiceImpl implements IMortgageService {
         update.setHowManyPayments(object.getHowManyPayments());
         update.setAccelerationWeeklyPayments(object.getAccelerationWeeklyPayments());
         update.setAccelerationExtraPayments(object.getAccelerationExtraPayments());
+        update.setLifetimeRateCap(object.getLifetimeRateCap());
         repositoryCommand.save(update);
     }
 

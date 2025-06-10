@@ -3,6 +3,7 @@ package com.kynsoft.propertyacqcenter.application.response;
 import com.kynsof.share.core.domain.bus.query.IResponse;
 import com.kynsoft.propertyacqcenter.domain.dto.MortgageDto;
 import com.kynsoft.propertyacqcenter.domain.enums.MortgageFrequencyInterestCompounded;
+import com.kynsoft.propertyacqcenter.domain.enums.MortgageLifetimeRateCap;
 import com.kynsoft.propertyacqcenter.domain.enums.MortgageType;
 import java.time.LocalDate;
 import lombok.Builder;
@@ -22,6 +23,7 @@ public class MortgageResponse implements IResponse {
     private PropertiesBasicResponse property;
 
     private MortgageType mortgageType;
+    private MortgageLifetimeRateCap lifetimeRateCap;//
     private Double mortgageAmount;
     private Double downPayment;
     private Integer fixedRateTermYears;
@@ -68,6 +70,7 @@ public class MortgageResponse implements IResponse {
         this.howManyPayments = dto.getHowManyPayments();
         this.accelerationWeeklyPayments = dto.getAccelerationWeeklyPayments();
         this.accelerationExtraPayments = dto.getAccelerationExtraPayments();
+        this.lifetimeRateCap = dto.getLifetimeRateCap();
     }
 
 }
