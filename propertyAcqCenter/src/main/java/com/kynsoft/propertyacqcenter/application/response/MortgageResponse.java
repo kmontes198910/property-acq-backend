@@ -32,6 +32,19 @@ public class MortgageResponse implements IResponse {
     private Boolean adjustableRateDetails;
     private Integer fixedRateTermMonths;
 
+    private String adjustableRateType;
+    private String hybridArmType;
+    private Double fixedRateTerm;
+    private Double rateChangeInterval;
+    private Double expectedRateChange;
+    private Double limitRate;
+    private Double limitIncrease;
+
+    private Double howManyPayments;
+
+    private Boolean accelerationWeeklyPayments;
+    private Boolean accelerationExtraPayments;
+
     public MortgageResponse(MortgageDto dto) {
         this.id = dto.getId();
         this.property = dto.getProperty() != null ? new PropertiesBasicResponse(dto.getProperty()) : null;
@@ -45,6 +58,16 @@ public class MortgageResponse implements IResponse {
         this.balloonPayment = dto.getBalloonPayment();
         this.adjustableRateDetails = dto.getAdjustableRateDetails();
         this.fixedRateTermMonths = dto.getFixedRateTermMonths();
+        this.adjustableRateType = dto.getAdjustableRateType();
+        this.hybridArmType = dto.getHybridArmType();
+        this.fixedRateTerm = dto.getFixedRateTerm();
+        this.rateChangeInterval = dto.getRateChangeInterval();
+        this.expectedRateChange = dto.getExpectedRateChange();
+        this.limitRate = dto.getLimitRate();
+        this.limitIncrease = dto.getLimitIncrease();
+        this.howManyPayments = dto.getHowManyPayments();
+        this.accelerationWeeklyPayments = dto.getAccelerationWeeklyPayments();
+        this.accelerationExtraPayments = dto.getAccelerationExtraPayments();
     }
 
 }

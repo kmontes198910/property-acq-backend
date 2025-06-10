@@ -42,8 +42,31 @@ public class Mortgage implements Serializable {
     private Boolean adjustableRateDetails;
     private Integer paymentCuantity;
 
+    private String adjustableRateType;
+    private String hybridArmType;
+    private Double fixedRateTerm;
+    private Double rateChangeInterval;
+    private Double expectedRateChange;
+    private Double limitRate;
+    private Double limitIncrease;
+
+    private Double howManyPayments;
+
+    private Boolean accelerationWeeklyPayments;
+    private Boolean accelerationExtraPayments;
+
     public Mortgage(MortgageDto dto) {
         this.id = dto.getId();
+        this.adjustableRateType = dto.getAdjustableRateType();
+        this.hybridArmType = dto.getHybridArmType();
+        this.fixedRateTerm = dto.getFixedRateTerm();
+        this.rateChangeInterval = dto.getRateChangeInterval();
+        this.expectedRateChange = dto.getExpectedRateChange();
+        this.limitRate = dto.getLimitRate();
+        this.limitIncrease = dto.getLimitIncrease();
+        this.howManyPayments = dto.getHowManyPayments();
+        this.accelerationWeeklyPayments = dto.getAccelerationWeeklyPayments();
+        this.accelerationExtraPayments = dto.getAccelerationExtraPayments();
         this.mortgageType = dto.getMortgageType();
         this.mortgageAmount = dto.getMortgageAmount();
         this.downPayment = dto.getDownPayment();
@@ -61,6 +84,16 @@ public class Mortgage implements Serializable {
     public MortgageDto toAggregate() {
         return MortgageDto.builder()
                 .id(this.id)
+                .adjustableRateType(adjustableRateType)
+                .hybridArmType(hybridArmType)
+                .fixedRateTerm(fixedRateTerm)
+                .rateChangeInterval(rateChangeInterval)
+                .expectedRateChange(expectedRateChange)
+                .limitRate(limitRate)
+                .limitIncrease(limitIncrease)
+                .howManyPayments(howManyPayments)
+                .accelerationWeeklyPayments(accelerationWeeklyPayments)
+                .accelerationExtraPayments(accelerationExtraPayments)
                 .mortgageType(mortgageType)
                 .mortgageAmount(mortgageAmount)
                 .downPayment(downPayment)

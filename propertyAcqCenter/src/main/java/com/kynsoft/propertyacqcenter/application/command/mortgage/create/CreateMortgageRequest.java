@@ -21,4 +21,18 @@ public class CreateMortgageRequest {
     private Boolean balloonPayment;
     private Boolean adjustableRateDetails;
     private Integer fixedRateTermMonths;
+
+    private String adjustableRateType;
+    private String hybridArmType;
+    private Double fixedRateTerm;
+    private Double rateChangeInterval;
+    private Double expectedRateChange;
+    private Double limitRate;
+    private Double limitIncrease;
+
+    private Double howManyPayments;
+
+    private Boolean accelerationWeeklyPayments;
+    private Boolean accelerationExtraPayments;
+
 }

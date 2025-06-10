@@ -27,4 +27,17 @@ public class MortgageDto {
     private Integer paymentCuantity;
     private Integer fixedRateTermMonths;
 
+    private String adjustableRateType;
+    private String hybridArmType;
+    private Double fixedRateTerm;
+    private Double rateChangeInterval;
+    private Double expectedRateChange;
+    private Double limitRate;
+    private Double limitIncrease;
+
+    private Double howManyPayments;
+
+    private Boolean accelerationWeeklyPayments;
+    private Boolean accelerationExtraPayments;
+
 }

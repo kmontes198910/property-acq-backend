@@ -35,6 +35,17 @@ public class CreateMortgageCommandHandler implements ICommandHandler<CreateMortg
                 .balloonPayment(command.getBalloonPayment())
                 .adjustableRateDetails(command.getAdjustableRateDetails())
                 .fixedRateTermMonths(command.getFixedRateTermMonths())
+                
+                .adjustableRateType(command.getAdjustableRateType())
+                .hybridArmType(command.getHybridArmType())
+                .fixedRateTerm(command.getFixedRateTerm())
+                .rateChangeInterval(command.getRateChangeInterval())
+                .expectedRateChange(command.getExpectedRateChange())
+                .limitRate(command.getLimitRate())
+                .limitIncrease(command.getLimitIncrease())
+                .howManyPayments(command.getHowManyPayments())
+                .accelerationWeeklyPayments(command.getAccelerationWeeklyPayments())
+                .accelerationExtraPayments(command.getAccelerationExtraPayments())
                 .build()
         );
     }
