@@ -26,4 +26,5 @@ public class UpdateBankAccountRequest {
     private BankContactDto contactDetails;
     private InternationalBankingDetailsRequest internationalDetails;
     private BankBranchDto branchInfo;
+    private String domesticWare;
 }
