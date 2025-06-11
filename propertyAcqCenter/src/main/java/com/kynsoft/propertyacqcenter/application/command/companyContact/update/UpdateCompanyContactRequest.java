@@ -17,10 +17,8 @@ public class UpdateCompanyContactRequest {
     private String phoneNumber;
     private String position;
     private DepartmentType department;
-    private String category;
     private String notes;
     private Boolean isActive;
     private String personalEmail;
-    private UUID subCategory;
     private LocalDate birthDate;
 }
