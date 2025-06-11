@@ -40,9 +40,11 @@ public class BankAccountResponse implements IResponse {
     private LegalEntityBasicResponse legalEntity;
     //private List<BankDocumentDto> bankDocuments;
     private int bankDocuments;
+    private String domesticWare;
 
     public BankAccountResponse(BankAccountDto dto) {
         this.id = dto.getId();
+        this.domesticWare = dto.getDomesticWare();
         this.bankName = dto.getBankName();
         this.accountNumber = dto.getAccountNumber();
         this.routingNumber = dto.getRoutingNumber();

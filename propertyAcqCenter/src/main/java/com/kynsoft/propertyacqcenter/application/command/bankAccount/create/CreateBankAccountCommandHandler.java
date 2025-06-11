@@ -30,6 +30,7 @@ public class CreateBankAccountCommandHandler implements ICommandHandler<CreateBa
     @Override
     public void handle(CreateBankAccountCommand command) {
         this.validateRoutingNumber(command.getRoutingNumber());
+        this.validateDomesticWare(command.getDomesticWare());
         LegalEntityDto legalEntityDto = this.legalEntityService.findById(command.getLegalEntity());
 
         this.bankAccountService.validateAccountNumber(command.getLegalEntity(), command.getAccountNumber(), command.getId());
@@ -54,7 +55,8 @@ public class CreateBankAccountCommandHandler implements ICommandHandler<CreateBa
                         command.getInternationalDetails().getIban(),
                         currencyDto
                 ),
-                command.getBranchInfo()
+                command.getBranchInfo(),
+                command.getDomesticWare()
         ));
     }
 
@@ -63,13 +65,12 @@ public class CreateBankAccountCommandHandler implements ICommandHandler<CreateBa
         if (!ROUTING_PATTERN.matcher(routingNumber).matches()) {
             throw new BankAccountLegalEntityRoutingNumberException();
         }
-//        if (routingNumber == null || routingNumber.length() != 9) {
-//            throw new BankAccountLegalEntityRoutingNumberException();
-//        }
-//        for (char c : routingNumber.toCharArray()) {
-//            if (!Character.isDigit(c)) {
-//                throw new BankAccountLegalEntityRoutingNumberException();
-//            }
-//        }
+    }
+
+    private void validateDomesticWare(String domesticWare) {
+        Pattern ROUTING_PATTERN = Pattern.compile("^\\d{9}$");
+        if (!ROUTING_PATTERN.matcher(domesticWare).matches()) {
+            throw new BankAccountLegalEntityRoutingNumberException();
+        }
     }
 }
