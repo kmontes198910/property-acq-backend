@@ -20,6 +20,7 @@ import com.kynsoft.propertyacqcenter.infrastructure.repository.query.CompanyRead
 import com.kynsoft.propertyacqcenter.infrastructure.repository.command.CompanyWriteDataJPARepository;
 import com.kynsoft.propertyacqcenter.domain.services.ICompanyService;
 import com.kynsoft.propertyacqcenter.infrastructure.entity.CompanyType;
+import com.kynsoft.propertyacqcenter.infrastructure.entity.SubCategory;
 
 @Service
 public class CompanyService implements ICompanyService {
@@ -50,6 +51,8 @@ public class CompanyService implements ICompanyService {
             oldContact.setNotes(contactPersonDto.getNotes());
             oldContact.setUpdatedBy(contactPersonDto.getUpdatedBy());
             oldContact.setCompanyType(new CompanyType(contactPersonDto.getCompanyType()));
+            oldContact.setCategory(contactPersonDto.getCategory());
+            oldContact.setSubCategory(new SubCategory(contactPersonDto.getSubCategory()));
 
             // Guardar los cambios
             repositoryCommand.save(oldContact);

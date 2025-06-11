@@ -4,11 +4,13 @@ import com.kynsof.share.core.domain.bus.command.ICommandHandler;
 import com.kynsoft.propertyacqcenter.domain.dto.BusinessDto;
 import com.kynsoft.propertyacqcenter.domain.dto.CompanyDto;
 import com.kynsoft.propertyacqcenter.domain.dto.CompanyTypeDto;
+import com.kynsoft.propertyacqcenter.domain.dto.SubCategoryDto;
 import com.kynsoft.propertyacqcenter.domain.dto.SubCompanyTypeDto;
 import com.kynsoft.propertyacqcenter.domain.services.IBusinessService;
 import org.springframework.stereotype.Component;
 import com.kynsoft.propertyacqcenter.domain.services.ICompanyService;
 import com.kynsoft.propertyacqcenter.domain.services.ICompanyTypeService;
+import com.kynsoft.propertyacqcenter.domain.services.ISubCategoryService;
 import com.kynsoft.propertyacqcenter.domain.services.ISubCompanyTypeService;
 
 @Component
@@ -18,15 +20,18 @@ public class CreateCompanyCommandHandler implements ICommandHandler<CreateCompan
     private final IBusinessService businessService;
     private final ICompanyTypeService companyTypeService;
     private final ISubCompanyTypeService subCompanyTypeService;
+    private final ISubCategoryService subCategoryService;
 
     public CreateCompanyCommandHandler(ICompanyService contactPersonService,
                                        IBusinessService businessService,
                                        ICompanyTypeService companyTypeService,
-                                       ISubCompanyTypeService subCompanyTypeService) {
+                                       ISubCompanyTypeService subCompanyTypeService,
+                                       ISubCategoryService subCategoryService) {
         this.contactPersonService = contactPersonService;
         this.businessService = businessService;
         this.companyTypeService = companyTypeService;
         this.subCompanyTypeService = subCompanyTypeService;
+        this.subCategoryService = subCategoryService;
     }
 
     @Override
@@ -34,6 +39,7 @@ public class CreateCompanyCommandHandler implements ICommandHandler<CreateCompan
         BusinessDto businessDto = this.businessService.findById(command.getBusiness());
         CompanyTypeDto companyTypeDto = this.companyTypeService.findById(command.getCompanyType());
         SubCompanyTypeDto subCompanyTypeDto = this.subCompanyTypeService.findById(command.getSubCompanyType());
+        SubCategoryDto subCategoryDto = this.subCategoryService.findById(command.getSubCategory());
         CompanyDto contactPersonDto = new CompanyDto(
                 command.getId(), 
                 businessDto, 
@@ -46,7 +52,9 @@ public class CreateCompanyCommandHandler implements ICommandHandler<CreateCompan
                 null, 
                 null, 
                 null, 
-                null
+                null,
+                command.getCategory(),
+                subCategoryDto
         );
 
         this.contactPersonService.create(contactPersonDto);

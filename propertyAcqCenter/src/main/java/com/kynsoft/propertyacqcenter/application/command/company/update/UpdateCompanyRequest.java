@@ -14,4 +14,6 @@ public class UpdateCompanyRequest {
     private Double ownershipPercentage;
     private Boolean signatureAuthority;
     private String notes;
+    private String category;
+    private UUID subCategory;
 }

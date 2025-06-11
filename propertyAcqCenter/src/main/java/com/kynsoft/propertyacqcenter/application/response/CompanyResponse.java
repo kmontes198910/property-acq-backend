@@ -29,9 +29,13 @@ public class CompanyResponse implements IResponse {
     private LocalDateTime updatedAt;
     private UUID createdBy;//
     private UUID updatedBy;//
+    private String category;
+    private SubCategoryResponse subCategory;
 
     public CompanyResponse(CompanyDto dto) {
         this.id = dto.getId();
+        this.category = dto.getCategory();
+        this.subCategory = dto.getSubCategory() != null ? new SubCategoryResponse(dto.getSubCategory()) : null;
         this.companyType = dto.getCompanyType();
         this.business = dto.getBusiness();
         this.subCompanyType = dto.getSubCompanyType();
