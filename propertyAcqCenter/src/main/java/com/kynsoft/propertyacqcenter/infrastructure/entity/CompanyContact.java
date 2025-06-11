@@ -3,6 +3,7 @@ package com.kynsoft.propertyacqcenter.infrastructure.entity;
 import com.kynsoft.propertyacqcenter.domain.dto.CompanyContactDto;
 import com.kynsoft.propertyacqcenter.domain.enums.DepartmentType;
 import jakarta.persistence.*;
+import java.time.LocalDate;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -45,6 +46,9 @@ public class CompanyContact {
     @Column(name = "position")
     private String position;
 
+    @Column(name = "birth_date")
+    private LocalDate birthDate;
+
     @Enumerated(EnumType.STRING)
     @Column(name = "department_type", nullable = true)
     private DepartmentType department;
@@ -72,6 +76,7 @@ public class CompanyContact {
 
     public CompanyContact(CompanyContactDto dto) {
         this.id = dto.getId();
+        this.birthDate = dto.getBirthDate();
         this.company = dto.getCompany() != null ? new Company(dto.getCompany()) : null;
         this.firstName = dto.getFirstName();
         this.lastName = dto.getLastName();
@@ -91,6 +96,7 @@ public class CompanyContact {
     public CompanyContactDto toAggregateSimple() {
         return CompanyContactDto.builder()
                 .id(this.id)
+                .birthDate(birthDate)
                 .company(company != null ? this.company.toAggregateSimple() : null)
                 .firstName(firstName)
                 .lastName(lastName)
@@ -111,6 +117,7 @@ public class CompanyContact {
     public CompanyContactDto toAggregate() {
         return CompanyContactDto.builder()
                 .id(this.id)
+                .birthDate(birthDate)
                 .firstName(firstName)
                 .lastName(lastName)
                 .email(email)

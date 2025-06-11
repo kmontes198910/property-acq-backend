@@ -63,6 +63,7 @@ public class CompanyContactServiceImpl implements ICompanyContactService {
         update.setIsActive(object.getIsActive());
         update.setPersonalEmail(object.getPersonalEmail());
         update.setSubCategory(new SubCategory(object.getSubCategory()));
+        update.setBirthDate(object.getBirthDate());
 
         repositoryCommand.save(update);
     }
