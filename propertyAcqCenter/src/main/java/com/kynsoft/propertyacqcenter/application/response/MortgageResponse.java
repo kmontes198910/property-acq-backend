@@ -2,6 +2,7 @@ package com.kynsoft.propertyacqcenter.application.response;
 
 import com.kynsof.share.core.domain.bus.query.IResponse;
 import com.kynsoft.propertyacqcenter.domain.dto.MortgageDto;
+import com.kynsoft.propertyacqcenter.domain.enums.MortgageExtraPaymentFrequency;
 import com.kynsoft.propertyacqcenter.domain.enums.MortgageFrequencyInterestCompounded;
 import com.kynsoft.propertyacqcenter.domain.enums.MortgageLifetimeRateCap;
 import com.kynsoft.propertyacqcenter.domain.enums.MortgageType;
@@ -47,8 +48,13 @@ public class MortgageResponse implements IResponse {
     private Boolean accelerationWeeklyPayments;
     private Boolean accelerationExtraPayments;
 
+    private MortgageExtraPaymentFrequency extraPaymentFrequency;//
+    private Double extraPaymentAmount;//
+
     public MortgageResponse(MortgageDto dto) {
         this.id = dto.getId();
+        this.extraPaymentFrequency = dto.getExtraPaymentFrequency();
+        this.extraPaymentAmount = dto.getExtraPaymentAmount();
         this.property = dto.getProperty() != null ? new PropertiesBasicResponse(dto.getProperty()) : null;
         this.mortgageType = dto.getMortgageType();
         this.mortgageAmount = dto.getMortgageAmount();
