@@ -47,6 +47,8 @@ public class UpdateMortgageCommandHandler implements ICommandHandler<UpdateMortg
                 .accelerationWeeklyPayments(command.getAccelerationWeeklyPayments())
                 .accelerationExtraPayments(command.getAccelerationExtraPayments())
                 .lifetimeRateCap(command.getLifetimeRateCap())
+                .extraPaymentFrequency(command.getExtraPaymentFrequency())
+                .extraPaymentAmount(command.getExtraPaymentAmount())
                 .build()
         );
     }
