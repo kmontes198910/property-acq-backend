@@ -78,7 +78,7 @@ public class GetDashboardInfoQueryHandler implements IQueryHandler<GetDashboardI
                 dashboardStatisticsResponse.setEstimatedValuePrice(estimatedValue.getPrice());
                 dashboardStatisticsResponse.setEstimatedValuePriceRangeHigh(estimatedValue.getPriceRangeHigh());
                 dashboardStatisticsResponse.setEstimatedValuePriceRangeLow(estimatedValue.getPriceRangeLow());
-                dashboardStatisticsResponse.setEstimatedValueAveragePrice(estimatedValueAveragePrice/countestimatedValue);
+                dashboardStatisticsResponse.setEstimatedValueAveragePrice(estimatedValueAveragePrice / countestimatedValue);
             }
 
             //TODO: rentEstimated
@@ -112,17 +112,19 @@ public class GetDashboardInfoQueryHandler implements IQueryHandler<GetDashboardI
                 dashboardStatisticsResponse.setEstimatedValuePrice(rentEstimateValue.getRent());
                 dashboardStatisticsResponse.setEstimatedValuePriceRangeHigh(rentEstimateValue.getRentRangeHigh());
                 dashboardStatisticsResponse.setEstimatedValuePriceRangeLow(rentEstimateValue.getRentRangeLow());
-                dashboardStatisticsResponse.setEstimatedValueAveragePrice(estimatedRentValueAveragePrice/countEstimatedRentValue);
+                dashboardStatisticsResponse.setEstimatedValueAveragePrice(estimatedRentValueAveragePrice / countEstimatedRentValue);
             }
 
             List<DashboardSaleValueResponse> values = new ArrayList<>();
-            Map<String, PropertyResponse.History> history = property.get(0).getHistory();
-            history.forEach((date, h) -> {
-                values.add(DashboardSaleValueResponse.builder()
-                        .estimatedValue(h.getPrice() != null ? String.valueOf(h.getPrice()) : null)
-                        .lastYear(h.getDate())
-                        .build());
-            });
+            if (property.get(0).getHistory() != null) {
+                Map<String, PropertyResponse.History> history = property.get(0).getHistory();
+                history.forEach((date, h) -> {
+                    values.add(DashboardSaleValueResponse.builder()
+                            .estimatedValue(h.getPrice() != null ? String.valueOf(h.getPrice()) : null)
+                            .lastYear(h.getDate())
+                            .build());
+                });
+            }
 
             Map<String, PropertyResponse.TaxAssessment> tax = property.get(0).getTaxAssessments();
             List<DashboardTaxAssessmentsResponse> taxAssessments = new ArrayList<>();

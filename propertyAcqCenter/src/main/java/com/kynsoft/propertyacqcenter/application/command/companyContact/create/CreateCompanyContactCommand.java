@@ -21,17 +21,15 @@ public class CreateCompanyContactCommand implements ICommand {
     private String phoneNumber;
     private String position;
     private DepartmentType department;
-    private String category;
     private String notes;
     private Boolean isActive;
     private String personalEmail;
-    private UUID subCategory;
     private LocalDate birthDate;
 
     public CreateCompanyContactCommand(UUID company, String firstName, String lastName, 
                                        String email, String phoneNumber, String position, 
-                                       DepartmentType department, String category, String notes, 
-                                       Boolean isActive, String personalEmail, UUID subCategory,
+                                       DepartmentType department, String notes, 
+                                       Boolean isActive, String personalEmail, 
                                        LocalDate birthDate) {
         this.id = UUID.randomUUID();
         this.company = company;
@@ -41,11 +39,9 @@ public class CreateCompanyContactCommand implements ICommand {
         this.phoneNumber = phoneNumber;
         this.position = position;
         this.department = department;
-        this.category = category;
         this.notes = notes;
         this.isActive = isActive;
         this.personalEmail = personalEmail;
-        this.subCategory = subCategory;
         this.birthDate = birthDate;
     }
 
@@ -58,11 +54,9 @@ public class CreateCompanyContactCommand implements ICommand {
                 request.getPhoneNumber(),
                 request.getPosition(),
                 request.getDepartment(),
-                request.getCategory(),
                 request.getNotes(),
                 request.getIsActive(),
                 request.getPersonalEmail(),
-                request.getSubCategory(),
                 request.getBirthDate()
         );
     }

@@ -53,18 +53,11 @@ public class CompanyContact {
     @Column(name = "department_type", nullable = true)
     private DepartmentType department;
 
-    @Column(name = "category")
-    private String category;
-
     @Column(name = "notes", columnDefinition = "TEXT")
     private String notes;
 
     @Column(name = "is_active")
     private Boolean isActive;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "sub_category")
-    private SubCategory subCategory;
 
     @CreationTimestamp
     @Column(name = "created_at", updatable = false)
@@ -84,13 +77,11 @@ public class CompanyContact {
         this.phoneNumber = dto.getPhoneNumber();
         this.position = dto.getPosition();
         this.department = dto.getDepartment();
-        this.category = dto.getCategory();
         this.notes = dto.getNotes();
         this.isActive = dto.getIsActive();
         this.createdAt = dto.getCreatedAt();
         this.updatedAt = dto.getUpdatedAt();
         this.personalEmail = dto.getPersonalEmail();
-        this.subCategory = dto.getSubCategory() != null ? new SubCategory(dto.getSubCategory()) : null;
     }
 
     public CompanyContactDto toAggregateSimple() {
@@ -104,13 +95,11 @@ public class CompanyContact {
                 .phoneNumber(phoneNumber)
                 .position(position)
                 .department(department)
-                .category(category)
                 .notes(notes)
                 .isActive(isActive)
                 .createdAt(this.createdAt)
                 .updatedAt(this.updatedAt)
                 .personalEmail(personalEmail)
-                .subCategory(subCategory != null ? this.subCategory.toAggregate() : null)
                 .build();
     }
 
@@ -124,14 +113,12 @@ public class CompanyContact {
                 .phoneNumber(phoneNumber)
                 .position(position)
                 .department(department)
-                .category(category)
                 .notes(notes)
                 .isActive(isActive)
                 .createdAt(this.createdAt)
                 .updatedAt(this.updatedAt)
                 .company(company != null ? this.company.toAggregateBasic() : null)
                 .personalEmail(personalEmail)
-                .subCategory(subCategory != null ? this.subCategory.toAggregate() : null)
                 .build();
     }
 
