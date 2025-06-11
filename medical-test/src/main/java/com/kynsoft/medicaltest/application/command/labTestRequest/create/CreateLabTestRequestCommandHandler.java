@@ -59,7 +59,7 @@ public class CreateLabTestRequestCommandHandler implements ICommandHandler<Creat
                 values.add(LabTestItemRequestDto.builder()
                         .id(UUID.randomUUID())
                         .code(x.getCode())
-                        .examinationType(x.getExaminationType())
+                        .description(x.getExaminationType())
                         .status(x.getStatus())
                         .observations(x.getObservations())
                         .createdBy(command.getCreatedBy())

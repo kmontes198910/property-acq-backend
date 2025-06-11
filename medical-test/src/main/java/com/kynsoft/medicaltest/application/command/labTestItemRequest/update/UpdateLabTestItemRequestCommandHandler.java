@@ -34,7 +34,7 @@ public class UpdateLabTestItemRequestCommandHandler implements ICommandHandler<U
                 .code(command.getCode())
                 .order(labTestRequestDto)
                 .completionDate(command.getCompletionDate())
-                .examinationType(command.getExaminationType())
+                .description(command.getExaminationType())
                 .build();
 
         labTestItemRequestService.update(dto);

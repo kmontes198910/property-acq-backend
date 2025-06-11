@@ -34,7 +34,7 @@ public class CreateLabTestItemRequestCommandHandler implements ICommandHandler<C
                 .code(command.getCode())
                 .order(labTestRequestDto)
                 .completionDate(command.getCompletionDate())
-                .examinationType(command.getExaminationType())
+                .description(command.getExaminationType())
                 .build();
 
         labTestItemRequestService.create(dto);

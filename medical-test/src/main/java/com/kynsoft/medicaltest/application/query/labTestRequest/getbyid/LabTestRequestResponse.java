@@ -55,7 +55,7 @@ public class LabTestRequestResponse implements IResponse, Serializable {
                 examinations.add(LabTestItemResponse.builder()
                         .code(examination.getCode())
                         .completionDate(examination.getCompletionDate())
-                        .examinationType(examination.getExaminationType())
+                        .examinationType(examination.getDescription())
                         .id(examination.getId())
                         .observations(examination.getObservations())
                         .status(examination.getStatus())

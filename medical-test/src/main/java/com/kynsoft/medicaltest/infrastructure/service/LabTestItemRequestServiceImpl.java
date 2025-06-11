@@ -52,7 +52,7 @@ public class LabTestItemRequestServiceImpl implements ILabTestItemRequestService
         entity.setObservations(dto.getObservations());
         entity.setUpdatedBy(dto.getUpdatedBy());
         entity.setCompletionDate(dto.getCompletionDate());
-        entity.setExaminationType(dto.getExaminationType());
+        entity.setDescription(dto.getDescription());
         entity.setOrder(new LabTestRequestEntity(dto.getOrder()));
 
         writeRepository.save(entity);
