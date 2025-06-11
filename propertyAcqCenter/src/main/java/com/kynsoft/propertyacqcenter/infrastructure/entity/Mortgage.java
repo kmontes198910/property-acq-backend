@@ -1,6 +1,7 @@
 package com.kynsoft.propertyacqcenter.infrastructure.entity;
 
 import com.kynsoft.propertyacqcenter.domain.dto.MortgageDto;
+import com.kynsoft.propertyacqcenter.domain.enums.MortgageExtraPaymentFrequency;
 import com.kynsoft.propertyacqcenter.domain.enums.MortgageFrequencyInterestCompounded;
 import com.kynsoft.propertyacqcenter.domain.enums.MortgageLifetimeRateCap;
 import com.kynsoft.propertyacqcenter.domain.enums.MortgageType;
@@ -33,18 +34,27 @@ public class Mortgage implements Serializable {
     @Enumerated(EnumType.STRING)
     private MortgageLifetimeRateCap lifetimeRateCap;//
 
+    @Enumerated(EnumType.STRING)
+    private MortgageExtraPaymentFrequency extraPaymentFrequency;//
+
+    private Double extraPaymentAmount;//
+
     private Double mortgageAmount;//
     private Double downPayment;//
     private Integer fixedRateTermYears;
     private Integer fixedRateTermMonths;
     private Double fixedMortgageRatePercentage;
     private LocalDate firstPaymentDate;
+
     @Enumerated(EnumType.STRING)
     private MortgageFrequencyInterestCompounded compoundFrequency;
+
     @Column(name = "balloon", nullable = true)
     private Boolean balloonPayment;
+
     @Column(name = "adjustable_rate", nullable = true)
     private Boolean adjustableRateDetails;
+
     private Integer paymentCuantity;
 
     private String adjustableRateType;
@@ -62,6 +72,8 @@ public class Mortgage implements Serializable {
 
     public Mortgage(MortgageDto dto) {
         this.id = dto.getId();
+        this.extraPaymentFrequency = dto.getExtraPaymentFrequency();
+        this.extraPaymentAmount = dto.getExtraPaymentAmount();
         this.adjustableRateType = dto.getAdjustableRateType();
         this.hybridArmType = dto.getHybridArmType();
         this.fixedRateTerm = dto.getFixedRateTerm();
@@ -91,6 +103,8 @@ public class Mortgage implements Serializable {
         return MortgageDto.builder()
                 .id(this.id)
                 .adjustableRateType(adjustableRateType)
+                .extraPaymentFrequency(extraPaymentFrequency)
+                .extraPaymentAmount(extraPaymentAmount)
                 .hybridArmType(hybridArmType)
                 .fixedRateTerm(fixedRateTerm)
                 .rateChangeInterval(rateChangeInterval)

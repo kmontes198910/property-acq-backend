@@ -13,7 +13,7 @@ public interface ILegalEntityService {
     
     void update(LegalEntityDto legalEntity);
     
-    void delete(UUID id);
+    UUID delete(UUID id);
     
     LegalEntityDto findById(UUID id);
     

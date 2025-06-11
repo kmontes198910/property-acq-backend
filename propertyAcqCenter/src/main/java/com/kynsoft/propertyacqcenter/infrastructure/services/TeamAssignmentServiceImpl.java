@@ -5,6 +5,7 @@ import com.kynsof.share.core.domain.response.PaginatedResponse;
 import com.kynsof.share.core.infrastructure.specifications.GenericSpecificationsBuilder;
 import com.kynsoft.propertyacqcenter.application.response.TeamAssignmentResponse;
 import com.kynsoft.propertyacqcenter.domain.dto.TeamAssignmentDto;
+import com.kynsoft.propertyacqcenter.domain.dto.exception.NotDeleteException;
 import com.kynsoft.propertyacqcenter.domain.dto.exception.TeamAssignmentNotFoundException;
 import com.kynsoft.propertyacqcenter.domain.services.ITeamAssignmentService;
 import com.kynsoft.propertyacqcenter.infrastructure.entity.CompanyContact;
@@ -60,10 +61,13 @@ public class TeamAssignmentServiceImpl implements ITeamAssignmentService {
     }
 
     @Override
-    @Transactional
     public void delete(UUID id) {
-        this.findById(id);
-        repositoryCommand.deleteById(id);
+        try {
+            this.findById(id);
+            repositoryCommand.deleteById(id);
+        } catch (Exception e) {
+            throw new NotDeleteException();
+        }
     }
 
     @Override

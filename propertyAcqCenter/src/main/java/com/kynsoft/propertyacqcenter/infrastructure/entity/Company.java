@@ -67,6 +67,13 @@ public class Company {
     @Column(name = "updated_by")
     private UUID updatedBy;
 
+    @Column(name = "category")
+    private String category;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "sub_category")
+    private SubCategory subCategory;
+
     public Company(CompanyDto dto) {
         this.id = dto.getId() != null ? dto.getId() : UUID.randomUUID();
         this.companyType = dto.getCompanyType() != null ? new CompanyType(dto.getCompanyType()) : null;
@@ -78,6 +85,8 @@ public class Company {
         this.notes = dto.getNotes();
         this.createdBy = dto.getCreatedBy();
         this.updatedBy = dto.getUpdatedBy();
+        this.category = dto.getCategory();
+        this.subCategory = dto.getSubCategory() != null ? new SubCategory(dto.getSubCategory()) : null;
     }
 
     public CompanyDto toAggregateSimple() {
@@ -94,6 +103,8 @@ public class Company {
                 .updatedAt(this.updatedAt)
                 .createdBy(this.createdBy)
                 .updatedBy(this.updatedBy)
+                .subCategory(subCategory != null ? this.subCategory.toAggregate() : null)
+                .category(category)
                 .build();
     }
 
@@ -110,6 +121,8 @@ public class Company {
                 .updatedAt(this.updatedAt)
                 .createdBy(this.createdBy)
                 .updatedBy(this.updatedBy)
+                .subCategory(subCategory != null ? this.subCategory.toAggregate() : null)
+                .category(category)
                 .build();
     }
 

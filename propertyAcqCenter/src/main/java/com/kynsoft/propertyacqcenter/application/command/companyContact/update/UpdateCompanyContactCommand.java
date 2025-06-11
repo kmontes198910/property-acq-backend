@@ -3,6 +3,7 @@ package com.kynsoft.propertyacqcenter.application.command.companyContact.update;
 import com.kynsof.share.core.domain.bus.command.ICommand;
 import com.kynsof.share.core.domain.bus.command.ICommandMessage;
 import com.kynsoft.propertyacqcenter.domain.enums.DepartmentType;
+import java.time.LocalDate;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -25,12 +26,14 @@ public class UpdateCompanyContactCommand implements ICommand {
     private Boolean isActive;
     private String personalEmail;
     private UUID subCategory;
+    private LocalDate birthDate;
 
     public UpdateCompanyContactCommand(UUID id, UUID company, String firstName, String lastName, 
                                        String email, String phoneNumber, String position, DepartmentType department, 
                                        String category, String notes, Boolean isActive, String personalEmail,
-                                       UUID subCategory) {
+                                       UUID subCategory, LocalDate birthDate) {
         this.id = id;
+        this.birthDate = birthDate;
         this.company = company;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -59,7 +62,8 @@ public class UpdateCompanyContactCommand implements ICommand {
                 request.getNotes(),
                 request.getIsActive(),
                 request.getPersonalEmail(),
-                request.getSubCategory()
+                request.getSubCategory(),
+                request.getBirthDate()
         );
     }
 

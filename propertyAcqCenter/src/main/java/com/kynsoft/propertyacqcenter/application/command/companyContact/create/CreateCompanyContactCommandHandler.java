@@ -30,6 +30,7 @@ public class CreateCompanyContactCommandHandler implements ICommandHandler<Creat
         //this.companyContactService.validatePersonEmail(command.getPersonalEmail(), command.getId());
         companyContactService.create(CompanyContactDto.builder()
                 .id(command.getId())
+                .birthDate(command.getBirthDate())
                 .category(command.getCategory())
                 .company(companyDto)
                 .department(command.getDepartment())

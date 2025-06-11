@@ -6,6 +6,7 @@ import com.kynsof.share.core.infrastructure.specifications.GenericSpecifications
 import com.kynsoft.propertyacqcenter.application.response.ContactResponse;
 import com.kynsoft.propertyacqcenter.domain.dto.ContactDto;
 import com.kynsoft.propertyacqcenter.domain.dto.exception.ContactNotFoundException;
+import com.kynsoft.propertyacqcenter.domain.dto.exception.NotDeleteException;
 import com.kynsoft.propertyacqcenter.domain.services.IContactService;
 import com.kynsoft.propertyacqcenter.infrastructure.entity.Contact;
 import com.kynsoft.propertyacqcenter.infrastructure.entity.SubCategory;
@@ -82,10 +83,13 @@ public class ContactServiceImpl implements IContactService {
     }
 
     @Override
-    @Transactional
     public void delete(UUID id) {
-        this.findById(id);
-        repositoryCommand.deleteById(id);
+        try {
+            this.findById(id);
+            repositoryCommand.deleteById(id);
+        } catch (Exception e) {
+            throw new NotDeleteException();
+        }
     }
 
     @Override

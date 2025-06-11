@@ -38,9 +38,11 @@ public class BankAccountDto {
     private InternationalBankingDetailsDto internationalDetails;
     private BankBranchDto branchInfo;
     private List<BankDocumentDto> bankDocuments;
+    private String domesticWare;
 
-    public BankAccountDto(UUID id, LegalEntityDto legalEntity, String bankName, String accountNumber, String routingNumber, AccountType accountType, String accountNickname, LocalDate openingDate, String onlineBankingUrl, String notes, UUID createdBy, UUID updatedBy, BankContactDto contactDetails, InternationalBankingDetailsDto internationalDetails, BankBranchDto branchInfo) {
+    public BankAccountDto(UUID id, LegalEntityDto legalEntity, String bankName, String accountNumber, String routingNumber, AccountType accountType, String accountNickname, LocalDate openingDate, String onlineBankingUrl, String notes, UUID createdBy, UUID updatedBy, BankContactDto contactDetails, InternationalBankingDetailsDto internationalDetails, BankBranchDto branchInfo, String domesticWare) {
         this.id = id;
+        this.domesticWare = domesticWare;
         this.legalEntity = legalEntity;
         this.bankName = bankName;
         this.accountNumber = accountNumber;

@@ -5,6 +5,7 @@ import com.kynsof.share.core.domain.bus.command.ICommandHandler;
 import com.kynsof.share.core.domain.exception.BusinessException;
 import com.kynsof.share.core.domain.exception.DomainErrorMessage;
 import com.kynsoft.settings.domain.dto.RecoveryRoom;
+import com.kynsoft.settings.domain.services.IBusinessService;
 import com.kynsoft.settings.domain.services.IRecoveryRoomService;
 import com.kynsoft.settings.infrastructure.services.rabbitMq.eventPublisher.EventRecoveryRoomPublisherService;
 import lombok.RequiredArgsConstructor;
@@ -20,6 +21,7 @@ import java.time.LocalDateTime;
 public class CreateRecoveryRoomCommandHandler implements ICommandHandler<CreateRecoveryRoomCommand> {
 
     private final IRecoveryRoomService recoveryRoomService;
+    private final IBusinessService businessService;
     private final EventRecoveryRoomPublisherService recoveryRoomPublisherService;
 
     @Override
@@ -35,7 +37,7 @@ public class CreateRecoveryRoomCommandHandler implements ICommandHandler<CreateR
                     .wing(command.getWing())
                     .capacity(command.getCapacity())
                     .status(command.getStatus() != null ? command.getStatus() : "AVAILABLE")
-                    .businessId(command.getBusinessId())
+                    .businessId(this.businessService.findById(command.getBusinessId()).getId())
                     .roomType(command.getRoomType())
                     .additionalInfo(command.getAdditionalInfo())
                     .isActive(true)

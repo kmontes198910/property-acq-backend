@@ -6,6 +6,7 @@ import com.kynsof.share.core.infrastructure.specifications.GenericSpecifications
 import com.kynsoft.propertyacqcenter.application.response.SubCompanyTypeResponse;
 import com.kynsoft.propertyacqcenter.domain.dto.SubCompanyTypeDto;
 import com.kynsoft.propertyacqcenter.domain.dto.exception.ConstructionTypeNotFoundException;
+import com.kynsoft.propertyacqcenter.domain.dto.exception.NotDeleteException;
 import com.kynsoft.propertyacqcenter.domain.dto.exception.subCompanyType.CodeMustBeUniqueException;
 import com.kynsoft.propertyacqcenter.infrastructure.entity.SubCompanyType;
 import org.springframework.data.domain.Pageable;
@@ -58,10 +59,13 @@ public class SubCompanyTypeServiceImpl implements ISubCompanyTypeService {
     }
 
     @Override
-    @Transactional
     public void delete(UUID id) {
-        this.findById(id);
-        repositoryCommand.deleteById(id);
+        try {
+            this.findById(id);
+            repositoryCommand.deleteById(id);
+        } catch (Exception e) {
+            throw new NotDeleteException();
+        }
     }
 
     @Override

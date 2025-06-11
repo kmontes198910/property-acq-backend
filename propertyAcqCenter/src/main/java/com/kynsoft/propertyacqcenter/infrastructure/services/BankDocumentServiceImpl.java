@@ -6,6 +6,7 @@ import com.kynsof.share.core.infrastructure.specifications.GenericSpecifications
 import com.kynsoft.propertyacqcenter.application.response.BankDocumentResponse;
 import com.kynsoft.propertyacqcenter.domain.dto.BankDocumentDto;
 import com.kynsoft.propertyacqcenter.domain.dto.exception.AddressNotFoundException;
+import com.kynsoft.propertyacqcenter.domain.dto.exception.NotDeleteException;
 import com.kynsoft.propertyacqcenter.domain.services.IBankDocumentService;
 import com.kynsoft.propertyacqcenter.infrastructure.entity.BankAccount;
 import com.kynsoft.propertyacqcenter.infrastructure.entity.BankDocument;
@@ -52,10 +53,12 @@ public class BankDocumentServiceImpl implements IBankDocumentService {
     }
 
     @Override
-    @Transactional
     public void delete(UUID id) {
-        //this.findById(id);
-        repositoryCommand.deleteById(id);
+        try {
+            repositoryCommand.deleteById(id);
+        } catch (Exception e) {
+            throw new NotDeleteException();
+        }
     }
 
     @Override

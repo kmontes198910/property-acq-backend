@@ -2,6 +2,7 @@ package com.kynsoft.propertyacqcenter.application.command.mortgage.create;
 
 import com.kynsof.share.core.domain.bus.command.ICommand;
 import com.kynsof.share.core.domain.bus.command.ICommandMessage;
+import com.kynsoft.propertyacqcenter.domain.enums.MortgageExtraPaymentFrequency;
 import com.kynsoft.propertyacqcenter.domain.enums.MortgageFrequencyInterestCompounded;
 import com.kynsoft.propertyacqcenter.domain.enums.MortgageLifetimeRateCap;
 import com.kynsoft.propertyacqcenter.domain.enums.MortgageType;
@@ -42,6 +43,9 @@ public class CreateMortgageCommand implements ICommand {
     private Boolean accelerationExtraPayments;
     private MortgageLifetimeRateCap lifetimeRateCap;//
 
+    private MortgageExtraPaymentFrequency extraPaymentFrequency;//
+    private Double extraPaymentAmount;//
+
     public CreateMortgageCommand(String property, MortgageType mortgageType, Double mortgageAmount, 
                                  Double downPayment, Integer fixedRateTermYears, Double fixedMortgageRatePercentage, 
                                  LocalDate firstPaymentDate, MortgageFrequencyInterestCompounded compoundFrequency, 
@@ -50,7 +54,8 @@ public class CreateMortgageCommand implements ICommand {
                                  String adjustableRateType, String hybridArmType, Double fixedRateTerm,
                                  Double rateChangeInterval, Double expectedRateChange, Double limitRate,
                                  Double limitIncrease, Double howManyPayments, Boolean accelerationWeeklyPayments, 
-                                 Boolean accelerationExtraPayments, MortgageLifetimeRateCap lifetimeRateCap) {
+                                 Boolean accelerationExtraPayments, MortgageLifetimeRateCap lifetimeRateCap,
+                                 MortgageExtraPaymentFrequency extraPaymentFrequency, Double extraPaymentAmount) {
         this.id = UUID.randomUUID();
         this.adjustableRateType = adjustableRateType;
         this.hybridArmType= hybridArmType;
@@ -74,6 +79,8 @@ public class CreateMortgageCommand implements ICommand {
         this.adjustableRateDetails = adjustableRateDetails;
         this.fixedRateTermMonths = fixedRateTermMonths;
         this.lifetimeRateCap = lifetimeRateCap;
+        this.extraPaymentFrequency = extraPaymentFrequency;
+        this.extraPaymentAmount = extraPaymentAmount;
     }
 
     public static CreateMortgageCommand fromRequest(CreateMortgageRequest request) {
@@ -99,7 +106,9 @@ public class CreateMortgageCommand implements ICommand {
                 request.getHowManyPayments(),
                 request.getAccelerationWeeklyPayments(),
                 request.getAccelerationExtraPayments(),
-                request.getLifetimeRateCap()
+                request.getLifetimeRateCap(),
+                request.getExtraPaymentFrequency(),
+                request.getExtraPaymentAmount()
         );
     }
 

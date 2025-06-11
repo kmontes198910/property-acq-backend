@@ -6,6 +6,7 @@ import com.kynsof.share.core.infrastructure.specifications.GenericSpecifications
 import com.kynsoft.propertyacqcenter.application.response.CompanyAddressSearchResponse;
 import com.kynsoft.propertyacqcenter.domain.dto.CompanyAddressDto;
 import com.kynsoft.propertyacqcenter.domain.dto.exception.CompanyAddressNotFoundException;
+import com.kynsoft.propertyacqcenter.domain.dto.exception.NotDeleteException;
 import com.kynsoft.propertyacqcenter.domain.dto.exception.companyAddress.CompanyAddressLegalEntityIsPrimaryException;
 import com.kynsoft.propertyacqcenter.domain.enums.AddressType;
 import com.kynsoft.propertyacqcenter.domain.services.ICompanyAddressService;
@@ -61,10 +62,13 @@ public class CompanyAddressServiceImpl implements ICompanyAddressService {
     }
 
     @Override
-    @Transactional
     public void delete(UUID id) {
-        this.findByIdSimple(id);
-        repositoryCommand.deleteById(id);
+        try {
+            this.findById(id);
+            repositoryCommand.deleteById(id);
+        } catch (Exception e) {
+            throw new NotDeleteException();
+        }
     }
 
     @Override

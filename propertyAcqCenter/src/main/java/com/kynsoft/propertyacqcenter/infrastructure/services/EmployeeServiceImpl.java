@@ -6,6 +6,7 @@ import com.kynsof.share.core.infrastructure.specifications.GenericSpecifications
 import com.kynsoft.propertyacqcenter.application.response.EmployeeResponse;
 import com.kynsoft.propertyacqcenter.domain.dto.EmployeeDto;
 import com.kynsoft.propertyacqcenter.domain.dto.exception.EmployeeNotFoundException;
+import com.kynsoft.propertyacqcenter.domain.dto.exception.NotDeleteException;
 import com.kynsoft.propertyacqcenter.domain.dto.exception.employee.EmployeeEmailFormatException;
 import com.kynsoft.propertyacqcenter.domain.dto.exception.employee.EmployeeEmailMustBeUniqueException;
 import com.kynsoft.propertyacqcenter.domain.services.IEmployeeService;
@@ -51,8 +52,12 @@ public class EmployeeServiceImpl implements IEmployeeService {
 
     @Override
     public void delete(UUID id) {
-        EmployeeDto employee = this.findById(id);
-        this.repositoryCommand.deleteById(employee.getId());
+        try {
+            EmployeeDto employee = this.findById(id);
+            this.repositoryCommand.deleteById(employee.getId());
+        } catch (Exception e) {
+            throw new NotDeleteException();
+        }
     }
 
     @Override
