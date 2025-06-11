@@ -26,12 +26,10 @@ public class CompanyContactSearchResponse implements IResponse {
     private String personalEmail;
     private String position;
     private DepartmentType department;
-    private String category;
     private String notes;
     private Boolean isActive;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
-    private SubCategoryDto subCategory;
 
     public CompanyContactSearchResponse(CompanyContactDto dto) {
         this.id = dto.getId();
@@ -43,13 +41,11 @@ public class CompanyContactSearchResponse implements IResponse {
         this.phoneNumber = dto.getPhoneNumber();
         this.position = dto.getPosition();
         this.department = dto.getDepartment();
-        this.category = dto.getCategory();
         this.notes = dto.getNotes();
         this.isActive = dto.getIsActive();
         this.createdAt = dto.getCreatedAt();
         this.updatedAt = dto.getUpdatedAt();
         this.personalEmail = dto.getPersonalEmail();
-        this.subCategory = dto.getSubCategory();
     }
 
 }
