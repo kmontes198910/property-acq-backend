@@ -6,6 +6,7 @@ import com.kynsof.share.core.infrastructure.specifications.GenericSpecifications
 import com.kynsoft.propertyacqcenter.application.response.LegalEntityResponse;
 import com.kynsoft.propertyacqcenter.domain.dto.LegalEntityDto;
 import com.kynsoft.propertyacqcenter.domain.dto.exception.LegalEntityNotFoundException;
+import com.kynsoft.propertyacqcenter.domain.dto.exception.NotDeleteException;
 import com.kynsoft.propertyacqcenter.domain.services.ILegalEntityService;
 import com.kynsoft.propertyacqcenter.infrastructure.entity.Business;
 import com.kynsoft.propertyacqcenter.infrastructure.entity.LegalEntity;
@@ -69,10 +70,13 @@ public class LegalEntityServiceImpl implements ILegalEntityService {
     }
 
     @Override
-    @Transactional
-    public void delete(UUID id) {
-        this.findByIdSimple(id);
-        repositoryCommand.deleteById(id);
+    public UUID delete(UUID id) {
+        try {
+            repositoryCommand.deleteById(id);
+            return id;
+        } catch (Exception e){
+            throw new NotDeleteException();
+        }
     }
 
     @Override

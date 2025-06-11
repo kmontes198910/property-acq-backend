@@ -6,6 +6,7 @@ import com.kynsof.share.core.infrastructure.specifications.GenericSpecifications
 import com.kynsoft.propertyacqcenter.application.response.CompanyContactSearchResponse;
 import com.kynsoft.propertyacqcenter.domain.dto.CompanyContactDto;
 import com.kynsoft.propertyacqcenter.domain.dto.exception.CompanyContactNotFoundException;
+import com.kynsoft.propertyacqcenter.domain.dto.exception.NotDeleteException;
 import com.kynsoft.propertyacqcenter.domain.dto.exception.companyContact.PersonEmailFormatException;
 import com.kynsoft.propertyacqcenter.domain.dto.exception.companyContact.PersonEmailMustBeUniqueException;
 import com.kynsoft.propertyacqcenter.domain.dto.exception.contact.EmailFormatException;
@@ -67,10 +68,13 @@ public class CompanyContactServiceImpl implements ICompanyContactService {
     }
 
     @Override
-    @Transactional
     public void delete(UUID id) {
-        this.findByIdSimple(id);
-        repositoryCommand.deleteById(id);
+        try {
+            this.findById(id);
+            repositoryCommand.deleteById(id);
+        } catch (Exception e) {
+            throw new NotDeleteException();
+        }
     }
 
     @Override

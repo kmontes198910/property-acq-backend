@@ -6,6 +6,7 @@ import com.kynsof.share.core.infrastructure.specifications.GenericSpecifications
 import com.kynsoft.propertyacqcenter.application.response.InsuranceBrokerResponse;
 import com.kynsoft.propertyacqcenter.domain.dto.InsuranceBrokerDto;
 import com.kynsoft.propertyacqcenter.domain.dto.exception.InsuranceBrokerNotFoundException;
+import com.kynsoft.propertyacqcenter.domain.dto.exception.NotDeleteException;
 import com.kynsoft.propertyacqcenter.domain.services.IInsuranceBrokerService;
 import com.kynsoft.propertyacqcenter.infrastructure.entity.InsuranceBroker;
 import com.kynsoft.propertyacqcenter.infrastructure.entity.LegalEntity;
@@ -57,10 +58,13 @@ public class InsuranceBrokerServiceImpl implements IInsuranceBrokerService {
     }
 
     @Override
-    @Transactional
     public void delete(UUID id) {
-        this.findById(id);
-        repositoryCommand.deleteById(id);
+        try {
+            this.findById(id);
+            repositoryCommand.deleteById(id);
+        } catch (Exception e) {
+            throw new NotDeleteException();
+        }
     }
 
     @Override

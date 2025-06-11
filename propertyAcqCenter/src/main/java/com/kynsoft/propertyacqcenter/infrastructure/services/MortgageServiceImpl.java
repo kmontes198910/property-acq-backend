@@ -6,6 +6,7 @@ import com.kynsof.share.core.infrastructure.specifications.GenericSpecifications
 import com.kynsoft.propertyacqcenter.application.response.MortgageResponse;
 import com.kynsoft.propertyacqcenter.domain.dto.MortgageDto;
 import com.kynsoft.propertyacqcenter.domain.dto.exception.MortgageNotFoundException;
+import com.kynsoft.propertyacqcenter.domain.dto.exception.NotDeleteException;
 import com.kynsoft.propertyacqcenter.domain.services.IMortgageService;
 import com.kynsoft.propertyacqcenter.infrastructure.entity.Mortgage;
 import com.kynsoft.propertyacqcenter.infrastructure.entity.Property;
@@ -72,10 +73,13 @@ public class MortgageServiceImpl implements IMortgageService {
     }
 
     @Override
-    @Transactional
     public void delete(UUID id) {
-        this.findByIdSimple(id);
-        repositoryCommand.deleteById(id);
+        try {
+            this.findById(id);
+            repositoryCommand.deleteById(id);
+        } catch (Exception e) {
+            throw new NotDeleteException();
+        }
     }
 
     @Override

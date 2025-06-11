@@ -5,6 +5,7 @@ import com.kynsof.share.core.domain.response.PaginatedResponse;
 import com.kynsof.share.core.infrastructure.specifications.GenericSpecificationsBuilder;
 import com.kynsoft.propertyacqcenter.application.response.SalesPropertyResponse;
 import com.kynsoft.propertyacqcenter.domain.dto.SalesPropertyDto;
+import com.kynsoft.propertyacqcenter.domain.dto.exception.NotDeleteException;
 import com.kynsoft.propertyacqcenter.domain.dto.exception.PurchaseForPropertyNotFoundException;
 import com.kynsoft.propertyacqcenter.domain.dto.exception.PurchaseNotFoundException;
 import com.kynsoft.propertyacqcenter.domain.services.ISalesPropertyService;
@@ -69,10 +70,13 @@ public class SalesPropertyServiceImpl implements ISalesPropertyService {
     }
 
     @Override
-    @Transactional
     public void delete(UUID id) {
-        this.findByIdSimple(id);
-        repositoryCommand.deleteById(id);
+        try {
+            this.findById(id);
+            repositoryCommand.deleteById(id);
+        } catch (Exception e) {
+            throw new NotDeleteException();
+        }
     }
 
     @Override

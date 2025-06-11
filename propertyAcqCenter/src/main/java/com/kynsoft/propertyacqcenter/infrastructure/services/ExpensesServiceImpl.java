@@ -7,6 +7,7 @@ import com.kynsoft.propertyacqcenter.application.response.ExpensesResponse;
 import com.kynsoft.propertyacqcenter.domain.dto.ExpensesDto;
 import com.kynsoft.propertyacqcenter.domain.dto.exception.ExpensesNotFoundException;
 import com.kynsoft.propertyacqcenter.domain.dto.exception.ExpresesForPropertyNotFoundException;
+import com.kynsoft.propertyacqcenter.domain.dto.exception.NotDeleteException;
 import com.kynsoft.propertyacqcenter.domain.services.IExpensesService;
 import com.kynsoft.propertyacqcenter.infrastructure.entity.Expenses;
 import com.kynsoft.propertyacqcenter.infrastructure.repository.command.ExpensesWriteDataJPARepository;
@@ -76,10 +77,13 @@ public class ExpensesServiceImpl implements IExpensesService {
     }
 
     @Override
-    @Transactional
     public void delete(UUID id) {
-        this.findByIdSimple(id);
-        repositoryCommand.deleteById(id);
+        try {
+            this.findById(id);
+            repositoryCommand.deleteById(id);
+        } catch (Exception e) {
+            throw new NotDeleteException();
+        }
     }
 
     @Override

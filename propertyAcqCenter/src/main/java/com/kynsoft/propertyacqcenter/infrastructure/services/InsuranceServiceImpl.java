@@ -6,6 +6,7 @@ import com.kynsof.share.core.infrastructure.specifications.GenericSpecifications
 import com.kynsoft.propertyacqcenter.application.response.InsuranceResponse;
 import com.kynsoft.propertyacqcenter.domain.dto.InsuranceDto;
 import com.kynsoft.propertyacqcenter.domain.dto.exception.InsuranceNotFoundException;
+import com.kynsoft.propertyacqcenter.domain.dto.exception.NotDeleteException;
 import com.kynsoft.propertyacqcenter.domain.services.IInsuranceService;
 import com.kynsoft.propertyacqcenter.infrastructure.entity.Insurance;
 import com.kynsoft.propertyacqcenter.infrastructure.repository.command.InsuranceWriteDataJPARepository;
@@ -48,10 +49,13 @@ public class InsuranceServiceImpl implements IInsuranceService {
     }
 
     @Override
-    @Transactional
     public void delete(UUID id) {
-        this.findById(id);
-        repositoryCommand.deleteById(id);
+        try {
+            this.findById(id);
+            repositoryCommand.deleteById(id);
+        } catch (Exception e) {
+            throw new NotDeleteException();
+        }
     }
 
     @Override
