@@ -6,6 +6,7 @@ import com.kynsof.share.core.infrastructure.specifications.GenericSpecifications
 import com.kynsoft.propertyacqcenter.application.response.DocumentResponse;
 import com.kynsoft.propertyacqcenter.domain.dto.DocumentDto;
 import com.kynsoft.propertyacqcenter.domain.dto.exception.DocumentNotFoundException;
+import com.kynsoft.propertyacqcenter.domain.dto.exception.NotDeleteException;
 import com.kynsoft.propertyacqcenter.domain.services.IDocumentService;
 import com.kynsoft.propertyacqcenter.infrastructure.entity.Document;
 import com.kynsoft.propertyacqcenter.infrastructure.entity.LegalEntity;
@@ -68,10 +69,13 @@ public class DocumentServiceImpl implements IDocumentService {
     }
 
     @Override
-    @Transactional
     public void delete(UUID id) {
-        this.findByIdSimple(id);
-        repositoryCommand.deleteById(id);
+        try {
+            this.findById(id);
+            repositoryCommand.deleteById(id);
+        } catch (Exception e) {
+            throw new NotDeleteException();
+        }
     }
 
     @Override

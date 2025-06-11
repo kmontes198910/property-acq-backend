@@ -6,6 +6,7 @@ import com.kynsof.share.core.infrastructure.specifications.GenericSpecifications
 import com.kynsoft.propertyacqcenter.application.response.IncomeDetailsBreakdownResponse;
 import com.kynsoft.propertyacqcenter.domain.dto.IncomeDetailsBreakdownDto;
 import com.kynsoft.propertyacqcenter.domain.dto.exception.AddressNotFoundException;
+import com.kynsoft.propertyacqcenter.domain.dto.exception.NotDeleteException;
 import com.kynsoft.propertyacqcenter.domain.services.IIncomeDetailsBreakdownService;
 import com.kynsoft.propertyacqcenter.infrastructure.entity.IncomeDetailsBreakdown;
 import com.kynsoft.propertyacqcenter.infrastructure.repository.command.IncomeDetailsBreakdownWriteDataJPARepository;
@@ -47,10 +48,13 @@ public class IncomeDetailsBreakdownServiceImpl implements IIncomeDetailsBreakdow
     }
 
     @Override
-    @Transactional
     public void delete(UUID id) {
-        this.findById(id);
-        repositoryCommand.deleteById(id);
+        try {
+            this.findById(id);
+            repositoryCommand.deleteById(id);
+        } catch (Exception e) {
+            throw new NotDeleteException();
+        }
     }
 
     @Override

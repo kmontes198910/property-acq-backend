@@ -7,6 +7,7 @@ import com.kynsoft.propertyacqcenter.application.response.IncomeResponse;
 import com.kynsoft.propertyacqcenter.domain.dto.IncomeDto;
 import com.kynsoft.propertyacqcenter.domain.dto.exception.IncomeForPropertyNotFoundException;
 import com.kynsoft.propertyacqcenter.domain.dto.exception.IncomeNotFoundException;
+import com.kynsoft.propertyacqcenter.domain.dto.exception.NotDeleteException;
 import com.kynsoft.propertyacqcenter.domain.services.IIncomeService;
 import com.kynsoft.propertyacqcenter.infrastructure.entity.Income;
 import com.kynsoft.propertyacqcenter.infrastructure.entity.IncomeDetailsBreakdown;
@@ -85,10 +86,13 @@ public class IncomeServiceImpl implements IIncomeService {
     }
 
     @Override
-    @Transactional
     public void delete(UUID id) {
-        this.findByIdSimple(id);
-        repositoryCommand.deleteById(id);
+        try {
+            this.findById(id);
+            repositoryCommand.deleteById(id);
+        } catch (Exception e) {
+            throw new NotDeleteException();
+        }
     }
 
     @Override

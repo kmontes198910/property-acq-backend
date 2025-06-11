@@ -6,6 +6,7 @@ import com.kynsof.share.core.infrastructure.specifications.GenericSpecifications
 import com.kynsoft.propertyacqcenter.application.response.CompanyTypeResponse;
 import com.kynsoft.propertyacqcenter.domain.dto.CompanyTypeDto;
 import com.kynsoft.propertyacqcenter.domain.dto.exception.CompanyTypeNotFoundException;
+import com.kynsoft.propertyacqcenter.domain.dto.exception.NotDeleteException;
 import com.kynsoft.propertyacqcenter.domain.services.ICompanyTypeService;
 import com.kynsoft.propertyacqcenter.infrastructure.entity.CompanyType;
 import com.kynsoft.propertyacqcenter.infrastructure.repository.command.CompanyTypeWriteDataJPARepository;
@@ -61,10 +62,13 @@ public class CompanyTypeServiceImpl implements ICompanyTypeService {
     }
 
     @Override
-    @Transactional
     public void delete(UUID id) {
-        this.findById(id);
-        repositoryCommand.deleteById(id);
+        try {
+            this.findById(id);
+            repositoryCommand.deleteById(id);
+        } catch (Exception e) {
+            throw new NotDeleteException();
+        }
     }
 
     @Override
