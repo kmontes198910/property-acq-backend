@@ -25,4 +25,6 @@ public class CompanyDto {
     private LocalDateTime updatedAt;
     private UUID createdBy;//
     private UUID updatedBy;//
+    private String category;
+    private SubCategoryDto subCategory;
 }
