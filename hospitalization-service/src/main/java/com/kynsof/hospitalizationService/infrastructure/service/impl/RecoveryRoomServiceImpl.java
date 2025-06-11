@@ -4,7 +4,7 @@ package com.kynsof.hospitalizationService.infrastructure.service.impl;
 import com.kynsof.hospitalizationService.application.response.RecoveryRoomResponse;
 import com.kynsof.hospitalizationService.domain.dto.RecoveryRoom;
 import com.kynsof.hospitalizationService.domain.service.IRecoveryRoomService;
-import com.kynsof.hospitalizationService.infrastructure.config.SurgeryCacheConfig;
+import com.kynsof.hospitalizationService.infrastructure.config.HospitalizationCacheConfig;
 import com.kynsof.hospitalizationService.infrastructure.entity.RecoveryBedEntity;
 import com.kynsof.hospitalizationService.infrastructure.entity.RecoveryRoomEntity;
 import com.kynsof.hospitalizationService.infrastructure.repositories.command.RecoveryBedWriteRepository;
@@ -42,7 +42,7 @@ public class RecoveryRoomServiceImpl implements IRecoveryRoomService {
     private final RecoveryBedWriteRepository recoveryBedWriteRepository;
 
     @Override
-    @Cacheable(value = SurgeryCacheConfig.RECOVERY_BED_CACHE, key = "'room_' + #id")
+    @Cacheable(value = HospitalizationCacheConfig.RECOVERY_BED_CACHE, key = "'room_' + #id")
     public RecoveryRoom findById(UUID id) {
         log.info("Buscando sala de recuperación con ID: {}", id);
         Optional<RecoveryRoomEntity> optionalRoom = recoveryRoomReadRepository.findById(id);
@@ -51,7 +51,7 @@ public class RecoveryRoomServiceImpl implements IRecoveryRoomService {
     }
 
     @Override
-    @Cacheable(value = SurgeryCacheConfig.RECOVERY_BED_CACHE, key = "'business_rooms_' + #businessId")
+    @Cacheable(value = HospitalizationCacheConfig.RECOVERY_BED_CACHE, key = "'business_rooms_' + #businessId")
     public List<RecoveryRoom> findByBusinessId(UUID businessId) {
         log.info("Buscando salas de recuperación para el negocio con ID: {}", businessId);
         return recoveryRoomReadRepository.findByBusinessId(businessId)
@@ -61,7 +61,7 @@ public class RecoveryRoomServiceImpl implements IRecoveryRoomService {
     }
 
     @Override
-    @Cacheable(value = SurgeryCacheConfig.RECOVERY_BED_CACHE, key = "'rooms_type_' + #type")
+    @Cacheable(value = HospitalizationCacheConfig.RECOVERY_BED_CACHE, key = "'rooms_type_' + #type")
     public List<RecoveryRoom> findByType(String type) {
         log.info("Buscando salas de recuperación de tipo: {}", type);
         return recoveryRoomReadRepository.findByRoomType(type)
@@ -71,7 +71,7 @@ public class RecoveryRoomServiceImpl implements IRecoveryRoomService {
     }
 
     @Override
-    @Cacheable(value = SurgeryCacheConfig.RECOVERY_BED_CACHE, key = "'rooms_status_' + #status")
+    @Cacheable(value = HospitalizationCacheConfig.RECOVERY_BED_CACHE, key = "'rooms_status_' + #status")
     public List<RecoveryRoom> findByStatus(String status) {
         log.info("Buscando salas de recuperación con estado: {}", status);
         return recoveryRoomReadRepository.findByStatus(status)
@@ -82,7 +82,7 @@ public class RecoveryRoomServiceImpl implements IRecoveryRoomService {
 
     @Override
     @Transactional
-    @CacheEvict(value = SurgeryCacheConfig.RECOVERY_BED_CACHE, allEntries = true)
+    @CacheEvict(value = HospitalizationCacheConfig.RECOVERY_BED_CACHE, allEntries = true)
     public RecoveryRoom create(RecoveryRoom recoveryRoom) {
         log.info("Creando nueva sala de recuperación: {}", recoveryRoom.getName());
 
@@ -106,7 +106,7 @@ public class RecoveryRoomServiceImpl implements IRecoveryRoomService {
 
     @Override
     @Transactional
-    @CacheEvict(value = SurgeryCacheConfig.RECOVERY_BED_CACHE, allEntries = true)
+    @CacheEvict(value = HospitalizationCacheConfig.RECOVERY_BED_CACHE, allEntries = true)
     public RecoveryRoom update(RecoveryRoom recoveryRoom) {
         log.info("Actualizando sala de recuperación con ID: {}", recoveryRoom.getId());
 
@@ -126,7 +126,7 @@ public class RecoveryRoomServiceImpl implements IRecoveryRoomService {
 
     @Override
     @Transactional
-    @CacheEvict(value = SurgeryCacheConfig.RECOVERY_BED_CACHE, allEntries = true)
+    @CacheEvict(value = HospitalizationCacheConfig.RECOVERY_BED_CACHE, allEntries = true)
     public void updateStatus(UUID roomId, String status) {
         log.info("Actualizando estado de sala de recuperación con ID {} a {}", roomId, status);
         recoveryRoomWriteRepository.updateStatus(roomId, status);
@@ -134,7 +134,7 @@ public class RecoveryRoomServiceImpl implements IRecoveryRoomService {
 
     @Override
     @Transactional
-    @CacheEvict(value = SurgeryCacheConfig.RECOVERY_BED_CACHE, allEntries = true)
+    @CacheEvict(value = HospitalizationCacheConfig.RECOVERY_BED_CACHE, allEntries = true)
     public void deleteById(UUID id) {
         log.info("Eliminando sala de recuperación con ID: {}", id);
 
