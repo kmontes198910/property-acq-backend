@@ -5,6 +5,7 @@ import com.kynsof.share.core.infrastructure.bus.IMediator;
 import com.kynsoft.propertyacqcenter.application.query.dashboardRequest.EstimateEnum;
 import com.kynsoft.propertyacqcenter.application.query.dashboardRequest.GetDashboardInfoQuery;
 import com.kynsoft.propertyacqcenter.application.query.estimateValue.getEstimateValueExternalService.GetEstimateValueExternalServiceQuery;
+import com.kynsoft.propertyacqcenter.application.query.estimateValue.getRentalListingsExternalService.GetRentalListingsExternalServiceQuery;
 import com.kynsoft.propertyacqcenter.application.query.estimateValue.getSaleListingsExternalService.GetSaleListingsExternalServiceQuery;
 import com.kynsoft.propertyacqcenter.application.query.market.getMarketExternalService.GetMarketExternalServiceQuery;
 import com.kynsoft.propertyacqcenter.application.query.restEstimate.getRentEstimateExternalService.GetRentEstimateExternalServiceQuery;
@@ -114,6 +115,24 @@ public class RentCastController {
                                                @RequestParam(defaultValue = "Active", required = false) String status,
                                                @RequestParam(defaultValue = "0", required = false) Integer daysOld) {
         GetSaleListingsExternalServiceQuery query = new GetSaleListingsExternalServiceQuery(address, propertyType, city, state, zipCode, latitude, longitude, radius, bedrooms, bathrooms, status, daysOld);
+        PaginatedResponse response = mediator.send(query);
+        return response;
+    }
+
+    @GetMapping("/rental")
+    public PaginatedResponse getRentalListings(@RequestParam(defaultValue = "", required = false) String address,
+                                               @RequestParam(defaultValue = "Single Family", required = false) String propertyType,
+                                               @RequestParam(defaultValue = "", required = false) String city,
+                                               @RequestParam(defaultValue = "", required = false) String state,
+                                               @RequestParam(defaultValue = "", required = false) String zipCode,
+                                               @RequestParam(defaultValue = "-1", required = false) double latitude,
+                                               @RequestParam(defaultValue = "-1", required = false) double longitude,
+                                               @RequestParam(defaultValue = "-1", required = false) double radius,
+                                               @RequestParam(defaultValue = "-1", required = false) double bedrooms,
+                                               @RequestParam(defaultValue = "-1", required = false) double bathrooms,
+                                               @RequestParam(defaultValue = "Active", required = false) String status,
+                                               @RequestParam(defaultValue = "0", required = false) Integer daysOld) {
+        GetRentalListingsExternalServiceQuery query = new GetRentalListingsExternalServiceQuery(address, propertyType, city, state, zipCode, latitude, longitude, radius, bedrooms, bathrooms, status, daysOld);
         PaginatedResponse response = mediator.send(query);
         return response;
     }
