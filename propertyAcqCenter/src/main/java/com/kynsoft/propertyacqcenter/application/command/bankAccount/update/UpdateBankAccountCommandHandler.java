@@ -30,7 +30,11 @@ public class UpdateBankAccountCommandHandler implements ICommandHandler<UpdateBa
     @Override
     public void handle(UpdateBankAccountCommand command) {
         this.validateRoutingNumber(command.getRoutingNumber());
-        this.validateDomesticWare(command.getDomesticWare());
+
+        if (command.getDomesticWare() != null) {
+            this.validateDomesticWare(command.getDomesticWare());
+        }
+
         LegalEntityDto legalEntityDto = this.legalEntityService.findById(command.getLegalEntity());
         CurrencyDto currencyDto = this.currencyService.findById(command.getInternationalDetails().getCurrency());
 
