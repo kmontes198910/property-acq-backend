@@ -11,10 +11,18 @@ public class FindServiceSimpleByIdBusinessQuery implements IQuery {
 
     private final UUID id;
     private final Pageable pageable;
+    private final String serviceName;
 
     public FindServiceSimpleByIdBusinessQuery(UUID id, Pageable pageable) {
         this.id = id;
         this.pageable = pageable;
+        this.serviceName = null;
+    }
+    
+    public FindServiceSimpleByIdBusinessQuery(UUID id, Pageable pageable, String serviceName) {
+        this.id = id;
+        this.pageable = pageable;
+        this.serviceName = serviceName;
     }
 
 }

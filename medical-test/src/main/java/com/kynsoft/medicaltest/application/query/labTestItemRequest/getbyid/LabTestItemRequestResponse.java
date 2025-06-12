@@ -36,7 +36,7 @@ public class LabTestItemRequestResponse implements IResponse, Serializable {
         this.id = dto.getId();
         this.order = dto.getOrder();
         this.code = dto.getCode();
-        this.examinationType = dto.getExaminationType();
+        this.examinationType = dto.getDescription();
         this.status = dto.getStatus();
         this.completionDate = dto.getCompletionDate();
         this.observations = dto.getObservations();

@@ -25,4 +25,17 @@ public class CustomerResponse implements IResponse {
     private Boolean isActive;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
+
+    public CustomerResponse(CustomerDto customer) {
+        this.id = customer.getId();
+        this.identificationType = customer.getIdentificationType();
+        this.identificationNumber = customer.getIdentificationNumber();
+        this.businessName = customer.getBusinessName();
+        this.address = customer.getAddress();
+        this.email = customer.getEmail();
+        this.phoneNumber = customer.getPhoneNumber();
+        this.isActive = customer.getIsActive();
+        this.createdAt = customer.getCreatedAt();
+        this.updatedAt = customer.getUpdatedAt();
+    }
 }

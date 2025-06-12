@@ -1,6 +1,7 @@
 package com.kynsoft.invoiceservice.application.query.invoice.getById;
 
 import com.kynsof.share.core.domain.bus.query.IResponse;
+import com.kynsoft.invoiceservice.application.query.customer.get.CustomerResponse;
 import com.kynsoft.invoiceservice.domain.dto.InvoiceAdditionalFieldDto;
 import com.kynsoft.invoiceservice.domain.dto.InvoiceDetailDto;
 import com.kynsoft.invoiceservice.domain.dto.InvoicePaymentDto;
@@ -31,6 +32,8 @@ public class InvoiceResponse implements IResponse {
     private String authorizationNumber;
     private LocalDateTime authorizationDate;
     private LocalDateTime issueDate;
+
+    private CustomerResponse customer;
     
     // Detalles financieros
     private BigDecimal subtotal;

@@ -20,5 +20,6 @@ public interface IBusinessServicesService {
     void createAll(List<BusinessServicesDto> businessServicePrice);
     void deleteIds(List<UUID> ids);
     PaginatedResponse findServicesSimpleByBusinessId(Pageable pageable, UUID businessId);
+    PaginatedResponse findServicesSimpleByBusinessIdAndServiceName(Pageable pageable, UUID businessId, String serviceName);
     Long countRelationsBetweenServiceAndBusiness(UUID serviceId, UUID businessId);
 }

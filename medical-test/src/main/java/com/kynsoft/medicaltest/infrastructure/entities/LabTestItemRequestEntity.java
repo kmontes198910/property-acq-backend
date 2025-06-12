@@ -39,8 +39,8 @@ public class LabTestItemRequestEntity {
     @Column(name = "code", nullable = false)
     private String code;
 
-    @Column(name = "examination_type", nullable = false)
-    private String examinationType;
+    @Column(name = "description", nullable = false)
+    private String description;
 
     @Column(name = "status", nullable = false)
     private String status;
@@ -72,7 +72,7 @@ public class LabTestItemRequestEntity {
         this.order = dto.getOrder() != null ? new LabTestRequestEntity(dto.getOrder()) : null;
         // orderId se establecerá automáticamente cuando se persista la entidad
         this.code = dto.getCode();
-        this.examinationType = dto.getExaminationType();
+        this.description = dto.getDescription();
         this.status = dto.getStatus();
         this.completionDate = dto.getCompletionDate();
         this.observations = dto.getObservations();
@@ -86,7 +86,7 @@ public class LabTestItemRequestEntity {
                 .id(id)
                 .code(code)
                 .completionDate(completionDate)
-                .examinationType(examinationType)
+                .description(description)
                 .observations(observations)
                 .status(status)
                 .createdAt(createdAt)
@@ -102,7 +102,7 @@ public class LabTestItemRequestEntity {
                 .code(code)
                 .order(order.toAggregateSimple())
                 .completionDate(completionDate)
-                .examinationType(examinationType)
+                .description(description)
                 .observations(observations)
                 .status(status)
                 .createdAt(createdAt)
