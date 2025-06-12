@@ -14,4 +14,5 @@ import lombok.NoArgsConstructor;
 public class UpdateLabTestRequestRequest {
     private String status;
     private String observations;
+    private String origen;
 }

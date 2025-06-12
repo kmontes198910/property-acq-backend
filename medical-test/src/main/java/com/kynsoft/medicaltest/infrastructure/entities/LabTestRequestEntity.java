@@ -54,6 +54,9 @@ public class LabTestRequestEntity {
 
     @Column(name = "business_id", nullable = false)
     private UUID businessId;
+    
+    @Column(name = "origen")
+    private String origen;
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private List<LabTestItemRequestEntity> examinations = new ArrayList<>();
@@ -83,6 +86,7 @@ public class LabTestRequestEntity {
         this.status = dto.getStatus();
         this.observations = dto.getObservations();
         this.businessId = dto.getBusinessId();
+        this.origen = dto.getOrigen();
         this.createdBy = dto.getCreatedBy();
         this.updatedBy = dto.getUpdatedBy();
         this.isActive = dto.isActive();
@@ -106,6 +110,7 @@ public class LabTestRequestEntity {
                 .status(status)
                 .observations(observations)
                 .businessId(businessId)
+                .origen(origen)
                 .createdAt(createdAt)
                 .updatedAt(updatedAt)
                 .updatedBy(updatedBy)
@@ -125,6 +130,7 @@ public class LabTestRequestEntity {
                 .status(status)
                 .observations(observations)
                 .businessId(businessId)
+                .origen(origen)
                 .isActive(isActive)
                 .creationDate(creationDate)
                 .patient(patient != null ? patient.toAggregate() : null)
@@ -139,6 +145,7 @@ public class LabTestRequestEntity {
                 .status(status)
                 .observations(observations)
                 .businessId(businessId)
+                .origen(origen)
                 .createdAt(createdAt)
                 .updatedAt(updatedAt)
                 .updatedBy(updatedBy)
