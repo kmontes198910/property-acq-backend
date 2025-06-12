@@ -2,6 +2,9 @@ package com.kynsoft.propertyacqcenter.application.command.sales.update;
 
 import com.kynsof.share.core.domain.bus.command.ICommand;
 import com.kynsof.share.core.domain.bus.command.ICommandMessage;
+import com.kynsoft.propertyacqcenter.domain.enums.PropertysAnnualValueIncrease;
+import com.kynsoft.propertyacqcenter.domain.enums.PropertysStarting;
+import com.kynsoft.propertyacqcenter.domain.enums.TypeOfSalesCost;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -18,38 +21,27 @@ public class UpdateSalesCommand implements ICommand {
     private Double federalIncomeTaxRate;
     private Double purchesePrice;
     private Double marketValueIndreaseRate;
-    private Boolean isPurchesePrice;
-    private Boolean isMarketValueIndreaseRate;
-    private Boolean isInflationRate;
-    private Boolean isMarketValue;
-    private Boolean isCapRate;
-    private Boolean isFixedSellingPrice;
-    private Boolean other;
-    private Boolean salesCostNone;
-    private Boolean salesCostPercentage;
-    private Boolean salesCostFixedDollarAmount;
     private Boolean deprecationNone;
     private Boolean deprecationStraightline;
     private Boolean deprecationDoubleDecliningBalance;
 
-    public UpdateSalesCommand(UUID id, String property, Double capitalGainsTaxRate, Double stateIncomeTaxRate, Double federalIncomeTaxRate, Double purchesePrice, Double marketValueIndreaseRate, Boolean isPurchesePrice, Boolean isMarketValueIndreaseRate, Boolean isInflationRate, Boolean isMarketValue, Boolean isCapRate, Boolean isFixedSellingPrice, Boolean other, Boolean salesCostNone, Boolean salesCostPercentage, Boolean salesCostFixedDollarAmount, Boolean deprecationNone, Boolean deprecationStraightline, Boolean deprecationDoubleDecliningBalance) {
+    private PropertysStarting propertysStarting;
+    private PropertysAnnualValueIncrease propertysAnnualValueIncrease;
+    private TypeOfSalesCost typeOfSalesCost;
+
+    public UpdateSalesCommand(UUID id, String property, Double capitalGainsTaxRate, Double stateIncomeTaxRate, 
+            Double federalIncomeTaxRate, Double purchesePrice, Double marketValueIndreaseRate, Boolean deprecationNone, Boolean deprecationStraightline, Boolean deprecationDoubleDecliningBalance,
+            PropertysStarting propertysStarting, PropertysAnnualValueIncrease propertysAnnualValueIncrease, TypeOfSalesCost typeOfSalesCost) {
         this.id = id;
         this.property = property;
+        this.propertysStarting = propertysStarting;
+        this.propertysAnnualValueIncrease = propertysAnnualValueIncrease;
+        this.typeOfSalesCost = typeOfSalesCost;
         this.capitalGainsTaxRate = capitalGainsTaxRate;
         this.stateIncomeTaxRate = stateIncomeTaxRate;
         this.federalIncomeTaxRate = federalIncomeTaxRate;
         this.purchesePrice = purchesePrice;
         this.marketValueIndreaseRate = marketValueIndreaseRate;
-        this.isPurchesePrice = isPurchesePrice;
-        this.isMarketValueIndreaseRate = isMarketValueIndreaseRate;
-        this.isInflationRate = isInflationRate;
-        this.isMarketValue = isMarketValue;
-        this.isCapRate = isCapRate;
-        this.isFixedSellingPrice = isFixedSellingPrice;
-        this.other = other;
-        this.salesCostNone = salesCostNone;
-        this.salesCostPercentage = salesCostPercentage;
-        this.salesCostFixedDollarAmount = salesCostFixedDollarAmount;
         this.deprecationNone = deprecationNone;
         this.deprecationStraightline = deprecationStraightline;
         this.deprecationDoubleDecliningBalance = deprecationDoubleDecliningBalance;
@@ -64,19 +56,12 @@ public class UpdateSalesCommand implements ICommand {
                 request.getFederalIncomeTaxRate(),
                 request.getPurchesePrice(),
                 request.getMarketValueIndreaseRate(),
-                request.getIsPurchesePrice(),
-                request.getIsMarketValueIndreaseRate(),
-                request.getIsInflationRate(),
-                request.getIsMarketValue(),
-                request.getIsCapRate(),
-                request.getIsFixedSellingPrice(),
-                request.getOther(),
-                request.getSalesCostNone(),
-                request.getSalesCostPercentage(),
-                request.getSalesCostFixedDollarAmount(),
                 request.getDeprecationNone(),
                 request.getDeprecationStraightline(),
-                request.getDeprecationDoubleDecliningBalance()
+                request.getDeprecationDoubleDecliningBalance(),
+                request.getPropertysStarting(),
+                request.getPropertysAnnualValueIncrease(),
+                request.getTypeOfSalesCost()
         );
     }
 

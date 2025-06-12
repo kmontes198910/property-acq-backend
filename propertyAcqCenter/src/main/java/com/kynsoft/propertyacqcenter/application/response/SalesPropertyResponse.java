@@ -2,6 +2,9 @@ package com.kynsoft.propertyacqcenter.application.response;
 
 import com.kynsof.share.core.domain.bus.query.IResponse;
 import com.kynsoft.propertyacqcenter.domain.dto.*;
+import com.kynsoft.propertyacqcenter.domain.enums.PropertysAnnualValueIncrease;
+import com.kynsoft.propertyacqcenter.domain.enums.PropertysStarting;
+import com.kynsoft.propertyacqcenter.domain.enums.TypeOfSalesCost;
 import lombok.*;
 
 import java.io.Serializable;
@@ -22,19 +25,13 @@ public class SalesPropertyResponse implements Serializable, IResponse {
     private Double federalIncomeTaxRate;
     private Double purchesePrice;
     private Double marketValueIndreaseRate;
-    private Boolean isPurchesePrice;
-    private Boolean isMarketValueIndreaseRate;
-    private Boolean isInflationRate;
-    private Boolean isMarketValue;
-    private Boolean isCapRate;
-    private Boolean isFixedSellingPrice;
-    private Boolean other;
-    private Boolean salesCostNone;
-    private Boolean salesCostPercentage;
-    private Boolean salesCostFixedDollarAmount;
     private Boolean deprecationNone;
     private Boolean deprecationStraightline;
     private Boolean deprecationDoubleDecliningBalance;
+
+    private PropertysStarting propertysStarting;
+    private PropertysAnnualValueIncrease propertysAnnualValueIncrease;
+    private TypeOfSalesCost typeOfSalesCost;
 
     public SalesPropertyResponse(SalesPropertyDto dto) {
         this.id = dto.getId();
@@ -44,19 +41,12 @@ public class SalesPropertyResponse implements Serializable, IResponse {
         this.federalIncomeTaxRate = dto.getFederalIncomeTaxRate();
         this.purchesePrice = dto.getPurchesePrice();
         this.marketValueIndreaseRate = dto.getMarketValueIndreaseRate();
-        this.isPurchesePrice = dto.getIsPurchesePrice();
-        this.isMarketValueIndreaseRate = dto.getIsMarketValueIndreaseRate();
-        this.isInflationRate = dto.getIsInflationRate();
-        this.isMarketValue = dto.getIsMarketValue();
-        this.isCapRate = dto.getIsCapRate();
-        this.isFixedSellingPrice = dto.getIsFixedSellingPrice();
-        this.other = dto.getOther();
-        this.salesCostNone = dto.getSalesCostNone();
-        this.salesCostPercentage = dto.getSalesCostPercentage();
-        this.salesCostFixedDollarAmount = dto.getSalesCostFixedDollarAmount();
         this.deprecationNone = dto.getDeprecationNone();
         this.deprecationStraightline = dto.getDeprecationStraightline();
         this.deprecationDoubleDecliningBalance = dto.getDeprecationDoubleDecliningBalance();
+        this.propertysStarting = dto.getPropertysStarting();
+        this.propertysAnnualValueIncrease = dto.getPropertysAnnualValueIncrease();
+        this.typeOfSalesCost = dto.getTypeOfSalesCost();
     }
 
 }

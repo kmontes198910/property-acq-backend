@@ -1,6 +1,9 @@
 package com.kynsoft.propertyacqcenter.infrastructure.entity;
 
 import com.kynsoft.propertyacqcenter.domain.dto.SalesPropertyDto;
+import com.kynsoft.propertyacqcenter.domain.enums.PropertysAnnualValueIncrease;
+import com.kynsoft.propertyacqcenter.domain.enums.PropertysStarting;
+import com.kynsoft.propertyacqcenter.domain.enums.TypeOfSalesCost;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -27,39 +30,39 @@ public class SalesProperty implements Serializable {
     private Double stateIncomeTaxRate;
     private Double federalIncomeTaxRate;
     private Double purchesePrice;
-    private Double marketValueIndreaseRate;
-    private Boolean isPurchesePrice;
-    private Boolean isMarketValueIndreaseRate;
-    private Boolean isInflationRate;
-    private Boolean isMarketValue;
-    private Boolean isCapRate;
-    private Boolean isFixedSellingPrice;
-    private Boolean other;
-    private Boolean salesCostNone;
-    private Boolean salesCostPercentage;
-    private Boolean salesCostFixedDollarAmount;
+
+    //Property's starting value
+    @Enumerated(EnumType.STRING)
+    @Column(name = "propertys_starting", nullable = true)
+    private PropertysStarting propertysStarting;
+
+    //Property's annual value increase
+    @Enumerated(EnumType.STRING)
+    @Column(name = "propertys_annual_value_increase", nullable = true)
+    private PropertysAnnualValueIncrease propertysAnnualValueIncrease;
+
+    //Type of sales cost
+    @Enumerated(EnumType.STRING)
+    @Column(name = "type_of_sales_cost", nullable = true)
+    private TypeOfSalesCost typeOfSalesCost;
+
     private Boolean deprecationNone;
     private Boolean deprecationStraightline;
     private Boolean deprecationDoubleDecliningBalance;
 
+    private Double marketValueIndreaseRate;
+
     public SalesProperty(SalesPropertyDto dto) {
         this.id = dto.getId();
+        this.propertysStarting = dto.getPropertysStarting();
+        this.propertysAnnualValueIncrease = dto.getPropertysAnnualValueIncrease();
+        this.typeOfSalesCost = dto.getTypeOfSalesCost();
         this.property = dto.getProperty() != null ? new Property(dto.getProperty()) : null;
         this.capitalGainsTaxRate = dto.getCapitalGainsTaxRate();
         this.stateIncomeTaxRate = dto.getStateIncomeTaxRate();
         this.federalIncomeTaxRate = dto.getFederalIncomeTaxRate();
         this.purchesePrice = dto.getPurchesePrice();
         this.marketValueIndreaseRate = dto.getMarketValueIndreaseRate();
-        this.isPurchesePrice = dto.getIsPurchesePrice();
-        this.isMarketValueIndreaseRate = dto.getIsMarketValueIndreaseRate();
-        this.isInflationRate = dto.getIsInflationRate();
-        this.isMarketValue = dto.getIsMarketValue();
-        this.isCapRate = dto.getIsCapRate();
-        this.isFixedSellingPrice = dto.getIsFixedSellingPrice();
-        this.other = dto.getOther();
-        this.salesCostNone = dto.getSalesCostNone();
-        this.salesCostPercentage = dto.getSalesCostPercentage();
-        this.salesCostFixedDollarAmount = dto.getSalesCostFixedDollarAmount();
         this.deprecationNone = dto.getDeprecationNone();
         this.deprecationStraightline = dto.getDeprecationStraightline();
         this.deprecationDoubleDecliningBalance = dto.getDeprecationDoubleDecliningBalance();
@@ -74,19 +77,12 @@ public class SalesProperty implements Serializable {
                 .federalIncomeTaxRate(federalIncomeTaxRate)
                 .purchesePrice(purchesePrice)
                 .marketValueIndreaseRate(marketValueIndreaseRate)
-                .isPurchesePrice(isPurchesePrice)
-                .isMarketValueIndreaseRate(isMarketValueIndreaseRate)
-                .isInflationRate(isInflationRate)
-                .isMarketValue(isMarketValue)
-                .isCapRate(isCapRate)
-                .isFixedSellingPrice(isFixedSellingPrice)
-                .other(other)
-                .salesCostNone(salesCostNone)
-                .salesCostPercentage(salesCostPercentage)
-                .salesCostFixedDollarAmount(salesCostFixedDollarAmount)
                 .deprecationNone(deprecationNone)
                 .deprecationStraightline(deprecationStraightline)
                 .deprecationDoubleDecliningBalance(deprecationDoubleDecliningBalance)
+                .propertysStarting(propertysStarting)
+                .propertysAnnualValueIncrease(propertysAnnualValueIncrease)
+                .typeOfSalesCost(typeOfSalesCost)
                 .build();
     }
 }
