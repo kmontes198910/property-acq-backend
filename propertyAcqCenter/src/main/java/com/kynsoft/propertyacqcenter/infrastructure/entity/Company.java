@@ -24,11 +24,11 @@ public class Company {
     private UUID id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "company_type_id", nullable = false)
+    @JoinColumn(name = "company_type_id", nullable = true)
     private CompanyType companyType;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "sub_company_type_id", nullable = false)
+    @JoinColumn(name = "sub_company_type_id", nullable = true)
     private SubCompanyType subCompanyType;
 
     @Column(name = "title")
@@ -65,7 +65,7 @@ public class Company {
     private String category;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "sub_category")
+    @JoinColumn(name = "sub_category", nullable = true)
     private SubCategory subCategory;
 
     public Company(CompanyDto dto) {
