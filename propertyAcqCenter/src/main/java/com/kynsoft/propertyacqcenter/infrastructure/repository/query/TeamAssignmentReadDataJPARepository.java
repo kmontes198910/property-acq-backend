@@ -18,9 +18,7 @@ public interface TeamAssignmentReadDataJPARepository extends JpaRepository<TeamA
         "property", "buyerEntityName", "buyerContactRep", "titleEscrowCompany", 
         "lenderCompany", "projectManager", "legalContact", "seller", "hoa",
         "buyerEntityName.company", "buyerContactRep.company", "titleEscrowCompany.company", 
-        "lenderCompany.company", "projectManager.company", "legalContact.company", "seller.company", "hoa.company",
-        "buyerEntityName.subCategory", "buyerContactRep.subCategory", "titleEscrowCompany.subCategory", 
-        "lenderCompany.subCategory", "projectManager.subCategory", "legalContact.subCategory", "seller.subCategory", "hoa.subCategory"
+        "lenderCompany.company", "projectManager.company", "legalContact.company", "seller.company", "hoa.company"
     })
     @Override
     Page<TeamAssignment> findAll(Specification<TeamAssignment> specification, Pageable pageable);
@@ -29,9 +27,7 @@ public interface TeamAssignmentReadDataJPARepository extends JpaRepository<TeamA
         "property", "buyerEntityName", "buyerContactRep", "titleEscrowCompany", 
         "lenderCompany", "projectManager", "legalContact", "seller", "hoa",
         "buyerEntityName.company", "buyerContactRep.company", "titleEscrowCompany.company", 
-        "lenderCompany.company", "projectManager.company", "legalContact.company", "seller.company", "hoa.company",
-        "buyerEntityName.subCategory", "buyerContactRep.subCategory", "titleEscrowCompany.subCategory", 
-        "lenderCompany.subCategory", "projectManager.subCategory", "legalContact.subCategory", "seller.subCategory", "hoa.subCategory"
+        "lenderCompany.company", "projectManager.company", "legalContact.company", "seller.company", "hoa.company"
     })
     @Override
     Optional<TeamAssignment> findById(UUID id);
