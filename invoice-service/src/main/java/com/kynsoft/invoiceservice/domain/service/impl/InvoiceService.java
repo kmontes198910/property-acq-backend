@@ -92,7 +92,7 @@ public class InvoiceService implements IInvoiceService {
         
         try {
             // Buscar el emisor
-            InvoiceIssuer issuer = invoiceIssuerService.findById(invoiceDto.getIssuerId())
+            Issuer issuer = invoiceIssuerService.findById(invoiceDto.getIssuerId())
                     .orElseThrow(() -> new BusinessInvoiceException(DomainErrorInvoiceMessage.ISSUER_NOT_FOUND,
                             "Emisor no encontrado con ID: " + invoiceDto.getIssuerId()));
     
@@ -122,7 +122,7 @@ public class InvoiceService implements IInvoiceService {
     /**
      * Construye la entidad Invoice a partir del DTO.
      */
-    private Invoice buildInvoiceEntity(InvoiceDto invoiceDto, InvoiceIssuer issuer, Customer customer) {
+    private Invoice buildInvoiceEntity(InvoiceDto invoiceDto, Issuer issuer, Customer customer) {
         return Invoice.builder()
                 .id(invoiceDto.getId())
                 .issuer(issuer)

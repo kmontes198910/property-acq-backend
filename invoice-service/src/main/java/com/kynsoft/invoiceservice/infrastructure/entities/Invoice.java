@@ -74,7 +74,7 @@ public class Invoice {
     // Relación con el emisor
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "issuer_id", nullable = false)
-    private InvoiceIssuer issuer;
+    private Issuer issuer;
     
     // Relación con el cliente/comprador
     @ManyToOne(fetch = FetchType.LAZY)

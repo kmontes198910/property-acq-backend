@@ -11,13 +11,13 @@ import java.util.List;
 import java.util.UUID;
 
 @Entity
-@Table(name = "invoice_issuers")
+@Table(name = "issuers")
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
-public class InvoiceIssuer {
+public class Issuer {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
