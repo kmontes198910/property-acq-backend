@@ -18,8 +18,6 @@ public class CompanyDto {
     private CompanyTypeDto companyType;
     private SubCompanyTypeDto subCompanyType;
     private String title;//
-    private Double ownershipPercentage;//
-    private Boolean signatureAuthority;//
     private String notes;//
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;

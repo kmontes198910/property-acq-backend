@@ -34,12 +34,6 @@ public class Company {
     @Column(name = "title")
     private String title;
 
-    @Column(name = "ownership_percentage")
-    private Double ownershipPercentage;
-    
-    @Column(name = "signature_authority")
-    private Boolean signatureAuthority;
-
     @Column(name = "notes", columnDefinition = "TEXT")
     private String notes;
 
@@ -80,8 +74,6 @@ public class Company {
         this.business = dto.getBusiness() != null ? new Business(dto.getBusiness()) : null;
         this.subCompanyType = dto.getSubCompanyType() != null ? new SubCompanyType(dto.getSubCompanyType()) : null;
         this.title = dto.getTitle();
-        this.ownershipPercentage = dto.getOwnershipPercentage();
-        this.signatureAuthority = dto.getSignatureAuthority();
         this.notes = dto.getNotes();
         this.createdBy = dto.getCreatedBy();
         this.updatedBy = dto.getUpdatedBy();
@@ -96,8 +88,6 @@ public class Company {
                 .companyType(this.companyType != null ? this.companyType.toAggregate() : null)
                 .subCompanyType(subCompanyType != null ? this.subCompanyType.toAggregateSimple() : null)
                 .title(this.title)
-                .ownershipPercentage(this.ownershipPercentage)
-                .signatureAuthority(this.signatureAuthority)
                 .notes(this.notes)
                 .createdAt(this.createdAt)
                 .updatedAt(this.updatedAt)
@@ -114,8 +104,6 @@ public class Company {
                 .title(this.title)
                 .subCompanyType(subCompanyType != null ? this.subCompanyType.toAggregate() : null)
                 .companyType(this.companyType != null ? this.companyType.toAggregate() : null)
-                .ownershipPercentage(this.ownershipPercentage)
-                .signatureAuthority(this.signatureAuthority)
                 .notes(this.notes)
                 .createdAt(this.createdAt)
                 .updatedAt(this.updatedAt)

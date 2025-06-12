@@ -46,8 +46,6 @@ public class CompanyService implements ICompanyService {
             Company oldContact = contactPerson.get();
 
             oldContact.setTitle(contactPersonDto.getTitle());
-            oldContact.setOwnershipPercentage(contactPersonDto.getOwnershipPercentage());
-            oldContact.setSignatureAuthority(contactPersonDto.getSignatureAuthority());
             oldContact.setNotes(contactPersonDto.getNotes());
             oldContact.setUpdatedBy(contactPersonDto.getUpdatedBy());
             oldContact.setCompanyType(new CompanyType(contactPersonDto.getCompanyType()));

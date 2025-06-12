@@ -22,8 +22,6 @@ public class CompanyResponse implements IResponse {
     private CompanyTypeDto companyType;
     private SubCompanyTypeDto subCompanyType;
     private String title;//
-    private Double ownershipPercentage;//
-    private Boolean signatureAuthority;//
     private String notes;//
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
@@ -40,8 +38,6 @@ public class CompanyResponse implements IResponse {
         this.business = dto.getBusiness();
         this.subCompanyType = dto.getSubCompanyType();
         this.title = dto.getTitle();
-        this.ownershipPercentage = dto.getOwnershipPercentage();
-        this.signatureAuthority = dto.getSignatureAuthority();
         this.notes = dto.getNotes();
         this.createdAt = dto.getCreatedAt();
         this.updatedAt = dto.getUpdatedAt();
