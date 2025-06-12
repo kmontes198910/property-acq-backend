@@ -24,7 +24,6 @@ public class CreateLabTestCommand implements ICommand {
     private String name;
     private String description;
     private UUID createdBy;
-    
     /**
      * Convierte una solicitud de creación en un comando
      * 
