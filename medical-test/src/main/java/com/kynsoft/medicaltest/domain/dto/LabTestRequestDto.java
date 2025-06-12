@@ -25,6 +25,7 @@ public class LabTestRequestDto {
     private String status;
     private String observations;
     private UUID businessId;
+    private String origen;
     private List<LabTestItemRequestDto> examinations;
     private UUID createdBy;
     private UUID updatedBy;

@@ -27,6 +27,7 @@ public class UpdateLabTestRequestCommandHandler implements ICommandHandler<Updat
                 .id(command.getId())
                 .status(command.getStatus())
                 .observations(command.getObservations())
+                .origen(command.getOrigen())
                 .updatedBy(command.getUpdateBy())
                 .build();
         labTestRequestService.update(dto);

@@ -43,6 +43,7 @@ public class CreateLabTestRequestCommandHandler implements ICommandHandler<Creat
                 .status(command.getStatus())
                 .observations(command.getObservations())
                 .businessId(command.getBusinessId())
+                .origen(command.getOrigen())
                 .isActive(command.isActive())
                 .createdBy(command.getCreatedBy())
                 .examinations(examinations(command))
