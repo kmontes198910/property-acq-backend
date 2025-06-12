@@ -16,8 +16,6 @@ import java.util.UUID;
 @Table(name = "invoices")
 @Getter
 @Setter
-@ToString(exclude = {"details", "payments", "additionalFields", "taxes"})
-@EqualsAndHashCode(of = "id")
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor

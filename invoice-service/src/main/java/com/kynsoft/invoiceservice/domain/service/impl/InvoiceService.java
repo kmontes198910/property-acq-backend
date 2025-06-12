@@ -26,6 +26,7 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 import com.kynsoft.invoiceservice.infrastructure.repository.command.InvoiceWriteRepository;
@@ -352,16 +353,14 @@ public class InvoiceService implements IInvoiceService {
         log.info("Cambiando estado de la factura ID: {} a {}", id, status);
         
         // Verificar que la factura exista
-        Invoice invoice = invoiceRepository.findById(id)
-                .orElseThrow(() -> new BusinessInvoiceException(DomainErrorInvoiceMessage.INVOICE_NOT_FOUND, 
-                        "Factura no encontrada con ID: " + id));
+        Optional<Invoice> invoiceEntity = invoiceRepository.findById(id);
+        Invoice invoice = invoiceEntity.get();
         
         // Validar transiciones de estado permitidas
         validateStatusTransition(invoice.getStatus(), status);
         
         // Actualizar el estado
         invoice.setStatus(status);
-        invoice.setUpdatedAt(LocalDateTime.now());
         invoice.setUpdatedBy(updatedBy);
 
         

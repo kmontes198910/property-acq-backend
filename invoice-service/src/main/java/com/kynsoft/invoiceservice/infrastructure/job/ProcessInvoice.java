@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.io.InputStream;
 import java.util.UUID;
 
 @Getter
@@ -13,4 +14,6 @@ import java.util.UUID;
 public class ProcessInvoice {
     private UUID invoiceId;
     private Factura factura;
+    private InputStream p12Bytes;
+    private String p12Password;
 }
