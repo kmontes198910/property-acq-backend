@@ -1,5 +1,8 @@
 package com.kynsoft.propertyacqcenter.application.command.sales.create;
 
+import com.kynsoft.propertyacqcenter.domain.enums.PropertysAnnualValueIncrease;
+import com.kynsoft.propertyacqcenter.domain.enums.PropertysStarting;
+import com.kynsoft.propertyacqcenter.domain.enums.TypeOfSalesCost;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -13,18 +16,12 @@ public class CreateSalesRequest {
     private Double federalIncomeTaxRate;
     private Double purchesePrice;
     private Double marketValueIndreaseRate;
-    private Boolean isPurchesePrice;
-    private Boolean isMarketValueIndreaseRate;
-    private Boolean isInflationRate;
-    private Boolean isMarketValue;
-    private Boolean isCapRate;
-    private Boolean isFixedSellingPrice;
-    private Boolean other;
-    private Boolean salesCostNone;
-    private Boolean salesCostPercentage;
-    private Boolean salesCostFixedDollarAmount;
     private Boolean deprecationNone;
     private Boolean deprecationStraightline;
     private Boolean deprecationDoubleDecliningBalance;
+
+    private PropertysStarting propertysStarting;
+    private PropertysAnnualValueIncrease propertysAnnualValueIncrease;
+    private TypeOfSalesCost typeOfSalesCost;
 
 }
