@@ -72,6 +72,7 @@ public class IncomeServiceImpl implements IIncomeService {
         update.setPorcentageIncreaseType(object.getPorcentageIncreaseType());
         update.setFixedDollarAmount(object.getFixedDollarAmount());
         update.setIncreaseType(object.getIncreaseType());
+        update.setSectino8Income(object.getSectino8Income());
 
         Set<IncomeDetailsBreakdown> detailsBreakdown = new HashSet<>();
         if (object.getDetailsBreakdown() != null) {
