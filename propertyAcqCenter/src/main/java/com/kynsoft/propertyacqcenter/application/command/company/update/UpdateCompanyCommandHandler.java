@@ -46,8 +46,6 @@ public class UpdateCompanyCommandHandler implements ICommandHandler<UpdateCompan
                 companyTypeDto,
                 subCompanyTypeDto,
                 command.getTitle(),
-                command.getOwnershipPercentage(),
-                command.getSignatureAuthority(),
                 command.getNotes(),
                 null,
                 null,

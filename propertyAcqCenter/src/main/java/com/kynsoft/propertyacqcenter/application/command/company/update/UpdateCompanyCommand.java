@@ -18,8 +18,6 @@ public class UpdateCompanyCommand implements ICommand {
     private UUID companyType;
     private UUID subCompanyType;
     private String title;
-    private Double ownershipPercentage;
-    private Boolean signatureAuthority;
     private String notes;
     private String category;
     private UUID subCategory;
@@ -31,8 +29,6 @@ public class UpdateCompanyCommand implements ICommand {
                 request.getCompanyType(),
                 request.getSubCompanyType(),
                 request.getTitle(),
-                request.getOwnershipPercentage(),
-                request.getSignatureAuthority(),
                 request.getNotes(),
                 request.getCategory(),
                 request.getSubCategory()

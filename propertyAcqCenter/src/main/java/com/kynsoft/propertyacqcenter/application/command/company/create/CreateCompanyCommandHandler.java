@@ -46,8 +46,6 @@ public class CreateCompanyCommandHandler implements ICommandHandler<CreateCompan
                 companyTypeDto, 
                 subCompanyTypeDto, 
                 command.getTitle(), 
-                command.getOwnershipPercentage(), 
-                command.getSignatureAuthority(), 
                 command.getNotes(), 
                 null, 
                 null, 
