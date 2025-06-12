@@ -36,18 +36,16 @@ public class UpdateCompanyCommandHandler implements ICommandHandler<UpdateCompan
 
     @Override
     public void handle(UpdateCompanyCommand command) {
-        BusinessDto business = this.businessService.findById(command.getBusiness());
-        CompanyTypeDto companyTypeDto = this.companyTypeService.findById(command.getCompanyType());
-        SubCompanyTypeDto subCompanyTypeDto = this.subCompanyTypeService.findById(command.getSubCompanyType());
-        SubCategoryDto subCategoryDto = this.subCategoryService.findById(command.getSubCategory());
+        BusinessDto business = command.getBusiness() != null ? this.businessService.findById(command.getBusiness()) : null;
+        CompanyTypeDto companyTypeDto = command.getCompanyType() != null ? this.companyTypeService.findById(command.getCompanyType()) : null;
+        SubCompanyTypeDto subCompanyTypeDto = command.getSubCompanyType() != null ? this.subCompanyTypeService.findById(command.getSubCompanyType()) : null;
+        SubCategoryDto subCategoryDto = command.getSubCategory() != null ? this.subCategoryService.findById(command.getSubCategory()) : null;
         this.companyService.update(new CompanyDto(
                 command.getId(),
                 business,
                 companyTypeDto,
                 subCompanyTypeDto,
                 command.getTitle(),
-                command.getOwnershipPercentage(),
-                command.getSignatureAuthority(),
                 command.getNotes(),
                 null,
                 null,

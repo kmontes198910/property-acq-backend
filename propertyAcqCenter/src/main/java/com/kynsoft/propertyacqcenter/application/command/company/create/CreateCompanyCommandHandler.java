@@ -36,18 +36,16 @@ public class CreateCompanyCommandHandler implements ICommandHandler<CreateCompan
 
     @Override
     public void handle(CreateCompanyCommand command) {
-        BusinessDto businessDto = this.businessService.findById(command.getBusiness());
-        CompanyTypeDto companyTypeDto = this.companyTypeService.findById(command.getCompanyType());
-        SubCompanyTypeDto subCompanyTypeDto = this.subCompanyTypeService.findById(command.getSubCompanyType());
-        SubCategoryDto subCategoryDto = this.subCategoryService.findById(command.getSubCategory());
+        BusinessDto businessDto = command.getBusiness() != null ? this.businessService.findById(command.getBusiness()) : null;
+        CompanyTypeDto companyTypeDto = command.getCompanyType() != null ? this.companyTypeService.findById(command.getCompanyType()) : null;
+        SubCompanyTypeDto subCompanyTypeDto = command.getSubCompanyType() != null ? this.subCompanyTypeService.findById(command.getSubCompanyType()) : null;
+        SubCategoryDto subCategoryDto = command.getSubCategory() != null ? this.subCategoryService.findById(command.getSubCategory()) : null;
         CompanyDto contactPersonDto = new CompanyDto(
                 command.getId(), 
                 businessDto, 
                 companyTypeDto, 
                 subCompanyTypeDto, 
                 command.getTitle(), 
-                command.getOwnershipPercentage(), 
-                command.getSignatureAuthority(), 
                 command.getNotes(), 
                 null, 
                 null, 

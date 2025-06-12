@@ -24,21 +24,15 @@ public class Company {
     private UUID id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "company_type_id", nullable = false)
+    @JoinColumn(name = "company_type_id", nullable = true)
     private CompanyType companyType;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "sub_company_type_id", nullable = false)
+    @JoinColumn(name = "sub_company_type_id", nullable = true)
     private SubCompanyType subCompanyType;
 
     @Column(name = "title")
     private String title;
-
-    @Column(name = "ownership_percentage")
-    private Double ownershipPercentage;
-    
-    @Column(name = "signature_authority")
-    private Boolean signatureAuthority;
 
     @Column(name = "notes", columnDefinition = "TEXT")
     private String notes;
@@ -71,7 +65,7 @@ public class Company {
     private String category;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "sub_category")
+    @JoinColumn(name = "sub_category", nullable = true)
     private SubCategory subCategory;
 
     public Company(CompanyDto dto) {
@@ -80,8 +74,6 @@ public class Company {
         this.business = dto.getBusiness() != null ? new Business(dto.getBusiness()) : null;
         this.subCompanyType = dto.getSubCompanyType() != null ? new SubCompanyType(dto.getSubCompanyType()) : null;
         this.title = dto.getTitle();
-        this.ownershipPercentage = dto.getOwnershipPercentage();
-        this.signatureAuthority = dto.getSignatureAuthority();
         this.notes = dto.getNotes();
         this.createdBy = dto.getCreatedBy();
         this.updatedBy = dto.getUpdatedBy();
@@ -96,8 +88,6 @@ public class Company {
                 .companyType(this.companyType != null ? this.companyType.toAggregate() : null)
                 .subCompanyType(subCompanyType != null ? this.subCompanyType.toAggregateSimple() : null)
                 .title(this.title)
-                .ownershipPercentage(this.ownershipPercentage)
-                .signatureAuthority(this.signatureAuthority)
                 .notes(this.notes)
                 .createdAt(this.createdAt)
                 .updatedAt(this.updatedAt)
@@ -114,8 +104,6 @@ public class Company {
                 .title(this.title)
                 .subCompanyType(subCompanyType != null ? this.subCompanyType.toAggregate() : null)
                 .companyType(this.companyType != null ? this.companyType.toAggregate() : null)
-                .ownershipPercentage(this.ownershipPercentage)
-                .signatureAuthority(this.signatureAuthority)
                 .notes(this.notes)
                 .createdAt(this.createdAt)
                 .updatedAt(this.updatedAt)

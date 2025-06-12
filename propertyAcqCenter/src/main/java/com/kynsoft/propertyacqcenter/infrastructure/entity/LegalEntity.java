@@ -63,7 +63,7 @@ public class LegalEntity {
     @Column(name = "business_description", columnDefinition = "TEXT")
     private String businessDescription;
 
-    @Column(name = "website")
+    @Column(name = "website", nullable = true)
     private String website;
 
     @Column(name = "annual_revenue")
