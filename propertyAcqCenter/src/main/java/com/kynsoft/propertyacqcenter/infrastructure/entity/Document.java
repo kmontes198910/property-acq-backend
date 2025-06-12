@@ -36,7 +36,7 @@ public class Document {
     private String filePath;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "document_type", nullable = false)
+    @Column(name = "document_type", nullable = true)
     private DocumentType documentType;
 
     @Column(name = "description")
