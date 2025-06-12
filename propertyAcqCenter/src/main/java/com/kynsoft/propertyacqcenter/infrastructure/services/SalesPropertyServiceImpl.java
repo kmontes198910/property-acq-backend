@@ -52,19 +52,12 @@ public class SalesPropertyServiceImpl implements ISalesPropertyService {
         update.setDeprecationNone(object.getDeprecationNone());
         update.setDeprecationStraightline(object.getDeprecationStraightline());
         update.setFederalIncomeTaxRate(object.getFederalIncomeTaxRate());
-        update.setIsCapRate(object.getIsCapRate());
-        update.setIsFixedSellingPrice(object.getIsFixedSellingPrice());
-        update.setIsInflationRate(object.getIsInflationRate());
-        update.setIsMarketValue(object.getIsMarketValue());
-        update.setIsMarketValueIndreaseRate(object.getIsMarketValueIndreaseRate());
-        update.setIsPurchesePrice(object.getIsPurchesePrice());
         update.setMarketValueIndreaseRate(object.getMarketValueIndreaseRate());
-        update.setOther(object.getOther());
         update.setPurchesePrice(object.getPurchesePrice());
-        update.setSalesCostFixedDollarAmount(object.getSalesCostFixedDollarAmount());
-        update.setSalesCostNone(object.getSalesCostNone());
-        update.setSalesCostPercentage(object.getSalesCostPercentage());
         update.setStateIncomeTaxRate(object.getStateIncomeTaxRate());
+        update.setPropertysStarting(object.getPropertysStarting());
+        update.setPropertysAnnualValueIncrease(object.getPropertysAnnualValueIncrease());
+        update.setTypeOfSalesCost(object.getTypeOfSalesCost());
 
         repositoryCommand.save(update);
     }

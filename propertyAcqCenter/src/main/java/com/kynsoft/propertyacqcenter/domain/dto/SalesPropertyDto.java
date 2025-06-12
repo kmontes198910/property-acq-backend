@@ -1,5 +1,8 @@
 package com.kynsoft.propertyacqcenter.domain.dto;
 
+import com.kynsoft.propertyacqcenter.domain.enums.PropertysAnnualValueIncrease;
+import com.kynsoft.propertyacqcenter.domain.enums.PropertysStarting;
+import com.kynsoft.propertyacqcenter.domain.enums.TypeOfSalesCost;
 import lombok.*;
 
 import java.io.Serializable;
@@ -20,17 +23,11 @@ public class SalesPropertyDto implements Serializable {
     private Double federalIncomeTaxRate;
     private Double purchesePrice;
     private Double marketValueIndreaseRate;
-    private Boolean isPurchesePrice;
-    private Boolean isMarketValueIndreaseRate;
-    private Boolean isInflationRate;
-    private Boolean isMarketValue;
-    private Boolean isCapRate;
-    private Boolean isFixedSellingPrice;
-    private Boolean other;
-    private Boolean salesCostNone;
-    private Boolean salesCostPercentage;
-    private Boolean salesCostFixedDollarAmount;
     private Boolean deprecationNone;
     private Boolean deprecationStraightline;
     private Boolean deprecationDoubleDecliningBalance;
+
+    private PropertysStarting propertysStarting;
+    private PropertysAnnualValueIncrease propertysAnnualValueIncrease;
+    private TypeOfSalesCost typeOfSalesCost;
 }
