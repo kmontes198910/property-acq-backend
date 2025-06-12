@@ -16,6 +16,7 @@ public class UpdateLabTestRequestCommand implements ICommand {
     private UUID id;
     private String status;
     private String observations;
+    private String origen;
     private UUID updateBy;
 
     public static UpdateLabTestRequestCommand fromRequest(UpdateLabTestRequestRequest request, UUID id, UUID userId) {
@@ -23,6 +24,7 @@ public class UpdateLabTestRequestCommand implements ICommand {
                 .id(id)
                 .status(request.getStatus())
                 .observations(request.getObservations())
+                .origen(request.getOrigen())
                 .updateBy(userId)
                 .build();
     }
