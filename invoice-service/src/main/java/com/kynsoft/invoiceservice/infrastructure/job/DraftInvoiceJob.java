@@ -40,6 +40,8 @@ import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import com.kynsoft.invoiceservice.util.CredentialUtil;
+
 
 @Slf4j
 @Component
@@ -47,15 +49,19 @@ public class DraftInvoiceJob {
     private final InvoiceRepository invoiceRepository;
     private final InvoiceService invoiceService;
     private final IInvoiceIssuerService invoiceIssuerService;
+    private final CredentialUtil credentialUtil;
     @Value("${sri.ambiente}")
     private String sriAmbiente;
 
     public DraftInvoiceJob(
             InvoiceRepository invoiceRepository,
-            InvoiceService invoiceService, IInvoiceIssuerService invoiceIssuerService) {
+            InvoiceService invoiceService,
+            IInvoiceIssuerService invoiceIssuerService,
+            CredentialUtil credentialUtil) {
         this.invoiceRepository = invoiceRepository;
         this.invoiceService = invoiceService;
         this.invoiceIssuerService = invoiceIssuerService;
+        this.credentialUtil = credentialUtil;
     }
 
     // Ejecuta cada día a la medianoche
@@ -172,10 +178,21 @@ public class DraftInvoiceJob {
         }
         // Puedes agregar más campos según lo requieras
         InvoiceIssuerDto invoiceIssuerDto = invoiceIssuerService.getById(invoice.getIssuer().getId());
-        String base64 =invoiceIssuerDto.getDigitalCertP12().replaceAll("\\s+", "");
+
+        // Decodificar el certificado P12
+        String base64 = invoiceIssuerDto.getDigitalCertP12().replaceAll("\\s+", "");
         byte[] decodedBytes = Base64.getDecoder().decode(base64);
         InputStream p12Stream = new ByteArrayInputStream(decodedBytes);
-        return new ProcessInvoice(invoice.getId(), builder.build(), p12Stream, invoiceIssuerDto.getDigitalCertPassword());
+
+        // Asegurar que la contraseña esté desencriptada usando el CredentialUtil
+        // Esto garantiza que la contraseña sea usable incluso si por alguna razón
+        // el AttributeEncryptor no la desencriptó automáticamente
+        String rawPassword = invoiceIssuerDto.getDigitalCertPassword();
+        String password = credentialUtil.ensureDecrypted(rawPassword);
+
+        log.debug("Contraseña procesada para certificado digital del emisor: {}", invoice.getIssuer().getId());
+
+        return new ProcessInvoice(invoice.getId(), builder.build(), p12Stream, password);
     }
 
     private String extraerEstab(String documentNumber) {

@@ -1,4 +1,4 @@
-package com.kynsoft.invoiceservice.application.command.invoiceIssuer.create;
+package com.kynsoft.invoiceservice.application.command.Issuer.create;
 
 import lombok.Getter;
 import lombok.Setter;

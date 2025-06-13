@@ -1,4 +1,4 @@
-package com.kynsoft.invoiceservice.application.command.invoiceIssuer.create;
+package com.kynsoft.invoiceservice.application.command.Issuer.update;
 
 import com.kynsof.share.core.domain.bus.command.ICommand;
 import com.kynsof.share.core.domain.bus.command.ICommandMessage;
@@ -9,8 +9,9 @@ import java.util.UUID;
 
 @Getter
 @Setter
-public class CreateInvoiceIssuerCommand implements ICommand {
+public class UpdateInvoiceIssuerCommand implements ICommand {
     private UUID id;
+    private UUID issuerId;
     private String ruc;
     private String businessName;
     private String commercialName;
@@ -24,22 +25,23 @@ public class CreateInvoiceIssuerCommand implements ICommand {
     private String retentionAgent;
     private String rimpeRegime;
     private String logoUrl;
-    private Boolean status;
     private String website;
     private String colorFactura;
     private Boolean accountingObligated;
     private Boolean microenterprisesRegime;
     private Boolean sendEmails;
+    private Boolean status;
     private String digitalCertP12;
     private String digitalCertPassword;
-    private UUID createdBy;
+    private UUID updatedBy;
 
-    public CreateInvoiceIssuerCommand() {
+    public UpdateInvoiceIssuerCommand() {
         this.id = UUID.randomUUID();
     }
 
-    public static CreateInvoiceIssuerCommand fromRequest(CreateInvoiceIssuerRequest request, UUID createdBy) {
-        CreateInvoiceIssuerCommand command = new CreateInvoiceIssuerCommand();
+    public static UpdateInvoiceIssuerCommand fromRequest(UpdateInvoiceIssuerRequest request, UUID issuerId, UUID updatedBy) {
+        UpdateInvoiceIssuerCommand command = new UpdateInvoiceIssuerCommand();
+        command.setIssuerId(issuerId);
         command.setRuc(request.getRuc());
         command.setBusinessName(request.getBusinessName());
         command.setCommercialName(request.getCommercialName());
@@ -53,20 +55,20 @@ public class CreateInvoiceIssuerCommand implements ICommand {
         command.setRetentionAgent(request.getRetentionAgent());
         command.setRimpeRegime(request.getRimpeRegime());
         command.setLogoUrl(request.getLogoUrl());
-        command.setStatus(request.getStatus());
         command.setWebsite(request.getWebsite());
         command.setColorFactura(request.getColorFactura());
         command.setAccountingObligated(request.getAccountingObligated());
         command.setMicroenterprisesRegime(request.getMicroenterprisesRegime());
         command.setSendEmails(request.getSendEmails());
+        command.setStatus(request.getStatus());
         command.setDigitalCertP12(request.getDigitalCertP12());
         command.setDigitalCertPassword(request.getDigitalCertPassword());
-        command.setCreatedBy(createdBy);
+        command.setUpdatedBy(updatedBy);
         return command;
     }
 
     @Override
     public ICommandMessage getMessage() {
-        return new CreateInvoiceIssuerMessage(id);
+        return new UpdateInvoiceIssuerMessage(id);
     }
 }
