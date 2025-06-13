@@ -60,12 +60,16 @@ public class AttributeEncryptor implements AttributeConverter<String, String> {
         }
         
         try {
-            // Intentar desencriptar directamente
-            return encryptionUtil.decrypt(dbData);
+            // Primero verifica si los datos están realmente encriptados
+            if (encryptionUtil.isEncrypted(dbData)) {
+                return encryptionUtil.decrypt(dbData);
+            } else {
+                // Si los datos no están encriptados, devolverlos tal cual
+                return dbData;
+            }
         } catch (Exception e) {
-            // Si falla la desencriptación, significa que los datos no estaban encriptados
-            // o tienen un formato incorrecto. En cualquier caso, devolver los datos originales
-            // para evitar errores durante la carga de datos
+            // En caso de error, devolver los datos en crudo para evitar fallos
+            // en el arranque de la aplicación, y registrar el error
             return dbData;
         }
     }

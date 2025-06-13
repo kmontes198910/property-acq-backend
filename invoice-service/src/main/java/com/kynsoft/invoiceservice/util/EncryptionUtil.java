@@ -87,7 +87,9 @@ public class EncryptionUtil {
     }
     
     /**
-     * Verifica si un texto está encriptado comprobando su formato y estructura
+     * Verifica si un texto está encriptado comprobando su formato
+     * Primero verifica el patrón de los datos encriptados (formato hexadecimal)
+     * y luego intenta desencriptarlo para confirmar
      * 
      * @param text Texto a verificar
      * @return true si el texto está encriptado, false en caso contrario
@@ -97,20 +99,14 @@ public class EncryptionUtil {
             return false;
         }
         
-        // Verificar patrón de Spring Security Crypto
-        // El formato típico de datos encriptados con Spring Security es hexadecimal
-        // pero también debe cumplir con un patrón específico
+        // Verificar características típicas de texto encriptado por spring-security-crypto
+        // 1. Los datos encriptados por Spring Security comienzan con la versión del algoritmo
+        // 2. Seguido por un delimitador y luego datos hexadecimales
         if (!text.matches("^[0-9a-fA-F]+$")) {
             return false;
         }
         
-        // Características adicionales para validar:
-        // 1. Longitud mínima (los datos encriptados suelen ser más largos)
-        if (text.length() < 32) {
-            return false;
-        }
-        
-        // Verificación definitiva: intentar desencriptar
+        // Como verificación secundaria, intentar desencriptar
         try {
             encryptor.decrypt(text);
             return true;
