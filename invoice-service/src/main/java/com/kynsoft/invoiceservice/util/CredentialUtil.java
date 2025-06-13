@@ -28,19 +28,21 @@ public class CredentialUtil {
             return null;
         }
         
-        // Verificar si el texto ya está encriptado
-        if (encryptionUtil.isEncrypted(text)) {
-            try {
-                // Si está encriptado, desencriptarlo
-                return encryptionUtil.decrypt(text);
-            } catch (Exception e) {
-                log.warn("Error al intentar desencriptar texto, devolviéndolo tal cual: {}", e.getMessage());
-                return text;
+        try {
+            // Intentar desencriptar directamente
+            // Si la operación es exitosa y el resultado es diferente, estaba encriptado
+            String decrypted = encryptionUtil.decrypt(text);
+            if (!text.equals(decrypted)) {
+                log.debug("Texto desencriptado correctamente");
+                return decrypted;
             }
-        } else {
-            // Si no está encriptado, devolverlo como está
-            return text;
+        } catch (Exception e) {
+            // Si falla la desencriptación, asumimos que no estaba encriptado
+            log.debug("El texto no estaba encriptado o no se pudo desencriptar");
         }
+        
+        // Devolver el texto original si no se pudo desencriptar o no era necesario
+        return text;
     }
     
     /**
@@ -56,18 +58,25 @@ public class CredentialUtil {
             return null;
         }
         
-        // Verificar si el texto ya está encriptado
-        if (!encryptionUtil.isEncrypted(text)) {
-            try {
-                // Si no está encriptado, encriptarlo
-                return encryptionUtil.encrypt(text);
-            } catch (Exception e) {
-                log.warn("Error al intentar encriptar texto: {}", e.getMessage());
-                throw new RuntimeException("No se pudo encriptar el texto sensible", e);
+        try {
+            // Intentamos desencriptar el texto como verificación 
+            // Si se puede desencriptar exitosamente, ya está encriptado
+            String decrypted = encryptionUtil.decrypt(text);
+            if (!text.equals(decrypted)) {
+                // Ya está encriptado, devolver el texto original
+                return text;
             }
-        } else {
-            // Si ya está encriptado, devolverlo como está
-            return text;
+        } catch (Exception e) {
+            // Si falla la desencriptación, probablemente no esté encriptado
+            // Vamos a continuar y encriptarlo
+        }
+        
+        // Encriptar el texto y devolverlo
+        try {
+            return encryptionUtil.encrypt(text);
+        } catch (Exception e) {
+            log.error("Error al encriptar texto sensible: {}", e.getMessage());
+            throw new RuntimeException("No se pudo encriptar el texto sensible", e);
         }
     }
 }

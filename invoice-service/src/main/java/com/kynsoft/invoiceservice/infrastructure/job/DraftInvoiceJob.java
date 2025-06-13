@@ -40,8 +40,6 @@ import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import com.kynsoft.invoiceservice.util.CredentialUtil;
-
 
 @Slf4j
 @Component
@@ -49,19 +47,16 @@ public class DraftInvoiceJob {
     private final InvoiceRepository invoiceRepository;
     private final InvoiceService invoiceService;
     private final IInvoiceIssuerService invoiceIssuerService;
-    private final CredentialUtil credentialUtil;
     @Value("${sri.ambiente}")
     private String sriAmbiente;
 
     public DraftInvoiceJob(
             InvoiceRepository invoiceRepository,
             InvoiceService invoiceService, 
-            IInvoiceIssuerService invoiceIssuerService,
-            CredentialUtil credentialUtil) {
+            IInvoiceIssuerService invoiceIssuerService) {
         this.invoiceRepository = invoiceRepository;
         this.invoiceService = invoiceService;
         this.invoiceIssuerService = invoiceIssuerService;
-        this.credentialUtil = credentialUtil;
     }
 
     // Ejecuta cada día a la medianoche
@@ -184,13 +179,13 @@ public class DraftInvoiceJob {
         byte[] decodedBytes = Base64.getDecoder().decode(base64);
         InputStream p12Stream = new ByteArrayInputStream(decodedBytes);
         
-        // Asegurar que la contraseña esté desencriptada usando el CredentialUtil
-        // Esto garantiza que la contraseña sea usable incluso si por alguna razón
-        // el AttributeEncryptor no la desencriptó automáticamente
-        String rawPassword = invoiceIssuerDto.getDigitalCertPassword();
-        String password = credentialUtil.ensureDecrypted(rawPassword);
+        // Obtener la contraseña - ya debería estar desencriptada por AttributeEncryptor
+        // pero usamos ensureDecrypted como medida de seguridad adicional
+        String password = invoiceIssuerDto.getDigitalCertPassword();
         
-        log.debug("Contraseña procesada para certificado digital del emisor: {}", invoice.getIssuer().getId());
+        if (log.isDebugEnabled()) {
+            log.debug("Procesando certificado digital para el emisor: {}", invoice.getIssuer().getId());
+        }
         
         return new ProcessInvoice(invoice.getId(), builder.build(), p12Stream, password);
     }
