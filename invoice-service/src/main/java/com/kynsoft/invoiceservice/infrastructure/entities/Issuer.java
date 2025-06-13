@@ -79,7 +79,7 @@ public class Issuer {
     @com.kynsoft.invoiceservice.domain.validator.ValidRimpeRegime
     private String rimpeRegime; // Puede ser CONTRIBUYENTE RÉGIMEN RIMPE, CONTRIBUYENTE NEGOCIO POPULAR - RÉGIMEN RIMPE o null
 
-    @Column(name = "logo_url")
+    @Column(name = "logo_url", columnDefinition = "TEXT")
     private String logoUrl;
 
     // Agregando campo para enviar correos a destinatarios
