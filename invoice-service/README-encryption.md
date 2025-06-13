@@ -10,9 +10,10 @@ La solución se basa en los siguientes componentes:
 
 1. **AttributeEncryptor**: Convertidor JPA para encriptar/desencriptar automáticamente los campos anotados.
 2. **EncryptionUtil**: Utilidad que maneja la lógica de encriptación y desencriptación.
-3. **EncryptionConfig**: Configuración para cargar propiedades de encriptación desde un archivo externo.
-4. **SensitiveDataMigrationService**: Servicio para migrar datos sensibles existentes al nuevo formato encriptado.
-5. **IssuerCredentialsService**: Servicio para operaciones específicas relacionadas con las credenciales del emisor.
+3. **CredentialUtil**: Utilidad específica para manejar credenciales sensibles, asegurando que estén correctamente encriptadas/desencriptadas.
+4. **EncryptionConfig**: Configuración para cargar propiedades de encriptación desde un archivo externo.
+5. **SensitiveDataMigrationService**: Servicio para migrar datos sensibles existentes al nuevo formato encriptado.
+6. **IssuerCredentialsService**: Servicio para operaciones específicas relacionadas con las credenciales del emisor.
 
 ## Tecnología Utilizada
 
@@ -89,6 +90,10 @@ Cuando se encuentran datos no encriptados en la base de datos:
 3. **Error "ConflictingBeanDefinitionException"**:
    - Causa: Múltiples definiciones de bean con el mismo nombre
    - Solución: Eliminar archivos duplicados o resolver conflictos de nombres
+
+4. **Error al procesar certificados digitales**:
+   - Causa: La contraseña del certificado digital puede no estar siendo correctamente desencriptada
+   - Solución: Implementación de `CredentialUtil` para asegurar que las contraseñas siempre estén desencriptadas cuando se necesitan
 6. Limitar el acceso a los endpoints de gestión de certificados y contraseñas solo a usuarios administradores autorizados.
 
 ## Consideraciones de Seguridad para Certificados Digitales
