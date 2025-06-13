@@ -10,7 +10,6 @@ import com.kynsoft.invoiceservice.domain.exception.BusinessInvoiceException;
 import com.kynsoft.invoiceservice.domain.exception.DomainErrorInvoiceMessage;
 import com.kynsoft.invoiceservice.domain.service.ICustomerService;
 import com.kynsoft.invoiceservice.domain.service.IInvoiceService;
-import com.kynsoft.invoiceservice.dto.InvoiceIssuerDTO;
 import com.kynsoft.invoiceservice.infrastructure.entities.*;
 import com.kynsoft.invoiceservice.infrastructure.repository.query.CustomerReadRepository;
 import com.kynsoft.invoiceservice.infrastructure.repository.query.InvoiceIssuerRepository;
@@ -603,7 +602,7 @@ public class InvoiceService implements IInvoiceService {
         
         // Mapear emisor
         if (invoice.getIssuer() != null) {
-            InvoiceIssuerDTO issuerDto = InvoiceIssuerDTO.builder()
+            DigitalCertificateDTO.IssuerDTO issuerDto = DigitalCertificateDTO.IssuerDTO.builder()
                     .id(invoice.getIssuer().getId())
                     .businessName(invoice.getIssuer().getBusinessName())
                     .ruc(invoice.getIssuer().getRuc())

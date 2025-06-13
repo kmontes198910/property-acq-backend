@@ -4,7 +4,7 @@ import com.kynsoft.invoiceservice.domain.dto.InvoiceIssuerDto;
 import com.kynsoft.invoiceservice.domain.service.IInvoiceIssuerService;
 import com.kynsoft.invoiceservice.infrastructure.entities.Invoice;
 import com.kynsoft.invoiceservice.infrastructure.job.ProcessInvoice;
-import com.kynsoft.invoiceservice.util.CredentialUtil;
+import com.kynsoft.invoiceservice.infrastructure.util.CredentialUtil;
 import ec.e.facturacion.sri.constante.Regimen;
 import ec.e.facturacion.sri.modelo.ComprobanteBase;
 import ec.e.facturacion.sri.modelo.Factura;
@@ -136,7 +136,7 @@ public class MapperInvoice {
 
         log.debug("Contraseña procesada para certificado digital del emisor: {}", invoice.getIssuer().getId());
 
-        return new ProcessInvoice(invoice.getId(), builder.build(), p12Stream, password);
+        return new ProcessInvoice(invoice.getId(), builder.build(), p12Stream, password, invoiceIssuerDto.getLogoUrl());
     }
 
     /**

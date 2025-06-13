@@ -3,6 +3,8 @@ package com.kynsoft.invoiceservice.util;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
+import com.kynsoft.invoiceservice.infrastructure.util.CredentialUtil;
+import com.kynsoft.invoiceservice.infrastructure.util.EncryptionUtil;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;

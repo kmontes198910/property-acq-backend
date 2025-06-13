@@ -1,20 +1,15 @@
 package com.kynsoft.invoiceservice.infrastructure.job;
 
-import com.kynsoft.invoiceservice.domain.dto.InvoiceIssuerDto;
 import com.kynsoft.invoiceservice.domain.exception.BusinessInvoiceException;
 import com.kynsoft.invoiceservice.domain.exception.DomainErrorInvoiceMessage;
 import com.kynsoft.invoiceservice.domain.service.IInvoiceIssuerService;
 import com.kynsoft.invoiceservice.domain.service.impl.InvoiceService;
 import com.kynsoft.invoiceservice.infrastructure.entities.Invoice;
 import com.kynsoft.invoiceservice.infrastructure.entities.InvoiceStatus;
-import com.kynsoft.invoiceservice.infrastructure.repository.query.InvoiceDetailRepository;
 import com.kynsoft.invoiceservice.infrastructure.repository.query.InvoiceRepository;
-import com.kynsoft.invoiceservice.infrastructure.service.InvoiceLoaderService;
 import ec.e.facturacion.sri.constante.Ambiente;
 import ec.e.facturacion.sri.constante.Estados;
-import ec.e.facturacion.sri.constante.Regimen;
 import ec.e.facturacion.sri.modelo.Factura;
-import ec.e.facturacion.sri.modelo.ComprobanteBase;
 import ec.e.facturacion.sri.pdf.generador.FacturaPDFGenerador;
 import ec.e.facturacion.sri.util.FileConverterUtil;
 import ec.e.facturacion.sri.util.SRIImprimirAutorizacionUtil;
@@ -29,19 +24,15 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.math.BigDecimal;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.time.format.DateTimeFormatter;
 import java.util.*;
-import java.util.stream.Collectors;
 
 import com.kynsoft.invoiceservice.infrastructure.mapper.MapperInvoice;
-import com.kynsoft.invoiceservice.util.CredentialUtil;
+import com.kynsoft.invoiceservice.infrastructure.util.CredentialUtil;
 
 
 @Slf4j
@@ -49,8 +40,6 @@ import com.kynsoft.invoiceservice.util.CredentialUtil;
 public class DraftInvoiceJob {
     private final InvoiceRepository invoiceRepository;
     private final InvoiceService invoiceService;
-    private final IInvoiceIssuerService invoiceIssuerService;
-    private final CredentialUtil credentialUtil;
     private final MapperInvoice mapperInvoice;
     @Value("${sri.ambiente}")
     private String sriAmbiente;
@@ -63,8 +52,6 @@ public class DraftInvoiceJob {
             MapperInvoice mapperInvoice) {
         this.invoiceRepository = invoiceRepository;
         this.invoiceService = invoiceService;
-        this.invoiceIssuerService = invoiceIssuerService;
-        this.credentialUtil = credentialUtil;
         this.mapperInvoice = mapperInvoice;
     }
 
@@ -88,20 +75,17 @@ public class DraftInvoiceJob {
 
         for (ProcessInvoice prepResult : facturas) {
             generateDocumentsAsync(prepResult.getFactura(), prepResult.getInvoiceId(),
-                    UUID.randomUUID(), prepResult.getP12Bytes(), prepResult.getP12Password());
+                    UUID.randomUUID(), prepResult.getP12Bytes(), prepResult.getP12Password(), prepResult.getInvoiceLogo());
         }
 
         // Aquí puedes agregar la lógica que necesites con las facturas tipo Factura
     }
-
-
-
-    public void generateDocumentsAsync(Factura factura, UUID invoice, UUID userId,  InputStream p12Bytes, String password) {
+    public void generateDocumentsAsync(Factura factura, UUID invoice, UUID userId,  InputStream p12Bytes, String password, String invoiceLogo) {
         try {
             log.info("Iniciando generación asíncrona de documentos para factura: {}", invoice);
             ByteArrayOutputStream xmlFactura = generateXmlAndInvoiceFile(factura, p12Bytes, password);
-          //  ByteArrayOutputStream pdfInvoice = generatePDFInvoice(factura);
-            sendInvoiceSRI(xmlFactura, factura, invoice, userId);
+             ByteArrayOutputStream pdfInvoice = generatePDFInvoice(factura, invoiceLogo);
+             //sendInvoiceSRI(xmlFactura, factura, invoice, userId);
             log.info("Documentos generados correctamente para factura: {}", invoice);
         } catch (Exception e) {
             log.error("Error en generación asíncrona de documentos: {}", e.getMessage(), e);
@@ -149,10 +133,10 @@ public class DraftInvoiceJob {
     }
 
 
-    private static ByteArrayOutputStream generatePDFInvoice(Factura factura) throws IOException {
+    private static ByteArrayOutputStream generatePDFInvoice(Factura factura, String logoBase64) throws IOException {
         try {
             // Generar el PDF
-            String logoBase64 = FileConverterUtil.imageToBase64("/Users/keimermontes/Development/medinec/scheduled/invoice-service/libs/logo.jpg");
+          //  String logoBase64 = FileConverterUtil.imageToBase64("/Users/keimermontes/Development/medinec/scheduled/invoice-service/libs/logo.jpg");
             ByteArrayOutputStream pdfFactura = FacturaPDFGenerador.generarPDF(factura, logoBase64, "#2D4C80");
 
             // Guardar el PDF en un archivo

@@ -1,12 +1,11 @@
 package com.kynsoft.invoiceservice.infrastructure.job;
 
-import com.kynsoft.invoiceservice.domain.dto.InvoiceIssuerDto;
 import com.kynsoft.invoiceservice.domain.service.IInvoiceIssuerService;
 import com.kynsoft.invoiceservice.infrastructure.entities.*;
 import com.kynsoft.invoiceservice.infrastructure.mapper.MapperInvoice;
 import com.kynsoft.invoiceservice.infrastructure.repository.query.InvoiceRepository;
 import com.kynsoft.invoiceservice.domain.service.impl.InvoiceService;
-import com.kynsoft.invoiceservice.util.CredentialUtil;
+import com.kynsoft.invoiceservice.infrastructure.util.CredentialUtil;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -18,8 +17,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.UUID;

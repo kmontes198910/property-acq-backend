@@ -5,11 +5,7 @@ import com.kynsoft.invoiceservice.application.command.invoice.update.request.Cam
 import com.kynsoft.invoiceservice.application.command.invoice.update.request.CustomerRequest;
 import com.kynsoft.invoiceservice.application.command.invoice.update.request.DetalleFacturaRequest;
 import com.kynsoft.invoiceservice.application.command.invoice.update.request.PagoRequest;
-import com.kynsoft.invoiceservice.domain.dto.InvoiceAdditionalFieldDto;
-import com.kynsoft.invoiceservice.domain.dto.InvoiceDetailDto;
-import com.kynsoft.invoiceservice.domain.dto.InvoiceDetailTaxDto;
-import com.kynsoft.invoiceservice.domain.dto.InvoiceDto;
-import com.kynsoft.invoiceservice.domain.dto.InvoicePaymentDto;
+import com.kynsoft.invoiceservice.domain.dto.*;
 import com.kynsoft.invoiceservice.domain.exception.BusinessInvoiceException;
 import com.kynsoft.invoiceservice.domain.exception.DomainErrorInvoiceMessage;
 import com.kynsoft.invoiceservice.domain.service.IInvoiceService;
@@ -79,7 +75,7 @@ public class UpdateInvoiceCommandHandler implements ICommandHandler<UpdateInvoic
         if (command.getIssuerId() != null) {
             // Actualizar el ID del emisor
             if (invoice.getIssuer() == null) {
-                invoice.setIssuer(new com.kynsoft.invoiceservice.dto.InvoiceIssuerDTO());
+                invoice.setIssuer(new DigitalCertificateDTO.IssuerDTO());
             }
             invoice.getIssuer().setId(command.getIssuerId());
         }

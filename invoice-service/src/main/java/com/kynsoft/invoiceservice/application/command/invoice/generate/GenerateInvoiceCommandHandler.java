@@ -11,13 +11,11 @@ import com.kynsoft.invoiceservice.domain.exception.DomainErrorInvoiceMessage;
 import com.kynsoft.invoiceservice.domain.service.ICustomerService;
 import com.kynsoft.invoiceservice.domain.service.IInvoiceIssuerService;
 import com.kynsoft.invoiceservice.domain.service.impl.InvoiceService;
-import com.kynsoft.invoiceservice.dto.InvoiceIssuerDTO;
 import com.kynsoft.invoiceservice.infrastructure.entities.Customer;
 
 import com.kynsoft.invoiceservice.infrastructure.entities.InvoiceStatus;
 import ec.e.facturacion.sri.constante.Ambiente;
 import ec.e.facturacion.sri.constante.Estados;
-import ec.e.facturacion.sri.constante.Regimen;
 import ec.e.facturacion.sri.modelo.ComprobanteBase;
 import ec.e.facturacion.sri.modelo.Factura;
 import ec.e.facturacion.sri.pdf.generador.FacturaPDFGenerador;
@@ -502,7 +500,7 @@ public class GenerateInvoiceCommandHandler implements ICommandHandler<GenerateIn
                 .build();
 
         // Asignar el emisor
-        InvoiceIssuerDTO issuerDTO = InvoiceIssuerDTO.builder()
+        DigitalCertificateDTO.IssuerDTO issuerDTO = DigitalCertificateDTO.IssuerDTO.builder()
                 .id(issuerDto.getId())
                 .businessName(issuerDto.getBusinessName())
                 .ruc(issuerDto.getRuc())

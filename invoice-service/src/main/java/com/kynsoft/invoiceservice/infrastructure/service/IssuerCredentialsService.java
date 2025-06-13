@@ -1,4 +1,4 @@
-package com.kynsoft.invoiceservice.service;
+package com.kynsoft.invoiceservice.infrastructure.service;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -6,7 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.kynsoft.invoiceservice.infrastructure.entities.Issuer;
 import com.kynsoft.invoiceservice.infrastructure.repository.command.InvoiceIssuerWriteRepository;
 import com.kynsoft.invoiceservice.infrastructure.repository.query.InvoiceIssuerRepository;
-import com.kynsoft.invoiceservice.util.EncryptionUtil;
+import com.kynsoft.invoiceservice.infrastructure.util.EncryptionUtil;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

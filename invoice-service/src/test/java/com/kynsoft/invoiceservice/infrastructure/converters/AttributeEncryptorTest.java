@@ -5,9 +5,8 @@ import static org.mockito.Mockito.*;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
 
-import com.kynsoft.invoiceservice.util.EncryptionUtil;
+import com.kynsoft.invoiceservice.infrastructure.util.EncryptionUtil;
 
 public class AttributeEncryptorTest {
 

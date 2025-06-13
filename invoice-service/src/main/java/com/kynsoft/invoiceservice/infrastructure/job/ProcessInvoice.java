@@ -16,4 +16,5 @@ public class ProcessInvoice {
     private Factura factura;
     private InputStream p12Bytes;
     private String p12Password;
+    private String invoiceLogo;
 }

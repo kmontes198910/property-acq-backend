@@ -1,13 +1,10 @@
 package com.kynsoft.invoiceservice.util;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
 
+import com.kynsoft.invoiceservice.infrastructure.util.EncryptionUtil;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.core.env.Environment;
-import org.springframework.security.crypto.encrypt.TextEncryptor;
 
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
