@@ -23,4 +23,6 @@ public interface IncomeReadDataJPARepository extends JpaRepository<Income, UUID>
 
     @EntityGraph(attributePaths = {"property", "detailsBreakdown"})
     Optional<Income> findByPropertyId(String propertyId);
+
+    boolean existsByPropertyId(String propertyId);
 }

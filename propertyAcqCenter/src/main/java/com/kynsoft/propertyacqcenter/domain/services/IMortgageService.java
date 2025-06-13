@@ -19,4 +19,6 @@ public interface IMortgageService {
     MortgageDto findById(UUID id);
 
     PaginatedResponse search(Pageable pageable, List<FilterCriteria> filterCriteria);
+
+    boolean existsByPropertyId(String propertyId);
 }

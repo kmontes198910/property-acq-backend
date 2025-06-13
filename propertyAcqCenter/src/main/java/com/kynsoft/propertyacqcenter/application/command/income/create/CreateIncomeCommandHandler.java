@@ -4,6 +4,7 @@ import com.kynsof.share.core.domain.bus.command.ICommandHandler;
 import com.kynsoft.propertyacqcenter.domain.dto.IncomeDetailsBreakdownDto;
 import com.kynsoft.propertyacqcenter.domain.dto.IncomeDto;
 import com.kynsoft.propertyacqcenter.domain.dto.PropertyDto;
+import com.kynsoft.propertyacqcenter.domain.dto.exception.income.IncomeMustBeUniqueException;
 import com.kynsoft.propertyacqcenter.domain.services.IIncomeService;
 import com.kynsoft.propertyacqcenter.domain.services.IPropertyService;
 import java.util.ArrayList;
@@ -25,6 +26,10 @@ public class CreateIncomeCommandHandler implements ICommandHandler<CreateIncomeC
     @Override
     public void handle(CreateIncomeCommand command) {
         PropertyDto property = this.propertyService.getById(command.getProperty());
+
+        if (this.incomeService.existsByPropertyId(command.getProperty())) {
+            throw new IncomeMustBeUniqueException(command.getProperty());
+        }
 
         this.incomeService.create(IncomeDto.builder()
                 .id(command.getId())
