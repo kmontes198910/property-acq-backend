@@ -25,12 +25,13 @@ import java.util.UUID;
 @RequiredArgsConstructor
 @Slf4j
 public class FileController {
-private final IInvoiceService invoiceService;
+    private final IInvoiceService invoiceService;
     private final MapperInvoice mapperInvoice;
+
     @GetMapping(value = "/pdf/{id}")
     public ResponseEntity<byte[]> generateInvoice(@PathVariable UUID id) {
         try {
-         Invoice invoiceDto = invoiceService.findByIdToEntity(id);
+            Invoice invoiceDto = invoiceService.findByIdToEntity(id);
             ProcessInvoice processInvoice = mapperInvoice.convertToFactura(invoiceDto);
             // Generar el PDF como ByteArrayOutputStream
             ByteArrayOutputStream pdfStream = generatePDFInvoice(processInvoice.getFactura(), processInvoice.getInvoiceLogo());
