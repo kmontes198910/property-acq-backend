@@ -9,6 +9,7 @@ import com.kynsoft.propertyacqcenter.domain.dto.exception.NotDeleteException;
 import com.kynsoft.propertyacqcenter.domain.dto.exception.TeamAssignmentNotFoundException;
 import com.kynsoft.propertyacqcenter.domain.services.ITeamAssignmentService;
 import com.kynsoft.propertyacqcenter.infrastructure.entity.CompanyContact;
+import com.kynsoft.propertyacqcenter.infrastructure.entity.LegalEntity;
 import com.kynsoft.propertyacqcenter.infrastructure.entity.Property;
 import com.kynsoft.propertyacqcenter.infrastructure.entity.TeamAssignment;
 import com.kynsoft.propertyacqcenter.infrastructure.repository.command.TeamAssignmentWriteDataJPARepository;
@@ -47,7 +48,7 @@ public class TeamAssignmentServiceImpl implements ITeamAssignmentService {
     public void update(TeamAssignmentDto object) {
         TeamAssignment update = new TeamAssignment(this.findById(object.getId()));
         update.setBuyerContactRep(object.getBuyerContactRep() != null ? new CompanyContact(object.getBuyerContactRep()) : null);
-        update.setBuyerEntityName(object.getBuyerEntityName() != null ? new CompanyContact(object.getBuyerEntityName()) : null);
+        update.setBuyerEntityName(object.getBuyerEntityName() != null ? new LegalEntity(object.getBuyerEntityName()) : null);
         update.setLegalContact(object.getLegalContact() != null ? new CompanyContact(object.getLegalContact()) : null);
         update.setLenderCompany(object.getLenderCompany() != null ? new CompanyContact(object.getLenderCompany()) : null);
         update.setProjectManager(object.getProjectManager() != null ? new CompanyContact(object.getProjectManager()) : null);

@@ -2,9 +2,11 @@ package com.kynsoft.propertyacqcenter.application.command.teamAssignment.update;
 
 import com.kynsof.share.core.domain.bus.command.ICommandHandler;
 import com.kynsoft.propertyacqcenter.domain.dto.CompanyContactDto;
+import com.kynsoft.propertyacqcenter.domain.dto.LegalEntityDto;
 import com.kynsoft.propertyacqcenter.domain.dto.PropertyDto;
 import com.kynsoft.propertyacqcenter.domain.dto.TeamAssignmentDto;
 import com.kynsoft.propertyacqcenter.domain.services.ICompanyContactService;
+import com.kynsoft.propertyacqcenter.domain.services.ILegalEntityService;
 import com.kynsoft.propertyacqcenter.domain.services.IPropertyService;
 import com.kynsoft.propertyacqcenter.domain.services.ITeamAssignmentService;
 import java.util.UUID;
@@ -16,17 +18,21 @@ public class UpdateTeamAssignmentCommandHandler implements ICommandHandler<Updat
     private final ITeamAssignmentService teamAssignmentService;
     private final IPropertyService propertyService;
     private final ICompanyContactService companyContactService;
+    private final ILegalEntityService legalEntityService;
 
-    public UpdateTeamAssignmentCommandHandler(ITeamAssignmentService teamAssignmentService, IPropertyService propertyService, ICompanyContactService companyContactService) {
+    public UpdateTeamAssignmentCommandHandler(ITeamAssignmentService teamAssignmentService, 
+            IPropertyService propertyService, ICompanyContactService companyContactService,
+            ILegalEntityService legalEntityService) {
         this.teamAssignmentService = teamAssignmentService;
         this.propertyService = propertyService;
         this.companyContactService = companyContactService;
+        this.legalEntityService = legalEntityService;
     }
 
     @Override
     public void handle(UpdateTeamAssignmentCommand command) {
         PropertyDto propertyDto = this.propertyService.getById(command.getProperty());
-        CompanyContactDto buyerEntityName = command.getBuyerEntityName() != null ? this.companyContactService.findById(UUID.fromString(command.getBuyerEntityName())) : null;
+        LegalEntityDto buyerEntityName = command.getBuyerEntityName() != null ? this.legalEntityService.findById(command.getBuyerEntityName()) : null;
         CompanyContactDto buyerContactRep = command.getBuyerContactRep() != null ? this.companyContactService.findById(UUID.fromString(command.getBuyerContactRep())) : null;
         CompanyContactDto titleEscrowCompany = command.getTitleEscrowCompany() != null ? this.companyContactService.findById(UUID.fromString(command.getTitleEscrowCompany())) : null;
         CompanyContactDto lenderCompany = command.getLenderCompany() != null ? this.companyContactService.findById(UUID.fromString(command.getLenderCompany())) : null;

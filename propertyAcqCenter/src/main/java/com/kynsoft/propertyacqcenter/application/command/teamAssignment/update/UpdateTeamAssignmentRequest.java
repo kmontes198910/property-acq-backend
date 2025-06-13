@@ -1,5 +1,6 @@
 package com.kynsoft.propertyacqcenter.application.command.teamAssignment.update;
 
+import java.util.UUID;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -7,7 +8,7 @@ import lombok.Setter;
 @Setter
 public class UpdateTeamAssignmentRequest {
 
-    private String buyerEntityName;
+    private UUID buyerEntityName;
     private String buyerContactRep;
     private String titleEscrowCompany;
     private String lenderCompany;
