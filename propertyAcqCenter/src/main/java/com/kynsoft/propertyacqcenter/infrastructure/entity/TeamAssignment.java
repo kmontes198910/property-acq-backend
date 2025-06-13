@@ -27,8 +27,8 @@ public class TeamAssignment {
     private Property property;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "buyer_entity_name_id", nullable = true)
-    private CompanyContact buyerEntityName;
+    @JoinColumn(name = "legal_entity_id", nullable = true)
+    private LegalEntity buyerEntityName;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "buyer_contact_rep_id", nullable = true)
@@ -84,7 +84,7 @@ public class TeamAssignment {
     public TeamAssignment(TeamAssignmentDto dto) {
         this.id = dto.getId() != null ? dto.getId() : UUID.randomUUID();
         this.property = dto.getProperty() != null ? new Property(dto.getProperty()) : null;
-        this.buyerEntityName = dto.getBuyerEntityName() != null ? new CompanyContact(dto.getBuyerEntityName()) : null;
+        this.buyerEntityName = dto.getBuyerEntityName() != null ? new LegalEntity(dto.getBuyerEntityName()) : null;
         this.buyerContactRep = dto.getBuyerContactRep() != null ? new CompanyContact(dto.getBuyerContactRep()) : null;
         this.titleEscrowCompany = dto.getTitleEscrowCompany() != null ? new CompanyContact(dto.getTitleEscrowCompany()) : null;
         this.lenderCompany = dto.getLenderCompany() != null ? new CompanyContact(dto.getLenderCompany()) : null;
@@ -104,7 +104,7 @@ public class TeamAssignment {
                 .createdBy(this.createdBy)
                 .updatedBy(this.updatedBy)
                 .property(this.property.toAggregateBasic())
-                .buyerEntityName(buyerEntityName != null ? buyerEntityName.toAggregate() : null)
+                .buyerEntityName(buyerEntityName != null ? buyerEntityName.toAggregateBasic() : null)
                 .buyerContactRep(buyerContactRep != null ? buyerContactRep.toAggregate() : null)
                 .titleEscrowCompany(titleEscrowCompany != null ? titleEscrowCompany.toAggregate() : null)
                 .lenderCompany(lenderCompany != null ? lenderCompany.toAggregate() : null)

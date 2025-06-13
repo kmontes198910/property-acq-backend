@@ -15,7 +15,7 @@ import lombok.Setter;
 @Builder
 public class TeamAssignmentDto {
     private UUID id;
-    private CompanyContactDto buyerEntityName;
+    private LegalEntityDto buyerEntityName;
     private CompanyContactDto buyerContactRep;
     private CompanyContactDto titleEscrowCompany;
     private CompanyContactDto lenderCompany;

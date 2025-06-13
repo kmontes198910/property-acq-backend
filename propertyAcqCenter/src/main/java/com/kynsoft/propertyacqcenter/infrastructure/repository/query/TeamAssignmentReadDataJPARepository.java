@@ -17,7 +17,7 @@ public interface TeamAssignmentReadDataJPARepository extends JpaRepository<TeamA
     @EntityGraph(attributePaths = {
         "property", "buyerEntityName", "buyerContactRep", "titleEscrowCompany", 
         "lenderCompany", "projectManager", "legalContact", "seller", "hoa",
-        "buyerEntityName.company", "buyerContactRep.company", "titleEscrowCompany.company", 
+        "buyerContactRep.company", "titleEscrowCompany.company", 
         "lenderCompany.company", "projectManager.company", "legalContact.company", "seller.company", "hoa.company"
     })
     @Override
@@ -26,7 +26,7 @@ public interface TeamAssignmentReadDataJPARepository extends JpaRepository<TeamA
     @EntityGraph(attributePaths = {
         "property", "buyerEntityName", "buyerContactRep", "titleEscrowCompany", 
         "lenderCompany", "projectManager", "legalContact", "seller", "hoa",
-        "buyerEntityName.company", "buyerContactRep.company", "titleEscrowCompany.company", 
+        "buyerContactRep.company", "titleEscrowCompany.company", 
         "lenderCompany.company", "projectManager.company", "legalContact.company", "seller.company", "hoa.company"
     })
     @Override
