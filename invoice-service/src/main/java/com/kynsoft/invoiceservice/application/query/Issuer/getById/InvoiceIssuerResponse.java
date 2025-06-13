@@ -1,4 +1,4 @@
-package com.kynsoft.invoiceservice.application.query.invoiceIssuer.getById;
+package com.kynsoft.invoiceservice.application.query.Issuer.getById;
 
 import com.kynsof.share.core.domain.bus.query.IResponse;
 import com.kynsoft.invoiceservice.domain.dto.InvoiceIssuerDto;
@@ -31,42 +31,10 @@ public class InvoiceIssuerResponse implements IResponse {
     private String logoUrl;
     private String colorFactura;
     private Boolean status;
+    private Boolean microenterprisesRegime;
     
-    /**
-     * Obtiene el valor del punto de venta
-     * 
-     * @return Verdadero si es un punto de venta, falso de lo contrario
-     */
-    public boolean getPointOfSale() {
-        return pointOfSale;
-    }
-    
-    /**
-     * Convierte una entidad InvoiceIssuer a una respuesta
-     * 
-     * @param issuer Entidad de emisor de facturas
-     * @return Respuesta con los datos del emisor
-     */
-    public static InvoiceIssuerResponse fromEntity(Issuer issuer) {
-        return InvoiceIssuerResponse.builder()
-                .id(issuer.getId())
-                .ruc(issuer.getRuc())
-                .businessName(issuer.getBusinessName())
-                .commercialName(issuer.getCommercialName())
-                .establishment(issuer.getEstablishment())
-                .pointOfSale(issuer.getPointOfSale())
-                .address(issuer.getAddress())
-                .emissionPoint(issuer.getEmissionPoint())
-                .email(issuer.getEmail())
-                .phone(issuer.getPhone())
-                .specialTaxpayer(issuer.getSpecialTaxpayer())
-                .retentionAgent(issuer.getRetentionAgent())
-                .rimpeRegime(issuer.getRimpeRegime())
-                .logoUrl(issuer.getLogoUrl())
-                .colorFactura(issuer.getColorFactura())
-                .status(issuer.getStatus())
-                .build();
-    }
+
+
     
     /**
      * Convierte un DTO InvoiceIssuerDto a una respuesta
@@ -92,6 +60,7 @@ public class InvoiceIssuerResponse implements IResponse {
                 .colorFactura(dto.getColorFactura())
                 .logoUrl(dto.getLogoUrl())
                 .colorFactura(dto.getColorFactura())
+                .microenterprisesRegime(dto.getMicroenterprisesRegime())
                 .status(dto.getStatus())
                 .build();
     }

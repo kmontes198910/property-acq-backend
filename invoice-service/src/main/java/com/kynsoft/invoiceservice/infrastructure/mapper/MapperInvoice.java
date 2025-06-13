@@ -33,6 +33,7 @@ public class MapperInvoice {
 
     /**
      * Convierte un objeto Invoice a un objeto ProcessInvoice
+     *
      * @param invoice Entidad Invoice con los datos de la factura
      * @return ProcessInvoice con la factura formateada y los datos del certificado
      */
@@ -99,7 +100,9 @@ public class MapperInvoice {
         Factura.Builder builder = new Factura.Builder(
                 ruc, razonSocial, dirMatriz, correo, telefono, estab, ptoEmi, secuencial, fechaEmision, detalles
         );
-        builder.withContribuyenteRimpe(Regimen.REGIMEN_RIMPE);
+        if (invoice.getIssuer().getMicroenterprisesRegime()) {
+            builder.withContribuyenteRimpe(invoice.getIssuer().getRimpeRegime());
+        }
 
         builder.withTipoIdentificacionComprador(invoice.getCustomer() != null ? invoice.getCustomer().getIdType().getCode() : "05")
                 .withRazonSocialComprador(invoice.getCustomer() != null ? invoice.getCustomer().getBusinessName() : "CONSUMIDOR FINAL")
@@ -119,7 +122,7 @@ public class MapperInvoice {
         if (invoice.getTip() != null) {
             builder.withPropina(invoice.getTip());
         }
-        
+
         // Obtener los datos del emisor
         InvoiceIssuerDto invoiceIssuerDto = invoiceIssuerService.getById(invoice.getIssuer().getId());
 
@@ -141,6 +144,7 @@ public class MapperInvoice {
 
     /**
      * Extrae el establecimiento del número de documento
+     *
      * @param documentNumber Número de documento en formato XXX-XXX-XXXXXXXXX
      * @return Código de establecimiento
      */
@@ -154,6 +158,7 @@ public class MapperInvoice {
 
     /**
      * Extrae el punto de emisión del número de documento
+     *
      * @param documentNumber Número de documento en formato XXX-XXX-XXXXXXXXX
      * @return Código de punto de emisión
      */

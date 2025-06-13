@@ -1,15 +1,11 @@
-package com.kynsoft.invoiceservice.application.query.invoiceIssuer.search;
+package com.kynsoft.invoiceservice.application.query.Issuer.search;
 
-import com.kynsoft.invoiceservice.domain.dto.InvoiceIssuingSequenceDto;
-import com.kynsoft.invoiceservice.infrastructure.entities.InvoiceIssuingSequence;
 import com.kynsoft.invoiceservice.infrastructure.entities.Issuer;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.UUID;
 
 /**

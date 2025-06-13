@@ -1,8 +1,7 @@
-package com.kynsoft.invoiceservice.application.query.invoiceIssuer.search;
+package com.kynsoft.invoiceservice.application.query.Issuer.search;
 
 import com.kynsof.share.core.domain.bus.query.IQuery;
 import com.kynsof.share.core.domain.request.FilterCriteria;
-import com.kynsof.share.core.domain.response.PaginatedResponse;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;

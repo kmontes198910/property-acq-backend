@@ -10,9 +10,9 @@ import com.kynsoft.invoiceservice.application.command.Issuer.create.CreateInvoic
 import com.kynsoft.invoiceservice.application.command.Issuer.update.UpdateInvoiceIssuerCommand;
 import com.kynsoft.invoiceservice.application.command.Issuer.update.UpdateInvoiceIssuerMessage;
 import com.kynsoft.invoiceservice.application.command.Issuer.update.UpdateInvoiceIssuerRequest;
-import com.kynsoft.invoiceservice.application.query.invoiceIssuer.getById.GetInvoiceIssuerByIdQuery;
-import com.kynsoft.invoiceservice.application.query.invoiceIssuer.getById.InvoiceIssuerResponse;
-import com.kynsoft.invoiceservice.application.query.invoiceIssuer.search.SearchInvoiceIssuerAdvancedQuery;
+import com.kynsoft.invoiceservice.application.query.Issuer.getById.GetInvoiceIssuerByIdQuery;
+import com.kynsoft.invoiceservice.application.query.Issuer.getById.InvoiceIssuerResponse;
+import com.kynsoft.invoiceservice.application.query.Issuer.search.SearchInvoiceIssuerAdvancedQuery;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;

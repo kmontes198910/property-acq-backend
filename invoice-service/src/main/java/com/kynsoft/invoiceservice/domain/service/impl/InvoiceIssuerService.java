@@ -3,7 +3,7 @@ package com.kynsoft.invoiceservice.domain.service.impl;
 import com.kynsof.share.core.domain.request.FilterCriteria;
 import com.kynsof.share.core.domain.response.PaginatedResponse;
 import com.kynsof.share.core.infrastructure.specifications.GenericSpecificationsBuilder;
-import com.kynsoft.invoiceservice.application.query.invoiceIssuer.search.IssuerResponse;
+import com.kynsoft.invoiceservice.application.query.Issuer.search.IssuerResponse;
 import com.kynsoft.invoiceservice.domain.dto.InvoiceIssuerDto;
 import com.kynsoft.invoiceservice.domain.exception.BusinessInvoiceException;
 import com.kynsoft.invoiceservice.domain.exception.DomainErrorInvoiceMessage;

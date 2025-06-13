@@ -1,4 +1,4 @@
-package com.kynsoft.invoiceservice.application.query.invoiceIssuer.getById;
+package com.kynsoft.invoiceservice.application.query.Issuer.getById;
 
 import com.kynsof.share.core.domain.bus.query.IQuery;
 import lombok.AllArgsConstructor;
