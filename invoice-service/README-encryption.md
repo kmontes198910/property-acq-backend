@@ -49,6 +49,46 @@ Para mayor seguridad en producción, configure las siguientes variables de entor
 3. Asegurar que las claves de encriptación estén respaldadas en un lugar seguro.
 4. Ejecutar pruebas exhaustivas antes de implementar en producción.
 5. Considerar implementar una bóveda de secretos (como HashiCorp Vault o AWS Secrets Manager) para almacenar las claves de encriptación.
+
+## Migración de Datos
+
+El sistema incluye un servicio de migración (`SensitiveDataMigrationService`) que se ejecuta automáticamente al iniciar la aplicación. Este servicio:
+
+1. Busca todos los registros de emisores en la base de datos
+2. Identifica campos sensibles no encriptados
+3. Encripta automáticamente estos campos
+4. Guarda los registros actualizados
+
+## Solución de Problemas
+
+### Detección de Datos Encriptados
+
+El sistema utiliza un mecanismo mejorado para detectar si los datos ya están encriptados:
+
+1. Verifica el formato de los datos (patrón hexadecimal)
+2. Intenta desencriptarlos como verificación secundaria
+
+### Manejo de Datos no Encriptados
+
+Cuando se encuentran datos no encriptados en la base de datos:
+
+1. El convertidor `AttributeEncryptor` los detecta automáticamente
+2. Los devuelve sin modificaciones para evitar errores
+3. El servicio de migración los encripta cuando corresponde
+
+### Errores Comunes
+
+1. **Error "Non-hex character"**: 
+   - Causa: Intentar desencriptar datos que no están en formato encriptado
+   - Solución: Implementación mejorada de `isEncrypted()` para detectar correctamente el formato
+
+2. **Error "Valor demasiado largo para tipo VARCHAR"**:
+   - Causa: El texto encriptado es más largo que el límite de la columna en la base de datos
+   - Solución: Migración de base de datos para ampliar el tamaño de la columna (V2__increase_cert_column_size.sql)
+
+3. **Error "ConflictingBeanDefinitionException"**:
+   - Causa: Múltiples definiciones de bean con el mismo nombre
+   - Solución: Eliminar archivos duplicados o resolver conflictos de nombres
 6. Limitar el acceso a los endpoints de gestión de certificados y contraseñas solo a usuarios administradores autorizados.
 
 ## Consideraciones de Seguridad para Certificados Digitales
