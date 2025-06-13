@@ -54,14 +54,7 @@ private final IInvoiceService invoiceService;
 
     private ByteArrayOutputStream generatePDFInvoice(Factura factura, String logoBase64) throws IOException {
         try {
-            ByteArrayOutputStream pdfFactura = FacturaPDFGenerador.generarPDF(factura, logoBase64, "#2D4C80");
-
-//            // Guardar localmente opcional (puedes eliminar si solo se sirve vía API)
-//            String nombreArchivoPdf = "factura_" + factura.getEstab() + "-" + factura.getPtoEmi() + "-"
-//                                      + factura.getSecuencial() + ".pdf";
-//            Files.write(Paths.get(nombreArchivoPdf), pdfFactura.toByteArray());
-
-            return pdfFactura;
+            return FacturaPDFGenerador.generarPDF(factura, logoBase64, "#2D4C80");
         } catch (Exception e) {
             throw new BusinessInvoiceException(DomainErrorInvoiceMessage.GENERAL_ERROR,
                     "Error al generar factura: " + e.getMessage());
