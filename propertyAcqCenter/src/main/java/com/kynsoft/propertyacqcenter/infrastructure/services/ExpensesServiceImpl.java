@@ -128,4 +128,9 @@ public class ExpensesServiceImpl implements IExpensesService {
         }
         throw new ExpresesForPropertyNotFoundException();
     }
+
+    @Override
+    public boolean existsByPropertyId(String propertyId) {
+        return this.repositoryQuery.existsByPropertyId(propertyId);
+    }
 }

@@ -3,6 +3,7 @@ package com.kynsoft.propertyacqcenter.application.command.sales.create;
 import com.kynsof.share.core.domain.bus.command.ICommandHandler;
 import com.kynsoft.propertyacqcenter.domain.dto.PropertyDto;
 import com.kynsoft.propertyacqcenter.domain.dto.SalesPropertyDto;
+import com.kynsoft.propertyacqcenter.domain.dto.exception.sales.SalesMustBeUniqueException;
 import com.kynsoft.propertyacqcenter.domain.services.IPropertyService;
 import com.kynsoft.propertyacqcenter.domain.services.ISalesPropertyService;
 import org.springframework.stereotype.Component;
@@ -21,6 +22,10 @@ public class CreateSalesCommandHandler implements ICommandHandler<CreateSalesCom
     @Override
     public void handle(CreateSalesCommand command) {
         PropertyDto property = this.propertyService.getById(command.getProperty());
+
+        if (this.salesPropertyService.existsByPropertyId(command.getProperty())) {
+            throw new SalesMustBeUniqueException(command.getProperty());
+        }
 
         this.salesPropertyService.create(SalesPropertyDto.builder()
                 .id(command.getId())

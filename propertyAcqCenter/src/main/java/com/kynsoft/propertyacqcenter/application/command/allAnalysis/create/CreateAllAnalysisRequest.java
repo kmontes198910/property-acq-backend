@@ -12,4 +12,5 @@ public class CreateAllAnalysisRequest {
     private CreateAllAnalysisMortgageRequest mortgage;
     private CreateAllAnalysisIncomeRequest income;
     private CreateAllAnalysisExpensesRequest expenses;
+    private CreateAllAnalysisSalesRequest sales;
 }

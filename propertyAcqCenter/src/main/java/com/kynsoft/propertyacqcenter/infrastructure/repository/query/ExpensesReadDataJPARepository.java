@@ -23,4 +23,6 @@ public interface ExpensesReadDataJPARepository extends JpaRepository<Expenses, U
 
     @EntityGraph(attributePaths = {"property"})
     Optional<Expenses> findByPropertyId(String propertyId);
+
+    boolean existsByPropertyId(String propertyId);
 }
