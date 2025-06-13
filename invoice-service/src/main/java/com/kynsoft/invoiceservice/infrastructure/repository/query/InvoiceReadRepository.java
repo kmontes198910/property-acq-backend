@@ -115,4 +115,5 @@ public interface InvoiceReadRepository extends JpaRepository<Invoice, UUID>, Jpa
     })
     Optional<Invoice> findById(UUID id);
 
+
 }

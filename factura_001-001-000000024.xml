@@ -5,21 +5,21 @@
         <razonSocial>Prueba Internas</razonSocial>
         <nombreComercial>PRUEBAS</nombreComercial>
         <ruc>0961881992001</ruc>
-        <claveAcceso>906202501096188199200110010010000000070000000013</claveAcceso>
+        <claveAcceso>1206202501096188199200110010010000000240000000212</claveAcceso>
         <codDoc>01</codDoc>
         <estab>001</estab>
         <ptoEmi>001</ptoEmi>
-        <secuencial>000000007</secuencial>
+        <secuencial>000000024</secuencial>
         <dirMatriz>TEST</dirMatriz>
         <contribuyenteRimpe>CONTRIBUYENTE RÉGIMEN RIMPE</contribuyenteRimpe>
     </infoTributaria>
     <infoFactura>
-        <fechaEmision>9/06/2025</fechaEmision>
+        <fechaEmision>12/06/2025</fechaEmision>
         <obligadoContabilidad>NO</obligadoContabilidad>
         <tipoIdentificacionComprador>04</tipoIdentificacionComprador>
-        <razonSocialComprador>Mi empresa</razonSocialComprador>
-        <identificacionComprador>0928762661662</identificacionComprador>
-        <direccionComprador>EDIFICIO A-50, APARTAMENTO 4 , ZONA 19, ALAMAR</direccionComprador>
+        <razonSocialComprador>EMPRESA DE JOSE</razonSocialComprador>
+        <identificacionComprador>1793211446001</identificacionComprador>
+        <direccionComprador>ESTADOS UNIDOS</direccionComprador>
         <totalSinImpuestos>100.00</totalSinImpuestos>
         <totalDescuento>0.00</totalDescuento>
         <totalConImpuestos>
@@ -38,7 +38,7 @@
             <pago>
                 <formaPago>01</formaPago>
                 <total>115.00</total>
-                <plazo>2.00</plazo>
+                <plazo>1.00</plazo>
                 <unidadTiempo>MES</unidadTiempo>
             </pago>
         </pagos>
@@ -65,41 +65,41 @@
         </detalle>
     </detalles>
     <infoAdicional>
-        <campoAdicional nombre="DIRECCIONCOMPRADOR">EDIFICIO A-50, APARTAMENTO 4 , ZONA 19, ALAMAR</campoAdicional>
-        <campoAdicional nombre="CORREOCOMPRADOR">buss@email.com</campoAdicional>
-        <campoAdicional nombre="TELEFONOCOMPRADOR">0971717717</campoAdicional>
-        <campoAdicional nombre="CORREOCOMPRADOR">buss@email.com</campoAdicional>
-        <campoAdicional nombre="DIRECCIONCOMPRADOR">EDIFICIO A-50, APARTAMENTO 4 , ZONA 19, ALAMAR</campoAdicional>
-        <campoAdicional nombre="TELEFONOCOMPRADOR">0971717717</campoAdicional>
+        <campoAdicional nombre="DIRECCIONCOMPRADOR">ESTADOS UNIDOS</campoAdicional>
+        <campoAdicional nombre="CORREOCOMPRADOR">pepito@gmail.com</campoAdicional>
+        <campoAdicional nombre="TELEFONOCOMPRADOR">0972626626</campoAdicional>
+        <campoAdicional nombre="CORREOCOMPRADOR">pepito@gmail.com</campoAdicional>
+        <campoAdicional nombre="DIRECCIONCOMPRADOR">ESTADOS UNIDOS</campoAdicional>
+        <campoAdicional nombre="TELEFONOCOMPRADOR">0972626626</campoAdicional>
     </infoAdicional>
-<ds:Signature xmlns:ds="http://www.w3.org/2000/09/xmldsig#" xmlns:etsi="http://uri.etsi.org/01903/v1.3.2#" Id="Signature689626">
-<ds:SignedInfo Id="Signature-SignedInfo447086">
+<ds:Signature xmlns:ds="http://www.w3.org/2000/09/xmldsig#" xmlns:etsi="http://uri.etsi.org/01903/v1.3.2#" Id="Signature264487">
+<ds:SignedInfo Id="Signature-SignedInfo436726">
 <ds:CanonicalizationMethod Algorithm="http://www.w3.org/TR/2001/REC-xml-c14n-20010315"/>
 <ds:SignatureMethod Algorithm="http://www.w3.org/2000/09/xmldsig#rsa-sha1"/>
-<ds:Reference Id="SignedPropertiesID657341" Type="http://uri.etsi.org/01903#SignedProperties" URI="#Signature689626-SignedProperties639285">
+<ds:Reference Id="SignedPropertiesID153495" Type="http://uri.etsi.org/01903#SignedProperties" URI="#Signature264487-SignedProperties387882">
 <ds:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1"/>
-<ds:DigestValue>VbP2eNH2/ZVaOkFyw2QYI6pEhxU=</ds:DigestValue>
+<ds:DigestValue>zzT92b6pbca5wIVfkt8jCdCApOE=</ds:DigestValue>
 </ds:Reference>
-<ds:Reference URI="#Certificate1594646">
+<ds:Reference URI="#Certificate1678372">
 <ds:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1"/>
-<ds:DigestValue>vmNMrdtDpcLqjI69NTPw+YbPf30=</ds:DigestValue>
+<ds:DigestValue>W4qwb+VKwNPf2RPjnPeR8cY8jjc=</ds:DigestValue>
 </ds:Reference>
-<ds:Reference Id="Reference-ID-885328" URI="#comprobante">
+<ds:Reference Id="Reference-ID-37592" URI="#comprobante">
 <ds:Transforms>
 <ds:Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature"/>
 </ds:Transforms>
 <ds:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1"/>
-<ds:DigestValue>7bhqM3FGT2E0JeRIhaJiRrTO4BA=</ds:DigestValue>
+<ds:DigestValue>gtZDIVZV/3rofV4QqzQpnMrza7Y=</ds:DigestValue>
 </ds:Reference>
 </ds:SignedInfo>
-<ds:SignatureValue Id="SignatureValue80428">
-Y/PcV2s++DyxZG1+QEedzEFixdiY4kibXUni4vQSG/qzbewo7PAOS+7Bo5VFJ831lhqDUFkauF2+
-nezAsAzZGdK/0Mx39x0E4SUT60yYAfUhUBu8OWD3zlpcP+g4cWZy6jpv63vGQWEO6EjebIgilpAp
-OUpqDB6aNEPCToV7t3NJvexHXrh8ICP8+A3A/uEF+rfUjHfgS2Px107ooKjgxJSGB+VZ8ng/5mCO
-ZFUlF/niJP9UhAw14ZZ+cZGHsoufZhjTQzSfN5msfmxiITEd3WqaJowlEa6u21vRRFnLAbGHTvTV
-1lI18UjeCOQPAqLftp3pFocnd/F+DI9vq1JF0g==
+<ds:SignatureValue Id="SignatureValue606902">
+MGQi+2uhtB3FLAKcTLIlVskmbVePtkt31/XfoToMn2BUr8VrwTsZjuGqIIIPYVDFTX7xk2YLTSzT
+t+4tRVNy7yYe9nrp++vDysYlpSWiPIvGaCdWwE+0fMlCpl5K+nCfQPzMQqN0AHAfbOGtfCtastx0
+2HH4g5euQMecJnrxFqL5g46mw+107l91Ruz9OeBBDnMsatFB9w6j3OJ1+/dysTsYAfwDybY6pTQx
+EQSS0H6KJOFshEP7LsS7VK4vrAMVz+WVEWtt88VnTmhK2ZONecWoFLaPpi/MLGBkbF9xVogdEJCW
+1TwPr5PdNS8N3RLpapqa4w48gB8IwuorR0mZ4g==
 </ds:SignatureValue>
-<ds:KeyInfo Id="Certificate1594646">
+<ds:KeyInfo Id="Certificate1678372">
 <ds:X509Data>
 <ds:X509Certificate>
 MIILzzCCCbegAwIBAgIEUv9kCzANBgkqhkiG9w0BAQsFADCBmTELMAkGA1UEBhMCRUMxHTAbBgNV
@@ -171,4 +171,4 @@ o9jT5VPN6D86D5YMjDYUGPyGpL10cG6HtCQkd/uDLYzaPgZYGzeR/1obwuGQYtM8qaJhhegAYsov
 </ds:RSAKeyValue>
 </ds:KeyValue>
 </ds:KeyInfo>
-<ds:Object Id="Signature689626-Object46552"><etsi:QualifyingProperties Target="#Signature689626"><etsi:SignedProperties Id="Signature689626-SignedProperties639285"><etsi:SignedSignatureProperties><etsi:SigningTime>2025-06-10T08:38:08-05:00</etsi:SigningTime><etsi:SigningCertificate><etsi:Cert><etsi:CertDigest><ds:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1"/><ds:DigestValue>/sBZ5IDNJfcIMhONmdMrPaET9wI=</ds:DigestValue></etsi:CertDigest><etsi:IssuerSerial><ds:X509IssuerName>CN=AUTORIDAD DE CERTIFICACION SUBCA-2 SECURITY DATA,OU=ENTIDAD DE CERTIFICACION DE INFORMACION,O=SECURITY DATA S.A. 2,C=EC</ds:X509IssuerName><ds:X509SerialNumber>1392469003</ds:X509SerialNumber></etsi:IssuerSerial></etsi:Cert></etsi:SigningCertificate></etsi:SignedSignatureProperties><etsi:SignedDataObjectProperties><etsi:DataObjectFormat ObjectReference="#Reference-ID-885328"><etsi:Description>contenido comprobante</etsi:Description><etsi:MimeType>text/xml</etsi:MimeType></etsi:DataObjectFormat></etsi:SignedDataObjectProperties></etsi:SignedProperties></etsi:QualifyingProperties></ds:Object></ds:Signature></factura>
+<ds:Object Id="Signature264487-Object857731"><etsi:QualifyingProperties Target="#Signature264487"><etsi:SignedProperties Id="Signature264487-SignedProperties387882"><etsi:SignedSignatureProperties><etsi:SigningTime>2025-06-12T17:55:03-05:00</etsi:SigningTime><etsi:SigningCertificate><etsi:Cert><etsi:CertDigest><ds:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1"/><ds:DigestValue>/sBZ5IDNJfcIMhONmdMrPaET9wI=</ds:DigestValue></etsi:CertDigest><etsi:IssuerSerial><ds:X509IssuerName>CN=AUTORIDAD DE CERTIFICACION SUBCA-2 SECURITY DATA,OU=ENTIDAD DE CERTIFICACION DE INFORMACION,O=SECURITY DATA S.A. 2,C=EC</ds:X509IssuerName><ds:X509SerialNumber>1392469003</ds:X509SerialNumber></etsi:IssuerSerial></etsi:Cert></etsi:SigningCertificate></etsi:SignedSignatureProperties><etsi:SignedDataObjectProperties><etsi:DataObjectFormat ObjectReference="#Reference-ID-37592"><etsi:Description>contenido comprobante</etsi:Description><etsi:MimeType>text/xml</etsi:MimeType></etsi:DataObjectFormat></etsi:SignedDataObjectProperties></etsi:SignedProperties></etsi:QualifyingProperties></ds:Object></ds:Signature></factura>

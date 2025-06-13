@@ -35,5 +35,5 @@ public class InvoiceIssuingSequence {
     
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "invoice_issuer_id")
-    private InvoiceIssuer invoiceIssuer;
+    private Issuer invoiceIssuer;
 }

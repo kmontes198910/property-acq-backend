@@ -2,7 +2,7 @@ package com.kynsoft.invoiceservice.application.query.invoiceIssuer.getById;
 
 import com.kynsof.share.core.domain.bus.query.IResponse;
 import com.kynsoft.invoiceservice.domain.dto.InvoiceIssuerDto;
-import com.kynsoft.invoiceservice.infrastructure.entities.InvoiceIssuer;
+import com.kynsoft.invoiceservice.infrastructure.entities.Issuer;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -47,7 +47,7 @@ public class InvoiceIssuerResponse implements IResponse {
      * @param issuer Entidad de emisor de facturas
      * @return Respuesta con los datos del emisor
      */
-    public static InvoiceIssuerResponse fromEntity(InvoiceIssuer issuer) {
+    public static InvoiceIssuerResponse fromEntity(Issuer issuer) {
         return InvoiceIssuerResponse.builder()
                 .id(issuer.getId())
                 .ruc(issuer.getRuc())

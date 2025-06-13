@@ -5,7 +5,7 @@ import com.kynsof.share.core.domain.exception.BusinessNotFoundException;
 import com.kynsof.share.core.domain.exception.DomainErrorMessage;
 import com.kynsof.share.core.domain.exception.GlobalBusinessException;
 import com.kynsof.share.core.domain.response.ErrorField;
-import com.kynsoft.invoiceservice.infrastructure.entities.InvoiceIssuer;
+import com.kynsoft.invoiceservice.infrastructure.entities.Issuer;
 import com.kynsoft.invoiceservice.infrastructure.repository.command.InvoiceIssuerWriteRepository;
 import com.kynsoft.invoiceservice.infrastructure.repository.query.InvoiceIssuerRepository;
 import lombok.RequiredArgsConstructor;
@@ -26,7 +26,7 @@ public class UpdateInvoiceIssuerCommandHandler implements ICommandHandler<Update
     public void handle(UpdateInvoiceIssuerCommand command) {
         log.info("Updating invoice issuer with ID: {}", command.getIssuerId());
         
-        InvoiceIssuer issuer = invoiceIssuerRepository.findById(command.getIssuerId())
+        Issuer issuer = invoiceIssuerRepository.findById(command.getIssuerId())
                 .orElseThrow(() -> new BusinessNotFoundException(
                     new GlobalBusinessException(DomainErrorMessage.BUSINESS_NOT_FOUND, 
                     new ErrorField("id", "Invoice issuer not found with ID: " + command.getIssuerId()))));

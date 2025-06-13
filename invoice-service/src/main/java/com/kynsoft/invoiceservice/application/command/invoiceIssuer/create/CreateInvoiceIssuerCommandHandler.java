@@ -2,8 +2,7 @@ package com.kynsoft.invoiceservice.application.command.invoiceIssuer.create;
 
 import com.kynsof.share.core.domain.bus.command.ICommandHandler;
 import com.kynsoft.invoiceservice.domain.service.IInvoiceIssuerService;
-import com.kynsoft.invoiceservice.infrastructure.entities.InvoiceIssuer;
-import com.kynsoft.invoiceservice.infrastructure.repository.command.InvoiceIssuerWriteRepository;
+import com.kynsoft.invoiceservice.infrastructure.entities.Issuer;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -23,7 +22,7 @@ public class CreateInvoiceIssuerCommandHandler implements ICommandHandler<Create
     public void handle(CreateInvoiceIssuerCommand command) {
         log.info("Creating new invoice issuer: {}", command.getBusinessName());
         
-        InvoiceIssuer issuer = InvoiceIssuer.builder()
+        Issuer issuer = Issuer.builder()
                 .id(UUID.randomUUID())
                 .ruc(command.getRuc())
                 .businessName(command.getBusinessName())
@@ -49,7 +48,7 @@ public class CreateInvoiceIssuerCommandHandler implements ICommandHandler<Create
                 .digitalCertPassword(command.getDigitalCertPassword())
                 .build();
         
-        InvoiceIssuer savedIssuer = iInvoiceIssuerService.create(issuer);
+        Issuer savedIssuer = iInvoiceIssuerService.create(issuer);
         
         // Asignamos el ID generado al comando para que esté disponible en el mensaje de respuesta
         command.setId(savedIssuer.getId());
