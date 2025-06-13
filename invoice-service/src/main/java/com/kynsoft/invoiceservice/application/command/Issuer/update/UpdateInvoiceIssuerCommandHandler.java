@@ -1,4 +1,4 @@
-package com.kynsoft.invoiceservice.application.command.invoiceIssuer.update;
+package com.kynsoft.invoiceservice.application.command.Issuer.update;
 
 import com.kynsof.share.core.domain.bus.command.ICommandHandler;
 import com.kynsof.share.core.domain.exception.BusinessNotFoundException;

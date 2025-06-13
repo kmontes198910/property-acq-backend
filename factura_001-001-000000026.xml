@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<factura xmlns:ns2="http://www.w3.org/2000/09/xmldsig#" id="comprobante" version="2.1.0">
+    <infoTributaria>
+        <ambiente>1</ambiente>
+        <tipoEmision>1</tipoEmision>
+        <razonSocial>Prueba Internas</razonSocial>
+        <nombreComercial>PRUEBAS</nombreComercial>
+        <ruc>0961881992001</ruc>
+        <claveAcceso>1306202501096188199200110010010000000260000000218</claveAcceso>
+        <codDoc>01</codDoc>
+        <estab>001</estab>
+        <ptoEmi>001</ptoEmi>
+        <secuencial>000000026</secuencial>
+        <dirMatriz>TEST</dirMatriz>
+        <contribuyenteRimpe>CONTRIBUYENTE RÉGIMEN RIMPE</contribuyenteRimpe>
+    </infoTributaria>
+    <infoFactura>
+        <fechaEmision>13/06/2025</fechaEmision>
+        <obligadoContabilidad>NO</obligadoContabilidad>
+        <tipoIdentificacionComprador>04</tipoIdentificacionComprador>
+        <razonSocialComprador>EMPRESA DE JOSE</razonSocialComprador>
+        <identificacionComprador>1793211446001</identificacionComprador>
+        <direccionComprador>ESTADOS UNIDOS</direccionComprador>
+        <totalSinImpuestos>100.00</totalSinImpuestos>
+        <totalDescuento>0.00</totalDescuento>
+        <totalConImpuestos>
+            <totalImpuesto>
+                <codigo>2</codigo>
+                <codigoPorcentaje>4</codigoPorcentaje>
+                <baseImponible>100.00</baseImponible>
+                <tarifa>15.00</tarifa>
+                <valor>15.00</valor>
+            </totalImpuesto>
+        </totalConImpuestos>
+        <propina>0.00</propina>
+        <importeTotal>115.00</importeTotal>
+        <moneda>DÓLAR</moneda>
+        <pagos>
+            <pago>
+                <formaPago>01</formaPago>
+                <total>115.00</total>
+                <plazo>0.00</plazo>
+                <unidadTiempo>MES</unidadTiempo>
+            </pago>
+        </pagos>
+    </infoFactura>
+    <detalles>
+        <detalle>
+            <codigoPrincipal>k0001</codigoPrincipal>
+            <codigoAuxiliar>k0001</codigoAuxiliar>
+            <descripcion>PRUEBA DE KEIMER</descripcion>
+            <unidadMedida>U</unidadMedida>
+            <cantidad>1.000000</cantidad>
+            <precioUnitario>100.000000</precioUnitario>
+            <descuento>0.00</descuento>
+            <precioTotalSinImpuesto>100.00</precioTotalSinImpuesto>
+            <impuestos>
+                <impuesto>
+                    <codigo>2</codigo>
+                    <codigoPorcentaje>4</codigoPorcentaje>
+                    <tarifa>15.00</tarifa>
+                    <baseImponible>100.00</baseImponible>
+                    <valor>15.00</valor>
+                </impuesto>
+            </impuestos>
+        </detalle>
+    </detalles>
+    <infoAdicional>
+        <campoAdicional nombre="DIRECCIONCOMPRADOR">ESTADOS UNIDOS</campoAdicional>
+        <campoAdicional nombre="CORREOCOMPRADOR">pepito@gmail.com</campoAdicional>
+        <campoAdicional nombre="TELEFONOCOMPRADOR">0972626626</campoAdicional>
+        <campoAdicional nombre="TELEFONOCOMPRADOR">0972626626</campoAdicional>
+        <campoAdicional nombre="DIRECCIONCOMPRADOR">ESTADOS UNIDOS</campoAdicional>
+        <campoAdicional nombre="CORREOCOMPRADOR">pepito@gmail.com</campoAdicional>
+    </infoAdicional>
+</factura>

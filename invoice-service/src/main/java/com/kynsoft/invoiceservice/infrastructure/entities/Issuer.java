@@ -1,9 +1,12 @@
 package com.kynsoft.invoiceservice.infrastructure.entities;
 
 import jakarta.persistence.*;
+import jakarta.persistence.Convert;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
+
+import com.kynsoft.invoiceservice.infrastructure.converters.AttributeEncryptor;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -89,7 +92,8 @@ public class Issuer {
     @Column(name = "digital_cert_p12", columnDefinition = "TEXT")
     private String digitalCertP12;
 
-    @Column(name = "digital_cert_password")
+    @Column(name = "digital_cert_password", length = 1024)
+    @Convert(converter = AttributeEncryptor.class)
     private String digitalCertPassword;
 
     @OneToMany(mappedBy = "invoiceIssuer", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)

@@ -1,4 +1,4 @@
-package com.kynsoft.invoiceservice.application.command.invoiceIssuer.update;
+package com.kynsoft.invoiceservice.application.command.Issuer.create;
 
 import com.kynsof.share.core.domain.bus.command.ICommandMessage;
 import lombok.AllArgsConstructor;
@@ -8,6 +8,6 @@ import java.util.UUID;
 
 @Getter
 @AllArgsConstructor
-public class UpdateInvoiceIssuerMessage implements ICommandMessage {
+public class CreateInvoiceIssuerMessage implements ICommandMessage {
     private UUID id;
 }

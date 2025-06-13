@@ -1,4 +1,4 @@
-package com.kynsoft.invoiceservice.application.command.invoiceIssuer.create;
+package com.kynsoft.invoiceservice.application.command.Issuer.create;
 
 import com.kynsof.share.core.domain.bus.command.ICommandHandler;
 import com.kynsoft.invoiceservice.domain.service.IInvoiceIssuerService;
