@@ -333,6 +333,15 @@ public class InvoiceService implements IInvoiceService {
     }
 
     @Override
+    public Invoice findByIdToEntity(UUID id) {
+        log.info("Buscando factura con ID: {}", id);
+
+        return invoiceRepository.findById(id)
+                .orElseThrow(() -> new BusinessInvoiceException(DomainErrorInvoiceMessage.INVOICE_NOT_FOUND,
+                        "Factura no encontrada con ID: " + id));
+    }
+
+    @Override
     @Transactional(readOnly = true)
     public List<InvoiceDto> search(UUID customerId, String documentNumber, InvoiceStatus status) {
         log.info("Buscando facturas con filtros - customerId: {}, documentNumber: {}, status: {}", 
