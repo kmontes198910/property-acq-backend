@@ -1,7 +1,9 @@
 package com.kynsoft.invoiceservice.domain.service.impl;
 
 import com.kynsof.share.core.domain.request.FilterCriteria;
+import com.kynsof.share.core.domain.response.PaginatedResponse;
 import com.kynsof.share.core.infrastructure.specifications.GenericSpecificationsBuilder;
+import com.kynsoft.invoiceservice.application.query.invoiceIssuer.search.IssuerResponse;
 import com.kynsoft.invoiceservice.domain.dto.InvoiceIssuerDto;
 import com.kynsoft.invoiceservice.domain.exception.BusinessInvoiceException;
 import com.kynsoft.invoiceservice.domain.exception.DomainErrorInvoiceMessage;
@@ -12,6 +14,7 @@ import com.kynsoft.invoiceservice.infrastructure.repository.command.InvoiceIssue
 import com.kynsoft.invoiceservice.infrastructure.repository.query.InvoiceIssuerRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -75,7 +78,7 @@ public class InvoiceIssuerService implements IInvoiceIssuerService {
     
     @Override
     @Transactional(readOnly = true)
-    public com.kynsof.share.core.domain.response.PaginatedResponse search(
+    public PaginatedResponse search(
        Pageable pageable,
             List<FilterCriteria> filterCriteria) {
         
@@ -84,15 +87,15 @@ public class InvoiceIssuerService implements IInvoiceIssuerService {
 
         GenericSpecificationsBuilder<Issuer> specifications = new GenericSpecificationsBuilder<>(filterCriteria);
         // Ejecutar la consulta con paginación
-        org.springframework.data.domain.Page<Issuer> page = invoiceIssuerRepository.findAll(specifications, pageable);
+        Page<Issuer> page = invoiceIssuerRepository.findAll(specifications, pageable);
         
         // Convertir los resultados a DTOs
-        List<InvoiceIssuerDto> issuerDtos = page.getContent().stream()
-                .map(InvoiceIssuerDto::fromEntity)
+        List<IssuerResponse> issuerDtos = page.getContent().stream()
+                .map(IssuerResponse::fromEntity)
                 .collect(Collectors.toList());
         
         // Construir y devolver la respuesta paginada
-        return new com.kynsof.share.core.domain.response.PaginatedResponse(
+        return new PaginatedResponse(
                 issuerDtos,                // data
                 page.getTotalPages(),        // totalPages
                 page.getNumberOfElements(),  // totalElementsPage
