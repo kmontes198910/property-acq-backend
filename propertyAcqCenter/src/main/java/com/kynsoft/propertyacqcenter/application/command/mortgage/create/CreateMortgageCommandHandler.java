@@ -23,9 +23,9 @@ public class CreateMortgageCommandHandler implements ICommandHandler<CreateMortg
     public void handle(CreateMortgageCommand command) {
         PropertyDto property = this.propertyService.getById(command.getProperty());
 
-        if (this.mortgageService.existsByPropertyId(command.getProperty())) {
-            throw new MortgageMustBeUniqueException(command.getProperty());
-        }
+//        if (this.mortgageService.existsByPropertyId(command.getProperty())) {
+//            throw new MortgageMustBeUniqueException(command.getProperty());
+//        }
 
         this.mortgageService.create(MortgageDto.builder()
                 .id(command.getId())
