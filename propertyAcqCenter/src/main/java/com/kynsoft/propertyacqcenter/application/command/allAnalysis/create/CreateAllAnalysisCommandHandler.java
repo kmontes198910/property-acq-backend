@@ -8,6 +8,11 @@ import com.kynsoft.propertyacqcenter.domain.dto.MortgageDto;
 import com.kynsoft.propertyacqcenter.domain.dto.PropertyDto;
 import com.kynsoft.propertyacqcenter.domain.dto.PurchaseDto;
 import com.kynsoft.propertyacqcenter.domain.dto.SalesPropertyDto;
+import com.kynsoft.propertyacqcenter.domain.dto.exception.expenses.ExpensesMustBeUniqueException;
+import com.kynsoft.propertyacqcenter.domain.dto.exception.income.IncomeMustBeUniqueException;
+import com.kynsoft.propertyacqcenter.domain.dto.exception.mortgage.MortgageMustBeUniqueException;
+import com.kynsoft.propertyacqcenter.domain.dto.exception.purchase.PurchaseMustBeUniqueException;
+import com.kynsoft.propertyacqcenter.domain.dto.exception.sales.SalesMustBeUniqueException;
 import com.kynsoft.propertyacqcenter.domain.services.IExpensesService;
 import com.kynsoft.propertyacqcenter.domain.services.IIncomeService;
 import com.kynsoft.propertyacqcenter.domain.services.IMortgageService;
@@ -45,7 +50,7 @@ public class CreateAllAnalysisCommandHandler implements ICommandHandler<CreateAl
     @Transactional
     public void handle(CreateAllAnalysisCommand command) {
         PropertyDto property = this.propertyService.getById(command.getProperty());
-
+        this.validateExist(command.getProperty());
         this.salesPropertyService.create(SalesPropertyDto.builder()
                 .id(command.getId())
                 .property(property)
@@ -201,6 +206,24 @@ public class CreateAllAnalysisCommandHandler implements ICommandHandler<CreateAl
                 .build()
         );
 
+    }
+
+    private void validateExist(String property) {
+        if (this.expensesService.existsByPropertyId(property)) {
+            throw new ExpensesMustBeUniqueException(property);
+        }
+        if (this.incomeService.existsByPropertyId(property)) {
+            throw new IncomeMustBeUniqueException(property);
+        }
+        if (this.purchaseService.existsByPropertyId(property)) {
+            throw new PurchaseMustBeUniqueException(property);
+        }
+        if (this.mortgageService.existsByPropertyId(property)) {
+            throw new MortgageMustBeUniqueException(property);
+        }
+        if (this.salesPropertyService.existsByPropertyId(property)) {
+            throw new SalesMustBeUniqueException(property);
+        }
     }
 
     private List<IncomeDetailsBreakdownDto> detailsBreakdownValues(CreateAllAnalysisCommand command){

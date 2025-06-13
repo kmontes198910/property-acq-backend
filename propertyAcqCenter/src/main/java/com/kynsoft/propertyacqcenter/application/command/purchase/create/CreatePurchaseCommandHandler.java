@@ -3,6 +3,7 @@ package com.kynsoft.propertyacqcenter.application.command.purchase.create;
 import com.kynsof.share.core.domain.bus.command.ICommandHandler;
 import com.kynsoft.propertyacqcenter.domain.dto.PropertyDto;
 import com.kynsoft.propertyacqcenter.domain.dto.PurchaseDto;
+import com.kynsoft.propertyacqcenter.domain.dto.exception.purchase.PurchaseMustBeUniqueException;
 import com.kynsoft.propertyacqcenter.domain.services.IPropertyService;
 import com.kynsoft.propertyacqcenter.domain.services.IPurchaseService;
 import org.springframework.stereotype.Component;
@@ -21,6 +22,10 @@ public class CreatePurchaseCommandHandler implements ICommandHandler<CreatePurch
     @Override
     public void handle(CreatePurchaseCommand command) {
         PropertyDto property = this.propertyService.getById(command.getProperty());
+
+        if (this.purchaseService.existsByPropertyId(command.getProperty())) {
+            throw new PurchaseMustBeUniqueException(command.getProperty());
+        }
 
         this.purchaseService.create(PurchaseDto.builder()
                 .id(command.getId())

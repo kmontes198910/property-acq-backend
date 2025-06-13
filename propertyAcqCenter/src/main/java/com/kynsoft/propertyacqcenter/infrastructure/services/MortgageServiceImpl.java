@@ -115,4 +115,9 @@ public class MortgageServiceImpl implements IMortgageService {
         return new PaginatedResponse(objects, data.getTotalPages(), data.getNumberOfElements(),
                 data.getTotalElements(), data.getSize(), data.getNumber());
     }
+
+    @Override
+    public boolean existsByPropertyId(String propertyId) {
+        return this.repositoryQuery.existsByPropertyId(propertyId);
+    }
 }

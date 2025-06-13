@@ -20,4 +20,6 @@ public interface IPurchaseService {
     PaginatedResponse search(Pageable pageable, List<FilterCriteria> filterCriteria);
 
     PurchaseDto findByPropertyId(String propertyId);
+
+    boolean existsByPropertyId(String propertyId);
 }

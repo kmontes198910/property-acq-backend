@@ -20,4 +20,6 @@ public interface MortgageReadDataJPARepository extends JpaRepository<Mortgage, U
     @EntityGraph(attributePaths = {"property"})
     @Override
     Optional<Mortgage> findById(UUID id);
+
+    boolean existsByPropertyId(String propertyId);
 }

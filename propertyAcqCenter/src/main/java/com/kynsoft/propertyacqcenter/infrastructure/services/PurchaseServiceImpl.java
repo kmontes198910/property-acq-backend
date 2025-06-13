@@ -145,4 +145,9 @@ public class PurchaseServiceImpl implements IPurchaseService {
         }
         throw new PurchaseForPropertyNotFoundException();
     }
+
+    @Override
+    public boolean existsByPropertyId(String propertyId) {
+        return this.repositoryQuery.existsByPropertyId(propertyId);
+    }
 }

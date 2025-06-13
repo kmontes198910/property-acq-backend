@@ -24,4 +24,6 @@ public interface SalesPropertyReadDataJPARepository extends JpaRepository<SalesP
 
     @EntityGraph(attributePaths = {"property"})
     Optional<SalesProperty> findByPropertyId(String propertyId);
+
+    boolean existsByPropertyId(String propertyId);
 }

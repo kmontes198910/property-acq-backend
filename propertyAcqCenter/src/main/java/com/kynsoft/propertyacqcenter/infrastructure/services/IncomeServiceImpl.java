@@ -138,4 +138,9 @@ public class IncomeServiceImpl implements IIncomeService {
         }
         throw new IncomeForPropertyNotFoundException();
     }
+
+    @Override
+    public boolean existsByPropertyId(String propertyId) {
+        return this.repositoryQuery.existsByPropertyId(propertyId);
+    }
 }

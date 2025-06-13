@@ -114,4 +114,9 @@ public class SalesPropertyServiceImpl implements ISalesPropertyService {
         }
         throw new PurchaseForPropertyNotFoundException();
     }
+
+    @Override
+    public boolean existsByPropertyId(String propertyId) {
+        return this.repositoryQuery.existsByPropertyId(propertyId);
+    }
 }
