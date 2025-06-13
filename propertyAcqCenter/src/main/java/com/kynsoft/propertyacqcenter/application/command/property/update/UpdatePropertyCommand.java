@@ -75,6 +75,8 @@ public class UpdatePropertyCommand implements ICommand {
     private Double taxableArea;
     private Double garageArea;
 
+    private Double closingCost;//
+
     public UpdatePropertyCommand(String id, PropertyType propertyType, int lotSize, 
                                  String apn, int yearBuilt, String county, Boolean occupancy, 
                                  String addressLine1, String addressLine2, String city, String state, 
@@ -90,7 +92,8 @@ public class UpdatePropertyCommand implements ICommand {
                                  Boolean emdRequirements, Double emdOfferedAmount,
                                  Boolean distressed, String lenghOfOwership, Double openBalanceMortagage, Double involuntaryLiensAmount,
                                  Double publicRecord, Double mls, Boolean isMortgage,
-                                 Double buildingArea, Double livingArea, Double grossArea, Double taxableArea, Double garageArea) {
+                                 Double buildingArea, Double livingArea, Double grossArea, Double taxableArea, Double garageArea,
+                                 Double closingCost) {
         this.id = id;
         this.buildingArea = buildingArea;
         this.taxableArea = taxableArea;
@@ -140,6 +143,7 @@ public class UpdatePropertyCommand implements ICommand {
         this.involuntaryLiensAmount = involuntaryLiensAmount;
         this.publicRecord = publicRecord;
         this.mls = mls;
+        this.closingCost = closingCost;
     }
 
     public static UpdatePropertyCommand fromRequest(UpdatePropertyRequest request, String id) {
@@ -192,7 +196,8 @@ public class UpdatePropertyCommand implements ICommand {
                 request.getLivingArea(),
                 request.getGrossArea(),
                 request.getTaxableArea(),
-                request.getGarageArea()
+                request.getGarageArea(),
+                request.getClosingCost()
         );
     }
 

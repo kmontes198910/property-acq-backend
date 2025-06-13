@@ -81,6 +81,7 @@ public class CreatePropertyCommandHandler implements ICommandHandler<CreatePrope
                 .taxableArea(command.getTaxableArea())
                 .garageArea(command.getGarageArea())
 
+                .closingCost(command.getClosingCost())
                 .build()
         );
     }

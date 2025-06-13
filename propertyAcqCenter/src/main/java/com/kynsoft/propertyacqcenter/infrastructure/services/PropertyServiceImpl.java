@@ -101,6 +101,7 @@ public class PropertyServiceImpl implements IPropertyService {
         update.setTaxableArea(object.getTaxableArea());
         update.setGarageArea(object.getGarageArea());
 
+        update.setClosingCost(object.getClosingCost());
         repositoryCommand.save(update);
     }
 
