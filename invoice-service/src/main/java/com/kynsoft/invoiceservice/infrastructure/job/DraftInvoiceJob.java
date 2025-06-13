@@ -40,6 +40,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import com.kynsoft.invoiceservice.infrastructure.mapper.MapperInvoice;
 import com.kynsoft.invoiceservice.util.CredentialUtil;
 
 
@@ -50,6 +51,7 @@ public class DraftInvoiceJob {
     private final InvoiceService invoiceService;
     private final IInvoiceIssuerService invoiceIssuerService;
     private final CredentialUtil credentialUtil;
+    private final MapperInvoice mapperInvoice;
     @Value("${sri.ambiente}")
     private String sriAmbiente;
 
@@ -57,11 +59,13 @@ public class DraftInvoiceJob {
             InvoiceRepository invoiceRepository,
             InvoiceService invoiceService,
             IInvoiceIssuerService invoiceIssuerService,
-            CredentialUtil credentialUtil) {
+            CredentialUtil credentialUtil,
+            MapperInvoice mapperInvoice) {
         this.invoiceRepository = invoiceRepository;
         this.invoiceService = invoiceService;
         this.invoiceIssuerService = invoiceIssuerService;
         this.credentialUtil = credentialUtil;
+        this.mapperInvoice = mapperInvoice;
     }
 
     // Ejecuta cada día a la medianoche
@@ -75,9 +79,9 @@ public class DraftInvoiceJob {
             return;
         }
 
-        // Convertir cada Invoice a Factura
+        // Convertir cada Invoice a Factura utilizando el mapper
         List<ProcessInvoice> facturas = facturasBorrador.stream()
-                .map(this::convertToFactura)
+                .map(mapperInvoice::convertToFactura)
                 .toList();
 
         System.out.println("Facturas en estado DRAFT encontradas: " + facturas.size());
@@ -90,126 +94,7 @@ public class DraftInvoiceJob {
         // Aquí puedes agregar la lógica que necesites con las facturas tipo Factura
     }
 
-    /**
-     * Convierte un objeto Invoice a un objeto Factura (ec.e.facturacion.sri.modelo.Factura)
-     */
-    private ProcessInvoice convertToFactura(Invoice invoice) {
-        // Mapeo de campos básicos
-        String ruc = invoice.getIssuer() != null ? invoice.getIssuer().getRuc() : "";
-        String razonSocial = invoice.getIssuer() != null ? invoice.getIssuer().getBusinessName() : "";
-        String nombreComercial = invoice.getIssuer() != null ? invoice.getIssuer().getCommercialName() : "";
-        String estab = extraerEstab(invoice.getDocumentNumber());
-        String ptoEmi = extraerPtoEmi(invoice.getDocumentNumber());
-        String secuencial = invoice.getSequential();
-        String dirMatriz = invoice.getIssuer() != null ? invoice.getIssuer().getAddress() : "";
-        String correo = invoice.getCustomer() != null ? invoice.getCustomer().getEmail() : "";
-        String telefono = invoice.getCustomer() != null ? invoice.getCustomer().getPhone() : "";
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d/MM/yyyy");
-        String fechaEmision = invoice.getEmissionDate() != null
-                ? invoice.getEmissionDate().toLocalDate().format(formatter)
-                : "";
 
-        // Detalles
-        List<Factura.DetalleFactura> detalles = invoice.getDetails().stream().map(det -> {
-            // Mapear todos los impuestos del detalle
-            List<Factura.Impuesto> impuestos = new ArrayList<>(det.getTaxes().stream()
-                    .map(t -> new Factura.Impuesto(t.getCode(), t.getPercentageCode(), t.getValue()))
-                    .toList());
-
-            // Buscar IVA, si no hay, usar el primero o null
-            Factura.Impuesto principal = null;
-            if (!impuestos.isEmpty()) {
-                principal = impuestos.stream()
-                        .filter(i -> i.getCodigo() != null && i.getCodigo().equals("2"))
-                        .findFirst()
-                        .orElse(impuestos.get(0));
-            }
-
-
-            return new Factura.DetalleFactura.Builder(
-                    det.getMainCode(),
-                    det.getDescription(),
-                    det.getQuantity(),
-                    det.getUnitPrice(),
-                    principal
-            )
-                    .withUnidadMedida(det.getUnitOfMeasure())
-                    .withDescuento(det.getDiscount() != null ? det.getDiscount() : java.math.BigDecimal.ZERO)
-                    .build();
-        }).toList();
-
-        List<Factura.Pago> pagos = (invoice.getPayments().stream()
-                .map(pagoDTO -> new Factura.Pago(
-                        pagoDTO.getPaymentMethod(),
-                        pagoDTO.getPaymentMethodName(),
-                        pagoDTO.getAmount(),
-                        pagoDTO.getTimeValue() != null ? pagoDTO.getTimeValue() : BigDecimal.ZERO,
-                        pagoDTO.getTimeUnit()))
-                .toList());
-
-        // Información adicional
-        List<ComprobanteBase.CampoAdicional> infoAdicional = new ArrayList<>(invoice.getAdditionalFields().stream().map(f ->
-                new ComprobanteBase.CampoAdicional(f.getName(), f.getValue())
-        ).toList());
-
-        // Construir la factura
-        Factura.Builder builder = new Factura.Builder(
-                ruc, razonSocial, dirMatriz, correo, telefono, estab, ptoEmi, secuencial, fechaEmision, detalles
-        );
-        builder.withContribuyenteRimpe(Regimen.REGIMEN_RIMPE);
-
-        builder.withTipoIdentificacionComprador(invoice.getCustomer() != null ? invoice.getCustomer().getIdType().getCode() : "05")
-                .withRazonSocialComprador(invoice.getCustomer() != null ? invoice.getCustomer().getBusinessName() : "CONSUMIDOR FINAL")
-                .withIdentificacionComprador(invoice.getCustomer() != null ? invoice.getCustomer().getIdNumber() : "9999999999999")
-                .withDireccionComprador(invoice.getCustomer() != null ? invoice.getCustomer().getAddress() : "SIN DIRECCIÓN")
-                .withCorreoComprador(invoice.getCustomer() != null ? invoice.getCustomer().getEmail() : "SIN CORREO")
-                .withTelefonoComprador(invoice.getCustomer() != null ? invoice.getCustomer().getPhone() : "SIN TELÉFONO");
-
-        builder.withNombreComercial(nombreComercial);
-
-        if (!pagos.isEmpty()) {
-            pagos.forEach(builder::withPago);
-        }
-        if (!infoAdicional.isEmpty()) {
-            builder.withInfoAdicional(infoAdicional);
-        }
-        if (invoice.getTip() != null) {
-            builder.withPropina(invoice.getTip());
-        }
-        // Puedes agregar más campos según lo requieras
-        InvoiceIssuerDto invoiceIssuerDto = invoiceIssuerService.getById(invoice.getIssuer().getId());
-
-        // Decodificar el certificado P12
-        String base64 = invoiceIssuerDto.getDigitalCertP12().replaceAll("\\s+", "");
-        byte[] decodedBytes = Base64.getDecoder().decode(base64);
-        InputStream p12Stream = new ByteArrayInputStream(decodedBytes);
-
-        // Asegurar que la contraseña esté desencriptada usando el CredentialUtil
-        // Esto garantiza que la contraseña sea usable incluso si por alguna razón
-        // el AttributeEncryptor no la desencriptó automáticamente
-        String rawPassword = invoiceIssuerDto.getDigitalCertPassword();
-        String password = credentialUtil.ensureDecrypted(rawPassword);
-
-        log.debug("Contraseña procesada para certificado digital del emisor: {}", invoice.getIssuer().getId());
-
-        return new ProcessInvoice(invoice.getId(), builder.build(), p12Stream, password);
-    }
-
-    private String extraerEstab(String documentNumber) {
-        if (documentNumber != null && documentNumber.contains("-")) {
-            String[] parts = documentNumber.split("-");
-            if (parts.length > 0) return parts[0];
-        }
-        return "001";
-    }
-
-    private String extraerPtoEmi(String documentNumber) {
-        if (documentNumber != null && documentNumber.contains("-")) {
-            String[] parts = documentNumber.split("-");
-            if (parts.length > 1) return parts[1];
-        }
-        return "001";
-    }
 
     public void generateDocumentsAsync(Factura factura, UUID invoice, UUID userId,  InputStream p12Bytes, String password) {
         try {
