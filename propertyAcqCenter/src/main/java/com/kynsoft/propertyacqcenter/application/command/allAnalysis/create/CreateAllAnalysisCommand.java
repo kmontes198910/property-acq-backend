@@ -1,6 +1,5 @@
 package com.kynsoft.propertyacqcenter.application.command.allAnalysis.create;
 
-import com.kynsoft.propertyacqcenter.application.command.expenses.create.*;
 import com.kynsof.share.core.domain.bus.command.ICommand;
 import com.kynsof.share.core.domain.bus.command.ICommandMessage;
 import lombok.Getter;
@@ -18,14 +17,18 @@ public class CreateAllAnalysisCommand implements ICommand {
     private CreateAllAnalysisMortgageRequest mortgage;
     private CreateAllAnalysisIncomeRequest income;
     private CreateAllAnalysisExpensesRequest expenses;
+    private CreateAllAnalysisSalesRequest sales;
 
-    public CreateAllAnalysisCommand(String property, CreateAllAnalysisPurchaseRequest purchase, CreateAllAnalysisMortgageRequest mortgage, CreateAllAnalysisIncomeRequest income, CreateAllAnalysisExpensesRequest expenses) {
+    public CreateAllAnalysisCommand(String property, CreateAllAnalysisPurchaseRequest purchase, 
+                                    CreateAllAnalysisMortgageRequest mortgage, CreateAllAnalysisIncomeRequest income, 
+                                    CreateAllAnalysisExpensesRequest expenses, CreateAllAnalysisSalesRequest sales) {
         this.id = UUID.randomUUID();
         this.property = property;
         this.purchase = purchase;
         this.mortgage = mortgage;
         this.income = income;
         this.expenses = expenses;
+        this.sales = sales;
     }
 
     public static CreateAllAnalysisCommand fromRequest(CreateAllAnalysisRequest request) {
@@ -34,7 +37,8 @@ public class CreateAllAnalysisCommand implements ICommand {
                 request.getPurchase(),
                 request.getMortgage(),
                 request.getIncome(),
-                request.getExpenses()
+                request.getExpenses(),
+                request.getSales()
         );
     }
 
