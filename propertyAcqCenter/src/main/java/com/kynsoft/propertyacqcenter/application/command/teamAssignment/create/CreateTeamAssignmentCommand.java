@@ -12,7 +12,7 @@ import java.util.UUID;
 public class CreateTeamAssignmentCommand implements ICommand {
 
     private UUID id;
-    private String buyerEntityName;
+    private UUID buyerEntityName;
     private String buyerContactRep;
     private String titleEscrowCompany;
     private String lenderCompany;
@@ -22,7 +22,7 @@ public class CreateTeamAssignmentCommand implements ICommand {
     private String seller;
     private String hoa;
 
-    public CreateTeamAssignmentCommand(String buyerEntityName, String buyerContactRep, String titleEscrowCompany, 
+    public CreateTeamAssignmentCommand(UUID buyerEntityName, String buyerContactRep, String titleEscrowCompany, 
                                        String lenderCompany, String projectManager, String legalContact, 
                                        String property, String seller, String hoa) {
         this.id = UUID.randomUUID();

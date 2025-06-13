@@ -17,7 +17,7 @@ import lombok.Setter;
 @Builder
 public class TeamAssignmentResponse implements IResponse {
     private UUID id;
-    private CompanyContactSearchResponse buyerEntityName;
+    private LegalEntityBasicResponse buyerEntityName;
     private CompanyContactSearchResponse buyerContactRep;
     private CompanyContactSearchResponse titleEscrowCompany;
     private CompanyContactSearchResponse lenderCompany;
@@ -34,7 +34,7 @@ public class TeamAssignmentResponse implements IResponse {
 
     public TeamAssignmentResponse(TeamAssignmentDto dto) {
         this.id = dto.getId();
-        this.buyerEntityName = dto.getBuyerEntityName() != null ? new CompanyContactSearchResponse(dto.getBuyerEntityName()) : null;
+        this.buyerEntityName = dto.getBuyerEntityName() != null ? new LegalEntityBasicResponse(dto.getBuyerEntityName()) : null;
         this.buyerContactRep = dto.getBuyerContactRep() != null ? new CompanyContactSearchResponse(dto.getBuyerContactRep()) : null;
         this.titleEscrowCompany = dto.getTitleEscrowCompany() != null ? new CompanyContactSearchResponse(dto.getTitleEscrowCompany()) : null;
         this.lenderCompany = dto.getLenderCompany() != null ? new CompanyContactSearchResponse(dto.getLenderCompany()) : null;

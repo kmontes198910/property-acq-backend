@@ -218,9 +218,9 @@ public class CreateAllAnalysisCommandHandler implements ICommandHandler<CreateAl
         if (this.purchaseService.existsByPropertyId(property)) {
             throw new PurchaseMustBeUniqueException(property);
         }
-        if (this.mortgageService.existsByPropertyId(property)) {
-            throw new MortgageMustBeUniqueException(property);
-        }
+//        if (this.mortgageService.existsByPropertyId(property)) {
+//            throw new MortgageMustBeUniqueException(property);
+//        }
         if (this.salesPropertyService.existsByPropertyId(property)) {
             throw new SalesMustBeUniqueException(property);
         }
