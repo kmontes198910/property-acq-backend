@@ -80,13 +80,18 @@ public class UpdatePatientsCommandHandler implements ICommandHandler<UpdatePatie
         }
         this.patientPublisherService.publishEvent(new RabbitMQPatientDto(
                 patientDto.getId(),
+                patientDto.getIdentificationType(),
                 patientDto.getIdentification(),
                 command.getCreateContactInfoRequest().getEmail(),
                 patientDto.getName(),
                 patientDto.getLastName(),
                 patientDto.getPhoto(),
                 patientDto.getProfession(),
-                patientDto.getStatus().toString()
+                patientDto.getStatus().toString(),
+                command.getCreateContactInfoRequest().getAddress(),
+                command.getCreateContactInfoRequest().getTelephone()
+
+
         ));
 //        replicatePerson(command, command.getId());
     }
