@@ -59,6 +59,7 @@ public class CreatePurchaseCommand implements ICommand {
     private Double plumbing;
     private Double roof;
     private Double window;
+    private Double closingCost;
 
     public CreatePurchaseCommand(String property, PurchaseType purchaseType, Boolean foreclosure, 
                                  Double improvements, Double purchasePrice, Double estimatedMarketValue, Double acHeatPump, 
@@ -69,7 +70,8 @@ public class CreatePurchaseCommand implements ICommand {
                                  Double walls, Double attic, Double carpet, Double cladding, Double driveway, 
                                  Double exterior, Double flooring, Double glutter, Double irrigationSpri, Double plumbing, 
                                  Double roof, Double window,
-                                 Double amountOfDefault, Double accruedInterest, Double otherFees) {
+                                 Double amountOfDefault, Double accruedInterest, Double otherFees,
+                                 Double closingCost) {
         this.id = UUID.randomUUID();
         this.property = property;
         this.purchaseType = purchaseType;
@@ -114,6 +116,7 @@ public class CreatePurchaseCommand implements ICommand {
         this.plumbing = plumbing;
         this.roof = roof;
         this.window = window;
+        this.closingCost = closingCost;
     }
 
 
@@ -161,7 +164,8 @@ public class CreatePurchaseCommand implements ICommand {
                 request.getWindow(),
                 request.getAmountOfDefault(),
                 request.getAccruedInterest(),
-                request.getOtherFees()
+                request.getOtherFees(),
+                request.getClosingCost()
         );
     }
 

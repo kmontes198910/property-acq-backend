@@ -131,6 +131,7 @@ public class PropertiesResponse implements IResponse {
 
         this.publicRecord = dto.getPublicRecord();
         this.mls = dto.getMls();
+
     }
 
 }

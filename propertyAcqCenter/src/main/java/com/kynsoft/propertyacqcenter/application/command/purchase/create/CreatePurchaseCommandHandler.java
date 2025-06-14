@@ -73,6 +73,8 @@ public class CreatePurchaseCommandHandler implements ICommandHandler<CreatePurch
                 .plumbing(command.getPlumbing())
                 .roof(command.getRoof())
                 .window(command.getWindow())
+
+                .closingCost(command.getClosingCost())
                 .build()
         );
     }

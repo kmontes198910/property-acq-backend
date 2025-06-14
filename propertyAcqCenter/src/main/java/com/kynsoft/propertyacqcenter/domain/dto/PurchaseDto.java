@@ -61,4 +61,5 @@ public class PurchaseDto implements Serializable {
     private Double plumbing;
     private Double roof;
     private Double window;
+    private Double closingCost;
 }
