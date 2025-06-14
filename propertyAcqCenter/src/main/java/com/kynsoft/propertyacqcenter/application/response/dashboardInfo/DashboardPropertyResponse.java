@@ -21,6 +21,7 @@ public class DashboardPropertyResponse implements IResponse {
     //Address
     private String addressLine1;
     private String addressLine2;
+    private String formattedAddress;
     private String city;
     private String state;
     private String zipCode;
