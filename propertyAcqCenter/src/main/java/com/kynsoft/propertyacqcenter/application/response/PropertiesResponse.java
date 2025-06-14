@@ -76,8 +76,6 @@ public class PropertiesResponse implements IResponse {
     private Double taxableArea;
     private Double garageArea;
 
-    private Double closingCost;//
-
     public PropertiesResponse(PropertyDto dto) {
         this.buildingArea = dto.getBuildingArea();
         this.livingArea = dto.getLivingArea();
@@ -134,7 +132,6 @@ public class PropertiesResponse implements IResponse {
         this.publicRecord = dto.getPublicRecord();
         this.mls = dto.getMls();
 
-        this.closingCost = dto.getClosingCost();
     }
 
 }

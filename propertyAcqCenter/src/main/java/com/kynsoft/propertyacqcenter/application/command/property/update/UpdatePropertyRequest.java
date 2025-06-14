@@ -71,6 +71,4 @@ public class UpdatePropertyRequest {
     private Double grossArea;
     private Double taxableArea;
     private Double garageArea;
-
-    private Double closingCost;//
 }

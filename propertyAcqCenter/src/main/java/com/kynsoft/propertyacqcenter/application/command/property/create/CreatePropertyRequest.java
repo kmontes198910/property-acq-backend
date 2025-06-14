@@ -73,5 +73,4 @@ public class CreatePropertyRequest {
     private Double taxableArea;
     private Double garageArea;
 
-    private Double closingCost;//
 }

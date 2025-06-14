@@ -137,9 +137,6 @@ public class Property {
     @Column(name = "garage_area", nullable = true)
     private Double garageArea;//
 
-    @Column(name = "closing_cost", nullable = true)
-    private Double closingCost;//
-
     public Property(PropertyDto dto) {
         this.id = dto.getId();
         this.purchasePrice = dto.getPurchasePrice();
@@ -197,8 +194,6 @@ public class Property {
         this.grossArea = dto.getGrossArea();
         this.taxableArea = dto.getTaxableArea();
         this.garageArea = dto.getGarageArea();
-
-        this.closingCost = dto.getClosingCost();
     }
 
     public PropertyDto toAggregateBasic() {
@@ -263,7 +258,6 @@ public class Property {
                 .publicRecord(publicRecord)
                 .mls(mls)
 
-                .closingCost(closingCost)
                 .build();
     }
 

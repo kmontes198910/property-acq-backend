@@ -75,8 +75,6 @@ public class CreatePropertyCommand implements ICommand {
     private Double taxableArea;
     private Double garageArea;
 
-    private Double closingCost;//
-
     public CreatePropertyCommand(String id, String formattedAddress, PropertyType propertyType, int lotSize, 
                                  String apn, int yearBuilt, String county, Boolean occupancy, 
                                  String addressLine1, String addressLine2, String city, String state, 
@@ -91,8 +89,7 @@ public class CreatePropertyCommand implements ICommand {
                                  Boolean emdRequirements, Double emdOfferedAmount,
                                  Boolean distressed, String lenghOfOwership, Double openBalanceMortagage, Double involuntaryLiensAmount,
                                  Double publicRecord, Double mls, Boolean isMortgage,
-                                 Double buildingArea, Double livingArea, Double grossArea, Double taxableArea, Double garageArea,
-                                 Double closingCost) {
+                                 Double buildingArea, Double livingArea, Double grossArea, Double taxableArea, Double garageArea) {
         this.id = id;
         this.buildingArea = buildingArea;
         this.taxableArea = taxableArea;
@@ -142,7 +139,6 @@ public class CreatePropertyCommand implements ICommand {
         this.publicRecord = publicRecord;
         this.mls = mls;
         this.isMortgage = isMortgage;
-        this.closingCost = closingCost;
     }
 
     public static CreatePropertyCommand fromRequest(CreatePropertyRequest request) {
@@ -195,8 +191,7 @@ public class CreatePropertyCommand implements ICommand {
                 request.getLivingArea(),
                 request.getGrossArea(),
                 request.getTaxableArea(),
-                request.getGarageArea(),
-                request.getClosingCost()
+                request.getGarageArea()
         );
     }
 

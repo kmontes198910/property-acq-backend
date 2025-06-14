@@ -80,7 +80,6 @@ public class UpdatePropertyCommandHandler implements ICommandHandler<UpdatePrope
                 .taxableArea(command.getTaxableArea())
                 .garageArea(command.getGarageArea())
 
-                .closingCost(command.getClosingCost())
                 .build());
     }
 }
