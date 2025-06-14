@@ -19,4 +19,6 @@ public interface ITeamAssignmentService {
     TeamAssignmentDto findById(UUID id);
 
     PaginatedResponse search(Pageable pageable, List<FilterCriteria> filterCriteria);
+
+    TeamAssignmentDto findByPropertyId(String propertyId);
 }

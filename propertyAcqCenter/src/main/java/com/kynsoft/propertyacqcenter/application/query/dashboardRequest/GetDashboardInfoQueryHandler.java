@@ -159,6 +159,7 @@ public class GetDashboardInfoQueryHandler implements IQueryHandler<GetDashboardI
                             .yearBuilt(property.get(0).getYearBuilt())
                             .addressLine1(property.get(0).getAddressLine1())
                             .addressLine2(property.get(0).getAddressLine2())
+                            .formattedAddress(property.get(0).getFormattedAddress())
                             .city(property.get(0).getCity())
                             .state(property.get(0).getState())
                             .zipCode(property.get(0).getZipCode())

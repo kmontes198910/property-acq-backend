@@ -6,6 +6,8 @@ import com.kynsof.share.core.infrastructure.specifications.GenericSpecifications
 import com.kynsoft.propertyacqcenter.application.response.TeamAssignmentResponse;
 import com.kynsoft.propertyacqcenter.domain.dto.TeamAssignmentDto;
 import com.kynsoft.propertyacqcenter.domain.dto.exception.NotDeleteException;
+import com.kynsoft.propertyacqcenter.domain.dto.exception.PurchaseForPropertyNotFoundException;
+import com.kynsoft.propertyacqcenter.domain.dto.exception.TeamAssignmentForPropertyNotFoundException;
 import com.kynsoft.propertyacqcenter.domain.dto.exception.TeamAssignmentNotFoundException;
 import com.kynsoft.propertyacqcenter.domain.services.ITeamAssignmentService;
 import com.kynsoft.propertyacqcenter.infrastructure.entity.CompanyContact;
@@ -112,6 +114,15 @@ public class TeamAssignmentServiceImpl implements ITeamAssignmentService {
         }
         return new PaginatedResponse(objects, data.getTotalPages(), data.getNumberOfElements(),
                 data.getTotalElements(), data.getSize(), data.getNumber());
+    }
+
+    @Override
+    public TeamAssignmentDto findByPropertyId(String propertyId) {
+        Optional<TeamAssignment> entity = repositoryQuery.findByPropertyId(propertyId);
+        if (entity.isPresent()) {
+            return entity.get().toAggregate();
+        }
+        throw new TeamAssignmentForPropertyNotFoundException();
     }
 
 }
