@@ -9,7 +9,9 @@ import com.kynsoft.propertyacqcenter.domain.services.ICompanyContactService;
 import com.kynsoft.propertyacqcenter.domain.services.ILegalEntityService;
 import com.kynsoft.propertyacqcenter.domain.services.IPropertyService;
 import com.kynsoft.propertyacqcenter.domain.services.ITeamAssignmentService;
+import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -20,7 +22,7 @@ public class UpdateTeamAssignmentCommandHandler implements ICommandHandler<Updat
     private final ICompanyContactService companyContactService;
     private final ILegalEntityService legalEntityService;
 
-    public UpdateTeamAssignmentCommandHandler(ITeamAssignmentService teamAssignmentService, 
+    public UpdateTeamAssignmentCommandHandler(ITeamAssignmentService teamAssignmentService,
             IPropertyService propertyService, ICompanyContactService companyContactService,
             ILegalEntityService legalEntityService) {
         this.teamAssignmentService = teamAssignmentService;
@@ -33,24 +35,24 @@ public class UpdateTeamAssignmentCommandHandler implements ICommandHandler<Updat
     public void handle(UpdateTeamAssignmentCommand command) {
         PropertyDto propertyDto = this.propertyService.getById(command.getProperty());
         LegalEntityDto buyerEntityName = command.getBuyerEntityName() != null ? this.legalEntityService.findById(command.getBuyerEntityName()) : null;
-        CompanyContactDto buyerContactRep = command.getBuyerContactRep() != null ? this.companyContactService.findById(UUID.fromString(command.getBuyerContactRep())) : null;
-        CompanyContactDto titleEscrowCompany = command.getTitleEscrowCompany() != null ? this.companyContactService.findById(UUID.fromString(command.getTitleEscrowCompany())) : null;
-        CompanyContactDto lenderCompany = command.getLenderCompany() != null ? this.companyContactService.findById(UUID.fromString(command.getLenderCompany())) : null;
-        CompanyContactDto projectManager = command.getProjectManager() != null ? this.companyContactService.findById(UUID.fromString(command.getProjectManager())) : null;
-        CompanyContactDto legalContact = command.getLegalContact() != null ? this.companyContactService.findById(UUID.fromString(command.getLegalContact())) : null;
-        CompanyContactDto seller = command.getSeller() != null ? this.companyContactService.findById(UUID.fromString(command.getSeller())) : null;
-        CompanyContactDto hoa = command.getHoa() != null ? this.companyContactService.findById(UUID.fromString(command.getHoa())) : null;
         teamAssignmentService.create(TeamAssignmentDto.builder()
                 .id(command.getId())
                 .property(propertyDto)
                 .buyerEntityName(buyerEntityName)
-                .buyerContactRep(buyerContactRep)
-                .titleEscrowCompany(titleEscrowCompany)
-                .lenderCompany(lenderCompany)
-                .projectManager(projectManager)
-                .legalContact(legalContact)
-                .seller(seller)
-                .hoa(hoa)
+                .buyerContactReps(this.get(command.getBuyerContactRep()))
+                .titleEscrowCompany(this.get(command.getTitleEscrowCompany()))
+                .lenderCompany(this.get(command.getLenderCompany()))
+                .projectManager(this.get(command.getProjectManager()))
+                .legalContact(this.get(command.getLegalContact()))
+                .seller(this.get(command.getSeller()))
+                .hoa(this.get(command.getHoa()))
                 .build());
     }
+
+    private List<CompanyContactDto> get(List<UUID> ids) {
+        return ids.stream()
+                .map(this.companyContactService::findById)
+                .collect(Collectors.toList());
+    }
+
 }

@@ -20,9 +20,11 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 import org.springframework.data.domain.Page;
 
 @Service
@@ -32,7 +34,7 @@ public class TeamAssignmentServiceImpl implements ITeamAssignmentService {
     private final TeamAssignmentWriteDataJPARepository repositoryCommand;
 
     public TeamAssignmentServiceImpl(TeamAssignmentReadDataJPARepository repositoryQuery,
-                                     TeamAssignmentWriteDataJPARepository repositoryCommand) {
+            TeamAssignmentWriteDataJPARepository repositoryCommand) {
         this.repositoryQuery = repositoryQuery;
         this.repositoryCommand = repositoryCommand;
     }
@@ -47,15 +49,30 @@ public class TeamAssignmentServiceImpl implements ITeamAssignmentService {
     @Transactional
     public void update(TeamAssignmentDto object) {
         TeamAssignment update = new TeamAssignment(this.findById(object.getId()));
-        update.setBuyerContactRep(object.getBuyerContactRep() != null ? new CompanyContact(object.getBuyerContactRep()) : null);
         update.setBuyerEntityName(object.getBuyerEntityName() != null ? new LegalEntity(object.getBuyerEntityName()) : null);
-        update.setLegalContact(object.getLegalContact() != null ? new CompanyContact(object.getLegalContact()) : null);
-        update.setLenderCompany(object.getLenderCompany() != null ? new CompanyContact(object.getLenderCompany()) : null);
-        update.setProjectManager(object.getProjectManager() != null ? new CompanyContact(object.getProjectManager()) : null);
         update.setProperty(new Property(object.getProperty()));
-        update.setTitleEscrowCompany(object.getTitleEscrowCompany() != null ? new CompanyContact(object.getTitleEscrowCompany()) : null);
-        update.setSeller(object.getSeller() != null ? new CompanyContact(object.getSeller()) : null);
-        update.setHoa(object.getHoa() != null ? new CompanyContact(object.getHoa()) : null);
+
+        update.setBuyerContactReps(object.getBuyerContactReps() != null
+                ? object.getBuyerContactReps().stream().map(CompanyContact::new).collect(Collectors.toSet())
+                : Collections.emptySet());
+        update.setLegalContacts(object.getLegalContact() != null
+                ? object.getLegalContact().stream().map(CompanyContact::new).collect(Collectors.toSet())
+                : Collections.emptySet());
+        update.setLenderCompanies(object.getLenderCompany() != null
+                ? object.getLenderCompany().stream().map(CompanyContact::new).collect(Collectors.toSet())
+                : Collections.emptySet());
+        update.setProjectManagers(object.getProjectManager() != null
+                ? object.getProjectManager().stream().map(CompanyContact::new).collect(Collectors.toSet())
+                : Collections.emptySet());
+        update.setTitleEscrowCompanies(object.getTitleEscrowCompany() != null
+                ? object.getTitleEscrowCompany().stream().map(CompanyContact::new).collect(Collectors.toSet())
+                : Collections.emptySet());
+        update.setSellers(object.getSeller() != null
+                ? object.getSeller().stream().map(CompanyContact::new).collect(Collectors.toSet())
+                : Collections.emptySet());
+        update.setHoas(object.getHoa() != null
+                ? object.getHoa().stream().map(CompanyContact::new).collect(Collectors.toSet())
+                : Collections.emptySet());
 
         update.setUpdatedAt(LocalDateTime.now());
         repositoryCommand.save(update);

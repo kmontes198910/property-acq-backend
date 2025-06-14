@@ -55,4 +55,5 @@ public class UpdatePurchaseRequest {
     private Double plumbing;
     private Double roof;
     private Double window;
+    private Double closingCost;
 }

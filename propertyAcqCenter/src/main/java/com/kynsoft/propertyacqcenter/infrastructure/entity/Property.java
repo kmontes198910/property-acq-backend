@@ -257,6 +257,7 @@ public class Property {
                 .involuntaryLiensAmount(involuntaryLiensAmount)
                 .publicRecord(publicRecord)
                 .mls(mls)
+
                 .build();
     }
 

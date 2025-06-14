@@ -79,6 +79,7 @@ public class UpdatePropertyCommandHandler implements ICommandHandler<UpdatePrope
                 .grossArea(command.getGrossArea())
                 .taxableArea(command.getTaxableArea())
                 .garageArea(command.getGarageArea())
+
                 .build());
     }
 }
