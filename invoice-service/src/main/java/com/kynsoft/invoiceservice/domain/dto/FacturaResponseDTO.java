@@ -1,4 +1,4 @@
-package com.kynsoft.invoiceservice.dto;
+package com.kynsoft.invoiceservice.domain.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

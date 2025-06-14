@@ -1,4 +1,4 @@
-package com.kynsoft.invoiceservice.application.query.invoiceIssuer.search;
+package com.kynsoft.invoiceservice.application.query.Issuer.search;
 
 import com.kynsof.share.core.domain.bus.query.IQueryHandler;
 import com.kynsof.share.core.domain.response.PaginatedResponse;

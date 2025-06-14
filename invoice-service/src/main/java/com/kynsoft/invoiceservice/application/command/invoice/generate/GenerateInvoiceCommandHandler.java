@@ -11,13 +11,11 @@ import com.kynsoft.invoiceservice.domain.exception.DomainErrorInvoiceMessage;
 import com.kynsoft.invoiceservice.domain.service.ICustomerService;
 import com.kynsoft.invoiceservice.domain.service.IInvoiceIssuerService;
 import com.kynsoft.invoiceservice.domain.service.impl.InvoiceService;
-import com.kynsoft.invoiceservice.dto.InvoiceIssuerDTO;
 import com.kynsoft.invoiceservice.infrastructure.entities.Customer;
 
 import com.kynsoft.invoiceservice.infrastructure.entities.InvoiceStatus;
 import ec.e.facturacion.sri.constante.Ambiente;
 import ec.e.facturacion.sri.constante.Estados;
-import ec.e.facturacion.sri.constante.Regimen;
 import ec.e.facturacion.sri.modelo.ComprobanteBase;
 import ec.e.facturacion.sri.modelo.Factura;
 import ec.e.facturacion.sri.pdf.generador.FacturaPDFGenerador;
@@ -128,134 +126,7 @@ public class GenerateInvoiceCommandHandler implements ICommandHandler<GenerateIn
                 .build();
     }
 
-    /**
-     * Método para generar documentos de forma asíncrona después de guardar la factura.
-     * Este método podría implementarse usando @Async o un sistema de mensajería.
-     */
 
-    // @Async
-    public void generateDocumentsAsync(Factura factura, UUID invoice, UUID userId) {
-        try {
-            log.info("Iniciando generación asíncrona de documentos para factura: {}", invoice);
-            ByteArrayOutputStream xmlFactura = generateXmlAndInvoiceFile(factura);
-            ByteArrayOutputStream pdfInvoice = generatePDFInvoice(factura);
-            sendInvoiceSRI(xmlFactura, factura, invoice, userId);
-            log.info("Documentos generados correctamente para factura: {}", invoice);
-        } catch (Exception e) {
-            log.error("Error en generación asíncrona de documentos: {}", e.getMessage(), e);
-        }
-    }
-
-
-    private void sendInvoiceSRI(ByteArrayOutputStream xmlFactura, Factura factura, UUID invoice, UUID userId) {
-        try {
-            // Crear instancia del servicio (true para modo prueba)
-            SRIRecepcionServicio sriRecepcion = new SRIRecepcionServicio();
-
-            // Enviar el comprobante al SRI para recepcionar
-            Integer ambienteEnum = "PRODUCCION".equalsIgnoreCase(sriAmbiente) ? Ambiente.PRODUCCION : Ambiente.PRUEBA;
-
-            RespuestaSolicitud respuestaRecepcion = sriRecepcion.enviarComprobante(xmlFactura.toByteArray(),
-                    ambienteEnum);
-
-            // Obtener la clave de acceso de la factura
-            //Cambiar el estado de la factura al estado que me responda
-            //Mostrar el mensaje de error si no se recibe la respuesta guardar
-
-            // Imprimir la respuesta
-            SRIImprimirRecepcionUtil.imprimirRespuestaRecepcion(respuestaRecepcion);
-
-            if (respuestaRecepcion.getEstado().equals(Estados.RECIBIDA))
-                try {
-
-                    invoiceService.changeStatus(invoice, InvoiceStatus.RECEIVED, userId);
-                    // Crear instancia del servicio (true para modo prueba)
-                    SRIAutorizacionServicio sriAutorizacion = new SRIAutorizacionServicio();
-
-                    // Enviar el comprobante al SRI para autorizar
-                    RespuestaComprobante respuestaAutorizacion = sriAutorizacion
-                            .autorizarComprobante(factura.getClaveAcceso(), Ambiente.PRUEBA);
-
-                    if (respuestaAutorizacion.getAutorizaciones().getAutorizacion().get(0).getEstado().equals(Estados.AUTORIZADO)) {
-                        invoiceService.changeStatus(invoice, InvoiceStatus.AUTHORIZED, userId);
-                    } else {
-
-                        invoiceService.changeStatus(invoice, InvoiceStatus.REJECTED, userId);
-                    }
-
-                    SRIImprimirAutorizacionUtil.imprimirRespuestaAutorizacion(respuestaAutorizacion);
-
-
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    private static ByteArrayOutputStream generateXmlAndInvoiceFile(Factura factura) throws IOException {
-        // Generar el XML
-        byte[] p12Bytes = FileConverterUtil.p12FileToByteArray("/Users/keimermontes/Development/medinec/scheduled/invoice-service/libs/0961881992.p12");
-
-        // Construir el p12 a partir del arreglo de bytes
-        InputStream p12Stream = FileConverterUtil.byteArrayToInputStream(p12Bytes);
-        ByteArrayOutputStream xmlFactura = factura.generarXml(p12Stream, "Gloria2014");
-
-        System.out.println("Estado de la factura:\n" + factura.getEstado());
-        System.out.println("XML generado:\n" + xmlFactura);
-
-        // Guardar el XML en un archivo
-        String nombreArchivo = "factura_" + factura.getEstab() + "-" + factura.getPtoEmi() + "-"
-                               + factura.getSecuencial() + ".xml";
-
-        Files.write(Paths.get(nombreArchivo), xmlFactura.toByteArray());
-        System.out.println("\nFactura guardada en: " + nombreArchivo);
-
-        try {
-            // Generar el PDF
-            String logoBase64 = FileConverterUtil.imageToBase64("/Users/keimermontes/Development/medinec/scheduled/invoice-service/libs/logo.jpg");
-            ByteArrayOutputStream pdfFactura = FacturaPDFGenerador.generarPDF(factura, logoBase64, "#2D4C80");
-
-            // Guardar el PDF en un archivo
-            String nombreArchivoPdf = "factura_" + factura.getEstab() + "-" + factura.getPtoEmi() + "-"
-                                      + factura.getSecuencial() + ".pdf";
-
-            Files.write(Paths.get(nombreArchivoPdf), pdfFactura.toByteArray());
-            System.out.println("\nFactura PDF guardada en: " + nombreArchivoPdf);
-
-
-        } catch (Exception e) {
-            System.err.println("Error al generar o guardar el pdf de la factura : " + e.getMessage());
-            e.printStackTrace();
-        }
-
-
-        return xmlFactura;
-    }
-
-
-    private static ByteArrayOutputStream generatePDFInvoice(Factura factura) throws IOException {
-        try {
-            // Generar el PDF
-            String logoBase64 = FileConverterUtil.imageToBase64("/Users/keimermontes/Development/medinec/scheduled/invoice-service/libs/logo.jpg");
-            ByteArrayOutputStream pdfFactura = FacturaPDFGenerador.generarPDF(factura, logoBase64, "#2D4C80");
-
-            // Guardar el PDF en un archivo
-            String nombreArchivoPdf = "factura_" + factura.getEstab() + "-" + factura.getPtoEmi() + "-"
-                                      + factura.getSecuencial() + ".pdf";
-
-            Files.write(Paths.get(nombreArchivoPdf), pdfFactura.toByteArray());
-            System.out.println("\nFactura PDF guardada en: " + nombreArchivoPdf);
-
-            return pdfFactura;
-        } catch (Exception e) {
-            throw new BusinessInvoiceException(DomainErrorInvoiceMessage.GENERAL_ERROR,
-                    "Error al generar factura: " + e.getMessage());
-        }
-
-    }
 
 
     private static boolean validateInvoice(Factura factura) {
@@ -502,7 +373,7 @@ public class GenerateInvoiceCommandHandler implements ICommandHandler<GenerateIn
                 .build();
 
         // Asignar el emisor
-        InvoiceIssuerDTO issuerDTO = InvoiceIssuerDTO.builder()
+        DigitalCertificateDTO.IssuerDTO issuerDTO = DigitalCertificateDTO.IssuerDTO.builder()
                 .id(issuerDto.getId())
                 .businessName(issuerDto.getBusinessName())
                 .ruc(issuerDto.getRuc())

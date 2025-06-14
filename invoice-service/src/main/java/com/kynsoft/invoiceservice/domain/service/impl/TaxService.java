@@ -94,12 +94,9 @@ public class TaxService implements ITaxService {
         // Buscar el impuesto por su ID
         Tax tax = taxWriteRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Impuesto no encontrado con ID: " + id));
-        
-        // Realizar eliminación lógica (cambiar el estado a inactivo)
-        tax.setStatus(false);
-        
+
         // Guardar los cambios
-        taxWriteRepository.save(tax);
+        taxWriteRepository.delete(tax);
         
         log.info("Impuesto con ID: {} eliminado exitosamente", id);
     }

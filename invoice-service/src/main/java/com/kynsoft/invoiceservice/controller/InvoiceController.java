@@ -13,7 +13,7 @@ import com.kynsoft.invoiceservice.application.command.invoice.update.request.Upd
 import com.kynsoft.invoiceservice.application.query.invoice.getById.GetInvoiceByIdQuery;
 import com.kynsoft.invoiceservice.application.query.invoice.getById.InvoiceResponse;
 import com.kynsoft.invoiceservice.application.query.invoice.search.SearchInvoiceAdvancedQuery;
-import com.kynsoft.invoiceservice.dto.FacturaResponseDTO;
+import com.kynsoft.invoiceservice.domain.dto.FacturaResponseDTO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;

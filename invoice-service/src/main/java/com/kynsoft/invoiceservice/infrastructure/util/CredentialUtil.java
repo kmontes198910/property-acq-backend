@@ -1,4 +1,4 @@
-package com.kynsoft.invoiceservice.util;
+package com.kynsoft.invoiceservice.infrastructure.util;
 
 import org.springframework.stereotype.Component;
 

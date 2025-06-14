@@ -1,10 +1,10 @@
-package com.kynsoft.invoiceservice.config;
+package com.kynsoft.invoiceservice.infrastructure.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import com.kynsoft.invoiceservice.infrastructure.converters.AttributeEncryptor;
-import com.kynsoft.invoiceservice.util.EncryptionUtil;
+import com.kynsoft.invoiceservice.infrastructure.util.EncryptionUtil;
 
 /**
  * Configuración para asegurar que los convertidores JPA se inicialicen correctamente

@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.kynsoft.invoiceservice.application.command.Issuer.password.CertificateUpdateRequest;
 import com.kynsoft.invoiceservice.application.command.Issuer.password.PasswordUpdateRequest;
 import com.kynsoft.invoiceservice.application.command.Issuer.password.PasswordVerificationRequest;
-import com.kynsoft.invoiceservice.service.IssuerCredentialsService;
+import com.kynsoft.invoiceservice.infrastructure.service.IssuerCredentialsService;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

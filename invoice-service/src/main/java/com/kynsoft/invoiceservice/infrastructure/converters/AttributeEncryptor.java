@@ -3,7 +3,7 @@ package com.kynsoft.invoiceservice.infrastructure.converters;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.kynsoft.invoiceservice.util.EncryptionUtil;
+import com.kynsoft.invoiceservice.infrastructure.util.EncryptionUtil;
 
 import jakarta.persistence.AttributeConverter;
 import jakarta.persistence.Converter;
