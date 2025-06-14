@@ -72,7 +72,7 @@ public class Invoice {
     private UUID updatedBy;
     
     // Relación con el emisor
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "issuer_id", nullable = false)
     private Issuer issuer;
     
