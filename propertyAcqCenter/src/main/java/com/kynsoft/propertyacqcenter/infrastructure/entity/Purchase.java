@@ -75,6 +75,9 @@ public class Purchase implements Serializable {
     private Double roof;
     private Double windowValue;
 
+    @Column(name = "closing_cost", nullable = true)
+    private Double closingCost;
+
     public Purchase(PurchaseDto dto) {
         this.id = dto.getId();
         this.purchaseType = dto.getPurchaseType();
@@ -121,6 +124,7 @@ public class Purchase implements Serializable {
         this.plumbing = dto.getPlumbing();
         this.roof = dto.getRoof();
         this.windowValue = dto.getWindow();
+        this.closingCost = dto.getClosingCost();
     }
 
     public PurchaseDto toAggregate() {
@@ -169,6 +173,7 @@ public class Purchase implements Serializable {
                 .improvements(improvements)
                 .purchasePrice(purchasePrice)
                 .estimatedMarketValue(estimatedMarketValue)
+                .closingCost(closingCost)
                 .build();
     }
 }

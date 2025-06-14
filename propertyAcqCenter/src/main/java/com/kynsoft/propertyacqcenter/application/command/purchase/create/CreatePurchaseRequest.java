@@ -54,4 +54,5 @@ public class CreatePurchaseRequest {
     private Double plumbing;
     private Double roof;
     private Double window;
+    private Double closingCost;
 }

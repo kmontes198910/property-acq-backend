@@ -89,6 +89,7 @@ public class PurchaseServiceImpl implements IPurchaseService {
         update.setPlumbing(object.getPlumbing());
         update.setRoof(object.getRoof());
         update.setWindowValue(object.getWindow());
+        update.setClosingCost(object.getClosingCost());
 
         repositoryCommand.save(update);
     }
