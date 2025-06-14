@@ -5,6 +5,7 @@ import com.kynsof.share.core.domain.response.PaginatedResponse;
 import com.kynsof.share.core.infrastructure.specifications.GenericSpecificationsBuilder;
 import com.kynsoft.propertyacqcenter.application.response.PropertyImagesResponse;
 import com.kynsoft.propertyacqcenter.domain.dto.PropertyImagesDto;
+import com.kynsoft.propertyacqcenter.domain.dto.exception.NotDeleteException;
 import com.kynsoft.propertyacqcenter.domain.dto.exception.PropertyImagesNotFoundException;
 import com.kynsoft.propertyacqcenter.domain.dto.exception.propertyImagen.PropertyImagenMainMustBeUniqueException;
 import com.kynsoft.propertyacqcenter.domain.services.IPropertyImagesService;
@@ -52,10 +53,12 @@ public class PropertyImagesServiceImpl implements IPropertyImagesService {
     }
 
     @Override
-    @Transactional
     public void delete(UUID id) {
-        //this.getById(id);
-        repositoryCommand.deleteById(id);
+        try {
+            repositoryCommand.deleteById(id);
+        } catch (Exception e) {
+            throw new NotDeleteException();
+        }
     }
 
     @Override

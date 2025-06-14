@@ -6,6 +6,7 @@ import com.kynsof.share.core.infrastructure.specifications.GenericSpecifications
 import com.kynsoft.propertyacqcenter.application.response.CompanyResponse;
 import com.kynsoft.propertyacqcenter.domain.dto.CompanyDto;
 import com.kynsoft.propertyacqcenter.domain.dto.exception.CompanyNotFoundException;
+import com.kynsoft.propertyacqcenter.domain.dto.exception.NotDeleteException;
 import com.kynsoft.propertyacqcenter.infrastructure.entity.Company;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -19,6 +20,7 @@ import com.kynsoft.propertyacqcenter.infrastructure.repository.query.CompanyRead
 import com.kynsoft.propertyacqcenter.infrastructure.repository.command.CompanyWriteDataJPARepository;
 import com.kynsoft.propertyacqcenter.domain.services.ICompanyService;
 import com.kynsoft.propertyacqcenter.infrastructure.entity.CompanyType;
+import com.kynsoft.propertyacqcenter.infrastructure.entity.SubCategory;
 
 @Service
 public class CompanyService implements ICompanyService {
@@ -44,11 +46,11 @@ public class CompanyService implements ICompanyService {
             Company oldContact = contactPerson.get();
 
             oldContact.setTitle(contactPersonDto.getTitle());
-            oldContact.setOwnershipPercentage(contactPersonDto.getOwnershipPercentage());
-            oldContact.setSignatureAuthority(contactPersonDto.getSignatureAuthority());
             oldContact.setNotes(contactPersonDto.getNotes());
             oldContact.setUpdatedBy(contactPersonDto.getUpdatedBy());
             oldContact.setCompanyType(new CompanyType(contactPersonDto.getCompanyType()));
+            oldContact.setCategory(contactPersonDto.getCategory());
+            oldContact.setSubCategory(new SubCategory(contactPersonDto.getSubCategory()));
 
             // Guardar los cambios
             repositoryCommand.save(oldContact);
@@ -66,8 +68,12 @@ public class CompanyService implements ICompanyService {
 
     @Override
     public void delete(UUID id) {
-        this.findById(id);
-        this.repositoryCommand.deleteById(id);
+        try {
+            this.findById(id);
+            repositoryCommand.deleteById(id);
+        } catch (Exception e) {
+            throw new NotDeleteException();
+        }
     }
 
     @Override

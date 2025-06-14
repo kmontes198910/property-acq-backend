@@ -1,6 +1,6 @@
 package com.kynsoft.invoiceservice.domain.dto;
 
-import com.kynsoft.invoiceservice.infrastructure.entities.InvoiceIssuer;
+import com.kynsoft.invoiceservice.infrastructure.entities.Issuer;
 import com.kynsoft.invoiceservice.infrastructure.entities.InvoiceIssuingSequence;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -52,7 +52,7 @@ public class InvoiceIssuingSequenceDto {
      * @param invoiceIssuer El emisor de facturas al que pertenece esta secuencia (opcional)
      * @return Entidad de secuencia de emisión
      */
-    public InvoiceIssuingSequence toEntity(InvoiceIssuer invoiceIssuer) {
+    public InvoiceIssuingSequence toEntity(Issuer invoiceIssuer) {
         return InvoiceIssuingSequence.builder()
                 .id(this.id)
                 .documentType(this.documentType)

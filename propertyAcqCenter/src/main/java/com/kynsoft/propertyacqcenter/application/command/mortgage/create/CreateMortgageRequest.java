@@ -1,5 +1,6 @@
 package com.kynsoft.propertyacqcenter.application.command.mortgage.create;
 
+import com.kynsoft.propertyacqcenter.domain.enums.MortgageExtraPaymentFrequency;
 import com.kynsoft.propertyacqcenter.domain.enums.MortgageFrequencyInterestCompounded;
 import com.kynsoft.propertyacqcenter.domain.enums.MortgageLifetimeRateCap;
 import com.kynsoft.propertyacqcenter.domain.enums.MortgageType;
@@ -36,5 +37,8 @@ public class CreateMortgageRequest {
     private Boolean accelerationWeeklyPayments;
     private Boolean accelerationExtraPayments;
     private MortgageLifetimeRateCap lifetimeRateCap;//
+
+    private MortgageExtraPaymentFrequency extraPaymentFrequency;//
+    private Double extraPaymentAmount;//
 
 }

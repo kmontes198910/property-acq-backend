@@ -1,17 +1,20 @@
 package com.kynsoft.invoiceservice.domain.service.impl;
 
 import com.kynsof.share.core.domain.request.FilterCriteria;
+import com.kynsof.share.core.domain.response.PaginatedResponse;
 import com.kynsof.share.core.infrastructure.specifications.GenericSpecificationsBuilder;
+import com.kynsoft.invoiceservice.application.query.Issuer.search.IssuerResponse;
 import com.kynsoft.invoiceservice.domain.dto.InvoiceIssuerDto;
 import com.kynsoft.invoiceservice.domain.exception.BusinessInvoiceException;
 import com.kynsoft.invoiceservice.domain.exception.DomainErrorInvoiceMessage;
 import com.kynsoft.invoiceservice.domain.service.IInvoiceIssuerService;
-import com.kynsoft.invoiceservice.infrastructure.entities.InvoiceIssuer;
+import com.kynsoft.invoiceservice.infrastructure.entities.Issuer;
 import com.kynsoft.invoiceservice.infrastructure.entities.InvoiceIssuingSequence;
 import com.kynsoft.invoiceservice.infrastructure.repository.command.InvoiceIssuerWriteRepository;
 import com.kynsoft.invoiceservice.infrastructure.repository.query.InvoiceIssuerRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -33,7 +36,7 @@ public class InvoiceIssuerService implements IInvoiceIssuerService {
     public InvoiceIssuerDto getById(UUID id) {
         log.info("Buscando emisor de facturas con ID: {}", id);
         
-        InvoiceIssuer issuer = invoiceIssuerRepository.findById(id)
+        Issuer issuer = invoiceIssuerRepository.findById(id)
                 .orElseThrow(() -> new BusinessInvoiceException(DomainErrorInvoiceMessage.ISSUER_NOT_FOUND, 
                         "Emisor de facturas no encontrado con ID: " + id));
         
@@ -45,7 +48,7 @@ public class InvoiceIssuerService implements IInvoiceIssuerService {
     public InvoiceIssuerDto getByRuc(String ruc) {
         log.info("Buscando emisor de facturas con RUC: {}", ruc);
         
-        InvoiceIssuer issuer = invoiceIssuerRepository.findByRuc(ruc)
+        Issuer issuer = invoiceIssuerRepository.findByRuc(ruc)
                 .orElseThrow(() -> new BusinessInvoiceException(DomainErrorInvoiceMessage.ISSUER_NOT_FOUND, 
                         "Emisor de facturas no encontrado con RUC: " + ruc));
         
@@ -57,7 +60,7 @@ public class InvoiceIssuerService implements IInvoiceIssuerService {
     public InvoiceIssuerDto getActiveIssuer() {
         log.info("Buscando emisor de facturas activo");
         
-        InvoiceIssuer issuer = invoiceIssuerRepository.findFirstByStatusTrue()
+        Issuer issuer = invoiceIssuerRepository.findFirstByStatusTrue()
                 .orElseThrow(() -> new BusinessInvoiceException(DomainErrorInvoiceMessage.ISSUER_NOT_FOUND, 
                         "No se encontró un emisor de facturas activo"));
         
@@ -75,24 +78,24 @@ public class InvoiceIssuerService implements IInvoiceIssuerService {
     
     @Override
     @Transactional(readOnly = true)
-    public com.kynsof.share.core.domain.response.PaginatedResponse search(
+    public PaginatedResponse search(
        Pageable pageable,
             List<FilterCriteria> filterCriteria) {
         
         log.info("Realizando búsqueda avanzada de emisores de facturas con filtros y paginación");
         
 
-        GenericSpecificationsBuilder<InvoiceIssuer> specifications = new GenericSpecificationsBuilder<>(filterCriteria);
+        GenericSpecificationsBuilder<Issuer> specifications = new GenericSpecificationsBuilder<>(filterCriteria);
         // Ejecutar la consulta con paginación
-        org.springframework.data.domain.Page<InvoiceIssuer> page = invoiceIssuerRepository.findAll(specifications, pageable);
+        Page<Issuer> page = invoiceIssuerRepository.findAll(specifications, pageable);
         
         // Convertir los resultados a DTOs
-        List<InvoiceIssuerDto> issuerDtos = page.getContent().stream()
-                .map(InvoiceIssuerDto::fromEntity)
+        List<IssuerResponse> issuerDtos = page.getContent().stream()
+                .map(IssuerResponse::fromEntity)
                 .collect(Collectors.toList());
         
         // Construir y devolver la respuesta paginada
-        return new com.kynsof.share.core.domain.response.PaginatedResponse(
+        return new PaginatedResponse(
                 issuerDtos,                // data
                 page.getTotalPages(),        // totalPages
                 page.getNumberOfElements(),  // totalElementsPage
@@ -104,7 +107,7 @@ public class InvoiceIssuerService implements IInvoiceIssuerService {
 
     @Override
     @Transactional
-    public InvoiceIssuer create(InvoiceIssuer issuer) {
+    public Issuer create(Issuer issuer) {
         return invoiceIssuerWriteRepository.save(issuer);
     }
     
@@ -115,7 +118,7 @@ public class InvoiceIssuerService implements IInvoiceIssuerService {
                 issuerId, documentType, newSequentialValue);
         
         // Obtener el emisor desde el repositorio
-        InvoiceIssuer issuer = invoiceIssuerRepository.findById(issuerId)
+        Issuer issuer = invoiceIssuerRepository.findById(issuerId)
                 .orElseThrow(() -> new BusinessInvoiceException(DomainErrorInvoiceMessage.ISSUER_NOT_FOUND, 
                         "Emisor de facturas no encontrado con ID: " + issuerId));
         
@@ -137,7 +140,7 @@ public class InvoiceIssuerService implements IInvoiceIssuerService {
         }
         
         // Guardar los cambios en la base de datos
-        InvoiceIssuer updatedIssuer = invoiceIssuerWriteRepository.save(issuer);
+        Issuer updatedIssuer = invoiceIssuerWriteRepository.save(issuer);
         log.info("Secuencia actualizada correctamente para emisor ID: {}", issuerId);
         
         // Devolver el DTO actualizado

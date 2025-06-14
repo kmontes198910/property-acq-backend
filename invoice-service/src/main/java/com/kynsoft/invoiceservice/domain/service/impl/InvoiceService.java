@@ -10,7 +10,6 @@ import com.kynsoft.invoiceservice.domain.exception.BusinessInvoiceException;
 import com.kynsoft.invoiceservice.domain.exception.DomainErrorInvoiceMessage;
 import com.kynsoft.invoiceservice.domain.service.ICustomerService;
 import com.kynsoft.invoiceservice.domain.service.IInvoiceService;
-import com.kynsoft.invoiceservice.dto.InvoiceIssuerDTO;
 import com.kynsoft.invoiceservice.infrastructure.entities.*;
 import com.kynsoft.invoiceservice.infrastructure.repository.query.CustomerReadRepository;
 import com.kynsoft.invoiceservice.infrastructure.repository.query.InvoiceIssuerRepository;
@@ -26,6 +25,7 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 import com.kynsoft.invoiceservice.infrastructure.repository.command.InvoiceWriteRepository;
@@ -91,7 +91,7 @@ public class InvoiceService implements IInvoiceService {
         
         try {
             // Buscar el emisor
-            InvoiceIssuer issuer = invoiceIssuerService.findById(invoiceDto.getIssuerId())
+            Issuer issuer = invoiceIssuerService.findById(invoiceDto.getIssuerId())
                     .orElseThrow(() -> new BusinessInvoiceException(DomainErrorInvoiceMessage.ISSUER_NOT_FOUND,
                             "Emisor no encontrado con ID: " + invoiceDto.getIssuerId()));
     
@@ -121,7 +121,7 @@ public class InvoiceService implements IInvoiceService {
     /**
      * Construye la entidad Invoice a partir del DTO.
      */
-    private Invoice buildInvoiceEntity(InvoiceDto invoiceDto, InvoiceIssuer issuer, Customer customer) {
+    private Invoice buildInvoiceEntity(InvoiceDto invoiceDto, Issuer issuer, Customer customer) {
         return Invoice.builder()
                 .id(invoiceDto.getId())
                 .issuer(issuer)
@@ -333,6 +333,15 @@ public class InvoiceService implements IInvoiceService {
     }
 
     @Override
+    public Invoice findByIdToEntity(UUID id) {
+        log.info("Buscando factura con ID: {}", id);
+
+        return invoiceRepository.findById(id)
+                .orElseThrow(() -> new BusinessInvoiceException(DomainErrorInvoiceMessage.INVOICE_NOT_FOUND,
+                        "Factura no encontrada con ID: " + id));
+    }
+
+    @Override
     @Transactional(readOnly = true)
     public List<InvoiceDto> search(UUID customerId, String documentNumber, InvoiceStatus status) {
         log.info("Buscando facturas con filtros - customerId: {}, documentNumber: {}, status: {}", 
@@ -352,16 +361,14 @@ public class InvoiceService implements IInvoiceService {
         log.info("Cambiando estado de la factura ID: {} a {}", id, status);
         
         // Verificar que la factura exista
-        Invoice invoice = invoiceRepository.findById(id)
-                .orElseThrow(() -> new BusinessInvoiceException(DomainErrorInvoiceMessage.INVOICE_NOT_FOUND, 
-                        "Factura no encontrada con ID: " + id));
+        Optional<Invoice> invoiceEntity = invoiceRepository.findById(id);
+        Invoice invoice = invoiceEntity.get();
         
         // Validar transiciones de estado permitidas
         validateStatusTransition(invoice.getStatus(), status);
         
         // Actualizar el estado
         invoice.setStatus(status);
-        invoice.setUpdatedAt(LocalDateTime.now());
         invoice.setUpdatedBy(updatedBy);
 
         
@@ -604,7 +611,7 @@ public class InvoiceService implements IInvoiceService {
         
         // Mapear emisor
         if (invoice.getIssuer() != null) {
-            InvoiceIssuerDTO issuerDto = InvoiceIssuerDTO.builder()
+            DigitalCertificateDTO.IssuerDTO issuerDto = DigitalCertificateDTO.IssuerDTO.builder()
                     .id(invoice.getIssuer().getId())
                     .businessName(invoice.getIssuer().getBusinessName())
                     .ruc(invoice.getIssuer().getRuc())

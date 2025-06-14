@@ -1,0 +1,13 @@
+package com.kynsoft.invoiceservice.application.query.Issuer.getById;
+
+import com.kynsof.share.core.domain.bus.query.IQuery;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+
+import java.util.UUID;
+
+@Getter
+@AllArgsConstructor
+public class GetInvoiceIssuerByIdQuery implements IQuery {
+    private final UUID id;
+}

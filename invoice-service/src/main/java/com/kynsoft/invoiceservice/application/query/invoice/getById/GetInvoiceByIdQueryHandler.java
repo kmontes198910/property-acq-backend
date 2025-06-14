@@ -5,6 +5,7 @@ import com.kynsof.share.core.domain.exception.BusinessNotFoundException;
 import com.kynsof.share.core.domain.exception.DomainErrorMessage;
 import com.kynsof.share.core.domain.exception.GlobalBusinessException;
 import com.kynsof.share.core.domain.response.ErrorField;
+import com.kynsoft.invoiceservice.application.query.customer.get.CustomerResponse;
 import com.kynsoft.invoiceservice.domain.dto.InvoiceDto;
 import com.kynsoft.invoiceservice.domain.service.IInvoiceService;
 import lombok.RequiredArgsConstructor;
@@ -50,7 +51,8 @@ public class GetInvoiceByIdQueryHandler implements IQueryHandler<GetInvoiceByIdQ
                 .accessKey(invoice.getAccessKey())
                 .issueDate(invoice.getEmissionDate())     // Mapeando emissionDate a issueDate
                 .sequential(invoice.getSequential())
-                
+                .customer(invoice.getCustomer() != null ?
+                   new CustomerResponse(invoice.getCustomer()) : null) // Mapeando customer a CustomerResponse
                 // Detalles financieros
                 .subtotal(invoice.getSubtotal())
                 .discount(invoice.getDiscount())

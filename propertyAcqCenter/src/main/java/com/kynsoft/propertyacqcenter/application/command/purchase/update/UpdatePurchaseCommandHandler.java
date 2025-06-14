@@ -71,6 +71,7 @@ public class UpdatePurchaseCommandHandler implements ICommandHandler<UpdatePurch
                 .roof(command.getRoof())
                 .window(command.getWindow())
 
+                .closingCost(command.getClosingCost())
                 .build()
         );
     }

@@ -20,4 +20,6 @@ public interface IExpensesService {
     PaginatedResponse search(Pageable pageable, List<FilterCriteria> filterCriteria);
 
     ExpensesDto findByPropertyId(String propertyId);
+
+    boolean existsByPropertyId(String propertyId);
 }

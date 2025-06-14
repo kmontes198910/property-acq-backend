@@ -6,6 +6,7 @@ import com.kynsof.share.core.infrastructure.specifications.GenericSpecifications
 import com.kynsoft.propertyacqcenter.application.response.OwnerDocumentResponse;
 import com.kynsoft.propertyacqcenter.domain.dto.OwnerDocumentDto;
 import com.kynsoft.propertyacqcenter.domain.dto.exception.AddressNotFoundException;
+import com.kynsoft.propertyacqcenter.domain.dto.exception.NotDeleteException;
 import com.kynsoft.propertyacqcenter.domain.services.IOwnerDocumentService;
 import com.kynsoft.propertyacqcenter.infrastructure.entity.OwnerDocument;
 import com.kynsoft.propertyacqcenter.infrastructure.entity.OwnerShipLegalEntity;
@@ -53,10 +54,13 @@ public class OwnerDocumentServiceImpl implements IOwnerDocumentService {
     }
 
     @Override
-    @Transactional
     public void delete(UUID id) {
-        this.findById(id);
-        repositoryCommand.deleteById(id);
+        try {
+            this.findById(id);
+            repositoryCommand.deleteById(id);
+        } catch (Exception e) {
+            throw new NotDeleteException();
+        }
     }
 
     @Override

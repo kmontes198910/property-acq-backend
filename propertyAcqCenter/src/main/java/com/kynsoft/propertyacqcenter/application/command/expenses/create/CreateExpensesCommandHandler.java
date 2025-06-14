@@ -3,6 +3,7 @@ package com.kynsoft.propertyacqcenter.application.command.expenses.create;
 import com.kynsof.share.core.domain.bus.command.ICommandHandler;
 import com.kynsoft.propertyacqcenter.domain.dto.ExpensesDto;
 import com.kynsoft.propertyacqcenter.domain.dto.PropertyDto;
+import com.kynsoft.propertyacqcenter.domain.dto.exception.expenses.ExpensesMustBeUniqueException;
 import com.kynsoft.propertyacqcenter.domain.services.IExpensesService;
 import com.kynsoft.propertyacqcenter.domain.services.IPropertyService;
 import org.springframework.stereotype.Component;
@@ -21,6 +22,10 @@ public class CreateExpensesCommandHandler implements ICommandHandler<CreateExpen
     @Override
     public void handle(CreateExpensesCommand command) {
         PropertyDto property = this.propertyService.getById(command.getProperty());
+
+        if (this.expensesService.existsByPropertyId(command.getProperty())) {
+            throw new ExpensesMustBeUniqueException(command.getProperty());
+        }
 
         this.expensesService.create(ExpensesDto.builder()
                 .id(command.getId())

@@ -3,6 +3,7 @@ package com.kynsoft.propertyacqcenter.application.command.mortgage.create;
 import com.kynsof.share.core.domain.bus.command.ICommandHandler;
 import com.kynsoft.propertyacqcenter.domain.dto.MortgageDto;
 import com.kynsoft.propertyacqcenter.domain.dto.PropertyDto;
+import com.kynsoft.propertyacqcenter.domain.dto.exception.mortgage.MortgageMustBeUniqueException;
 import com.kynsoft.propertyacqcenter.domain.services.IMortgageService;
 import com.kynsoft.propertyacqcenter.domain.services.IPropertyService;
 import org.springframework.stereotype.Component;
@@ -21,6 +22,10 @@ public class CreateMortgageCommandHandler implements ICommandHandler<CreateMortg
     @Override
     public void handle(CreateMortgageCommand command) {
         PropertyDto property = this.propertyService.getById(command.getProperty());
+
+//        if (this.mortgageService.existsByPropertyId(command.getProperty())) {
+//            throw new MortgageMustBeUniqueException(command.getProperty());
+//        }
 
         this.mortgageService.create(MortgageDto.builder()
                 .id(command.getId())
@@ -47,6 +52,8 @@ public class CreateMortgageCommandHandler implements ICommandHandler<CreateMortg
                 .accelerationWeeklyPayments(command.getAccelerationWeeklyPayments())
                 .accelerationExtraPayments(command.getAccelerationExtraPayments())
                 .lifetimeRateCap(command.getLifetimeRateCap())
+                .extraPaymentFrequency(command.getExtraPaymentFrequency())
+                .extraPaymentAmount(command.getExtraPaymentAmount())
                 .build()
         );
     }

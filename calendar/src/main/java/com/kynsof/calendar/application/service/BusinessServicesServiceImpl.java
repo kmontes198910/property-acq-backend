@@ -21,6 +21,7 @@ import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -116,6 +117,38 @@ public class BusinessServicesServiceImpl implements IBusinessServicesService {
         var responses = data.getContent().stream()
                 .map(s -> new ServiceSimple(s.getServices().getId(), s.getServices().getName(), s.getServices().getStatus()))
                 .toList();
+        return new PaginatedResponse(responses, data.getTotalPages(), data.getNumberOfElements(),
+                data.getTotalElements(), data.getSize(), data.getNumber());
+    }
+
+    @Override
+    @Cacheable(cacheNames = CalendarCacheConfig.BUSINESS_SERVICE_CACHE, 
+              key = "'simpleServByBizAndName:' + #businessId + ':' + #serviceName + ':' + #pageable.pageNumber + ':' + #pageable.pageSize", 
+              unless = "#result == null")
+    public PaginatedResponse findServicesSimpleByBusinessIdAndServiceName(Pageable pageable, UUID businessId, String serviceName) {
+        // Creamos una especificación para buscar servicios por ID de negocio y nombre del servicio
+        Specification<BusinessServices> specification = (root, query, criteriaBuilder) -> {
+            // Condición para el ID del negocio
+            var businessPredicate = criteriaBuilder.equal(root.get("business").get("id"), businessId);
+            
+            // Condición para el nombre del servicio (búsqueda por coincidencia parcial, case insensitive)
+            var serviceNamePredicate = criteriaBuilder.like(
+                criteriaBuilder.lower(root.get("services").get("name")), 
+                "%" + serviceName.toLowerCase() + "%"
+            );
+            
+            // Combinamos ambas condiciones
+            return criteriaBuilder.and(businessPredicate, serviceNamePredicate);
+        };
+        
+        // Ejecutamos la consulta con la especificación
+        var data = this.repositoryQuery.findAll(specification, pageable);
+        
+        // Mapeamos los resultados
+        var responses = data.getContent().stream()
+                .map(s -> new ServiceSimple(s.getServices().getId(), s.getServices().getName(), s.getServices().getStatus()))
+                .toList();
+                
         return new PaginatedResponse(responses, data.getTotalPages(), data.getNumberOfElements(),
                 data.getTotalElements(), data.getSize(), data.getNumber());
     }

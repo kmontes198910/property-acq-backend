@@ -7,6 +7,7 @@ import com.kynsoft.propertyacqcenter.application.response.IncomeResponse;
 import com.kynsoft.propertyacqcenter.domain.dto.IncomeDto;
 import com.kynsoft.propertyacqcenter.domain.dto.exception.IncomeForPropertyNotFoundException;
 import com.kynsoft.propertyacqcenter.domain.dto.exception.IncomeNotFoundException;
+import com.kynsoft.propertyacqcenter.domain.dto.exception.NotDeleteException;
 import com.kynsoft.propertyacqcenter.domain.services.IIncomeService;
 import com.kynsoft.propertyacqcenter.infrastructure.entity.Income;
 import com.kynsoft.propertyacqcenter.infrastructure.entity.IncomeDetailsBreakdown;
@@ -71,6 +72,7 @@ public class IncomeServiceImpl implements IIncomeService {
         update.setPorcentageIncreaseType(object.getPorcentageIncreaseType());
         update.setFixedDollarAmount(object.getFixedDollarAmount());
         update.setIncreaseType(object.getIncreaseType());
+        update.setSectino8Income(object.getSectino8Income());
 
         Set<IncomeDetailsBreakdown> detailsBreakdown = new HashSet<>();
         if (object.getDetailsBreakdown() != null) {
@@ -85,10 +87,13 @@ public class IncomeServiceImpl implements IIncomeService {
     }
 
     @Override
-    @Transactional
     public void delete(UUID id) {
-        this.findByIdSimple(id);
-        repositoryCommand.deleteById(id);
+        try {
+            this.findById(id);
+            repositoryCommand.deleteById(id);
+        } catch (Exception e) {
+            throw new NotDeleteException();
+        }
     }
 
     @Override
@@ -132,5 +137,10 @@ public class IncomeServiceImpl implements IIncomeService {
             return entity.get().toAggregate();
         }
         throw new IncomeForPropertyNotFoundException();
+    }
+
+    @Override
+    public boolean existsByPropertyId(String propertyId) {
+        return this.repositoryQuery.existsByPropertyId(propertyId);
     }
 }

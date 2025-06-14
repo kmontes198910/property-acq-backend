@@ -51,6 +51,9 @@ public class BankAccount {
     
     @Column(name = "routing_number", nullable = false)
     private String routingNumber;
+    
+    @Column(name = "domestic_ware", nullable = true)
+    private String domesticWare;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "account_type", nullable = false)
@@ -98,6 +101,7 @@ public class BankAccount {
     private UUID updatedBy;
 
     public BankAccount(BankAccountDto dto) {
+        this.domesticWare = dto.getDomesticWare();
         this.id = dto.getId() != null ? dto.getId() : UUID.randomUUID();
         this.legalEntity = dto.getLegalEntity() != null ? new LegalEntity(dto.getLegalEntity()) : null;
         this.bankName = dto.getBankName();
@@ -138,6 +142,7 @@ public class BankAccount {
     public BankAccountDto toAggregate() {
         return BankAccountDto.builder()
                 .id(this.id)
+                .domesticWare(domesticWare)
                 .bankName(bankName)
                 .legalEntity(legalEntity.toAggregateBasic())
                 .accountNumber(accountNumber)
@@ -176,6 +181,7 @@ public class BankAccount {
     public BankAccountDto toAggregateSimple() {
         return BankAccountDto.builder()
                 .id(this.id)
+                .domesticWare(domesticWare)
                 .bankName(bankName)
                 .legalEntity(legalEntity.toAggregateFindById())
                 .accountNumber(accountNumber)

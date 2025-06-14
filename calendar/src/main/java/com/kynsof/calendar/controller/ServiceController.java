@@ -90,10 +90,12 @@ public class ServiceController {
     }
 
     @GetMapping(path = "/business/{businessId}")
-    public ResponseEntity<?> findServicesByBusinessId(@PathVariable UUID businessId) {
+    public ResponseEntity<?> findServicesByBusinessId(
+            @PathVariable UUID businessId,
+            @RequestParam(required = false) String serviceName) {
 
         Pageable pageable = PageRequest.of(0, 1000);
-        FindServiceSimpleByIdBusinessQuery query = new FindServiceSimpleByIdBusinessQuery(businessId, pageable);
+        FindServiceSimpleByIdBusinessQuery query = new FindServiceSimpleByIdBusinessQuery(businessId, pageable, serviceName);
         PaginatedResponse response = mediator.send(query);
 
         return ResponseEntity.ok(response);

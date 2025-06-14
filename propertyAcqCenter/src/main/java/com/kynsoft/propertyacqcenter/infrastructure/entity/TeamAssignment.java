@@ -7,7 +7,11 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "team_assignment")
@@ -27,45 +31,64 @@ public class TeamAssignment {
     private Property property;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "buyer_entity_name_id", nullable = true)
-    private CompanyContact buyerEntityName;
+    @JoinColumn(name = "legal_entity_id", nullable = true)
+    private LegalEntity buyerEntityName;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "buyer_contact_rep_id", nullable = true)
-    private CompanyContact buyerContactRep;
-    
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "title_escrow_company_id", nullable = true)
-    private CompanyContact titleEscrowCompany;
-    
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "lender_company_id", nullable = true)
-    private CompanyContact lenderCompany;
-    
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "project_manager_id", nullable = true)
-    private CompanyContact projectManager;
-    
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "legal_contact_id", nullable = true)
-    private CompanyContact legalContact;
-    
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "seller_id", nullable = true)
-    private CompanyContact seller;
-    
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "hoa_id", nullable = true)
-    private CompanyContact hoa;
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+            name = "team_assignment_buyer_contacts",
+            joinColumns = @JoinColumn(name = "team_assignment_id"),
+            inverseJoinColumns = @JoinColumn(name = "company_contact_id")
+    )
+    private Set<CompanyContact> buyerContactReps = new HashSet<>();
 
-    //private String buyerEntityName;
-//    private String buyerContactRep;
-//    private String titleEscrowCompany;
-//    private String lenderCompany;
-//    private String projectManager;
-//    private String legalContact;
-//    private String seller;
-//    private String hoa;
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+            name = "team_assignment_title_escrow_companies",
+            joinColumns = @JoinColumn(name = "team_assignment_id"),
+            inverseJoinColumns = @JoinColumn(name = "company_contact_id")
+    )
+    private Set<CompanyContact> titleEscrowCompanies = new HashSet<>();
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+            name = "team_assignment_lender_companies",
+            joinColumns = @JoinColumn(name = "team_assignment_id"),
+            inverseJoinColumns = @JoinColumn(name = "company_contact_id")
+    )
+    private Set<CompanyContact> lenderCompanies = new HashSet<>();
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+            name = "team_assignment_project_managers",
+            joinColumns = @JoinColumn(name = "team_assignment_id"),
+            inverseJoinColumns = @JoinColumn(name = "company_contact_id")
+    )
+    private Set<CompanyContact> projectManagers = new HashSet<>();
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+            name = "team_assignment_legal_contacts",
+            joinColumns = @JoinColumn(name = "team_assignment_id"),
+            inverseJoinColumns = @JoinColumn(name = "company_contact_id")
+    )
+    private Set<CompanyContact> legalContacts = new HashSet<>();
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+            name = "team_assignment_sellers",
+            joinColumns = @JoinColumn(name = "team_assignment_id"),
+            inverseJoinColumns = @JoinColumn(name = "company_contact_id")
+    )
+    private Set<CompanyContact> sellers = new HashSet<>();
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+            name = "team_assignment_hoas",
+            joinColumns = @JoinColumn(name = "team_assignment_id"),
+            inverseJoinColumns = @JoinColumn(name = "company_contact_id")
+    )
+    private Set<CompanyContact> hoas = new HashSet<>();
 
     @CreationTimestamp
     @Column(name = "created_at", updatable = false)
@@ -84,14 +107,28 @@ public class TeamAssignment {
     public TeamAssignment(TeamAssignmentDto dto) {
         this.id = dto.getId() != null ? dto.getId() : UUID.randomUUID();
         this.property = dto.getProperty() != null ? new Property(dto.getProperty()) : null;
-        this.buyerEntityName = dto.getBuyerEntityName() != null ? new CompanyContact(dto.getBuyerEntityName()) : null;
-        this.buyerContactRep = dto.getBuyerContactRep() != null ? new CompanyContact(dto.getBuyerContactRep()) : null;
-        this.titleEscrowCompany = dto.getTitleEscrowCompany() != null ? new CompanyContact(dto.getTitleEscrowCompany()) : null;
-        this.lenderCompany = dto.getLenderCompany() != null ? new CompanyContact(dto.getLenderCompany()) : null;
-        this.projectManager = dto.getProjectManager() != null ? new CompanyContact(dto.getProjectManager()) : null;
-        this.legalContact = dto.getLegalContact() != null ? new CompanyContact(dto.getLegalContact()) : null;
-        this.hoa = dto.getHoa() != null ? new CompanyContact(dto.getHoa()) : null;
-        this.seller = dto.getSeller() != null ? new CompanyContact(dto.getSeller()) : null;
+        this.buyerEntityName = dto.getBuyerEntityName() != null ? new LegalEntity(dto.getBuyerEntityName()) : null;
+        this.buyerContactReps = dto.getBuyerContactReps() != null
+                ? dto.getBuyerContactReps().stream().map(CompanyContact::new).collect(Collectors.toSet())
+                : Collections.emptySet();
+        this.titleEscrowCompanies = dto.getTitleEscrowCompany() != null
+                ? dto.getTitleEscrowCompany().stream().map(CompanyContact::new).collect(Collectors.toSet())
+                : Collections.emptySet();
+        this.lenderCompanies = dto.getLenderCompany() != null
+                ? dto.getLenderCompany().stream().map(CompanyContact::new).collect(Collectors.toSet())
+                : Collections.emptySet();
+        this.projectManagers = dto.getProjectManager() != null
+                ? dto.getProjectManager().stream().map(CompanyContact::new).collect(Collectors.toSet())
+                : Collections.emptySet();
+        this.legalContacts = dto.getLegalContact() != null
+                ? dto.getLegalContact().stream().map(CompanyContact::new).collect(Collectors.toSet())
+                : Collections.emptySet();
+        this.hoas = dto.getHoa() != null
+                ? dto.getHoa().stream().map(CompanyContact::new).collect(Collectors.toSet())
+                : Collections.emptySet();
+        this.sellers = dto.getSeller() != null
+                ? dto.getSeller().stream().map(CompanyContact::new).collect(Collectors.toSet())
+                : Collections.emptySet();
         this.createdBy = dto.getCreatedBy();
         this.updatedBy = dto.getUpdatedBy();
     }
@@ -104,14 +141,14 @@ public class TeamAssignment {
                 .createdBy(this.createdBy)
                 .updatedBy(this.updatedBy)
                 .property(this.property.toAggregateBasic())
-                .buyerEntityName(buyerEntityName != null ? buyerEntityName.toAggregate() : null)
-                .buyerContactRep(buyerContactRep != null ? buyerContactRep.toAggregate() : null)
-                .titleEscrowCompany(titleEscrowCompany != null ? titleEscrowCompany.toAggregate() : null)
-                .lenderCompany(lenderCompany != null ? lenderCompany.toAggregate() : null)
-                .projectManager(projectManager != null ? projectManager.toAggregate() : null)
-                .legalContact(legalContact != null ? legalContact.toAggregate() : null)
-                .hoa(hoa != null ? hoa.toAggregate() : null)
-                .seller(seller != null ? seller.toAggregate() : null)
+                .buyerEntityName(buyerEntityName != null ? buyerEntityName.toAggregateBasic() : null)
+                .buyerContactReps(buyerContactReps != null ? buyerContactReps.stream().map(CompanyContact::toAggregate).collect(Collectors.toList()) : null)
+                .titleEscrowCompany(titleEscrowCompanies != null ? titleEscrowCompanies.stream().map(CompanyContact::toAggregate).collect(Collectors.toList()) : null)
+                .lenderCompany(lenderCompanies != null ? lenderCompanies.stream().map(CompanyContact::toAggregate).collect(Collectors.toList()) : null)
+                .projectManager(projectManagers != null ? projectManagers.stream().map(CompanyContact::toAggregate).collect(Collectors.toList()) : null)
+                .legalContact(legalContacts != null ? legalContacts.stream().map(CompanyContact::toAggregate).collect(Collectors.toList()) : null)
+                .hoa(hoas != null ? hoas.stream().map(CompanyContact::toAggregate).collect(Collectors.toList()) : null)
+                .seller(sellers != null ? sellers.stream().map(CompanyContact::toAggregate).collect(Collectors.toList()) : null)
                 .build();
     }
 }

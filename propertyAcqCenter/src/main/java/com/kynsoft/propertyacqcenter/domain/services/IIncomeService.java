@@ -21,4 +21,6 @@ public interface IIncomeService {
     PaginatedResponse search(Pageable pageable, List<FilterCriteria> filterCriteria);
 
     IncomeDto findByPropertyId(String propertyId);
+
+    boolean existsByPropertyId(String propertyId);
 }

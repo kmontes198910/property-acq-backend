@@ -30,6 +30,11 @@ public class UpdateBankAccountCommandHandler implements ICommandHandler<UpdateBa
     @Override
     public void handle(UpdateBankAccountCommand command) {
         this.validateRoutingNumber(command.getRoutingNumber());
+
+        if (command.getDomesticWare() != null) {
+            this.validateDomesticWare(command.getDomesticWare());
+        }
+
         LegalEntityDto legalEntityDto = this.legalEntityService.findById(command.getLegalEntity());
         CurrencyDto currencyDto = this.currencyService.findById(command.getInternationalDetails().getCurrency());
 
@@ -54,13 +59,21 @@ public class UpdateBankAccountCommandHandler implements ICommandHandler<UpdateBa
                         command.getInternationalDetails().getIban(),
                         currencyDto
                 ),
-                command.getBranchInfo()
+                command.getBranchInfo(),
+                command.getDomesticWare()
         ));
     }
 
     private void validateRoutingNumber(String routingNumber) {
         Pattern ROUTING_PATTERN = Pattern.compile("^\\d{9}$");
         if (!ROUTING_PATTERN.matcher(routingNumber).matches()) {
+            throw new BankAccountLegalEntityRoutingNumberException();
+        }
+    }
+
+    private void validateDomesticWare(String domesticWare) {
+        Pattern ROUTING_PATTERN = Pattern.compile("^\\d{9}$");
+        if (!ROUTING_PATTERN.matcher(domesticWare).matches()) {
             throw new BankAccountLegalEntityRoutingNumberException();
         }
     }

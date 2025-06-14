@@ -3,7 +3,7 @@ package com.kynsoft.invoiceservice.domain.service;
 import com.kynsof.share.core.domain.request.FilterCriteria;
 import com.kynsof.share.core.domain.response.PaginatedResponse;
 import com.kynsoft.invoiceservice.domain.dto.InvoiceIssuerDto;
-import com.kynsoft.invoiceservice.infrastructure.entities.InvoiceIssuer;
+import com.kynsoft.invoiceservice.infrastructure.entities.Issuer;
 
 import java.util.List;
 import java.util.UUID;
@@ -56,7 +56,7 @@ public interface IInvoiceIssuerService {
  PaginatedResponse search(org.springframework.data.domain.Pageable pageable,
                           List<FilterCriteria> filterCriteria);
 
-    InvoiceIssuer create(InvoiceIssuer issuer);
+    Issuer create(Issuer issuer);
     
     /**
      * Actualiza una secuencia específica de un emisor de facturas

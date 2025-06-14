@@ -6,6 +6,7 @@ import com.kynsof.share.core.infrastructure.specifications.GenericSpecifications
 import com.kynsoft.propertyacqcenter.application.response.BankAccountResponse;
 import com.kynsoft.propertyacqcenter.domain.dto.BankAccountDto;
 import com.kynsoft.propertyacqcenter.domain.dto.exception.BankAccountNotFoundException;
+import com.kynsoft.propertyacqcenter.domain.dto.exception.NotDeleteException;
 import com.kynsoft.propertyacqcenter.domain.dto.exception.bankAccount.BankAccountLegalEntityAccountNumberException;
 import com.kynsoft.propertyacqcenter.domain.services.IBankAccountService;
 import com.kynsoft.propertyacqcenter.infrastructure.entity.BankAccount;
@@ -60,6 +61,7 @@ public class BankAccountServiceImpl implements IBankAccountService {
         update.setContactDetails(new BankContact(dto.getContactDetails()));
         update.setLegalEntity(new LegalEntity(dto.getLegalEntity()));
         update.setInternationalDetails(new InternationalBankingDetails(dto.getInternationalDetails()));
+        update.setDomesticWare(dto.getDomesticWare());
 
         update.setUpdatedAt(LocalDateTime.now());
 
@@ -67,10 +69,13 @@ public class BankAccountServiceImpl implements IBankAccountService {
     }
 
     @Override
-    @Transactional
     public void delete(UUID id) {
-        this.findByIdSimple(id);
-        repositoryCommand.deleteById(id);
+        try {
+            this.findById(id);
+            repositoryCommand.deleteById(id);
+        } catch (Exception e) {
+            throw new NotDeleteException();
+        }
     }
 
     @Override

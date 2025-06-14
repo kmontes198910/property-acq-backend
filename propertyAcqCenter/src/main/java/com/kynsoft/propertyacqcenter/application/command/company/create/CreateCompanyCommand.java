@@ -16,20 +16,21 @@ public class CreateCompanyCommand implements ICommand {
     private UUID companyType;
     private UUID subCompanyType;
     private String title;
-    private Double ownershipPercentage;
-    private Boolean signatureAuthority;
     private String notes;
+    private String category;
+    private UUID subCategory;
 
     public CreateCompanyCommand(UUID business, UUID companyType, UUID subCompanyType, String title, 
-                                Double ownershipPercentage, Boolean signatureAuthority, String notes) {
+                                String notes,
+                                String category, UUID subCategory) {
         this.id = UUID.randomUUID();
         this.business = business;
         this.companyType = companyType;
         this.subCompanyType = subCompanyType;
         this.title = title;
-        this.ownershipPercentage = ownershipPercentage;
-        this.signatureAuthority = signatureAuthority;
         this.notes = notes;
+        this.category = category;
+        this.subCategory = subCategory;
     }
 
     public static CreateCompanyCommand fromRequest(CreateCompanyRequest request) {
@@ -38,9 +39,9 @@ public class CreateCompanyCommand implements ICommand {
                 request.getCompanyType(),
                 request.getSubCompanyType(),
                 request.getTitle(),
-                request.getOwnershipPercentage(),
-                request.getSignatureAuthority(),
-                request.getNotes()
+                request.getNotes(),
+                request.getCategory(),
+                request.getSubCategory()
         );
     }
 

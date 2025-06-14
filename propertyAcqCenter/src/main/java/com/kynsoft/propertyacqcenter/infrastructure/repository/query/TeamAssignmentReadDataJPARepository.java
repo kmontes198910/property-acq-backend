@@ -15,23 +15,21 @@ import org.springframework.data.jpa.repository.EntityGraph;
 @Repository
 public interface TeamAssignmentReadDataJPARepository extends JpaRepository<TeamAssignment, UUID>, JpaSpecificationExecutor<TeamAssignment> {
     @EntityGraph(attributePaths = {
-        "property", "buyerEntityName", "buyerContactRep", "titleEscrowCompany", 
-        "lenderCompany", "projectManager", "legalContact", "seller", "hoa",
-        "buyerEntityName.company", "buyerContactRep.company", "titleEscrowCompany.company", 
-        "lenderCompany.company", "projectManager.company", "legalContact.company", "seller.company", "hoa.company",
-        "buyerEntityName.subCategory", "buyerContactRep.subCategory", "titleEscrowCompany.subCategory", 
-        "lenderCompany.subCategory", "projectManager.subCategory", "legalContact.subCategory", "seller.subCategory", "hoa.subCategory"
+        "property", "buyerEntityName", "buyerContactReps", "titleEscrowCompanies", 
+        "lenderCompanies", "projectManagers", "legalContacts", "sellers", "hoas",
+        "buyerContactReps.company", "titleEscrowCompanies.company", 
+        "lenderCompanies.company", "projectManagers.company", "legalContacts.company", 
+        "sellers.company", "hoas.company"
     })
     @Override
     Page<TeamAssignment> findAll(Specification<TeamAssignment> specification, Pageable pageable);
 
     @EntityGraph(attributePaths = {
-        "property", "buyerEntityName", "buyerContactRep", "titleEscrowCompany", 
-        "lenderCompany", "projectManager", "legalContact", "seller", "hoa",
-        "buyerEntityName.company", "buyerContactRep.company", "titleEscrowCompany.company", 
-        "lenderCompany.company", "projectManager.company", "legalContact.company", "seller.company", "hoa.company",
-        "buyerEntityName.subCategory", "buyerContactRep.subCategory", "titleEscrowCompany.subCategory", 
-        "lenderCompany.subCategory", "projectManager.subCategory", "legalContact.subCategory", "seller.subCategory", "hoa.subCategory"
+        "property", "buyerEntityName", "buyerContactReps", "titleEscrowCompanies", 
+        "lenderCompanies", "projectManagers", "legalContacts", "sellers", "hoas",
+        "buyerContactReps.company", "titleEscrowCompanies.company", 
+        "lenderCompanies.company", "projectManagers.company", "legalContacts.company", 
+        "sellers.company", "hoas.company"
     })
     @Override
     Optional<TeamAssignment> findById(UUID id);

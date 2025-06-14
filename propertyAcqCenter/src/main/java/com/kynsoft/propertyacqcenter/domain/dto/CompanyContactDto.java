@@ -1,6 +1,7 @@
 package com.kynsoft.propertyacqcenter.domain.dto;
 
 import com.kynsoft.propertyacqcenter.domain.enums.DepartmentType;
+import java.time.LocalDate;
 import lombok.*;
 
 import java.time.LocalDateTime;
@@ -22,10 +23,9 @@ public class CompanyContactDto {
     private String phoneNumber;
     private String position;
     private DepartmentType department;
-    private String category;
     private String notes;
     private Boolean isActive;
-    private SubCategoryDto subCategory;
+    private LocalDate birthDate;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 }

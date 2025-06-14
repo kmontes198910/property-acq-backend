@@ -28,6 +28,7 @@ public class LabTestRequestSearchResponse implements IResponse, Serializable {
     private String status;
     private String observations;
     private UUID businessId;
+    private String origen;
     private UUID createdBy;
     private UUID updatedBy;
     private LocalDateTime createdAt;
@@ -46,6 +47,7 @@ public class LabTestRequestSearchResponse implements IResponse, Serializable {
         this.status = dto.getStatus();
         this.observations = dto.getObservations();
         this.businessId = dto.getBusinessId();
+        this.origen = dto.getOrigen();
         this.createdBy = dto.getCreatedBy();
         this.updatedBy = dto.getUpdatedBy();
         this.createdAt = dto.getCreatedAt();

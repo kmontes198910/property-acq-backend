@@ -4,6 +4,7 @@ package com.kynsoft.invoiceservice.domain.service;
 import com.kynsof.share.core.domain.request.FilterCriteria;
 import com.kynsof.share.core.domain.response.PaginatedResponse;
 import com.kynsoft.invoiceservice.domain.dto.InvoiceDto;
+import com.kynsoft.invoiceservice.infrastructure.entities.Invoice;
 import com.kynsoft.invoiceservice.infrastructure.entities.InvoiceStatus;
 
 import java.util.List;
@@ -36,6 +37,8 @@ public interface IInvoiceService {
      * @return Datos de la factura encontrada
      */
     InvoiceDto findById(UUID id);
+
+    Invoice findByIdToEntity(UUID id);
     
     /**
      * Busca facturas por diversos criterios

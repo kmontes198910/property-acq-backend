@@ -21,6 +21,7 @@ public class CreateLabTestRequestCommand implements ICommand {
     private String status;
     private String observations;
     private UUID businessId;
+    private String origen;
     private UUID createdBy;
     private List<LabTestItemRequestRequest> labTestItems;
     private boolean isActive;
@@ -34,6 +35,7 @@ public class CreateLabTestRequestCommand implements ICommand {
                 .status(request.getStatus())
                 .observations(request.getObservations())
                 .businessId(request.getBusinessId())
+                .origen(request.getOrigen())
                 .createdBy(userId)
                 .labTestItems(request.getLabTestItems())
                 .isActive(request.isActive())

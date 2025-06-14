@@ -5,6 +5,7 @@ import com.kynsof.share.core.domain.response.PaginatedResponse;
 import com.kynsof.share.core.infrastructure.specifications.GenericSpecificationsBuilder;
 import com.kynsoft.propertyacqcenter.application.response.PurchaseResponse;
 import com.kynsoft.propertyacqcenter.domain.dto.PurchaseDto;
+import com.kynsoft.propertyacqcenter.domain.dto.exception.NotDeleteException;
 import com.kynsoft.propertyacqcenter.domain.dto.exception.PurchaseForPropertyNotFoundException;
 import com.kynsoft.propertyacqcenter.domain.dto.exception.PurchaseNotFoundException;
 import com.kynsoft.propertyacqcenter.domain.services.IPurchaseService;
@@ -88,15 +89,19 @@ public class PurchaseServiceImpl implements IPurchaseService {
         update.setPlumbing(object.getPlumbing());
         update.setRoof(object.getRoof());
         update.setWindowValue(object.getWindow());
+        update.setClosingCost(object.getClosingCost());
 
         repositoryCommand.save(update);
     }
 
     @Override
-    @Transactional
     public void delete(UUID id) {
-        this.findByIdSimple(id);
-        repositoryCommand.deleteById(id);
+        try {
+            this.findById(id);
+            repositoryCommand.deleteById(id);
+        } catch (Exception e) {
+            throw new NotDeleteException();
+        }
     }
 
     @Override
@@ -140,5 +145,10 @@ public class PurchaseServiceImpl implements IPurchaseService {
             return entity.get().toAggregate();
         }
         throw new PurchaseForPropertyNotFoundException();
+    }
+
+    @Override
+    public boolean existsByPropertyId(String propertyId) {
+        return this.repositoryQuery.existsByPropertyId(propertyId);
     }
 }

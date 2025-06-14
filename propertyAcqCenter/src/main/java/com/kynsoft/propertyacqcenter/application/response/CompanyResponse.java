@@ -22,22 +22,22 @@ public class CompanyResponse implements IResponse {
     private CompanyTypeDto companyType;
     private SubCompanyTypeDto subCompanyType;
     private String title;//
-    private Double ownershipPercentage;//
-    private Boolean signatureAuthority;//
     private String notes;//
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
     private UUID createdBy;//
     private UUID updatedBy;//
+    private String category;
+    private SubCategoryResponse subCategory;
 
     public CompanyResponse(CompanyDto dto) {
         this.id = dto.getId();
+        this.category = dto.getCategory();
+        this.subCategory = dto.getSubCategory() != null ? new SubCategoryResponse(dto.getSubCategory()) : null;
         this.companyType = dto.getCompanyType();
         this.business = dto.getBusiness();
         this.subCompanyType = dto.getSubCompanyType();
         this.title = dto.getTitle();
-        this.ownershipPercentage = dto.getOwnershipPercentage();
-        this.signatureAuthority = dto.getSignatureAuthority();
         this.notes = dto.getNotes();
         this.createdAt = dto.getCreatedAt();
         this.updatedAt = dto.getUpdatedAt();

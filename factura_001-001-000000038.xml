@@ -2,24 +2,24 @@
     <infoTributaria>
         <ambiente>1</ambiente>
         <tipoEmision>1</tipoEmision>
-        <razonSocial>HOSPITAL MEDINEC S.A.</razonSocial>
-        <nombreComercial>MEDINEC HOSPITAL</nombreComercial>
+        <razonSocial>Prueba Internas</razonSocial>
+        <nombreComercial>PRUEBAS</nombreComercial>
         <ruc>0961881992001</ruc>
-        <claveAcceso>2405202501096188199200110010010000000380000000312</claveAcceso>
+        <claveAcceso>1306202501096188199200110010010000000380000000310</claveAcceso>
         <codDoc>01</codDoc>
         <estab>001</estab>
         <ptoEmi>001</ptoEmi>
         <secuencial>000000038</secuencial>
-        <dirMatriz>Av. Principal 123, Quito</dirMatriz>
-        <contribuyenteRimpe>SI</contribuyenteRimpe>
+        <dirMatriz>TEST</dirMatriz>
+        <contribuyenteRimpe>CONTRIBUYENTE RÉGIMEN RIMPE</contribuyenteRimpe>
     </infoTributaria>
     <infoFactura>
-        <fechaEmision>24/05/2025</fechaEmision>
+        <fechaEmision>13/06/2025</fechaEmision>
         <obligadoContabilidad>NO</obligadoContabilidad>
         <tipoIdentificacionComprador>04</tipoIdentificacionComprador>
-        <razonSocialComprador>EMPRESA EJEMPLO S.A.</razonSocialComprador>
-        <identificacionComprador>0961881992001</identificacionComprador>
-        <direccionComprador>Av. Principal 123, Quito</direccionComprador>
+        <razonSocialComprador>EMPRESA DE JOSE</razonSocialComprador>
+        <identificacionComprador>1793211446001</identificacionComprador>
+        <direccionComprador>ESTADOS UNIDOS</direccionComprador>
         <totalSinImpuestos>100.00</totalSinImpuestos>
         <totalDescuento>0.00</totalDescuento>
         <totalConImpuestos>
@@ -31,23 +31,23 @@
                 <valor>15.00</valor>
             </totalImpuesto>
         </totalConImpuestos>
-        <propina>2.50</propina>
-        <importeTotal>117.50</importeTotal>
+        <propina>0.00</propina>
+        <importeTotal>115.00</importeTotal>
         <moneda>DÓLAR</moneda>
         <pagos>
             <pago>
                 <formaPago>01</formaPago>
-                <total>117.50</total>
-                <plazo>2</plazo>
+                <total>115.00</total>
+                <plazo>1.00</plazo>
                 <unidadTiempo>MES</unidadTiempo>
             </pago>
         </pagos>
     </infoFactura>
     <detalles>
         <detalle>
-            <codigoPrincipal>PRO001</codigoPrincipal>
-            <codigoAuxiliar>PRO001</codigoAuxiliar>
-            <descripcion>Consulta Médica General</descripcion>
+            <codigoPrincipal>k0001</codigoPrincipal>
+            <codigoAuxiliar>k0001</codigoAuxiliar>
+            <descripcion>PRUEBA DE KEIMER</descripcion>
             <unidadMedida>U</unidadMedida>
             <cantidad>1.000000</cantidad>
             <precioUnitario>100.000000</precioUnitario>
@@ -65,38 +65,41 @@
         </detalle>
     </detalles>
     <infoAdicional>
-        <campoAdicional nombre="DIRECCIONCOMPRADOR">Av. Principal 123, Quito</campoAdicional>
-        <campoAdicional nombre="CORREOCOMPRADOR">cliente@ejemplo.com</campoAdicional>
-        <campoAdicional nombre="TELEFONOCOMPRADOR">0991234567</campoAdicional>
+        <campoAdicional nombre="DIRECCIONCOMPRADOR">ESTADOS UNIDOS</campoAdicional>
+        <campoAdicional nombre="CORREOCOMPRADOR">pepito@gmail.com</campoAdicional>
+        <campoAdicional nombre="TELEFONOCOMPRADOR">0972626626</campoAdicional>
+        <campoAdicional nombre="TELEFONOCOMPRADOR">0972626626</campoAdicional>
+        <campoAdicional nombre="CORREOCOMPRADOR">pepito@gmail.com</campoAdicional>
+        <campoAdicional nombre="DIRECCIONCOMPRADOR">ESTADOS UNIDOS</campoAdicional>
     </infoAdicional>
-<ds:Signature xmlns:ds="http://www.w3.org/2000/09/xmldsig#" xmlns:etsi="http://uri.etsi.org/01903/v1.3.2#" Id="Signature758833">
-<ds:SignedInfo Id="Signature-SignedInfo185259">
+<ds:Signature xmlns:ds="http://www.w3.org/2000/09/xmldsig#" xmlns:etsi="http://uri.etsi.org/01903/v1.3.2#" Id="Signature339825">
+<ds:SignedInfo Id="Signature-SignedInfo626061">
 <ds:CanonicalizationMethod Algorithm="http://www.w3.org/TR/2001/REC-xml-c14n-20010315"/>
 <ds:SignatureMethod Algorithm="http://www.w3.org/2000/09/xmldsig#rsa-sha1"/>
-<ds:Reference Id="SignedPropertiesID524763" Type="http://uri.etsi.org/01903#SignedProperties" URI="#Signature758833-SignedProperties477172">
+<ds:Reference Id="SignedPropertiesID971610" Type="http://uri.etsi.org/01903#SignedProperties" URI="#Signature339825-SignedProperties770782">
 <ds:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1"/>
-<ds:DigestValue>WwVMkv+/Pa3Cs8li35AbO6hP8vY=</ds:DigestValue>
+<ds:DigestValue>kpc9b0wpRZYyH60ufSgIQ7xn0gQ=</ds:DigestValue>
 </ds:Reference>
-<ds:Reference URI="#Certificate1709906">
+<ds:Reference URI="#Certificate176660">
 <ds:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1"/>
-<ds:DigestValue>N1ITXNzs3zgWz2L3BOKGWbFrnws=</ds:DigestValue>
+<ds:DigestValue>kCmp7v8kcIYDMK8/tUNhkvJe12M=</ds:DigestValue>
 </ds:Reference>
-<ds:Reference Id="Reference-ID-562902" URI="#comprobante">
+<ds:Reference Id="Reference-ID-650015" URI="#comprobante">
 <ds:Transforms>
 <ds:Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature"/>
 </ds:Transforms>
 <ds:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1"/>
-<ds:DigestValue>VrcWsVSguF5J7v/5G33r9zcOueQ=</ds:DigestValue>
+<ds:DigestValue>ziwVGuDA89sH9jiXdI1tKruJc4M=</ds:DigestValue>
 </ds:Reference>
 </ds:SignedInfo>
-<ds:SignatureValue Id="SignatureValue504431">
-WDcwM/wiISOGEXF4ZJOa4bSyn98N+EIONcarOaBZ3wDiWhh33q/taNBjxA2E7fdIbxCIMLEJUUOp
-Ww8LPIwX7Bj9yqd2cDkTHjCGwm5UtoE13N6Z5EwrxKkFqfA5LFNnByhrxUOKJ/cPzKGX0dI56dfg
-1URPBz1OQyBVNeL6Qtt/6aj9vSa3ONh0l50UeifyKNd36gwaOi+oL1iTcihceiRBK/gIcfo7uG6j
-iq11BbhfyCqBQoqwSLY/KQv1yuoF7kW8W8il4y5AvXsPI4owWfat0aDzcvSg3wj9nc3NbkJ3NOxF
-/zn8h2Q6l5gzeszcT/smM/FUkTYrkCDDitSP0w==
+<ds:SignatureValue Id="SignatureValue132667">
+ocJO1hPbkk9gjL09QJLGOQj9JseM8RJlS/HZbxtTono1ununb/CBsT/v4B/BTHruMwUiisHyFrEg
+CH+YIXZVylOGsUrGcSDLbv81HFIAawZjta/ALyXQJBJNfAZ1NNl8AWOHYtoKK4E5B470vpnp9ugc
+Qtd+jX/d44t+XnSPHlz92a/YAAeX5ukxSB8xHdnAjO6SdN4BRTR1Nv29oMpg21RjjKgzD6mLWEQO
+Mg+n928uehnVLHP5jGlnwj5KKiPjZtYRSHm9Hi9oRCcxSmNR0onsx/5S10hHoI4Kx6wuvFIvuNSo
+gS//jbj1FlOsy7wVNYt8EB4tClGTgaxe9rNbrw==
 </ds:SignatureValue>
-<ds:KeyInfo Id="Certificate1709906">
+<ds:KeyInfo Id="Certificate176660">
 <ds:X509Data>
 <ds:X509Certificate>
 MIILzzCCCbegAwIBAgIEUv9kCzANBgkqhkiG9w0BAQsFADCBmTELMAkGA1UEBhMCRUMxHTAbBgNV
@@ -168,4 +171,4 @@ o9jT5VPN6D86D5YMjDYUGPyGpL10cG6HtCQkd/uDLYzaPgZYGzeR/1obwuGQYtM8qaJhhegAYsov
 </ds:RSAKeyValue>
 </ds:KeyValue>
 </ds:KeyInfo>
-<ds:Object Id="Signature758833-Object317430"><etsi:QualifyingProperties Target="#Signature758833"><etsi:SignedProperties Id="Signature758833-SignedProperties477172"><etsi:SignedSignatureProperties><etsi:SigningTime>2025-05-24T08:06:58-05:00</etsi:SigningTime><etsi:SigningCertificate><etsi:Cert><etsi:CertDigest><ds:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1"/><ds:DigestValue>/sBZ5IDNJfcIMhONmdMrPaET9wI=</ds:DigestValue></etsi:CertDigest><etsi:IssuerSerial><ds:X509IssuerName>CN=AUTORIDAD DE CERTIFICACION SUBCA-2 SECURITY DATA,OU=ENTIDAD DE CERTIFICACION DE INFORMACION,O=SECURITY DATA S.A. 2,C=EC</ds:X509IssuerName><ds:X509SerialNumber>1392469003</ds:X509SerialNumber></etsi:IssuerSerial></etsi:Cert></etsi:SigningCertificate></etsi:SignedSignatureProperties><etsi:SignedDataObjectProperties><etsi:DataObjectFormat ObjectReference="#Reference-ID-562902"><etsi:Description>contenido comprobante</etsi:Description><etsi:MimeType>text/xml</etsi:MimeType></etsi:DataObjectFormat></etsi:SignedDataObjectProperties></etsi:SignedProperties></etsi:QualifyingProperties></ds:Object></ds:Signature></factura>
+<ds:Object Id="Signature339825-Object639830"><etsi:QualifyingProperties Target="#Signature339825"><etsi:SignedProperties Id="Signature339825-SignedProperties770782"><etsi:SignedSignatureProperties><etsi:SigningTime>2025-06-13T09:58:15-05:00</etsi:SigningTime><etsi:SigningCertificate><etsi:Cert><etsi:CertDigest><ds:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1"/><ds:DigestValue>/sBZ5IDNJfcIMhONmdMrPaET9wI=</ds:DigestValue></etsi:CertDigest><etsi:IssuerSerial><ds:X509IssuerName>CN=AUTORIDAD DE CERTIFICACION SUBCA-2 SECURITY DATA,OU=ENTIDAD DE CERTIFICACION DE INFORMACION,O=SECURITY DATA S.A. 2,C=EC</ds:X509IssuerName><ds:X509SerialNumber>1392469003</ds:X509SerialNumber></etsi:IssuerSerial></etsi:Cert></etsi:SigningCertificate></etsi:SignedSignatureProperties><etsi:SignedDataObjectProperties><etsi:DataObjectFormat ObjectReference="#Reference-ID-650015"><etsi:Description>contenido comprobante</etsi:Description><etsi:MimeType>text/xml</etsi:MimeType></etsi:DataObjectFormat></etsi:SignedDataObjectProperties></etsi:SignedProperties></etsi:QualifyingProperties></ds:Object></ds:Signature></factura>

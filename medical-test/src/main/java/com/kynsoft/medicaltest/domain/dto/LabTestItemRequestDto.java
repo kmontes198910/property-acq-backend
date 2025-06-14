@@ -22,7 +22,7 @@ public class LabTestItemRequestDto {
     private UUID id;
     private LabTestRequestDto order;
     private String code;
-    private String examinationType;
+    private String description;
     private String status;
     private LocalDate completionDate;
     private String observations;

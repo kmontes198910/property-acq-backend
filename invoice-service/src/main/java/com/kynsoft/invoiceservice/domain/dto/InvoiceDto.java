@@ -1,7 +1,6 @@
 package com.kynsoft.invoiceservice.domain.dto;
 
 import com.kynsoft.invoiceservice.application.query.customer.get.CustomerDto;
-import com.kynsoft.invoiceservice.dto.InvoiceIssuerDTO;
 import com.kynsoft.invoiceservice.infrastructure.entities.InvoiceStatus;
 import lombok.*;
 
@@ -36,7 +35,7 @@ public class InvoiceDto {
     private UUID updatedBy;
     
     // Relaciones
-    private InvoiceIssuerDTO issuer;
+    private DigitalCertificateDTO.IssuerDTO issuer;
     private UUID issuerId;
     private CustomerDto customer;
     

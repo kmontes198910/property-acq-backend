@@ -1,6 +1,7 @@
 package com.kynsoft.propertyacqcenter.domain.dto;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -15,15 +16,15 @@ import lombok.Setter;
 @Builder
 public class TeamAssignmentDto {
     private UUID id;
-    private CompanyContactDto buyerEntityName;
-    private CompanyContactDto buyerContactRep;
-    private CompanyContactDto titleEscrowCompany;
-    private CompanyContactDto lenderCompany;
-    private CompanyContactDto projectManager;
-    private CompanyContactDto legalContact;
+    private LegalEntityDto buyerEntityName;
+    private List<CompanyContactDto> buyerContactReps;
+    private List<CompanyContactDto> titleEscrowCompany;
+    private List<CompanyContactDto> lenderCompany;
+    private List<CompanyContactDto> projectManager;
+    private List<CompanyContactDto> legalContact;
     private PropertyDto property;
-    private CompanyContactDto seller;
-    private CompanyContactDto hoa;
+    private List<CompanyContactDto> seller;
+    private List<CompanyContactDto> hoa;
 
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;

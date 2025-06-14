@@ -29,6 +29,8 @@ public class CreateLabTestRequestRequest {
 
     @NotNull(message = "El businessId es obligatorio")
     private UUID businessId;
+    
+    private String origen;
 
     private List<LabTestItemRequestRequest> labTestItems;
     private boolean isActive;

@@ -6,6 +6,7 @@ import com.kynsof.share.core.infrastructure.specifications.GenericSpecifications
 import com.kynsoft.propertyacqcenter.application.response.MortgageResponse;
 import com.kynsoft.propertyacqcenter.domain.dto.MortgageDto;
 import com.kynsoft.propertyacqcenter.domain.dto.exception.MortgageNotFoundException;
+import com.kynsoft.propertyacqcenter.domain.dto.exception.NotDeleteException;
 import com.kynsoft.propertyacqcenter.domain.services.IMortgageService;
 import com.kynsoft.propertyacqcenter.infrastructure.entity.Mortgage;
 import com.kynsoft.propertyacqcenter.infrastructure.entity.Property;
@@ -66,14 +67,19 @@ public class MortgageServiceImpl implements IMortgageService {
         update.setAccelerationWeeklyPayments(object.getAccelerationWeeklyPayments());
         update.setAccelerationExtraPayments(object.getAccelerationExtraPayments());
         update.setLifetimeRateCap(object.getLifetimeRateCap());
+        update.setExtraPaymentFrequency(object.getExtraPaymentFrequency());
+        update.setExtraPaymentAmount(object.getExtraPaymentAmount());
         repositoryCommand.save(update);
     }
 
     @Override
-    @Transactional
     public void delete(UUID id) {
-        this.findByIdSimple(id);
-        repositoryCommand.deleteById(id);
+        try {
+            this.findById(id);
+            repositoryCommand.deleteById(id);
+        } catch (Exception e) {
+            throw new NotDeleteException();
+        }
     }
 
     @Override
@@ -108,5 +114,10 @@ public class MortgageServiceImpl implements IMortgageService {
         }
         return new PaginatedResponse(objects, data.getTotalPages(), data.getNumberOfElements(),
                 data.getTotalElements(), data.getSize(), data.getNumber());
+    }
+
+    @Override
+    public boolean existsByPropertyId(String propertyId) {
+        return this.repositoryQuery.existsByPropertyId(propertyId);
     }
 }

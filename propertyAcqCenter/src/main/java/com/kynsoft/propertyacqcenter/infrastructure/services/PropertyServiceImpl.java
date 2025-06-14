@@ -5,6 +5,7 @@ import com.kynsof.share.core.domain.response.PaginatedResponse;
 import com.kynsof.share.core.infrastructure.specifications.GenericSpecificationsBuilder;
 import com.kynsoft.propertyacqcenter.application.response.PropertiesResponse;
 import com.kynsoft.propertyacqcenter.domain.dto.PropertyDto;
+import com.kynsoft.propertyacqcenter.domain.dto.exception.NotDeleteException;
 import com.kynsoft.propertyacqcenter.domain.dto.exception.PropertyNotFoundException;
 import com.kynsoft.propertyacqcenter.domain.dto.exception.property.PropertyIdMustBeUniqueException;
 import com.kynsoft.propertyacqcenter.domain.services.IPropertyService;
@@ -104,10 +105,13 @@ public class PropertyServiceImpl implements IPropertyService {
     }
 
     @Override
-    @Transactional
     public void delete(String id) {
-        this.getById(id);
-        repositoryCommand.deleteById(id);
+        try {
+            this.getById(id);
+            repositoryCommand.deleteById(id);
+        } catch (Exception e) {
+            throw new NotDeleteException();
+        }
     }
 
     @Override

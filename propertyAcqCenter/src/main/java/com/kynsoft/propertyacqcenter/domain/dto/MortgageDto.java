@@ -1,5 +1,6 @@
 package com.kynsoft.propertyacqcenter.domain.dto;
 
+import com.kynsoft.propertyacqcenter.domain.enums.MortgageExtraPaymentFrequency;
 import com.kynsoft.propertyacqcenter.domain.enums.MortgageFrequencyInterestCompounded;
 import com.kynsoft.propertyacqcenter.domain.enums.MortgageLifetimeRateCap;
 import com.kynsoft.propertyacqcenter.domain.enums.MortgageType;
@@ -42,4 +43,6 @@ public class MortgageDto {
     private Boolean accelerationExtraPayments;
     private MortgageLifetimeRateCap lifetimeRateCap;//
 
+    private MortgageExtraPaymentFrequency extraPaymentFrequency;//
+    private Double extraPaymentAmount;//
 }

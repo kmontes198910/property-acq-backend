@@ -5,6 +5,7 @@ import com.kynsof.share.core.domain.response.PaginatedResponse;
 import com.kynsof.share.core.infrastructure.specifications.GenericSpecificationsBuilder;
 import com.kynsoft.propertyacqcenter.application.response.PropertyUploadDocumentResponse;
 import com.kynsoft.propertyacqcenter.domain.dto.PropertyUploadDocumentDto;
+import com.kynsoft.propertyacqcenter.domain.dto.exception.NotDeleteException;
 import com.kynsoft.propertyacqcenter.domain.dto.exception.PropertyUploadDocumentNotFoundException;
 import com.kynsoft.propertyacqcenter.domain.services.IPropertyUploadDocumentService;
 import com.kynsoft.propertyacqcenter.infrastructure.entity.Property;
@@ -55,10 +56,13 @@ public class PropertyUploadDocumentServiceImpl implements IPropertyUploadDocumen
     }
 
     @Override
-    @Transactional
     public void delete(UUID id) {
-        this.findById(id);
-        repositoryCommand.deleteById(id);
+        try {
+            this.findById(id);
+            repositoryCommand.deleteById(id);
+        } catch (Exception e) {
+            throw new NotDeleteException();
+        }
     }
 
     @Override

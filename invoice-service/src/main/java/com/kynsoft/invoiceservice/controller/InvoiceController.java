@@ -7,10 +7,13 @@ import com.kynsof.share.core.infrastructure.bus.IMediator;
 import com.kynsoft.invoiceservice.application.command.invoice.generate.GenerateInvoiceCommand;
 import com.kynsoft.invoiceservice.application.command.invoice.generate.GenerateInvoiceMessage;
 import com.kynsoft.invoiceservice.application.command.invoice.generate.request.GenerateInvoiceRequest;
+import com.kynsoft.invoiceservice.application.command.invoice.update.UpdateInvoiceCommand;
+import com.kynsoft.invoiceservice.application.command.invoice.update.UpdateInvoiceMessage;
+import com.kynsoft.invoiceservice.application.command.invoice.update.request.UpdateInvoiceRequest;
 import com.kynsoft.invoiceservice.application.query.invoice.getById.GetInvoiceByIdQuery;
 import com.kynsoft.invoiceservice.application.query.invoice.getById.InvoiceResponse;
 import com.kynsoft.invoiceservice.application.query.invoice.search.SearchInvoiceAdvancedQuery;
-import com.kynsoft.invoiceservice.dto.FacturaResponseDTO;
+import com.kynsoft.invoiceservice.domain.dto.FacturaResponseDTO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -108,6 +111,37 @@ public class InvoiceController {
 
         GetInvoiceByIdQuery query = new GetInvoiceByIdQuery(id);
         InvoiceResponse response = mediator.send(query);
+
+        return ResponseEntity.ok(response);
+    }
+    
+    @PatchMapping("/{id}")
+    @Operation(summary = "Actualizar factura",
+            description = "Actualiza los datos de una factura existente")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200",
+                    description = "Factura actualizada correctamente",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = UpdateInvoiceMessage.class))),
+            @ApiResponse(responseCode = "404",
+                    description = "Factura no encontrada",
+                    content = @Content(mediaType = "application/json")),
+            @ApiResponse(responseCode = "400",
+                    description = "Error en la actualización de la factura",
+                    content = @Content(mediaType = "application/json"))
+    })
+    public ResponseEntity<?> update(
+            @Parameter(description = "ID de la factura a actualizar", required = true)
+            @PathVariable UUID id,
+            @Parameter(description = "Datos de la factura a actualizar", required = true)
+            @RequestBody UpdateInvoiceRequest request,
+            @RequestHeader(value = USER_ID_HEADER, required = false) String userId,
+            @RequestHeader(value = USER_NAME_HEADER, required = false) String userName) {
+        log.info("Actualizando factura con ID: {}", id);
+
+        UUID userUuid = userId != null ? UUID.fromString(userId) : null;
+        UpdateInvoiceCommand command = UpdateInvoiceCommand.fromRequest(request, id, userUuid);
+        UpdateInvoiceMessage response = mediator.send(command);
 
         return ResponseEntity.ok(response);
     }

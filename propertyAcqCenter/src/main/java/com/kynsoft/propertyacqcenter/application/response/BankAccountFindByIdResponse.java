@@ -22,6 +22,7 @@ import java.util.UUID;
 public class BankAccountFindByIdResponse implements IResponse {
     private UUID id;
     private LegalEntityFindByIdResponse legalEntity;//
+    private String domesticWare;
     private String bankName;//
     private String accountNumber;//
     private String routingNumber;//
@@ -57,6 +58,7 @@ public class BankAccountFindByIdResponse implements IResponse {
         this.contactDetails = dto.getContactDetails();
         this.internationalDetails = dto.getInternationalDetails();
         this.branchInfo = dto.getBranchInfo();
+        this.domesticWare = dto.getDomesticWare();
     }
 
 }

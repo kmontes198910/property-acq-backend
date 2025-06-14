@@ -1,6 +1,6 @@
 package com.kynsoft.invoiceservice.domain.dto;
 
-import com.kynsoft.invoiceservice.infrastructure.entities.InvoiceIssuer;
+import com.kynsoft.invoiceservice.infrastructure.entities.Issuer;
 import com.kynsoft.invoiceservice.infrastructure.entities.InvoiceIssuingSequence;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -60,7 +60,7 @@ public class InvoiceIssuerDto {
      * @param issuer Entidad de emisor de facturas
      * @return DTO con los datos del emisor
      */
-    public static InvoiceIssuerDto fromEntity(InvoiceIssuer issuer) {
+    public static InvoiceIssuerDto fromEntity(Issuer issuer) {
         if (issuer == null) {
             return null;
         }
@@ -98,8 +98,8 @@ public class InvoiceIssuerDto {
      * 
      * @return Entidad de emisor de facturas
      */
-    public InvoiceIssuer toEntity() {
-        InvoiceIssuer issuer = InvoiceIssuer.builder()
+    public Issuer toEntity() {
+        Issuer issuer = Issuer.builder()
                 .id(this.id)
                 .ruc(this.ruc)
                 .businessName(this.businessName)

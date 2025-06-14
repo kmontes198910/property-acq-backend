@@ -3,6 +3,7 @@ package com.kynsoft.propertyacqcenter.infrastructure.entity;
 import com.kynsoft.propertyacqcenter.domain.dto.CompanyContactDto;
 import com.kynsoft.propertyacqcenter.domain.enums.DepartmentType;
 import jakarta.persistence.*;
+import java.time.LocalDate;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -45,22 +46,18 @@ public class CompanyContact {
     @Column(name = "position")
     private String position;
 
+    @Column(name = "birth_date")
+    private LocalDate birthDate;
+
     @Enumerated(EnumType.STRING)
     @Column(name = "department_type", nullable = true)
     private DepartmentType department;
-
-    @Column(name = "category")
-    private String category;
 
     @Column(name = "notes", columnDefinition = "TEXT")
     private String notes;
 
     @Column(name = "is_active")
     private Boolean isActive;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "sub_category")
-    private SubCategory subCategory;
 
     @CreationTimestamp
     @Column(name = "created_at", updatable = false)
@@ -72,6 +69,7 @@ public class CompanyContact {
 
     public CompanyContact(CompanyContactDto dto) {
         this.id = dto.getId();
+        this.birthDate = dto.getBirthDate();
         this.company = dto.getCompany() != null ? new Company(dto.getCompany()) : null;
         this.firstName = dto.getFirstName();
         this.lastName = dto.getLastName();
@@ -79,18 +77,17 @@ public class CompanyContact {
         this.phoneNumber = dto.getPhoneNumber();
         this.position = dto.getPosition();
         this.department = dto.getDepartment();
-        this.category = dto.getCategory();
         this.notes = dto.getNotes();
         this.isActive = dto.getIsActive();
         this.createdAt = dto.getCreatedAt();
         this.updatedAt = dto.getUpdatedAt();
         this.personalEmail = dto.getPersonalEmail();
-        this.subCategory = dto.getSubCategory() != null ? new SubCategory(dto.getSubCategory()) : null;
     }
 
     public CompanyContactDto toAggregateSimple() {
         return CompanyContactDto.builder()
                 .id(this.id)
+                .birthDate(birthDate)
                 .company(company != null ? this.company.toAggregateSimple() : null)
                 .firstName(firstName)
                 .lastName(lastName)
@@ -98,33 +95,30 @@ public class CompanyContact {
                 .phoneNumber(phoneNumber)
                 .position(position)
                 .department(department)
-                .category(category)
                 .notes(notes)
                 .isActive(isActive)
                 .createdAt(this.createdAt)
                 .updatedAt(this.updatedAt)
                 .personalEmail(personalEmail)
-                .subCategory(subCategory != null ? this.subCategory.toAggregate() : null)
                 .build();
     }
 
     public CompanyContactDto toAggregate() {
         return CompanyContactDto.builder()
                 .id(this.id)
+                .birthDate(birthDate)
                 .firstName(firstName)
                 .lastName(lastName)
                 .email(email)
                 .phoneNumber(phoneNumber)
                 .position(position)
                 .department(department)
-                .category(category)
                 .notes(notes)
                 .isActive(isActive)
                 .createdAt(this.createdAt)
                 .updatedAt(this.updatedAt)
                 .company(company != null ? this.company.toAggregateBasic() : null)
                 .personalEmail(personalEmail)
-                .subCategory(subCategory != null ? this.subCategory.toAggregate() : null)
                 .build();
     }
 

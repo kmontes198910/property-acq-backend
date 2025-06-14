@@ -5,6 +5,7 @@ import com.kynsof.share.core.domain.response.PaginatedResponse;
 import com.kynsof.share.core.infrastructure.specifications.GenericSpecificationsBuilder;
 import com.kynsoft.propertyacqcenter.application.response.SalesPropertyResponse;
 import com.kynsoft.propertyacqcenter.domain.dto.SalesPropertyDto;
+import com.kynsoft.propertyacqcenter.domain.dto.exception.NotDeleteException;
 import com.kynsoft.propertyacqcenter.domain.dto.exception.PurchaseForPropertyNotFoundException;
 import com.kynsoft.propertyacqcenter.domain.dto.exception.PurchaseNotFoundException;
 import com.kynsoft.propertyacqcenter.domain.services.ISalesPropertyService;
@@ -51,28 +52,24 @@ public class SalesPropertyServiceImpl implements ISalesPropertyService {
         update.setDeprecationNone(object.getDeprecationNone());
         update.setDeprecationStraightline(object.getDeprecationStraightline());
         update.setFederalIncomeTaxRate(object.getFederalIncomeTaxRate());
-        update.setIsCapRate(object.getIsCapRate());
-        update.setIsFixedSellingPrice(object.getIsFixedSellingPrice());
-        update.setIsInflationRate(object.getIsInflationRate());
-        update.setIsMarketValue(object.getIsMarketValue());
-        update.setIsMarketValueIndreaseRate(object.getIsMarketValueIndreaseRate());
-        update.setIsPurchesePrice(object.getIsPurchesePrice());
         update.setMarketValueIndreaseRate(object.getMarketValueIndreaseRate());
-        update.setOther(object.getOther());
         update.setPurchesePrice(object.getPurchesePrice());
-        update.setSalesCostFixedDollarAmount(object.getSalesCostFixedDollarAmount());
-        update.setSalesCostNone(object.getSalesCostNone());
-        update.setSalesCostPercentage(object.getSalesCostPercentage());
         update.setStateIncomeTaxRate(object.getStateIncomeTaxRate());
+        update.setPropertysStarting(object.getPropertysStarting());
+        update.setPropertysAnnualValueIncrease(object.getPropertysAnnualValueIncrease());
+        update.setTypeOfSalesCost(object.getTypeOfSalesCost());
 
         repositoryCommand.save(update);
     }
 
     @Override
-    @Transactional
     public void delete(UUID id) {
-        this.findByIdSimple(id);
-        repositoryCommand.deleteById(id);
+        try {
+            this.findById(id);
+            repositoryCommand.deleteById(id);
+        } catch (Exception e) {
+            throw new NotDeleteException();
+        }
     }
 
     @Override
@@ -116,5 +113,10 @@ public class SalesPropertyServiceImpl implements ISalesPropertyService {
             return entity.get().toAggregate();
         }
         throw new PurchaseForPropertyNotFoundException();
+    }
+
+    @Override
+    public boolean existsByPropertyId(String propertyId) {
+        return this.repositoryQuery.existsByPropertyId(propertyId);
     }
 }

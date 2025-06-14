@@ -24,4 +24,6 @@ public interface PurchaseReadDataJPARepository extends JpaRepository<Purchase, U
 
     @EntityGraph(attributePaths = {"property"})
     Optional<Purchase> findByPropertyId(String propertyId);
+
+    boolean existsByPropertyId(String propertyId);
 }
