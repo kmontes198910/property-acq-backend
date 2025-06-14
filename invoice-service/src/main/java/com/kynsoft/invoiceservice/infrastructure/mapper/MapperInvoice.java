@@ -100,7 +100,7 @@ public class MapperInvoice {
         Factura.Builder builder = new Factura.Builder(
                 ruc, razonSocial, dirMatriz, correo, telefono, estab, ptoEmi, secuencial, fechaEmision, detalles
         );
-        if (invoice.getIssuer().getMicroenterprisesRegime()) {
+        if (invoice.getIssuer().getMicroenterprisesRegime()!= null && invoice.getIssuer().getMicroenterprisesRegime()) {
             builder.withContribuyenteRimpe(invoice.getIssuer().getRimpeRegime());
         }
 
