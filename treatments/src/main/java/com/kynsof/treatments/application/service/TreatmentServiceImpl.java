@@ -13,6 +13,7 @@ import com.kynsof.treatments.domain.dto.TreatmentDto;
 import com.kynsof.treatments.domain.dto.enumDto.MedicalExamCategory;
 import com.kynsof.treatments.domain.service.ITreatmentService;
 import com.kynsof.treatments.infrastructure.entity.ExternalConsultation;
+import com.kynsof.treatments.infrastructure.entity.Medicines;
 import com.kynsof.treatments.infrastructure.entity.Procedure;
 import com.kynsof.treatments.infrastructure.entity.Treatment;
 import com.kynsof.treatments.infrastructure.repositories.command.TreatmentWriteDataJPARepository;
@@ -47,9 +48,18 @@ public class TreatmentServiceImpl implements ITreatmentService {
 
     @Override
     public void update(TreatmentDto treatment) {
-        Treatment update = new Treatment(treatment);
-        update.setUpdatedAt(LocalDateTime.now());
-        this.repositoryCommand.save(update);
+        Optional<Treatment> optionalEntity = repositoryQuery.findById(treatment.getId());
+        if (optionalEntity.isPresent()) {
+            Treatment update = optionalEntity.get();
+            update.setUpdatedAt(LocalDateTime.now());
+            update.setDescription(treatment.getDescription());
+            update.setMedicines(new Medicines(treatment.getMedication()));
+            update.setQuantity(treatment.getQuantity());
+            update.setMedicineUnit(treatment.getMedicineUnit());
+            this.repositoryCommand.save(update);
+        }
+
+
     }
 
     @Override
