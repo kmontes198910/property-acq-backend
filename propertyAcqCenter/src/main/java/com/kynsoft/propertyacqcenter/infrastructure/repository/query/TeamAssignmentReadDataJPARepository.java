@@ -33,4 +33,13 @@ public interface TeamAssignmentReadDataJPARepository extends JpaRepository<TeamA
     })
     @Override
     Optional<TeamAssignment> findById(UUID id);
+
+    @EntityGraph(attributePaths = {
+        "property", "buyerEntityName", "buyerContactReps", "titleEscrowCompanies", 
+        "lenderCompanies", "projectManagers", "legalContacts", "sellers", "hoas",
+        "buyerContactReps.company", "titleEscrowCompanies.company", 
+        "lenderCompanies.company", "projectManagers.company", "legalContacts.company", 
+        "sellers.company", "hoas.company"
+    })
+    Optional<TeamAssignment> findByPropertyId(String propertyId);
 }

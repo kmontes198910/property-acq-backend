@@ -13,6 +13,7 @@ import com.kynsoft.propertyacqcenter.application.command.teamAssignment.update.U
 import com.kynsoft.propertyacqcenter.application.command.teamAssignment.update.UpdateTeamAssignmentMessage;
 import com.kynsoft.propertyacqcenter.application.command.teamAssignment.update.UpdateTeamAssignmentRequest;
 import com.kynsoft.propertyacqcenter.application.query.teamAssignment.getById.GetByIdTeamAssignmentQuery;
+import com.kynsoft.propertyacqcenter.application.query.teamAssignment.getByPropertyId.FindByTeamAssignmentByPropertyIdQuery;
 import com.kynsoft.propertyacqcenter.application.query.teamAssignment.search.GetSearchTeamAssignmentQuery;
 import com.kynsoft.propertyacqcenter.application.response.TeamAssignmentResponse;
 import java.util.UUID;
@@ -59,6 +60,15 @@ public class TeamAssignmentController {
     public ResponseEntity<?> getById(@PathVariable UUID id) {
 
         GetByIdTeamAssignmentQuery query = new GetByIdTeamAssignmentQuery(id);
+        TeamAssignmentResponse response = mediator.send(query);
+
+        return ResponseEntity.ok(response);
+    }
+
+    @GetMapping(path = "/property/{id}")
+    public ResponseEntity<?> getByPropertyId(@PathVariable String id) {
+
+        FindByTeamAssignmentByPropertyIdQuery query = new FindByTeamAssignmentByPropertyIdQuery(id);
         TeamAssignmentResponse response = mediator.send(query);
 
         return ResponseEntity.ok(response);
