@@ -16,6 +16,7 @@ public class CreateDocumentTypeCommandHandler implements ICommandHandler<CreateD
 
     @Override
     public void handle(CreateDocumentTypeCommand command) {
+        this.documentTypeService.validateCode(command.getCode(), command.getId());
         documentTypeService.create(new DocumentTypeDto(
                 command.getId(),
                 command.getCode(),
