@@ -85,9 +85,10 @@ public class DraftInvoiceJob {
             log.info("Iniciando generación asíncrona de documentos para factura: {}", invoice);
             ByteArrayOutputStream xmlFactura = generateXmlAndInvoiceFile(factura, p12Bytes, password);
              ByteArrayOutputStream pdfInvoice = generatePDFInvoice(factura, invoiceLogo);
-             //sendInvoiceSRI(xmlFactura, factura, invoice, userId);
+             sendInvoiceSRI(xmlFactura, factura, invoice, userId);
             log.info("Documentos generados correctamente para factura: {}", invoice);
         } catch (Exception e) {
+            invoiceService.changeStatus(invoice, InvoiceStatus.ERROR, userId);
             log.error("Error en generación asíncrona de documentos: {}", e.getMessage(), e);
         }
     }

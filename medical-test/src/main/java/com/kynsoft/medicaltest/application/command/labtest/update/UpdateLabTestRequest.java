@@ -37,7 +37,5 @@ public class UpdateLabTestRequest {
         private BigDecimal referenceRangeMin;
         @JsonProperty("reference_range_max")
         private BigDecimal referenceRangeMax;
-        @JsonProperty("gender_specific")
-        private Boolean genderSpecific;
     }
 }
