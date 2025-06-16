@@ -1,0 +1,24 @@
+package com.kynsoft.propertyacqcenter.controller.exception;
+
+import com.kynsoft.propertyacqcenter.application.response.ErrorResponse;
+import com.kynsoft.propertyacqcenter.domain.dto.exception.DocumentTypeNotFoundException;
+import java.time.LocalDateTime;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
+
+@RestControllerAdvice
+public class GlobalExceptionDocumentTypeHandler {
+
+    @ExceptionHandler(DocumentTypeNotFoundException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public ErrorResponse handleEmergencyCaseNotFound(DocumentTypeNotFoundException ex) {
+        return new ErrorResponse(
+                HttpStatus.NOT_FOUND.value(),
+                "Document Type not Found.",
+                ex.getMessage(),
+                LocalDateTime.now().toString()
+        );
+    }
+}

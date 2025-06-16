@@ -5,7 +5,7 @@ import com.kynsof.share.core.domain.response.PaginatedResponse;
 import com.kynsof.share.core.infrastructure.specifications.GenericSpecificationsBuilder;
 import com.kynsoft.propertyacqcenter.application.response.DocumentTypeResponse;
 import com.kynsoft.propertyacqcenter.domain.dto.DocumentTypeDto;
-import com.kynsoft.propertyacqcenter.domain.dto.exception.AddressNotFoundException;
+import com.kynsoft.propertyacqcenter.domain.dto.exception.DocumentTypeNotFoundException;
 import com.kynsoft.propertyacqcenter.domain.dto.exception.NotDeleteException;
 import com.kynsoft.propertyacqcenter.domain.services.IDocumentTypeService;
 import com.kynsoft.propertyacqcenter.infrastructure.entity.DocumentType;
@@ -65,7 +65,7 @@ public class DocumentTypeServiceImpl implements IDocumentTypeService {
         if (entity.isPresent()) {
             return entity.get().toAggregate();
         }
-        throw new AddressNotFoundException(id);
+        throw new DocumentTypeNotFoundException(id);
     }
 
     private DocumentType findByIdSimple(UUID id) {
@@ -73,7 +73,7 @@ public class DocumentTypeServiceImpl implements IDocumentTypeService {
         if (entity.isPresent()) {
             return entity.get();
         }
-        throw new AddressNotFoundException(id);
+        throw new DocumentTypeNotFoundException(id);
     }
 
     @Override
