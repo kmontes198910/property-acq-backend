@@ -7,6 +7,7 @@ import com.kynsoft.propertyacqcenter.application.response.DocumentTypeResponse;
 import com.kynsoft.propertyacqcenter.domain.dto.DocumentTypeDto;
 import com.kynsoft.propertyacqcenter.domain.dto.exception.DocumentTypeNotFoundException;
 import com.kynsoft.propertyacqcenter.domain.dto.exception.NotDeleteException;
+import com.kynsoft.propertyacqcenter.domain.dto.exception.documentType.DocumentTypeCodeMustBeUniqueException;
 import com.kynsoft.propertyacqcenter.domain.services.IDocumentTypeService;
 import com.kynsoft.propertyacqcenter.infrastructure.entity.DocumentType;
 import com.kynsoft.propertyacqcenter.infrastructure.repository.command.DocumentTypeWriteDataJPARepository;
@@ -91,6 +92,19 @@ public class DocumentTypeServiceImpl implements IDocumentTypeService {
         }
         return new PaginatedResponse(objects, data.getTotalPages(), data.getNumberOfElements(),
                 data.getTotalElements(), data.getSize(), data.getNumber());
+    }
+
+    @Override
+    public int countByCode(String code, UUID id) {
+        return this.repositoryQuery.countByCode(code, id);
+    }
+
+    @Override
+    public void validateCode(String code, UUID id) {
+        int count = this.countByCode(code, id);
+        if (count > 0) {
+            throw new DocumentTypeCodeMustBeUniqueException(code);
+        }
     }
 
 }

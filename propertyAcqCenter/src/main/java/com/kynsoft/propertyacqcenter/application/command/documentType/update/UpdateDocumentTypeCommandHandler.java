@@ -16,6 +16,7 @@ public class UpdateDocumentTypeCommandHandler implements ICommandHandler<UpdateD
 
     @Override
     public void handle(UpdateDocumentTypeCommand command) {
+        this.documentTypeService.validateCode(command.getCode(), command.getId());
         documentTypeService.update(new DocumentTypeDto(
                 command.getId(),
                 command.getCode(),
