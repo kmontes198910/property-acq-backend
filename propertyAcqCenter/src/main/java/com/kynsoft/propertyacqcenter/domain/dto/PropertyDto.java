@@ -75,4 +75,10 @@ public class PropertyDto {
     private Double grossArea;
     private Double taxableArea;
     private Double garageArea;
+
+    //HOA
+    private Boolean hasHoa;
+    private String hoaName;
+    private String hoaType;
+    private String hoaFeeFrequency;
 }

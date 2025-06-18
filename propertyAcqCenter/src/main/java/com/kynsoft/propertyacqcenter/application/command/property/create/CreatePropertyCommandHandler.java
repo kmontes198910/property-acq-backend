@@ -81,6 +81,10 @@ public class CreatePropertyCommandHandler implements ICommandHandler<CreatePrope
                 .taxableArea(command.getTaxableArea())
                 .garageArea(command.getGarageArea())
 
+                .hasHoa(command.getHasHoa())
+                .hoaName(command.getHoaName())
+                .hoaType(command.getHoaType())
+                .hoaFeeFrequency(command.getHoaFeeFrequency())
                 .build()
         );
     }

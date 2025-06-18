@@ -71,4 +71,9 @@ public class UpdatePropertyRequest {
     private Double grossArea;
     private Double taxableArea;
     private Double garageArea;
+
+    private Boolean hasHoa;
+    private String hoaName;
+    private String hoaType;
+    private String hoaFeeFrequency;
 }
