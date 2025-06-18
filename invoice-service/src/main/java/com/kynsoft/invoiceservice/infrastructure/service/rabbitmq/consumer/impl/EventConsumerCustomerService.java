@@ -40,22 +40,25 @@ public class EventConsumerCustomerService {
         } catch (BusinessInvoiceException ex) {
             log.error("nombre: {}", event.getName() + " " + event.getLastName());
             log.error("identificacion: {}", event.getIdentification());
-            log.error("tipo de identificacion: {}",event.getIdentificationType());
+            log.error("tipo de identificacion: {}", event.getIdentificationType());
 
-                CustomerDto newCustomerDto = CustomerDto.builder()
-                        .id(UUID.randomUUID())
-                        .identificationType(event.getIdentificationType())
-                        .identificationNumber(event.getIdentification())
-                        .businessName(event.getName() + " " + event.getLastName())
-                        .address(event.getAddress())
-                        .email(event.getEmail())
-                        .phoneNumber(event.getTelephone())
-                        .isActive(true)
-                        .createdBy(null)
-                        .build();
-
+            CustomerDto newCustomerDto = CustomerDto.builder()
+                    .id(UUID.randomUUID())
+                    .identificationType(event.getIdentificationType())
+                    .identificationNumber(event.getIdentification())
+                    .businessName(event.getName() + " " + event.getLastName())
+                    .address(event.getAddress())
+                    .email(event.getEmail())
+                    .phoneNumber(event.getTelephone())
+                    .isActive(true)
+                    .createdBy(null)
+                    .build();
+            try {
                 service.create(newCustomerDto);
-            }
 
+            } catch (Exception e) {
+                log.error("Error al crear el cliente: {}", e.getMessage());
+            }
+        }
     }
 }
