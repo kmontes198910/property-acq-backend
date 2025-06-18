@@ -38,8 +38,10 @@ public class EventConsumerCustomerService {
 
             service.update(customerDto);
         } catch (BusinessInvoiceException ex) {
-            // Si el cliente no existe, crear uno nuevo
-            if (ex.getMessage().contains("Cliente no encontrado")) {
+            log.error("nombre: {}", event.getName() + " " + event.getLastName());
+            log.error("identificacion: {}", event.getIdentification());
+            log.error("tipo de identificacion: {}",event.getIdentificationType());
+
                 CustomerDto newCustomerDto = CustomerDto.builder()
                         .id(UUID.randomUUID())
                         .identificationType(event.getIdentificationType())
@@ -53,9 +55,7 @@ public class EventConsumerCustomerService {
                         .build();
 
                 service.create(newCustomerDto);
-            } else {
-                throw ex; // relanzar otros errores
             }
-        }
+
     }
 }
