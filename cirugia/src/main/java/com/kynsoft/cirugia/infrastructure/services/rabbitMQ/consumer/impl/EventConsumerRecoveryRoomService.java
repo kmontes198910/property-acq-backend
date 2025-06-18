@@ -15,40 +15,24 @@ import org.springframework.stereotype.Service;
 @Slf4j
 @Service
 public class EventConsumerRecoveryRoomService {
-    private final IRecoveryRoomService recoveryRoomService;
-    private final RecoveryRoomReadRepository recoveryRoomReadRepository;
 
-    public EventConsumerRecoveryRoomService(IRecoveryRoomService recoveryRoomService, RecoveryRoomReadRepository recoveryRoomReadRepository) {
+    private final IRecoveryRoomService recoveryRoomService;
+
+    public EventConsumerRecoveryRoomService(IRecoveryRoomService recoveryRoomService) {
         this.recoveryRoomService = recoveryRoomService;
-        this.recoveryRoomReadRepository = recoveryRoomReadRepository;
     }
 
     @RabbitListener(queues = "recovery-room.queue.cirugia")
     public void handleCompanyEvent(RecoveryRoom event) {
-        boolean isRecoveryRoom = recoveryRoomReadRepository.findById(event.getId()).isPresent();
-        if(isRecoveryRoom){
-            this.recoveryRoomService.update(event);
-        }else{
-            this.recoveryRoomService.create(new RecoveryRoom(
-                    event.getId(),
-                    event.getName(),
-                    event.getDescription(),
-                    event.getFloor(),
-                    event.getWing(),
-                    event.getCapacity(),
-                    event.getStatus(),
-                    event.getBusinessId(),
-                    event.getRoomType(),
-                    event.getIsActive(),
-                    event.getAdditionalInfo(),
-                    event.getCreatedAt(),
-                    event.getUpdatedAt(),
-                    event.getCreatedBy(),
-                    event.getUpdatedBy(),
-                    event.getBedIds()
-
-            ));
+        try {
+            recoveryRoomService.findById(event.getId());
+            recoveryRoomService.update(event);
+        } catch (RuntimeException e) {
+            if (e.getMessage().contains("not found")) {
+                recoveryRoomService.create(event);
+            } else {
+                throw e;
+            }
         }
-
     }
 }

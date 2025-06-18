@@ -45,6 +45,10 @@ public class RecoveryRoomServiceImpl implements IRecoveryRoomService {
         log.info("Buscando sala de recuperación con ID: {}", id);
         Optional<RecoveryRoomEntity> optionalRoom = recoveryRoomReadRepository.findById(id);
 
+        if (optionalRoom.isEmpty()) {
+            log.error("Sala de recuperación no encontrada con ID: {}", id);
+            throw new RuntimeException("Recovery Room not found");
+        }
         return mapToDomain(optionalRoom.get());
     }
 

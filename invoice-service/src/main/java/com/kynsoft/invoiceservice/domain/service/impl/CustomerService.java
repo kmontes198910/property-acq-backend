@@ -1,6 +1,10 @@
 package com.kynsoft.invoiceservice.domain.service.impl;
 
+import com.kynsof.share.core.domain.exception.BusinessNotFoundException;
+import com.kynsof.share.core.domain.exception.DomainErrorMessage;
+import com.kynsof.share.core.domain.exception.GlobalBusinessException;
 import com.kynsof.share.core.domain.request.FilterCriteria;
+import com.kynsof.share.core.domain.response.ErrorField;
 import com.kynsof.share.core.domain.response.PaginatedResponse;
 import com.kynsof.share.core.infrastructure.specifications.GenericSpecificationsBuilder;
 import com.kynsoft.invoiceservice.application.query.customer.get.CustomerDto;
@@ -177,6 +181,15 @@ public class CustomerService implements ICustomerService {
         // Si se requiere eliminación física (hard delete)
         // customerWriteRepository.deleteById(id);
         // log.info("Cliente eliminado físicamente, ID: {}", id);
+    }
+
+    @Override
+    public void deleteSystem(CustomerDto customerDto) {
+        try {
+            this.customerWriteRepository.deleteById(customerDto.getId());
+        } catch (Exception e) {
+            throw new BusinessNotFoundException(new GlobalBusinessException(DomainErrorMessage.NOT_DELETE, new ErrorField("id", "Element cannot be deleted has a related element.")));
+        }
     }
 
     @Override

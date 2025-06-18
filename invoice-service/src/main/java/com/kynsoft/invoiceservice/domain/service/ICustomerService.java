@@ -35,6 +35,7 @@ public interface ICustomerService {
      * @param id ID del cliente a eliminar
      */
     void delete(UUID id);
+    void deleteSystem(CustomerDto customerDto);
 
     /**
      * Busca un cliente por su ID
