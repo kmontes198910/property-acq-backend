@@ -70,7 +70,7 @@ public class SecurityConfig {
     public ReactiveJwtDecoder jwtDecoder() {
         try {
             NimbusReactiveJwtDecoder jwtDecoder = (NimbusReactiveJwtDecoder)
-                    ReactiveJwtDecoders.fromIssuerLocation("https://sso.kynsoft.net/realms/medinec");
+                    ReactiveJwtDecoders.fromIssuerLocation("https://sso-dev.kynsoft.net/realms/medinec");
 
             return token -> Mono.fromSupplier(() -> jwtDecoder)
                     .cache(Duration.ofMinutes(5))
