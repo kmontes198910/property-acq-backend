@@ -233,6 +233,15 @@ public class PatientsServiceImpl implements IPatientsService {
     }
 
     @Override
+    public void deleteSystem(PatientDto patientDto) {
+        try {
+            this.repositoryCommand.deleteById(patientDto.getId());
+        } catch (Exception e) {
+            throw new BusinessNotFoundException(new GlobalBusinessException(DomainErrorMessage.NOT_DELETE, new ErrorField("id", "Element cannot be deleted has a related element.")));
+        }
+    }
+
+    @Override
     public Long countByIdentificationAndNotId(String identification, UUID id) {
         return this.repositoryQuery.countByIdentificationAndNotId(identification, id);
     }

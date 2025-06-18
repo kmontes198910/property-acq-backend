@@ -7,14 +7,14 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.io.Serializable;
 import java.util.UUID;
 
 @Getter
 @Setter
-@Entity
 @NoArgsConstructor
 @AllArgsConstructor
-public class RabbitMQPatientDto {
+public class RabbitMQPatientDto implements Serializable {
     private UUID id;
     private IdentificationType identificationType;
     private String identification;

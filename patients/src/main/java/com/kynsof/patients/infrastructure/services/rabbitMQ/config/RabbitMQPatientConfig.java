@@ -9,12 +9,18 @@ import org.springframework.context.annotation.Configuration;
 public class RabbitMQPatientConfig {
 
     public static final String PATIENT_EXCHANGE = "patient.topic.exchange";
+    public static final String PATIENT_DELETE_EXCHANGE = "patient.delete.topic.exchange";
     public static final String PATIENT_CREATED_ROUTING_KEY = "patient.routing.key";
 
     //Patient
     @Bean
     public TopicExchange patientExchange() {
         return new TopicExchange(PATIENT_EXCHANGE);
+    }
+
+    @Bean
+    public TopicExchange patientDeleteExchange() {
+        return new TopicExchange(PATIENT_DELETE_EXCHANGE);
     }
 
     @Bean
