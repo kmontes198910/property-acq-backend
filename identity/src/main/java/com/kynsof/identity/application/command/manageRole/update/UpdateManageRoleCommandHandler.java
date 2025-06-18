@@ -4,6 +4,7 @@ package com.kynsof.identity.application.command.manageRole.update;
 import com.kynsof.identity.domain.dto.ManageRolDto;
 import com.kynsof.identity.domain.interfaces.service.IManageRoleService;
 import com.kynsof.identity.domain.rules.manageRole.ManageRoleCodeMustBeUniqueRule;
+import com.kynsof.identity.infrastructure.services.rabbitMq.eventPublisher.EventManageRolePublisherService;
 import com.kynsof.share.core.domain.RulesChecker;
 import com.kynsof.share.core.domain.bus.command.ICommandHandler;
 import com.kynsof.share.core.domain.rules.ValidateObjectNotNullRule;
@@ -14,10 +15,12 @@ import org.springframework.stereotype.Component;
 public class UpdateManageRoleCommandHandler implements ICommandHandler<UpdateManageRoleCommand> {
 
     private final IManageRoleService service;
+    private final EventManageRolePublisherService manageRolePublisherService;
 
 
-    public UpdateManageRoleCommandHandler(IManageRoleService service) {
+    public UpdateManageRoleCommandHandler(IManageRoleService service, EventManageRolePublisherService manageRolePublisherService) {
         this.service = service;
+        this.manageRolePublisherService = manageRolePublisherService;
     }
 
     @Override
@@ -35,6 +38,8 @@ public class UpdateManageRoleCommandHandler implements ICommandHandler<UpdateMan
 
         UpdateIfNotNull.updateIfNotNull(update::setCode, command.getCode());
 
-        service.update(update);
+        ManageRolDto updatedManageRole= service.update(update);
+
+        this.manageRolePublisherService.publishManageRoleEvent(updatedManageRole);
     }
 }

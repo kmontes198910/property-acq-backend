@@ -1,17 +1,18 @@
-package com.kynsof.identity.domain.interfaces.service;
+package com.kynsoft.propertyacqcenter.domain.services;
 
-import com.kynsof.identity.domain.dto.ManageRolDto;
+
 import com.kynsof.share.core.domain.request.FilterCriteria;
 import com.kynsof.share.core.domain.response.PaginatedResponse;
+import com.kynsoft.propertyacqcenter.domain.dto.ManageRolDto;
 import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 import java.util.UUID;
 
 public interface IManageRoleService {
-    ManageRolDto create(ManageRolDto dto);
+    void create(ManageRolDto dto);
 
-    ManageRolDto update(ManageRolDto dto);
+    void update(ManageRolDto dto);
 
     void delete(ManageRolDto objectDto);
 
