@@ -9,7 +9,11 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "employees")
@@ -68,6 +72,14 @@ public class Employee {
 
     @Column(name = "updated_by")
     private UUID updatedBy;
+    
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+            name = "employee_roles",
+            joinColumns = @JoinColumn(name = "employee_id"),
+            inverseJoinColumns = @JoinColumn(name = "rol_id")
+    )
+    private Set<ManageRole> roles = new HashSet<>();
 
     public Employee(UUID id, String firstName, String lastName, String email, Business business) {
         this.id = id != null ? id : UUID.randomUUID();
@@ -92,6 +104,9 @@ public class Employee {
         this.business = dto.getBusiness() != null ? new Business(dto.getBusiness()) : null;
         this.createdBy = dto.getCreatedBy();
         this.updatedBy = dto.getUpdatedBy();
+        this.roles = dto.getRoles()!= null
+                ? dto.getRoles().stream().map(ManageRole::new).collect(Collectors.toSet())
+                : Collections.emptySet();
     }
 
     public EmployeeDto toAggregate() {
@@ -110,6 +125,7 @@ public class Employee {
                 .updatedAt(this.updatedAt)
                 .createdBy(this.createdBy)
                 .updatedBy(this.updatedBy)
+                .roles(roles != null ? roles.stream().map(ManageRole::toAggregateSimple).collect(Collectors.toList()) : null)
                 .build();
     }
 
@@ -134,6 +150,7 @@ public class Employee {
                 .updatedAt(this.updatedAt)
                 .createdBy(this.createdBy)
                 .updatedBy(this.updatedBy)
+                .roles(roles != null ? roles.stream().map(ManageRole::toAggregateSimple).collect(Collectors.toList()) : null)
                 .build();
     }
 }

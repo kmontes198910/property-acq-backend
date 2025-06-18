@@ -22,6 +22,7 @@ import java.util.UUID;
 @Entity
 @Table(name = "manage_role")
 public class ManageRole {
+
     @Id
     @Column(name = "id")
     private UUID id;
@@ -33,7 +34,6 @@ public class ManageRole {
     @Column(updatable = false)
     private LocalDateTime createdAt;
 
-
     @UpdateTimestamp
     private LocalDateTime updatedAt;
 
@@ -43,7 +43,17 @@ public class ManageRole {
         this.name = dto.getName();
         this.isDeleted = dto.getIsDeleted();
     }
+
     public ManageRolDto toAggregate() {
-        return new ManageRolDto(this.id, this.code,this.getName(),this.isDeleted);
+        return new ManageRolDto(this.id, this.code, this.getName(), this.isDeleted);
+    }
+
+    public ManageRolDto toAggregateSimple() {
+        return ManageRolDto
+                .builder()
+                .id(id)
+                .code(code)
+                .name(name)
+                .build();
     }
 }

@@ -1,17 +1,19 @@
 package com.kynsoft.propertyacqcenter.application.command.employee.update;
 
-import com.kynsof.share.core.domain.RulesChecker;
 import com.kynsof.share.core.domain.bus.command.ICommandHandler;
 import com.kynsof.share.utils.ConsumerUpdate;
 import com.kynsof.share.utils.UpdateIfNotNull;
 import com.kynsoft.propertyacqcenter.domain.dto.EmployeeDto;
-import com.kynsoft.propertyacqcenter.domain.rules.employee.EmployeeEmailMustBeUniqueRule;
+import com.kynsoft.propertyacqcenter.domain.dto.ManageRolDto;
 import com.kynsoft.propertyacqcenter.domain.services.IBusinessService;
 import com.kynsoft.propertyacqcenter.domain.services.IEmployeeService;
+import com.kynsoft.propertyacqcenter.domain.services.IManageRoleService;
+import java.util.List;
 import org.springframework.stereotype.Component;
 
 import java.util.UUID;
 import java.util.function.Consumer;
+import java.util.stream.Collectors;
 
 @Component
 public class UpdateEmployeeCommandHandler implements ICommandHandler<UpdateEmployeeCommand> {
@@ -20,9 +22,14 @@ public class UpdateEmployeeCommandHandler implements ICommandHandler<UpdateEmplo
 
     private final IBusinessService businessService;
 
-    public UpdateEmployeeCommandHandler(IEmployeeService employeeService, IBusinessService businessService) {
+    private final IManageRoleService roleService;
+
+    public UpdateEmployeeCommandHandler(IEmployeeService employeeService, 
+                                        IBusinessService businessService,
+                                        IManageRoleService roleService) {
         this.employeeService = employeeService;
         this.businessService = businessService;
+        this.roleService = roleService;
     }
 
     @Override
@@ -45,6 +52,7 @@ public class UpdateEmployeeCommandHandler implements ICommandHandler<UpdateEmplo
         employeeDto.setPosition(command.getPosition());
         updateEntity(employeeDto::setBusiness, command.getBusiness(), employeeDto.getBusiness() != null ? employeeDto.getBusiness().getId() : null, businessService::findById, update::setUpdate);
 
+        employeeDto.setRoles(get(command.getRoles()));
         employeeService.update(employeeDto);
     }
 
@@ -61,4 +69,11 @@ public class UpdateEmployeeCommandHandler implements ICommandHandler<UpdateEmplo
 
         T findById(UUID id);
     }
+
+    private List<ManageRolDto> get(List<UUID> ids) {
+        return ids.stream()
+            .map(this.roleService::findById)
+            .collect(Collectors.toList());
+    }
+
 }
