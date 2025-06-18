@@ -2,6 +2,7 @@ package com.kynsof.treatments.application.service.listenerReadExcel;
 
 import com.alibaba.excel.EasyExcel;
 import com.kynsof.treatments.domain.dto.excel.MedicinesExcel;
+import com.kynsof.treatments.infrastructure.repositories.command.MedicinesWriteDataJPARepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -12,7 +13,10 @@ import java.io.InputStream;
 @Transactional
 public class ReadFileInMemoryService {
 
-    public ReadFileInMemoryService() {
+    private final MedicinesWriteDataJPARepository repositoryCommand;
+
+    public ReadFileInMemoryService(MedicinesWriteDataJPARepository repositoryCommand) {
+        this.repositoryCommand = repositoryCommand;
     }
 
     @Transactional
@@ -20,7 +24,7 @@ public class ReadFileInMemoryService {
         EasyExcel.read(
                 inputStream,
                 MedicinesExcel.class,
-                new ListenerInMemory())
+                new ListenerInMemory(repositoryCommand))
                 .sheet()
                 .doRead();
     }
