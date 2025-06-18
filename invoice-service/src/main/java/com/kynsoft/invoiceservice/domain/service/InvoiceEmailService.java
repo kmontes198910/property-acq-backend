@@ -75,7 +75,7 @@ public class InvoiceEmailService {
             requestDto.setSubject("Factura #" + invoiceNumber);
             
             // ID de la plantilla en Mailjet (este es un ejemplo, debe configurarse el ID correcto)
-            requestDto.setTemplateId("12345678");
+            requestDto.setTemplateId("7084957");
             
             // Añadir adjuntos si es necesario
             if (attachmentPdfBase64 != null && !attachmentPdfBase64.isEmpty()) {
