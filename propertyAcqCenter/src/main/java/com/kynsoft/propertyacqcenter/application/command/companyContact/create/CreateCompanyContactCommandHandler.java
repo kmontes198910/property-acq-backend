@@ -49,7 +49,7 @@ public class CreateCompanyContactCommandHandler implements ICommandHandler<Creat
         );
         this.employeeService.create(EmployeeDto
                 .builder()
-                .id(UUID.randomUUID())
+                .id(command.getId())
                 .firstName(command.getFirstName())
                 .lastName(command.getLastName())
                 .email(command.getEmail())
