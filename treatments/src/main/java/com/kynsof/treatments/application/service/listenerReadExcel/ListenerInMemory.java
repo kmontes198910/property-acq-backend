@@ -3,9 +3,12 @@ package com.kynsof.treatments.application.service.listenerReadExcel;
 import com.alibaba.excel.context.AnalysisContext;
 import com.alibaba.excel.event.AnalysisEventListener;
 import com.kynsof.treatments.domain.dto.excel.MedicinesExcel;
+import com.kynsof.treatments.infrastructure.entity.Medicines;
+import com.kynsof.treatments.infrastructure.repositories.command.MedicinesWriteDataJPARepository;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -14,13 +17,16 @@ import java.util.concurrent.TimeUnit;
 public class ListenerInMemory extends AnalysisEventListener<MedicinesExcel> {
 
     private final ExecutorService executor = Executors.newFixedThreadPool(10); // Pool de hilos
-    private static final int BATCH_SIZE = 10;
+    private static final int BATCH_SIZE = 10000;
     private List<MedicinesExcel> filasAcumuladas = new ArrayList<>();
 
     private final CountDownLatch latch;
 
-    public ListenerInMemory() {
+    private final MedicinesWriteDataJPARepository repositoryCommand;
+
+    public ListenerInMemory(MedicinesWriteDataJPARepository repositoryCommand) {
         this.latch = new CountDownLatch(1); // Inicializar el CountDownLatch
+        this.repositoryCommand = repositoryCommand;
     }
 
     @Override
@@ -67,6 +73,7 @@ public class ListenerInMemory extends AnalysisEventListener<MedicinesExcel> {
     }
 
     private void writeToRedis(List<MedicinesExcel> filasAcumuladas) {
+        List<Medicines> medicineses = new ArrayList<>();
         for (MedicinesExcel row : filasAcumuladas) {
             System.err.println("|||||||||||||||||||||||||||||||||||||||||||||");
             System.err.println("|||||||||||||||||||||||||||||||||||||||||||||");
@@ -74,6 +81,13 @@ public class ListenerInMemory extends AnalysisEventListener<MedicinesExcel> {
             System.err.println("line: " + row.getRowIndex());
             System.err.println("|||||||||||||||||||||||||||||||||||||||||||||");
             System.err.println("|||||||||||||||||||||||||||||||||||||||||||||");
+            medicineses.add(Medicines
+                    .builder()
+                    .id(UUID.randomUUID())
+                    .name(row.getProduct())
+                    .presentation(row.getPresentation())
+                    .build());
         }
+        this.repositoryCommand.saveAll(medicineses);
     }
 }
