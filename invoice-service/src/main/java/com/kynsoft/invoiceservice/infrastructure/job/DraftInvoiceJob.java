@@ -56,7 +56,7 @@ public class DraftInvoiceJob {
     }
 
     // Ejecuta cada día a la medianoche
-    @Scheduled(cron = "0 * 4 * * *")
+    @Scheduled(cron = "0 * * * * *")
     @Transactional
     public void buscarFacturasEnBorrador() {
         // Primero obtenemos los IDs de facturas en estado DRAFT
