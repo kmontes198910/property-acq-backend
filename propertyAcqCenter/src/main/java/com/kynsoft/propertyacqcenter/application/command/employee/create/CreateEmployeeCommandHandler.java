@@ -3,12 +3,14 @@ package com.kynsoft.propertyacqcenter.application.command.employee.create;
 import com.kynsof.share.core.domain.bus.command.ICommandHandler;
 import com.kynsoft.propertyacqcenter.domain.dto.BusinessDto;
 import com.kynsoft.propertyacqcenter.domain.dto.EmployeeDto;
-import com.kynsoft.propertyacqcenter.domain.dto.exception.employee.EmployeeEmailFormatException;
-import com.kynsoft.propertyacqcenter.domain.dto.exception.employee.EmployeeEmailMustBeUniqueException;
+import com.kynsoft.propertyacqcenter.domain.dto.ManageRolDto;
 import com.kynsoft.propertyacqcenter.domain.services.IBusinessService;
 import com.kynsoft.propertyacqcenter.domain.services.IEmployeeService;
+import com.kynsoft.propertyacqcenter.domain.services.IManageRoleService;
 import jakarta.transaction.Transactional;
-import java.util.regex.Pattern;
+import java.util.List;
+import java.util.UUID;
+import java.util.stream.Collectors;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -18,9 +20,14 @@ public class CreateEmployeeCommandHandler implements ICommandHandler<CreateEmplo
 
     private final IBusinessService businessService;
 
-    public CreateEmployeeCommandHandler(IEmployeeService employeeService, IBusinessService businessService) {
+    private final IManageRoleService roleService;
+
+    public CreateEmployeeCommandHandler(IEmployeeService employeeService, 
+                                        IBusinessService businessService,
+                                        IManageRoleService roleService) {
         this.employeeService = employeeService;
         this.businessService = businessService;
+        this.roleService = roleService;
     }
 
     @Override
@@ -42,9 +49,15 @@ public class CreateEmployeeCommandHandler implements ICommandHandler<CreateEmplo
                 .department(command.getDepartment())
                 .salary(command.getSalary())
                 .business(businessDto)
+                .roles(command.getRoles() != null ? this.get(command.getRoles()) : null)
                 .build();
 
         this.employeeService.create(employeeDto);
     }
 
+    private List<ManageRolDto> get(List<UUID> ids) {
+        return ids.stream()
+            .map(this.roleService::findById)
+            .collect(Collectors.toList());
+    }
 }

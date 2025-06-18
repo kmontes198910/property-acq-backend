@@ -4,6 +4,7 @@ import lombok.*;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
 
 @Getter
@@ -28,4 +29,5 @@ public class EmployeeDto {
     private LocalDateTime updatedAt;
     private UUID createdBy;
     private UUID updatedBy;
+    private List<ManageRolDto> roles;
 }
