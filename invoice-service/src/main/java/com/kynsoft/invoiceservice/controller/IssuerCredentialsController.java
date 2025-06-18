@@ -5,7 +5,6 @@ import java.util.Map;
 import java.util.UUID;
 
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -40,7 +39,7 @@ public class IssuerCredentialsController {
      * @return Respuesta con el resultado de la operación
      */
     @PostMapping("/{issuerId}/update-password")
-    @PreAuthorize("hasRole('ADMIN')")
+//    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Map<String, Object>> updatePassword(
             @PathVariable UUID issuerId,
             @RequestBody PasswordUpdateRequest request) {
@@ -69,7 +68,6 @@ public class IssuerCredentialsController {
      * @return Respuesta con el resultado de la verificación
      */
     @PostMapping("/{issuerId}/verify-password")
-    @PreAuthorize("hasRole('ADMIN') or hasRole('USER')")
     public ResponseEntity<Map<String, Object>> verifyPassword(
             @PathVariable UUID issuerId,
             @RequestBody PasswordVerificationRequest request) {
@@ -92,7 +90,7 @@ public class IssuerCredentialsController {
      * @return Respuesta con el resultado de la operación
      */
     @PostMapping("/{issuerId}/update-certificate")
-    @PreAuthorize("hasRole('ADMIN')")
+//    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Map<String, Object>> updateCertificate(
             @PathVariable UUID issuerId,
             @RequestBody CertificateUpdateRequest request) {
@@ -120,7 +118,7 @@ public class IssuerCredentialsController {
      * @return Respuesta con los datos del certificado
      */
     @GetMapping("/{issuerId}/certificate")
-    @PreAuthorize("hasRole('ADMIN')")
+//    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Map<String, Object>> getCertificate(@PathVariable UUID issuerId) {
         
         log.info("Solicitud para obtener certificado digital del emisor: {}", issuerId);
