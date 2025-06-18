@@ -35,14 +35,14 @@ public class ManageRoleServiceImpl implements IManageRoleService {
     }
 
     @Override
-    public void create(ManageRolDto dto) {
-        command.save(new ManageRole(dto));
+    public ManageRolDto create(ManageRolDto dto) {
+       return command.save(new ManageRole(dto)).toAggregate();
     }
 
     @Override
-    public void update(ManageRolDto dto) {
+    public ManageRolDto update(ManageRolDto dto) {
         var update = new ManageRole(dto);
-        command.save(update);
+        return command.save(update).toAggregate();
     }
 
     @Override

@@ -9,9 +9,9 @@ import java.util.List;
 import java.util.UUID;
 
 public interface IManageRoleService {
-    void create(ManageRolDto dto);
+    ManageRolDto create(ManageRolDto dto);
 
-    void update(ManageRolDto dto);
+    ManageRolDto update(ManageRolDto dto);
 
     void delete(ManageRolDto objectDto);
 

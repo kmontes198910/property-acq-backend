@@ -2,7 +2,7 @@ package com.kynsoft.invoiceservice.infrastructure.job;
 
 import com.kynsoft.invoiceservice.domain.exception.BusinessInvoiceException;
 import com.kynsoft.invoiceservice.domain.exception.DomainErrorInvoiceMessage;
-import com.kynsoft.invoiceservice.domain.service.IInvoiceIssuerService;
+import com.kynsoft.invoiceservice.domain.service.InvoiceEmailService;
 import com.kynsoft.invoiceservice.domain.service.impl.InvoiceService;
 import com.kynsoft.invoiceservice.infrastructure.entities.Invoice;
 import com.kynsoft.invoiceservice.infrastructure.entities.InvoiceStatus;
@@ -32,7 +32,6 @@ import java.nio.file.Paths;
 import java.util.*;
 
 import com.kynsoft.invoiceservice.infrastructure.mapper.MapperInvoice;
-import com.kynsoft.invoiceservice.infrastructure.util.CredentialUtil;
 
 
 @Slf4j
@@ -41,18 +40,18 @@ public class DraftInvoiceJob {
     private final InvoiceRepository invoiceRepository;
     private final InvoiceService invoiceService;
     private final MapperInvoice mapperInvoice;
+    private final InvoiceEmailService invoiceEmailService;
     @Value("${sri.ambiente}")
     private String sriAmbiente;
 
     public DraftInvoiceJob(
             InvoiceRepository invoiceRepository,
             InvoiceService invoiceService,
-            IInvoiceIssuerService invoiceIssuerService,
-            CredentialUtil credentialUtil,
-            MapperInvoice mapperInvoice) {
+            MapperInvoice mapperInvoice, InvoiceEmailService invoiceEmailService) {
         this.invoiceRepository = invoiceRepository;
         this.invoiceService = invoiceService;
         this.mapperInvoice = mapperInvoice;
+        this.invoiceEmailService = invoiceEmailService;
     }
 
     // Ejecuta cada día a la medianoche
@@ -85,6 +84,27 @@ public class DraftInvoiceJob {
             log.info("Iniciando generación asíncrona de documentos para factura: {}", invoice);
             ByteArrayOutputStream xmlFactura = generateXmlAndInvoiceFile(factura, p12Bytes, password);
              ByteArrayOutputStream pdfInvoice = generatePDFInvoice(factura, invoiceLogo);
+             String documentName = "factura_" + factura.getEstab() + "-" + factura.getPtoEmi() + "-"
+                    + factura.getSecuencial();
+
+             String documentBase64 = Base64.getEncoder().encodeToString(pdfInvoice.toByteArray());
+            String documentXmlBase64 = Base64.getEncoder().encodeToString(xmlFactura.toByteArray());
+             String invoiceNumber =  factura.getEstab() + "-" + factura.getPtoEmi() + "-"
+                                     + factura.getSecuencial();
+            // Guardar el PDF en un archivo
+            String nombreArchivoPdf = "factura_" + factura.getEstab() + "-" + factura.getPtoEmi() + "-"
+                                      + factura.getSecuencial() + ".pdf";
+            Files.write(Paths.get(nombreArchivoPdf), pdfInvoice.toByteArray());
+            System.out.println("\nFactura PDF guardada en: " + nombreArchivoPdf);
+             try {
+                 invoiceEmailService.sendInvoiceNotification(invoice,factura.getClaveAcceso(), invoiceNumber, factura.getImporteTotal(),
+                         factura.getCorreoComprador(), factura.getRazonSocialComprador(),
+                         documentBase64, documentXmlBase64,documentName);
+                } catch (Exception e) {
+                    log.error("Error al guardar el PDF de la factura: {}", e.getMessage(), e);
+             }
+
+
              sendInvoiceSRI(xmlFactura, factura, invoice, userId);
             log.info("Documentos generados correctamente para factura: {}", invoice);
         } catch (Exception e) {

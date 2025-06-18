@@ -46,8 +46,8 @@ public class MapperInvoice {
         String ptoEmi = extraerPtoEmi(invoice.getDocumentNumber());
         String secuencial = invoice.getSequential();
         String dirMatriz = invoice.getIssuer() != null ? invoice.getIssuer().getAddress() : "";
-        String correo = invoice.getCustomer() != null ? invoice.getCustomer().getEmail() : "";
-        String telefono = invoice.getCustomer() != null ? invoice.getCustomer().getPhone() : "";
+        String correo = invoice.getIssuer() != null ? invoice.getIssuer().getEmail() : "";
+        String telefono = invoice.getIssuer() != null ? invoice.getIssuer().getPhone() : "";
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d/MM/yyyy");
         String fechaEmision = invoice.getEmissionDate() != null
                 ? invoice.getEmissionDate().toLocalDate().format(formatter)
