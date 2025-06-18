@@ -6,9 +6,12 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.UUID;
+import lombok.Setter;
 
 @Getter
+@Setter
 @AllArgsConstructor
 public class UpdateEmployeeCommand implements ICommand {
 
@@ -23,6 +26,7 @@ public class UpdateEmployeeCommand implements ICommand {
     private Double salary;
     private Boolean active;
     private UUID business;
+    private List<UUID> roles;
 
     public static UpdateEmployeeCommand fromRequest(UUID id, UpdateEmployeeRequest request) {
         return new UpdateEmployeeCommand(
@@ -36,7 +40,8 @@ public class UpdateEmployeeCommand implements ICommand {
                 request.getDepartment(),
                 request.getSalary(),
                 request.getActive(),
-                request.getBusiness()
+                request.getBusiness(),
+                request.getRoles()
         );
     }
 
