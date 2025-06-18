@@ -3,23 +3,24 @@ package com.kynsoft.propertyacqcenter.application.command.employee.create;
 import com.kynsof.share.core.domain.bus.command.ICommandHandler;
 import com.kynsoft.propertyacqcenter.domain.dto.BusinessDto;
 import com.kynsoft.propertyacqcenter.domain.dto.EmployeeDto;
-import com.kynsoft.propertyacqcenter.domain.dto.exception.employee.EmployeeEmailFormatException;
-import com.kynsoft.propertyacqcenter.domain.dto.exception.employee.EmployeeEmailMustBeUniqueException;
 import com.kynsoft.propertyacqcenter.domain.services.IBusinessService;
 import com.kynsoft.propertyacqcenter.domain.services.IEmployeeService;
+import com.kynsoft.propertyacqcenter.infrastructure.services.rabbitMQ.dto.RabbitMqEmployeeDto;
+import com.kynsoft.propertyacqcenter.infrastructure.services.rabbitMQ.eventPublisher.EventEmployeePublisherService;
 import jakarta.transaction.Transactional;
-import java.util.regex.Pattern;
 import org.springframework.stereotype.Component;
 
 @Component
 public class CreateEmployeeCommandHandler implements ICommandHandler<CreateEmployeeCommand> {
 
     private final IEmployeeService employeeService;
+    private final EventEmployeePublisherService eventEmployeePublisherService;
 
     private final IBusinessService businessService;
 
-    public CreateEmployeeCommandHandler(IEmployeeService employeeService, IBusinessService businessService) {
+    public CreateEmployeeCommandHandler(IEmployeeService employeeService, EventEmployeePublisherService eventEmployeePublisherService, IBusinessService businessService) {
         this.employeeService = employeeService;
+        this.eventEmployeePublisherService = eventEmployeePublisherService;
         this.businessService = businessService;
     }
 
@@ -45,6 +46,15 @@ public class CreateEmployeeCommandHandler implements ICommandHandler<CreateEmplo
                 .build();
 
         this.employeeService.create(employeeDto);
+       this.eventEmployeePublisherService.publishRecoveryBedEvent(
+               new RabbitMqEmployeeDto(
+                       employeeDto.getId(),
+                       employeeDto.getFirstName(),
+                       employeeDto.getLastName(),
+                       employeeDto.getEmail(),
+                       employeeDto.getBusiness().getId()
+               )
+       );
     }
 
 }

@@ -1,13 +1,14 @@
 package com.kynsoft.propertyacqcenter.application.command.employee.update;
 
-import com.kynsof.share.core.domain.RulesChecker;
 import com.kynsof.share.core.domain.bus.command.ICommandHandler;
 import com.kynsof.share.utils.ConsumerUpdate;
 import com.kynsof.share.utils.UpdateIfNotNull;
 import com.kynsoft.propertyacqcenter.domain.dto.EmployeeDto;
-import com.kynsoft.propertyacqcenter.domain.rules.employee.EmployeeEmailMustBeUniqueRule;
 import com.kynsoft.propertyacqcenter.domain.services.IBusinessService;
 import com.kynsoft.propertyacqcenter.domain.services.IEmployeeService;
+import com.kynsoft.propertyacqcenter.infrastructure.services.rabbitMQ.dto.RabbitMqEmployeeDto;
+import com.kynsoft.propertyacqcenter.infrastructure.services.rabbitMQ.eventPublisher.EventEmployeePublisherService;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Component;
 
 import java.util.UUID;
@@ -20,12 +21,16 @@ public class UpdateEmployeeCommandHandler implements ICommandHandler<UpdateEmplo
 
     private final IBusinessService businessService;
 
-    public UpdateEmployeeCommandHandler(IEmployeeService employeeService, IBusinessService businessService) {
+    private final EventEmployeePublisherService eventEmployeePublisherService;
+
+    public UpdateEmployeeCommandHandler(IEmployeeService employeeService, IBusinessService businessService, EventEmployeePublisherService eventEmployeePublisherService) {
         this.employeeService = employeeService;
         this.businessService = businessService;
+        this.eventEmployeePublisherService = eventEmployeePublisherService;
     }
 
     @Override
+    @Transactional
     public void handle(UpdateEmployeeCommand command) {
         this.employeeService.validateEmail(command.getEmail(), command.getId());
 
@@ -46,6 +51,15 @@ public class UpdateEmployeeCommandHandler implements ICommandHandler<UpdateEmplo
         updateEntity(employeeDto::setBusiness, command.getBusiness(), employeeDto.getBusiness() != null ? employeeDto.getBusiness().getId() : null, businessService::findById, update::setUpdate);
 
         employeeService.update(employeeDto);
+        this.eventEmployeePublisherService.publishRecoveryBedEvent(
+                new RabbitMqEmployeeDto(
+                        employeeDto.getId(),
+                        employeeDto.getFirstName(),
+                        employeeDto.getLastName(),
+                        employeeDto.getEmail(),
+                        employeeDto.getBusiness().getId()
+                )
+        );
     }
 
     private <T> void updateEntity(Consumer<T> setter, UUID newValue, UUID oldValue, EntityFinder<T> finder, Consumer<Integer> update) {
