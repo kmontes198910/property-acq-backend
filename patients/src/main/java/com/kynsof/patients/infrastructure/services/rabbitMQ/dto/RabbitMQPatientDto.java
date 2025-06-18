@@ -12,7 +12,6 @@ import lombok.AllArgsConstructor;
 
 @Getter
 @Setter
-@Entity
 @NoArgsConstructor
 @AllArgsConstructor
 public class RabbitMQPatientDto implements Serializable {

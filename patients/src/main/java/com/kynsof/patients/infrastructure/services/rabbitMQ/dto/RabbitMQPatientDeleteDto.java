@@ -13,7 +13,6 @@ import java.util.UUID;
 
 @Getter
 @Setter
-@Entity
 @NoArgsConstructor
 @AllArgsConstructor
 public class RabbitMQPatientDeleteDto implements Serializable {
