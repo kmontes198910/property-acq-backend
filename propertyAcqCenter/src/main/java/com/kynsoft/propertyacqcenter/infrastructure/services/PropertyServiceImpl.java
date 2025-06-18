@@ -101,6 +101,12 @@ public class PropertyServiceImpl implements IPropertyService {
         update.setTaxableArea(object.getTaxableArea());
         update.setGarageArea(object.getGarageArea());
 
+        //HOA
+        update.setHasHoa(object.getHasHoa());
+        update.setHoaName(object.getHoaName());
+        update.setHoaType(object.getHoaType());
+        update.setHoaFeeFrequency(object.getHoaFeeFrequency());
+
         repositoryCommand.save(update);
     }
 

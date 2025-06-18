@@ -75,6 +75,11 @@ public class CreatePropertyCommand implements ICommand {
     private Double taxableArea;
     private Double garageArea;
 
+    private Boolean hasHoa;
+    private String hoaName;
+    private String hoaType;
+    private String hoaFeeFrequency;
+
     public CreatePropertyCommand(String id, String formattedAddress, PropertyType propertyType, int lotSize, 
                                  String apn, int yearBuilt, String county, Boolean occupancy, 
                                  String addressLine1, String addressLine2, String city, String state, 
@@ -89,8 +94,13 @@ public class CreatePropertyCommand implements ICommand {
                                  Boolean emdRequirements, Double emdOfferedAmount,
                                  Boolean distressed, String lenghOfOwership, Double openBalanceMortagage, Double involuntaryLiensAmount,
                                  Double publicRecord, Double mls, Boolean isMortgage,
-                                 Double buildingArea, Double livingArea, Double grossArea, Double taxableArea, Double garageArea) {
+                                 Double buildingArea, Double livingArea, Double grossArea, Double taxableArea, Double garageArea,
+                                 Boolean hasHoa, String hoaName, String hoaType, String hoaFeeFrequency) {
         this.id = id;
+        this.hasHoa = hasHoa;
+        this.hoaName = hoaName;
+        this.hoaType = hoaType;
+        this.hoaFeeFrequency = hoaFeeFrequency;
         this.buildingArea = buildingArea;
         this.taxableArea = taxableArea;
         this.garageArea = garageArea;
@@ -191,7 +201,11 @@ public class CreatePropertyCommand implements ICommand {
                 request.getLivingArea(),
                 request.getGrossArea(),
                 request.getTaxableArea(),
-                request.getGarageArea()
+                request.getGarageArea(),
+                request.getHasHoa(),
+                request.getHoaName(),
+                request.getHoaType(),
+                request.getHoaFeeFrequency()
         );
     }
 

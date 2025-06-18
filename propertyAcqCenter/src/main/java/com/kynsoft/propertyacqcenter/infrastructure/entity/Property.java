@@ -137,6 +137,18 @@ public class Property {
     @Column(name = "garage_area", nullable = true)
     private Double garageArea;//
 
+    @Column(name = "has_hoa", nullable = true)
+    private Boolean hasHoa;
+
+    @Column(name = "name_hoa", nullable = true)
+    private String hoaName;
+
+    @Column(name = "type_hoa", nullable = true)
+    private String hoaType;
+
+    @Column(name = "fee_frequency_hoa", nullable = true)
+    private String hoaFeeFrequency;
+
     public Property(PropertyDto dto) {
         this.id = dto.getId();
         this.purchasePrice = dto.getPurchasePrice();
@@ -194,6 +206,12 @@ public class Property {
         this.grossArea = dto.getGrossArea();
         this.taxableArea = dto.getTaxableArea();
         this.garageArea = dto.getGarageArea();
+
+        //HOA
+        this.hasHoa = dto.getHasHoa();
+        this.hoaName = dto.getHoaName();
+        this.hoaType = dto.getHoaType();
+        this.hoaFeeFrequency = dto.getHoaFeeFrequency();
     }
 
     public PropertyDto toAggregateBasic() {
@@ -258,6 +276,10 @@ public class Property {
                 .publicRecord(publicRecord)
                 .mls(mls)
 
+                .hasHoa(hasHoa)
+                .hoaName(hoaName)
+                .hoaType(hoaType)
+                .hoaFeeFrequency(hoaFeeFrequency)
                 .build();
     }
 
