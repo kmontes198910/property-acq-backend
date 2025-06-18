@@ -1,13 +1,14 @@
 package com.kynsoft.propertyacqcenter.application.command.companyContact.create;
 
 import com.kynsof.share.core.domain.bus.command.ICommandHandler;
+import com.kynsoft.propertyacqcenter.domain.dto.BusinessDto;
 import com.kynsoft.propertyacqcenter.domain.dto.CompanyContactDto;
 import com.kynsoft.propertyacqcenter.domain.dto.CompanyDto;
 import com.kynsoft.propertyacqcenter.domain.dto.EmployeeDto;
+import com.kynsoft.propertyacqcenter.domain.services.IBusinessService;
 import com.kynsoft.propertyacqcenter.domain.services.ICompanyContactService;
 import com.kynsoft.propertyacqcenter.domain.services.ICompanyService;
 import com.kynsoft.propertyacqcenter.domain.services.IEmployeeService;
-import java.util.UUID;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,19 +18,23 @@ public class CreateCompanyContactCommandHandler implements ICommandHandler<Creat
     private final ICompanyContactService companyContactService;
     private final ICompanyService companyService;
     private final IEmployeeService employeeService;
+    private final IBusinessService businessService;
 
     public CreateCompanyContactCommandHandler(ICompanyContactService companyContactService, 
                                               ICompanyService companyService,
-                                              IEmployeeService employeeService) {
+                                              IEmployeeService employeeService,
+                                              IBusinessService businessService) {
         this.companyContactService = companyContactService;
         this.companyService = companyService;
         this.employeeService = employeeService;
+        this.businessService = businessService;
     }
 
     @Override
     @Transactional
     public void handle(CreateCompanyContactCommand command) {
         CompanyDto companyDto = this.companyService.findById(command.getCompany());
+        BusinessDto businessDto = this.businessService.findById(companyDto.getBusiness().getId());
         this.companyContactService.validateEmail(command.getEmail(), command.getId());
         //this.companyContactService.validatePersonEmail(command.getPersonalEmail(), command.getId());
         companyContactService.create(CompanyContactDto.builder()
@@ -55,6 +60,7 @@ public class CreateCompanyContactCommandHandler implements ICommandHandler<Creat
                 .email(command.getEmail())
                 .phoneNumber(command.getPhoneNumber())
                 .position(command.getPosition())
+                .business(businessDto)
                 .build());
     }
 }
