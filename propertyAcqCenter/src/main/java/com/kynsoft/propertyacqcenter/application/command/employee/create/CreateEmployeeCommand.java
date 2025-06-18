@@ -5,15 +5,12 @@ import com.kynsof.share.core.domain.bus.command.ICommandMessage;
 import lombok.Getter;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.UUID;
+import lombok.Setter;
 
-
-/**
- * CreateEmployeeCommand is a command class that implements the ICommand interface.
- * It is used to create a new employee in the system.
- * The class contains a method to get the command message associated with the command.
- */
 @Getter
+@Setter
 public class CreateEmployeeCommand implements ICommand {
 
     private UUID id;
@@ -27,24 +24,12 @@ public class CreateEmployeeCommand implements ICommand {
     private Double salary;
     private Boolean active;
     private UUID business;
+    private List<UUID> roles;
 
-    /**
-     * Constructor for CreateEmployeeCommand.
-     *
-     * @param firstName     The first name of the employee.
-     * @param lastName      The last name of the employee.
-     * @param email         The email address of the employee.
-     * @param phoneNumber   The phone number of the employee.
-     * @param hireDate      The hire date of the employee.
-     * @param position      The position of the employee.
-     * @param department    The department of the employee.
-     * @param salary        The salary of the employee.
-     * @param active        Indicates if the employee is active or not.
-     * @param business      The business id associated with the employee.
-     */
     public CreateEmployeeCommand(String firstName, String lastName, String email, String phoneNumber,
                                  LocalDate hireDate, String position, String department,
-                                 Double salary, Boolean active, UUID business) {
+                                 Double salary, Boolean active, UUID business,
+                                 List<UUID> roles) {
         this.id = UUID.randomUUID();
         this.firstName = firstName;
         this.lastName = lastName;
@@ -56,6 +41,7 @@ public class CreateEmployeeCommand implements ICommand {
         this.salary = salary;
         this.active = active;
         this.business = business;
+        this.roles = roles;
     }
 
     public static CreateEmployeeCommand fromRequest(CreateEmployeeRequest request) {
@@ -69,7 +55,8 @@ public class CreateEmployeeCommand implements ICommand {
                 request.getDepartment(),
                 request.getSalary(),
                 request.getActive(),
-                request.getBusiness()
+                request.getBusiness(),
+                request.getRoles()
         );
     }
 

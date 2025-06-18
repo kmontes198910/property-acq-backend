@@ -3,6 +3,7 @@ package com.kynsoft.propertyacqcenter.application.command.employee.update;
 import lombok.Getter;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.UUID;
 
 @Getter
@@ -18,4 +19,5 @@ public class UpdateEmployeeRequest {
     private Double salary;
     private Boolean active;
     private UUID business;
+    private List<UUID> roles;
 }

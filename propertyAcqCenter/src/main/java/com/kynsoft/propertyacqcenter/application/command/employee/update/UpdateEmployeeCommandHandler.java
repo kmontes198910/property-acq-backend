@@ -4,15 +4,22 @@ import com.kynsof.share.core.domain.bus.command.ICommandHandler;
 import com.kynsof.share.utils.ConsumerUpdate;
 import com.kynsof.share.utils.UpdateIfNotNull;
 import com.kynsoft.propertyacqcenter.domain.dto.EmployeeDto;
+
 import com.kynsoft.propertyacqcenter.domain.services.IBusinessService;
 import com.kynsoft.propertyacqcenter.domain.services.IEmployeeService;
 import com.kynsoft.propertyacqcenter.infrastructure.services.rabbitMQ.dto.RabbitMqEmployeeDto;
 import com.kynsoft.propertyacqcenter.infrastructure.services.rabbitMQ.eventPublisher.EventEmployeePublisherService;
 import jakarta.transaction.Transactional;
+
+import com.kynsoft.propertyacqcenter.domain.dto.ManageRolDto;
+import com.kynsoft.propertyacqcenter.domain.services.IManageRoleService;
+import java.util.List;
+
 import org.springframework.stereotype.Component;
 
 import java.util.UUID;
 import java.util.function.Consumer;
+import java.util.stream.Collectors;
 
 @Component
 public class UpdateEmployeeCommandHandler implements ICommandHandler<UpdateEmployeeCommand> {
@@ -20,13 +27,17 @@ public class UpdateEmployeeCommandHandler implements ICommandHandler<UpdateEmplo
     private final IEmployeeService employeeService;
 
     private final IBusinessService businessService;
-
     private final EventEmployeePublisherService eventEmployeePublisherService;
+    private final IManageRoleService roleService;
 
-    public UpdateEmployeeCommandHandler(IEmployeeService employeeService, IBusinessService businessService, EventEmployeePublisherService eventEmployeePublisherService) {
+    public UpdateEmployeeCommandHandler(IEmployeeService employeeService,
+                                        IBusinessService businessService,
+                                        EventEmployeePublisherService eventEmployeePublisherService, IManageRoleService roleService) {
         this.employeeService = employeeService;
         this.businessService = businessService;
         this.eventEmployeePublisherService = eventEmployeePublisherService;
+        this.roleService = roleService;
+
     }
 
     @Override
@@ -50,6 +61,7 @@ public class UpdateEmployeeCommandHandler implements ICommandHandler<UpdateEmplo
         employeeDto.setPosition(command.getPosition());
         updateEntity(employeeDto::setBusiness, command.getBusiness(), employeeDto.getBusiness() != null ? employeeDto.getBusiness().getId() : null, businessService::findById, update::setUpdate);
 
+        employeeDto.setRoles(get(command.getRoles()));
         employeeService.update(employeeDto);
         this.eventEmployeePublisherService.publishRecoveryBedEvent(
                 new RabbitMqEmployeeDto(
@@ -75,4 +87,11 @@ public class UpdateEmployeeCommandHandler implements ICommandHandler<UpdateEmplo
 
         T findById(UUID id);
     }
+
+    private List<ManageRolDto> get(List<UUID> ids) {
+        return ids.stream()
+            .map(this.roleService::findById)
+            .collect(Collectors.toList());
+    }
+
 }
