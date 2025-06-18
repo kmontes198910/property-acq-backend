@@ -3,9 +3,11 @@ package com.kynsoft.invoiceservice.domain.service;
 import com.kynsof.share.core.domain.request.FilterCriteria;
 import com.kynsof.share.core.domain.response.PaginatedResponse;
 import com.kynsoft.invoiceservice.application.query.customer.get.CustomerDto;
+import com.kynsoft.invoiceservice.infrastructure.entities.Customer;
 import org.springframework.data.domain.Pageable;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 /**
@@ -59,5 +61,6 @@ public interface ICustomerService {
      * @return Respuesta paginada con los resultados de la búsqueda
      */
     PaginatedResponse search(Pageable pageable, List<FilterCriteria> filterCriteria);
+
 }
 
