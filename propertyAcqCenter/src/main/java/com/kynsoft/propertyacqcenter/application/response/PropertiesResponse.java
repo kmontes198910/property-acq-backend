@@ -76,6 +76,12 @@ public class PropertiesResponse implements IResponse {
     private Double taxableArea;
     private Double garageArea;
 
+    //HOA
+    private Boolean hasHoa;
+    private String hoaName;
+    private String hoaType;
+    private String hoaFeeFrequency;
+
     public PropertiesResponse(PropertyDto dto) {
         this.buildingArea = dto.getBuildingArea();
         this.livingArea = dto.getLivingArea();
@@ -132,6 +138,11 @@ public class PropertiesResponse implements IResponse {
         this.publicRecord = dto.getPublicRecord();
         this.mls = dto.getMls();
 
+        //HOA
+        this.hasHoa = dto.getHasHoa();
+        this.hoaName = dto.getHoaName();
+        this.hoaType = dto.getHoaType();
+        this.hoaFeeFrequency = dto.getHoaFeeFrequency();
     }
 
 }

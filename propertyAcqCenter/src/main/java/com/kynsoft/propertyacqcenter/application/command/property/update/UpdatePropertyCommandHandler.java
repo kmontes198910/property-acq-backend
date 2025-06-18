@@ -51,7 +51,7 @@ public class UpdatePropertyCommandHandler implements ICommandHandler<UpdatePrope
                 .propertyStatus(command.getPropertyStatus())
                 .isManual(command.getIsManual())
                 .daysOnMarket(command.getDaysOnMarket())
-                .purchasePrice(command.getRentalPrice())
+                .purchasePrice(command.getPurchasePrice())
                 .rentalPrice(command.getRentalPrice())
                 .afterRepairValue(command.getAfterRepairValue())
                 .floodZoneDetermination(command.getFloodZoneDetermination())
@@ -79,6 +79,11 @@ public class UpdatePropertyCommandHandler implements ICommandHandler<UpdatePrope
                 .grossArea(command.getGrossArea())
                 .taxableArea(command.getTaxableArea())
                 .garageArea(command.getGarageArea())
+
+                .hasHoa(command.getHasHoa())
+                .hoaName(command.getHoaName())
+                .hoaType(command.getHoaType())
+                .hoaFeeFrequency(command.getHoaFeeFrequency())
 
                 .build());
     }
