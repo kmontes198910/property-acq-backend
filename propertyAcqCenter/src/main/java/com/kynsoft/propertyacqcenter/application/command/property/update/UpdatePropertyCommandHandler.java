@@ -51,7 +51,7 @@ public class UpdatePropertyCommandHandler implements ICommandHandler<UpdatePrope
                 .propertyStatus(command.getPropertyStatus())
                 .isManual(command.getIsManual())
                 .daysOnMarket(command.getDaysOnMarket())
-                .purchasePrice(command.getRentalPrice())
+                .purchasePrice(command.getPurchasePrice())
                 .rentalPrice(command.getRentalPrice())
                 .afterRepairValue(command.getAfterRepairValue())
                 .floodZoneDetermination(command.getFloodZoneDetermination())
