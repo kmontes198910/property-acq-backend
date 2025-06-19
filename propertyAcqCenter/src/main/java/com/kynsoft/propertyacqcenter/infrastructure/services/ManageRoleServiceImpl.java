@@ -9,16 +9,21 @@ import com.kynsof.share.core.domain.response.PaginatedResponse;
 import com.kynsof.share.core.infrastructure.specifications.GenericSpecificationsBuilder;
 import com.kynsoft.propertyacqcenter.application.response.ManageRoleResponse;
 import com.kynsoft.propertyacqcenter.domain.dto.ManageRolDto;
+import com.kynsoft.propertyacqcenter.domain.dto.exception.PurchaseNotFoundException;
 import com.kynsoft.propertyacqcenter.domain.services.IManageRoleService;
+import com.kynsoft.propertyacqcenter.infrastructure.entity.DocumentType;
 import com.kynsoft.propertyacqcenter.infrastructure.entity.ManageRole;
 import com.kynsoft.propertyacqcenter.infrastructure.repository.command.ManageRoleWriteDataJPARepository;
 import com.kynsoft.propertyacqcenter.infrastructure.repository.query.ManageRoleReadDataJPARepository;
+import java.util.Collections;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 public class ManageRoleServiceImpl implements IManageRoleService {
@@ -38,7 +43,10 @@ public class ManageRoleServiceImpl implements IManageRoleService {
 
     @Override
     public void update(ManageRolDto dto) {
-        var update = new ManageRole(dto);
+        ManageRole update = this.findByIdSimple(dto.getId());
+        update.setDocumentTypes(dto.getDocumentTypes() != null
+                ? dto.getDocumentTypes().stream().map(DocumentType::new).collect(Collectors.toSet())
+                : Collections.emptySet());
         command.save(update);
     }
 
@@ -57,6 +65,14 @@ public class ManageRoleServiceImpl implements IManageRoleService {
                 })
                 .toList();
         command.saveAll(delete);
+    }
+
+    private ManageRole findByIdSimple(UUID id) {
+        Optional<ManageRole> entity = query.findById(id);
+        if (entity.isPresent()) {
+            return entity.get();
+        }
+        throw new PurchaseNotFoundException(id);
     }
 
     @Override

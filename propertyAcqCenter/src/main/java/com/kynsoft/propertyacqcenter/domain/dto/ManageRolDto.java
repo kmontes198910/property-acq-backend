@@ -1,5 +1,6 @@
 package com.kynsoft.propertyacqcenter.domain.dto;
 
+import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -18,4 +19,13 @@ public class ManageRolDto {
     private String code;
     private String name;
     private Boolean isDeleted;
+    private List<DocumentTypeDto> documentTypes;
+
+    public ManageRolDto(UUID id, String code, String name, Boolean isDeleted) {
+        this.id = id;
+        this.code = code;
+        this.name = name;
+        this.isDeleted = isDeleted;
+    }
+
 }

@@ -16,7 +16,7 @@ import org.springframework.data.jpa.repository.EntityGraph;
 
 @Repository
 public interface EmployeeReadDataJPARepository extends JpaRepository<Employee, UUID>, JpaSpecificationExecutor<Employee> {
-    @EntityGraph(attributePaths = {"business", "roles"})
+    @EntityGraph(attributePaths = {"business", "roles", "roles.documentTypes"})
     @Override
     Page<Employee> findAll(Specification<Employee> specification, Pageable pageable);
 
@@ -25,7 +25,7 @@ public interface EmployeeReadDataJPARepository extends JpaRepository<Employee, U
     @Query("SELECT COUNT(b) FROM Employee b WHERE b.email = :email AND b.id <> :id")
     Long countByEmailAndNotId(@Param("email") String email, @Param("id") UUID id);
 
-    @EntityGraph(attributePaths = {"business", "roles"})
+    @EntityGraph(attributePaths = {"business", "roles", "roles.documentTypes"})
     @Override
     Optional<Employee> findById(UUID id);
 
