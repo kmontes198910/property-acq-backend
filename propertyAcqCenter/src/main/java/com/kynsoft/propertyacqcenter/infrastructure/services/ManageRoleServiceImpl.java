@@ -10,6 +10,7 @@ import com.kynsof.share.core.infrastructure.specifications.GenericSpecifications
 import com.kynsoft.propertyacqcenter.application.response.ManageRoleResponse;
 import com.kynsoft.propertyacqcenter.domain.dto.ManageRolDto;
 import com.kynsoft.propertyacqcenter.domain.dto.exception.PurchaseNotFoundException;
+import com.kynsoft.propertyacqcenter.domain.dto.exception.RoleNotFoundException;
 import com.kynsoft.propertyacqcenter.domain.services.IManageRoleService;
 import com.kynsoft.propertyacqcenter.infrastructure.entity.DocumentType;
 import com.kynsoft.propertyacqcenter.infrastructure.entity.ManageRole;
@@ -72,16 +73,14 @@ public class ManageRoleServiceImpl implements IManageRoleService {
         if (entity.isPresent()) {
             return entity.get();
         }
-        throw new PurchaseNotFoundException(id);
+        throw new RoleNotFoundException(id);
     }
 
     @Override
     public ManageRolDto findById(UUID id) {
         return query.findById(id)
                 .map(ManageRole::toAggregate)
-                .orElseThrow(() -> new BusinessNotFoundException(new GlobalBusinessException(
-                        DomainErrorMessage.PERMISSION_NOT_FOUND, new ErrorField("id", "Role not found."))));
-
+                .orElseThrow(() -> new RoleNotFoundException(id));
     }
 
     @Override
