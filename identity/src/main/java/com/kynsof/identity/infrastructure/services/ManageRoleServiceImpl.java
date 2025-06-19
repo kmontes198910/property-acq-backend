@@ -47,7 +47,8 @@ public class ManageRoleServiceImpl implements IManageRoleService {
 
     @Override
     public void delete(ManageRolDto objectDto) {
-        this.command.save(new ManageRole(objectDto));
+        //this.command.save(new ManageRole(objectDto));
+        this.command.deleteById(objectDto.getId());
     }
 
     @Override
