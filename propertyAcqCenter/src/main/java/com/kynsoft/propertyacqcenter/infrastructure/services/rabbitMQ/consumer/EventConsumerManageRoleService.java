@@ -1,8 +1,7 @@
 package com.kynsoft.propertyacqcenter.infrastructure.services.rabbitMQ.consumer;
 
-
-import com.kynsof.share.core.domain.exception.BusinessNotFoundException;
 import com.kynsoft.propertyacqcenter.domain.dto.ManageRolDto;
+import com.kynsoft.propertyacqcenter.domain.dto.exception.RoleNotFoundException;
 import com.kynsoft.propertyacqcenter.domain.services.IManageRoleService;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.stereotype.Service;
@@ -21,7 +20,7 @@ public class EventConsumerManageRoleService {
         try {
             service.findById(event.getId()); // Lanza excepción si no existe
             service.update(event);
-        } catch (BusinessNotFoundException e) {
+        } catch (RoleNotFoundException e) {
             service.create(event);
         }
     }
