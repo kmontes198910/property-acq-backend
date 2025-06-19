@@ -9,6 +9,8 @@ import com.kynsoft.propertyacqcenter.domain.services.IBusinessService;
 import com.kynsoft.propertyacqcenter.domain.services.ICompanyContactService;
 import com.kynsoft.propertyacqcenter.domain.services.ICompanyService;
 import com.kynsoft.propertyacqcenter.domain.services.IEmployeeService;
+import com.kynsoft.propertyacqcenter.infrastructure.services.rabbitMQ.dto.RabbitMqEmployeeDto;
+import com.kynsoft.propertyacqcenter.infrastructure.services.rabbitMQ.eventPublisher.EventEmployeePublisherService;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,15 +21,18 @@ public class CreateCompanyContactCommandHandler implements ICommandHandler<Creat
     private final ICompanyService companyService;
     private final IEmployeeService employeeService;
     private final IBusinessService businessService;
+    private final EventEmployeePublisherService eventEmployeePublisherService;
 
-    public CreateCompanyContactCommandHandler(ICompanyContactService companyContactService, 
-                                              ICompanyService companyService,
-                                              IEmployeeService employeeService,
-                                              IBusinessService businessService) {
+    public CreateCompanyContactCommandHandler(ICompanyContactService companyContactService,
+            ICompanyService companyService,
+            IEmployeeService employeeService,
+            IBusinessService businessService,
+            EventEmployeePublisherService eventEmployeePublisherService) {
         this.companyContactService = companyContactService;
         this.companyService = companyService;
         this.employeeService = employeeService;
         this.businessService = businessService;
+        this.eventEmployeePublisherService = eventEmployeePublisherService;
     }
 
     @Override
@@ -35,7 +40,9 @@ public class CreateCompanyContactCommandHandler implements ICommandHandler<Creat
     public void handle(CreateCompanyContactCommand command) {
         CompanyDto companyDto = this.companyService.findById(command.getCompany());
         BusinessDto businessDto = this.businessService.findById(companyDto.getBusiness().getId());
+
         this.companyContactService.validateEmail(command.getEmail(), command.getId());
+
         //this.companyContactService.validatePersonEmail(command.getPersonalEmail(), command.getId());
         companyContactService.create(CompanyContactDto.builder()
                 .id(command.getId())
@@ -52,6 +59,7 @@ public class CreateCompanyContactCommandHandler implements ICommandHandler<Creat
                 .personalEmail(command.getPersonalEmail())
                 .build()
         );
+
         this.employeeService.create(EmployeeDto
                 .builder()
                 .id(command.getId())
@@ -62,5 +70,15 @@ public class CreateCompanyContactCommandHandler implements ICommandHandler<Creat
                 .position(command.getPosition())
                 .business(businessDto)
                 .build());
+
+        this.eventEmployeePublisherService.publishRecoveryBedEvent(
+                new RabbitMqEmployeeDto(
+                        command.getId(),
+                        command.getFirstName(),
+                        command.getLastName(),
+                        command.getEmail(),
+                        businessDto.getId()
+                )
+        );
     }
 }
