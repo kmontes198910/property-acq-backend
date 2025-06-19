@@ -4,11 +4,17 @@ import com.kynsof.share.core.domain.bus.command.ICommandHandler;
 import com.kynsof.share.utils.ConsumerUpdate;
 import com.kynsof.share.utils.UpdateIfNotNull;
 import com.kynsoft.propertyacqcenter.domain.dto.EmployeeDto;
-import com.kynsoft.propertyacqcenter.domain.dto.ManageRolDto;
+
 import com.kynsoft.propertyacqcenter.domain.services.IBusinessService;
 import com.kynsoft.propertyacqcenter.domain.services.IEmployeeService;
+import com.kynsoft.propertyacqcenter.infrastructure.services.rabbitMQ.dto.RabbitMqEmployeeDto;
+import com.kynsoft.propertyacqcenter.infrastructure.services.rabbitMQ.eventPublisher.EventEmployeePublisherService;
+import jakarta.transaction.Transactional;
+
+import com.kynsoft.propertyacqcenter.domain.dto.ManageRolDto;
 import com.kynsoft.propertyacqcenter.domain.services.IManageRoleService;
 import java.util.List;
+
 import org.springframework.stereotype.Component;
 
 import java.util.UUID;
@@ -21,18 +27,21 @@ public class UpdateEmployeeCommandHandler implements ICommandHandler<UpdateEmplo
     private final IEmployeeService employeeService;
 
     private final IBusinessService businessService;
-
+    private final EventEmployeePublisherService eventEmployeePublisherService;
     private final IManageRoleService roleService;
 
-    public UpdateEmployeeCommandHandler(IEmployeeService employeeService, 
+    public UpdateEmployeeCommandHandler(IEmployeeService employeeService,
                                         IBusinessService businessService,
-                                        IManageRoleService roleService) {
+                                        EventEmployeePublisherService eventEmployeePublisherService, IManageRoleService roleService) {
         this.employeeService = employeeService;
         this.businessService = businessService;
+        this.eventEmployeePublisherService = eventEmployeePublisherService;
         this.roleService = roleService;
+
     }
 
     @Override
+    @Transactional
     public void handle(UpdateEmployeeCommand command) {
         this.employeeService.validateEmail(command.getEmail(), command.getId());
 
@@ -54,6 +63,15 @@ public class UpdateEmployeeCommandHandler implements ICommandHandler<UpdateEmplo
 
         employeeDto.setRoles(get(command.getRoles()));
         employeeService.update(employeeDto);
+        this.eventEmployeePublisherService.publishRecoveryBedEvent(
+                new RabbitMqEmployeeDto(
+                        employeeDto.getId(),
+                        employeeDto.getFirstName(),
+                        employeeDto.getLastName(),
+                        employeeDto.getEmail(),
+                        employeeDto.getBusiness().getId()
+                )
+        );
     }
 
     private <T> void updateEntity(Consumer<T> setter, UUID newValue, UUID oldValue, EntityFinder<T> finder, Consumer<Integer> update) {
