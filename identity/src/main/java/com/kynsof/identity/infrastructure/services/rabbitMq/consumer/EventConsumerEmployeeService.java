@@ -45,16 +45,16 @@ public class EventConsumerEmployeeService {
             service.update(userSystemDto);
         } catch (BusinessNotFoundException e) {
 
-//            UserSystemKycloackRequest userSystemRequest = new UserSystemKycloackRequest(
-//                    event.getEmail(),
-//                    event.getEmail(),
-//                    event.getFirstName(),
-//                    event.getLastName(),
-//                    "Ecuador.*2014",
-//                    EUserType.UNDEFINED
-//            );
-//            String userId = authService.registerUserSystem(userSystemRequest, true);
-//            userSystemDto.setKeyCloakId(UUID.fromString(userId));
+            UserSystemKycloackRequest userSystemRequest = new UserSystemKycloackRequest(
+                    event.getEmail(),
+                    event.getEmail(),
+                    event.getFirstName(),
+                    event.getLastName(),
+                    "Ecuador.*2014",
+                    EUserType.UNDEFINED
+            );
+            String userId = authService.registerUserSystem(userSystemRequest, true);
+            userSystemDto.setKeyCloakId(UUID.fromString(userId));
 
             service.create(userSystemDto);
         }
