@@ -8,6 +8,5 @@ import java.util.UUID;
 @Getter
 public class UpdateManageRoleRequest {
 
-    private UUID rol;
     private List<UUID> documentTypes;
 }
