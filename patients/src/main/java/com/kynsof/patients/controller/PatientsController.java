@@ -8,6 +8,8 @@ import com.kynsof.patients.application.command.patients.createInsurance.CreateIn
 import com.kynsof.patients.application.command.patients.createInsurance.CreateInsuranceRequest;
 import com.kynsof.patients.application.command.patients.delete.DeletePatientsCommand;
 import com.kynsof.patients.application.command.patients.delete.PatientDeleteMessage;
+import com.kynsof.patients.application.command.patients.deleteSystem.DeletePatientsSystemCommand;
+import com.kynsof.patients.application.command.patients.deleteSystem.PatientDeleteSystemMessage;
 import com.kynsof.patients.application.command.patients.patientsKeyCloack.patientsKeyCloakCommand;
 import com.kynsof.patients.application.command.patients.patientsKeyCloack.patientsKeyCloakMessage;
 import com.kynsof.patients.application.command.patients.update.UpdatePatientMessage;
@@ -150,6 +152,15 @@ public class PatientsController {
 
         DeletePatientsCommand command = new DeletePatientsCommand(id);
         PatientDeleteMessage response = mediator.send(command);
+
+        return ResponseEntity.ok(response);
+    }
+
+    @DeleteMapping("/delete-system/{id}")
+    public ResponseEntity<PatientDeleteSystemMessage> deleteSystem(@PathVariable("id") UUID id) {
+
+        DeletePatientsSystemCommand command = new DeletePatientsSystemCommand(id);
+        PatientDeleteSystemMessage response = mediator.send(command);
 
         return ResponseEntity.ok(response);
     }

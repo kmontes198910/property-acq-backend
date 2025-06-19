@@ -1,6 +1,7 @@
 package com.kynsof.treatments.application.service.rabbitMQ.consumer.impl;
 
 
+import com.kynsof.share.core.domain.exception.BusinessNotFoundException;
 import com.kynsof.treatments.application.service.rabbitMQ.Dto.RabbitMQPatientDeleteDto;
 import com.kynsof.treatments.domain.service.IPatientsService;
 import com.kynsof.treatments.infrastructure.repositories.query.PatientsReadDataJPARepository;
@@ -11,21 +12,20 @@ import org.springframework.stereotype.Service;
 @Slf4j
 @Service
 public class EventConsumerPatientDeleteService {
+
     private final IPatientsService service;
-    private final PatientsReadDataJPARepository query;
 
-    public EventConsumerPatientDeleteService(IPatientsService service, PatientsReadDataJPARepository query) {
+    public EventConsumerPatientDeleteService(IPatientsService service) {
         this.service = service;
-        this.query = query;
     }
-
 
     @RabbitListener(queues = "patient.delete.queue.treatments")
     public void handleCompanyEvent(RabbitMQPatientDeleteDto event) {
-        boolean isEntity = query.findById(event.getId()).isPresent();
-        if(isEntity){
-            this.service.delete(event.getId());
+        try {
+            service.findById(event.getId());
+            service.delete(event.getId());
+        } catch (BusinessNotFoundException e) {
+            log.warn(e.getMessage(), event.getId());
         }
-
     }
 }
