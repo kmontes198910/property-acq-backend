@@ -14,7 +14,7 @@ public interface IManageRoleService {
 
     void update(ManageRolDto dto);
 
-    void delete(ManageRolDto objectDto);
+    void delete(UUID id);
 
     void deleteAll(List<UUID> roles);
 

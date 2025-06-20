@@ -1,4 +1,5 @@
-package com.kynsoft.propertyacqcenter.application.command.manageRole.update;
+package com.kynsoft.propertyacqcenter.application.command.manageRole.create;
+
 
 import java.util.List;
 import java.util.UUID;
@@ -11,7 +12,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class UpdateManageRoleRequest {
+public class CreateManageRoleRequest {
     private String code;
     private String name;
     private List<UUID> documentTypes;

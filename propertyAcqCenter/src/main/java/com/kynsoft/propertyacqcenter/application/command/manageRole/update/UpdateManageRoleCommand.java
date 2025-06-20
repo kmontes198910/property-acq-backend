@@ -2,30 +2,33 @@ package com.kynsoft.propertyacqcenter.application.command.manageRole.update;
 
 import com.kynsof.share.core.domain.bus.command.ICommand;
 import com.kynsof.share.core.domain.bus.command.ICommandMessage;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-
 import java.util.List;
-import java.util.UUID;
+import lombok.Getter;
 import lombok.Setter;
+
+import java.util.UUID;
 
 @Getter
 @Setter
-@AllArgsConstructor
 public class UpdateManageRoleCommand implements ICommand {
-
-    private UUID rol;
+    private UUID id;
+    private String code;
+    private String name;
     private List<UUID> documentTypes;
 
-    public static UpdateManageRoleCommand fromRequest(UUID id, UpdateManageRoleRequest request) {
-        return new UpdateManageRoleCommand(
-                id,
-                request.getDocumentTypes()
-        );
+    public UpdateManageRoleCommand(UUID id, String code, String name, List<UUID> documentTypes) {
+        this.id = id;
+        this.code = code;
+        this.name = name;
+        this.documentTypes = documentTypes;
+    }
+
+    public static UpdateManageRoleCommand fromRequest(UpdateManageRoleRequest request, UUID id) {
+        return new UpdateManageRoleCommand(id, request.getCode(), request.getName(), request.getDocumentTypes());
     }
 
     @Override
     public ICommandMessage getMessage() {
-        return new UpdateManageRoleMessage(rol);
+        return new UpdateManageRoleMessage(id);
     }
 }
