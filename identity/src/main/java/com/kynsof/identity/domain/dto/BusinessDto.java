@@ -33,6 +33,7 @@ public class BusinessDto  implements Serializable {
     private UUID idResponsible;
     private Double fixedPrice;
     private Boolean isChargedPerConsultation;
+    private UUID seller;
 
     private GeographicLocationDto geographicLocationDto;
     private List<ModuleDto> moduleDtoList;
@@ -40,7 +41,7 @@ public class BusinessDto  implements Serializable {
     public BusinessDto(UUID id, String name, String latitude, String longitude, String description, String logo,
                        String ruc, EBusinessStatus status, GeographicLocationDto geographicLocationDto, String address,
                        String phone, String email, String webSite, String storageCapacity,UUID idResponsible,
-                       Double fixedPrice,Boolean isChargedPerConsultation) {
+                       Double fixedPrice,Boolean isChargedPerConsultation,UUID seller) {
         this.id = id;
         this.name = name;
         this.latitude = latitude;
@@ -58,6 +59,7 @@ public class BusinessDto  implements Serializable {
         this.idResponsible = idResponsible;
         this.fixedPrice = fixedPrice;
         this.isChargedPerConsultation = isChargedPerConsultation;
+        this.seller = seller;
     }
 
 }

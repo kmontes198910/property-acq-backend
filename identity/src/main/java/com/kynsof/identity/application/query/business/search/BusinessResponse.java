@@ -35,6 +35,7 @@ public class BusinessResponse implements IResponse, Serializable {
     private UUID idResponsible;
     private Double fixedPrice;
     private Boolean isChargedPerConsultation;
+    private UUID seller;
 
     private GeographicLocationResponse geolocation;
 
@@ -58,6 +59,7 @@ public class BusinessResponse implements IResponse, Serializable {
         this.idResponsible = object.getIdResponsible();
         this.fixedPrice = object.getFixedPrice();
         this.isChargedPerConsultation = object.getIsChargedPerConsultation();
+        this.seller = object.getSeller();
     }
 
 }

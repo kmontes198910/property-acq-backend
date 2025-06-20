@@ -25,4 +25,5 @@ public class UpdateBusinessRequest {
     private UUID idResponsible;
     private Double fixedPrice;
     private Boolean isChargedPerConsultation;
+    private UUID seller;
 }
