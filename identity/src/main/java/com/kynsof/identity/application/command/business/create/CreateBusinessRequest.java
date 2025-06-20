@@ -23,4 +23,5 @@ public class CreateBusinessRequest {
     private UUID idResponsible;
     private Double fixedPrice;
     private Boolean isChargedPerConsultation;
+    private UUID seller;
 }
