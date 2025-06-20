@@ -19,4 +19,5 @@ public interface IAdquisitionPropertyService {
     
     PaginatedResponse search(Pageable pageable, List<FilterCriteria> filterCriteria);
 
+    AdquisitionPropertyDto findByPropertyId(String propertyId);
 }
