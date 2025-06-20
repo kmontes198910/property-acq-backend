@@ -37,6 +37,12 @@ public class Business {
     private String email;
     private String webSite;
     private String storageCapacity;
+    @Column(name = "id_responsible")
+    private UUID idResponsible;
+    @Column(name = "fixed_price")
+    private Double fixedPrice;
+    @Column(name = "is_charged_cer_consultation")
+    private Boolean isChargedPerConsultation;
     @OneToMany(mappedBy = "business")
     private Set<UserPermissionBusiness> userPermissionBusinesses = new HashSet<>();
     @ManyToOne(fetch = FetchType.EAGER)
@@ -65,6 +71,9 @@ public class Business {
         this.email = business.getEmail();
         this.webSite = business.getWebSite();
         this.storageCapacity = business.getStorageCapacity();
+        this.idResponsible = business.getIdResponsible();
+        this.fixedPrice = business.getFixedPrice();
+        this.isChargedPerConsultation = business.getIsChargedPerConsultation();
     }
 
     public BusinessDto toAggregate () {
@@ -82,7 +91,10 @@ public class Business {
                 phone,
                 email,
                 webSite,
-                storageCapacity
+                storageCapacity,
+                idResponsible,
+                fixedPrice,
+                isChargedPerConsultation
         );
         businessDto.setBalance(balance);
         businessDto.setCreateAt(createdAt);

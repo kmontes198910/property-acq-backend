@@ -55,8 +55,12 @@ public class UpdateBusinessCommandHandler implements ICommandHandler<UpdateBusin
         updateBusiness.setEmail(command.getEmail());
         updateBusiness.setWebSite(command.getWebSite());
         updateBusiness.setStorageCapacity(command.getStorageCapacity());
-
+        UpdateIfNotNull.updateIfNotNull(updateBusiness::setIdResponsible, command.getIdResponsible());
+        UpdateIfNotNull.updateIfNotNull(updateBusiness::setFixedPrice, command.getFixedPrice());
+        UpdateIfNotNull.updateIfNotNull(updateBusiness::setIsChargedPerConsultation, command.getIsChargedPerConsultation());
         service.update(updateBusiness);
+
+
         eventPublisherService.publishBusinessEvent(new BusinessRabbitMQDto(
                 updateBusiness.getId(),
                 updateBusiness.getName(),
