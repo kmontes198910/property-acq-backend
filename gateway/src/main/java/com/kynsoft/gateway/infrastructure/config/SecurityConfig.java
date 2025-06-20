@@ -29,6 +29,9 @@ public class SecurityConfig {
     @Value("${gateway.security.enable-header-validation:true}")
     private boolean enableHeaderValidation;
 
+    @Value("${gateway.security.url-validation:https://sso.kynsoft.net/realms/medinec}")
+    private String urlMethodValidation;
+
     @Bean
     public SecurityWebFilterChain securityWebFilterChain(ServerHttpSecurity httpSecurity) {
         return httpSecurity
@@ -70,7 +73,7 @@ public class SecurityConfig {
     public ReactiveJwtDecoder jwtDecoder() {
         try {
             NimbusReactiveJwtDecoder jwtDecoder = (NimbusReactiveJwtDecoder)
-                    ReactiveJwtDecoders.fromIssuerLocation("https://sso-dev.kynsoft.net/realms/medinec");
+                    ReactiveJwtDecoders.fromIssuerLocation(urlMethodValidation );
 
             return token -> Mono.fromSupplier(() -> jwtDecoder)
                     .cache(Duration.ofMinutes(5))

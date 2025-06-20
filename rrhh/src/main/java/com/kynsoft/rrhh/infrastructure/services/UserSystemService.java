@@ -3,6 +3,7 @@ package com.kynsoft.rrhh.infrastructure.services;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kynsoft.rrhh.domain.dto.CreateUserResponse;
 import com.kynsoft.rrhh.domain.dto.CreateUserSystemRequest;
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -18,8 +19,8 @@ import java.net.http.HttpResponse;
 
 @Service
 @Configuration
+@Slf4j
 public class UserSystemService {
-    private static final Logger logger = LoggerFactory.getLogger(UserSystemService.class);
     private final HttpClient httpClient;
     private final ObjectMapper objectMapper;
 
@@ -34,7 +35,7 @@ public class UserSystemService {
 
     public String createUserSystem(CreateUserSystemRequest value) throws IOException, URISyntaxException, InterruptedException {
         String requestBody = objectMapper.writeValueAsString(value);
-        logger.error("URL-USER:" + userSystemApiUrl);
+        log.error("se llama al servicio de identity"+value.getUserName());
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(new URI(userSystemApiUrl))
                 .header("Content-Type", "application/json")

@@ -16,6 +16,7 @@ import com.kynsoft.cirugia.infrastructure.entities.Doctor;
 import com.kynsoft.cirugia.infrastructure.repository.command.DoctorWriteDataJPARepository;
 import com.kynsoft.cirugia.infrastructure.repository.query.DoctorReadDataJPARepository;
 import com.kynsoft.cirugia.infrastructure.services.http.DoctorHttpUUIDService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
@@ -27,7 +28,7 @@ import java.time.LocalDateTime;
 import java.util.*;
 
 @Service
-@Transactional(readOnly = true)
+@Slf4j
 public class DoctorServiceImpl implements IDoctorService {
 
     private final DoctorWriteDataJPARepository repositoryCommand;
@@ -70,13 +71,17 @@ public class DoctorServiceImpl implements IDoctorService {
     }
 
     @Override
-    @Cacheable(value = SurgeryCacheConfig.TEAM_MEDICAL_CACHE, key = "#id")
+//    @Cacheable(value = SurgeryCacheConfig.TEAM_MEDICAL_CACHE, key = "#id")
     public DoctorDto findById(UUID id) {
+        log.error("Searching for doctor with ID: {}", id);
         Optional<Doctor> patient = this.repositoryQuery.findById(id);
         if (patient.isPresent()) {
+            log.error("Doctor found in local repository: {}", patient.get().getId());
             return patient.get().toAggregate();
         } else {
+            log.error("Doctor not found in local repository, fetching from external service: {}", id);
             DoctorHttp doctorHttp = this.doctorHttpUUIDService.sendGetHttpRequest(id);
+            log.error("Doctor fetched from external service: {}", doctorHttp.getId());
             DoctorDto doctorDto = new DoctorDto(
                     doctorHttp.getId(),
                     doctorHttp.getName(),
@@ -84,6 +89,7 @@ public class DoctorServiceImpl implements IDoctorService {
                     doctorHttp.getIdentification(),
                     doctorHttp.getRegisterNumber());
             this.repositoryCommand.save(new Doctor(doctorDto));
+            log.error("Doctor saved to local repository: {}", doctorDto.getId());
             return doctorDto;
         }
     }
