@@ -13,6 +13,7 @@ import com.kynsoft.propertyacqcenter.application.command.adquisitionProperty.upd
 import com.kynsoft.propertyacqcenter.application.command.adquisitionProperty.update.UpdateAdquisitionPropertyMessage;
 import com.kynsoft.propertyacqcenter.application.command.adquisitionProperty.update.UpdateAdquisitionPropertyRequest;
 import com.kynsoft.propertyacqcenter.application.query.adquisitionProperty.getById.GetByIdAdquisitionPropertyQuery;
+import com.kynsoft.propertyacqcenter.application.query.adquisitionProperty.getByPropertyId.FindByAdquisitionPropertyByPropertyIdQuery;
 import com.kynsoft.propertyacqcenter.application.query.adquisitionProperty.search.GetSearchAdquisitionPropertyQuery;
 import com.kynsoft.propertyacqcenter.application.response.AdquisitionPropertyResponse;
 import java.util.UUID;
@@ -59,6 +60,15 @@ public class BuyerAdquisitionPropertyController {
     public ResponseEntity<?> getById(@PathVariable UUID id) {
 
         GetByIdAdquisitionPropertyQuery query = new GetByIdAdquisitionPropertyQuery(id);
+        AdquisitionPropertyResponse response = mediator.send(query);
+
+        return ResponseEntity.ok(response);
+    }
+
+    @GetMapping(path = "/property/{id}")
+    public ResponseEntity<?> getByPropertyId(@PathVariable String id) {
+
+        FindByAdquisitionPropertyByPropertyIdQuery query = new FindByAdquisitionPropertyByPropertyIdQuery(id);
         AdquisitionPropertyResponse response = mediator.send(query);
 
         return ResponseEntity.ok(response);

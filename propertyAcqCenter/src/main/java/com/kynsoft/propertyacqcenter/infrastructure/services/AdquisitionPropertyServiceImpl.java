@@ -7,6 +7,7 @@ import com.kynsoft.propertyacqcenter.application.response.AdquisitionPropertyRes
 import com.kynsoft.propertyacqcenter.domain.dto.AdquisitionPropertyDto;
 import com.kynsoft.propertyacqcenter.domain.dto.exception.AddressNotFoundException;
 import com.kynsoft.propertyacqcenter.domain.dto.exception.NotDeleteException;
+import com.kynsoft.propertyacqcenter.domain.dto.exception.PurchaseForPropertyNotFoundException;
 import com.kynsoft.propertyacqcenter.domain.services.IAdquisitionPropertyService;
 import com.kynsoft.propertyacqcenter.infrastructure.entity.AdquisitionProperty;
 import com.kynsoft.propertyacqcenter.infrastructure.entity.CompanyContact;
@@ -101,6 +102,15 @@ public class AdquisitionPropertyServiceImpl implements IAdquisitionPropertyServi
         }
         return new PaginatedResponse(objects, data.getTotalPages(), data.getNumberOfElements(),
                 data.getTotalElements(), data.getSize(), data.getNumber());
+    }
+
+    @Override
+    public AdquisitionPropertyDto findByPropertyId(String propertyId) {
+        Optional<AdquisitionProperty> entity = repositoryQuery.findByPropertyId(propertyId);
+        if (entity.isPresent()) {
+            return entity.get().toAggregate();
+        }
+        throw new PurchaseForPropertyNotFoundException();
     }
 
 }

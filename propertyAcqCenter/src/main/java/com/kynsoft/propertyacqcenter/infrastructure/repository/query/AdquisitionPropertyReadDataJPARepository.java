@@ -21,4 +21,7 @@ public interface AdquisitionPropertyReadDataJPARepository extends JpaRepository<
     @EntityGraph(attributePaths = {"buyer", "property", "contact", "contact.company"})
     @Override
     Optional<AdquisitionProperty> findById(UUID id);
+
+    @EntityGraph(attributePaths = {"buyer", "property", "contact", "contact.company"})
+    Optional<AdquisitionProperty> findByPropertyId(String propertyId);
 }
