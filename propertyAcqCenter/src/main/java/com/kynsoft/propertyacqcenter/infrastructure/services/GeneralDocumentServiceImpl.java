@@ -5,7 +5,7 @@ import com.kynsof.share.core.domain.response.PaginatedResponse;
 import com.kynsof.share.core.infrastructure.specifications.GenericSpecificationsBuilder;
 import com.kynsoft.propertyacqcenter.application.response.GeneralDocumentResponse;
 import com.kynsoft.propertyacqcenter.domain.dto.GeneralDocumentDto;
-import com.kynsoft.propertyacqcenter.domain.dto.exception.AddressNotFoundException;
+import com.kynsoft.propertyacqcenter.domain.dto.exception.AcquisitionDocumentNotFoundException;
 import com.kynsoft.propertyacqcenter.domain.dto.exception.NotDeleteException;
 import com.kynsoft.propertyacqcenter.domain.services.IGeneralDocumentService;
 import com.kynsoft.propertyacqcenter.infrastructure.entity.DocumentType;
@@ -69,7 +69,7 @@ public class GeneralDocumentServiceImpl implements IGeneralDocumentService {
         if (entity.isPresent()) {
             return entity.get().toAggregate();
         }
-        throw new AddressNotFoundException(id);
+        throw new AcquisitionDocumentNotFoundException(id);
     }
 
     private GeneralDocument findByIdSimple(UUID id) {
@@ -77,7 +77,7 @@ public class GeneralDocumentServiceImpl implements IGeneralDocumentService {
         if (entity.isPresent()) {
             return entity.get();
         }
-        throw new AddressNotFoundException(id);
+        throw new AcquisitionDocumentNotFoundException(id);
     }
 
     @Override
