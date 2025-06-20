@@ -46,7 +46,7 @@ public class CreateUserSystemCommandHandler implements ICommandHandler<CreateUse
 
     @Override
     public void handle(CreateUserSystemCommand command) {
-        log.info("Creating user system with command: {}", command);
+        log.error("Creating user system with command: {}", command);
         RulesChecker.checkRule(new ModuleEmailMustBeUniqueRule(this.userSystemService, command.getEmail(), UUID.randomUUID()));
         RulesChecker.checkRule(new ModuleUserNameMustBeUniqueRule(this.userSystemService, command.getUserName(), UUID.randomUUID()));
 
