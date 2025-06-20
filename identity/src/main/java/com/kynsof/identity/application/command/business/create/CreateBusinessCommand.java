@@ -24,10 +24,14 @@ public class CreateBusinessCommand implements ICommand {
     private final String email;
     private String webSite;
     private String storageCapacity;
+    private UUID idResponsible;
+    private Double fixedPrice;
+    private Boolean isChargedPerConsultation;
 
     public CreateBusinessCommand(String name, String latitude, String longitude, String description, String logo,
                                  String ruc, UUID geographicLocation, String address, String phone, String email,
-                                 String webSite, String storageCapacity) {
+                                 String webSite, String storageCapacity, UUID idResponsible, Double fixedPrice,
+                                 Boolean isChargedPerConsultation) {
         this.phone = phone;
         this.email = email;
         this.id = UUID.randomUUID();
@@ -41,6 +45,9 @@ public class CreateBusinessCommand implements ICommand {
         this.address = address;
         this.webSite = webSite;
         this.storageCapacity = storageCapacity;
+        this.idResponsible = idResponsible;
+        this.fixedPrice = fixedPrice;
+        this.isChargedPerConsultation = isChargedPerConsultation;
     }
 
     public static CreateBusinessCommand fromRequest(CreateBusinessRequest request) {
@@ -56,7 +63,10 @@ public class CreateBusinessCommand implements ICommand {
                 request.getPhone(),
                 request.getEmail(),
                 request.getWebSite(),
-                request.getStorageCapacity()
+                request.getStorageCapacity(),
+                request.getIdResponsible(),
+                request.getFixedPrice(),
+                request.getIsChargedPerConsultation()
         );
     }
 
