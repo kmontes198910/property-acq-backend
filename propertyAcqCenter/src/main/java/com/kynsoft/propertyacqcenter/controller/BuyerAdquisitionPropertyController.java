@@ -21,12 +21,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/adquisition-property")
-public class AdquisitionPropertyController {
+@RequestMapping("/api/buyer-acquisition-property")
+public class BuyerAdquisitionPropertyController {
 
     private final IMediator mediator;
 
-    public AdquisitionPropertyController(IMediator mediator) {
+    public BuyerAdquisitionPropertyController(IMediator mediator) {
 
         this.mediator = mediator;
     }
