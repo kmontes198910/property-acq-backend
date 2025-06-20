@@ -14,6 +14,7 @@ public class GeneralDocumentDto {
 
     private UUID id;
     private DocumentTypeDto documentType;
+    private AdquisitionPropertyDto adquisitionProperty;
     private String fileName;
     private String filePath;
     private LocalDateTime createdAt;

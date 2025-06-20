@@ -16,11 +16,17 @@ public class UpdateAdquisitionPropertyCommand implements ICommand {
     private String property;
     private UUID contact;
 
-    public UpdateAdquisitionPropertyCommand(UUID id, UUID buyer, String property, UUID contact) {
+    private String buyerNameAndYearVehicle;
+    private String buyerLicenseTagNo;
+
+    public UpdateAdquisitionPropertyCommand(UUID id, UUID buyer, String property, UUID contact, String buyerNameAndYearVehicle,
+                                            String buyerLicenseTagNo) {
         this.id = id;
         this.buyer = buyer;
         this.property = property;
         this.contact = contact;
+        this.buyerLicenseTagNo = buyerLicenseTagNo;
+        this.buyerNameAndYearVehicle = buyerNameAndYearVehicle;
     }
 
     public static UpdateAdquisitionPropertyCommand fromRequest(UpdateAdquisitionPropertyRequest request, UUID id) {
@@ -28,7 +34,9 @@ public class UpdateAdquisitionPropertyCommand implements ICommand {
                 id,
                 request.getBuyer(),
                 request.getProperty(),
-                request.getContact()
+                request.getContact(),
+                request.getBuyerNameAndYearVehicle(),
+                request.getBuyerLicenseTagNo()
         );
     }
 

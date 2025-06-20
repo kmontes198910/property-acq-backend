@@ -14,11 +14,11 @@ import org.springframework.data.jpa.repository.EntityGraph;
 
 @Repository
 public interface GeneralDocumentReadDataJPARepository extends JpaRepository<GeneralDocument, UUID>, JpaSpecificationExecutor<GeneralDocument> {
-    @EntityGraph(attributePaths = {"documentType"})
+    @EntityGraph(attributePaths = {"documentType", "adquisitionProperty"})
     @Override
     Page<GeneralDocument> findAll(Specification<GeneralDocument> specification, Pageable pageable);
 
-    @EntityGraph(attributePaths = {"documentType"})
+    @EntityGraph(attributePaths = {"documentType", "adquisitionProperty"})
     @Override
     Optional<GeneralDocument> findById(UUID id);
 }

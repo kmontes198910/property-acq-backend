@@ -41,6 +41,8 @@ public class UpdateAdquisitionPropertyCommandHandler implements ICommandHandler<
                 .buyer(legalEntityDto)
                 .property(propertyDto)
                 .contact(contactDto)
+                .buyerLicenseTagNo(command.getBuyerLicenseTagNo())
+                .buyerNameAndYearVehicle(command.getBuyerNameAndYearVehicle())
                 .build()
         );
     }

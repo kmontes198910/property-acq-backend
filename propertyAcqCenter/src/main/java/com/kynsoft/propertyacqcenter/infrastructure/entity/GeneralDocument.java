@@ -26,6 +26,10 @@ public class GeneralDocument {
     @JoinColumn(name = "document_type_id")
     private DocumentType documentType;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "adquisition_property_id")
+    private AdquisitionProperty adquisitionProperty;
+
     @Column(name = "file_name", nullable = false)
     private String fileName;
 
@@ -49,6 +53,7 @@ public class GeneralDocument {
     public GeneralDocument(GeneralDocumentDto dto) {
         this.id = dto.getId() != null ? dto.getId() : UUID.randomUUID();
         this.documentType = dto.getDocumentType() != null ? new DocumentType(dto.getDocumentType()) : null;
+        this.adquisitionProperty = dto.getAdquisitionProperty() != null ? new AdquisitionProperty(dto.getAdquisitionProperty()) : null;
         this.fileName = dto.getFileName();
         this.filePath = dto.getFilePath();
         this.createdBy = dto.getCreatedBy();
@@ -65,6 +70,7 @@ public class GeneralDocument {
                 .updatedAt(this.updatedAt)
                 .createdBy(this.createdBy)
                 .updatedBy(this.updatedBy)
+                .adquisitionProperty(adquisitionProperty != null ? adquisitionProperty.toAggregateBasic() : null)
                 .build();
     }
 }

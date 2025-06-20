@@ -41,6 +41,8 @@ public class CreateAdquisitionPropertyCommandHandler implements ICommandHandler<
                 .buyer(legalEntityDto)
                 .property(propertyDto)
                 .contact(contactDto)
+                .buyerNameAndYearVehicle(command.getBuyerNameAndYearVehicle())
+                .buyerLicenseTagNo(command.getBuyerLicenseTagNo())
                 .build()
         );
     }
