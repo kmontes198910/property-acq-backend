@@ -49,8 +49,8 @@ public class AdquisitionPropertyServiceImpl implements IAdquisitionPropertyServi
     public void update(AdquisitionPropertyDto object) {
         AdquisitionProperty update = this.findByIdSimple(object.getId());
 
-        update.setBuyer(new LegalEntity(object.getBuyer()));
-        update.setContact(new CompanyContact(object.getContact()));
+        update.setBuyer(object.getBuyer() != null ? new LegalEntity(object.getBuyer()) : null);
+        update.setContact(object.getContact() != null ? new CompanyContact(object.getContact()) : null);
         update.setProperty(new Property(object.getProperty()));
 
         update.setBuyerNameAndYearVehicle(object.getBuyerNameAndYearVehicle());
