@@ -6,6 +6,7 @@ import lombok.Getter;
 @Getter
 public class UpdateGeneralDocumentRequest {
     private UUID documentType;
+    private UUID adquisitionProperty;
     private String fileName;
     private String filePath;
 }

@@ -16,6 +16,8 @@ public class AdquisitionPropertyDto {
     private LegalEntityDto buyer;
     private PropertyDto property;
     private CompanyContactDto contact;
+    private String buyerNameAndYearVehicle;
+    private String buyerLicenseTagNo;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
     private UUID createdBy;

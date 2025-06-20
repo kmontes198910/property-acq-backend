@@ -11,4 +11,7 @@ public class UpdateAdquisitionPropertyRequest {
     private UUID buyer;
     private String property;
     private UUID contact;
+
+    private String buyerNameAndYearVehicle;
+    private String buyerLicenseTagNo;
 }

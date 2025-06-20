@@ -13,14 +13,16 @@ public class UpdateGeneralDocumentCommand implements ICommand {
 
     private UUID id;
     private UUID documentType;
+    private UUID adquisitionProperty;
     private String fileName;
     private String filePath;
 
-    public UpdateGeneralDocumentCommand(UUID id, UUID documentType, String fileName, String filePath) {
+    public UpdateGeneralDocumentCommand(UUID id, UUID documentType, String fileName, String filePath, UUID adquisitionProperty) {
         this.id = id;
         this.documentType = documentType;
         this.fileName = fileName;
         this.filePath = filePath;
+        this.adquisitionProperty = adquisitionProperty;
     }
 
     public static UpdateGeneralDocumentCommand fromRequest(UpdateGeneralDocumentRequest request, UUID id) {
@@ -28,7 +30,8 @@ public class UpdateGeneralDocumentCommand implements ICommand {
                 id,
                 request.getDocumentType(),
                 request.getFileName(),
-                request.getFilePath()
+                request.getFilePath(),
+                request.getAdquisitionProperty()
         );
     }
 
