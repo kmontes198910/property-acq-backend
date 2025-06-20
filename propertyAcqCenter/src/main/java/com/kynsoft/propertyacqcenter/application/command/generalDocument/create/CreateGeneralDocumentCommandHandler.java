@@ -28,6 +28,7 @@ public class CreateGeneralDocumentCommandHandler implements ICommandHandler<Crea
         DocumentTypeDto documentType = command.getDocumentType() != null ? this.documentTypeService.findById(command.getDocumentType()) : null;
         this.generalDocumentService.create(GeneralDocumentDto
                 .builder()
+                .id(command.getId())
                 .documentType(documentType)
                 .fileName(command.getFileName())
                 .filePath(command.getFilePath())
