@@ -22,4 +22,7 @@ public class UpdateBusinessRequest {
     private String email;
     private String webSite;
     private String storageCapacity;
+    private UUID idResponsible;
+    private Double fixedPrice;
+    private Boolean isChargedPerConsultation;
 }

@@ -32,6 +32,9 @@ public class BusinessResponse implements IResponse, Serializable {
     private String email;
     private String webSite;
     private String storageCapacity;
+    private UUID idResponsible;
+    private Double fixedPrice;
+    private Boolean isChargedPerConsultation;
 
     private GeographicLocationResponse geolocation;
 
@@ -52,6 +55,9 @@ public class BusinessResponse implements IResponse, Serializable {
         this.email = object.getEmail();
         this.webSite = object.getWebSite();
         this.storageCapacity = object.getStorageCapacity();
+        this.idResponsible = object.getIdResponsible();
+        this.fixedPrice = object.getFixedPrice();
+        this.isChargedPerConsultation = object.getIsChargedPerConsultation();
     }
 
 }

@@ -54,9 +54,11 @@ public class CreateBusinessCommandHandler implements ICommandHandler<CreateBusin
                 command.getPhone(),
                 command.getEmail(),
                 command.getWebSite(),
-                command.getStorageCapacity()
+                command.getStorageCapacity(),
+                command.getIdResponsible(),
+                command.getFixedPrice(),
+                command.getIsChargedPerConsultation()
         );
-
         create.setCreateAt(ConfigureTimeZone.getTimeZone());
         service.create(create);
         this.eventPublisherService.publishBusinessEvent(new BusinessRabbitMQDto(
