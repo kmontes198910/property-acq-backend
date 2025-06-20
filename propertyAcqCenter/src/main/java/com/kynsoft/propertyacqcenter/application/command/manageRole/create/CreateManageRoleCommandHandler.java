@@ -1,4 +1,4 @@
-package com.kynsoft.propertyacqcenter.application.command.manageRole.update;
+package com.kynsoft.propertyacqcenter.application.command.manageRole.create;
 
 import com.kynsof.share.core.domain.bus.command.ICommandHandler;
 import com.kynsoft.propertyacqcenter.domain.dto.DocumentTypeDto;
@@ -11,21 +11,21 @@ import java.util.stream.Collectors;
 import org.springframework.stereotype.Component;
 
 @Component
-public class UpdateManageRoleCommandHandler implements ICommandHandler<UpdateManageRoleCommand> {
+public class CreateManageRoleCommandHandler implements ICommandHandler<CreateManageRoleCommand> {
 
     private final IManageRoleService service;
     private final IDocumentTypeService documentTypeService;
 
-    public UpdateManageRoleCommandHandler(IManageRoleService service, IDocumentTypeService documentTypeService) {
+    public CreateManageRoleCommandHandler(IManageRoleService service, IDocumentTypeService documentTypeService) {
         this.service = service;
         this.documentTypeService = documentTypeService;
     }
 
     @Override
-    public void handle(UpdateManageRoleCommand command) {
+    public void handle(CreateManageRoleCommand command) {
         ManageRolDto dto = new ManageRolDto(command.getId(), command.getCode(), command.getName(), false);
         dto.setDocumentTypes(get(command.getDocumentTypes()));
-        service.update(dto);
+        service.create(dto);
     }
 
     private List<DocumentTypeDto> get(List<UUID> ids) {

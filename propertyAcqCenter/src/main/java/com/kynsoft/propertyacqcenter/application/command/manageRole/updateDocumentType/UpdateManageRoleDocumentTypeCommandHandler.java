@@ -1,4 +1,4 @@
-package com.kynsoft.propertyacqcenter.application.command.manageRole.update;
+package com.kynsoft.propertyacqcenter.application.command.manageRole.updateDocumentType;
 
 import com.kynsof.share.core.domain.bus.command.ICommandHandler;
 import com.kynsoft.propertyacqcenter.domain.dto.DocumentTypeDto;
@@ -6,26 +6,29 @@ import com.kynsoft.propertyacqcenter.domain.dto.ManageRolDto;
 import com.kynsoft.propertyacqcenter.domain.services.IDocumentTypeService;
 import com.kynsoft.propertyacqcenter.domain.services.IManageRoleService;
 import java.util.List;
-import java.util.UUID;
-import java.util.stream.Collectors;
 import org.springframework.stereotype.Component;
 
-@Component
-public class UpdateManageRoleCommandHandler implements ICommandHandler<UpdateManageRoleCommand> {
+import java.util.UUID;
+import java.util.stream.Collectors;
 
-    private final IManageRoleService service;
+@Component
+public class UpdateManageRoleDocumentTypeCommandHandler implements ICommandHandler<UpdateManageRoleDocumentTypeCommand> {
+
     private final IDocumentTypeService documentTypeService;
 
-    public UpdateManageRoleCommandHandler(IManageRoleService service, IDocumentTypeService documentTypeService) {
-        this.service = service;
+    private final IManageRoleService roleService;
+
+    public UpdateManageRoleDocumentTypeCommandHandler(IDocumentTypeService documentTypeService,
+                                        IManageRoleService roleService) {
         this.documentTypeService = documentTypeService;
+        this.roleService = roleService;
     }
 
     @Override
-    public void handle(UpdateManageRoleCommand command) {
-        ManageRolDto dto = new ManageRolDto(command.getId(), command.getCode(), command.getName(), false);
-        dto.setDocumentTypes(get(command.getDocumentTypes()));
-        service.update(dto);
+    public void handle(UpdateManageRoleDocumentTypeCommand command) {
+        ManageRolDto rol = this.roleService.findById(command.getRol());
+        rol.setDocumentTypes(get(command.getDocumentTypes()));
+        this.roleService.update(rol);
     }
 
     private List<DocumentTypeDto> get(List<UUID> ids) {
@@ -33,4 +36,5 @@ public class UpdateManageRoleCommandHandler implements ICommandHandler<UpdateMan
             .map(this.documentTypeService::findById)
             .collect(Collectors.toList());
     }
+
 }
