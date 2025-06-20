@@ -1,15 +1,11 @@
 package com.kynsoft.propertyacqcenter.infrastructure.services;
 
-import com.kynsof.share.core.domain.exception.BusinessNotFoundException;
-import com.kynsof.share.core.domain.exception.DomainErrorMessage;
-import com.kynsof.share.core.domain.exception.GlobalBusinessException;
 import com.kynsof.share.core.domain.request.FilterCriteria;
-import com.kynsof.share.core.domain.response.ErrorField;
 import com.kynsof.share.core.domain.response.PaginatedResponse;
 import com.kynsof.share.core.infrastructure.specifications.GenericSpecificationsBuilder;
 import com.kynsoft.propertyacqcenter.application.response.ManageRoleResponse;
+import com.kynsoft.propertyacqcenter.domain.dto.DocumentTypeDto;
 import com.kynsoft.propertyacqcenter.domain.dto.ManageRolDto;
-import com.kynsoft.propertyacqcenter.domain.dto.exception.PurchaseNotFoundException;
 import com.kynsoft.propertyacqcenter.domain.dto.exception.RoleNotFoundException;
 import com.kynsoft.propertyacqcenter.domain.services.IManageRoleService;
 import com.kynsoft.propertyacqcenter.infrastructure.entity.DocumentType;
@@ -23,6 +19,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -100,5 +97,26 @@ public class ManageRoleServiceImpl implements IManageRoleService {
                 .toList();
         return new PaginatedResponse(permissionResponses, data.getTotalPages(), data.getNumberOfElements(),
                 data.getTotalElements(), data.getSize(), data.getNumber());
+    }
+
+    @Override
+    public List<ManageRolDto> findRolesByEmployeeId(UUID employeeId) {
+        Set<ManageRole> roles = query.findRolesByEmployeeId(employeeId);
+        return roles.stream()
+            .map(role -> ManageRolDto
+                    .builder()
+                    .id(role.getId())
+                    .code(role.getCode())
+                    .name(role.getName())
+                    .documentTypes(role.getDocumentTypes().stream()
+                            .map(x -> DocumentTypeDto
+                                    .builder()
+                                    .code(x.getCode())
+                                    .id(x.getId())
+                                    .name(x.getName())
+                                    .build())
+                            .collect(Collectors.toList()))
+                    .build())
+            .collect(Collectors.toList());
     }
 }
