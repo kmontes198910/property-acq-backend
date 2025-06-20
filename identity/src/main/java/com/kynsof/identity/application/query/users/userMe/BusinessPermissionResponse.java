@@ -17,5 +17,6 @@ public class BusinessPermissionResponse implements IResponse, Serializable {
     private UUID businessId;
     private Double balance;
     private String name;
+    private UUID idResponsible;
     private List<String> permissions;
 }

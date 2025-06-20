@@ -28,7 +28,7 @@ public interface BusinessModuleReadDataJPARepository extends JpaRepository<Busin
     @Query("SELECT COUNT(b) FROM BusinessModule b WHERE b.business.id = :businessId AND b.module.id = :moduleId")
     Long countByBussinessIdAndModuleId(@Param("businessId") UUID businessId, @Param("moduleId") UUID moduleId);
 
-    @Query("SELECT bm.business.id, bm.business.name, p.code, bm.business.balance FROM BusinessModule bm JOIN bm.module.permissions p")
+    @Query("SELECT bm.business.id, bm.business.name, p.code, bm.business.balance, bm.business.idResponsible FROM BusinessModule bm JOIN bm.module.permissions p")
     List<Object[]> findAllBusinessesWithPermissions();
 
 }
