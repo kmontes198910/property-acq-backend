@@ -57,8 +57,8 @@ jobs:
         uses: kota65535/github-openvpn-connect-action@v3
         with:
           config_file: vpnconfig/cicd-kynsoft-config.ovpn
-          username: ${{ secrets.OPEN_VPN_USER }}
-          password: ${{ secrets.OPEN_VPN_PASSWORD }}
+          username: cicd
+          password: cicd.password12.
 
       - name: Enable kubectl
         uses: tale/kubectl-action@v1
