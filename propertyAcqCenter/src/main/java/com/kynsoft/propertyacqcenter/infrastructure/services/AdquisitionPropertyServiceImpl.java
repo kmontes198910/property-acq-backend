@@ -52,6 +52,9 @@ public class AdquisitionPropertyServiceImpl implements IAdquisitionPropertyServi
         update.setContact(new CompanyContact(object.getContact()));
         update.setProperty(new Property(object.getProperty()));
 
+        update.setBuyerNameAndYearVehicle(object.getBuyerNameAndYearVehicle());
+        update.setBuyerLicenseTagNo(object.getBuyerLicenseTagNo());
+
         update.setUpdatedAt(LocalDateTime.now());
         repositoryCommand.save(update);
     }

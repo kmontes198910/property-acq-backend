@@ -16,18 +16,26 @@ public class CreateAdquisitionPropertyCommand implements ICommand {
     private String property;
     private UUID contact;
 
-    public CreateAdquisitionPropertyCommand(UUID buyer, String property, UUID contact) {
+    private String buyerNameAndYearVehicle;
+    private String buyerLicenseTagNo;
+
+    public CreateAdquisitionPropertyCommand(UUID buyer, String property, UUID contact, String buyerNameAndYearVehicle,
+                                            String buyerLicenseTagNo) {
         this.id = UUID.randomUUID();
         this.buyer = buyer;
         this.property = property;
         this.contact = contact;
+        this.buyerNameAndYearVehicle = buyerNameAndYearVehicle;
+        this.buyerLicenseTagNo = buyerLicenseTagNo;
     }
 
     public static CreateAdquisitionPropertyCommand fromRequest(CreateAdquisitionPropertyRequest request) {
         return new CreateAdquisitionPropertyCommand(
                 request.getBuyer(),
                 request.getProperty(),
-                request.getContact()
+                request.getContact(),
+                request.getBuyerNameAndYearVehicle(),
+                request.getBuyerLicenseTagNo()
         );
     }
 

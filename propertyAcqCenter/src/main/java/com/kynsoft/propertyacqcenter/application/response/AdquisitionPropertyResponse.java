@@ -15,8 +15,10 @@ import java.util.UUID;
 public class AdquisitionPropertyResponse implements IResponse {
 
     private UUID id;
+    private String buyerNameAndYearVehicle;
+    private String buyerLicenseTagNo;
     private LegalEntityBasicResponse buyer;
-    private PropertiesResponse property;
+    private PropertiesBasicResponse property;
     private CompanyContactResponse contact;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
@@ -26,8 +28,10 @@ public class AdquisitionPropertyResponse implements IResponse {
     public AdquisitionPropertyResponse(AdquisitionPropertyDto dto) {
         this.id = dto.getId();
         this.buyer = dto.getBuyer() != null ? new LegalEntityBasicResponse(dto.getBuyer()) : null;
-        this.property = dto.getProperty() != null ? new PropertiesResponse(dto.getProperty()) : null;
+        this.property = dto.getProperty() != null ? new PropertiesBasicResponse(dto.getProperty()) : null;
         this.contact = dto.getContact() != null ? new CompanyContactResponse(dto.getContact()) : null;
+        this.buyerNameAndYearVehicle = dto.getBuyerNameAndYearVehicle();
+        this.buyerLicenseTagNo = dto.getBuyerLicenseTagNo();
         this.createdAt = dto.getCreatedAt();
         this.updatedAt = dto.getUpdatedAt();
         this.createdBy = dto.getCreatedBy();

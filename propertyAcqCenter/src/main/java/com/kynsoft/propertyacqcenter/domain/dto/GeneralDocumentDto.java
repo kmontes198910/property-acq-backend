@@ -10,14 +10,13 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class AdquisitionPropertyDto {
+public class GeneralDocumentDto {
 
     private UUID id;
-    private LegalEntityDto buyer;
-    private PropertyDto property;
-    private CompanyContactDto contact;
-    private String buyerNameAndYearVehicle;
-    private String buyerLicenseTagNo;
+    private DocumentTypeDto documentType;
+    private AdquisitionPropertyDto adquisitionProperty;
+    private String fileName;
+    private String filePath;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
     private UUID createdBy;
