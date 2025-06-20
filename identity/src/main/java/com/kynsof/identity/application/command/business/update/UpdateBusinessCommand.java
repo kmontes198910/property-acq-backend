@@ -29,12 +29,13 @@ public class UpdateBusinessCommand implements ICommand {
     private UUID idResponsible;
     private Double fixedPrice;
     private Boolean isChargedPerConsultation;
+    private UUID seller;
 
     public UpdateBusinessCommand(UUID id, String name, String latitude, String longitude, String description,
                                  String logo, String ruc, EBusinessStatus status, UUID geographicLocation, 
                                  String address, String phone, String email, String webSite, String storageCapacity,
                                  UUID idResponsible, Double fixedPrice,
-                                 Boolean isChargedPerConsultation) {
+                                 Boolean isChargedPerConsultation,UUID seller) {
         this.id = id;
         this.name = name;
         this.latitude = latitude;
@@ -52,6 +53,7 @@ public class UpdateBusinessCommand implements ICommand {
         this.idResponsible = idResponsible;
         this.fixedPrice = fixedPrice;
         this.isChargedPerConsultation = isChargedPerConsultation;
+        this.seller = seller;
 
     }
 
@@ -73,7 +75,8 @@ public class UpdateBusinessCommand implements ICommand {
                 request.getStorageCapacity(),
                 request.getIdResponsible(),
                 request.getFixedPrice(),
-                request.getIsChargedPerConsultation()
+                request.getIsChargedPerConsultation(),
+                request.getSeller()
         );
     }
 

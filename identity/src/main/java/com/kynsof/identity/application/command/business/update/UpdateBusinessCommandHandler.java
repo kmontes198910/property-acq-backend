@@ -58,6 +58,7 @@ public class UpdateBusinessCommandHandler implements ICommandHandler<UpdateBusin
         UpdateIfNotNull.updateIfNotNull(updateBusiness::setIdResponsible, command.getIdResponsible());
         UpdateIfNotNull.updateIfNotNull(updateBusiness::setFixedPrice, command.getFixedPrice());
         UpdateIfNotNull.updateIfNotNull(updateBusiness::setIsChargedPerConsultation, command.getIsChargedPerConsultation());
+        UpdateIfNotNull.updateIfNotNull(updateBusiness::setSeller, command.getSeller());
         service.update(updateBusiness);
 
 

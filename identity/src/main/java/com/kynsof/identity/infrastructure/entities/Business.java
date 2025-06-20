@@ -43,6 +43,8 @@ public class Business {
     private Double fixedPrice;
     @Column(name = "is_charged_cer_consultation")
     private Boolean isChargedPerConsultation;
+    private UUID seller;
+
     @OneToMany(mappedBy = "business")
     private Set<UserPermissionBusiness> userPermissionBusinesses = new HashSet<>();
     @ManyToOne(fetch = FetchType.EAGER)
@@ -74,6 +76,7 @@ public class Business {
         this.idResponsible = business.getIdResponsible();
         this.fixedPrice = business.getFixedPrice();
         this.isChargedPerConsultation = business.getIsChargedPerConsultation();
+        this.seller = business.getSeller();
     }
 
     public BusinessDto toAggregate () {
@@ -94,7 +97,8 @@ public class Business {
                 storageCapacity,
                 idResponsible,
                 fixedPrice,
-                isChargedPerConsultation
+                isChargedPerConsultation,
+                seller
         );
         businessDto.setBalance(balance);
         businessDto.setCreateAt(createdAt);

@@ -57,7 +57,8 @@ public class CreateBusinessCommandHandler implements ICommandHandler<CreateBusin
                 command.getStorageCapacity(),
                 command.getIdResponsible(),
                 command.getFixedPrice(),
-                command.getIsChargedPerConsultation()
+                command.getIsChargedPerConsultation(),
+                command.getSeller()
         );
         create.setCreateAt(ConfigureTimeZone.getTimeZone());
         service.create(create);

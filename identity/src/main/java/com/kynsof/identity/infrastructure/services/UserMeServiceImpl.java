@@ -67,6 +67,7 @@ public class UserMeServiceImpl implements IUserMeService {
                             business.getId(),
                             business.getBalance(),
                             business.getName(),
+                            business.getIdResponsible(),
                             permissions);
                 })
                 .collect(Collectors.toMap(BusinessPermissionResponse::getBusinessId, bpr -> bpr));
@@ -96,8 +97,9 @@ public class UserMeServiceImpl implements IUserMeService {
             String businessName = (String) result[1];
             String permissionCode = (String) result[2];
             double balance = (double) result[3];
+            UUID idResponsable = (UUID) result[4];
 
-            responseMap.computeIfAbsent(businessId, id -> new BusinessPermissionResponse(id, balance, businessName, new ArrayList<>()))
+            responseMap.computeIfAbsent(businessId, id -> new BusinessPermissionResponse(id, balance, businessName,idResponsable, new ArrayList<>()))
                     .getPermissions().add(permissionCode);
         }
 
