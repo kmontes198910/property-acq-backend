@@ -43,6 +43,21 @@ public class CreateAdquisitionPropertyCommandHandler implements ICommandHandler<
                 .contact(contactDto)
                 .buyerNameAndYearVehicle(command.getBuyerNameAndYearVehicle())
                 .buyerLicenseTagNo(command.getBuyerLicenseTagNo())
+                .dateAndTimeForInspections(command.getDateAndTimeForInspections())
+                .instructionsForAccess(command.getInstructionsForAccess())
+                .hoaBuyerInterviewDate(command.getHoaBuyerInterviewDate())
+                .preferredMoveinDate(command.getPreferredMoveinDate())
+                .eSignAuthorization(command.getESignAuthorization())
+                .finalWalkthroughDate(command.getFinalWalkthroughDate())
+                .wireAccountHolderName(command.getWireAccountHolderName())
+                .wireAccountNumber(command.getWireAccountNumber())
+                .wireRoutingNumber(command.getWireRoutingNumber())
+                .zelleEmailorPhone(command.getZelleEmailorPhone())
+                .electricProviderConfirmation(command.getElectricProviderConfirmation())
+                .gasServiceConfirmation(command.getGasServiceConfirmation())
+                .trashServiceConfirmation(command.getTrashServiceConfirmation())
+                .waterSewerSetupConfirmation(command.getWaterSewerSetupConfirmation())
+
                 .build()
         );
     }
