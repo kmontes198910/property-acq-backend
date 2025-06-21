@@ -9,7 +9,7 @@ import com.kynsoft.propertyacqcenter.domain.dto.exception.AddressNotFoundExcepti
 import com.kynsoft.propertyacqcenter.domain.dto.exception.NotDeleteException;
 import com.kynsoft.propertyacqcenter.domain.dto.exception.PurchaseForPropertyNotFoundException;
 import com.kynsoft.propertyacqcenter.domain.services.IAdquisitionPropertyService;
-import com.kynsoft.propertyacqcenter.infrastructure.entity.AdquisitionProperty;
+import com.kynsoft.propertyacqcenter.infrastructure.entity.BuyerAdquisitionProperty;
 import com.kynsoft.propertyacqcenter.infrastructure.entity.CompanyContact;
 import com.kynsoft.propertyacqcenter.infrastructure.entity.LegalEntity;
 import com.kynsoft.propertyacqcenter.infrastructure.entity.Property;
@@ -41,13 +41,13 @@ public class AdquisitionPropertyServiceImpl implements IAdquisitionPropertyServi
     @Override
     @Transactional
     public UUID create(AdquisitionPropertyDto object) {
-        return repositoryCommand.save(new AdquisitionProperty(object)).getId();
+        return repositoryCommand.save(new BuyerAdquisitionProperty(object)).getId();
     }
 
     @Override
     @Transactional
     public void update(AdquisitionPropertyDto object) {
-        AdquisitionProperty update = this.findByIdSimple(object.getId());
+        BuyerAdquisitionProperty update = this.findByIdSimple(object.getId());
 
         update.setBuyer(object.getBuyer() != null ? new LegalEntity(object.getBuyer()) : null);
         update.setContact(object.getContact() != null ? new CompanyContact(object.getContact()) : null);
@@ -55,6 +55,21 @@ public class AdquisitionPropertyServiceImpl implements IAdquisitionPropertyServi
 
         update.setBuyerNameAndYearVehicle(object.getBuyerNameAndYearVehicle());
         update.setBuyerLicenseTagNo(object.getBuyerLicenseTagNo());
+
+        update.setDateAndTimeForInspections(object.getDateAndTimeForInspections());
+        update.setInstructionsForAccess(object.getInstructionsForAccess());
+        update.setHoaBuyerInterviewDate(object.getHoaBuyerInterviewDate());
+        update.setPreferredMoveinDate(object.getPreferredMoveinDate());
+        update.setESignAuthorization(object.getESignAuthorization());
+        update.setFinalWalkthroughDate(object.getFinalWalkthroughDate());
+        update.setWireAccountHolderName(object.getWireAccountHolderName());
+        update.setWireAccountNumber(object.getWireAccountNumber());
+        update.setWireRoutingNumber(object.getWireRoutingNumber());
+        update.setZelleEmailorPhone(object.getZelleEmailorPhone());
+        update.setElectricProviderConfirmation(object.getElectricProviderConfirmation());
+        update.setGasServiceConfirmation(object.getGasServiceConfirmation());
+        update.setTrashServiceConfirmation(object.getTrashServiceConfirmation());
+        update.setWaterSewerSetupConfirmation(object.getWaterSewerSetupConfirmation());
 
         update.setUpdatedAt(LocalDateTime.now());
         repositoryCommand.save(update);
@@ -72,15 +87,15 @@ public class AdquisitionPropertyServiceImpl implements IAdquisitionPropertyServi
 
     @Override
     public AdquisitionPropertyDto findById(UUID id) {
-        Optional<AdquisitionProperty> entity = repositoryQuery.findById(id);
+        Optional<BuyerAdquisitionProperty> entity = repositoryQuery.findById(id);
         if (entity.isPresent()) {
             return entity.get().toAggregate();
         }
         throw new AddressNotFoundException(id);
     }
 
-    private AdquisitionProperty findByIdSimple(UUID id) {
-        Optional<AdquisitionProperty> entity = repositoryQuery.findById(id);
+    private BuyerAdquisitionProperty findByIdSimple(UUID id) {
+        Optional<BuyerAdquisitionProperty> entity = repositoryQuery.findById(id);
         if (entity.isPresent()) {
             return entity.get();
         }
@@ -89,15 +104,15 @@ public class AdquisitionPropertyServiceImpl implements IAdquisitionPropertyServi
 
     @Override
     public PaginatedResponse search(Pageable pageable, List<FilterCriteria> filterCriteria) {
-        GenericSpecificationsBuilder<AdquisitionProperty> specifications = new GenericSpecificationsBuilder<>(filterCriteria);
-        Page<AdquisitionProperty> data = this.repositoryQuery.findAll(specifications, pageable);
+        GenericSpecificationsBuilder<BuyerAdquisitionProperty> specifications = new GenericSpecificationsBuilder<>(filterCriteria);
+        Page<BuyerAdquisitionProperty> data = this.repositoryQuery.findAll(specifications, pageable);
 
         return getPaginatedResponse(data);
     }
 
-    private PaginatedResponse getPaginatedResponse(Page<AdquisitionProperty> data) {
+    private PaginatedResponse getPaginatedResponse(Page<BuyerAdquisitionProperty> data) {
         List<AdquisitionPropertyResponse> objects = new ArrayList<>();
-        for (AdquisitionProperty p : data.getContent()) {
+        for (BuyerAdquisitionProperty p : data.getContent()) {
             objects.add(new AdquisitionPropertyResponse(p.toAggregate()));
         }
         return new PaginatedResponse(objects, data.getTotalPages(), data.getNumberOfElements(),
@@ -106,7 +121,7 @@ public class AdquisitionPropertyServiceImpl implements IAdquisitionPropertyServi
 
     @Override
     public AdquisitionPropertyDto findByPropertyId(String propertyId) {
-        Optional<AdquisitionProperty> entity = repositoryQuery.findByPropertyId(propertyId);
+        Optional<BuyerAdquisitionProperty> entity = repositoryQuery.findByPropertyId(propertyId);
         if (entity.isPresent()) {
             return entity.get().toAggregate();
         }

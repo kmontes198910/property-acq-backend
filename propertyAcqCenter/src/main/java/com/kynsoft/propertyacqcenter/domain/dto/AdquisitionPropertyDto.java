@@ -1,5 +1,6 @@
 package com.kynsoft.propertyacqcenter.domain.dto;
 
+import java.time.LocalDate;
 import lombok.*;
 
 import java.time.LocalDateTime;
@@ -18,6 +19,22 @@ public class AdquisitionPropertyDto {
     private CompanyContactDto contact;
     private String buyerNameAndYearVehicle;
     private String buyerLicenseTagNo;
+
+    private LocalDate dateAndTimeForInspections;
+    private String instructionsForAccess;
+    private LocalDate hoaBuyerInterviewDate;
+    private LocalDate preferredMoveinDate;
+    private String eSignAuthorization;
+    private LocalDate finalWalkthroughDate;
+    private String wireAccountHolderName;
+    private String wireAccountNumber;
+    private String wireRoutingNumber;
+    private String zelleEmailorPhone;
+    private String electricProviderConfirmation;
+    private String gasServiceConfirmation;
+    private String trashServiceConfirmation;
+    private String waterSewerSetupConfirmation;
+
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
     private UUID createdBy;
