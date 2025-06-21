@@ -12,6 +12,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.TextStyle;
 import java.util.*;
 
 /**
@@ -61,14 +64,20 @@ public class InvoiceEmailService {
             List<MailJetRecipientDto> recipients = new ArrayList<>();
             recipients.add(new MailJetRecipientDto(recipientEmail, recipientName));
             requestDto.setRecipientEmail(recipients);
-            
+            LocalDate issueDate = LocalDate.now(); // o tu fecha específica
+
+            String formattedDate = String.format("%d de %s de %d",
+                    issueDate.getDayOfMonth(),
+                    issueDate.getMonth().getDisplayName(TextStyle.FULL, new Locale("es", "ES")),
+                    issueDate.getYear());
+
             // Configurar variables para la plantilla
             List<MailJetVarDto> vars = new ArrayList<>();
             vars.add(new MailJetVarDto("invoice_number", invoiceNumber));
             vars.add(new MailJetVarDto("invoice_amount", invoiceAmount));
             vars.add(new MailJetVarDto("client_name", recipientName));
             vars.add(new MailJetVarDto("key_access", keyAccess));
-            vars.add(new MailJetVarDto("issue_date", new Date()));
+            vars.add(new MailJetVarDto("issue_date", formattedDate));
             requestDto.setMailJetVars(vars);
             
             // Configurar el asunto

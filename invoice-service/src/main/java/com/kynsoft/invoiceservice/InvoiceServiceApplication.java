@@ -18,6 +18,7 @@ public class InvoiceServiceApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(InvoiceServiceApplication.class, args);
+
         System.out.println("Invoice Service is running...");
        // Factura
  //Crear una factura de ejemplo

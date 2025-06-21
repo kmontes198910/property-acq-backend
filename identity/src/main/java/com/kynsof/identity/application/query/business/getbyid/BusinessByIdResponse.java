@@ -34,6 +34,8 @@ public class BusinessByIdResponse implements IResponse, Serializable {
     private Double fixedPrice;
     private Boolean isChargedPerConsultation;
     private UUID seller;
+    private UUID idResponsible;
+    private double balance;
 
     private GeographicLocationResponse geolocation;
     private List<ModuleResponse> modules;
@@ -56,6 +58,8 @@ public class BusinessByIdResponse implements IResponse, Serializable {
         this.fixedPrice = object.getFixedPrice();
         this.isChargedPerConsultation = object.getIsChargedPerConsultation();
         this.seller = object.getSeller();
+        this.balance = object.getBalance();
+        this.idResponsible = object.getIdResponsible();
         modules = object.getModuleDtoList() !=null ? object.getModuleDtoList().stream()
                 .map(moduleDto ->
                         new ModuleResponse(moduleDto.getId(), moduleDto.getName()))

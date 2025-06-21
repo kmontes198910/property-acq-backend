@@ -19,6 +19,7 @@ public class UpdateLabTestParameterCommand implements ICommand {
     private final String code;
     private final String name;
     private final UUID userId;
+    private UUID labTestId;
 
     /**
      * Crea un comando a partir de una solicitud, ID del parámetro y ID del usuario
@@ -33,7 +34,8 @@ public class UpdateLabTestParameterCommand implements ICommand {
                 id,
                 request.getCode(),
                 request.getName(),
-                userId
+                userId,
+               request.getLabTestId()
         );
     }
 

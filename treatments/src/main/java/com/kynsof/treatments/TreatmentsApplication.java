@@ -22,5 +22,6 @@ public class TreatmentsApplication extends SpringBootServletInitializer {
     public static void main(String[] args) {
         System.setProperty("spring.main.web-application-type", "servlet");
         SpringApplication.run(TreatmentsApplication.class, args);
+
     }
 }
