@@ -13,25 +13,13 @@
 
     </dependencies>
     <modules>
-        <module>patients</module>
         <module>config</module>
         <module>gateway</module>
         <module>registry</module>
-        <module>calendar</module>
-        <module>treatments</module>
         <module>share</module>
-
         <module>identity</module>
         <module>cloudBridges</module>
-        <module>rrhh</module>
         <module>report</module>
-        <module>socketService</module>
-        <module>payment</module>
-        <module>evaluation</module>
-        <module>hospitalization-service</module>
-        <module>cirugia</module>
-        <module>digitalSignature</module>
-        <module>settings</module>
     </modules>
     <build>
 
