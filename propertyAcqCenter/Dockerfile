@@ -15,7 +15,7 @@ ENV LIBS_DIR=/app/libs
 ENV REPOSITORY_DIR=/app/repository
 
 # Comandos para instalar librerías locales en el repositorio
-RUN mvn install:install-file -Dfile=${LIBS_DIR}/E-Facturacion-1.0.0.jar -DgroupId=ec.e.facturacion -DartifactId=E-Facturacion -Dversion=1.0.0 -Dpackaging=jar -DgeneratePom=true -DlocalRepositoryPath=${REPOSITORY_DIR}
+RUN mvn install:install-file -Dfile=${LIBS_DIR}/share-properties-1.0.0.jar -DgroupId=com.knsof -DartifactId=share-properties -Dversion=1.0.0 -Dpackaging=jar -DgeneratePom=true -DlocalRepositoryPath=${REPOSITORY_DIR}
 
 # Etapa de caché para las dependencias
 RUN mvn dependency:go-offline -B
