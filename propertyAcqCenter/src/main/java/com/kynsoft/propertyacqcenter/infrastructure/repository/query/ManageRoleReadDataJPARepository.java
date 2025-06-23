@@ -1,7 +1,7 @@
 package com.kynsoft.propertyacqcenter.infrastructure.repository.query;
 
 import com.kynsoft.propertyacqcenter.infrastructure.entity.ManageRole;
-import feign.Param;
+import org.springframework.data.repository.query.Param;
 import java.util.Optional;
 import java.util.Set;
 import org.springframework.data.domain.Page;
