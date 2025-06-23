@@ -61,7 +61,7 @@
     <dependencies>
         <dependency>
             <groupId>com.knsof</groupId>
-            <artifactId>share</artifactId>
+            <artifactId>share-properties</artifactId>
             <version>0.0.1-SNAPSHOT</version>
             <scope>compile</scope>
         </dependency>

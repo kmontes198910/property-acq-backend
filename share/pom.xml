@@ -11,7 +11,7 @@
     </parent>
 
     <groupId>com.knsof</groupId>
-    <artifactId>share</artifactId>
+    <artifactId>share-properties</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>share</name>
     <packaging>jar</packaging>
@@ -144,7 +144,7 @@
         <repository>
             <id>github</id>
             <name>GitHub OWNER Apache Maven Packages</name>
-            <url>https://maven.pkg.github.com/kmontes198910/scheduled</url>
+            <url>https://maven.pkg.github.com/kmontes198910/property-acq-backend</url>
         </repository>
     </distributionManagement>
 </project>
