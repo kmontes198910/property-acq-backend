@@ -13,7 +13,7 @@
                 </repository>
                 <repository>
                     <id>github</id>
-                    <url>https://maven.pkg.github.com/kmontes198910/scheduled</url>
+                    <url>https://maven.pkg.github.com/kmontes198910/property-acq-backend</url>
                     <snapshots>
                         <enabled>true</enabled>
                     </snapshots>
