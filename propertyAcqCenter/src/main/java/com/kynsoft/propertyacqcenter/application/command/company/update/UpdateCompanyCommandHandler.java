@@ -40,19 +40,17 @@ public class UpdateCompanyCommandHandler implements ICommandHandler<UpdateCompan
         CompanyTypeDto companyTypeDto = command.getCompanyType() != null ? this.companyTypeService.findById(command.getCompanyType()) : null;
         SubCompanyTypeDto subCompanyTypeDto = command.getSubCompanyType() != null ? this.subCompanyTypeService.findById(command.getSubCompanyType()) : null;
         SubCategoryDto subCategoryDto = command.getSubCategory() != null ? this.subCategoryService.findById(command.getSubCategory()) : null;
-        this.companyService.update(new CompanyDto(
-                command.getId(),
-                business,
-                companyTypeDto,
-                subCompanyTypeDto,
-                command.getTitle(),
-                command.getNotes(),
-                null,
-                null,
-                null,
-                null,
-                command.getCategory(),
-                subCategoryDto
-        ));
+        this.companyService.update(CompanyDto
+                .builder()
+                .id(command.getId())
+                .business(business)
+                .companyType(companyTypeDto)
+                .subCompanyType(subCompanyTypeDto)
+                .title(command.getTitle())
+                .notes(command.getNotes())
+                .category(command.getCategory())
+                .subCategory(subCategoryDto)
+                .build()
+        );
     }
 }

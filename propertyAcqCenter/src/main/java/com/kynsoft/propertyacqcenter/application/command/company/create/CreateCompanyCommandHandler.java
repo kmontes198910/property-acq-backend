@@ -40,21 +40,18 @@ public class CreateCompanyCommandHandler implements ICommandHandler<CreateCompan
         CompanyTypeDto companyTypeDto = command.getCompanyType() != null ? this.companyTypeService.findById(command.getCompanyType()) : null;
         SubCompanyTypeDto subCompanyTypeDto = command.getSubCompanyType() != null ? this.subCompanyTypeService.findById(command.getSubCompanyType()) : null;
         SubCategoryDto subCategoryDto = command.getSubCategory() != null ? this.subCategoryService.findById(command.getSubCategory()) : null;
-        CompanyDto contactPersonDto = new CompanyDto(
-                command.getId(), 
-                businessDto, 
-                companyTypeDto, 
-                subCompanyTypeDto, 
-                command.getTitle(), 
-                command.getNotes(), 
-                null, 
-                null, 
-                null, 
-                null,
-                command.getCategory(),
-                subCategoryDto
-        );
 
-        this.contactPersonService.create(contactPersonDto);
+        this.contactPersonService.create(CompanyDto
+                .builder()
+                .id(command.getId())
+                .business(businessDto)
+                .companyType(companyTypeDto)
+                .subCompanyType(subCompanyTypeDto)
+                .title(command.getTitle())
+                .notes(command.getNotes())
+                .category(command.getCategory())
+                .subCategory(subCategoryDto)
+                .build()
+        );
     }
 }

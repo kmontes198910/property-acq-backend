@@ -1,6 +1,7 @@
 package com.kynsoft.propertyacqcenter.infrastructure.entity;
 
 import com.kynsoft.propertyacqcenter.domain.dto.CompanyDto;
+import com.kynsoft.propertyacqcenter.infrastructure.entity.embedded.company.TitleCompany;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
@@ -68,6 +69,9 @@ public class Company {
     @JoinColumn(name = "sub_category", nullable = true)
     private SubCategory subCategory;
 
+    @Embedded
+    private TitleCompany titleCompany;
+
     public Company(CompanyDto dto) {
         this.id = dto.getId() != null ? dto.getId() : UUID.randomUUID();
         this.companyType = dto.getCompanyType() != null ? new CompanyType(dto.getCompanyType()) : null;
@@ -79,6 +83,17 @@ public class Company {
         this.updatedBy = dto.getUpdatedBy();
         this.category = dto.getCategory();
         this.subCategory = dto.getSubCategory() != null ? new SubCategory(dto.getSubCategory()) : null;
+        this.titleCompany = dto.getTitleCompany() != null ? new TitleCompany(
+                dto.getTitleCompany().getTitleReview(), 
+                dto.getTitleCompany().getTitleCommitment(), 
+                dto.getTitleCompany().getCopyOfLastRecordedDeed(), 
+                dto.getTitleCompany().getLegalDescriptionOfTheProperty(), 
+                dto.getTitleCompany().getExistingTitlePolicy(), 
+                dto.getTitleCompany().getCopiesOfAnyExisting(), 
+                dto.getTitleCompany().getTaxCertificates(), 
+                dto.getTitleCompany().getUccSearchResults(), 
+                dto.getTitleCompany().getOldTitleInsurancePolicy()
+        ) : null;
     }
 
     public CompanyDto toAggregateSimple() {
