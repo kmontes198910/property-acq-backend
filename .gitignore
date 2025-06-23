@@ -11,3 +11,37 @@
 /cloudBridges/target/
 /rrhh/target/
 /report/target
+
+# Archivos sensibles
+*.key
+*.pem
+*.jks
+*.p12
+*.pfx
+*.cer
+*.crt
+**/src/main/resources/keystore.*
+**/src/main/resources/truststore.*
+**/src/main/resources/certificates/
+
+# Archivos de configuración que podrían contener secretos
+**/src/main/resources/application-*.properties
+**/src/main/resources/application-*.yml
+**/src/main/resources/bootstrap-*.properties
+**/src/main/resources/bootstrap-*.yml
+**/src/main/resources/secret*
+
+# Archivos grandes que Github rechaza
+gateway/target/gateway-1.0.0.jar
+notification/target/notification-1.0.0.jar
+
+# Otros archivos sensibles
+*.log
+*.env
+*.pem
+certificado.key.js
+keycloak.json
+medinec.json
+*token*
+*password*
+*secret*
