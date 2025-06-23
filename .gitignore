@@ -12,5 +12,9 @@
 /rrhh/target/
 /report/target
 
+# Maven configuration files with credentials
+**/rc-settings.xml
+**/.m2/settings.xml
+
 
 
