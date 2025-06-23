@@ -1,5 +1,6 @@
 package com.kynsoft.propertyacqcenter.domain.dto;
 
+import com.kynsoft.propertyacqcenter.domain.dto.embedded.company.TitleCompanyDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -25,4 +26,5 @@ public class CompanyDto {
     private UUID updatedBy;//
     private String category;
     private SubCategoryDto subCategory;
+    private TitleCompanyDto titleCompany;
 }
