@@ -71,7 +71,7 @@
     <dependencies>
         <dependency>
             <groupId>com.knsof</groupId>
-            <artifactId>share-properties</artifactId>
+            <artifactId>share</artifactId>
             <version>1.0.0</version>
         </dependency>
         <!-- Spring Boot Core -->
