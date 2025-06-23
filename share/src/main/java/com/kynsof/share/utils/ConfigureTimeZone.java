@@ -4,7 +4,6 @@ import java.time.*;
 import java.util.Date;
 
 public class ConfigureTimeZone {
-
     private static final String ZONE_ID = "America/Guayaquil";
     
     public static LocalDateTime getTimeZone() {
