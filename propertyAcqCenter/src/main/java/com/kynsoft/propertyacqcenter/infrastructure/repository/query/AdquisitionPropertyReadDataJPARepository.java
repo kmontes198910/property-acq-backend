@@ -1,6 +1,6 @@
 package com.kynsoft.propertyacqcenter.infrastructure.repository.query;
 
-import com.kynsoft.propertyacqcenter.infrastructure.entity.BuyerAdquisitionProperty;
+import com.kynsoft.propertyacqcenter.infrastructure.entity.AdquisitionProperty;
 import java.util.Optional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -13,15 +13,15 @@ import java.util.UUID;
 import org.springframework.data.jpa.repository.EntityGraph;
 
 @Repository
-public interface AdquisitionPropertyReadDataJPARepository extends JpaRepository<BuyerAdquisitionProperty, UUID>, JpaSpecificationExecutor<BuyerAdquisitionProperty> {
-    @EntityGraph(attributePaths = {"buyer", "property", "contact", "contact.company"})
+public interface AdquisitionPropertyReadDataJPARepository extends JpaRepository<AdquisitionProperty, UUID>, JpaSpecificationExecutor<AdquisitionProperty> {
+    @EntityGraph(attributePaths = {"buyer", "property", "contact", "contact.company", "documents", "documents.documentType"})
     @Override
-    Page<BuyerAdquisitionProperty> findAll(Specification<BuyerAdquisitionProperty> specification, Pageable pageable);
+    Page<AdquisitionProperty> findAll(Specification<AdquisitionProperty> specification, Pageable pageable);
 
-    @EntityGraph(attributePaths = {"buyer", "property", "contact", "contact.company"})
+    @EntityGraph(attributePaths = {"buyer", "property", "contact", "contact.company", "documents", "documents.documentType"})
     @Override
-    Optional<BuyerAdquisitionProperty> findById(UUID id);
+    Optional<AdquisitionProperty> findById(UUID id);
 
-    @EntityGraph(attributePaths = {"buyer", "property", "contact", "contact.company"})
-    Optional<BuyerAdquisitionProperty> findByPropertyId(String propertyId);
+    @EntityGraph(attributePaths = {"buyer", "property", "contact", "contact.company", "documents", "documents.documentType"})
+    Optional<AdquisitionProperty> findByPropertyId(String propertyId);
 }

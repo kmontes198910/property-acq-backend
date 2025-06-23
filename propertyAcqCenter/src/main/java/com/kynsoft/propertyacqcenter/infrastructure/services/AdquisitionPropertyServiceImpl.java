@@ -9,8 +9,9 @@ import com.kynsoft.propertyacqcenter.domain.dto.exception.AddressNotFoundExcepti
 import com.kynsoft.propertyacqcenter.domain.dto.exception.NotDeleteException;
 import com.kynsoft.propertyacqcenter.domain.dto.exception.PurchaseForPropertyNotFoundException;
 import com.kynsoft.propertyacqcenter.domain.services.IAdquisitionPropertyService;
-import com.kynsoft.propertyacqcenter.infrastructure.entity.BuyerAdquisitionProperty;
+import com.kynsoft.propertyacqcenter.infrastructure.entity.AdquisitionProperty;
 import com.kynsoft.propertyacqcenter.infrastructure.entity.CompanyContact;
+import com.kynsoft.propertyacqcenter.infrastructure.entity.GeneralDocument;
 import com.kynsoft.propertyacqcenter.infrastructure.entity.LegalEntity;
 import com.kynsoft.propertyacqcenter.infrastructure.entity.Property;
 import com.kynsoft.propertyacqcenter.infrastructure.repository.command.AdquisitionPropertyWriteDataJPARepository;
@@ -21,9 +22,11 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 import org.springframework.data.domain.Page;
 
 @Service
@@ -41,13 +44,13 @@ public class AdquisitionPropertyServiceImpl implements IAdquisitionPropertyServi
     @Override
     @Transactional
     public UUID create(AdquisitionPropertyDto object) {
-        return repositoryCommand.save(new BuyerAdquisitionProperty(object)).getId();
+        return repositoryCommand.save(new AdquisitionProperty(object)).getId();
     }
 
     @Override
     @Transactional
     public void update(AdquisitionPropertyDto object) {
-        BuyerAdquisitionProperty update = this.findByIdSimple(object.getId());
+        AdquisitionProperty update = this.findByIdSimple(object.getId());
 
         update.setBuyer(object.getBuyer() != null ? new LegalEntity(object.getBuyer()) : null);
         update.setContact(object.getContact() != null ? new CompanyContact(object.getContact()) : null);
@@ -71,6 +74,10 @@ public class AdquisitionPropertyServiceImpl implements IAdquisitionPropertyServi
         update.setTrashServiceConfirmation(object.getTrashServiceConfirmation());
         update.setWaterSewerSetupConfirmation(object.getWaterSewerSetupConfirmation());
 
+        update.setDocuments(object.getDocuments() != null
+                ? object.getDocuments().stream().map(GeneralDocument::new).collect(Collectors.toSet())
+                : Collections.emptySet());
+
         update.setUpdatedAt(LocalDateTime.now());
         repositoryCommand.save(update);
     }
@@ -87,15 +94,15 @@ public class AdquisitionPropertyServiceImpl implements IAdquisitionPropertyServi
 
     @Override
     public AdquisitionPropertyDto findById(UUID id) {
-        Optional<BuyerAdquisitionProperty> entity = repositoryQuery.findById(id);
+        Optional<AdquisitionProperty> entity = repositoryQuery.findById(id);
         if (entity.isPresent()) {
             return entity.get().toAggregate();
         }
         throw new AddressNotFoundException(id);
     }
 
-    private BuyerAdquisitionProperty findByIdSimple(UUID id) {
-        Optional<BuyerAdquisitionProperty> entity = repositoryQuery.findById(id);
+    private AdquisitionProperty findByIdSimple(UUID id) {
+        Optional<AdquisitionProperty> entity = repositoryQuery.findById(id);
         if (entity.isPresent()) {
             return entity.get();
         }
@@ -104,15 +111,15 @@ public class AdquisitionPropertyServiceImpl implements IAdquisitionPropertyServi
 
     @Override
     public PaginatedResponse search(Pageable pageable, List<FilterCriteria> filterCriteria) {
-        GenericSpecificationsBuilder<BuyerAdquisitionProperty> specifications = new GenericSpecificationsBuilder<>(filterCriteria);
-        Page<BuyerAdquisitionProperty> data = this.repositoryQuery.findAll(specifications, pageable);
+        GenericSpecificationsBuilder<AdquisitionProperty> specifications = new GenericSpecificationsBuilder<>(filterCriteria);
+        Page<AdquisitionProperty> data = this.repositoryQuery.findAll(specifications, pageable);
 
         return getPaginatedResponse(data);
     }
 
-    private PaginatedResponse getPaginatedResponse(Page<BuyerAdquisitionProperty> data) {
+    private PaginatedResponse getPaginatedResponse(Page<AdquisitionProperty> data) {
         List<AdquisitionPropertyResponse> objects = new ArrayList<>();
-        for (BuyerAdquisitionProperty p : data.getContent()) {
+        for (AdquisitionProperty p : data.getContent()) {
             objects.add(new AdquisitionPropertyResponse(p.toAggregate()));
         }
         return new PaginatedResponse(objects, data.getTotalPages(), data.getNumberOfElements(),
@@ -121,7 +128,7 @@ public class AdquisitionPropertyServiceImpl implements IAdquisitionPropertyServi
 
     @Override
     public AdquisitionPropertyDto findByPropertyId(String propertyId) {
-        Optional<BuyerAdquisitionProperty> entity = repositoryQuery.findByPropertyId(propertyId);
+        Optional<AdquisitionProperty> entity = repositoryQuery.findByPropertyId(propertyId);
         if (entity.isPresent()) {
             return entity.get().toAggregate();
         }

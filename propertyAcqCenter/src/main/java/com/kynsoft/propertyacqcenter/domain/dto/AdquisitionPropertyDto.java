@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import lombok.*;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
 
 @Getter
@@ -35,6 +36,8 @@ public class AdquisitionPropertyDto {
     private String trashServiceConfirmation;
     private String waterSewerSetupConfirmation;
 
+    private List<GeneralDocumentDto> documents;
+    
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
     private UUID createdBy;
