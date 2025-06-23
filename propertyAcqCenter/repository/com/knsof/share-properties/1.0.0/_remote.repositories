@@ -1,4 +1,4 @@
 #NOTE: This is a Maven Resolver internal implementation file, its format can be changed without prior notice.
-#Mon Jun 23 12:47:56 ECT 2025
-share-1.0.0.jar>=
-share-1.0.0.pom>=
+#Mon Jun 23 12:57:14 ECT 2025
+share-properties-1.0.0.jar>=
+share-properties-1.0.0.pom>=
