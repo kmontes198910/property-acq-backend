@@ -24,7 +24,7 @@
         <server>
             <id>github</id>
             <username>kmontes198910</username>
-            <password>${GIT_TOKEN}</password>
+            <token>${GIT_TOKEN}</token>
         </server>
     </servers>
 </settings>
