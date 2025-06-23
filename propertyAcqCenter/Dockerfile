@@ -1,39 +1,51 @@
-# Etapa de construcción: usa Maven con OpenJDK 17 para compilar la aplicación
-FROM maven:3.9.4-eclipse-temurin-17-alpine AS builder
+FROM maven:3.9.6-eclipse-temurin-17 AS build
 
-# Establece el directorio de trabajo
-WORKDIR /build
+WORKDIR /app
 
-# Copia el archivo de configuración de Maven (si existe)
-COPY rc-settings.xml settings.xml
-# Configura el token para el acceso a repositorios privados en settings.xml
-#ARG PACKAGE_TOKEN
-#ENV PACKAGE_TOKEN=$PACKAGE_TOKEN
-#RUN if [ -f settings.xml ]; then sed -i "s|GIT_TOKEN|$PACKAGE_TOKEN|g" settings.xml; fi
+# Copiar el archivo de configuración de Maven
+COPY ./rc-settings.xml /root/.m2/settings.xml
 
-# Copia los archivos del proyecto, incluyendo el pom.xml
-COPY . .
+# Copiar POM y archivos de dependencias locales
+COPY pom.xml .
+COPY libs/ ./libs/
+COPY repository/ ./repository/
 
-# Compila las dependencias en modo offline y construye el paquete sin ejecutar pruebas
-RUN if [ -f settings.xml ]; then \
-        mvn dependency:go-offline -s settings.xml && \
-        mvn clean package -DskipTests -s settings.xml; \
-    else \
-        mvn dependency:go-offline && \
-        mvn clean package -DskipTests; \
-    fi
+# Variables para las rutas de las librerías
+ENV LIBS_DIR=/app/libs
+ENV REPOSITORY_DIR=/app/repository
 
-# Etapa final: usa Distroless para una imagen ligera y segura en producción
-FROM gcr.io/distroless/java17-debian11
+# Comandos para instalar librerías locales en el repositorio
+RUN mvn install:install-file -Dfile=${LIBS_DIR}/E-Facturacion-1.0.0.jar -DgroupId=ec.e.facturacion -DartifactId=E-Facturacion -Dversion=1.0.0 -Dpackaging=jar -DgeneratePom=true -DlocalRepositoryPath=${REPOSITORY_DIR}
 
-# Configura la zona horaria
-ENV TZ="America/Guayaquil"
+# Etapa de caché para las dependencias
+RUN mvn dependency:go-offline -B
 
-# Copia el archivo JAR generado en la etapa de construcción
-COPY --from=builder /build/target/propertyAcqCenter-1.0.0.jar /app/propertyAcqCenter-1.0.0.jar
+# Copiar el código fuente
+COPY src/ ./src/
 
-# Expone el puerto utilizado por la aplicación (ajusta según sea necesario)
-EXPOSE 9930
+# Compilar la aplicación
+RUN mvn clean package -DskipTests
 
-# Comando de inicio para ejecutar la aplicación
-ENTRYPOINT ["java", "-jar", "/app/propertyAcqCenter-1.0.0.jar"]
+# Etapa final con JRE más ligero
+FROM eclipse-temurin:17-jre-alpine
+
+WORKDIR /app
+
+# Copiar el JAR compilado
+COPY --from=build /app/target/*.jar app.jar
+
+# Crear un usuario no root para ejecutar la aplicación
+RUN addgroup --system --gid 1001 appgroup \
+    && adduser --system --uid 1001 --ingroup appgroup appuser \
+    && chown -R appuser:appgroup /app
+
+USER appuser
+
+# Variables de entorno para configuración de memoria en Java
+ENV JAVA_OPTS="-XX:+UseContainerSupport -XX:MaxRAMPercentage=70"
+
+# Puerto de la aplicación1
+EXPOSE 9801
+
+# Comando para ejecutar la aplicación
+ENTRYPOINT ["sh", "-c", "java $JAVA_OPTS -jar app.jar"]
