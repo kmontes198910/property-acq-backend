@@ -3,6 +3,7 @@ package com.kynsoft.propertyacqcenter.application.command.adquisitionProperty.cr
 import com.kynsof.share.core.domain.bus.command.ICommand;
 import com.kynsof.share.core.domain.bus.command.ICommandMessage;
 import java.time.LocalDate;
+import java.util.List;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -35,13 +36,16 @@ public class CreateAdquisitionPropertyCommand implements ICommand {
     private String trashServiceConfirmation;
     private String waterSewerSetupConfirmation;
 
+    private List<CreateDocumentRequest> documents;
+
     public CreateAdquisitionPropertyCommand(UUID buyer, String property, UUID contact, String buyerNameAndYearVehicle,
                                             String buyerLicenseTagNo,
                                             LocalDate dateAndTimeForInspections, String instructionsForAccess, LocalDate hoaBuyerInterviewDate,
                                             LocalDate preferredMoveinDate, String eSignAuthorization, LocalDate finalWalkthroughDate,
                                             String wireAccountHolderName, String wireAccountNumber, String wireRoutingNumber,
                                             String zelleEmailorPhone, String electricProviderConfirmation, String gasServiceConfirmation,
-                                            String trashServiceConfirmation, String waterSewerSetupConfirmation) {
+                                            String trashServiceConfirmation, String waterSewerSetupConfirmation,
+                                            List<CreateDocumentRequest> documents) {
         this.id = UUID.randomUUID();
         this.buyer = buyer;
         this.property = property;
@@ -62,6 +66,7 @@ public class CreateAdquisitionPropertyCommand implements ICommand {
         this.gasServiceConfirmation = gasServiceConfirmation;//
         this.trashServiceConfirmation = trashServiceConfirmation;//
         this.waterSewerSetupConfirmation = waterSewerSetupConfirmation;//
+        this.documents = documents;
     }
 
     public static CreateAdquisitionPropertyCommand fromRequest(CreateAdquisitionPropertyRequest request) {
@@ -84,7 +89,8 @@ public class CreateAdquisitionPropertyCommand implements ICommand {
                 request.getElectricProviderConfirmation(),
                 request.getGasServiceConfirmation(),
                 request.getTrashServiceConfirmation(),
-                request.getWaterSewerSetupConfirmation()
+                request.getWaterSewerSetupConfirmation(),
+                request.getDocuments()
         );
     }
 

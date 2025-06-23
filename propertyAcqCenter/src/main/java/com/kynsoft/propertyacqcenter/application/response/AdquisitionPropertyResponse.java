@@ -2,10 +2,12 @@ package com.kynsoft.propertyacqcenter.application.response;
 
 import com.kynsof.share.core.domain.bus.query.IResponse;
 import com.kynsoft.propertyacqcenter.domain.dto.AdquisitionPropertyDto;
+import com.kynsoft.propertyacqcenter.domain.dto.GeneralDocumentDto;
 import java.time.LocalDate;
 import lombok.*;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
 
 @Getter
@@ -37,6 +39,7 @@ public class AdquisitionPropertyResponse implements IResponse {
     private LegalEntityBasicResponse buyer;
     private PropertiesBasicResponse property;
     private CompanyContactResponse contact;
+    private List<GeneralDocumentDto> documents;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
     private UUID createdBy;
@@ -64,6 +67,7 @@ public class AdquisitionPropertyResponse implements IResponse {
         this.gasServiceConfirmation = dto.getGasServiceConfirmation();
         this.trashServiceConfirmation = dto.getTrashServiceConfirmation();
         this.waterSewerSetupConfirmation = dto.getWaterSewerSetupConfirmation();
+        this.documents = dto.getDocuments();
 
         this.createdAt = dto.getCreatedAt();
         this.updatedAt = dto.getUpdatedAt();

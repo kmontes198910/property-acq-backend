@@ -8,6 +8,7 @@ import com.kynsoft.propertyacqcenter.domain.dto.GeneralDocumentDto;
 import com.kynsoft.propertyacqcenter.domain.dto.exception.AcquisitionDocumentNotFoundException;
 import com.kynsoft.propertyacqcenter.domain.dto.exception.NotDeleteException;
 import com.kynsoft.propertyacqcenter.domain.services.IGeneralDocumentService;
+import com.kynsoft.propertyacqcenter.infrastructure.entity.AdquisitionProperty;
 import com.kynsoft.propertyacqcenter.infrastructure.entity.DocumentType;
 import com.kynsoft.propertyacqcenter.infrastructure.entity.GeneralDocument;
 import com.kynsoft.propertyacqcenter.infrastructure.repository.command.GeneralDocumentWriteDataJPARepository;
@@ -47,6 +48,7 @@ public class GeneralDocumentServiceImpl implements IGeneralDocumentService {
         GeneralDocument update = this.findByIdSimple(object.getId());
 
         update.setDocumentType(object.getDocumentType() != null ? new DocumentType(object.getDocumentType()) : null);
+        update.setAdquisitionProperty(object.getAdquisitionProperty() != null ? new AdquisitionProperty(object.getAdquisitionProperty()) : null);
         update.setFileName(object.getFileName());
         update.setFilePath(object.getFilePath());
         update.setUpdatedAt(LocalDateTime.now());

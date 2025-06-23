@@ -1,6 +1,7 @@
 package com.kynsoft.propertyacqcenter.application.command.adquisitionProperty.create;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.UUID;
 import lombok.Getter;
 import lombok.Setter;
@@ -30,5 +31,6 @@ public class CreateAdquisitionPropertyRequest {
     private String gasServiceConfirmation;
     private String trashServiceConfirmation;
     private String waterSewerSetupConfirmation;
+    private List<CreateDocumentRequest> documents;
 
 }

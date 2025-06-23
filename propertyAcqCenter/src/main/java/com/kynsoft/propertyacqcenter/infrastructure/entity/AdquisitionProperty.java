@@ -8,7 +8,10 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "adquisition_property")
@@ -17,7 +20,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class BuyerAdquisitionProperty {
+public class AdquisitionProperty {
 
     @Id
     @Column(name = "id", nullable = false)
@@ -35,6 +38,9 @@ public class BuyerAdquisitionProperty {
     @JoinColumn(name = "company_contact_id", nullable = true)
     private CompanyContact contact;
 
+    @OneToMany(mappedBy = "adquisitionProperty", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<GeneralDocument> documents = new HashSet<>();
+
     @Column(name = "buyer_name_and_year_vehicle", nullable = true)
     private String buyerNameAndYearVehicle;
 
@@ -50,13 +56,13 @@ public class BuyerAdquisitionProperty {
 
     @Column(name = "hoa_buyer_interview_date", nullable = true)
     private LocalDate hoaBuyerInterviewDate;
-    
+
     @Column(name = "preferred_move_in_date", nullable = true)
     private LocalDate preferredMoveinDate;
 
     @Column(name = "e_sign_authorization", nullable = true)
     private String eSignAuthorization;
-    
+
     @Column(name = "final_walkthrough_date", nullable = true)
     private LocalDate finalWalkthroughDate;
 
@@ -99,7 +105,7 @@ public class BuyerAdquisitionProperty {
     @Column(name = "updated_by")
     private UUID updatedBy;
 
-    public BuyerAdquisitionProperty(AdquisitionPropertyDto dto) {
+    public AdquisitionProperty(AdquisitionPropertyDto dto) {
         this.id = dto.getId() != null ? dto.getId() : UUID.randomUUID();
         this.buyerNameAndYearVehicle = dto.getBuyerNameAndYearVehicle();
         this.buyerLicenseTagNo = dto.getBuyerLicenseTagNo();
@@ -122,6 +128,14 @@ public class BuyerAdquisitionProperty {
         this.trashServiceConfirmation = dto.getTrashServiceConfirmation();
         this.waterSewerSetupConfirmation = dto.getWaterSewerSetupConfirmation();
 
+        if (dto.getDocuments() != null) {
+            dto.getDocuments().forEach(x -> {
+                GeneralDocument doc = new GeneralDocument(x);
+                doc.setAdquisitionProperty(this);
+                this.documents.add(doc);
+            });
+        }
+
         this.createdBy = dto.getCreatedBy();
         this.updatedBy = dto.getUpdatedBy();
     }
@@ -134,7 +148,6 @@ public class BuyerAdquisitionProperty {
                 .contact(this.contact != null ? this.contact.toAggregate() : null)
                 .buyerNameAndYearVehicle(buyerNameAndYearVehicle)
                 .buyerLicenseTagNo(buyerLicenseTagNo)
-
                 .dateAndTimeForInspections(dateAndTimeForInspections)
                 .instructionsForAccess(instructionsForAccess)
                 .hoaBuyerInterviewDate(hoaBuyerInterviewDate)
@@ -149,11 +162,12 @@ public class BuyerAdquisitionProperty {
                 .gasServiceConfirmation(gasServiceConfirmation)
                 .trashServiceConfirmation(trashServiceConfirmation)
                 .waterSewerSetupConfirmation(waterSewerSetupConfirmation)
-
                 .createdAt(this.createdAt)
                 .updatedAt(this.updatedAt)
                 .createdBy(this.createdBy)
                 .updatedBy(this.updatedBy)
+
+                .documents(documents != null ? documents.stream().map(GeneralDocument::toAggregateSimple).collect(Collectors.toList()) : null)
                 .build();
     }
 
