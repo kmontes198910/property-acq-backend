@@ -3,7 +3,7 @@ package com.kynsoft.propertyacqcenter.infrastructure.services;
 import com.kynsof.share.core.domain.request.FilterCriteria;
 import com.kynsof.share.core.domain.response.PaginatedResponse;
 import com.kynsof.share.core.infrastructure.specifications.GenericSpecificationsBuilder;
-import com.kynsoft.propertyacqcenter.application.response.CompanyResponse;
+import com.kynsoft.propertyacqcenter.application.response.TitleCompanyResponse;
 import com.kynsoft.propertyacqcenter.domain.dto.CompanyDto;
 import com.kynsoft.propertyacqcenter.domain.dto.exception.CompanyNotFoundException;
 import com.kynsoft.propertyacqcenter.domain.dto.exception.NotDeleteException;
@@ -21,17 +21,16 @@ import com.kynsoft.propertyacqcenter.infrastructure.repository.command.CompanyWr
 import com.kynsoft.propertyacqcenter.domain.services.ICompanyService;
 import com.kynsoft.propertyacqcenter.infrastructure.entity.CompanyType;
 import com.kynsoft.propertyacqcenter.infrastructure.entity.SubCategory;
-import org.springframework.context.annotation.Primary;
+import com.kynsoft.propertyacqcenter.infrastructure.entity.embedded.company.TitleCompany;
 
-@Service
-@Primary
-public class CompanyService implements ICompanyService {
+@Service("titleCompanyService")
+public class TitleCompanyService implements ICompanyService {
 
     private final CompanyWriteDataJPARepository repositoryCommand;
 
     private final CompanyReadDataJPARepository repositoryQuery;
 
-    public CompanyService(CompanyWriteDataJPARepository repositoryCommand, CompanyReadDataJPARepository repositoryQuery) {
+    public TitleCompanyService(CompanyWriteDataJPARepository repositoryCommand, CompanyReadDataJPARepository repositoryQuery) {
         this.repositoryCommand = repositoryCommand;
         this.repositoryQuery = repositoryQuery;
     }
@@ -42,29 +41,42 @@ public class CompanyService implements ICompanyService {
     }
 
     @Override
-    public void update(CompanyDto contactPersonDto) {
-        Optional<Company> contactPerson = this.repositoryQuery.findById(contactPersonDto.getId());
-        if (contactPerson.isPresent()) {
-            Company oldContact = contactPerson.get();
+    public void update(CompanyDto dto) {
+        Optional<Company> company = this.repositoryQuery.findById(dto.getId());
+        if (company.isPresent()) {
+            Company update = company.get();
 
-            oldContact.setTitle(contactPersonDto.getTitle());
-            oldContact.setNotes(contactPersonDto.getNotes());
-            oldContact.setUpdatedBy(contactPersonDto.getUpdatedBy());
-            oldContact.setCompanyType(new CompanyType(contactPersonDto.getCompanyType()));
-            oldContact.setCategory(contactPersonDto.getCategory());
-            oldContact.setSubCategory(new SubCategory(contactPersonDto.getSubCategory()));
+            update.setTitle(dto.getTitle());
+            update.setNotes(dto.getNotes());
+            update.setUpdatedBy(dto.getUpdatedBy());
+            update.setCompanyType(dto.getCompanyType() != null ? new CompanyType(dto.getCompanyType()) : null);
+            update.setCategory(dto.getCategory());
+            update.setSubCategory(new SubCategory(dto.getSubCategory()));
 
+            update.setTitleCompany(TitleCompany
+                    .builder()
+                    .titleReview(dto.getTitleCompany().getTitleReview())
+                    .copiesOfAnyExisting(dto.getTitleCompany().getCopiesOfAnyExisting())
+                    .copyOfLastRecordedDeed(dto.getTitleCompany().getCopyOfLastRecordedDeed())
+                    .existingTitlePolicy(dto.getTitleCompany().getExistingTitlePolicy())
+                    .legalDescriptionOfTheProperty(dto.getTitleCompany().getLegalDescriptionOfTheProperty())
+                    .oldTitleInsurancePolicy(dto.getTitleCompany().getOldTitleInsurancePolicy())
+                    .taxCertificates(dto.getTitleCompany().getTaxCertificates())
+                    .titleCommitment(dto.getTitleCompany().getTitleCommitment())
+                    .uccSearchResults(dto.getTitleCompany().getUccSearchResults())
+                    .build()
+            );
             // Guardar los cambios
-            repositoryCommand.save(oldContact);
+            repositoryCommand.save(update);
         } else {
-            throw new CompanyNotFoundException(contactPersonDto.getId().toString(), "ID");
+            throw new CompanyNotFoundException(dto.getId().toString(), "ID");
         }
     }
 
     @Override
     public CompanyDto findById(UUID id) {
         return this.repositoryQuery.findById(id)
-                .map(Company::toAggregateSimple)
+                .map(Company::toAggregateTitleCompanySimple)
                 .orElseThrow(() -> new CompanyNotFoundException(id.toString(), "ID"));
     }
 
@@ -87,9 +99,9 @@ public class CompanyService implements ICompanyService {
     }
 
     private PaginatedResponse getPaginatedResponse(Page<Company> data) {
-        List<CompanyResponse> objects = new ArrayList<>();
+        List<TitleCompanyResponse> objects = new ArrayList<>();
         for (Company p : data.getContent()) {
-            objects.add(new CompanyResponse(p.toAggregate()));
+            objects.add(new TitleCompanyResponse(p.toAggregateTitleCompany()));
         }
         return new PaginatedResponse(objects, data.getTotalPages(), data.getNumberOfElements(),
                 data.getTotalElements(), data.getSize(), data.getNumber());
