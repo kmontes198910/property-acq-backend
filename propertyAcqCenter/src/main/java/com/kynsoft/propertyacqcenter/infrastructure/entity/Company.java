@@ -1,6 +1,7 @@
 package com.kynsoft.propertyacqcenter.infrastructure.entity;
 
 import com.kynsoft.propertyacqcenter.domain.dto.CompanyDto;
+import com.kynsoft.propertyacqcenter.domain.dto.embedded.company.TitleCompanyDto;
 import com.kynsoft.propertyacqcenter.infrastructure.entity.embedded.company.TitleCompany;
 import jakarta.persistence.*;
 import lombok.*;
@@ -84,14 +85,14 @@ public class Company {
         this.category = dto.getCategory();
         this.subCategory = dto.getSubCategory() != null ? new SubCategory(dto.getSubCategory()) : null;
         this.titleCompany = dto.getTitleCompany() != null ? new TitleCompany(
-                dto.getTitleCompany().getTitleReview(), 
-                dto.getTitleCompany().getTitleCommitment(), 
-                dto.getTitleCompany().getCopyOfLastRecordedDeed(), 
-                dto.getTitleCompany().getLegalDescriptionOfTheProperty(), 
-                dto.getTitleCompany().getExistingTitlePolicy(), 
-                dto.getTitleCompany().getCopiesOfAnyExisting(), 
-                dto.getTitleCompany().getTaxCertificates(), 
-                dto.getTitleCompany().getUccSearchResults(), 
+                dto.getTitleCompany().getTitleReview(),
+                dto.getTitleCompany().getTitleCommitment(),
+                dto.getTitleCompany().getCopyOfLastRecordedDeed(),
+                dto.getTitleCompany().getLegalDescriptionOfTheProperty(),
+                dto.getTitleCompany().getExistingTitlePolicy(),
+                dto.getTitleCompany().getCopiesOfAnyExisting(),
+                dto.getTitleCompany().getTaxCertificates(),
+                dto.getTitleCompany().getUccSearchResults(),
                 dto.getTitleCompany().getOldTitleInsurancePolicy()
         ) : null;
     }
@@ -110,6 +111,65 @@ public class Company {
                 .updatedBy(this.updatedBy)
                 .subCategory(subCategory != null ? this.subCategory.toAggregate() : null)
                 .category(category)
+                .build();
+    }
+
+    public CompanyDto toAggregateTitleCompanySimple() {
+        return CompanyDto.builder()
+                .id(this.id)
+                .business(business != null ? this.business.toAggregate() : null)
+                .companyType(this.companyType != null ? this.companyType.toAggregate() : null)
+                .subCompanyType(subCompanyType != null ? this.subCompanyType.toAggregateSimple() : null)
+                .title(this.title)
+                .notes(this.notes)
+                .createdAt(this.createdAt)
+                .updatedAt(this.updatedAt)
+                .createdBy(this.createdBy)
+                .updatedBy(this.updatedBy)
+                .subCategory(subCategory != null ? this.subCategory.toAggregate() : null)
+                .category(category)
+                .titleCompany(TitleCompanyDto
+                        .builder()
+                        .titleReview(titleCompany.getTitleReview())
+                        .copiesOfAnyExisting(titleCompany.getCopiesOfAnyExisting())
+                        .copyOfLastRecordedDeed(titleCompany.getCopyOfLastRecordedDeed())
+                        .existingTitlePolicy(titleCompany.getExistingTitlePolicy())
+                        .legalDescriptionOfTheProperty(titleCompany.getLegalDescriptionOfTheProperty())
+                        .oldTitleInsurancePolicy(titleCompany.getOldTitleInsurancePolicy())
+                        .taxCertificates(titleCompany.getTaxCertificates())
+                        .titleCommitment(titleCompany.getTitleCommitment())
+                        .uccSearchResults(titleCompany.getUccSearchResults())
+                        .build())
+                .build();
+    }
+
+    public CompanyDto toAggregateTitleCompany() {
+        return CompanyDto.builder()
+                .id(this.id)
+                .title(this.title)
+                .subCompanyType(subCompanyType != null ? this.subCompanyType.toAggregate() : null)
+                .companyType(this.companyType != null ? this.companyType.toAggregate() : null)
+                .notes(this.notes)
+                .createdAt(this.createdAt)
+                .updatedAt(this.updatedAt)
+                .createdBy(this.createdBy)
+                .updatedBy(this.updatedBy)
+                .subCategory(subCategory != null ? this.subCategory.toAggregate() : null)
+                .category(category)
+                .titleCompany(
+                        titleCompany != null ? 
+                        TitleCompanyDto.builder()
+                        .titleReview(titleCompany.getTitleReview())
+                        .copiesOfAnyExisting(titleCompany.getCopiesOfAnyExisting())
+                        .copyOfLastRecordedDeed(titleCompany.getCopyOfLastRecordedDeed())
+                        .existingTitlePolicy(titleCompany.getExistingTitlePolicy())
+                        .legalDescriptionOfTheProperty(titleCompany.getLegalDescriptionOfTheProperty())
+                        .oldTitleInsurancePolicy(titleCompany.getOldTitleInsurancePolicy())
+                        .taxCertificates(titleCompany.getTaxCertificates())
+                        .titleCommitment(titleCompany.getTitleCommitment())
+                        .uccSearchResults(titleCompany.getUccSearchResults())
+                        .build()
+                        : null)
                 .build();
     }
 
