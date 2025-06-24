@@ -4,11 +4,12 @@ FROM maven:3.9.4-eclipse-temurin-17-alpine AS builder
 # Establece el directorio de trabajo
 WORKDIR /build
 
-# Copia el archivo de configuración de Maven (si existe)
-COPY rc-settings.xml settings.xml
-# Configura el token para el acceso a repositorios privados en settings.xml
 ARG PACKAGE_TOKEN
-RUN if [ -f settings.xml ]; then sed -i "s|GIT_TOKEN|$PACKAGE_TOKEN|g" settings.xml; fi
+COPY rc-settings.xml settings.xml
+
+RUN if [ -f settings.xml ]; then \
+    sed -i "s|GIT_TOKEN|${PACKAGE_TOKEN}|g" settings.xml; \
+    fi
 
 # Copia los archivos del proyecto, incluyendo el pom.xml
 COPY . .
