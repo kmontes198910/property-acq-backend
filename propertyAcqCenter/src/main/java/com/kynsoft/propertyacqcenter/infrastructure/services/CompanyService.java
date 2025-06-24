@@ -51,7 +51,7 @@ public class CompanyService implements ICompanyService {
             update.setTitle(dto.getTitle());
             update.setNotes(dto.getNotes());
             update.setUpdatedBy(dto.getUpdatedBy());
-            update.setCompanyType(new CompanyType(dto.getCompanyType()));
+            update.setCompanyType(dto.getCompanyType() != null ? new CompanyType(dto.getCompanyType()) : null);
             update.setCategory(dto.getCategory());
             update.setSubCategory(new SubCategory(dto.getSubCategory()));
 
