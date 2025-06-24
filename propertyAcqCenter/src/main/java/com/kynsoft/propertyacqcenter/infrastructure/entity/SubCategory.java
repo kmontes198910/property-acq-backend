@@ -33,7 +33,7 @@ public class SubCategory {
     @Enumerated(EnumType.STRING)
     private ContactType category;
 
-    @Column(name = "company_type")
+    @Column(name = "company_type", columnDefinition = "VARCHAR(255)")
     @Enumerated(EnumType.STRING)
     private CompanyType companyType;
 
