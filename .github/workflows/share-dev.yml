@@ -1,23 +1,23 @@
-name: ci-share-dev
-
-on:
-  workflow_dispatch:
-  push:
-    branches:
-      - 'dev'
-    paths:
-      - share-dev.yml
-      - 'share/**'
-jobs:
-  publish:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-java@v3
-        with:
-          java-version: '17'
-          distribution: 'temurin'
-      - name: Publish package
-        run: cd share && mvn --batch-mode deploy
-        env:
-          GITHUB_TOKEN: ${{ secrets.PACKAGE_TOKEN }}
+#name: ci-share-dev
+#
+#on:
+#  workflow_dispatch:
+#  push:
+#    branches:
+#      - 'dev'
+#    paths:
+#      - share-dev.yml
+#      - 'share/**'
+#jobs:
+#  publish:
+#    runs-on: ubuntu-latest
+#    steps:
+#      - uses: actions/checkout@v3
+#      - uses: actions/setup-java@v3
+#        with:
+#          java-version: '17'
+#          distribution: 'temurin'
+#      - name: Publish package
+#        run: cd share && mvn --batch-mode deploy
+#        env:
+#          GITHUB_TOKEN: ${{ secrets.PACKAGE_TOKEN }}
