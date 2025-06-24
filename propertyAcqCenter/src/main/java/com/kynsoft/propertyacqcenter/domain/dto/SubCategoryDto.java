@@ -1,5 +1,6 @@
 package com.kynsoft.propertyacqcenter.domain.dto;
 
+import com.kynsoft.propertyacqcenter.domain.enums.CompanyType;
 import com.kynsoft.propertyacqcenter.domain.enums.ContactType;
 import lombok.*;
 import java.util.UUID;
@@ -16,4 +17,5 @@ public class SubCategoryDto {
     private String code;
     private String description;
     private ContactType category;
+    private CompanyType companyType;
 }
