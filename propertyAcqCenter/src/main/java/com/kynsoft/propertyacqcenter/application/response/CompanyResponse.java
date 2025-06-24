@@ -1,6 +1,7 @@
 package com.kynsoft.propertyacqcenter.application.response;
 
 import com.kynsof.share.core.domain.bus.query.IResponse;
+import com.kynsoft.propertyacqcenter.application.response.company.TitleCompanyEmbeddedResponse;
 import com.kynsoft.propertyacqcenter.domain.dto.BusinessDto;
 import com.kynsoft.propertyacqcenter.domain.dto.CompanyDto;
 import com.kynsoft.propertyacqcenter.domain.dto.CompanyTypeDto;
@@ -29,6 +30,7 @@ public class CompanyResponse implements IResponse {
     private UUID updatedBy;//
     private String category;
     private SubCategoryResponse subCategory;
+    private TitleCompanyEmbeddedResponse titleCompany;
 
     public CompanyResponse(CompanyDto dto) {
         this.id = dto.getId();
@@ -37,6 +39,7 @@ public class CompanyResponse implements IResponse {
         this.companyType = dto.getCompanyType();
         this.business = dto.getBusiness();
         this.subCompanyType = dto.getSubCompanyType();
+        this.titleCompany = dto.getTitleCompany() != null ? new TitleCompanyEmbeddedResponse(dto.getTitleCompany()) : null;
         this.title = dto.getTitle();
         this.notes = dto.getNotes();
         this.createdAt = dto.getCreatedAt();

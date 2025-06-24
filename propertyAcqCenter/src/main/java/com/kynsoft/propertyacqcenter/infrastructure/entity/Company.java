@@ -111,6 +111,18 @@ public class Company {
                 .updatedBy(this.updatedBy)
                 .subCategory(subCategory != null ? this.subCategory.toAggregate() : null)
                 .category(category)
+                .titleCompany(titleCompany != null ? TitleCompanyDto
+                        .builder()
+                        .titleReview(titleCompany.getTitleReview())
+                        .copiesOfAnyExisting(titleCompany.getCopiesOfAnyExisting())
+                        .copyOfLastRecordedDeed(titleCompany.getCopyOfLastRecordedDeed())
+                        .existingTitlePolicy(titleCompany.getExistingTitlePolicy())
+                        .legalDescriptionOfTheProperty(titleCompany.getLegalDescriptionOfTheProperty())
+                        .oldTitleInsurancePolicy(titleCompany.getOldTitleInsurancePolicy())
+                        .taxCertificates(titleCompany.getTaxCertificates())
+                        .titleCommitment(titleCompany.getTitleCommitment())
+                        .uccSearchResults(titleCompany.getUccSearchResults())
+                        .build() : null)
                 .build();
     }
 
@@ -186,6 +198,20 @@ public class Company {
                 .updatedBy(this.updatedBy)
                 .subCategory(subCategory != null ? this.subCategory.toAggregate() : null)
                 .category(category)
+                .titleCompany(
+                        titleCompany != null ? 
+                        TitleCompanyDto.builder()
+                        .titleReview(titleCompany.getTitleReview())
+                        .copiesOfAnyExisting(titleCompany.getCopiesOfAnyExisting())
+                        .copyOfLastRecordedDeed(titleCompany.getCopyOfLastRecordedDeed())
+                        .existingTitlePolicy(titleCompany.getExistingTitlePolicy())
+                        .legalDescriptionOfTheProperty(titleCompany.getLegalDescriptionOfTheProperty())
+                        .oldTitleInsurancePolicy(titleCompany.getOldTitleInsurancePolicy())
+                        .taxCertificates(titleCompany.getTaxCertificates())
+                        .titleCommitment(titleCompany.getTitleCommitment())
+                        .uccSearchResults(titleCompany.getUccSearchResults())
+                        .build()
+                        : null)
                 .build();
     }
 

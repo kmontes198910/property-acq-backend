@@ -21,6 +21,7 @@ public class UpdateCompanyCommand implements ICommand {
     private String notes;
     private String category;
     private UUID subCategory;
+    private UpdateTitleCompanyDataRequest titleCompany;
 
     public static UpdateCompanyCommand fromRequest(UUID id, UpdateCompanyRequest request) {
         return new UpdateCompanyCommand(
@@ -31,7 +32,8 @@ public class UpdateCompanyCommand implements ICommand {
                 request.getTitle(),
                 request.getNotes(),
                 request.getCategory(),
-                request.getSubCategory()
+                request.getSubCategory(),
+                request.getTitleCompany()
         );
     }
 
