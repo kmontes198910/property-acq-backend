@@ -6,6 +6,7 @@ import com.kynsoft.propertyacqcenter.domain.dto.CompanyDto;
 import com.kynsoft.propertyacqcenter.domain.dto.CompanyTypeDto;
 import com.kynsoft.propertyacqcenter.domain.dto.SubCategoryDto;
 import com.kynsoft.propertyacqcenter.domain.dto.SubCompanyTypeDto;
+import com.kynsoft.propertyacqcenter.domain.dto.embedded.company.TitleCompanyDto;
 import com.kynsoft.propertyacqcenter.domain.services.IBusinessService;
 import org.springframework.stereotype.Component;
 import com.kynsoft.propertyacqcenter.domain.services.ICompanyService;
@@ -50,6 +51,20 @@ public class UpdateCompanyCommandHandler implements ICommandHandler<UpdateCompan
                 .notes(command.getNotes())
                 .category(command.getCategory())
                 .subCategory(subCategoryDto)
+                .titleCompany(command.getTitleCompany() != null ? TitleCompanyDto
+                        .builder()
+                        .titleReview(command.getTitleCompany().getTitleReview())
+                        .copiesOfAnyExisting(command.getTitleCompany().getCopiesOfAnyExisting())
+                        .copyOfLastRecordedDeed(command.getTitleCompany().getCopyOfLastRecordedDeed())
+                        .existingTitlePolicy(command.getTitleCompany().getExistingTitlePolicy())
+                        .legalDescriptionOfTheProperty(command.getTitleCompany().getLegalDescriptionOfTheProperty())
+                        .oldTitleInsurancePolicy(command.getTitleCompany().getOldTitleInsurancePolicy())
+                        .taxCertificates(command.getTitleCompany().getTaxCertificates())
+                        .titleCommitment(command.getTitleCompany().getTitleCommitment())
+                        .uccSearchResults(command.getTitleCompany().getUccSearchResults())
+                        .build()
+                        : null
+                )
                 .build()
         );
     }

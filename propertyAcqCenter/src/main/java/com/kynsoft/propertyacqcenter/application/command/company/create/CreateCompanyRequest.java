@@ -1,5 +1,6 @@
 package com.kynsoft.propertyacqcenter.application.command.company.create;
 
+import com.kynsoft.propertyacqcenter.domain.enums.CompanyType;
 import lombok.Getter;
 
 import java.util.UUID;
@@ -13,4 +14,6 @@ public class CreateCompanyRequest {
     private String notes;
     private String category;
     private UUID subCategory;
+    private CompanyType type;
+    private CreateTitleCompanyDataRequest titleCompany;
 }

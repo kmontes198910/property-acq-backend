@@ -14,4 +14,5 @@ public class UpdateCompanyRequest {
     private String notes;
     private String category;
     private UUID subCategory;
+    private UpdateTitleCompanyDataRequest titleCompany;
 }

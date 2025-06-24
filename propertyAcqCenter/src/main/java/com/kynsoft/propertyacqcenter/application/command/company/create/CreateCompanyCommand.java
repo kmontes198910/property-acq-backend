@@ -2,6 +2,7 @@ package com.kynsoft.propertyacqcenter.application.command.company.create;
 
 import com.kynsof.share.core.domain.bus.command.ICommand;
 import com.kynsof.share.core.domain.bus.command.ICommandMessage;
+import com.kynsoft.propertyacqcenter.domain.enums.CompanyType;
 import lombok.Getter;
 
 import java.util.UUID;
@@ -19,10 +20,13 @@ public class CreateCompanyCommand implements ICommand {
     private String notes;
     private String category;
     private UUID subCategory;
+    private CompanyType type;
+    private CreateTitleCompanyDataRequest titleCompany;
 
     public CreateCompanyCommand(UUID business, UUID companyType, UUID subCompanyType, String title, 
                                 String notes,
-                                String category, UUID subCategory) {
+                                String category, UUID subCategory, CompanyType type,
+                                CreateTitleCompanyDataRequest titleCompany) {
         this.id = UUID.randomUUID();
         this.business = business;
         this.companyType = companyType;
@@ -31,6 +35,8 @@ public class CreateCompanyCommand implements ICommand {
         this.notes = notes;
         this.category = category;
         this.subCategory = subCategory;
+        this.type = type;
+        this.titleCompany = titleCompany;
     }
 
     public static CreateCompanyCommand fromRequest(CreateCompanyRequest request) {
@@ -41,7 +47,9 @@ public class CreateCompanyCommand implements ICommand {
                 request.getTitle(),
                 request.getNotes(),
                 request.getCategory(),
-                request.getSubCategory()
+                request.getSubCategory(),
+                request.getType(),
+                request.getTitleCompany()
         );
     }
 
