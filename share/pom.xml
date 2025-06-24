@@ -12,7 +12,7 @@
 
     <groupId>com.knsof</groupId>
     <artifactId>share-properties</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>1.0.0</version>
     <name>share</name>
     <packaging>jar</packaging>
     <description>Shared module</description>
@@ -28,20 +28,7 @@
             <artifactId>commons-io</artifactId>
             <version>2.16.1</version> <!-- Usa la última versión disponible -->
         </dependency>
-        <!--<dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-data-redis</artifactId>
-        </dependency>-->
-        
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-data-redis</artifactId>
-        </dependency>
 
-        <dependency>
-            <groupId>redis.clients</groupId>
-            <artifactId>jedis</artifactId>
-        </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter</artifactId>
@@ -133,11 +120,6 @@
             <artifactId>httpclient5</artifactId>
         </dependency>
 
-        <dependency>
-            <groupId>org.redisson</groupId>
-            <artifactId>redisson</artifactId>
-            <version>3.32.0</version> <!-- Verifica siempre la última versión -->
-        </dependency>
     </dependencies>
 
     <distributionManagement>

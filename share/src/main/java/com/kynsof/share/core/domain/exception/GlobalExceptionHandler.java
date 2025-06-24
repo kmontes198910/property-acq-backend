@@ -2,19 +2,14 @@ package com.kynsof.share.core.domain.exception;
 
 import com.kynsof.share.core.domain.response.ApiError;
 import com.kynsof.share.core.domain.response.ApiResponse;
-import com.kynsof.share.core.domain.response.ErrorField;
-import jakarta.persistence.EntityNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.client.HttpClientErrorException;
-import reactor.core.publisher.Mono;
+
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {

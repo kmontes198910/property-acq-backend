@@ -11,7 +11,6 @@ import java.util.UUID;
 @Getter
 @Setter
 public class CreateAddressCommand implements ICommand {
-
     private UUID id;
     private UUID legalEntity;
     private AddressType addressType;
