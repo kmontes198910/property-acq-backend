@@ -1,5 +1,6 @@
 package com.kynsoft.propertyacqcenter.domain.dto;
 
+import com.kynsoft.propertyacqcenter.domain.dto.embedded.adquisitionProperty.AdquisitionTitleCompanyDto;
 import java.time.LocalDate;
 import lombok.*;
 
@@ -42,4 +43,6 @@ public class AdquisitionPropertyDto {
     private LocalDateTime updatedAt;
     private UUID createdBy;
     private UUID updatedBy;
+
+    private AdquisitionTitleCompanyDto titleCompany;
 }

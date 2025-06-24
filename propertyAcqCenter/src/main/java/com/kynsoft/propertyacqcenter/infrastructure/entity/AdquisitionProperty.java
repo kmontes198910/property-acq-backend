@@ -1,6 +1,9 @@
 package com.kynsoft.propertyacqcenter.infrastructure.entity;
 
 import com.kynsoft.propertyacqcenter.domain.dto.AdquisitionPropertyDto;
+import com.kynsoft.propertyacqcenter.domain.dto.embedded.adquisitionProperty.AdquisitionTitleCompanyDto;
+import com.kynsoft.propertyacqcenter.infrastructure.entity.embedded.adquisitionProperty.AdquisitionTitleCompany;
+import com.kynsoft.propertyacqcenter.infrastructure.entity.embedded.company.TitleCompany;
 import jakarta.persistence.*;
 import java.time.LocalDate;
 import lombok.*;
@@ -89,8 +92,11 @@ public class AdquisitionProperty {
 
     @Column(name = "water_sewer_setup_confirmation", nullable = true)
     private String waterSewerSetupConfirmation;
-
     ///
+
+    @Embedded
+    private AdquisitionTitleCompany titleCompany;
+
     @CreationTimestamp
     @Column(name = "created_at", updatable = false)
     private LocalDateTime createdAt;
@@ -128,6 +134,8 @@ public class AdquisitionProperty {
         this.trashServiceConfirmation = dto.getTrashServiceConfirmation();
         this.waterSewerSetupConfirmation = dto.getWaterSewerSetupConfirmation();
 
+        this.titleCompany = dto.getTitleCompany() != null ? new AdquisitionTitleCompany(dto.getTitleCompany()) : null;
+
         if (dto.getDocuments() != null) {
             dto.getDocuments().forEach(x -> {
                 GeneralDocument doc = new GeneralDocument(x);
@@ -162,6 +170,23 @@ public class AdquisitionProperty {
                 .gasServiceConfirmation(gasServiceConfirmation)
                 .trashServiceConfirmation(trashServiceConfirmation)
                 .waterSewerSetupConfirmation(waterSewerSetupConfirmation)
+                .createdAt(this.createdAt)
+                .updatedAt(this.updatedAt)
+                .createdBy(this.createdBy)
+                .updatedBy(this.updatedBy)
+
+                .documents(documents != null ? documents.stream().map(GeneralDocument::toAggregateSimple).collect(Collectors.toList()) : null)
+                .build();
+    }
+
+    public AdquisitionPropertyDto toAggregateTitleCompany() {
+        return AdquisitionPropertyDto.builder()
+                .id(this.id)
+                .property(this.property != null ? this.property.toAggregateBasic() : null)
+                .titleCompany(AdquisitionTitleCompanyDto
+                        .builder()
+                        .titleCommitment(titleCompany.getTitleCommitment())
+                        .build())
                 .createdAt(this.createdAt)
                 .updatedAt(this.updatedAt)
                 .createdBy(this.createdBy)
