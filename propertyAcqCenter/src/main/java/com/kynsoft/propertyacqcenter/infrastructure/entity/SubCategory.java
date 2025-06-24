@@ -2,6 +2,7 @@ package com.kynsoft.propertyacqcenter.infrastructure.entity;
 
 import com.kynsoft.propertyacqcenter.domain.dto.SubCategoryDto;
 import com.kynsoft.propertyacqcenter.domain.enums.ContactType;
+import com.kynsoft.propertyacqcenter.domain.enums.CompanyType;
 import jakarta.persistence.*;
 import lombok.*;
 import java.util.UUID;
@@ -32,12 +33,17 @@ public class SubCategory {
     @Enumerated(EnumType.STRING)
     private ContactType category;
 
+    @Column(name = "company_type", columnDefinition = "VARCHAR(255)")
+    @Enumerated(EnumType.STRING)
+    private CompanyType companyType;
+
     public SubCategory(SubCategoryDto dto) {
         this.id = dto.getId();
         this.name = dto.getName();
         this.code = dto.getCode();
         this.description = dto.getDescription();
         this.category = dto.getCategory();
+        this.companyType = dto.getCompanyType();
     }
 
     public SubCategoryDto toAggregate() {
@@ -47,6 +53,7 @@ public class SubCategory {
                 .code(code)
                 .description(description)
                 .category(category)
+                .companyType(companyType)
                 .build();
     }
 }
