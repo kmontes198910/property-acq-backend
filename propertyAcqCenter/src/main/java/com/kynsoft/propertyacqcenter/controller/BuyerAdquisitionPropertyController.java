@@ -15,6 +15,7 @@ import com.kynsoft.propertyacqcenter.application.command.adquisitionProperty.upd
 import com.kynsoft.propertyacqcenter.application.query.adquisitionProperty.getById.GetByIdAdquisitionPropertyQuery;
 import com.kynsoft.propertyacqcenter.application.query.adquisitionProperty.getByPropertyId.FindByAdquisitionPropertyByPropertyIdQuery;
 import com.kynsoft.propertyacqcenter.application.query.adquisitionProperty.search.GetSearchAdquisitionPropertyQuery;
+import com.kynsoft.propertyacqcenter.application.response.AdquisitionPropertyListResponse;
 import com.kynsoft.propertyacqcenter.application.response.AdquisitionPropertyResponse;
 import java.util.UUID;
 import org.springframework.data.domain.Pageable;
@@ -69,7 +70,7 @@ public class BuyerAdquisitionPropertyController {
     public ResponseEntity<?> getByPropertyId(@PathVariable String id) {
 
         FindByAdquisitionPropertyByPropertyIdQuery query = new FindByAdquisitionPropertyByPropertyIdQuery(id);
-        AdquisitionPropertyResponse response = mediator.send(query);
+        AdquisitionPropertyListResponse response = mediator.send(query);
 
         return ResponseEntity.ok(response);
     }

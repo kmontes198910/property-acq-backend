@@ -1,6 +1,7 @@
 package com.kynsoft.propertyacqcenter.infrastructure.repository.query;
 
 import com.kynsoft.propertyacqcenter.infrastructure.entity.AdquisitionProperty;
+import java.util.List;
 import java.util.Optional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -23,5 +24,5 @@ public interface AdquisitionPropertyReadDataJPARepository extends JpaRepository<
     Optional<AdquisitionProperty> findById(UUID id);
 
     @EntityGraph(attributePaths = {"buyer", "property", "contact", "contact.company", "documents", "documents.documentType"})
-    Optional<AdquisitionProperty> findByPropertyId(String propertyId);
+    List<AdquisitionProperty> findByPropertyId(String propertyId);
 }

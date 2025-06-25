@@ -25,7 +25,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/title-acquisition-property")
+@RequestMapping("/api/title-company-acquisition-property")
 public class TitleCompanyAdquisitionPropertyController {
 
     private final IMediator mediator;

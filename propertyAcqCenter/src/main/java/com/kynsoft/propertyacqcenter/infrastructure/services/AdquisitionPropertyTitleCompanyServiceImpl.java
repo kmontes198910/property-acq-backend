@@ -110,10 +110,14 @@ public class AdquisitionPropertyTitleCompanyServiceImpl implements IAdquisitionP
     }
 
     @Override
-    public AdquisitionPropertyDto findByPropertyId(String propertyId) {
-        Optional<AdquisitionProperty> entity = repositoryQuery.findByPropertyId(propertyId);
-        if (entity.isPresent()) {
-            return entity.get().toAggregate();
+    public List<AdquisitionPropertyDto> findByPropertyId(String propertyId) {
+        List<AdquisitionProperty> entity = repositoryQuery.findByPropertyId(propertyId);
+        if (!entity.isEmpty()) {
+            List<AdquisitionPropertyDto> list = new ArrayList<>();
+            for (AdquisitionProperty adquisitionProperty : entity) {
+                list.add(adquisitionProperty.toAggregate());
+            }
+            return list;
         }
         throw new PurchaseForPropertyNotFoundException();
     }
