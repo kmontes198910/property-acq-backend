@@ -6,6 +6,8 @@ import com.kynsoft.propertyacqcenter.domain.dto.CompanyDto;
 import com.kynsoft.propertyacqcenter.domain.dto.CompanyTypeDto;
 import com.kynsoft.propertyacqcenter.domain.dto.SubCategoryDto;
 import com.kynsoft.propertyacqcenter.domain.dto.SubCompanyTypeDto;
+import com.kynsoft.propertyacqcenter.domain.dto.embedded.company.LegalInformationDto;
+import com.kynsoft.propertyacqcenter.domain.dto.embedded.company.SellerDto;
 import com.kynsoft.propertyacqcenter.domain.dto.embedded.company.TitleCompanyDto;
 import com.kynsoft.propertyacqcenter.domain.services.IBusinessService;
 import org.springframework.stereotype.Component;
@@ -13,6 +15,7 @@ import com.kynsoft.propertyacqcenter.domain.services.ICompanyService;
 import com.kynsoft.propertyacqcenter.domain.services.ICompanyTypeService;
 import com.kynsoft.propertyacqcenter.domain.services.ISubCategoryService;
 import com.kynsoft.propertyacqcenter.domain.services.ISubCompanyTypeService;
+import java.util.UUID;
 
 @Component
 public class CreateCompanyCommandHandler implements ICommandHandler<CreateCompanyCommand> {
@@ -66,6 +69,35 @@ public class CreateCompanyCommandHandler implements ICommandHandler<CreateCompan
                         .build()
                         : null
                 )
+                .seller(command.getSeller() != null ? SellerDto
+                        .builder()
+                        .id(UUID.randomUUID())
+                        .declareIfForeing(command.getSeller().getDeclareIfForeing())
+                        .folioParcelNumber(command.getSeller().getFolioParcelNumber())
+                        .legalDescription(command.getSeller().getLegalDescription())
+                        .lenderName(command.getSeller().getLenderName())
+                        .loanNumber(command.getSeller().getLoanNumber())
+                        .socialSecurity(command.getSeller().getSocialSecurity())
+                        .build() : null)
+                .legalInformation(command.getLegalInformation() != null ? LegalInformationDto
+                        .builder()
+                        .id(UUID.randomUUID())
+                        .annualRevenue(command.getLegalInformation().getAnnualRevenue())
+                        .authorizedSignerGovernmentIdCopy(command.getLegalInformation().getAuthorizedSignerGovernmentIdCopy())
+                        .authorizedSignerGovernmentIdCopyFileName(command.getLegalInformation().getAuthorizedSignerGovernmentIdCopyFileName())
+                        .businessDescription(command.getLegalInformation().getBusinessDescription())
+                        .dateOfLastAnnualReport(command.getLegalInformation().getDateOfLastAnnualReport())
+                        .entityExperience(command.getLegalInformation().getEntityExperience())
+                        .entityFico(command.getLegalInformation().getEntityFico())
+                        .entityType(command.getLegalInformation().getEntityType())
+                        .fiscalYearEnd(command.getLegalInformation().getFiscalYearEnd())
+                        .formationDate(command.getLegalInformation().getFormationDate())
+                        .formationState(command.getLegalInformation().getFormationState())
+                        .name(command.getLegalInformation().getName())
+                        .owner(command.getLegalInformation().getOwner())
+                        .taxId(command.getLegalInformation().getTaxId())
+                        .website(command.getLegalInformation().getWebsite())
+                        .build() : null)
                 .build()
         );
     }

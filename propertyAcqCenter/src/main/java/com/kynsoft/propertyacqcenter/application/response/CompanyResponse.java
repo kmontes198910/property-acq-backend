@@ -6,6 +6,8 @@ import com.kynsoft.propertyacqcenter.domain.dto.BusinessDto;
 import com.kynsoft.propertyacqcenter.domain.dto.CompanyDto;
 import com.kynsoft.propertyacqcenter.domain.dto.CompanyTypeDto;
 import com.kynsoft.propertyacqcenter.domain.dto.SubCompanyTypeDto;
+import com.kynsoft.propertyacqcenter.domain.dto.embedded.company.LegalInformationDto;
+import com.kynsoft.propertyacqcenter.domain.dto.embedded.company.SellerDto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -31,6 +33,8 @@ public class CompanyResponse implements IResponse {
     private String category;
     private SubCategoryResponse subCategory;
     private TitleCompanyEmbeddedResponse titleCompany;
+    private SellerDto seller;
+    private LegalInformationDto legalInformation;
 
     public CompanyResponse(CompanyDto dto) {
         this.id = dto.getId();
@@ -42,6 +46,8 @@ public class CompanyResponse implements IResponse {
         this.titleCompany = dto.getTitleCompany() != null ? new TitleCompanyEmbeddedResponse(dto.getTitleCompany()) : null;
         this.title = dto.getTitle();
         this.notes = dto.getNotes();
+        this.seller = dto.getSeller();
+        this.legalInformation = dto.getLegalInformation();
         this.createdAt = dto.getCreatedAt();
         this.updatedAt = dto.getUpdatedAt();
         this.createdBy = dto.getCreatedBy();
