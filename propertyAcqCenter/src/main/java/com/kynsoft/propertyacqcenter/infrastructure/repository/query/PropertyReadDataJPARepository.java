@@ -18,7 +18,10 @@ public interface PropertyReadDataJPARepository extends JpaRepository<Property, S
 
     long countById(String id);
 
-    @EntityGraph(attributePaths = {"sellerName", "sellerContactInfo"})
+    @EntityGraph(attributePaths = {"sellerName", "sellerContactInfo", "teamAssignments", "teamAssignments.buyerEntityName",
+    "teamAssignments.buyerContactReps", "teamAssignments.titleEscrowCompanies", "teamAssignments.lenderCompanies",
+    "teamAssignments.projectManagers", "teamAssignments.legalContacts", "teamAssignments.sellers", "teamAssignments.hoas"
+    })
     @Override
     Optional<Property> findById(String id);
 }

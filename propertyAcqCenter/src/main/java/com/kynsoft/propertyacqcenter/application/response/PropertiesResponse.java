@@ -2,12 +2,15 @@ package com.kynsoft.propertyacqcenter.application.response;
 
 import com.kynsof.share.core.domain.bus.query.IResponse;
 import com.kynsoft.propertyacqcenter.domain.dto.PropertyDto;
+import com.kynsoft.propertyacqcenter.domain.dto.TeamAssignmentDto;
 import com.kynsoft.propertyacqcenter.domain.enums.AcquisitionType;
 import com.kynsoft.propertyacqcenter.domain.enums.PropertyStatus;
 import com.kynsoft.propertyacqcenter.domain.enums.PropertyType;
 import com.kynsoft.propertyacqcenter.domain.enums.SourceType;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.stream.Collectors;
 import lombok.*;
 
 @Setter
@@ -81,6 +84,7 @@ public class PropertiesResponse implements IResponse {
     private String hoaName;
     private String hoaType;
     private String hoaFeeFrequency;
+    private List<TeamAssignmentResponse> teamAssignments;
 
     public PropertiesResponse(PropertyDto dto) {
         this.buildingArea = dto.getBuildingArea();
@@ -143,6 +147,7 @@ public class PropertiesResponse implements IResponse {
         this.hoaName = dto.getHoaName();
         this.hoaType = dto.getHoaType();
         this.hoaFeeFrequency = dto.getHoaFeeFrequency();
+        this.teamAssignments = dto.getTeamAssignments() != null ? dto.getTeamAssignments().stream().map(TeamAssignmentResponse::new).collect(Collectors.toList()) : null;
     }
 
 }

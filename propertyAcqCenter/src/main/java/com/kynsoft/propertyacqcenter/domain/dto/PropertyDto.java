@@ -6,6 +6,7 @@ import com.kynsoft.propertyacqcenter.domain.enums.PropertyType;
 import com.kynsoft.propertyacqcenter.domain.enums.SourceType;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 import lombok.*;
 
 @Builder
@@ -81,4 +82,5 @@ public class PropertyDto {
     private String hoaName;
     private String hoaType;
     private String hoaFeeFrequency;
+    private List<TeamAssignmentDto> teamAssignments;
 }
