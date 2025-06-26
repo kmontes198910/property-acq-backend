@@ -1,4 +1,4 @@
-package com.kynsoft.propertyacqcenter.application.command.subCategory.update;
+package com.kynsoft.propertyacqcenter.application.command.subCategory.create;
 
 import com.kynsof.share.core.domain.bus.command.ICommandHandler;
 import com.kynsoft.propertyacqcenter.domain.dto.SubCategoryDto;
