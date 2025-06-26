@@ -23,6 +23,7 @@ import java.util.List;
 import java.util.UUID;
 
 
+
 @Service
 public class ManageRoleServiceImpl implements IManageRoleService {
 
@@ -36,7 +37,7 @@ public class ManageRoleServiceImpl implements IManageRoleService {
 
     @Override
     public ManageRolDto create(ManageRolDto dto) {
-       return command.save(new ManageRole(dto)).toAggregate();
+        return command.save(new ManageRole(dto)).toAggregate();
     }
 
     @Override
@@ -55,7 +56,7 @@ public class ManageRoleServiceImpl implements IManageRoleService {
     public void deleteAll(List<UUID> roles) {
         var delete = roles.stream()
                 .map(this::findById)
-                .map(rol-> {
+                .map(rol -> {
                     rol.setIsDeleted(true);
                     return new ManageRole(rol);
                 })
@@ -66,9 +67,9 @@ public class ManageRoleServiceImpl implements IManageRoleService {
     @Override
     public ManageRolDto findById(UUID id) {
         return query.findById(id)
-                .map(ManageRole::toAggregate)
+                .map(ManageRole::toAggregateSimple)
                 .orElseThrow(() -> new BusinessNotFoundException(new GlobalBusinessException(
-                        DomainErrorMessage.PERMISSION_NOT_FOUND, new ErrorField("id", "Role not found."))));
+                DomainErrorMessage.PERMISSION_NOT_FOUND, new ErrorField("id", "Role not found."))));
 
     }
 
@@ -83,6 +84,7 @@ public class ManageRoleServiceImpl implements IManageRoleService {
         var data = query.findAll(specifications, pageable);
         return getPaginatedResponse(data);
     }
+
     private PaginatedResponse getPaginatedResponse(Page<ManageRole> data) {
         var permissionResponses = data.getContent().stream()
                 .map(permission -> new ManageRoleResponse(permission.toAggregate()))

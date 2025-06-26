@@ -1,6 +1,8 @@
 package com.kynsof.identity.application.command.manageRole.update;
 
 
+import java.util.List;
+import java.util.UUID;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -13,4 +15,5 @@ import lombok.Setter;
 public class UpdateManageRoleRequest {
     private String code;
     private String name;
+    private List<UUID> permissions;
 }
