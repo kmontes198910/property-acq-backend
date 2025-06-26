@@ -34,7 +34,7 @@ public class CompanyContactSearchResponse implements IResponse {
     public CompanyContactSearchResponse(CompanyContactDto dto) {
         this.id = dto.getId();
         this.birthDate = dto.getBirthDate();
-        this.company = new CompanyBasicResponse(dto.getCompany());
+        this.company = dto.getCompany() != null ? new CompanyBasicResponse(dto.getCompany()) : null;
         this.firstName = dto.getFirstName();
         this.lastName = dto.getLastName();
         this.email = dto.getEmail();

@@ -151,4 +151,18 @@ public class TeamAssignment {
                 .seller(sellers != null ? sellers.stream().map(CompanyContact::toAggregate).collect(Collectors.toList()) : null)
                 .build();
     }
+
+    public TeamAssignmentDto toAggregateTeam() {
+        return TeamAssignmentDto.builder()
+                .id(this.id)
+                .buyerEntityName(buyerEntityName != null ? buyerEntityName.toAggregateBasic() : null)
+                .buyerContactReps(buyerContactReps != null ? buyerContactReps.stream().map(CompanyContact::toAggregateTeam).collect(Collectors.toList()) : null)
+                .titleEscrowCompany(titleEscrowCompanies != null ? titleEscrowCompanies.stream().map(CompanyContact::toAggregateTeam).collect(Collectors.toList()) : null)
+                .lenderCompany(lenderCompanies != null ? lenderCompanies.stream().map(CompanyContact::toAggregateTeam).collect(Collectors.toList()) : null)
+                .projectManager(projectManagers != null ? projectManagers.stream().map(CompanyContact::toAggregateTeam).collect(Collectors.toList()) : null)
+                .legalContact(legalContacts != null ? legalContacts.stream().map(CompanyContact::toAggregateTeam).collect(Collectors.toList()) : null)
+                .hoa(hoas != null ? hoas.stream().map(CompanyContact::toAggregateTeam).collect(Collectors.toList()) : null)
+                .seller(sellers != null ? sellers.stream().map(CompanyContact::toAggregateTeam).collect(Collectors.toList()) : null)
+                .build();
+    }
 }

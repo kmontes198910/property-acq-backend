@@ -124,7 +124,7 @@ public class PropertyServiceImpl implements IPropertyService {
     public PropertyDto getById(String id) {
         Optional<Property> entity = repositoryQuery.findById(id);
         if (entity.isPresent()) {
-            return entity.get().toAggregate();
+            return entity.get().toAggregateSimple();
         }
         throw new PropertyNotFoundException(id);
     }

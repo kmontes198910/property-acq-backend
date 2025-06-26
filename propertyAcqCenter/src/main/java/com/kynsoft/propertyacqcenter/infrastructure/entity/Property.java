@@ -8,6 +8,8 @@ import com.kynsoft.propertyacqcenter.domain.enums.SourceType;
 import jakarta.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Set;
+import java.util.stream.Collectors;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 
@@ -149,6 +151,9 @@ public class Property {
     @Column(name = "fee_frequency_hoa", nullable = true)
     private String hoaFeeFrequency;
 
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "property", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<TeamAssignment> teamAssignments;
+
     public Property(PropertyDto dto) {
         this.id = dto.getId();
         this.purchasePrice = dto.getPurchasePrice();
@@ -280,6 +285,69 @@ public class Property {
                 .hoaName(hoaName)
                 .hoaType(hoaType)
                 .hoaFeeFrequency(hoaFeeFrequency)
+                .build();
+    }
+
+    public PropertyDto toAggregateSimple() {
+        return PropertyDto.builder()
+                .id(this.id)
+                .buildingArea(buildingArea)
+                .livingArea(livingArea)
+                .grossArea(grossArea)
+                .taxableArea(taxableArea)
+                .garageArea(garageArea)
+                .purchasePrice(purchasePrice)
+                .rentalPrice(rentalPrice)
+                .afterRepairValue(afterRepairValue)
+                .floodZoneDetermination(floodZoneDetermination)
+                .propertyRented(propertyRented)
+                .formattedAddress(formattedAddress)
+                .addressLine1(addressLine1)
+                .addressLine2(addressLine2)
+                .apn(apn)
+                .city(city)
+                .county(county)
+                .lotSize(lotSize)
+                .occupancy(occupancy)
+                .propertyType(propertyType)
+                .squareFootage(squareFootage)
+                .state(state)
+                .unitCount(unitCount)
+                .yearBuilt(yearBuilt)
+                .zipCode(zipCode)
+                .roofType(roofType)
+                .structureType(structureType)
+                .hoa(hoa)
+                .bedrooms(bedrooms)
+                .bathrooms(bathrooms)
+                .askingPrice(askingPrice)
+                .propertyStatus(propertyStatus)
+                .createdAt(createdAt)
+                .isManual(isManual)
+                .daysOnMarket(daysOnMarket)
+
+                .contractExecutionDate(contractExecutionDate)
+                .acquisitionType(acquisitionType)
+                .sourceType(sourceType)
+                .sellerName(sellerName != null ? sellerName.toAggregateBasic() : null)
+                .sellerContactInfo(sellerContactInfo != null ? sellerContactInfo.toAggregateBasic() : null)
+                .expectedClosingDate(expectedClosingDate)
+                .emdRequirements(emdRequirements)
+                .emdOfferedAmount(emdOfferedAmount)
+
+                .distressed(distressed)
+                .isMortgage(isMortgage)
+                .lenghOfOwership(lenghOfOwership)
+                .openBalanceMortagage(openBalanceMortagage)
+                .involuntaryLiensAmount(involuntaryLiensAmount)
+                .publicRecord(publicRecord)
+                .mls(mls)
+
+                .hasHoa(hasHoa)
+                .hoaName(hoaName)
+                .hoaType(hoaType)
+                .hoaFeeFrequency(hoaFeeFrequency)
+                .teamAssignments(teamAssignments != null ? teamAssignments.stream().map(TeamAssignment::toAggregateTeam).collect(Collectors.toList()) : null)
                 .build();
     }
 

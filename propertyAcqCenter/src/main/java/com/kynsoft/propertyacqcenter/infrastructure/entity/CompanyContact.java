@@ -122,4 +122,19 @@ public class CompanyContact {
                 .build();
     }
 
+    public CompanyContactDto toAggregateTeam() {
+        return CompanyContactDto.builder()
+                .id(this.id)
+                .birthDate(birthDate)
+                .firstName(firstName)
+                .lastName(lastName)
+                .email(email)
+                .phoneNumber(phoneNumber)
+                .position(position)
+                .department(department)
+                .notes(notes)
+                .personalEmail(personalEmail)
+                .build();
+    }
+
 }
