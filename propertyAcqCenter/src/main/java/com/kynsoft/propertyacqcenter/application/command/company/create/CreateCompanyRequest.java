@@ -16,4 +16,6 @@ public class CreateCompanyRequest {
     private UUID subCategory;
     private CompanyType type;
     private CreateTitleCompanyDataRequest titleCompany;
+    private CreateSellerCompanyDataRequest seller;
+    private CreateLegalInformationDataRequest legalInformation;
 }

@@ -21,6 +21,8 @@ import com.kynsoft.propertyacqcenter.infrastructure.repository.command.CompanyWr
 import com.kynsoft.propertyacqcenter.domain.services.ICompanyService;
 import com.kynsoft.propertyacqcenter.infrastructure.entity.CompanyType;
 import com.kynsoft.propertyacqcenter.infrastructure.entity.SubCategory;
+import com.kynsoft.propertyacqcenter.infrastructure.entity.embedded.company.LegalInformation;
+import com.kynsoft.propertyacqcenter.infrastructure.entity.embedded.company.Seller;
 import com.kynsoft.propertyacqcenter.infrastructure.entity.embedded.company.TitleCompany;
 import org.springframework.context.annotation.Primary;
 
@@ -68,6 +70,37 @@ public class CompanyService implements ICompanyService {
                     .uccSearchResults(dto.getTitleCompany().getUccSearchResults())
                     .build() : null
             );
+            update.setSeller(dto.getSeller() != null ? Seller
+                    .builder()
+                    .id(dto.getSeller().getId())
+                    .company(update)
+                    .declareIfForeing(dto.getSeller().getDeclareIfForeing())
+                    .folioParcelNumber(dto.getSeller().getFolioParcelNumber())
+                    .legalDescription(dto.getSeller().getLegalDescription())
+                    .lenderName(dto.getSeller().getLenderName())
+                    .loanNumber(dto.getSeller().getLoanNumber())
+                    .socialSecurity(dto.getSeller().getSocialSecurity())
+                    .build() : null);
+            update.setLegalInformation(dto.getLegalInformation() != null ? LegalInformation
+                    .builder()
+                    .id(dto.getLegalInformation().getId())
+                    .company(update)
+                    .annualRevenue(dto.getLegalInformation().getAnnualRevenue())
+                    .authorizedSignerGovernmentIdCopy(dto.getLegalInformation().getAuthorizedSignerGovernmentIdCopy())
+                    .authorizedSignerGovernmentIdCopyFileName(dto.getLegalInformation().getAuthorizedSignerGovernmentIdCopyFileName())
+                    .businessDescription(dto.getLegalInformation().getBusinessDescription())
+                    .dateOfLastAnnualReport(dto.getLegalInformation().getDateOfLastAnnualReport())
+                    .entityExperience(dto.getLegalInformation().getEntityExperience())
+                    .entityFico(dto.getLegalInformation().getEntityFico())
+                    .entityType(dto.getLegalInformation().getEntityType())
+                    .fiscalYearEnd(dto.getLegalInformation().getFiscalYearEnd())
+                    .formationDate(dto.getLegalInformation().getFormationDate())
+                    .formationState(dto.getLegalInformation().getFormationState())
+                    .name(dto.getLegalInformation().getName())
+                    .owner(dto.getLegalInformation().getOwner())
+                    .taxId(dto.getLegalInformation().getTaxId())
+                    .website(dto.getLegalInformation().getWebsite())
+                    .build() : null);
             // Guardar los cambios
             repositoryCommand.save(update);
         } else {

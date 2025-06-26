@@ -22,11 +22,15 @@ public class CreateCompanyCommand implements ICommand {
     private UUID subCategory;
     private CompanyType type;
     private CreateTitleCompanyDataRequest titleCompany;
+    private CreateSellerCompanyDataRequest seller;
+    private CreateLegalInformationDataRequest legalInformation;
 
     public CreateCompanyCommand(UUID business, UUID companyType, UUID subCompanyType, String title, 
                                 String notes,
                                 String category, UUID subCategory, CompanyType type,
-                                CreateTitleCompanyDataRequest titleCompany) {
+                                CreateTitleCompanyDataRequest titleCompany,
+                                CreateSellerCompanyDataRequest seller,
+                                CreateLegalInformationDataRequest legalInformation) {
         this.id = UUID.randomUUID();
         this.business = business;
         this.companyType = companyType;
@@ -37,6 +41,8 @@ public class CreateCompanyCommand implements ICommand {
         this.subCategory = subCategory;
         this.type = type;
         this.titleCompany = titleCompany;
+        this.seller = seller;
+        this.legalInformation = legalInformation;
     }
 
     public static CreateCompanyCommand fromRequest(CreateCompanyRequest request) {
@@ -49,7 +55,9 @@ public class CreateCompanyCommand implements ICommand {
                 request.getCategory(),
                 request.getSubCategory(),
                 request.getType(),
-                request.getTitleCompany()
+                request.getTitleCompany(),
+                request.getSeller(),
+                request.getLegalInformation()
         );
     }
 

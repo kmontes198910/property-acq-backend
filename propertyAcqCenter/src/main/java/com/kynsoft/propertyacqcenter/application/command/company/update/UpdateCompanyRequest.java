@@ -15,4 +15,6 @@ public class UpdateCompanyRequest {
     private String category;
     private UUID subCategory;
     private UpdateTitleCompanyDataRequest titleCompany;
+    private UpdateSellerCompanyDataRequest seller;
+    private UpdateLegalInformationDataRequest legalInformation;
 }

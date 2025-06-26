@@ -1,5 +1,7 @@
 package com.kynsoft.propertyacqcenter.domain.dto;
 
+import com.kynsoft.propertyacqcenter.domain.dto.embedded.company.LegalInformationDto;
+import com.kynsoft.propertyacqcenter.domain.dto.embedded.company.SellerDto;
 import com.kynsoft.propertyacqcenter.domain.dto.embedded.company.TitleCompanyDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -27,4 +29,6 @@ public class CompanyDto {
     private String category;
     private SubCategoryDto subCategory;
     private TitleCompanyDto titleCompany;
+    private SellerDto seller;
+    private LegalInformationDto legalInformation;
 }

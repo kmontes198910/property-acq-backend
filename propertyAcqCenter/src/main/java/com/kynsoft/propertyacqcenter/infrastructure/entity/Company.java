@@ -1,7 +1,11 @@
 package com.kynsoft.propertyacqcenter.infrastructure.entity;
 
 import com.kynsoft.propertyacqcenter.domain.dto.CompanyDto;
+import com.kynsoft.propertyacqcenter.domain.dto.embedded.company.LegalInformationDto;
+import com.kynsoft.propertyacqcenter.domain.dto.embedded.company.SellerDto;
 import com.kynsoft.propertyacqcenter.domain.dto.embedded.company.TitleCompanyDto;
+import com.kynsoft.propertyacqcenter.infrastructure.entity.embedded.company.LegalInformation;
+import com.kynsoft.propertyacqcenter.infrastructure.entity.embedded.company.Seller;
 import com.kynsoft.propertyacqcenter.infrastructure.entity.embedded.company.TitleCompany;
 import jakarta.persistence.*;
 import lombok.*;
@@ -73,6 +77,12 @@ public class Company {
     @Embedded
     private TitleCompany titleCompany;
 
+    @OneToOne(mappedBy = "company", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Seller seller;
+
+    @OneToOne(mappedBy = "company", cascade = CascadeType.ALL, orphanRemoval = true)
+    private LegalInformation legalInformation; // Solo para Legal (puede ser null)
+
     public Company(CompanyDto dto) {
         this.id = dto.getId() != null ? dto.getId() : UUID.randomUUID();
         this.companyType = dto.getCompanyType() != null ? new CompanyType(dto.getCompanyType()) : null;
@@ -95,6 +105,37 @@ public class Company {
                 dto.getTitleCompany().getUccSearchResults(),
                 dto.getTitleCompany().getOldTitleInsurancePolicy()
         ) : null;
+        this.seller = dto.getSeller() != null ? Seller
+                .builder()
+                .id(dto.getSeller().getId())
+                .company(this)
+                .declareIfForeing(dto.getSeller().getDeclareIfForeing())
+                .folioParcelNumber(dto.getSeller().getFolioParcelNumber())
+                .legalDescription(dto.getSeller().getLegalDescription())
+                .lenderName(dto.getSeller().getLenderName())
+                .loanNumber(dto.getSeller().getLoanNumber())
+                .socialSecurity(dto.getSeller().getSocialSecurity())
+                .build() : null;
+        this.legalInformation = dto.getLegalInformation() != null ? LegalInformation
+                .builder()
+                .id(dto.getLegalInformation().getId())
+                .company(this)
+                .annualRevenue(dto.getLegalInformation().getAnnualRevenue())
+                .authorizedSignerGovernmentIdCopy(dto.getLegalInformation().getAuthorizedSignerGovernmentIdCopy())
+                .authorizedSignerGovernmentIdCopyFileName(dto.getLegalInformation().getAuthorizedSignerGovernmentIdCopyFileName())
+                .businessDescription(dto.getLegalInformation().getBusinessDescription())
+                .dateOfLastAnnualReport(dto.getLegalInformation().getDateOfLastAnnualReport())
+                .entityExperience(dto.getLegalInformation().getEntityExperience())
+                .entityFico(dto.getLegalInformation().getEntityFico())
+                .entityType(dto.getLegalInformation().getEntityType())
+                .fiscalYearEnd(dto.getLegalInformation().getFiscalYearEnd())
+                .formationDate(dto.getLegalInformation().getFormationDate())
+                .formationState(dto.getLegalInformation().getFormationState())
+                .name(dto.getLegalInformation().getName())
+                .owner(dto.getLegalInformation().getOwner())
+                .taxId(dto.getLegalInformation().getTaxId())
+                .website(dto.getLegalInformation().getWebsite())
+                .build() : null;
     }
 
     public CompanyDto toAggregateSimple() {
@@ -123,6 +164,37 @@ public class Company {
                         .titleCommitment(titleCompany.getTitleCommitment())
                         .uccSearchResults(titleCompany.getUccSearchResults())
                         .build() : null)
+                .seller(seller != null ? SellerDto
+                        .builder()
+                        .id(seller.getId())
+                        .declareIfForeing(seller.getDeclareIfForeing())
+                        .folioParcelNumber(seller.getFolioParcelNumber())
+                        .legalDescription(seller.getLegalDescription())
+                        .lenderName(seller.getLenderName())
+                        .loanNumber(seller.getLoanNumber())
+                        .socialSecurity(seller.getSocialSecurity())
+                        .build()
+                        : null)
+                .legalInformation(legalInformation != null ? LegalInformationDto
+                        .builder()
+                        .id(legalInformation.getId())
+                        .annualRevenue(legalInformation.getAnnualRevenue())
+                        .authorizedSignerGovernmentIdCopy(legalInformation.getAuthorizedSignerGovernmentIdCopy())
+                        .authorizedSignerGovernmentIdCopyFileName(legalInformation.getAuthorizedSignerGovernmentIdCopyFileName())
+                        .businessDescription(legalInformation.getBusinessDescription())
+                        .dateOfLastAnnualReport(legalInformation.getDateOfLastAnnualReport())
+                        .entityExperience(legalInformation.getEntityExperience())
+                        .entityFico(legalInformation.getEntityFico())
+                        .entityType(legalInformation.getEntityType())
+                        .fiscalYearEnd(legalInformation.getFiscalYearEnd())
+                        .formationDate(legalInformation.getFormationDate())
+                        .formationState(legalInformation.getFormationState())
+                        .name(legalInformation.getName())
+                        .owner(legalInformation.getOwner())
+                        .taxId(legalInformation.getTaxId())
+                        .website(legalInformation.getWebsite())
+                        .build()
+                        : null)
                 .build();
     }
 
@@ -169,19 +241,19 @@ public class Company {
                 .subCategory(subCategory != null ? this.subCategory.toAggregate() : null)
                 .category(category)
                 .titleCompany(
-                        titleCompany != null ? 
-                        TitleCompanyDto.builder()
-                        .titleReview(titleCompany.getTitleReview())
-                        .copiesOfAnyExisting(titleCompany.getCopiesOfAnyExisting())
-                        .copyOfLastRecordedDeed(titleCompany.getCopyOfLastRecordedDeed())
-                        .existingTitlePolicy(titleCompany.getExistingTitlePolicy())
-                        .legalDescriptionOfTheProperty(titleCompany.getLegalDescriptionOfTheProperty())
-                        .oldTitleInsurancePolicy(titleCompany.getOldTitleInsurancePolicy())
-                        .taxCertificates(titleCompany.getTaxCertificates())
-                        .titleCommitment(titleCompany.getTitleCommitment())
-                        .uccSearchResults(titleCompany.getUccSearchResults())
-                        .build()
-                        : null)
+                        titleCompany != null
+                                ? TitleCompanyDto.builder()
+                                        .titleReview(titleCompany.getTitleReview())
+                                        .copiesOfAnyExisting(titleCompany.getCopiesOfAnyExisting())
+                                        .copyOfLastRecordedDeed(titleCompany.getCopyOfLastRecordedDeed())
+                                        .existingTitlePolicy(titleCompany.getExistingTitlePolicy())
+                                        .legalDescriptionOfTheProperty(titleCompany.getLegalDescriptionOfTheProperty())
+                                        .oldTitleInsurancePolicy(titleCompany.getOldTitleInsurancePolicy())
+                                        .taxCertificates(titleCompany.getTaxCertificates())
+                                        .titleCommitment(titleCompany.getTitleCommitment())
+                                        .uccSearchResults(titleCompany.getUccSearchResults())
+                                        .build()
+                                : null)
                 .build();
     }
 
@@ -199,19 +271,19 @@ public class Company {
                 .subCategory(subCategory != null ? this.subCategory.toAggregate() : null)
                 .category(category)
                 .titleCompany(
-                        titleCompany != null ? 
-                        TitleCompanyDto.builder()
-                        .titleReview(titleCompany.getTitleReview())
-                        .copiesOfAnyExisting(titleCompany.getCopiesOfAnyExisting())
-                        .copyOfLastRecordedDeed(titleCompany.getCopyOfLastRecordedDeed())
-                        .existingTitlePolicy(titleCompany.getExistingTitlePolicy())
-                        .legalDescriptionOfTheProperty(titleCompany.getLegalDescriptionOfTheProperty())
-                        .oldTitleInsurancePolicy(titleCompany.getOldTitleInsurancePolicy())
-                        .taxCertificates(titleCompany.getTaxCertificates())
-                        .titleCommitment(titleCompany.getTitleCommitment())
-                        .uccSearchResults(titleCompany.getUccSearchResults())
-                        .build()
-                        : null)
+                        titleCompany != null
+                                ? TitleCompanyDto.builder()
+                                        .titleReview(titleCompany.getTitleReview())
+                                        .copiesOfAnyExisting(titleCompany.getCopiesOfAnyExisting())
+                                        .copyOfLastRecordedDeed(titleCompany.getCopyOfLastRecordedDeed())
+                                        .existingTitlePolicy(titleCompany.getExistingTitlePolicy())
+                                        .legalDescriptionOfTheProperty(titleCompany.getLegalDescriptionOfTheProperty())
+                                        .oldTitleInsurancePolicy(titleCompany.getOldTitleInsurancePolicy())
+                                        .taxCertificates(titleCompany.getTaxCertificates())
+                                        .titleCommitment(titleCompany.getTitleCommitment())
+                                        .uccSearchResults(titleCompany.getUccSearchResults())
+                                        .build()
+                                : null)
                 .build();
     }
 
