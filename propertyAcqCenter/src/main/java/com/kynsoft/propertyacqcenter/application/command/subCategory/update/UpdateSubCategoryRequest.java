@@ -7,7 +7,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class CreateSubCategoryRequest {
+public class UpdateSubCategoryRequest {
 
     private String name;
     private String code;
