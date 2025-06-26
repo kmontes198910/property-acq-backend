@@ -28,8 +28,8 @@ public class CreatePermissionCommandHandler implements ICommandHandler<CreatePer
         RulesChecker.checkRule(new PermissionCodeMustBeNullRule(command.getCode()));
         RulesChecker.checkRule(new PermissionCodeMustBeUniqueRule(this.service, command.getCode(), command.getId()));
 
-        RulesChecker.checkRule(new ValidateObjectNotNullRule(command.getIdModule(), "Permission.module.id", "Permission.Module ID cannot be null."));
-        ModuleDto module = this.serviceModule.findById(command.getIdModule());
+        //RulesChecker.checkRule(new ValidateObjectNotNullRule(command.getIdModule(), "Permission.module.id", "Permission.Module ID cannot be null."));
+        ModuleDto module = command.getIdModule() != null ? this.serviceModule.findById(command.getIdModule()) : null;
 
         PermissionDto permissionDto = new PermissionDto(command.getId(), command.getCode(), command.getDescription(), module, command.getAction());
         permissionDto.setStatus(PermissionStatusEnm.ACTIVE);

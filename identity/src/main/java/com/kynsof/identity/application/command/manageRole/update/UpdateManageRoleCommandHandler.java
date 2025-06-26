@@ -2,13 +2,18 @@ package com.kynsof.identity.application.command.manageRole.update;
 
 
 import com.kynsof.identity.domain.dto.ManageRolDto;
+import com.kynsof.identity.domain.dto.PermissionDto;
 import com.kynsof.identity.domain.interfaces.service.IManageRoleService;
+import com.kynsof.identity.domain.interfaces.service.IPermissionService;
 import com.kynsof.identity.domain.rules.manageRole.ManageRoleCodeMustBeUniqueRule;
 import com.kynsof.identity.infrastructure.services.rabbitMq.eventPublisher.EventManageRolePublisherService;
 import com.kynsof.share.core.domain.RulesChecker;
 import com.kynsof.share.core.domain.bus.command.ICommandHandler;
 import com.kynsof.share.core.domain.rules.ValidateObjectNotNullRule;
 import com.kynsof.share.utils.UpdateIfNotNull;
+import java.util.List;
+import java.util.UUID;
+import java.util.stream.Collectors;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -16,11 +21,14 @@ public class UpdateManageRoleCommandHandler implements ICommandHandler<UpdateMan
 
     private final IManageRoleService service;
     private final EventManageRolePublisherService manageRolePublisherService;
+    private final IPermissionService permissionService;
 
-
-    public UpdateManageRoleCommandHandler(IManageRoleService service, EventManageRolePublisherService manageRolePublisherService) {
+    public UpdateManageRoleCommandHandler(IManageRoleService service, 
+                                          EventManageRolePublisherService manageRolePublisherService,
+                                          IPermissionService permissionService) {
         this.service = service;
         this.manageRolePublisherService = manageRolePublisherService;
+        this.permissionService = permissionService;
     }
 
     @Override
@@ -38,8 +46,17 @@ public class UpdateManageRoleCommandHandler implements ICommandHandler<UpdateMan
 
         UpdateIfNotNull.updateIfNotNull(update::setCode, command.getCode());
 
+        update.setPermissions(command.getPermissions() != null ? get(command.getPermissions()) : null);
         ManageRolDto updatedManageRole= service.update(update);
 
         this.manageRolePublisherService.publishManageRoleEvent(updatedManageRole);
     }
+
+    
+    private List<PermissionDto> get(List<UUID> ids) {
+        return ids.stream()
+            .map(this.permissionService::findById)
+            .collect(Collectors.toList());
+    }
+
 }

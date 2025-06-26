@@ -47,7 +47,6 @@ public class Permission {
     @Column(updatable = false)
     private LocalDateTime createdAt;
 
-
     @UpdateTimestamp
     private LocalDateTime updatedAt;
 
@@ -56,11 +55,19 @@ public class Permission {
         this.code = permissionDto.getCode();
         this.description = permissionDto.getDescription();
         this.action = permissionDto.getAction();
-        this.module = new ModuleSystem(permissionDto.getModule());
+        this.module = permissionDto.getModule() != null ? new ModuleSystem(permissionDto.getModule()) : null;
         this.status = permissionDto.getStatus();
     }
 
     public PermissionDto toAggregate() {
-        return new PermissionDto(this.id, this.code, this.description, this.module.toAggregate(), this.status, this.action, createdAt);
+        return new PermissionDto(
+                this.id,
+                this.code,
+                this.description,
+                this.module != null ? this.module.toAggregate() : null,
+                this.status,
+                this.action,
+                createdAt
+        );
     }
 }
