@@ -1,18 +1,14 @@
-package com.kynsoft.propertyacqcenter.domain.dto;
+package com.kynsoft.propertyacqcenter.application.command.subCategory.update;
 
 import com.kynsoft.propertyacqcenter.domain.enums.CompanyType;
 import com.kynsoft.propertyacqcenter.domain.enums.ContactType;
-import lombok.*;
-import java.util.UUID;
+import lombok.Getter;
+import lombok.Setter;
 
 @Getter
 @Setter
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
-public class SubCategoryDto {
+public class CreateSubCategoryRequest {
 
-    private UUID id;
     private String name;
     private String code;
     private String description;

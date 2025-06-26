@@ -21,6 +21,9 @@ import com.kynsoft.propertyacqcenter.infrastructure.repository.command.CompanyWr
 import com.kynsoft.propertyacqcenter.domain.services.ICompanyService;
 import com.kynsoft.propertyacqcenter.infrastructure.entity.CompanyType;
 import com.kynsoft.propertyacqcenter.infrastructure.entity.SubCategory;
+import com.kynsoft.propertyacqcenter.infrastructure.entity.embedded.company.LegalInformation;
+import com.kynsoft.propertyacqcenter.infrastructure.entity.embedded.company.Seller;
+import com.kynsoft.propertyacqcenter.infrastructure.entity.embedded.company.TitleCompany;
 import org.springframework.context.annotation.Primary;
 
 @Service
@@ -42,22 +45,66 @@ public class CompanyService implements ICompanyService {
     }
 
     @Override
-    public void update(CompanyDto contactPersonDto) {
-        Optional<Company> contactPerson = this.repositoryQuery.findById(contactPersonDto.getId());
-        if (contactPerson.isPresent()) {
-            Company oldContact = contactPerson.get();
+    public void update(CompanyDto dto) {
+        Optional<Company> company = this.repositoryQuery.findById(dto.getId());
+        if (company.isPresent()) {
+            Company update = company.get();
 
-            oldContact.setTitle(contactPersonDto.getTitle());
-            oldContact.setNotes(contactPersonDto.getNotes());
-            oldContact.setUpdatedBy(contactPersonDto.getUpdatedBy());
-            oldContact.setCompanyType(new CompanyType(contactPersonDto.getCompanyType()));
-            oldContact.setCategory(contactPersonDto.getCategory());
-            oldContact.setSubCategory(new SubCategory(contactPersonDto.getSubCategory()));
+            update.setTitle(dto.getTitle());
+            update.setNotes(dto.getNotes());
+            update.setUpdatedBy(dto.getUpdatedBy());
+            update.setCompanyType(dto.getCompanyType() != null ? new CompanyType(dto.getCompanyType()) : null);
+            update.setCategory(dto.getCategory());
+            update.setSubCategory(new SubCategory(dto.getSubCategory()));
 
+            update.setTitleCompany(dto.getTitleCompany() != null ? TitleCompany
+                    .builder()
+                    .titleReview(dto.getTitleCompany().getTitleReview())
+                    .copiesOfAnyExisting(dto.getTitleCompany().getCopiesOfAnyExisting())
+                    .copyOfLastRecordedDeed(dto.getTitleCompany().getCopyOfLastRecordedDeed())
+                    .existingTitlePolicy(dto.getTitleCompany().getExistingTitlePolicy())
+                    .legalDescriptionOfTheProperty(dto.getTitleCompany().getLegalDescriptionOfTheProperty())
+                    .oldTitleInsurancePolicy(dto.getTitleCompany().getOldTitleInsurancePolicy())
+                    .taxCertificates(dto.getTitleCompany().getTaxCertificates())
+                    .titleCommitment(dto.getTitleCompany().getTitleCommitment())
+                    .uccSearchResults(dto.getTitleCompany().getUccSearchResults())
+                    .build() : null
+            );
+            update.setSeller(dto.getSeller() != null ? Seller
+                    .builder()
+                    .id(dto.getSeller().getId())
+                    .company(update)
+                    .declareIfForeing(dto.getSeller().getDeclareIfForeing())
+                    .folioParcelNumber(dto.getSeller().getFolioParcelNumber())
+                    .legalDescription(dto.getSeller().getLegalDescription())
+                    .lenderName(dto.getSeller().getLenderName())
+                    .loanNumber(dto.getSeller().getLoanNumber())
+                    .socialSecurity(dto.getSeller().getSocialSecurity())
+                    .build() : null);
+            update.setLegalInformation(dto.getLegalInformation() != null ? LegalInformation
+                    .builder()
+                    .id(dto.getLegalInformation().getId())
+                    .company(update)
+                    .annualRevenue(dto.getLegalInformation().getAnnualRevenue())
+                    .authorizedSignerGovernmentIdCopy(dto.getLegalInformation().getAuthorizedSignerGovernmentIdCopy())
+                    .authorizedSignerGovernmentIdCopyFileName(dto.getLegalInformation().getAuthorizedSignerGovernmentIdCopyFileName())
+                    .businessDescription(dto.getLegalInformation().getBusinessDescription())
+                    .dateOfLastAnnualReport(dto.getLegalInformation().getDateOfLastAnnualReport())
+                    .entityExperience(dto.getLegalInformation().getEntityExperience())
+                    .entityFico(dto.getLegalInformation().getEntityFico())
+                    .entityType(dto.getLegalInformation().getEntityType())
+                    .fiscalYearEnd(dto.getLegalInformation().getFiscalYearEnd())
+                    .formationDate(dto.getLegalInformation().getFormationDate())
+                    .formationState(dto.getLegalInformation().getFormationState())
+                    .name(dto.getLegalInformation().getName())
+                    .owner(dto.getLegalInformation().getOwner())
+                    .taxId(dto.getLegalInformation().getTaxId())
+                    .website(dto.getLegalInformation().getWebsite())
+                    .build() : null);
             // Guardar los cambios
-            repositoryCommand.save(oldContact);
+            repositoryCommand.save(update);
         } else {
-            throw new CompanyNotFoundException(contactPersonDto.getId().toString(), "ID");
+            throw new CompanyNotFoundException(company.get().getId().toString(), "ID");
         }
     }
 

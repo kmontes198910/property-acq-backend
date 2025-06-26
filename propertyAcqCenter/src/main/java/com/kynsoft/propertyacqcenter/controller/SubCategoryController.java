@@ -4,6 +4,9 @@ import com.kynsof.share.core.domain.request.PageableUtil;
 import com.kynsof.share.core.domain.request.SearchRequest;
 import com.kynsof.share.core.domain.response.PaginatedResponse;
 import com.kynsof.share.core.infrastructure.bus.IMediator;
+import com.kynsoft.propertyacqcenter.application.command.subCategory.update.CreateSubCategoryCommand;
+import com.kynsoft.propertyacqcenter.application.command.subCategory.update.CreateSubCategoryMessage;
+import com.kynsoft.propertyacqcenter.application.command.subCategory.update.CreateSubCategoryRequest;
 import com.kynsoft.propertyacqcenter.application.query.subCategory.search.GetSearchSubCategoryQuery;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
@@ -21,6 +24,14 @@ public class SubCategoryController {
 
         this.mediator = mediator;
         this.subCategoryConstructionTypeService = subCategoryConstructionTypeService;
+    }
+
+    @PostMapping("")
+    public ResponseEntity<CreateSubCategoryMessage> create(@RequestBody CreateSubCategoryRequest request) {
+        CreateSubCategoryCommand createCommand = CreateSubCategoryCommand.fromRequest(request);
+        CreateSubCategoryMessage response = mediator.send(createCommand);
+
+        return ResponseEntity.ok(response);
     }
 
     @GetMapping("/create")

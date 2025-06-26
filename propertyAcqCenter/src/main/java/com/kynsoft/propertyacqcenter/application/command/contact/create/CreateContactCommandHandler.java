@@ -2,6 +2,7 @@ package com.kynsoft.propertyacqcenter.application.command.contact.create;
 
 import com.kynsof.share.core.domain.bus.command.ICommandHandler;
 import com.kynsoft.propertyacqcenter.domain.dto.ContactDto;
+import com.kynsoft.propertyacqcenter.domain.dto.EmployeeDto;
 import com.kynsoft.propertyacqcenter.domain.dto.LegalEntityDto;
 import com.kynsoft.propertyacqcenter.domain.dto.SubCategoryDto;
 import com.kynsoft.propertyacqcenter.domain.dto.exception.contact.EmailAndPhoneNotNullException;
@@ -9,8 +10,11 @@ import com.kynsoft.propertyacqcenter.domain.dto.exception.contact.EmailFormatExc
 import com.kynsoft.propertyacqcenter.domain.dto.exception.contact.EmailMustBeUniqueException;
 import com.kynsoft.propertyacqcenter.domain.dto.exception.contact.LegalEntityNotNullException;
 import com.kynsoft.propertyacqcenter.domain.services.IContactService;
+import com.kynsoft.propertyacqcenter.domain.services.IEmployeeService;
 import com.kynsoft.propertyacqcenter.domain.services.ILegalEntityService;
 import com.kynsoft.propertyacqcenter.domain.services.ISubCategoryService;
+import com.kynsoft.propertyacqcenter.infrastructure.services.rabbitMQ.dto.RabbitMqEmployeeDto;
+import com.kynsoft.propertyacqcenter.infrastructure.services.rabbitMQ.eventPublisher.EventEmployeePublisherService;
 import java.util.UUID;
 import java.util.regex.Pattern;
 import org.springframework.stereotype.Component;
@@ -21,11 +25,19 @@ public class CreateContactCommandHandler implements ICommandHandler<CreateContac
     private final IContactService contactService;
     private final ILegalEntityService legalEntityService;
     private final ISubCategoryService subCategoryService;
+    private final IEmployeeService employeeService;
+    private final EventEmployeePublisherService eventEmployeePublisherService;
 
-    public CreateContactCommandHandler(IContactService contactService, ILegalEntityService legalEntityService, ISubCategoryService subCategoryService) {
+    public CreateContactCommandHandler(IContactService contactService,
+            ILegalEntityService legalEntityService,
+            ISubCategoryService subCategoryService,
+            IEmployeeService employeeService,
+            EventEmployeePublisherService eventEmployeePublisherService) {
         this.contactService = contactService;
         this.legalEntityService = legalEntityService;
         this.subCategoryService = subCategoryService;
+        this.employeeService = employeeService;
+        this.eventEmployeePublisherService = eventEmployeePublisherService;
     }
 
     @Override
@@ -54,6 +66,28 @@ public class CreateContactCommandHandler implements ICommandHandler<CreateContac
                 .build();
 
         this.contactService.create(contactDto);
+
+        this.employeeService.create(EmployeeDto
+                .builder()
+                .id(command.getId())
+                .firstName(command.getFirstName())
+                .lastName(command.getLastName())
+                .email(command.getEmail())
+                .phoneNumber(command.getPhoneNumber())
+                .position(command.getPosition())
+                .business(legalEntityDto.getBusiness())
+                .build());
+
+        this.eventEmployeePublisherService.publishRecoveryBedEvent(
+                new RabbitMqEmployeeDto(
+                        command.getId(),
+                        command.getFirstName(),
+                        command.getLastName(),
+                        command.getEmail(),
+                        legalEntityDto.getBusiness().getId()
+                )
+        );
+
     }
 
     private void validateEmail(String email) {

@@ -9,6 +9,8 @@ import java.util.List;
 import java.util.UUID;
 
 public interface ISubCategoryService {
+    void create(SubCategoryDto dto);
+
     void create();
 
     SubCategoryDto findById(UUID id);

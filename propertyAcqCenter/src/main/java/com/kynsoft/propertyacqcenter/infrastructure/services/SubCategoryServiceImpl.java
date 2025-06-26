@@ -5,6 +5,7 @@ import com.kynsof.share.core.domain.response.PaginatedResponse;
 import com.kynsof.share.core.infrastructure.specifications.GenericSpecificationsBuilder;
 import com.kynsoft.propertyacqcenter.application.response.SubCategoryResponse;
 import com.kynsoft.propertyacqcenter.domain.dto.SubCategoryDto;
+import com.kynsoft.propertyacqcenter.domain.enums.CompanyType;
 import com.kynsoft.propertyacqcenter.domain.enums.ContactType;
 import com.kynsoft.propertyacqcenter.infrastructure.entity.SubCategory;
 import org.springframework.data.domain.Pageable;
@@ -50,6 +51,11 @@ public class SubCategoryServiceImpl implements ISubCategoryService {
     }
 
     @Override
+    public void create(SubCategoryDto dto) {
+        this.repositoryCommand.save(new SubCategory(dto));
+    }
+
+    @Override
     public void create() {
         List<SubCategory> list = new ArrayList<>();
         list.addAll(createConstructionType());
@@ -74,7 +80,8 @@ public class SubCategoryServiceImpl implements ISubCategoryService {
                         "General Contractors (GCs)",
                         "",
                         "Oversee entire construction projects, hire subcontractors, manage timelines, and coordinate work on site.",
-                        ContactType.CONSTRUCTION_TYPE
+                        ContactType.CONSTRUCTION_TYPE,
+                        CompanyType.BUYER
                 ),
                 // Empresas de Gestión de Construcción
                 new SubCategory(
@@ -82,7 +89,8 @@ public class SubCategoryServiceImpl implements ISubCategoryService {
                         "Construction Management Firms",
                         "",
                         "Represent owners, manage budget, scheduling, quality control, often without self-performing work",
-                        ContactType.CONSTRUCTION_TYPE
+                        ContactType.CONSTRUCTION_TYPE,
+                        CompanyType.APPAISAL
                 ),
                 // Contratistas Especializados
                 new SubCategory(
@@ -90,7 +98,8 @@ public class SubCategoryServiceImpl implements ISubCategoryService {
                         "Electrical Contractors",
                         "",
                         "",
-                        ContactType.CONSTRUCTION_TYPE
+                        ContactType.CONSTRUCTION_TYPE,
+                        CompanyType.APPAISAL
                 ),
                 // Contratistas Mecánicos
                 new SubCategory(
@@ -98,7 +107,8 @@ public class SubCategoryServiceImpl implements ISubCategoryService {
                         "Plumbing & Mechanical Contractors",
                         "",
                         "",
-                        ContactType.CONSTRUCTION_TYPE
+                        ContactType.CONSTRUCTION_TYPE,
+                        CompanyType.BUYER
                 ),
                 // Contratistas de Instalaciones
                 new SubCategory(
@@ -106,7 +116,8 @@ public class SubCategoryServiceImpl implements ISubCategoryService {
                         "HVAC Contractors",
                         "",
                         "",
-                        ContactType.CONSTRUCTION_TYPE
+                        ContactType.CONSTRUCTION_TYPE,
+                        CompanyType.BUYER
                 ),
                 // Contratistas de Estructura
                 new SubCategory(
@@ -114,7 +125,8 @@ public class SubCategoryServiceImpl implements ISubCategoryService {
                         "Framing & Drywall Contractors",
                         "",
                         "",
-                        ContactType.CONSTRUCTION_TYPE
+                        ContactType.CONSTRUCTION_TYPE,
+                        CompanyType.APPAISAL
                 ),
                 // Contratistas de Cubierta
                 new SubCategory(
@@ -122,7 +134,8 @@ public class SubCategoryServiceImpl implements ISubCategoryService {
                         "Roofing Companies",
                         "",
                         "",
-                        ContactType.CONSTRUCTION_TYPE
+                        ContactType.CONSTRUCTION_TYPE,
+                        CompanyType.LENDER
                 ),
                 // Contratistas de Acabados
                 new SubCategory(
@@ -130,7 +143,8 @@ public class SubCategoryServiceImpl implements ISubCategoryService {
                         "Masonry & Concrete Specialists",
                         "",
                         "",
-                        ContactType.CONSTRUCTION_TYPE
+                        ContactType.CONSTRUCTION_TYPE,
+                        CompanyType.LENDER
                 ),
                 // Contratistas de Pisos
                 new SubCategory(
@@ -138,7 +152,8 @@ public class SubCategoryServiceImpl implements ISubCategoryService {
                         "Flooring Installers",
                         "",
                         "",
-                        ContactType.CONSTRUCTION_TYPE
+                        ContactType.CONSTRUCTION_TYPE,
+                        CompanyType.BUYER
                 ),
                 // Contratistas de Pintura
                 new SubCategory(
@@ -146,7 +161,8 @@ public class SubCategoryServiceImpl implements ISubCategoryService {
                         "Painting & Finishing Crews",
                         "",
                         "",
-                        ContactType.CONSTRUCTION_TYPE
+                        ContactType.CONSTRUCTION_TYPE,
+                        CompanyType.BUYER
                 ),
                 // Contratistas de Paisajismo
                 new SubCategory(
@@ -154,7 +170,8 @@ public class SubCategoryServiceImpl implements ISubCategoryService {
                         "Landscaping & Hardscaping Firms",
                         "",
                         "",
-                        ContactType.CONSTRUCTION_TYPE
+                        ContactType.CONSTRUCTION_TYPE,
+                        CompanyType.HOA
                 ),
                 // Contratistas de Eficiencia Energética
                 new SubCategory(
@@ -162,7 +179,8 @@ public class SubCategoryServiceImpl implements ISubCategoryService {
                         "Insulation & Energy Efficiency Contractors",
                         "",
                         "",
-                        ContactType.CONSTRUCTION_TYPE
+                        ContactType.CONSTRUCTION_TYPE,
+                        CompanyType.HOA
                 ),
                 // Contratistas de Vidrio
                 new SubCategory(
@@ -170,7 +188,8 @@ public class SubCategoryServiceImpl implements ISubCategoryService {
                         "Glass & Glazing Companies",
                         "",
                         "",
-                        ContactType.CONSTRUCTION_TYPE
+                        ContactType.CONSTRUCTION_TYPE,
+                        CompanyType.HOA
                 ),
                 // Contratistas de Sistemas de Baja Tensión
                 new SubCategory(
@@ -178,7 +197,8 @@ public class SubCategoryServiceImpl implements ISubCategoryService {
                         "Low Voltage / Security System Installers",
                         "",
                         "",
-                        ContactType.CONSTRUCTION_TYPE
+                        ContactType.CONSTRUCTION_TYPE,
+                        CompanyType.HOA
                 ),
                 // Contratistas Especializados
                 new SubCategory(
@@ -186,7 +206,8 @@ public class SubCategoryServiceImpl implements ISubCategoryService {
                         "Specialized Contractors",
                         "",
                         "These companies are usually hired by the GC or builder and specialize in one scope of work.",
-                        ContactType.CONSTRUCTION_TYPE
+                        ContactType.CONSTRUCTION_TYPE,
+                        CompanyType.INSPECTOR
                 ),
                 // Constructores de Viviendas
                 new SubCategory(
@@ -194,7 +215,8 @@ public class SubCategoryServiceImpl implements ISubCategoryService {
                         "Custom Home Builders",
                         "",
                         "Build one-off or small-scale homes to buyer specs.",
-                        ContactType.CONSTRUCTION_TYPE
+                        ContactType.CONSTRUCTION_TYPE,
+                        CompanyType.HOA
                 ),
                 // Constructores de Producción
                 new SubCategory(
@@ -202,7 +224,8 @@ public class SubCategoryServiceImpl implements ISubCategoryService {
                         "Production Home Builders",
                         "",
                         "Build multiple homes using repeatable plans (e.g., DR Horton, Lennar)",
-                        ContactType.CONSTRUCTION_TYPE
+                        ContactType.CONSTRUCTION_TYPE,
+                        CompanyType.INSPECTOR
                 ),
                 // Desarrolladores Mixtos
                 new SubCategory(
@@ -210,7 +233,8 @@ public class SubCategoryServiceImpl implements ISubCategoryService {
                         "Mixed-Use Developers",
                         "",
                         "Combine residential, retail, and office in one project.",
-                        ContactType.CONSTRUCTION_TYPE
+                        ContactType.CONSTRUCTION_TYPE,
+                        CompanyType.LENDER
                 ),
                 // Firmas de Arquitectura
                 new SubCategory(
@@ -218,7 +242,8 @@ public class SubCategoryServiceImpl implements ISubCategoryService {
                         "Architectural Firms",
                         "",
                         "Design structures and produce permit-ready plans.",
-                        ContactType.CONSTRUCTION_TYPE
+                        ContactType.CONSTRUCTION_TYPE,
+                        CompanyType.LENDER
                 ),
                 // Firmas de Ingeniería Civil
                 new SubCategory(
@@ -226,7 +251,8 @@ public class SubCategoryServiceImpl implements ISubCategoryService {
                         "Civil Engineering Firms",
                         "",
                         "Plan site layout, grading, stormwater, utilities, roads.",
-                        ContactType.CONSTRUCTION_TYPE
+                        ContactType.CONSTRUCTION_TYPE,
+                        CompanyType.LENDER
                 ),
                 // Firmas de Ingeniería Estructural
                 new SubCategory(
@@ -234,7 +260,8 @@ public class SubCategoryServiceImpl implements ISubCategoryService {
                         "Structural Engineering Firms",
                         "",
                         "Ensure load-bearing integrity of buildings.",
-                        ContactType.CONSTRUCTION_TYPE
+                        ContactType.CONSTRUCTION_TYPE,
+                        CompanyType.LENDER
                 ),
                 // Firmas de Ingeniería MEP
                 new SubCategory(
@@ -242,7 +269,8 @@ public class SubCategoryServiceImpl implements ISubCategoryService {
                         "MEP Engineering Firms",
                         "",
                         "Specialize in mechanical, electrical, plumbing design.",
-                        ContactType.CONSTRUCTION_TYPE
+                        ContactType.CONSTRUCTION_TYPE,
+                        CompanyType.LENDER
                 ),
                 // Diseñadores de Interiores
                 new SubCategory(
@@ -250,7 +278,8 @@ public class SubCategoryServiceImpl implements ISubCategoryService {
                         "Interior Designers",
                         "",
                         "Design internal spaces, finishes, and layouts.",
-                        ContactType.CONSTRUCTION_TYPE
+                        ContactType.CONSTRUCTION_TYPE,
+                        CompanyType.LENDER
                 ),
                 // Empresas de Topografía
                 new SubCategory(
@@ -258,7 +287,8 @@ public class SubCategoryServiceImpl implements ISubCategoryService {
                         "Surveying Companies",
                         "",
                         "Provide land surveys, boundary verification, topography.",
-                        ContactType.CONSTRUCTION_TYPE
+                        ContactType.CONSTRUCTION_TYPE,
+                        CompanyType.LENDER
                 ),
                 // Firmas Geotécnicas
                 new SubCategory(
@@ -266,7 +296,8 @@ public class SubCategoryServiceImpl implements ISubCategoryService {
                         "Geotechnical Firms",
                         "",
                         "Perform soil testing and foundation recommendations.",
-                        ContactType.CONSTRUCTION_TYPE
+                        ContactType.CONSTRUCTION_TYPE,
+                        CompanyType.LENDER
                 ),
                 // Servicios de Permisos
                 new SubCategory(
@@ -274,7 +305,8 @@ public class SubCategoryServiceImpl implements ISubCategoryService {
                         "Permit Expediting Services",
                         "",
                         "Navigate local zoning and permit offices.",
-                        ContactType.CONSTRUCTION_TYPE
+                        ContactType.CONSTRUCTION_TYPE,
+                        CompanyType.LENDER
                 ),
                 // Proveedores de Materiales
                 new SubCategory(
@@ -282,7 +314,8 @@ public class SubCategoryServiceImpl implements ISubCategoryService {
                         "Material Suppliers & Manufacturers",
                         "",
                         "",
-                        ContactType.CONSTRUCTION_TYPE
+                        ContactType.CONSTRUCTION_TYPE,
+                        CompanyType.LENDER
                 ),
                 // Proveedores de Madera
                 new SubCategory(
@@ -290,7 +323,8 @@ public class SubCategoryServiceImpl implements ISubCategoryService {
                         "Lumber Yards",
                         "",
                         "",
-                        ContactType.CONSTRUCTION_TYPE
+                        ContactType.CONSTRUCTION_TYPE,
+                        CompanyType.LENDER
                 ),
                 // Proveedores de Concreto
                 new SubCategory(
@@ -298,7 +332,8 @@ public class SubCategoryServiceImpl implements ISubCategoryService {
                         "Concrete & Asphalt Suppliers",
                         "",
                         "",
-                        ContactType.CONSTRUCTION_TYPE
+                        ContactType.CONSTRUCTION_TYPE,
+                        CompanyType.LENDER
                 ),
                 // Fabricantes de Acero
                 new SubCategory(
@@ -306,7 +341,8 @@ public class SubCategoryServiceImpl implements ISubCategoryService {
                         "Steel Fabricators",
                         "",
                         "",
-                        ContactType.CONSTRUCTION_TYPE
+                        ContactType.CONSTRUCTION_TYPE,
+                        CompanyType.LENDER
                 ),
                 // Proveedores de Techos y Revestimientos
                 new SubCategory(
@@ -314,7 +350,8 @@ public class SubCategoryServiceImpl implements ISubCategoryService {
                         "Roofing & Siding Suppliers",
                         "",
                         "",
-                        ContactType.CONSTRUCTION_TYPE
+                        ContactType.CONSTRUCTION_TYPE,
+                        CompanyType.LENDER
                 ),
                 // Proveedores de Electrodomésticos y Gabinetes
                 new SubCategory(
@@ -322,7 +359,8 @@ public class SubCategoryServiceImpl implements ISubCategoryService {
                         "Appliance & Cabinet Suppliers",
                         "",
                         "",
-                        ContactType.CONSTRUCTION_TYPE
+                        ContactType.CONSTRUCTION_TYPE,
+                        CompanyType.LENDER
                 ),
                 // Distribuidores de Ventanas y Puertas
                 new SubCategory(
@@ -330,7 +368,8 @@ public class SubCategoryServiceImpl implements ISubCategoryService {
                         "Windows & Doors Distributors",
                         "",
                         "",
-                        ContactType.CONSTRUCTION_TYPE
+                        ContactType.CONSTRUCTION_TYPE,
+                        CompanyType.LENDER
                 ),
                 // Proveedores de Iluminación y Electricidad
                 new SubCategory(
@@ -338,7 +377,8 @@ public class SubCategoryServiceImpl implements ISubCategoryService {
                         "Lighting & Electrical Supply Companies",
                         "",
                         "",
-                        ContactType.CONSTRUCTION_TYPE
+                        ContactType.CONSTRUCTION_TYPE,
+                        CompanyType.LENDER
                 ),
                 // Empresas de Alquiler de Equipos Pesados
                 new SubCategory(
@@ -346,7 +386,8 @@ public class SubCategoryServiceImpl implements ISubCategoryService {
                         "Heavy Equipment Rental Companies",
                         "",
                         "Provide excavators, cranes, lifts, etc.",
-                        ContactType.CONSTRUCTION_TYPE
+                        ContactType.CONSTRUCTION_TYPE,
+                        CompanyType.LENDER
                 ),
                 // Empresas de Logística
                 new SubCategory(
@@ -354,7 +395,8 @@ public class SubCategoryServiceImpl implements ISubCategoryService {
                         "Logistics & Delivery Companies",
                         "",
                         "Handle transport of materials and oversized loads.",
-                        ContactType.CONSTRUCTION_TYPE
+                        ContactType.CONSTRUCTION_TYPE,
+                        CompanyType.BUYER
                 ),
                 // Servicios de Residuos
                 new SubCategory(
@@ -362,7 +404,8 @@ public class SubCategoryServiceImpl implements ISubCategoryService {
                         "Dumpster & Waste Management Services",
                         "",
                         "",
-                        ContactType.CONSTRUCTION_TYPE
+                        ContactType.CONSTRUCTION_TYPE,
+                        CompanyType.BUYER
                 ),
                 // Consultores de Seguridad OSHA
                 new SubCategory(
@@ -370,7 +413,8 @@ public class SubCategoryServiceImpl implements ISubCategoryService {
                         "OSHA Safety Consultants",
                         "",
                         "",
-                        ContactType.CONSTRUCTION_TYPE
+                        ContactType.CONSTRUCTION_TYPE,
+                        CompanyType.BUYER
                 ),
                 // Inspectores de Obra
                 new SubCategory(
@@ -378,7 +422,8 @@ public class SubCategoryServiceImpl implements ISubCategoryService {
                         "Third-Party Inspectors (City or Private)",
                         "",
                         "",
-                        ContactType.CONSTRUCTION_TYPE
+                        ContactType.CONSTRUCTION_TYPE,
+                        CompanyType.BUYER
                 ),
                 // Especialistas en Control de Calidad
                 new SubCategory(
@@ -386,7 +431,8 @@ public class SubCategoryServiceImpl implements ISubCategoryService {
                         "QA/QC Specialists",
                         "",
                         "Quality control managers ensuring standards are met.",
-                        ContactType.CONSTRUCTION_TYPE
+                        ContactType.CONSTRUCTION_TYPE,
+                        CompanyType.BUYER
                 ),
                 // Empresas de Cumplimiento Ambiental
                 new SubCategory(
@@ -394,7 +440,8 @@ public class SubCategoryServiceImpl implements ISubCategoryService {
                         "Environmental Compliance Firms",
                         "",
                         "Handle dust, runoff, noise, etc.",
-                        ContactType.CONSTRUCTION_TYPE
+                        ContactType.CONSTRUCTION_TYPE,
+                        CompanyType.BUYER
                 ),
                 // Empresas de Software de Construcción
                 new SubCategory(
@@ -402,7 +449,8 @@ public class SubCategoryServiceImpl implements ISubCategoryService {
                         "Construction Software Companies",
                         "",
                         "(e.g., Procore, Buildertrend, CoConstruct)",
-                        ContactType.CONSTRUCTION_TYPE
+                        ContactType.CONSTRUCTION_TYPE,
+                        CompanyType.BUYER
                 ),
                 // Servicios de BIM
                 new SubCategory(
@@ -410,7 +458,8 @@ public class SubCategoryServiceImpl implements ISubCategoryService {
                         "BIM (Building Information Modeling) Services",
                         "",
                         "",
-                        ContactType.CONSTRUCTION_TYPE
+                        ContactType.CONSTRUCTION_TYPE,
+                        CompanyType.BUYER
                 ),
                 // Empresas de Drones
                 new SubCategory(
@@ -418,7 +467,8 @@ public class SubCategoryServiceImpl implements ISubCategoryService {
                         "Drone Surveying Firms",
                         "",
                         "",
-                        ContactType.CONSTRUCTION_TYPE
+                        ContactType.CONSTRUCTION_TYPE,
+                        CompanyType.BUYER
                 ),
                 // Empresas de Programación y Estimación
                 new SubCategory(
@@ -426,7 +476,8 @@ public class SubCategoryServiceImpl implements ISubCategoryService {
                         "Project Scheduling & Estimating Firms",
                         "",
                         "",
-                        ContactType.CONSTRUCTION_TYPE
+                        ContactType.CONSTRUCTION_TYPE,
+                        CompanyType.BUYER
                 ),
                 // Equipos de Punch List
                 new SubCategory(
@@ -434,7 +485,8 @@ public class SubCategoryServiceImpl implements ISubCategoryService {
                         "Punch List / Close-Out Crews",
                         "",
                         "Handle final fixes before turnover.",
-                        ContactType.CONSTRUCTION_TYPE
+                        ContactType.CONSTRUCTION_TYPE,
+                        CompanyType.BUYER
                 ),
                 // Proveedores de Garantía
                 new SubCategory(
@@ -442,7 +494,8 @@ public class SubCategoryServiceImpl implements ISubCategoryService {
                         "Warranty Service Providers",
                         "",
                         "Respond to repair claims post-delivery.",
-                        ContactType.CONSTRUCTION_TYPE
+                        ContactType.CONSTRUCTION_TYPE,
+                        CompanyType.BUYER
                 ),
                 // Empresas de Mantenimiento
                 new SubCategory(
@@ -450,7 +503,8 @@ public class SubCategoryServiceImpl implements ISubCategoryService {
                         "Facilities Maintenance Firms",
                         "",
                         "Long-term building upkeep and systems care.",
-                        ContactType.CONSTRUCTION_TYPE
+                        ContactType.CONSTRUCTION_TYPE,
+                        CompanyType.BUYER
                 )
         );
 
@@ -460,35 +514,46 @@ public class SubCategoryServiceImpl implements ISubCategoryService {
     private List<SubCategory> createRealEstateCompanyType() {
         List<SubCategory> nomenclatorData = Arrays.asList(
                 // Servicios Legales
-                new SubCategory(UUID.randomUUID(), "Lawyers", "","", ContactType.REAL_ESTATE_COMPANY_TYPE),
-                new SubCategory(UUID.randomUUID(), "Mortgage Title", "","", ContactType.REAL_ESTATE_COMPANY_TYPE),
-                new SubCategory(UUID.randomUUID(), "Mortgage Broker", "","", ContactType.REAL_ESTATE_COMPANY_TYPE),
-                new SubCategory(UUID.randomUUID(), "Lenders Single Family", "","", ContactType.REAL_ESTATE_COMPANY_TYPE),
-                new SubCategory(UUID.randomUUID(), "Lenders Multifamily Commercial", "","", ContactType.REAL_ESTATE_COMPANY_TYPE),
-                new SubCategory(UUID.randomUUID(), "Wholesalers", "","", ContactType.REAL_ESTATE_COMPANY_TYPE),
-                new SubCategory(UUID.randomUUID(), "Appraisers", "","", ContactType.REAL_ESTATE_COMPANY_TYPE),
-                new SubCategory(UUID.randomUUID(), "Surveyors", "","", ContactType.REAL_ESTATE_COMPANY_TYPE),
+                new SubCategory(UUID.randomUUID(), "Lawyers", "","", ContactType.REAL_ESTATE_COMPANY_TYPE,
+                        CompanyType.BUYER),
+                new SubCategory(UUID.randomUUID(), "Mortgage Title", "","", ContactType.REAL_ESTATE_COMPANY_TYPE,
+                        CompanyType.BUYER),
+                new SubCategory(UUID.randomUUID(), "Mortgage Broker", "","", ContactType.REAL_ESTATE_COMPANY_TYPE,
+                        CompanyType.BUYER),
+                new SubCategory(UUID.randomUUID(), "Lenders Single Family", "","", ContactType.REAL_ESTATE_COMPANY_TYPE,
+                        CompanyType.BUYER),
+                new SubCategory(UUID.randomUUID(), "Lenders Multifamily Commercial", "","", ContactType.REAL_ESTATE_COMPANY_TYPE,
+                        CompanyType.BUYER),
+                new SubCategory(UUID.randomUUID(), "Wholesalers", "","", ContactType.REAL_ESTATE_COMPANY_TYPE,
+                        CompanyType.BUYER),
+                new SubCategory(UUID.randomUUID(), "Appraisers", "","", ContactType.REAL_ESTATE_COMPANY_TYPE,
+                        CompanyType.BUYER),
+                new SubCategory(UUID.randomUUID(), "Surveyors", "","", ContactType.REAL_ESTATE_COMPANY_TYPE,
+                        CompanyType.BUYER),
                 // Inversionistas y Fideicomisos
                 new SubCategory(
                         UUID.randomUUID(),
                         "Real Estate Investment Trusts (REITs)",
                         "",
                         "Public or private firms that own income-producing properties.",
-                        ContactType.REAL_ESTATE_COMPANY_TYPE
+                        ContactType.REAL_ESTATE_COMPANY_TYPE,
+                        CompanyType.BUYER
                 ),
                 new SubCategory(
                         UUID.randomUUID(),
                         "Private Equity Real Estate Firms",
                         "",
                         "Pool investor funds to buy large-scale properties.",
-                        ContactType.REAL_ESTATE_COMPANY_TYPE
+                        ContactType.REAL_ESTATE_COMPANY_TYPE,
+                        CompanyType.BUYER
                 ),
                 new SubCategory(
                         UUID.randomUUID(),
                         "Real Estate Syndicates",
                         "",
                         "Groups of investors pooling capital for deals.",
-                        ContactType.REAL_ESTATE_COMPANY_TYPE
+                        ContactType.REAL_ESTATE_COMPANY_TYPE,
+                        CompanyType.TITLE_COMPANY
                 ),
                 // Desarrolladores y Constructores
                 new SubCategory(
@@ -496,28 +561,32 @@ public class SubCategoryServiceImpl implements ISubCategoryService {
                         "Real Estate Developers",
                         "",
                         "Plan and manage ground-up construction projects.",
-                        ContactType.REAL_ESTATE_COMPANY_TYPE
+                        ContactType.REAL_ESTATE_COMPANY_TYPE,
+                        CompanyType.TITLE_COMPANY
                 ),
                 new SubCategory(
                         UUID.randomUUID(),
                         "Home Builders",
                         "",
                         "Build residential homes, from custom homes to tract housing.",
-                        ContactType.REAL_ESTATE_COMPANY_TYPE
+                        ContactType.REAL_ESTATE_COMPANY_TYPE,
+                        CompanyType.TITLE_COMPANY
                 ),
                 new SubCategory(
                         UUID.randomUUID(),
                         "General Contractors (GCs)",
                         "",
                         "Oversee construction, subcontractors, and site management.",
-                        ContactType.REAL_ESTATE_COMPANY_TYPE
+                        ContactType.REAL_ESTATE_COMPANY_TYPE,
+                        CompanyType.TITLE_COMPANY
                 ),
                 new SubCategory(
                         UUID.randomUUID(),
                         "Land Development Firms",
                         "",
                         "Acquire raw land, subdivide, and prepare for construction or sale.",
-                        ContactType.REAL_ESTATE_COMPANY_TYPE
+                        ContactType.REAL_ESTATE_COMPANY_TYPE,
+                        CompanyType.TITLE_COMPANY
                 ),
                 // Gestión de Propiedades
                 new SubCategory(
@@ -525,21 +594,24 @@ public class SubCategoryServiceImpl implements ISubCategoryService {
                         "Property Management Companies",
                         "",
                         "Handle leasing, maintenance, rent collection, and tenant relations.",
-                        ContactType.REAL_ESTATE_COMPANY_TYPE
+                        ContactType.REAL_ESTATE_COMPANY_TYPE,
+                        CompanyType.TITLE_COMPANY
                 ),
                 new SubCategory(
                         UUID.randomUUID(),
                         "Facilities Management Companies",
                         "",
                         "Manage building operations and infrastructure, often for commercial assets.",
-                        ContactType.REAL_ESTATE_COMPANY_TYPE
+                        ContactType.REAL_ESTATE_COMPANY_TYPE,
+                        CompanyType.TITLE_COMPANY
                 ),
                 new SubCategory(
                         UUID.randomUUID(),
                         "Short-Term Rental Management Firms",
                         "",
                         "",
-                        ContactType.REAL_ESTATE_COMPANY_TYPE
+                        ContactType.REAL_ESTATE_COMPANY_TYPE,
+                        CompanyType.TITLE_COMPANY
                 ),
                 // Corretaje
                 new SubCategory(
@@ -547,21 +619,24 @@ public class SubCategoryServiceImpl implements ISubCategoryService {
                         "Residential Real Estate Brokerages",
                         "",
                         "Help individuals buy and sell homes.",
-                        ContactType.REAL_ESTATE_COMPANY_TYPE
+                        ContactType.REAL_ESTATE_COMPANY_TYPE,
+                        CompanyType.TITLE_COMPANY
                 ),
                 new SubCategory(
                         UUID.randomUUID(),
                         "Commercial Brokerages",
                         "",
                         "Specialize in office, retail, industrial, and multi-family transactions.",
-                        ContactType.REAL_ESTATE_COMPANY_TYPE
+                        ContactType.REAL_ESTATE_COMPANY_TYPE,
+                        CompanyType.TITLE_COMPANY
                 ),
                 new SubCategory(
                         UUID.randomUUID(),
                         "Real Estate Agents / Realtors",
                         "",
                         "Licensed individuals representing buyers or sellers.",
-                        ContactType.REAL_ESTATE_COMPANY_TYPE
+                        ContactType.REAL_ESTATE_COMPANY_TYPE,
+                        CompanyType.TITLE_COMPANY
                 ),
                 // Servicios de Cierre
                 new SubCategory(
@@ -569,49 +644,56 @@ public class SubCategoryServiceImpl implements ISubCategoryService {
                         "Title Companies",
                         "",
                         "Conduct title searches, issue title insurance, and handle closings.",
-                        ContactType.REAL_ESTATE_COMPANY_TYPE
+                        ContactType.REAL_ESTATE_COMPANY_TYPE,
+                        CompanyType.TITLE_COMPANY
                 ),
                 new SubCategory(
                         UUID.randomUUID(),
                         "Escrow Companies",
                         "",
                         "Hold and disburse funds in real estate transactions.",
-                        ContactType.REAL_ESTATE_COMPANY_TYPE
+                        ContactType.REAL_ESTATE_COMPANY_TYPE,
+                        CompanyType.TITLE_COMPANY
                 ),
                 // Financiamiento
                 new SubCategory(
                         UUID.randomUUID(),
                         "Real Estate Law Firms",
                         "",
-                        "", ContactType.REAL_ESTATE_COMPANY_TYPE
+                        "", ContactType.REAL_ESTATE_COMPANY_TYPE,
+                        CompanyType.TITLE_COMPANY
                 ),
                 new SubCategory(
                         UUID.randomUUID(),
                         "Mortgage Lenders & Banks",
                         "",
                         "Provide financing for real estate purchases.",
-                        ContactType.REAL_ESTATE_COMPANY_TYPE
+                        ContactType.REAL_ESTATE_COMPANY_TYPE,
+                        CompanyType.TITLE_COMPANY
                 ),
                 new SubCategory(
                         UUID.randomUUID(),
                         "Hard Money Lenders",
                         "",
                         "Short-term, high-interest loans for investors/flippers.",
-                        ContactType.REAL_ESTATE_COMPANY_TYPE
+                        ContactType.REAL_ESTATE_COMPANY_TYPE,
+                        CompanyType.LENDER
                 ),
                 new SubCategory(
                         UUID.randomUUID(),
                         "Private Lenders",
                         "",
                         "Individuals or funds providing capital for deals.",
-                        ContactType.REAL_ESTATE_COMPANY_TYPE
+                        ContactType.REAL_ESTATE_COMPANY_TYPE,
+                        CompanyType.LENDER
                 ),
                 new SubCategory(
                         UUID.randomUUID(),
                         "Loan Servicing Companies",
                         "",
                         "Manage collection and recordkeeping of mortgage payments.",
-                        ContactType.REAL_ESTATE_COMPANY_TYPE
+                        ContactType.REAL_ESTATE_COMPANY_TYPE,
+                        CompanyType.LENDER
                 ),
                 // Tecnología y Datos
                 new SubCategory(
@@ -619,28 +701,32 @@ public class SubCategoryServiceImpl implements ISubCategoryService {
                         "Listing Platforms",
                         "",
                         "Zillow, Redfin, Realtor.com",
-                        ContactType.REAL_ESTATE_COMPANY_TYPE
+                        ContactType.REAL_ESTATE_COMPANY_TYPE,
+                        CompanyType.LENDER
                 ),
                 new SubCategory(
                         UUID.randomUUID(),
                         "Data & Analytics Firms",
                         "",
                         "CoStar, CoreLogic, PropStream",
-                        ContactType.REAL_ESTATE_COMPANY_TYPE
+                        ContactType.REAL_ESTATE_COMPANY_TYPE,
+                        CompanyType.LENDER
                 ),
                 new SubCategory(
                         UUID.randomUUID(),
                         "Property Management Software",
                         "",
                         "AppFolio, Buildium, Stessa",
-                        ContactType.REAL_ESTATE_COMPANY_TYPE
+                        ContactType.REAL_ESTATE_COMPANY_TYPE,
+                        CompanyType.LENDER
                 ),
                 new SubCategory(
                         UUID.randomUUID(),
                         "CRM & Workflow Tools",
                         "",
                         "REIPro, InvestorFuse, Dealpath",
-                        ContactType.REAL_ESTATE_COMPANY_TYPE
+                        ContactType.REAL_ESTATE_COMPANY_TYPE,
+                        CompanyType.LENDER
                 ),
                 // Servicios de Evaluación
                 new SubCategory(
@@ -648,21 +734,24 @@ public class SubCategoryServiceImpl implements ISubCategoryService {
                         "Appraisal Companies",
                         "",
                         "Provide property valuations.",
-                        ContactType.REAL_ESTATE_COMPANY_TYPE
+                        ContactType.REAL_ESTATE_COMPANY_TYPE,
+                        CompanyType.LENDER
                 ),
                 new SubCategory(
                         UUID.randomUUID(),
                         "Inspection Companies",
                         "",
                         "Conduct structural, mechanical, and environmental inspections.",
-                        ContactType.REAL_ESTATE_COMPANY_TYPE
+                        ContactType.REAL_ESTATE_COMPANY_TYPE,
+                        CompanyType.LENDER
                 ),
                 new SubCategory(
                         UUID.randomUUID(),
                         "Insurance Companies",
                         "",
                         "Offer property, liability, and title insurance.",
-                        ContactType.REAL_ESTATE_COMPANY_TYPE
+                        ContactType.REAL_ESTATE_COMPANY_TYPE,
+                        CompanyType.WHOLESALER
                 ),
                 // Gestión de Comunidades
                 new SubCategory(
@@ -670,14 +759,16 @@ public class SubCategoryServiceImpl implements ISubCategoryService {
                         "HOA & Community Management Firms",
                         "",
                         "Govern and manage residential communities.",
-                        ContactType.REAL_ESTATE_COMPANY_TYPE
+                        ContactType.REAL_ESTATE_COMPANY_TYPE,
+                        CompanyType.WHOLESALER
                 ),
                 // Propietarios
                 new SubCategory(
                         UUID.randomUUID(),
                         "Homeowners",
                         "",
-                        "", ContactType.REAL_ESTATE_COMPANY_TYPE
+                        "", ContactType.REAL_ESTATE_COMPANY_TYPE,
+                        CompanyType.WHOLESALER
                 )
         );
 
