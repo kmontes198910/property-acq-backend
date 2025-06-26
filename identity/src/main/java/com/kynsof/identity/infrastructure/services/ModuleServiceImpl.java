@@ -109,9 +109,9 @@ public class ModuleServiceImpl implements IModuleService {
 
     @Override
     // Modificando la anotación de caché para incluir también el ordenamiento en la clave
-    @Cacheable(value = IdentityCacheConfig.MODULE_CACHE, 
-               key = "'search:' + #pageable.pageNumber + ':' + #pageable.pageSize + ':' + #pageable.sort + ':' + T(java.util.Objects).hash(#filterCriteria)", 
-               unless = "#result == null")
+//    @Cacheable(value = IdentityCacheConfig.MODULE_CACHE,
+//               key = "'search:' + #pageable.pageNumber + ':' + #pageable.pageSize + ':' + #pageable.sort + ':' + T(java.util.Objects).hash(#filterCriteria)",
+//               unless = "#result == null")
     public PaginatedResponse search(Pageable pageable, List<FilterCriteria> filterCriteria) {
         var specifications = new GenericSpecificationsBuilder<ModuleResponse>(filterCriteria);
         var data = repositoryQuery.findAll(specifications, pageable);
