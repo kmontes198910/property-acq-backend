@@ -4,10 +4,7 @@ import com.kynsof.identity.domain.dto.ManageRolDto;
 import com.kynsof.identity.domain.dto.PermissionDto;
 import com.kynsof.identity.domain.interfaces.service.IManageRoleService;
 import com.kynsof.identity.domain.interfaces.service.IPermissionService;
-import com.kynsof.identity.domain.rules.manageRole.ManageRoleCodeMustBeNullRule;
-import com.kynsof.identity.domain.rules.manageRole.ManageRoleCodeMustBeUniqueRule;
 import com.kynsof.identity.infrastructure.services.rabbitMq.eventPublisher.EventManageRolePublisherService;
-import com.kynsof.share.core.domain.RulesChecker;
 import com.kynsof.share.core.domain.bus.command.ICommandHandler;
 import java.util.List;
 import java.util.UUID;
@@ -31,9 +28,11 @@ public class CreateManageRoleCommandHandler implements ICommandHandler<CreateMan
 
     @Override
     public void handle(CreateManageRoleCommand command) {
-        RulesChecker.checkRule(new ManageRoleCodeMustBeNullRule(command.getCode()));
-        RulesChecker.checkRule(new ManageRoleCodeMustBeUniqueRule(this.service, command.getCode(), command.getId()));
+        //RulesChecker.checkRule(new ManageRoleCodeMustBeNullRule(command.getCode()));
+        //RulesChecker.checkRule(new ManageRoleCodeMustBeUniqueRule(this.service, command.getCode(), command.getId()));
 
+        this.service.validateNull(command.getCode());
+        this.service.validateCode(command.getCode(), command.getId());
         ManageRolDto dto = new ManageRolDto(
                 command.getId(), 
                 command.getCode(), 

@@ -22,4 +22,8 @@ public interface IManageRoleService {
     Long countByCodeAndNotId(String name, UUID id);
 
     PaginatedResponse search(Pageable pageable, List<FilterCriteria> filterCriteria);
+
+    void validateCode(String code, UUID id);
+
+    void validateNull(String code);
 }

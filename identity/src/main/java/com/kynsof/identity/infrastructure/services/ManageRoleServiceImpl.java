@@ -1,11 +1,11 @@
 package com.kynsof.identity.infrastructure.services;
 
-;
+import com.kynsof.identity.domain.dto.exception.manageRole.ManageRoleCodeException;
 import com.kynsof.identity.application.query.manageRole.getByid.ManageRoleResponse;
 import com.kynsof.identity.domain.dto.ManageRolDto;
+import com.kynsof.identity.domain.dto.exception.manageRole.ManageRoleCodeIsNullException;
 import com.kynsof.identity.domain.interfaces.service.IManageRoleService;
 import com.kynsof.identity.infrastructure.entities.ManageRole;
-
 import com.kynsof.identity.infrastructure.repository.command.ManageRoleWriteDataJPARepository;
 import com.kynsof.identity.infrastructure.repository.query.ManageRoleReadDataJPARepository;
 import com.kynsof.share.core.domain.exception.BusinessNotFoundException;
@@ -18,11 +18,8 @@ import com.kynsof.share.core.infrastructure.specifications.GenericSpecifications
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 import java.util.UUID;
-
-
 
 @Service
 public class ManageRoleServiceImpl implements IManageRoleService {
@@ -74,8 +71,8 @@ public class ManageRoleServiceImpl implements IManageRoleService {
     }
 
     @Override
-    public Long countByCodeAndNotId(String name, UUID id) {
-        return query.countByCodeAndNotId(name, id);
+    public Long countByCodeAndNotId(String code, UUID id) {
+        return query.countByCodeAndNotId(code, id);
     }
 
     @Override
@@ -91,5 +88,20 @@ public class ManageRoleServiceImpl implements IManageRoleService {
                 .toList();
         return new PaginatedResponse(permissionResponses, data.getTotalPages(), data.getNumberOfElements(),
                 data.getTotalElements(), data.getSize(), data.getNumber());
+    }
+
+    @Override
+    public void validateCode(String code, UUID id) {
+        Long count = this.countByCodeAndNotId(code, id);
+        if (count > 0) {
+            throw new ManageRoleCodeException(code);
+        }
+    }
+
+    @Override
+    public void validateNull(String code) {
+        if (code == null || code.isEmpty()) {
+            throw new ManageRoleCodeIsNullException();
+        }
     }
 }
