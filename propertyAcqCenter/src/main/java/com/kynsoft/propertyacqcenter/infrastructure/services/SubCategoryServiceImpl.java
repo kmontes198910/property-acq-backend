@@ -51,6 +51,11 @@ public class SubCategoryServiceImpl implements ISubCategoryService {
     }
 
     @Override
+    public void create(SubCategoryDto dto) {
+        this.repositoryCommand.save(new SubCategory(dto));
+    }
+
+    @Override
     public void create() {
         List<SubCategory> list = new ArrayList<>();
         list.addAll(createConstructionType());
