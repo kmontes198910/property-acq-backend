@@ -59,7 +59,19 @@ public class CreateContactCommandHandler implements ICommandHandler<CreateContac
         this.validateEmailAndPhoneNotNull(command.getEmail(), command.getPhoneNumber());
 
         try {
-            consumeCreateUserSystemService(command, legalEntityDto);
+            if (command.getIsEmployee()) {
+                consumeCreateUserSystemService(command, legalEntityDto);
+                this.employeeService.create(EmployeeDto
+                        .builder()
+                        .id(command.getId())
+                        .firstName(command.getFirstName())
+                        .lastName(command.getLastName())
+                        .email(command.getEmail())
+                        .phoneNumber(command.getPhoneNumber())
+                        .position(command.getPosition())
+                        .business(legalEntityDto.getBusiness())
+                        .build());
+            }
 
             ContactDto contactDto = ContactDto.builder()
                     .id(command.getId())
@@ -79,16 +91,6 @@ public class CreateContactCommandHandler implements ICommandHandler<CreateContac
 
             this.contactService.create(contactDto);
 
-            this.employeeService.create(EmployeeDto
-                    .builder()
-                    .id(command.getId())
-                    .firstName(command.getFirstName())
-                    .lastName(command.getLastName())
-                    .email(command.getEmail())
-                    .phoneNumber(command.getPhoneNumber())
-                    .position(command.getPosition())
-                    .business(legalEntityDto.getBusiness())
-                    .build());
         } catch (Exception exception) {
             throw new BusinessException(DomainErrorMessage.DOCTOR_NOT_FOUND, "Ocurrió un error al crear al usuario.");
         }
