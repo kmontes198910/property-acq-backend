@@ -284,35 +284,6 @@ public class AuthService implements IAuthService {
         throw new AuthenticateNotFoundException("El usuario o contraseña es incorrecto. Por favor intente de nuevo.", new ErrorField("email/password", "The username or password is incorrect. Please try again."));
     }
 
-//    private String createUser(String firstName, String lastName, String email, String username, String password, String role) {
-//        return keycloakProvider.withUsers(usersResource -> {
-//            UserRepresentation userRepresentation = new UserRepresentation();
-//            userRepresentation.setFirstName(firstName);
-//            userRepresentation.setLastName(lastName);
-//            userRepresentation.setEmail(email);
-//            userRepresentation.setUsername(username);
-//            userRepresentation.setEnabled(true);
-//            userRepresentation.setEmailVerified(true);
-//
-//            Response response = usersResource.create(userRepresentation);
-//
-//            if (response.getStatus() == 201) {
-//                String userId = extractUserIdFromLocation(response.getLocation().getPath());
-//                setNewUserPassword(password, userId, usersResource);
-//                List<String> roles = new ArrayList<>();
-//                roles.add(role);
-//                assignRolesToUser(roles, userId);
-//                log.info("Usuario creado correctamente con ID: {}", userId);
-//                return userId;
-//            } else if (response.getStatus() == 409) {
-//                log.warn("Intento de crear usuario con email duplicado: {}", email);
-//                throw new AlreadyExistsException("User already exists", new ErrorField("email", "Email is already in use"));
-//            } else {
-//                log.error("Error al crear usuario. Código de respuesta: {}", response.getStatus());
-//                throw new RuntimeException("Failed to create user");
-//            }
-//        });
-//    }
 
     private String createUser(String firstName, String lastName, String email, String username, String password, String role) {
         return keycloakProvider.withUsers(usersResource -> {
@@ -322,7 +293,7 @@ public class AuthService implements IAuthService {
             userRepresentation.setEmail(email);
             userRepresentation.setUsername(username);
             userRepresentation.setEnabled(true);
-            userRepresentation.setEmailVerified(false);
+            userRepresentation.setEmailVerified(true);
 
             Response response = usersResource.create(userRepresentation);
 
@@ -350,7 +321,7 @@ public class AuthService implements IAuthService {
 
     private void setNewUserPassword(String password, String userId, UsersResource usersResource) {
         CredentialRepresentation credential = new CredentialRepresentation();
-        credential.setTemporary(false);
+        credential.setTemporary(true);
         credential.setType(CredentialRepresentation.PASSWORD);
         credential.setValue(password);
         usersResource.get(userId).resetPassword(credential);

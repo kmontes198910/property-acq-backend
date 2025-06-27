@@ -5,6 +5,9 @@ import com.kynsof.identity.domain.dto.BusinessDto;
 import com.kynsof.identity.domain.dto.UserPermissionBusinessDto;
 import com.kynsof.identity.domain.dto.UserStatus;
 import com.kynsof.identity.domain.dto.UserSystemDto;
+import com.kynsof.identity.domain.dto.mailjet.MailJetRecipientDto;
+import com.kynsof.identity.domain.dto.mailjet.MailJetVarDto;
+import com.kynsof.identity.domain.dto.mailjet.SendMailJetEmailRequestDto;
 import com.kynsof.identity.domain.interfaces.service.*;
 import com.kynsof.identity.domain.rules.usersystem.ModuleEmailMustBeUniqueRule;
 import com.kynsof.identity.domain.rules.usersystem.ModuleUserNameMustBeUniqueRule;
@@ -14,10 +17,15 @@ import com.kynsof.share.core.domain.RulesChecker;
 import com.kynsof.share.core.domain.bus.command.ICommandHandler;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
+import java.text.NumberFormat;
+import java.time.LocalDate;
+import java.time.format.TextStyle;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.UUID;
 
 @Component
@@ -27,21 +35,22 @@ public class CreateUserSystemCommandHandler implements ICommandHandler<CreateUse
     private final IUserSystemService userSystemService;
     private final IAuthService authService;
     private final IUserPermissionBusinessService service;
-    private final IPermissionService permissionService;
     private final IBusinessService businessService;
     private final IUserTypePermissionService userTypePermissionService;
+    private final ICloudBridgesFileService cloudBridgesService;
 
     @Autowired
     public CreateUserSystemCommandHandler(IUserSystemService userSystemService, IAuthService authService,
-                                          IUserPermissionBusinessService service, IPermissionService permissionService,
+                                          IUserPermissionBusinessService service,
                                           IBusinessService businessService,
-                                          IUserTypePermissionService userTypePermissionService) {
+                                          IUserTypePermissionService userTypePermissionService,
+                                          ICloudBridgesFileService cloudBridgesService) {
         this.userSystemService = userSystemService;
         this.authService = authService;
         this.service = service;
-        this.permissionService = permissionService;
         this.businessService = businessService;
         this.userTypePermissionService = userTypePermissionService;
+        this.cloudBridgesService = cloudBridgesService;
     }
 
     @Override
@@ -79,6 +88,45 @@ public class CreateUserSystemCommandHandler implements ICommandHandler<CreateUse
             addPermission(command,userDto);
         }
 
+        log.info("User system created with ID: {}", id);
+
+
+        sendEmail(command);
+    }
+
+    private void sendEmail(CreateUserSystemCommand command) {
+        try {
+            // Crear el objeto de solicitud
+            SendMailJetEmailRequestDto requestDto = new SendMailJetEmailRequestDto();
+
+            // Configurar destinatario
+            List<MailJetRecipientDto> recipients = new ArrayList<>();
+            recipients.add(new MailJetRecipientDto(command.getEmail(), command.getLastName() + " " + command.getName()));
+            requestDto.setRecipientEmail(recipients);
+            LocalDate issueDate = LocalDate.now(); // o tu fecha específica
+
+
+            // Configurar variables para la plantilla
+            List<MailJetVarDto> vars = new ArrayList<>();
+            vars.add(new MailJetVarDto("user_name", command.getPassword()));
+            vars.add(new MailJetVarDto("temp_password", command.getPassword()));
+
+            requestDto.setMailJetVars(vars);
+
+            // Configurar el asunto
+            requestDto.setSubject("Bienvenido a Kynsoft - Usuario creado");
+
+            // ID de la plantilla en Mailjet (este es un ejemplo, debe configurarse el ID correcto)
+            requestDto.setTemplateId("5965446");
+
+            // Enviar la solicitud
+           cloudBridgesService.sendEmail(requestDto);
+
+        } catch (Exception e) {
+      log.error("Error al enviar el correo de bienvenida: {}", e.getMessage(), e);
+            // Manejar el error de envío de correo
+            throw new RuntimeException("Error al enviar el correo de bienvenida: " + e.getMessage());
+        }
     }
 
     private void addPermission(CreateUserSystemCommand command,  UserSystemDto userSystemDto) {

@@ -6,7 +6,6 @@ import com.kynsof.identity.domain.dto.UserStatus;
 import com.kynsof.identity.domain.dto.UserSystemDto;
 import com.kynsof.identity.domain.interfaces.service.IAuthService;
 import com.kynsof.identity.domain.interfaces.service.IUserSystemService;
-import com.kynsof.identity.infrastructure.services.rabbitMq.welcome.WelcomeMessageProducer;
 import com.kynsof.share.core.domain.EUserType;
 import com.kynsof.share.core.domain.bus.command.ICommandHandler;
 import com.kynsof.share.core.domain.exception.UserEmailDifferentException;
@@ -27,12 +26,9 @@ public class RegistryCommandHandler implements ICommandHandler<RegistryCommand> 
     private final IUserSystemService userSystemService;
     private final HttpClient httpClient;
     private final ObjectMapper objectMapper;
-    private final WelcomeMessageProducer welcomeMessageProducer;
-    public RegistryCommandHandler(IAuthService authService, IUserSystemService userSystemService,
-                                  WelcomeMessageProducer welcomeMessageProducer) {
+    public RegistryCommandHandler(IAuthService authService, IUserSystemService userSystemService) {
         this.authService = authService;
         this.userSystemService = userSystemService;
-        this.welcomeMessageProducer = welcomeMessageProducer;
         this.httpClient = HttpClient.newHttpClient();
         this.objectMapper = new ObjectMapper();
     }
@@ -106,9 +102,9 @@ public class RegistryCommandHandler implements ICommandHandler<RegistryCommand> 
         UUID id = userSystemService.create(userDto);
 
 
-        welcomeMessageProducer.sendWelcomeMessage(command.getEmail(),
-                command.getFirstname(), command.getLastname(),
-                command.getPassword());
+//        welcomeMessageProducer.sendWelcomeMessage(command.getEmail(),
+//                command.getFirstname(), command.getLastname(),
+//                command.getPassword());
     }
 
     private void changeKeycloackId(UUID userResponseId, String registerUser) throws IOException, InterruptedException {

@@ -1,7 +1,6 @@
 package com.kynsof.identity.controller;
 
 import com.kynsof.identity.infrastructure.services.rabbitMq.otp.OtpMessageProducer;
-import com.kynsof.identity.infrastructure.services.rabbitMq.welcome.WelcomeMessageProducer;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -11,11 +10,10 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/rabbitmq")
 public class RabbitMQController {
 
-    private final WelcomeMessageProducer producer;
     private final OtpMessageProducer otpProducer;
 
-    public RabbitMQController(WelcomeMessageProducer producer, OtpMessageProducer otpProducer) {
-        this.producer = producer;
+    public RabbitMQController( OtpMessageProducer otpProducer) {
+
         this.otpProducer = otpProducer;
     }
 
@@ -26,7 +24,7 @@ public class RabbitMQController {
             @RequestParam String lastname,
             @RequestParam String password) {
 
-        producer.sendWelcomeMessage(email, firstname, lastname, password);
+       // producer.sendWelcomeMessage(email, firstname, lastname, password);
         return "Mensaje de bienvenida enviado a RabbitMQ";
     }
 
