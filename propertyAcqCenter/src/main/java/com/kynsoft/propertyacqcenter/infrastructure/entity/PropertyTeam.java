@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
-@Table(name = "company_contacts")
+@Table(name = "property_teams")
 @Getter
 @Setter
 @NoArgsConstructor
@@ -35,6 +35,8 @@ public class PropertyTeam {
     @Column(name = "property_id", nullable = false, insertable = false, updatable = false)
     private Property property;
 
+    @Column(name = "profile", nullable = false)
+    private String profile;
 
     @CreationTimestamp
     private LocalDateTime createdAt;
