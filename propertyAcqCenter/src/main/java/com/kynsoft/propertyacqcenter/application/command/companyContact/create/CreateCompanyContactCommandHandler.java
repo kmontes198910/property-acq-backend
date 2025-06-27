@@ -57,7 +57,20 @@ public class CreateCompanyContactCommandHandler implements ICommandHandler<Creat
 
         try {
             log.error("Creating user system for contact: {}", command.getEmail());
-            consumeCreateUserSystemService(command, businessDto);
+            if (command.getIsEmployee()) {
+                consumeCreateUserSystemService(command, businessDto);
+                
+                this.employeeService.create(EmployeeDto
+                        .builder()
+                        .id(command.getId())
+                        .firstName(command.getFirstName())
+                        .lastName(command.getLastName())
+                        .email(command.getEmail())
+                        .phoneNumber(command.getPhoneNumber())
+                        .position(command.getPosition())
+                        .business(businessDto)
+                        .build());
+            }
             log.error("User system created successfully for contact: {}", command.getEmail());
             //this.companyContactService.validatePersonEmail(command.getPersonalEmail(), command.getId());
             companyContactService.create(CompanyContactDto.builder()
@@ -75,17 +88,6 @@ public class CreateCompanyContactCommandHandler implements ICommandHandler<Creat
                     .personalEmail(command.getPersonalEmail())
                     .build()
             );
-
-            this.employeeService.create(EmployeeDto
-                    .builder()
-                    .id(command.getId())
-                    .firstName(command.getFirstName())
-                    .lastName(command.getLastName())
-                    .email(command.getEmail())
-                    .phoneNumber(command.getPhoneNumber())
-                    .position(command.getPosition())
-                    .business(businessDto)
-                    .build());
         } catch (Exception exception) {
             log.error("Error creating user system for contact: {}", command.getEmail(), exception);
             throw new BusinessException(DomainErrorMessage.DOCTOR_NOT_FOUND, "Ocurrió un error al crear al usuario.");
