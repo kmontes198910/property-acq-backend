@@ -1,16 +1,22 @@
 package com.kynsoft.propertyacqcenter.application.command.companyContact.create;
 
+import com.kynsof.share.core.domain.EUserType;
 import com.kynsof.share.core.domain.bus.command.ICommandHandler;
+import com.kynsof.share.core.domain.exception.BusinessException;
+import com.kynsof.share.core.domain.exception.DomainErrorMessage;
 import com.kynsoft.propertyacqcenter.domain.dto.BusinessDto;
 import com.kynsoft.propertyacqcenter.domain.dto.CompanyContactDto;
 import com.kynsoft.propertyacqcenter.domain.dto.CompanyDto;
 import com.kynsoft.propertyacqcenter.domain.dto.EmployeeDto;
+import com.kynsoft.propertyacqcenter.domain.dto.http.CreateUserSystemRequest;
 import com.kynsoft.propertyacqcenter.domain.services.IBusinessService;
 import com.kynsoft.propertyacqcenter.domain.services.ICompanyContactService;
 import com.kynsoft.propertyacqcenter.domain.services.ICompanyService;
 import com.kynsoft.propertyacqcenter.domain.services.IEmployeeService;
-import com.kynsoft.propertyacqcenter.infrastructure.services.rabbitMQ.dto.RabbitMqEmployeeDto;
+import com.kynsoft.propertyacqcenter.infrastructure.services.http.UserSystemService;
 import com.kynsoft.propertyacqcenter.infrastructure.services.rabbitMQ.eventPublisher.EventEmployeePublisherService;
+import java.io.IOException;
+import java.net.URISyntaxException;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,17 +28,20 @@ public class CreateCompanyContactCommandHandler implements ICommandHandler<Creat
     private final IEmployeeService employeeService;
     private final IBusinessService businessService;
     private final EventEmployeePublisherService eventEmployeePublisherService;
+    private final UserSystemService userSystemService;
 
     public CreateCompanyContactCommandHandler(ICompanyContactService companyContactService,
             ICompanyService companyService,
             IEmployeeService employeeService,
             IBusinessService businessService,
-            EventEmployeePublisherService eventEmployeePublisherService) {
+            EventEmployeePublisherService eventEmployeePublisherService,
+            UserSystemService userSystemService) {
         this.companyContactService = companyContactService;
         this.companyService = companyService;
         this.employeeService = employeeService;
         this.businessService = businessService;
         this.eventEmployeePublisherService = eventEmployeePublisherService;
+        this.userSystemService = userSystemService;
     }
 
     @Override
@@ -43,42 +52,64 @@ public class CreateCompanyContactCommandHandler implements ICommandHandler<Creat
 
         this.companyContactService.validateEmail(command.getEmail(), command.getId());
 
-        //this.companyContactService.validatePersonEmail(command.getPersonalEmail(), command.getId());
-        companyContactService.create(CompanyContactDto.builder()
-                .id(command.getId())
-                .birthDate(command.getBirthDate())
-                .company(companyDto)
-                .department(command.getDepartment())
-                .email(command.getEmail())
-                .firstName(command.getFirstName())
-                .lastName(command.getLastName())
-                .isActive(command.getIsActive())
-                .notes(command.getNotes())
-                .phoneNumber(command.getPhoneNumber())
-                .position(command.getPosition())
-                .personalEmail(command.getPersonalEmail())
-                .build()
-        );
+        try {
+            consumeCreateUserSystemService(command, businessDto);
+            //this.companyContactService.validatePersonEmail(command.getPersonalEmail(), command.getId());
+            companyContactService.create(CompanyContactDto.builder()
+                    .id(command.getId())
+                    .birthDate(command.getBirthDate())
+                    .company(companyDto)
+                    .department(command.getDepartment())
+                    .email(command.getEmail())
+                    .firstName(command.getFirstName())
+                    .lastName(command.getLastName())
+                    .isActive(command.getIsActive())
+                    .notes(command.getNotes())
+                    .phoneNumber(command.getPhoneNumber())
+                    .position(command.getPosition())
+                    .personalEmail(command.getPersonalEmail())
+                    .build()
+            );
 
-        this.employeeService.create(EmployeeDto
-                .builder()
-                .id(command.getId())
-                .firstName(command.getFirstName())
-                .lastName(command.getLastName())
-                .email(command.getEmail())
-                .phoneNumber(command.getPhoneNumber())
-                .position(command.getPosition())
-                .business(businessDto)
-                .build());
+            this.employeeService.create(EmployeeDto
+                    .builder()
+                    .id(command.getId())
+                    .firstName(command.getFirstName())
+                    .lastName(command.getLastName())
+                    .email(command.getEmail())
+                    .phoneNumber(command.getPhoneNumber())
+                    .position(command.getPosition())
+                    .business(businessDto)
+                    .build());
+        } catch (Exception exception) {
+            throw new BusinessException(DomainErrorMessage.DOCTOR_NOT_FOUND, "Ocurrió un error al crear al usuario.");
+        }
 
-        this.eventEmployeePublisherService.publishRecoveryBedEvent(
-                new RabbitMqEmployeeDto(
-                        command.getId(),
-                        command.getFirstName(),
-                        command.getLastName(),
-                        command.getEmail(),
-                        businessDto.getId()
-                )
-        );
+//
+//        this.eventEmployeePublisherService.publishRecoveryBedEvent(
+//                new RabbitMqEmployeeDto(
+//                        command.getId(),
+//                        command.getFirstName(),
+//                        command.getLastName(),
+//                        command.getEmail(),
+//                        businessDto.getId()
+//                )
+//        );
     }
+
+    // Método para consumir el servicio createUserSystem
+    private String consumeCreateUserSystemService(CreateCompanyContactCommand command, BusinessDto businessDto) throws IOException, URISyntaxException, InterruptedException {
+        CreateUserSystemRequest createUserSystemRequest = new CreateUserSystemRequest();
+        createUserSystemRequest.setUserName(command.getEmail());
+        createUserSystemRequest.setEmail(command.getEmail());
+        createUserSystemRequest.setName(command.getFirstName());
+        createUserSystemRequest.setLastName(command.getLastName());
+        //createUserSystemRequest.setPassword(PasswordGenerator.generatePassword()); // Ajusta según tus necesidades
+        createUserSystemRequest.setPassword("Ecuador.*2014"); // Ajusta según tus necesidades
+        createUserSystemRequest.setUserType(EUserType.SYSTEM); // Ajusta si es necesario
+        createUserSystemRequest.setImage("");
+        createUserSystemRequest.setBusinessId(businessDto.getId().toString());
+        return userSystemService.createUserSystem(createUserSystemRequest);
+    }
+
 }
