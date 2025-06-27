@@ -23,29 +23,29 @@ public class PropertyTeam {
     @Column(name = "id", nullable = false)
     private UUID id;
 
-    @Column(name = "company_contact_id", nullable = false)
-    private UUID companyContactId;
-
-    @Column(name = "company_contact_id", nullable = false, insertable = false, updatable = false)
-    private CompanyContact companyContact;
-
-    @Column(name = "property_id", nullable = false)
-    private UUID propertyId;
-
-    @Column(name = "property_id", nullable = false, insertable = false, updatable = false)
-    private Property property;
-
-    @Column(name = "profile", nullable = false)
-    private String profile;
-
-    @CreationTimestamp
-    private LocalDateTime createdAt;
-
-    @UpdateTimestamp
-    private LocalDateTime updatedAt;
-
-    @Column(name = "created_by", nullable = false)
-    private UUID createdBy;
-    @Column(name = "updated_by", nullable = false)
-    private UUID updatedBy;
+//    @Column(name = "company_contact_id", nullable = false)
+//    private UUID companyContactId;
+//
+//    @Column(name = "company_contact_id", nullable = false, insertable = false, updatable = false)
+//    private CompanyContact companyContact;
+//
+//    @Column(name = "property_id", nullable = false)
+//    private UUID propertyId;
+//
+//    @Column(name = "property_id", nullable = false, insertable = false, updatable = false)
+//    private Property property;
+//
+//    @Column(name = "profile", nullable = false)
+//    private String profile;
+//
+//    @CreationTimestamp
+//    private LocalDateTime createdAt;
+//
+//    @UpdateTimestamp
+//    private LocalDateTime updatedAt;
+//
+//    @Column(name = "created_by", nullable = false)
+//    private UUID createdBy;
+//    @Column(name = "updated_by", nullable = false)
+//    private UUID updatedBy;
 }
