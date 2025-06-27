@@ -87,6 +87,7 @@ public class CreateCompanyContactCommandHandler implements ICommandHandler<Creat
                     .business(businessDto)
                     .build());
         } catch (Exception exception) {
+            log.error("Error creating user system for contact: {}", command.getEmail(), exception);
             throw new BusinessException(DomainErrorMessage.DOCTOR_NOT_FOUND, "Ocurrió un error al crear al usuario.");
         }
 
