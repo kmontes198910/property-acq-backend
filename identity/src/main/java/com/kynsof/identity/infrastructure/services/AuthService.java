@@ -322,7 +322,7 @@ public class AuthService implements IAuthService {
             userRepresentation.setEmail(email);
             userRepresentation.setUsername(username);
             userRepresentation.setEnabled(true);
-            userRepresentation.setEmailVerified(true);
+            userRepresentation.setEmailVerified(false);
 
             Response response = usersResource.create(userRepresentation);
 
@@ -350,7 +350,7 @@ public class AuthService implements IAuthService {
 
     private void setNewUserPassword(String password, String userId, UsersResource usersResource) {
         CredentialRepresentation credential = new CredentialRepresentation();
-        credential.setTemporary(true);
+        credential.setTemporary(false);
         credential.setType(CredentialRepresentation.PASSWORD);
         credential.setValue(password);
         usersResource.get(userId).resetPassword(credential);
