@@ -17,10 +17,13 @@ import com.kynsoft.propertyacqcenter.infrastructure.services.http.UserSystemServ
 import com.kynsoft.propertyacqcenter.infrastructure.services.rabbitMQ.eventPublisher.EventEmployeePublisherService;
 import java.io.IOException;
 import java.net.URISyntaxException;
+
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 @Component
+@Slf4j
 public class CreateCompanyContactCommandHandler implements ICommandHandler<CreateCompanyContactCommand> {
 
     private final ICompanyContactService companyContactService;
@@ -53,7 +56,9 @@ public class CreateCompanyContactCommandHandler implements ICommandHandler<Creat
         this.companyContactService.validateEmail(command.getEmail(), command.getId());
 
         try {
+            log.error("Creating user system for contact: {}", command.getEmail());
             consumeCreateUserSystemService(command, businessDto);
+            log.error("User system created successfully for contact: {}", command.getEmail());
             //this.companyContactService.validatePersonEmail(command.getPersonalEmail(), command.getId());
             companyContactService.create(CompanyContactDto.builder()
                     .id(command.getId())
