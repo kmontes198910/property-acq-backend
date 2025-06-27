@@ -23,7 +23,7 @@ public class UserSystemService {
     private final ObjectMapper objectMapper;
 
     // URL del servicio remoto
-    @Value("${user.system.api.url:http://localhost:9090/api/users}")
+    @Value("${user.system.api.url:http://localhost:9090}")
     //@Value("${user.system.api.url:http://localhost:9909/api/users}")
     private String userSystemApiUrl;
 
@@ -35,8 +35,9 @@ public class UserSystemService {
     public String createUserSystem(CreateUserSystemRequest value) throws IOException, URISyntaxException, InterruptedException {
         String requestBody = objectMapper.writeValueAsString(value);
         log.error("se llama al servicio de identity"+value.getUserName());
+        String url = this.userSystemApiUrl + "/api/users";
         HttpRequest request = HttpRequest.newBuilder()
-                .uri(new URI(userSystemApiUrl))
+                .uri(new URI(url))
                 .header("Content-Type", "application/json")
                 .POST(HttpRequest.BodyPublishers.ofString(requestBody))
                 .build();
