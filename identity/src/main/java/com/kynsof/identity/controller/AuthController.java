@@ -66,7 +66,7 @@ public class AuthController {
                 tokenResponse.getErrorField(), 
                 tokenResponse.getErrorMessage()
             );
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+            return ResponseEntity.status(HttpStatus.PRECONDITION_REQUIRED)
                     .body(ApiResponse.fail(apiError));
         }
         
