@@ -18,6 +18,7 @@ import lombok.*;
 public class PropertiesResponse implements IResponse {
 
     private String id;
+    private String fkId;
     private PropertyType propertyType;
     private int lotSize;
     private String apn;
@@ -87,6 +88,7 @@ public class PropertiesResponse implements IResponse {
     private List<TeamAssignmentResponse> teamAssignments;
 
     public PropertiesResponse(PropertyDto dto) {
+        this.fkId = dto.getFkId();
         this.buildingArea = dto.getBuildingArea();
         this.livingArea = dto.getLivingArea();
         this.grossArea = dto.getGrossArea();

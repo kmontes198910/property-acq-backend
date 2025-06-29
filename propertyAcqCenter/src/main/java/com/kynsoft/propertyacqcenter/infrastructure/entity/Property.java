@@ -23,6 +23,10 @@ public class Property {
 
     @Id
     private String id;
+
+    @Column(name = "fk_id", nullable = true)
+    private String fkId;
+
     private String formattedAddress;
 
     @Enumerated(EnumType.STRING)
@@ -156,6 +160,7 @@ public class Property {
 
     public Property(PropertyDto dto) {
         this.id = dto.getId();
+        this.fkId = dto.getFkId();
         this.purchasePrice = dto.getPurchasePrice();
         this.rentalPrice = dto.getRentalPrice();
         this.afterRepairValue = dto.getAfterRepairValue();
@@ -222,6 +227,7 @@ public class Property {
     public PropertyDto toAggregateBasic() {
         return PropertyDto.builder()
                 .id(this.id)
+                .fkId(fkId)
                 .formattedAddress(formattedAddress)
                 .build();
     }
@@ -229,6 +235,7 @@ public class Property {
     public PropertyDto toAggregate() {
         return PropertyDto.builder()
                 .id(this.id)
+                .fkId(fkId)
                 .buildingArea(buildingArea)
                 .livingArea(livingArea)
                 .grossArea(grossArea)
@@ -291,6 +298,7 @@ public class Property {
     public PropertyDto toAggregateSimple() {
         return PropertyDto.builder()
                 .id(this.id)
+                .fkId(fkId)
                 .buildingArea(buildingArea)
                 .livingArea(livingArea)
                 .grossArea(grossArea)

@@ -16,6 +16,7 @@ import lombok.Setter;
 public class CreatePropertyCommand implements ICommand {
 
     private String id;
+    private String fkId;
     private String formattedAddress;
     private PropertyType propertyType;
     private int lotSize;
@@ -80,7 +81,7 @@ public class CreatePropertyCommand implements ICommand {
     private String hoaType;
     private String hoaFeeFrequency;
 
-    public CreatePropertyCommand(String id, String formattedAddress, PropertyType propertyType, int lotSize, 
+    public CreatePropertyCommand(String fkId, String formattedAddress, PropertyType propertyType, int lotSize, 
                                  String apn, int yearBuilt, String county, Boolean occupancy, 
                                  String addressLine1, String addressLine2, String city, String state, 
                                  String zipCode, double unitCount, int squareFootage,
@@ -96,7 +97,8 @@ public class CreatePropertyCommand implements ICommand {
                                  Double publicRecord, Double mls, Boolean isMortgage,
                                  Double buildingArea, Double livingArea, Double grossArea, Double taxableArea, Double garageArea,
                                  Boolean hasHoa, String hoaName, String hoaType, String hoaFeeFrequency) {
-        this.id = id;
+        this.id = UUID.randomUUID().toString();
+        this.fkId = fkId;
         this.hasHoa = hasHoa;
         this.hoaName = hoaName;
         this.hoaType = hoaType;

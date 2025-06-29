@@ -50,7 +50,6 @@ public class PropertyServiceImpl implements IPropertyService {
         update.setApn(object.getApn());
         update.setCity(object.getCity());
         update.setCounty(object.getCounty());
-        update.setId(object.getId());
         update.setLotSize(object.getLotSize());
         update.setOccupancy(object.getOccupancy());
         update.setPropertyType(object.getPropertyType());

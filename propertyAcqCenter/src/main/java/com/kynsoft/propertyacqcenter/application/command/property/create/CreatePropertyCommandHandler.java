@@ -34,6 +34,7 @@ public class CreatePropertyCommandHandler implements ICommandHandler<CreatePrope
                 .city(command.getCity())
                 .county(command.getCounty())
                 .id(command.getId())
+                .fkId(command.getFkId())
                 .lotSize(command.getLotSize())
                 .occupancy(command.getOccupancy())
                 .propertyType(command.getPropertyType())

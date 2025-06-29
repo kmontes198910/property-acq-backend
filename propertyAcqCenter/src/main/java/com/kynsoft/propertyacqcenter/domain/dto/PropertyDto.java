@@ -16,6 +16,7 @@ import lombok.*;
 public class PropertyDto {
 
     private String id;
+    private String fkId;
     private String formattedAddress;
     private PropertyType propertyType;
     private int lotSize;
