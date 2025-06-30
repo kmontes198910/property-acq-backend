@@ -2,7 +2,6 @@ package com.kynsoft.propertyacqcenter.application.response;
 
 import com.kynsof.share.core.domain.bus.query.IResponse;
 import com.kynsoft.propertyacqcenter.domain.dto.PropertyDto;
-import com.kynsoft.propertyacqcenter.domain.dto.TeamAssignmentDto;
 import com.kynsoft.propertyacqcenter.domain.enums.AcquisitionType;
 import com.kynsoft.propertyacqcenter.domain.enums.PropertyStatus;
 import com.kynsoft.propertyacqcenter.domain.enums.PropertyType;
@@ -59,6 +58,7 @@ public class PropertiesResponse implements IResponse {
     private SourceType sourceType; // Broker, Wholesaler, Direct-to-Seller, etc.
     private LegalEntityBasicResponse sellerName;//Relacion con Legal entity
     private ContactBasicResponse sellerContactInfo;//Relacion con Legal entity
+    private LegalEntityBasicResponse buyerName;
     private LocalDate expectedClosingDate;
     private Boolean emdRequirements;
     private Double emdOfferedAmount;
@@ -130,6 +130,7 @@ public class PropertiesResponse implements IResponse {
         this.acquisitionType = dto.getAcquisitionType();
         this.sourceType = dto.getSourceType();
         this.sellerName = dto.getSellerName() != null ? new LegalEntityBasicResponse(dto.getSellerName()) : null;
+        this.buyerName = dto.getBuyerName() != null ? new LegalEntityBasicResponse(dto.getBuyerName()) : null;
         this.sellerContactInfo = dto.getSellerContactInfo() != null ? new ContactBasicResponse(dto.getSellerContactInfo()) : null;
         this.expectedClosingDate = dto.getExpectedClosingDate();
         this.emdRequirements = dto.getEmdRequirements();
