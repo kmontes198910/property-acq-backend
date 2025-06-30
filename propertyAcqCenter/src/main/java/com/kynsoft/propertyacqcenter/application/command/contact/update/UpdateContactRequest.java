@@ -21,4 +21,5 @@ public class UpdateContactRequest {
     private UUID legalEntity;
     private String personalEmail;
     private UUID subCategory;
+    private Boolean isEmployee;
 }

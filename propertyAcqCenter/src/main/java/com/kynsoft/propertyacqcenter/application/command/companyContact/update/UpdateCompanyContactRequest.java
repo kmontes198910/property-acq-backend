@@ -21,4 +21,5 @@ public class UpdateCompanyContactRequest {
     private Boolean isActive;
     private String personalEmail;
     private LocalDate birthDate;
+    private Boolean isEmployee;
 }
