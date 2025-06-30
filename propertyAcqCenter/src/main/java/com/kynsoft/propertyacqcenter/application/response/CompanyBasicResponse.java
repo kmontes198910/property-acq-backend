@@ -14,7 +14,7 @@ import lombok.Setter;
 public class CompanyBasicResponse implements IResponse {
 
     private UUID id;
-    private String title;;
+    private String title;
 
     public CompanyBasicResponse(CompanyDto dto) {
         this.id = dto.getId();

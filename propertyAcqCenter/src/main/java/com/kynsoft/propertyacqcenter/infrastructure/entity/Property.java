@@ -8,6 +8,7 @@ import com.kynsoft.propertyacqcenter.domain.enums.SourceType;
 import jakarta.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 import lombok.*;
@@ -23,6 +24,10 @@ public class Property {
 
     @Id
     private String id;
+
+    @Column(name = "fk_id", nullable = true)
+    private String fkId;
+
     private String formattedAddress;
 
     @Enumerated(EnumType.STRING)
@@ -76,6 +81,10 @@ public class Property {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "seller_name_id", nullable = true)
     private LegalEntity sellerName;//
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "buyer_name_id", nullable = true)
+    private LegalEntity buyerName;//
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "contact_id", nullable = true)
@@ -152,10 +161,11 @@ public class Property {
     private String hoaFeeFrequency;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "property", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<TeamAssignment> teamAssignments;
+    private Set<PropertyTeam> propertyTeams = new HashSet<>();
 
     public Property(PropertyDto dto) {
         this.id = dto.getId();
+        this.fkId = dto.getFkId();
         this.purchasePrice = dto.getPurchasePrice();
         this.rentalPrice = dto.getRentalPrice();
         this.afterRepairValue = dto.getAfterRepairValue();
@@ -187,6 +197,7 @@ public class Property {
 
         //Acquisition
         this.sellerName = dto.getSellerName() != null ? new LegalEntity(dto.getSellerName()) : null;
+        this.buyerName = dto.getBuyerName() != null ? new LegalEntity(dto.getBuyerName()) : null;
         this.sellerContactInfo = dto.getSellerContactInfo() != null ? new Contact(dto.getSellerContactInfo()) : null;
         this.contractExecutionDate = dto.getContractExecutionDate();
         this.acquisitionType = dto.getAcquisitionType();
@@ -222,6 +233,7 @@ public class Property {
     public PropertyDto toAggregateBasic() {
         return PropertyDto.builder()
                 .id(this.id)
+                .fkId(fkId)
                 .formattedAddress(formattedAddress)
                 .build();
     }
@@ -229,6 +241,7 @@ public class Property {
     public PropertyDto toAggregate() {
         return PropertyDto.builder()
                 .id(this.id)
+                .fkId(fkId)
                 .buildingArea(buildingArea)
                 .livingArea(livingArea)
                 .grossArea(grossArea)
@@ -268,6 +281,7 @@ public class Property {
                 .acquisitionType(acquisitionType)
                 .sourceType(sourceType)
                 .sellerName(sellerName != null ? sellerName.toAggregateBasic() : null)
+                .buyerName(buyerName != null ? buyerName.toAggregateBasic() : null)
                 .sellerContactInfo(sellerContactInfo != null ? sellerContactInfo.toAggregateBasic() : null)
                 .expectedClosingDate(expectedClosingDate)
                 .emdRequirements(emdRequirements)
@@ -291,6 +305,7 @@ public class Property {
     public PropertyDto toAggregateSimple() {
         return PropertyDto.builder()
                 .id(this.id)
+                .fkId(fkId)
                 .buildingArea(buildingArea)
                 .livingArea(livingArea)
                 .grossArea(grossArea)
@@ -331,6 +346,7 @@ public class Property {
                 .sourceType(sourceType)
                 .sellerName(sellerName != null ? sellerName.toAggregateBasic() : null)
                 .sellerContactInfo(sellerContactInfo != null ? sellerContactInfo.toAggregateBasic() : null)
+                .buyerName(buyerName != null ? buyerName.toAggregateBasic() : null)
                 .expectedClosingDate(expectedClosingDate)
                 .emdRequirements(emdRequirements)
                 .emdOfferedAmount(emdOfferedAmount)
@@ -347,7 +363,7 @@ public class Property {
                 .hoaName(hoaName)
                 .hoaType(hoaType)
                 .hoaFeeFrequency(hoaFeeFrequency)
-                .teamAssignments(teamAssignments != null ? teamAssignments.stream().map(TeamAssignment::toAggregateTeam).collect(Collectors.toList()) : null)
+                .propertyTeams(propertyTeams != null ? propertyTeams.stream().map(PropertyTeam::toAggregate).collect(Collectors.toList()) : null)
                 .build();
     }
 

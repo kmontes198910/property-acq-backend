@@ -12,15 +12,15 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface PropertyReadDataJPARepository extends JpaRepository<Property, String>, JpaSpecificationExecutor<Property> {
-    @EntityGraph(attributePaths = {"sellerName", "sellerContactInfo"})
+    @EntityGraph(attributePaths = {"sellerName", "sellerContactInfo", "buyerName"})
     @Override
     Page<Property> findAll(Specification<Property> specification, Pageable pageable);
 
     long countById(String id);
 
-    @EntityGraph(attributePaths = {"sellerName", "sellerContactInfo", "teamAssignments", "teamAssignments.buyerEntityName",
-    "teamAssignments.buyerContactReps", "teamAssignments.titleEscrowCompanies", "teamAssignments.lenderCompanies",
-    "teamAssignments.projectManagers", "teamAssignments.legalContacts", "teamAssignments.sellers", "teamAssignments.hoas"
+    @EntityGraph(attributePaths = {
+        "sellerName", "sellerContactInfo", "buyerName", "propertyTeams", "propertyTeams.property",
+        "propertyTeams.contact"
     })
     @Override
     Optional<Property> findById(String id);

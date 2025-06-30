@@ -16,6 +16,7 @@ import lombok.*;
 public class PropertyDto {
 
     private String id;
+    private String fkId;
     private String formattedAddress;
     private PropertyType propertyType;
     private int lotSize;
@@ -55,6 +56,7 @@ public class PropertyDto {
     private AcquisitionType acquisitionType; // Purchase, Assignment, Inherited, JV//
     private SourceType sourceType; // Broker, Wholesaler, Direct-to-Seller, etc.//
     private LegalEntityDto sellerName;//Relacion con Legal entity//
+    private LegalEntityDto buyerName;
     private ContactDto sellerContactInfo;//Relacion con Contact//
     private Boolean emdRequirements;//
     private Double emdOfferedAmount;//
@@ -82,5 +84,5 @@ public class PropertyDto {
     private String hoaName;
     private String hoaType;
     private String hoaFeeFrequency;
-    private List<TeamAssignmentDto> teamAssignments;
+    private List<PropertyTeamDto> propertyTeams;
 }
