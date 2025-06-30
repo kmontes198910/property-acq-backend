@@ -15,6 +15,9 @@ import com.kynsoft.propertyacqcenter.application.command.propertyTeam.delete.Del
 import com.kynsoft.propertyacqcenter.application.command.propertyTeam.update.UpdatePropertyTeamCommand;
 import com.kynsoft.propertyacqcenter.application.command.propertyTeam.update.UpdatePropertyTeamMessage;
 import com.kynsoft.propertyacqcenter.application.command.propertyTeam.update.UpdatePropertyTeamRequest;
+import com.kynsoft.propertyacqcenter.application.command.propertyTeam.updateAll.UpdatePropertyTeamAllCommand;
+import com.kynsoft.propertyacqcenter.application.command.propertyTeam.updateAll.UpdatePropertyTeamAllMessage;
+import com.kynsoft.propertyacqcenter.application.command.propertyTeam.updateAll.UpdatePropertyTeamAllRequest;
 import com.kynsoft.propertyacqcenter.application.query.propertyTeam.getById.GetByIdPropertyTeamQuery;
 import com.kynsoft.propertyacqcenter.application.query.propertyTeam.search.GetSearchPropertyTeamQuery;
 import com.kynsoft.propertyacqcenter.application.response.PropertyTeamResponse;
@@ -58,6 +61,14 @@ public class PropertyTeamController {
         return ResponseEntity.ok(response);
     }
 
+    @PatchMapping("/all")
+    public ResponseEntity<?> update(@RequestBody UpdatePropertyTeamAllRequest request) {
+
+        UpdatePropertyTeamAllCommand command = UpdatePropertyTeamAllCommand.fromRequest(request);
+        UpdatePropertyTeamAllMessage response = mediator.send(command);
+        return ResponseEntity.ok(response);
+    }
+
     @DeleteMapping(path = "/{id}")
     public ResponseEntity<?> delete(@PathVariable UUID id) {
 
@@ -74,15 +85,6 @@ public class PropertyTeamController {
 
         return ResponseEntity.ok(response);
     }
-
-//    @GetMapping(path = "/property/{id}")
-//    public ResponseEntity<?> getByPropertyId(@PathVariable String id) {
-//
-//        FindByTeamAssignmentByPropertyIdQuery query = new FindByTeamAssignmentByPropertyIdQuery(id);
-//        TeamAssignmentResponse response = mediator.send(query);
-//
-//        return ResponseEntity.ok(response);
-//    }
 
     @PostMapping("/search")
     public ResponseEntity<PaginatedResponse> search(@RequestBody SearchRequest request)

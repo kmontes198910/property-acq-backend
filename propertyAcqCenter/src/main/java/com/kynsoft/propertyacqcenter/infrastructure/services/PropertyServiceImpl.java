@@ -4,6 +4,7 @@ import com.kynsof.share.core.domain.request.FilterCriteria;
 import com.kynsof.share.core.domain.response.PaginatedResponse;
 import com.kynsof.share.core.infrastructure.specifications.GenericSpecificationsBuilder;
 import com.kynsoft.propertyacqcenter.application.response.PropertiesResponse;
+import com.kynsoft.propertyacqcenter.domain.dto.LegalEntityDto;
 import com.kynsoft.propertyacqcenter.domain.dto.PropertyDto;
 import com.kynsoft.propertyacqcenter.domain.dto.exception.NotDeleteException;
 import com.kynsoft.propertyacqcenter.domain.dto.exception.PropertyNotFoundException;
@@ -131,6 +132,14 @@ public class PropertyServiceImpl implements IPropertyService {
         throw new PropertyNotFoundException(id);
     }
 
+    private Property getByIdSimple(String id) {
+        Optional<Property> entity = repositoryQuery.findById(id);
+        if (entity.isPresent()) {
+            return entity.get();
+        }
+        throw new PropertyNotFoundException(id);
+    }
+
     @Override
     public PaginatedResponse search(Pageable pageable, List<FilterCriteria> filterCriteria) {
         GenericSpecificationsBuilder<Property> specifications = new GenericSpecificationsBuilder<>(filterCriteria);
@@ -164,6 +173,13 @@ public class PropertyServiceImpl implements IPropertyService {
     @Override
     public List<PropertyWithProfileDTO> findPropertiesWithProfileByContact(UUID contactId) {
         return this.repositoryQuery.findPropertiesWithProfileByContact(contactId);
+    }
+
+    @Override
+    public void updateBuyerName(String property, LegalEntityDto buyer) {
+        Property update = this.getByIdSimple(property);
+        update.setBuyerName(new LegalEntity(buyer));
+        repositoryCommand.save(update);
     }
 
 }
