@@ -26,14 +26,14 @@ public interface PropertyReadDataJPARepository extends JpaRepository<Property, S
 
     @EntityGraph(attributePaths = {
         "sellerName", "sellerContactInfo", "buyerName", "propertyTeams", "propertyTeams.property",
-        "propertyTeams.contact"
+        "propertyTeams.contact", "propertyTeams.contact.company"
     })
     @Override
     Optional<Property> findById(String id);
 
     @EntityGraph(attributePaths = {
         "sellerName", "sellerContactInfo", "buyerName", "propertyTeams", "propertyTeams.property",
-        "propertyTeams.contact"
+        "propertyTeams.contact", "propertyTeams.contact.company"
     })
     @Query("SELECT NEW com.kynsoft.propertyacqcenter.domain.dto.projection.PropertyWithProfileDTO(p, pt.profile) "
             + "FROM Property p JOIN p.propertyTeams pt "

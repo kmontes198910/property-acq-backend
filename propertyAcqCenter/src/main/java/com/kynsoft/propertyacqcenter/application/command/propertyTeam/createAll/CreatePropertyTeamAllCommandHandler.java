@@ -5,7 +5,6 @@ import com.kynsoft.propertyacqcenter.domain.dto.CompanyContactDto;
 import com.kynsoft.propertyacqcenter.domain.dto.LegalEntityDto;
 import com.kynsoft.propertyacqcenter.domain.dto.PropertyDto;
 import com.kynsoft.propertyacqcenter.domain.dto.PropertyTeamDto;
-import com.kynsoft.propertyacqcenter.domain.dto.TeamAssignmentDto;
 import com.kynsoft.propertyacqcenter.domain.enums.CompanyType;
 import com.kynsoft.propertyacqcenter.domain.services.ICompanyContactService;
 import com.kynsoft.propertyacqcenter.domain.services.ILegalEntityService;
@@ -14,7 +13,6 @@ import com.kynsoft.propertyacqcenter.domain.services.IPropertyTeamService;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collectors;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
