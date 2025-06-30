@@ -134,6 +134,7 @@ public class CompanyContact {
                 .department(department)
                 .notes(notes)
                 .personalEmail(personalEmail)
+                .company(company != null ? this.company.toAggregateBasic() : null)
                 .build();
     }
 
