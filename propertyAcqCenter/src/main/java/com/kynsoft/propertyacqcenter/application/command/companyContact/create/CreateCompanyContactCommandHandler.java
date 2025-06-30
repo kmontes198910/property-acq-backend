@@ -17,6 +17,7 @@ import com.kynsoft.propertyacqcenter.infrastructure.services.http.UserSystemServ
 import com.kynsoft.propertyacqcenter.infrastructure.services.rabbitMQ.eventPublisher.EventEmployeePublisherService;
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.security.SecureRandom;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -113,11 +114,22 @@ public class CreateCompanyContactCommandHandler implements ICommandHandler<Creat
         createUserSystemRequest.setName(command.getFirstName());
         createUserSystemRequest.setLastName(command.getLastName());
         //createUserSystemRequest.setPassword(PasswordGenerator.generatePassword()); // Ajusta según tus necesidades
-        createUserSystemRequest.setPassword("Ecuador.*2014"); // Ajusta según tus necesidades
+        createUserSystemRequest.setPassword(generateAlphaNumericPassword()); // Ajusta según tus necesidades
         createUserSystemRequest.setUserType(EUserType.SYSTEM); // Ajusta si es necesario
         createUserSystemRequest.setImage("");
         createUserSystemRequest.setBusinessId(businessDto.getId().toString());
         return userSystemService.createUserSystem(createUserSystemRequest);
+    }
+
+
+    public String generateAlphaNumericPassword() {
+        String chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+        SecureRandom random = new SecureRandom();
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < 6; i++) {
+            sb.append(chars.charAt(random.nextInt(chars.length())));
+        }
+        return sb.toString();
     }
 
 }

@@ -108,7 +108,7 @@ public class CreateUserSystemCommandHandler implements ICommandHandler<CreateUse
 
             // Configurar variables para la plantilla
             List<MailJetVarDto> vars = new ArrayList<>();
-            vars.add(new MailJetVarDto("user_name", command.getPassword()));
+            vars.add(new MailJetVarDto("user_name", command.getEmail()));
             vars.add(new MailJetVarDto("temp_password", command.getPassword()));
 
             requestDto.setMailJetVars(vars);
