@@ -85,7 +85,7 @@ public class PropertiesResponse implements IResponse {
     private String hoaName;
     private String hoaType;
     private String hoaFeeFrequency;
-    private List<TeamAssignmentResponse> teamAssignments;
+    private List<PropertyTeamResponse> teamAssignments;
 
     public PropertiesResponse(PropertyDto dto) {
         this.fkId = dto.getFkId();
@@ -149,7 +149,7 @@ public class PropertiesResponse implements IResponse {
         this.hoaName = dto.getHoaName();
         this.hoaType = dto.getHoaType();
         this.hoaFeeFrequency = dto.getHoaFeeFrequency();
-        this.teamAssignments = dto.getTeamAssignments() != null ? dto.getTeamAssignments().stream().map(TeamAssignmentResponse::new).collect(Collectors.toList()) : null;
+        this.teamAssignments = dto.getPropertyTeams() != null ? dto.getPropertyTeams().stream().map(PropertyTeamResponse::new).collect(Collectors.toList()) : null;
     }
 
 }

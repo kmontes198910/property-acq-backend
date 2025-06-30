@@ -80,7 +80,8 @@ public class PropertyServiceImpl implements IPropertyService {
         update.setEmdRequirements(object.getEmdRequirements());
         update.setExpectedClosingDate(object.getExpectedClosingDate());
         update.setSellerContactInfo(object.getSellerContactInfo() != null ? new Contact(object.getSellerContactInfo()) : null);
-        update.setSellerName(object.getSellerContactInfo() != null ? new LegalEntity(object.getSellerName()) : null);
+        update.setSellerName(object.getSellerName() != null ? new LegalEntity(object.getSellerName()) : null);
+        update.setBuyerName(object.getBuyerName() != null ? new LegalEntity(object.getBuyerName()) : null);
         update.setSourceType(object.getSourceType());
 
         //Mortagage
