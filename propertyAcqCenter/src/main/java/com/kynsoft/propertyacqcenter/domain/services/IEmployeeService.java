@@ -33,4 +33,6 @@ public interface IEmployeeService {
     long countByEmail(String email);
 
     void validateEmail(String email, UUID id);
+
+    long countById(UUID id);
 }

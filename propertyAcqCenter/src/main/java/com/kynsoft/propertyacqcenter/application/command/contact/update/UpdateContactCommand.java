@@ -8,9 +8,11 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 import java.util.UUID;
+import lombok.Setter;
 
 @Getter
 @AllArgsConstructor
+@Setter
 public class UpdateContactCommand implements ICommand {
 
     private UUID id;
@@ -26,6 +28,7 @@ public class UpdateContactCommand implements ICommand {
     private UUID legalEntity;
     private String personalEmail;
     private UUID subCategory;
+    private Boolean isEmployee;
 
     public static UpdateContactCommand fromRequest(UUID id, UpdateContactRequest request) {
         return new UpdateContactCommand(
@@ -41,7 +44,8 @@ public class UpdateContactCommand implements ICommand {
                 request.getIsActive(),
                 request.getLegalEntity(),
                 request.getPersonalEmail(),
-                request.getSubCategory()
+                request.getSubCategory(),
+                request.getIsEmployee()
         );
     }
 

@@ -30,4 +30,6 @@ public interface EmployeeReadDataJPARepository extends JpaRepository<Employee, U
     Optional<Employee> findById(UUID id);
 
     long countByEmail(String email);
+
+    long countById(UUID id);
 }

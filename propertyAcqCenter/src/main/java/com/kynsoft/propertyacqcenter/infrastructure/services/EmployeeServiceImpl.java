@@ -5,14 +5,12 @@ import com.kynsof.share.core.domain.response.PaginatedResponse;
 import com.kynsof.share.core.infrastructure.specifications.GenericSpecificationsBuilder;
 import com.kynsoft.propertyacqcenter.application.response.EmployeeResponse;
 import com.kynsoft.propertyacqcenter.domain.dto.EmployeeDto;
-import com.kynsoft.propertyacqcenter.domain.dto.ManageRolDto;
 import com.kynsoft.propertyacqcenter.domain.dto.exception.EmployeeNotFoundException;
 import com.kynsoft.propertyacqcenter.domain.dto.exception.NotDeleteException;
 import com.kynsoft.propertyacqcenter.domain.dto.exception.employee.EmployeeEmailFormatException;
 import com.kynsoft.propertyacqcenter.domain.dto.exception.employee.EmployeeEmailMustBeUniqueException;
 import com.kynsoft.propertyacqcenter.domain.services.IEmployeeService;
 import com.kynsoft.propertyacqcenter.infrastructure.entity.Employee;
-import com.kynsoft.propertyacqcenter.infrastructure.entity.ManageRole;
 import com.kynsoft.propertyacqcenter.infrastructure.repository.command.EmployeeWriteDataJPARepository;
 import com.kynsoft.propertyacqcenter.infrastructure.repository.query.EmployeeReadDataJPARepository;
 import jakarta.transaction.Transactional;
@@ -24,7 +22,6 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 import java.util.UUID;
 import java.util.regex.Pattern;
 
@@ -122,6 +119,11 @@ public class EmployeeServiceImpl implements IEmployeeService {
         if (!pattern.matcher(email).matches()) {
             throw new EmployeeEmailFormatException(email);
         }
+    }
+
+    @Override
+    public long countById(UUID id) {
+        return this.repositoryQuery.countById(id);
     }
 
 }

@@ -121,7 +121,6 @@ public class CreateCompanyContactCommandHandler implements ICommandHandler<Creat
         return userSystemService.createUserSystem(createUserSystemRequest);
     }
 
-
     public String generateAlphaNumericPassword() {
         String chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
         SecureRandom random = new SecureRandom();
