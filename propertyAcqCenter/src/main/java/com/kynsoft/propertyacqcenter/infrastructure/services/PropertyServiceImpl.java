@@ -8,6 +8,7 @@ import com.kynsoft.propertyacqcenter.domain.dto.PropertyDto;
 import com.kynsoft.propertyacqcenter.domain.dto.exception.NotDeleteException;
 import com.kynsoft.propertyacqcenter.domain.dto.exception.PropertyNotFoundException;
 import com.kynsoft.propertyacqcenter.domain.dto.exception.property.PropertyIdMustBeUniqueException;
+import com.kynsoft.propertyacqcenter.domain.dto.projection.PropertyWithProfileDTO;
 import com.kynsoft.propertyacqcenter.domain.services.IPropertyService;
 import com.kynsoft.propertyacqcenter.infrastructure.entity.Contact;
 import com.kynsoft.propertyacqcenter.infrastructure.entity.LegalEntity;
@@ -21,6 +22,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 import org.springframework.data.domain.Page;
 
 @Service
@@ -157,6 +159,11 @@ public class PropertyServiceImpl implements IPropertyService {
         if (count > 0) {
             throw new PropertyIdMustBeUniqueException(id);
         }
+    }
+
+    @Override
+    public List<PropertyWithProfileDTO> findPropertiesWithProfileByContact(UUID contactId) {
+        return this.repositoryQuery.findPropertiesWithProfileByContact(contactId);
     }
 
 }

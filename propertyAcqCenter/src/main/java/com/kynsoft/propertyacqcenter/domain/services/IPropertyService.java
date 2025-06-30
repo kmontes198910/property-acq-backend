@@ -3,9 +3,11 @@ package com.kynsoft.propertyacqcenter.domain.services;
 import com.kynsof.share.core.domain.request.FilterCriteria;
 import com.kynsof.share.core.domain.response.PaginatedResponse;
 import com.kynsoft.propertyacqcenter.domain.dto.PropertyDto;
+import com.kynsoft.propertyacqcenter.domain.dto.projection.PropertyWithProfileDTO;
 import org.springframework.data.domain.Pageable;
 
 import java.util.List;
+import java.util.UUID;
 
 public interface IPropertyService {
 
@@ -22,4 +24,6 @@ public interface IPropertyService {
     long countById(String id);
 
     void validatePropertyId(String id);
+
+    List<PropertyWithProfileDTO> findPropertiesWithProfileByContact(UUID contactId);
 }
