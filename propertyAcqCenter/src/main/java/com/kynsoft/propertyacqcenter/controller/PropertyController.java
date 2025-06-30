@@ -13,8 +13,11 @@ import com.kynsoft.propertyacqcenter.application.command.property.update.UpdateP
 import com.kynsoft.propertyacqcenter.application.command.property.update.UpdatePropertyMessage;
 import com.kynsoft.propertyacqcenter.application.command.property.update.UpdatePropertyRequest;
 import com.kynsoft.propertyacqcenter.application.query.property.getById.GetByIdPropertyQuery;
+import com.kynsoft.propertyacqcenter.application.query.property.getPropertiesByIdContact.GetPropertiesByIdContactQuery;
+import com.kynsoft.propertyacqcenter.application.query.property.getPropertiesByIdContact.ListPropertyWithProfileResponse;
 import com.kynsoft.propertyacqcenter.application.query.property.search.GetSearchPropertyQuery;
 import com.kynsoft.propertyacqcenter.application.response.PropertiesResponse;
+import java.util.UUID;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -62,6 +65,15 @@ public class PropertyController {
 
         GetByIdPropertyQuery query = new GetByIdPropertyQuery(id);
         PropertiesResponse response = mediator.send(query);
+
+        return ResponseEntity.ok(response);
+    }
+
+    @GetMapping(path = "/contact/{id}")
+    public ResponseEntity<?> getByContactId(@PathVariable UUID id) {
+
+        GetPropertiesByIdContactQuery query = new GetPropertiesByIdContactQuery(id);
+        ListPropertyWithProfileResponse response = mediator.send(query);
 
         return ResponseEntity.ok(response);
     }
