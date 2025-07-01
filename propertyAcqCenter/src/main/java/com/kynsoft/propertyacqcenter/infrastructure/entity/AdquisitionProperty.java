@@ -3,7 +3,6 @@ package com.kynsoft.propertyacqcenter.infrastructure.entity;
 import com.kynsoft.propertyacqcenter.domain.dto.AdquisitionPropertyDto;
 import com.kynsoft.propertyacqcenter.domain.dto.embedded.adquisitionProperty.AdquisitionTitleCompanyDto;
 import com.kynsoft.propertyacqcenter.infrastructure.entity.embedded.adquisitionProperty.AdquisitionTitleCompany;
-import com.kynsoft.propertyacqcenter.infrastructure.entity.embedded.company.TitleCompany;
 import jakarta.persistence.*;
 import java.time.LocalDate;
 import lombok.*;
@@ -11,10 +10,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
-import java.util.HashSet;
-import java.util.Set;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "adquisition_property")
@@ -40,9 +36,6 @@ public class AdquisitionProperty {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "company_contact_id", nullable = true)
     private CompanyContact contact;
-
-    @OneToMany(mappedBy = "adquisitionProperty", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<GeneralDocument> documents = new HashSet<>();
 
     @Column(name = "buyer_name_and_year_vehicle", nullable = true)
     private String buyerNameAndYearVehicle;
@@ -92,6 +85,73 @@ public class AdquisitionProperty {
 
     @Column(name = "water_sewer_setup_confirmation", nullable = true)
     private String waterSewerSetupConfirmation;
+
+    //BUYER Document
+    @Column(name = "upload_government_issued_id", nullable = true)
+    private String uploadGovernmentIssuedId;
+
+    @Column(name = "hoa_application_form", nullable = true)
+    private String hoaApplicationForm;
+
+    @Column(name = "hoa_application_upload", nullable = true)
+    private String hoaApplicationUpload;
+
+    @Column(name = "hoa_financials", nullable = true)
+    private String hoaFinancials;
+
+    @Column(name = "hoa_rules_regulations", nullable = true)
+    private String hoaRulesRegulations;
+
+    @Column(name = "buyer_car_registration", nullable = true)
+    private String buyerCarRegistration;
+
+    @Column(name = "buyer_background_check", nullable = true)
+    private String buyerBackgroundCheck;
+
+    @Column(name = "commitment_letter", nullable = true)
+    private String commitmentLetter;
+
+    @Column(name = "appraisal_report", nullable = true)
+    private String appraisalReport;
+
+    @Column(name = "inspection_report", nullable = true)
+    private String inspectionReport;
+
+    @Column(name = "seller_disclosure_form", nullable = true)
+    private String sellerDisclosureForm;
+
+    @Column(name = "survey_document", nullable = true)
+    private String surveyDocument;
+
+    @Column(name = "buyer_title_commitment", nullable = true)
+    private String titleCommitment;
+
+    @Column(name = "legal_entity_certification_status", nullable = true)
+    private String legalEntityCertificationStatus;
+
+    @Column(name = "assignment_of_contract", nullable = true)
+    private String assignmentOfContract;
+
+    @Column(name = "owner_executed_contract", nullable = true)
+    private String ownerExecutedContract;
+
+    @Column(name = "contract_addendum", nullable = true)
+    private String contractAddendum;
+
+    @Column(name = "final_settlement_statement", nullable = true)
+    private String finalSettlementStatement;
+
+    @Column(name = "bank_statement_request", nullable = true)
+    private String bankStatementRequest;
+
+    @Column(name = "warranty_deed", nullable = true)
+    private String warrantyDeed;
+
+    @Column(name = "title_insurance", nullable = true)
+    private String titleInsurance;
+
+    @Column(name = "executed_closing_documents", nullable = true)
+    private String executedClosingDocuments;
     ///
 
     @Embedded
@@ -136,16 +196,31 @@ public class AdquisitionProperty {
 
         this.titleCompany = dto.getTitleCompany() != null ? new AdquisitionTitleCompany(dto.getTitleCompany()) : null;
 
-        if (dto.getDocuments() != null) {
-            dto.getDocuments().forEach(x -> {
-                GeneralDocument doc = new GeneralDocument(x);
-                doc.setAdquisitionProperty(this);
-                this.documents.add(doc);
-            });
-        }
-
         this.createdBy = dto.getCreatedBy();
         this.updatedBy = dto.getUpdatedBy();
+
+        this.uploadGovernmentIssuedId = dto.getUploadGovernmentIssuedId();
+        this.hoaApplicationForm = dto.getHoaApplicationForm();
+        this.hoaApplicationUpload = dto.getHoaApplicationUpload();
+        this.hoaFinancials = dto.getHoaFinancials();
+        this.hoaRulesRegulations = dto.getHoaRulesRegulations();
+        this.buyerCarRegistration = dto.getBuyerCarRegistration();
+        this.buyerBackgroundCheck = dto.getBuyerBackgroundCheck();
+        this.commitmentLetter = dto.getCommitmentLetter();
+        this.appraisalReport = dto.getAppraisalReport();
+        this.inspectionReport = dto.getInspectionReport();
+        this.sellerDisclosureForm = dto.getSellerDisclosureForm();
+        this.surveyDocument = dto.getSurveyDocument();
+        this.titleCommitment = dto.getTitleCommitment();
+        this.legalEntityCertificationStatus = dto.getLegalEntityCertificationStatus();
+        this.assignmentOfContract = dto.getAssignmentOfContract();
+        this.ownerExecutedContract = dto.getOwnerExecutedContract();
+        this.contractAddendum = dto.getContractAddendum();
+        this.finalSettlementStatement = dto.getFinalSettlementStatement();
+        this.bankStatementRequest = dto.getBankStatementRequest();
+        this.warrantyDeed = dto.getWarrantyDeed();
+        this.titleInsurance = dto.getTitleInsurance();
+        this.executedClosingDocuments = dto.getExecutedClosingDocuments();
     }
 
     public AdquisitionPropertyDto toAggregate() {
@@ -170,12 +245,32 @@ public class AdquisitionProperty {
                 .gasServiceConfirmation(gasServiceConfirmation)
                 .trashServiceConfirmation(trashServiceConfirmation)
                 .waterSewerSetupConfirmation(waterSewerSetupConfirmation)
+                .uploadGovernmentIssuedId(uploadGovernmentIssuedId)
+                .hoaApplicationForm(hoaApplicationForm)
+                .hoaApplicationUpload(hoaApplicationUpload)
+                .hoaFinancials(hoaFinancials)
+                .hoaRulesRegulations(hoaRulesRegulations)
+                .buyerCarRegistration(buyerCarRegistration)
+                .buyerBackgroundCheck(buyerBackgroundCheck)
+                .commitmentLetter(commitmentLetter)
+                .appraisalReport(appraisalReport)
+                .inspectionReport(inspectionReport)
+                .sellerDisclosureForm(sellerDisclosureForm)
+                .surveyDocument(surveyDocument)
+                .titleCommitment(titleCommitment)
+                .legalEntityCertificationStatus(legalEntityCertificationStatus)
+                .assignmentOfContract(assignmentOfContract)
+                .ownerExecutedContract(ownerExecutedContract)
+                .contractAddendum(contractAddendum)
+                .finalSettlementStatement(finalSettlementStatement)
+                .bankStatementRequest(bankStatementRequest)
+                .warrantyDeed(warrantyDeed)
+                .titleInsurance(titleInsurance)
+                .executedClosingDocuments(executedClosingDocuments)
                 .createdAt(this.createdAt)
                 .updatedAt(this.updatedAt)
                 .createdBy(this.createdBy)
                 .updatedBy(this.updatedBy)
-
-                .documents(documents != null ? documents.stream().map(GeneralDocument::toAggregateSimple).collect(Collectors.toList()) : null)
                 .build();
     }
 
@@ -191,8 +286,6 @@ public class AdquisitionProperty {
                 .updatedAt(this.updatedAt)
                 .createdBy(this.createdBy)
                 .updatedBy(this.updatedBy)
-
-                .documents(documents != null ? documents.stream().map(GeneralDocument::toAggregateSimple).collect(Collectors.toList()) : null)
                 .build();
     }
 

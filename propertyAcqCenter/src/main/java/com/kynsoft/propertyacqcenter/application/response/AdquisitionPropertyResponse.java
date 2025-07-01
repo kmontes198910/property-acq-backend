@@ -2,12 +2,10 @@ package com.kynsoft.propertyacqcenter.application.response;
 
 import com.kynsof.share.core.domain.bus.query.IResponse;
 import com.kynsoft.propertyacqcenter.domain.dto.AdquisitionPropertyDto;
-import com.kynsoft.propertyacqcenter.domain.dto.GeneralDocumentDto;
 import java.time.LocalDate;
 import lombok.*;
 
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.UUID;
 
 @Getter
@@ -35,11 +33,32 @@ public class AdquisitionPropertyResponse implements IResponse {
     private String gasServiceConfirmation;
     private String trashServiceConfirmation;
     private String waterSewerSetupConfirmation;
+    private AdquisitionDocumentResponse uploadGovernmentIssuedId;
+    private AdquisitionDocumentResponse hoaApplicationForm;
+    private AdquisitionDocumentResponse hoaApplicationUpload;
+    private AdquisitionDocumentResponse hoaFinancials;
+    private AdquisitionDocumentResponse hoaRulesRegulations;
+    private AdquisitionDocumentResponse buyerCarRegistration;
+    private AdquisitionDocumentResponse buyerBackgroundCheck;
+    private AdquisitionDocumentResponse commitmentLetter;
+    private AdquisitionDocumentResponse appraisalReport;
+    private AdquisitionDocumentResponse inspectionReport;
+    private AdquisitionDocumentResponse sellerDisclosureForm;
+    private AdquisitionDocumentResponse surveyDocument;
+    private AdquisitionDocumentResponse titleCommitment;
+    private AdquisitionDocumentResponse legalEntityCertificationStatus;
+    private AdquisitionDocumentResponse assignmentOfContract;
+    private AdquisitionDocumentResponse ownerExecutedContract;
+    private AdquisitionDocumentResponse contractAddendum;
+    private AdquisitionDocumentResponse finalSettlementStatement;
+    private AdquisitionDocumentResponse bankStatementRequest;
+    private AdquisitionDocumentResponse warrantyDeed;
+    private AdquisitionDocumentResponse titleInsurance;
+    private AdquisitionDocumentResponse executedClosingDocuments;
 
     private LegalEntityBasicResponse buyer;
     private PropertiesBasicResponse property;
     private CompanyContactResponse contact;
-    private List<GeneralDocumentDto> documents;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
     private UUID createdBy;
@@ -67,7 +86,29 @@ public class AdquisitionPropertyResponse implements IResponse {
         this.gasServiceConfirmation = dto.getGasServiceConfirmation();
         this.trashServiceConfirmation = dto.getTrashServiceConfirmation();
         this.waterSewerSetupConfirmation = dto.getWaterSewerSetupConfirmation();
-        this.documents = dto.getDocuments();
+
+        this.uploadGovernmentIssuedId = DocumentMapper.mapDocumentField(dto.getUploadGovernmentIssuedId());
+        this.hoaApplicationForm = DocumentMapper.mapDocumentField(dto.getHoaApplicationForm());
+        this.hoaApplicationUpload = DocumentMapper.mapDocumentField(dto.getHoaApplicationUpload());
+        this.hoaFinancials = DocumentMapper.mapDocumentField(dto.getHoaFinancials());
+        this.hoaRulesRegulations = DocumentMapper.mapDocumentField(dto.getHoaRulesRegulations());
+        this.buyerCarRegistration = DocumentMapper.mapDocumentField(dto.getBuyerCarRegistration());
+        this.buyerBackgroundCheck = DocumentMapper.mapDocumentField(dto.getBuyerBackgroundCheck());
+        this.commitmentLetter = DocumentMapper.mapDocumentField(dto.getCommitmentLetter());
+        this.appraisalReport = DocumentMapper.mapDocumentField(dto.getAppraisalReport());
+        this.inspectionReport = DocumentMapper.mapDocumentField(dto.getInspectionReport());
+        this.sellerDisclosureForm = DocumentMapper.mapDocumentField(dto.getSellerDisclosureForm());
+        this.surveyDocument = DocumentMapper.mapDocumentField(dto.getSurveyDocument());
+        this.titleCommitment = DocumentMapper.mapDocumentField(dto.getTitleCommitment());
+        this.legalEntityCertificationStatus = DocumentMapper.mapDocumentField(dto.getLegalEntityCertificationStatus());
+        this.assignmentOfContract = DocumentMapper.mapDocumentField(dto.getAssignmentOfContract());
+        this.ownerExecutedContract = DocumentMapper.mapDocumentField(dto.getOwnerExecutedContract());
+        this.contractAddendum = DocumentMapper.mapDocumentField(dto.getContractAddendum());
+        this.finalSettlementStatement = DocumentMapper.mapDocumentField(dto.getFinalSettlementStatement());
+        this.bankStatementRequest = DocumentMapper.mapDocumentField(dto.getBankStatementRequest());
+        this.warrantyDeed = DocumentMapper.mapDocumentField(dto.getWarrantyDeed());
+        this.titleInsurance = DocumentMapper.mapDocumentField(dto.getTitleInsurance());
+        this.executedClosingDocuments = DocumentMapper.mapDocumentField(dto.getExecutedClosingDocuments());
 
         this.createdAt = dto.getCreatedAt();
         this.updatedAt = dto.getUpdatedAt();

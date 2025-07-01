@@ -3,17 +3,12 @@ package com.kynsoft.propertyacqcenter.application.command.adquisitionProperty.cr
 import com.kynsof.share.core.domain.bus.command.ICommandHandler;
 import com.kynsoft.propertyacqcenter.domain.dto.AdquisitionPropertyDto;
 import com.kynsoft.propertyacqcenter.domain.dto.CompanyContactDto;
-import com.kynsoft.propertyacqcenter.domain.dto.GeneralDocumentDto;
 import com.kynsoft.propertyacqcenter.domain.dto.LegalEntityDto;
 import com.kynsoft.propertyacqcenter.domain.dto.PropertyDto;
 import com.kynsoft.propertyacqcenter.domain.services.IAdquisitionPropertyService;
 import com.kynsoft.propertyacqcenter.domain.services.ICompanyContactService;
-import com.kynsoft.propertyacqcenter.domain.services.IDocumentTypeService;
 import com.kynsoft.propertyacqcenter.domain.services.ILegalEntityService;
 import com.kynsoft.propertyacqcenter.domain.services.IPropertyService;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -23,18 +18,15 @@ public class CreateAdquisitionPropertyCommandHandler implements ICommandHandler<
     private final ILegalEntityService legalEntityService;
     private final IPropertyService propertyService;
     private final ICompanyContactService companyContactService;
-    private final IDocumentTypeService documentTypeService;
 
     public CreateAdquisitionPropertyCommandHandler(IAdquisitionPropertyService adquisitionPropertyService, 
                                                    ILegalEntityService legalEntityService,
                                                    IPropertyService propertyService,
-                                                   ICompanyContactService companyContactService,
-                                                   IDocumentTypeService documentTypeService) {
+                                                   ICompanyContactService companyContactService) {
         this.adquisitionPropertyService = adquisitionPropertyService;
         this.legalEntityService = legalEntityService;
         this.propertyService = propertyService;
         this.companyContactService = companyContactService;
-        this.documentTypeService = documentTypeService;
     }
 
     @Override
@@ -66,25 +58,31 @@ public class CreateAdquisitionPropertyCommandHandler implements ICommandHandler<
                 .trashServiceConfirmation(command.getTrashServiceConfirmation())
                 .waterSewerSetupConfirmation(command.getWaterSewerSetupConfirmation())
 
-                .documents(generalDocuments(command))
+                .uploadGovernmentIssuedId(command.getUploadGovernmentIssuedId().getFilePath() + "|" + command.getUploadGovernmentIssuedId().getFileName())
+                .hoaApplicationForm(command.getHoaApplicationForm().getFilePath() + "|" + command.getHoaApplicationForm().getFileName())
+                .hoaApplicationUpload(command.getHoaApplicationUpload().getFilePath() + "|" + command.getHoaApplicationUpload().getFileName())
+                .hoaFinancials(command.getHoaFinancials().getFilePath() + "|" + command.getHoaFinancials().getFileName())
+                .hoaRulesRegulations(command.getHoaRulesRegulations().getFilePath() + "|" + command.getHoaRulesRegulations().getFileName())
+                .buyerCarRegistration(command.getBuyerCarRegistration().getFilePath() + "|" + command.getBuyerCarRegistration().getFileName())
+                .buyerBackgroundCheck(command.getBuyerBackgroundCheck().getFilePath() + "|" + command.getBuyerBackgroundCheck().getFileName())
+                .commitmentLetter(command.getCommitmentLetter().getFilePath() + "|" + command.getCommitmentLetter().getFileName())
+                .appraisalReport(command.getAppraisalReport().getFilePath() + "|" + command.getAppraisalReport().getFileName())
+                .inspectionReport(command.getInspectionReport().getFilePath() + "|" + command.getInspectionReport().getFileName())
+                .sellerDisclosureForm(command.getSellerDisclosureForm().getFilePath() + "|" + command.getSellerDisclosureForm().getFileName())
+                .surveyDocument(command.getSurveyDocument().getFilePath() + "|" + command.getSurveyDocument().getFileName())
+                .titleCommitment(command.getTitleCommitment().getFilePath() + "|" + command.getTitleCommitment().getFileName())
+                .legalEntityCertificationStatus(command.getLegalEntityCertificationStatus().getFilePath() + "|" + command.getLegalEntityCertificationStatus().getFileName())
+                .assignmentOfContract(command.getAssignmentOfContract().getFilePath() + "|" + command.getAssignmentOfContract().getFileName())
+                .ownerExecutedContract(command.getOwnerExecutedContract().getFilePath() + "|" + command.getOwnerExecutedContract().getFileName())
+                .contractAddendum(command.getContractAddendum().getFilePath() + "|" + command.getContractAddendum().getFileName())
+                .finalSettlementStatement(command.getFinalSettlementStatement().getFilePath() + "|" + command.getFinalSettlementStatement().getFileName())
+                .bankStatementRequest(command.getBankStatementRequest().getFilePath() + "|" + command.getBankStatementRequest().getFileName())
+                .warrantyDeed(command.getWarrantyDeed().getFilePath() + "|" + command.getWarrantyDeed().getFileName())
+                .titleInsurance(command.getTitleInsurance().getFilePath() + "|" + command.getTitleInsurance().getFileName())
+                .executedClosingDocuments(command.getExecutedClosingDocuments().getFilePath() + "|" + command.getExecutedClosingDocuments().getFileName())
+
                 .build()
         );
-    }
-
-    private List<GeneralDocumentDto> generalDocuments(CreateAdquisitionPropertyCommand command){
-        List<GeneralDocumentDto> values = new ArrayList<>();
-        if (command.getDocuments() != null) {
-            command.getDocuments().forEach(x -> {
-                values.add(GeneralDocumentDto.builder()
-                        .id(UUID.randomUUID())
-                        .documentType(this.documentTypeService.findById(x.getDocumentType()))
-                        .fileName(x.getFileName())
-                        .filePath(x.getFilePath())
-                        .build()
-                );
-            });
-        }
-        return values;
     }
 
 }
