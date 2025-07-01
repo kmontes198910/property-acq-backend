@@ -85,6 +85,7 @@ public class UpdateContactCommandHandler implements ICommandHandler<UpdateContac
     // Método para consumir el servicio createUserSystem
     private String consumeCreateUserSystemService(UpdateContactCommand command, BusinessDto businessDto) throws IOException, URISyntaxException, InterruptedException {
         CreateUserSystemRequest createUserSystemRequest = new CreateUserSystemRequest();
+        createUserSystemRequest.setId(command.getId());
         createUserSystemRequest.setUserName(command.getEmail());
         createUserSystemRequest.setEmail(command.getEmail());
         createUserSystemRequest.setName(command.getFirstName());
