@@ -14,11 +14,11 @@ import org.springframework.data.jpa.repository.EntityGraph;
 
 @Repository
 public interface PropertyTeamReadDataJPARepository extends JpaRepository<PropertyTeam, UUID>, JpaSpecificationExecutor<PropertyTeam> {
-    @EntityGraph(attributePaths = {"property", "contact"})
+    @EntityGraph(attributePaths = {"property", "contact", "contact.company"})
     @Override
     Page<PropertyTeam> findAll(Specification<PropertyTeam> specification, Pageable pageable);
 
-    @EntityGraph(attributePaths = {"property", "contact"})
+    @EntityGraph(attributePaths = {"property", "contact", "contact.company"})
     @Override
     Optional<PropertyTeam> findById(UUID id);
     Optional<PropertyTeam> findByPropertyId(String propertyId);
