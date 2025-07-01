@@ -15,14 +15,14 @@ import org.springframework.data.jpa.repository.EntityGraph;
 
 @Repository
 public interface AdquisitionPropertyReadDataJPARepository extends JpaRepository<AdquisitionProperty, UUID>, JpaSpecificationExecutor<AdquisitionProperty> {
-    @EntityGraph(attributePaths = {"buyer", "property", "contact", "contact.company", "documents", "documents.documentType"})
+    @EntityGraph(attributePaths = {"buyer", "property", "contact", "contact.company"})
     @Override
     Page<AdquisitionProperty> findAll(Specification<AdquisitionProperty> specification, Pageable pageable);
 
-    @EntityGraph(attributePaths = {"buyer", "property", "contact", "contact.company", "documents", "documents.documentType"})
+    @EntityGraph(attributePaths = {"buyer", "property", "contact", "contact.company"})
     @Override
     Optional<AdquisitionProperty> findById(UUID id);
 
-    @EntityGraph(attributePaths = {"buyer", "property", "contact", "contact.company", "documents", "documents.documentType"})
+    @EntityGraph(attributePaths = {"buyer", "property", "contact", "contact.company"})
     List<AdquisitionProperty> findByPropertyId(String propertyId);
 }

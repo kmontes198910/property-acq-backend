@@ -11,7 +11,6 @@ import com.kynsoft.propertyacqcenter.domain.dto.exception.PurchaseForPropertyNot
 import com.kynsoft.propertyacqcenter.domain.services.IAdquisitionPropertyService;
 import com.kynsoft.propertyacqcenter.infrastructure.entity.AdquisitionProperty;
 import com.kynsoft.propertyacqcenter.infrastructure.entity.CompanyContact;
-import com.kynsoft.propertyacqcenter.infrastructure.entity.GeneralDocument;
 import com.kynsoft.propertyacqcenter.infrastructure.entity.LegalEntity;
 import com.kynsoft.propertyacqcenter.infrastructure.entity.Property;
 import com.kynsoft.propertyacqcenter.infrastructure.repository.command.AdquisitionPropertyWriteDataJPARepository;
@@ -22,11 +21,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
-import java.util.stream.Collectors;
 import org.springframework.context.annotation.Primary;
 import org.springframework.data.domain.Page;
 
@@ -76,9 +73,28 @@ public class AdquisitionPropertyServiceImpl implements IAdquisitionPropertyServi
         update.setTrashServiceConfirmation(object.getTrashServiceConfirmation());
         update.setWaterSewerSetupConfirmation(object.getWaterSewerSetupConfirmation());
 
-        update.setDocuments(object.getDocuments() != null
-                ? object.getDocuments().stream().map(GeneralDocument::new).collect(Collectors.toSet())
-                : Collections.emptySet());
+        update.setUploadGovernmentIssuedId(object.getUploadGovernmentIssuedId());
+        update.setHoaApplicationForm(object.getHoaApplicationForm());
+        update.setHoaApplicationUpload(object.getHoaApplicationUpload());
+        update.setHoaFinancials(object.getHoaFinancials());
+        update.setHoaRulesRegulations(object.getHoaRulesRegulations());
+        update.setBuyerCarRegistration(object.getBuyerCarRegistration());
+        update.setBuyerBackgroundCheck(object.getBuyerBackgroundCheck());
+        update.setCommitmentLetter(object.getCommitmentLetter());
+        update.setAppraisalReport(object.getAppraisalReport());
+        update.setInspectionReport(object.getInspectionReport());
+        update.setSellerDisclosureForm(object.getSellerDisclosureForm());
+        update.setSurveyDocument(object.getSurveyDocument());
+        update.setTitleCommitment(object.getTitleCommitment());
+        update.setLegalEntityCertificationStatus(object.getLegalEntityCertificationStatus());
+        update.setAssignmentOfContract(object.getAssignmentOfContract());
+        update.setOwnerExecutedContract(object.getOwnerExecutedContract());
+        update.setContractAddendum(object.getContractAddendum());
+        update.setFinalSettlementStatement(object.getFinalSettlementStatement());
+        update.setBankStatementRequest(object.getBankStatementRequest());
+        update.setWarrantyDeed(object.getWarrantyDeed());
+        update.setTitleInsurance(object.getTitleInsurance());
+        update.setExecutedClosingDocuments(object.getExecutedClosingDocuments());
 
         update.setUpdatedAt(LocalDateTime.now());
         repositoryCommand.save(update);

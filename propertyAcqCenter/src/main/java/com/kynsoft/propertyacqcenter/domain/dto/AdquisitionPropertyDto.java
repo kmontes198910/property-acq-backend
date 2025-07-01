@@ -5,7 +5,6 @@ import java.time.LocalDate;
 import lombok.*;
 
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.UUID;
 
 @Getter
@@ -37,12 +36,32 @@ public class AdquisitionPropertyDto {
     private String trashServiceConfirmation;
     private String waterSewerSetupConfirmation;
 
-    private List<GeneralDocumentDto> documents;
-    
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
     private UUID createdBy;
     private UUID updatedBy;
 
     private AdquisitionTitleCompanyDto titleCompany;
+    private String uploadGovernmentIssuedId;
+    private String hoaApplicationForm;
+    private String hoaApplicationUpload;
+    private String hoaFinancials;
+    private String hoaRulesRegulations;
+    private String buyerCarRegistration;
+    private String buyerBackgroundCheck;
+    private String commitmentLetter;
+    private String appraisalReport;
+    private String inspectionReport;
+    private String sellerDisclosureForm;
+    private String surveyDocument;
+    private String titleCommitment;
+    private String legalEntityCertificationStatus;
+    private String assignmentOfContract;
+    private String ownerExecutedContract;
+    private String contractAddendum;
+    private String finalSettlementStatement;
+    private String bankStatementRequest;
+    private String warrantyDeed;
+    private String titleInsurance;
+    private String executedClosingDocuments;
 }

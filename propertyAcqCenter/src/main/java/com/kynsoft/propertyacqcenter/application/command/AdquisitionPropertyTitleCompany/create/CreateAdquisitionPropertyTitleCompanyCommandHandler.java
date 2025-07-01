@@ -56,7 +56,6 @@ public class CreateAdquisitionPropertyTitleCompanyCommandHandler implements ICom
                         .titleCommitment(command.getTitleCommitment())
                         .build())
 
-                .documents(generalDocuments(command))
                 .build()
         );
     }
