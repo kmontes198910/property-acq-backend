@@ -91,6 +91,7 @@ public class CreateEmployeeCommandHandler implements ICommandHandler<CreateEmplo
     // Método para consumir el servicio createUserSystem
     private String consumeCreateUserSystemService(CreateEmployeeCommand command, BusinessDto businessDto) throws IOException, URISyntaxException, InterruptedException {
         CreateUserSystemRequest createUserSystemRequest = new CreateUserSystemRequest();
+        createUserSystemRequest.setId(command.getId());
         createUserSystemRequest.setUserName(command.getEmail());
         createUserSystemRequest.setEmail(command.getEmail());
         createUserSystemRequest.setName(command.getFirstName());

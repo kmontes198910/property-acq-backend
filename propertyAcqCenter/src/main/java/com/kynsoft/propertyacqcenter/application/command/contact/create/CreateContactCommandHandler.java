@@ -110,6 +110,7 @@ public class CreateContactCommandHandler implements ICommandHandler<CreateContac
     // Método para consumir el servicio createUserSystem
     private String consumeCreateUserSystemService(CreateContactCommand command, LegalEntityDto legalEntityDto) throws IOException, URISyntaxException, InterruptedException {
         CreateUserSystemRequest createUserSystemRequest = new CreateUserSystemRequest();
+        createUserSystemRequest.setId(command.getId());
         createUserSystemRequest.setUserName(command.getEmail());
         createUserSystemRequest.setEmail(command.getEmail());
         createUserSystemRequest.setName(command.getFirstName());

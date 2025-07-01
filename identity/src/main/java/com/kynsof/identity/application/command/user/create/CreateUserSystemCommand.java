@@ -38,7 +38,7 @@ public class CreateUserSystemCommand implements ICommand {
 
     public static CreateUserSystemCommand fromRequest(CreateUserSystemRequest request) {
         return new CreateUserSystemCommand(
-                UUID.randomUUID(),
+                request.getId() != null ? request.getId() : UUID.randomUUID(),
                 request.getUserName(),
                 request.getEmail(),
                 request.getName(),
