@@ -267,21 +267,13 @@ public class AdquisitionProperty {
                 .warrantyDeed(warrantyDeed)
                 .titleInsurance(titleInsurance)
                 .executedClosingDocuments(executedClosingDocuments)
-                .createdAt(this.createdAt)
-                .updatedAt(this.updatedAt)
-                .createdBy(this.createdBy)
-                .updatedBy(this.updatedBy)
-                .build();
-    }
 
-    public AdquisitionPropertyDto toAggregateTitleCompany() {
-        return AdquisitionPropertyDto.builder()
-                .id(this.id)
-                .property(this.property != null ? this.property.toAggregateBasic() : null)
-                .titleCompany(AdquisitionTitleCompanyDto
+                .titleCompany(titleCompany != null ? AdquisitionTitleCompanyDto
                         .builder()
-                        .titleCommitment(titleCompany.getTitleCommitment())
-                        .build())
+                        .earnestMoneyDepositConfirmation(titleCompany.getEarnestMoneyDepositConfirmation())
+                        .requestForEstoppelLetter(titleCompany.getRequestForEstoppelLetter())
+                        .build() : null)
+
                 .createdAt(this.createdAt)
                 .updatedAt(this.updatedAt)
                 .createdBy(this.createdBy)

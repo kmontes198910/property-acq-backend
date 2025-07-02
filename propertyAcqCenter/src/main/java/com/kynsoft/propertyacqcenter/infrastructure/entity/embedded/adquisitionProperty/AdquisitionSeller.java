@@ -16,14 +16,14 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class AdquisitionTitleCompany {
+public class AdquisitionSeller {
     @Column(name = "request_for_estoppel_letter")
     private LocalDate requestForEstoppelLetter;
 
     @Column(name = "earnest_money_deposit_confirmation", nullable = true)
     private String earnestMoneyDepositConfirmation;
 
-    public AdquisitionTitleCompany(AdquisitionTitleCompanyDto dto) {
+    public AdquisitionSeller(AdquisitionTitleCompanyDto dto) {
         this.requestForEstoppelLetter = dto.getRequestForEstoppelLetter();
         this.earnestMoneyDepositConfirmation = dto.getEarnestMoneyDepositConfirmation();
     }
