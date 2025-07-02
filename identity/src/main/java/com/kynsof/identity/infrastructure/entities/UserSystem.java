@@ -1,5 +1,6 @@
 package com.kynsof.identity.infrastructure.entities;
 
+import com.kynsof.identity.domain.dto.ManageRolDto;
 import com.kynsof.identity.domain.dto.UserStatus;
 import com.kynsof.identity.domain.dto.UserSystemDto;
 import com.kynsof.share.core.domain.EUserType;
@@ -13,9 +14,11 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -91,6 +94,15 @@ public class UserSystem implements Serializable {
         dto.setSelectedBusiness(selectedBusiness);
         dto.setCreatedAt(createdAt.toLocalDate());
         dto.setKeyCloakId(keyCloakId);
+        dto.setRoles(this.roles != null
+                ? roles.stream().map(x -> new ManageRolDto(
+                        x.getId(), 
+                        x.getCode(), 
+                        x.getName(), 
+                        x.getIsDeleted(), 
+                        x.getPermissions() != null ? x.getPermissions().stream().map(Permission::toAggregate).collect(Collectors.toList()) : null
+                )).collect(Collectors.toList())
+                : Collections.emptyList());
         return dto;
     }
 }

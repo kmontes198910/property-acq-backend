@@ -1,6 +1,5 @@
 package com.kynsof.identity.domain.dto;
 
-import com.netflix.discovery.provider.ISerializer;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

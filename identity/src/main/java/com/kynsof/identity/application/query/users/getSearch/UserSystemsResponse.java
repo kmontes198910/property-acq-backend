@@ -1,5 +1,6 @@
 package com.kynsof.identity.application.query.users.getSearch;
 
+import com.kynsof.identity.domain.dto.ManageRolDto;
 import com.kynsof.identity.domain.dto.UserStatus;
 import com.kynsof.identity.domain.dto.UserSystemDto;
 import com.kynsof.share.core.domain.EUserType;
@@ -10,6 +11,7 @@ import lombok.Setter;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.List;
 import java.util.UUID;
 
 @AllArgsConstructor
@@ -26,6 +28,7 @@ public class UserSystemsResponse implements IResponse, Serializable {
     private EUserType userType;
     private String image;
     private LocalDate createdAt;
+    private List<ManageRolDto> manageRoles;
 
     public UserSystemsResponse(UserSystemDto contactInfoDto) {
         this.id = contactInfoDto.getId();
@@ -37,6 +40,7 @@ public class UserSystemsResponse implements IResponse, Serializable {
         this.image = contactInfoDto.getImage();
         this.userType = contactInfoDto.getUserType() != null ? contactInfoDto.getUserType() : EUserType.UNDEFINED;
         this.createdAt = contactInfoDto.getCreatedAt();
+        this.manageRoles = contactInfoDto.getRoles();
     }
 
 }

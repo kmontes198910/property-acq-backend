@@ -1,6 +1,7 @@
 package com.kynsof.identity.application.query.users.getById;
 
 
+import com.kynsof.identity.domain.dto.ManageRolDto;
 import com.kynsof.identity.domain.dto.RoleDto;
 import com.kynsof.identity.domain.dto.UserStatus;
 import com.kynsof.identity.domain.dto.UserSystemDto;
@@ -26,6 +27,7 @@ public class UserSystemsByIdResponse implements IResponse {
     private List<RoleDto> roles;
     private EUserType userType;
     private String image;
+    private List<ManageRolDto> manageRoles;
 
     public UserSystemsByIdResponse(UserSystemDto userSystemDto) {
         this.id = userSystemDto.getId();
@@ -36,6 +38,7 @@ public class UserSystemsByIdResponse implements IResponse {
         this.status = userSystemDto.getStatus();
         this.userType = userSystemDto.getUserType();
         this.image = userSystemDto.getImage();
+        this.manageRoles = userSystemDto.getRoles();
     }
 
 }

@@ -15,6 +15,8 @@ import java.util.UUID;
 import org.springframework.data.jpa.repository.EntityGraph;
 
 public interface UserSystemReadDataJPARepository extends JpaRepository<UserSystem, UUID>, JpaSpecificationExecutor<UserSystem> {
+
+    @EntityGraph(attributePaths = {"roles", "roles.permissions", "roles.permissions.module"})
     @Override
     Page<UserSystem> findAll(Specification specification, Pageable pageable);
 
