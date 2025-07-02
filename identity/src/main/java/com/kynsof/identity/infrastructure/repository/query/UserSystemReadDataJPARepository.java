@@ -26,6 +26,7 @@ public interface UserSystemReadDataJPARepository extends JpaRepository<UserSyste
     @Query("SELECT COUNT(b) FROM UserSystem b WHERE b.email = :email AND b.id <> :id")
     Long countByEmailAndNotId(@Param("email") String email, @Param("id") UUID id);
 
+    @EntityGraph(attributePaths = {"roles", "roles.permissions", "roles.permissions.module"})
     @Query("SELECT b FROM UserSystem b WHERE b.email = :email")
     Optional<UserSystem> findByEmail(String email);
 
@@ -33,12 +34,14 @@ public interface UserSystemReadDataJPARepository extends JpaRepository<UserSyste
     @Override
     Optional<UserSystem> findById(UUID id);
 
+    @EntityGraph(attributePaths = {"roles", "roles.permissions", "roles.permissions.module"})
     @Query("SELECT b FROM UserSystem b WHERE b.keyCloakId = :keyCloakId")
     Optional<UserSystem> findByKeyCloakId(UUID keyCloakId);
 
     @Query("SELECT CASE WHEN COUNT(u) > 0 THEN TRUE ELSE FALSE END FROM UserSystem u WHERE LOWER(u.email) = LOWER(:email) AND u.status = :status")
     boolean existsByEmailAndStatus(@Param("email") String email, @Param("status") UserStatus status);
 
+    @EntityGraph(attributePaths = {"roles", "roles.permissions", "roles.permissions.module"})
     @Query("SELECT DISTINCT u FROM UserSystem u " +
             "JOIN u.userPermissionBusinesses upb " +
             "WHERE upb.business.id = :businessId " +
