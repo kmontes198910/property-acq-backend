@@ -151,7 +151,24 @@ public class PropertyServiceImpl implements IPropertyService {
     private PaginatedResponse getPaginatedResponse(Page<Property> data) {
         List<PropertiesResponse> objects = new ArrayList<>();
         for (Property p : data.getContent()) {
-            objects.add(new PropertiesResponse(p.toAggregate()));
+            objects.add(new PropertiesResponse(p.toAggregateSimple()));
+        }
+        return new PaginatedResponse(objects, data.getTotalPages(), data.getNumberOfElements(),
+                data.getTotalElements(), data.getSize(), data.getNumber());
+    }
+
+    @Override
+    public PaginatedResponse searchWithProfileByContact(Pageable pageable, List<FilterCriteria> filterCriteria) {
+        GenericSpecificationsBuilder<Property> specifications = new GenericSpecificationsBuilder<>(filterCriteria);
+        Page<Property> data = this.repositoryQuery.findAll(specifications, pageable);
+
+        return getPaginatedResponseWithProfileByContact(data);
+    }
+
+    private PaginatedResponse getPaginatedResponseWithProfileByContact(Page<Property> data) {
+        List<PropertiesResponse> objects = new ArrayList<>();
+        for (Property p : data.getContent()) {
+            objects.add(new PropertiesResponse(p.toAggregateSimpleProfileByContact()));
         }
         return new PaginatedResponse(objects, data.getTotalPages(), data.getNumberOfElements(),
                 data.getTotalElements(), data.getSize(), data.getNumber());
