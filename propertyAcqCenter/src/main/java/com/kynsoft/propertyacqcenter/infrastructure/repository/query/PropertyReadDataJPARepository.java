@@ -18,7 +18,8 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface PropertyReadDataJPARepository extends JpaRepository<Property, String>, JpaSpecificationExecutor<Property> {
 
-    @EntityGraph(attributePaths = {"sellerName", "sellerContactInfo", "buyerName"})
+    @EntityGraph(attributePaths = {"sellerName", "sellerContactInfo", "buyerName", "propertyTeams", "propertyTeams.property",
+        "propertyTeams.contact", "propertyTeams.contact.company"})
     @Override
     Page<Property> findAll(Specification<Property> specification, Pageable pageable);
 

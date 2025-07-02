@@ -29,4 +29,6 @@ public interface IPropertyService {
     void validatePropertyId(String id);
 
     List<PropertyWithProfileDTO> findPropertiesWithProfileByContact(UUID contactId);
+
+    PaginatedResponse searchWithProfileByContact(Pageable pageable, List<FilterCriteria> filterCriteria);
 }

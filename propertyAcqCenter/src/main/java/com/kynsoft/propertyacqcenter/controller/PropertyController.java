@@ -16,6 +16,7 @@ import com.kynsoft.propertyacqcenter.application.query.property.getById.GetByIdP
 import com.kynsoft.propertyacqcenter.application.query.property.getPropertiesByIdContact.GetPropertiesByIdContactQuery;
 import com.kynsoft.propertyacqcenter.application.query.property.getPropertiesByIdContact.ListPropertyWithProfileResponse;
 import com.kynsoft.propertyacqcenter.application.query.property.search.GetSearchPropertyQuery;
+import com.kynsoft.propertyacqcenter.application.query.property.searchWithProfileByContact.GetSearchPropertyWithProfileByContactQuery;
 import com.kynsoft.propertyacqcenter.application.response.PropertiesResponse;
 import java.util.UUID;
 import org.springframework.data.domain.Pageable;
@@ -35,9 +36,6 @@ public class PropertyController {
 
     @PostMapping("")
     public ResponseEntity<CreatePropertyMessage> createAllergy(@RequestBody CreatePropertyRequest request) {
-        System.err.println("#################################################");
-        System.err.println("Llego");
-        System.err.println("#################################################");
         CreatePropertyCommand createCommand = CreatePropertyCommand.fromRequest(request);
         CreatePropertyMessage response = mediator.send(createCommand);
 
@@ -83,6 +81,15 @@ public class PropertyController {
     {
         Pageable pageable = PageableUtil.createPageable(request);
         GetSearchPropertyQuery query = new GetSearchPropertyQuery(pageable, request.getFilter(),request.getQuery());
+        PaginatedResponse data = mediator.send(query);
+        return ResponseEntity.ok(data);
+    }
+
+    @PostMapping("/contact/search")
+    public ResponseEntity<PaginatedResponse> contactSearch(@RequestBody SearchRequest request)
+    {
+        Pageable pageable = PageableUtil.createPageable(request);
+        GetSearchPropertyWithProfileByContactQuery query = new GetSearchPropertyWithProfileByContactQuery(pageable, request.getFilter(),request.getQuery());
         PaginatedResponse data = mediator.send(query);
         return ResponseEntity.ok(data);
     }
