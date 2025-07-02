@@ -49,15 +49,16 @@ public class UserMeServiceImpl implements IUserMeService {
                 .orElseThrow(() -> new BusinessNotFoundException(new GlobalBusinessException(
                         DomainErrorMessage.USER_NOT_FOUND, new ErrorField("id", DomainErrorMessage.USER_NOT_FOUND.getReasonPhrase()))));
 
+        Optional<UserSystem> user = repositoryQuery.findByKeyCloakId(userId);
         if (userSystem.getUserType().equals(EUserType.SUPER_ADMIN)) {
             List<BusinessPermissionResponse> businessPermissionResponses = getAllBusinessesWithPermissions();
-            return createUserMeResponse(userSystem, businessPermissionResponses, userSystem);
+            return createUserMeResponse(userSystem, businessPermissionResponses, user.get());
         }
 
         var userPermissions = userPermissionBusinessReadDataJPARepository.findUserPermissionBusinessByUserId(userSystem.getId());
         var businessResponses = groupUserPermissionsByBusiness(userPermissions);
 
-        return createUserMeResponse(userSystem, new ArrayList<>(businessResponses.values()), userSystem);
+        return createUserMeResponse(userSystem, new ArrayList<>(businessResponses.values()), user.get());
     }
 
     private Map<UUID, BusinessPermissionResponse> groupUserPermissionsByBusiness(List<UserPermissionBusiness> userPermissions) {
