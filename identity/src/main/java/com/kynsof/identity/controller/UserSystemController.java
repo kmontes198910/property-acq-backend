@@ -22,6 +22,9 @@ import com.kynsof.identity.application.command.user.deleteAll.DeleteAllUserSyste
 import com.kynsof.identity.application.command.user.update.UpdateUserSystemCommand;
 import com.kynsof.identity.application.command.user.update.UpdateUserSystemMessage;
 import com.kynsof.identity.application.command.user.update.UpdateUserSystemRequest;
+import com.kynsof.identity.application.command.user.update.setRoles.UpdateUserSystemSetRolesCommand;
+import com.kynsof.identity.application.command.user.update.setRoles.UpdateUserSystemSetRolesMessage;
+import com.kynsof.identity.application.command.user.update.setRoles.UpdateUserSystemSetRolesRequest;
 import com.kynsof.identity.application.query.users.getById.FindByIdUserSystemsQuery;
 import com.kynsof.identity.application.query.users.getById.UserSystemsByIdResponse;
 import com.kynsof.identity.application.query.users.getSearch.GetSearchUserSystemsQuery;
@@ -62,7 +65,6 @@ public class UserSystemController {
         CreateUserSystemMessage response = mediator.send(command);
         return ResponseEntity.ok(response);
     }
-
 
     @GetMapping(path = "/{id}")
     public ResponseEntity<?> getById(@PathVariable UUID id) {
@@ -148,6 +150,12 @@ public class UserSystemController {
         return ResponseEntity.ok(ApiResponse.success(result.getResult()));
     }
 
+    @PatchMapping(path = "/set-roles/{id}")
+    public ResponseEntity<?> setRoles(@PathVariable UUID id, @RequestBody UpdateUserSystemSetRolesRequest request) {
+        UpdateUserSystemSetRolesCommand command = UpdateUserSystemSetRolesCommand.fromRequest(id, request);
+        UpdateUserSystemSetRolesMessage response = mediator.send(command);
+        return ResponseEntity.ok(response);
+    }
 
     @GetMapping("/by-business")
     public ResponseEntity<?> getUsersByBusiness(
