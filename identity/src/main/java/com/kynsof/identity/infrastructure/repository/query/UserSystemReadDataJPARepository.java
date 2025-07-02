@@ -12,8 +12,10 @@ import org.springframework.data.repository.query.Param;
 
 import java.util.Optional;
 import java.util.UUID;
+import org.springframework.data.jpa.repository.EntityGraph;
 
 public interface UserSystemReadDataJPARepository extends JpaRepository<UserSystem, UUID>, JpaSpecificationExecutor<UserSystem> {
+    @Override
     Page<UserSystem> findAll(Specification specification, Pageable pageable);
 
     @Query("SELECT COUNT(b) FROM UserSystem b WHERE b.userName = :userName AND b.id <> :id")
@@ -24,6 +26,10 @@ public interface UserSystemReadDataJPARepository extends JpaRepository<UserSyste
 
     @Query("SELECT b FROM UserSystem b WHERE b.email = :email")
     Optional<UserSystem> findByEmail(String email);
+
+    @EntityGraph(attributePaths = {"roles", "roles.permissions", "roles.permissions.module"})
+    @Override
+    Optional<UserSystem> findById(UUID id);
 
     @Query("SELECT b FROM UserSystem b WHERE b.keyCloakId = :keyCloakId")
     Optional<UserSystem> findByKeyCloakId(UUID keyCloakId);

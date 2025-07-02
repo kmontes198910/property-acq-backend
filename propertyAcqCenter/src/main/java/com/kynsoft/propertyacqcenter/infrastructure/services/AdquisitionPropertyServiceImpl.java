@@ -5,6 +5,7 @@ import com.kynsof.share.core.domain.response.PaginatedResponse;
 import com.kynsof.share.core.infrastructure.specifications.GenericSpecificationsBuilder;
 import com.kynsoft.propertyacqcenter.application.response.AdquisitionPropertyResponse;
 import com.kynsoft.propertyacqcenter.domain.dto.AdquisitionPropertyDto;
+import com.kynsoft.propertyacqcenter.domain.dto.embedded.adquisitionProperty.UpdateAdquisitionTitleCompanyDto;
 import com.kynsoft.propertyacqcenter.domain.dto.exception.AddressNotFoundException;
 import com.kynsoft.propertyacqcenter.domain.dto.exception.NotDeleteException;
 import com.kynsoft.propertyacqcenter.domain.dto.exception.PurchaseForPropertyNotFoundException;
@@ -13,6 +14,7 @@ import com.kynsoft.propertyacqcenter.infrastructure.entity.AdquisitionProperty;
 import com.kynsoft.propertyacqcenter.infrastructure.entity.CompanyContact;
 import com.kynsoft.propertyacqcenter.infrastructure.entity.LegalEntity;
 import com.kynsoft.propertyacqcenter.infrastructure.entity.Property;
+import com.kynsoft.propertyacqcenter.infrastructure.entity.embedded.adquisitionProperty.AdquisitionTitleCompany;
 import com.kynsoft.propertyacqcenter.infrastructure.repository.command.AdquisitionPropertyWriteDataJPARepository;
 import com.kynsoft.propertyacqcenter.infrastructure.repository.query.AdquisitionPropertyReadDataJPARepository;
 import org.springframework.data.domain.Pageable;
@@ -95,6 +97,21 @@ public class AdquisitionPropertyServiceImpl implements IAdquisitionPropertyServi
         update.setWarrantyDeed(object.getWarrantyDeed());
         update.setTitleInsurance(object.getTitleInsurance());
         update.setExecutedClosingDocuments(object.getExecutedClosingDocuments());
+
+        update.setUpdatedAt(LocalDateTime.now());
+        repositoryCommand.save(update);
+    }
+
+    @Override
+    @Transactional
+    public void updateTitleCompany(UpdateAdquisitionTitleCompanyDto object) {
+        AdquisitionProperty update = this.findByIdSimple(object.getIdAdquisition());
+
+        update.setTitleCompany(AdquisitionTitleCompany
+                .builder()
+                .earnestMoneyDepositConfirmation(object.getEarnestMoneyDepositConfirmation())
+                .requestForEstoppelLetter(object.getRequestForEstoppelLetter())
+                .build());
 
         update.setUpdatedAt(LocalDateTime.now());
         repositoryCommand.save(update);

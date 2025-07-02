@@ -1,9 +1,12 @@
 package com.kynsof.identity.infrastructure.services;
 
+import com.kynsof.identity.application.query.module.getbyid.ModuleResponse;
+import com.kynsof.identity.application.query.permission.getById.PermissionResponse;
 import com.kynsof.identity.application.query.users.userMe.BusinessPermissionResponse;
 import com.kynsof.identity.application.query.users.userMe.UserMeResponse;
 import com.kynsof.identity.domain.interfaces.service.IUserMeService;
-import com.kynsof.identity.infrastructure.config.IdentityCacheConfig;
+import com.kynsof.identity.infrastructure.entities.ManageRole;
+import com.kynsof.identity.infrastructure.entities.Permission;
 import com.kynsof.identity.infrastructure.entities.UserPermissionBusiness;
 import com.kynsof.identity.infrastructure.entities.UserSystem;
 import com.kynsof.identity.infrastructure.repository.query.BusinessModuleReadDataJPARepository;
@@ -14,7 +17,6 @@ import com.kynsof.share.core.domain.exception.BusinessNotFoundException;
 import com.kynsof.share.core.domain.exception.DomainErrorMessage;
 import com.kynsof.share.core.domain.exception.GlobalBusinessException;
 import com.kynsof.share.core.domain.response.ErrorField;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -41,15 +43,16 @@ public class UserMeServiceImpl implements IUserMeService {
                 .orElseThrow(() -> new BusinessNotFoundException(new GlobalBusinessException(
                         DomainErrorMessage.USER_NOT_FOUND, new ErrorField("id", DomainErrorMessage.USER_NOT_FOUND.getReasonPhrase()))));
 
+        Optional<UserSystem> data = this.repositoryQuery.findById(userId);
         if (userSystem.getUserType().equals(EUserType.SUPER_ADMIN)) {
             List<BusinessPermissionResponse> businessPermissionResponses = getAllBusinessesWithPermissions();
-            return createUserMeResponse(userSystem, businessPermissionResponses);
+            return createUserMeResponse(userSystem, businessPermissionResponses, data.get());
         }
 
         var userPermissions = userPermissionBusinessReadDataJPARepository.findUserPermissionBusinessByUserId(userSystem.getId());
         var businessResponses = groupUserPermissionsByBusiness(userPermissions);
 
-        return createUserMeResponse(userSystem, new ArrayList<>(businessResponses.values()));
+        return createUserMeResponse(userSystem, new ArrayList<>(businessResponses.values()), data.get());
     }
 
     private Map<UUID, BusinessPermissionResponse> groupUserPermissionsByBusiness(List<UserPermissionBusiness> userPermissions) {
@@ -73,7 +76,7 @@ public class UserMeServiceImpl implements IUserMeService {
                 .collect(Collectors.toMap(BusinessPermissionResponse::getBusinessId, bpr -> bpr));
     }
 
-    private UserMeResponse createUserMeResponse(UserSystem userSystem, List<BusinessPermissionResponse> businessResponses) {
+    private UserMeResponse createUserMeResponse(UserSystem userSystem, List<BusinessPermissionResponse> businessResponses, UserSystem userData) {
         return new UserMeResponse(
                 userSystem.getId(),
                 userSystem.getUserName(),
@@ -82,9 +85,31 @@ public class UserMeServiceImpl implements IUserMeService {
                 userSystem.getLastName(),
                 userSystem.getImage(),
                 userSystem.getSelectedBusiness(),
-                businessResponses
+                businessResponses,
+                permissionList(userData)
 
         );
+    }
+
+    private List<PermissionResponse> permissionList(UserSystem userData) {
+        List<PermissionResponse> permissions = new ArrayList<>();
+        if (userData.getRoles() != null) {
+            for (ManageRole r : userData.getRoles()) {
+            if (r.getPermissions() != null) {
+                for (Permission permission : r.getPermissions()) {
+                    permissions.add(new PermissionResponse(
+                            permission.getId(), 
+                            permission.getCode(), 
+                            permission.getDescription(), 
+                            new ModuleResponse(permission.getModule().getId(), permission.getModule().getName()), 
+                            permission.getStatus(), 
+                            permission.getAction(), 
+                            permission.getCreatedAt()));
+                }
+            }
+        }
+        }
+        return permissions;
     }
 
   //  @Cacheable(value = IdentityCacheConfig.USER_INFO_CACHE, unless = "#result == null")

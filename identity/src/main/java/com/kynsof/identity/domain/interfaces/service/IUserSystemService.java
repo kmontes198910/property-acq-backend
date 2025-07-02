@@ -1,5 +1,6 @@
 package com.kynsof.identity.domain.interfaces.service;
 
+import com.kynsof.identity.domain.dto.UserRolesDto;
 import com.kynsof.identity.domain.dto.UserSystemDto;
 import com.kynsof.share.core.domain.request.FilterCriteria;
 import com.kynsof.share.core.domain.response.PaginatedResponse;
@@ -30,4 +31,6 @@ public interface IUserSystemService {
     boolean existsByEmailAndStatus(String email);
 
     PaginatedResponse getUsersByBusiness(UUID businessId, String email, String name, String lastName, Pageable pageable);
+
+    void updateRoles(UserRolesDto userRoles);
 }

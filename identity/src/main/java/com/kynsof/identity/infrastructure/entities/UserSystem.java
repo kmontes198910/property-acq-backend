@@ -63,6 +63,14 @@ public class UserSystem implements Serializable {
     @OneToOne(mappedBy = "userSystem", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Wallet wallet;
 
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+            name = "users_roles",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "rol_id")
+    )
+    private Set<ManageRole> roles = new HashSet<>();
+
     public UserSystem(UserSystemDto dto) {
         this.id = dto.getId();
         this.userName = dto.getUserName();

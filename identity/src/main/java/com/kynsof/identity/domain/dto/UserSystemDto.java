@@ -7,11 +7,16 @@ import lombok.Setter;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.List;
 import java.util.UUID;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 
 @Setter
 @Getter
 @NoArgsConstructor
+@Builder
+@AllArgsConstructor
 public class UserSystemDto implements Serializable {
     private UUID id;
     private String identification;
@@ -27,6 +32,8 @@ public class UserSystemDto implements Serializable {
     private String image;
     private EUserType userType;
     private UUID keyCloakId;
+
+    private List<ManageRolDto> roles;
 
     public UserSystemDto(UUID id, String userName, String email, String name,
                          String lastName, UserStatus status, String image) {
