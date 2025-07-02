@@ -4,7 +4,9 @@ import com.kynsof.identity.application.query.module.getbyid.ModuleResponse;
 import com.kynsof.identity.application.query.permission.getById.PermissionResponse;
 import com.kynsof.identity.application.query.users.userMe.BusinessPermissionResponse;
 import com.kynsof.identity.application.query.users.userMe.UserMeResponse;
+import com.kynsof.identity.domain.dto.UserSystemDto;
 import com.kynsof.identity.domain.interfaces.service.IUserMeService;
+import com.kynsof.identity.domain.interfaces.service.IUserSystemService;
 import com.kynsof.identity.infrastructure.entities.ManageRole;
 import com.kynsof.identity.infrastructure.entities.Permission;
 import com.kynsof.identity.infrastructure.entities.UserPermissionBusiness;
@@ -28,12 +30,16 @@ public class UserMeServiceImpl implements IUserMeService {
     private final UserPermissionBusinessReadDataJPARepository userPermissionBusinessReadDataJPARepository;
     private final UserSystemReadDataJPARepository repositoryQuery;
     private final BusinessModuleReadDataJPARepository businessModuleReadDataJPARepository;
+    private final IUserSystemService userSystemService;
 
     public UserMeServiceImpl(UserPermissionBusinessReadDataJPARepository userPermissionBusinessReadDataJPARepository,
-                             UserSystemReadDataJPARepository repositoryQuery, BusinessModuleReadDataJPARepository businessModuleReadDataJPARepository) {
+                             UserSystemReadDataJPARepository repositoryQuery, 
+                             BusinessModuleReadDataJPARepository businessModuleReadDataJPARepository,
+                             IUserSystemService userSystemService) {
         this.userPermissionBusinessReadDataJPARepository = userPermissionBusinessReadDataJPARepository;
         this.repositoryQuery = repositoryQuery;
         this.businessModuleReadDataJPARepository = businessModuleReadDataJPARepository;
+        this.userSystemService = userSystemService;
     }
 
     @Override
@@ -43,16 +49,15 @@ public class UserMeServiceImpl implements IUserMeService {
                 .orElseThrow(() -> new BusinessNotFoundException(new GlobalBusinessException(
                         DomainErrorMessage.USER_NOT_FOUND, new ErrorField("id", DomainErrorMessage.USER_NOT_FOUND.getReasonPhrase()))));
 
-        Optional<UserSystem> data = this.repositoryQuery.findById(userId);
         if (userSystem.getUserType().equals(EUserType.SUPER_ADMIN)) {
             List<BusinessPermissionResponse> businessPermissionResponses = getAllBusinessesWithPermissions();
-            return createUserMeResponse(userSystem, businessPermissionResponses, data.get());
+            return createUserMeResponse(userSystem, businessPermissionResponses, userSystem);
         }
 
         var userPermissions = userPermissionBusinessReadDataJPARepository.findUserPermissionBusinessByUserId(userSystem.getId());
         var businessResponses = groupUserPermissionsByBusiness(userPermissions);
 
-        return createUserMeResponse(userSystem, new ArrayList<>(businessResponses.values()), data.get());
+        return createUserMeResponse(userSystem, new ArrayList<>(businessResponses.values()), userSystem);
     }
 
     private Map<UUID, BusinessPermissionResponse> groupUserPermissionsByBusiness(List<UserPermissionBusiness> userPermissions) {
@@ -87,7 +92,6 @@ public class UserMeServiceImpl implements IUserMeService {
                 userSystem.getSelectedBusiness(),
                 businessResponses,
                 permissionList(userData)
-
         );
     }
 
