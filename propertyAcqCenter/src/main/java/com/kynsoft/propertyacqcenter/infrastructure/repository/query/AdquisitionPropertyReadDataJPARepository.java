@@ -12,9 +12,12 @@ import org.springframework.stereotype.Repository;
 
 import java.util.UUID;
 import org.springframework.data.jpa.repository.EntityGraph;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 @Repository
 public interface AdquisitionPropertyReadDataJPARepository extends JpaRepository<AdquisitionProperty, UUID>, JpaSpecificationExecutor<AdquisitionProperty> {
+
     @EntityGraph(attributePaths = {"buyer", "property", "contact", "contact.company"})
     @Override
     Page<AdquisitionProperty> findAll(Specification<AdquisitionProperty> specification, Pageable pageable);
@@ -25,4 +28,9 @@ public interface AdquisitionPropertyReadDataJPARepository extends JpaRepository<
 
     @EntityGraph(attributePaths = {"buyer", "property", "contact", "contact.company"})
     List<AdquisitionProperty> findByPropertyId(String propertyId);
+
+    @Query("SELECT CASE WHEN COUNT(ap) > 0 THEN true ELSE false END "
+            + "FROM AdquisitionProperty ap "
+            + "WHERE ap.property.id = :propertyId")
+    boolean existsByPropertyId(@Param("propertyId") String propertyId);
 }

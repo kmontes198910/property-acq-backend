@@ -174,4 +174,9 @@ public class AdquisitionPropertyServiceImpl implements IAdquisitionPropertyServi
         throw new PurchaseForPropertyNotFoundException();
     }
 
+    @Override
+    public boolean existsByPropertyId(String propertyId) {
+        return this.repositoryQuery.existsByPropertyId(propertyId);
+    }
+
 }

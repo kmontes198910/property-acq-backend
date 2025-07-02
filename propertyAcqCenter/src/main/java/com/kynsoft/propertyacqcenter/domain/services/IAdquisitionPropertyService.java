@@ -23,4 +23,6 @@ public interface IAdquisitionPropertyService {
     List<AdquisitionPropertyDto> findByPropertyId(String propertyId);
 
     void updateTitleCompany(UpdateAdquisitionTitleCompanyDto object);
+
+    boolean existsByPropertyId(String propertyId);
 }
