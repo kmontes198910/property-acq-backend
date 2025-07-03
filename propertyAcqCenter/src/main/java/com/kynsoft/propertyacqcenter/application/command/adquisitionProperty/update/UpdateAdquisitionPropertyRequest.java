@@ -54,4 +54,16 @@ public class UpdateAdquisitionPropertyRequest {
     private CreateDocumentRequest titleInsurance;
     private CreateDocumentRequest executedClosingDocuments;
 
+    //TODO: estos campos son optional, no necesarios en el momento actual, solo agregamos por si acaso.
+    private String buyerFullLegalName;
+    private String buyerContactEmail;
+    private String buyerEntityName;
+    private String buyerMailingAddress;
+    private String buyerMobilePhoneNumber;
+    private String hoa4050certificationStatus;
+    private String hoaValidatorContactName;
+    private String hoaValidatorEmail;
+    private String hoaValidatorPhoneNumber;
+    private String closingCountdownClock;
+    private LocalDate contractClosingDate;
 }

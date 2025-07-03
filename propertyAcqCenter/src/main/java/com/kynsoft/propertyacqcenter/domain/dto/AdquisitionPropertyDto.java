@@ -67,4 +67,17 @@ public class AdquisitionPropertyDto {
     private String executedClosingDocuments;
 
     private AdquisitionSellerDto seller;
+
+    private String buyerFullLegalName;
+    private String buyerContactEmail;
+    private String buyerEntityName;
+    private String buyerMailingAddress;
+    private String buyerMobilePhoneNumber;
+    private String hoa4050certificationStatus;
+    private String hoaValidatorContactName;
+    private String hoaValidatorEmail;
+    private String hoaValidatorPhoneNumber;
+    private String closingCountdownClock;
+    private LocalDate contractClosingDate;
+
 }
