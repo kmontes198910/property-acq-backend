@@ -1,9 +1,6 @@
 package com.kynsoft.propertyacqcenter.infrastructure.entity;
 
 import com.kynsoft.propertyacqcenter.domain.dto.AdquisitionPropertyDto;
-import com.kynsoft.propertyacqcenter.domain.dto.embedded.adquisitionProperty.AdquisitionTitleCompanyDto;
-import com.kynsoft.propertyacqcenter.infrastructure.entity.embedded.adquisitionProperty.AdquisitionSeller;
-import com.kynsoft.propertyacqcenter.infrastructure.entity.embedded.adquisitionProperty.AdquisitionTitleCompany;
 import jakarta.persistence.*;
 import java.time.LocalDate;
 import lombok.*;
@@ -155,12 +152,6 @@ public class AdquisitionProperty {
     private String executedClosingDocuments;
     ///
 
-    @Embedded
-    private AdquisitionTitleCompany titleCompany;
-
-    @Embedded
-    private AdquisitionSeller seller;
-
     @CreationTimestamp
     @Column(name = "created_at", updatable = false)
     private LocalDateTime createdAt;
@@ -208,6 +199,68 @@ public class AdquisitionProperty {
     @Column(name = "contract_closing_date", nullable = true)
     private LocalDate contractClosingDate;
 
+    //Seller
+    @Column(name = "full_name", nullable = true)
+    private String sellerFullName;//Sellers, Wholesaler, Real Estate Agent, Title Co.
+
+    @Column(name = "entity_name", nullable = true)
+    private String sellerEntityName;//Sellers, Wholesaler, Real Estate Agent
+
+    @Column(name = "articles_of_incorporation", nullable = true)
+    private String sellerArticlesOfIncorporation;//Sellers, Wholesaler, Real Estate Agent, Title Co.
+
+    @Column(name = "certificate_of_good_standing", nullable = true)
+    private String sellerCertificateOfGoodStanding;//Sellers, Wholesaler, Real Estate Agent, Title Co.
+
+    @Column(name = "operating_agreement", nullable = true)
+    private String sellerOperatingAgreement;//Sellers, Wholesaler, Real Estate Agent, Title Co.
+
+    @Column(name = "type_of_ownership", nullable = true)
+    private String sellerOwnershipType;//Sellers, Wholesaler, Real Estate Agent, Title Co.
+
+    @Column(name = "resolution_to_sell", nullable = true)
+    private String sellerResolutionToSell;
+
+    // Información personal
+    @Column(name = "social_security_number", nullable = true)
+    private String sellerSocialSecurityNumber;
+
+    @Column(name = "marital_status", nullable = true)
+    private String sellerMaritalStatus;
+
+    @Column(name = "government_id", nullable = true)
+    private String sellerGovernmentId;
+
+    @Column(name = "w9_form", nullable = true)
+    private String sellerW9Form;
+
+    // Información FIRPTA
+    @Column(name = "is_foreign_seller", nullable = true)
+    private Boolean sellerForeignSeller;
+
+    @Column(name = "firpta_affidavit", nullable = true)
+    private String sellerFirptaAffidavit;
+
+    // Información bancaria
+    @Column(name = "seller_wire_account_holder", nullable = true)
+    private String sellerWireAccountHolder;
+
+    @Column(name = "seller_wire_account_number", nullable = true)
+    private String sellerWireAccountNumber;
+
+    @Column(name = "seller_wire_routing_number", nullable = true)
+    private String sellerWireRoutingNumber;
+
+    @Column(name = "zelle_contact", nullable = true)
+    private String zelleContact;
+
+    //Title Company
+    @Column(name = "request_for_estoppel_letter")
+    private LocalDate titleCompanyRequestForEstoppelLetter;
+
+    @Column(name = "earnest_money_deposit_confirmation", nullable = true)
+    private String titleCompanyEarnestMoneyDepositConfirmation;
+
     public AdquisitionProperty(AdquisitionPropertyDto dto) {
         this.id = dto.getId() != null ? dto.getId() : UUID.randomUUID();
         this.buyerNameAndYearVehicle = dto.getBuyerNameAndYearVehicle();
@@ -231,8 +284,27 @@ public class AdquisitionProperty {
         this.trashServiceConfirmation = dto.getTrashServiceConfirmation();
         this.waterSewerSetupConfirmation = dto.getWaterSewerSetupConfirmation();
 
-        this.titleCompany = dto.getTitleCompany() != null ? new AdquisitionTitleCompany(dto.getTitleCompany()) : null;
-        this.seller = dto.getSeller() != null ? new AdquisitionSeller(dto.getSeller()) : null;
+        this.sellerFullName = dto.getSellerFullName();
+        this.sellerEntityName = dto.getSellerEntityName();
+        this.sellerArticlesOfIncorporation = dto.getSellerArticlesOfIncorporation();
+        this.sellerCertificateOfGoodStanding = dto.getSellerCertificateOfGoodStanding();
+        this.sellerOperatingAgreement = dto.getSellerOperatingAgreement();
+        this.sellerOwnershipType = dto.getSellerOwnershipType();
+        this.sellerResolutionToSell = dto.getSellerResolutionToSell();
+        this.sellerSocialSecurityNumber = dto.getSellerSocialSecurityNumber();
+        this.sellerMaritalStatus = dto.getSellerMaritalStatus();
+        this.sellerGovernmentId = dto.getSellerGovernmentId();
+        this.sellerW9Form = dto.getSellerW9Form();
+        this.sellerForeignSeller = dto.getSellerForeignSeller();
+        this.sellerFirptaAffidavit = dto.getSellerFirptaAffidavit();
+        
+        this.sellerWireAccountHolder = dto.getSellerWireAccountHolder();
+        this.sellerWireAccountNumber = dto.getSellerWireAccountNumber();
+        this.sellerWireRoutingNumber = dto.getSellerWireRoutingNumber();
+        this.zelleContact = dto.getZelleContact();
+
+        this.titleCompanyRequestForEstoppelLetter = dto.getTitleCompanyRequestForEstoppelLetter();
+        this.titleCompanyEarnestMoneyDepositConfirmation = dto.getTitleCompanyEarnestMoneyDepositConfirmation();
 
         this.createdBy = dto.getCreatedBy();
         this.updatedBy = dto.getUpdatedBy();
@@ -317,17 +389,10 @@ public class AdquisitionProperty {
                 .warrantyDeed(warrantyDeed)
                 .titleInsurance(titleInsurance)
                 .executedClosingDocuments(executedClosingDocuments)
-                .titleCompany(titleCompany != null ? AdquisitionTitleCompanyDto
-                        .builder()
-                        .earnestMoneyDepositConfirmation(titleCompany.getEarnestMoneyDepositConfirmation())
-                        .requestForEstoppelLetter(titleCompany.getRequestForEstoppelLetter())
-                        .build() : null)
-                .seller(seller != null ? seller.toAggregate() : null)
                 .createdAt(this.createdAt)
                 .updatedAt(this.updatedAt)
                 .createdBy(this.createdBy)
                 .updatedBy(this.updatedBy)
-
                 .buyerFullLegalName(buyerFullLegalName)
                 .buyerContactEmail(buyerContactEmail)
                 .buyerEntityName(buyerEntityName)
@@ -340,6 +405,25 @@ public class AdquisitionProperty {
                 .closingCountdownClock(closingCountdownClock)
                 .contractClosingDate(contractClosingDate)
 
+                .sellerFullName(sellerFullName)
+                .sellerEntityName(sellerEntityName)
+                .sellerArticlesOfIncorporation(sellerArticlesOfIncorporation)
+                .sellerCertificateOfGoodStanding(sellerCertificateOfGoodStanding)
+                .sellerOperatingAgreement(sellerOperatingAgreement)
+                .sellerOwnershipType(sellerOwnershipType)
+                .sellerResolutionToSell(sellerResolutionToSell)
+                .sellerSocialSecurityNumber(sellerSocialSecurityNumber)
+                .sellerMaritalStatus(sellerMaritalStatus)
+                .sellerGovernmentId(sellerGovernmentId)
+                .sellerW9Form(sellerW9Form)
+                .sellerForeignSeller(sellerForeignSeller)
+                .sellerFirptaAffidavit(sellerFirptaAffidavit)
+                .sellerWireAccountHolder(sellerWireAccountHolder)
+                .sellerWireAccountNumber(sellerWireAccountNumber)
+                .sellerWireRoutingNumber(sellerWireRoutingNumber)
+                .zelleContact(zelleContact)
+                .titleCompanyRequestForEstoppelLetter(titleCompanyRequestForEstoppelLetter)
+                .titleCompanyEarnestMoneyDepositConfirmation(titleCompanyEarnestMoneyDepositConfirmation)
                 .build();
     }
 

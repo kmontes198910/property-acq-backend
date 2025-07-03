@@ -5,8 +5,6 @@ import com.kynsof.share.core.domain.response.PaginatedResponse;
 import com.kynsof.share.core.infrastructure.specifications.GenericSpecificationsBuilder;
 import com.kynsoft.propertyacqcenter.application.response.AdquisitionPropertyResponse;
 import com.kynsoft.propertyacqcenter.domain.dto.AdquisitionPropertyDto;
-import com.kynsoft.propertyacqcenter.domain.dto.embedded.adquisitionProperty.UpdateAdquisitionSellerDto;
-import com.kynsoft.propertyacqcenter.domain.dto.embedded.adquisitionProperty.UpdateAdquisitionTitleCompanyDto;
 import com.kynsoft.propertyacqcenter.domain.dto.exception.AddressNotFoundException;
 import com.kynsoft.propertyacqcenter.domain.dto.exception.NotDeleteException;
 import com.kynsoft.propertyacqcenter.domain.dto.exception.PurchaseForPropertyNotFoundException;
@@ -15,8 +13,6 @@ import com.kynsoft.propertyacqcenter.infrastructure.entity.AdquisitionProperty;
 import com.kynsoft.propertyacqcenter.infrastructure.entity.CompanyContact;
 import com.kynsoft.propertyacqcenter.infrastructure.entity.LegalEntity;
 import com.kynsoft.propertyacqcenter.infrastructure.entity.Property;
-import com.kynsoft.propertyacqcenter.infrastructure.entity.embedded.adquisitionProperty.AdquisitionSeller;
-import com.kynsoft.propertyacqcenter.infrastructure.entity.embedded.adquisitionProperty.AdquisitionTitleCompany;
 import com.kynsoft.propertyacqcenter.infrastructure.repository.command.AdquisitionPropertyWriteDataJPARepository;
 import com.kynsoft.propertyacqcenter.infrastructure.repository.query.AdquisitionPropertyReadDataJPARepository;
 import org.springframework.data.domain.Pageable;
@@ -59,106 +55,77 @@ public class AdquisitionPropertyServiceImpl implements IAdquisitionPropertyServi
         update.setContact(object.getContact() != null ? new CompanyContact(object.getContact()) : null);
         update.setProperty(new Property(object.getProperty()));
 
-        update.setBuyerNameAndYearVehicle(object.getBuyerNameAndYearVehicle());
-        update.setBuyerLicenseTagNo(object.getBuyerLicenseTagNo());
+        update.setBuyerNameAndYearVehicle(object.getBuyerNameAndYearVehicle() != null ? object.getBuyerNameAndYearVehicle() : update.getBuyerNameAndYearVehicle());
+        update.setBuyerLicenseTagNo(object.getBuyerLicenseTagNo() != null ? object.getBuyerLicenseTagNo() : update.getBuyerLicenseTagNo());
 
-        update.setDateAndTimeForInspections(object.getDateAndTimeForInspections());
-        update.setInstructionsForAccess(object.getInstructionsForAccess());
-        update.setHoaBuyerInterviewDate(object.getHoaBuyerInterviewDate());
-        update.setPreferredMoveinDate(object.getPreferredMoveinDate());
-        update.setESignAuthorization(object.getESignAuthorization());
-        update.setFinalWalkthroughDate(object.getFinalWalkthroughDate());
-        update.setWireAccountHolderName(object.getWireAccountHolderName());
-        update.setWireAccountNumber(object.getWireAccountNumber());
-        update.setWireRoutingNumber(object.getWireRoutingNumber());
-        update.setZelleEmailorPhone(object.getZelleEmailorPhone());
-        update.setElectricProviderConfirmation(object.getElectricProviderConfirmation());
-        update.setGasServiceConfirmation(object.getGasServiceConfirmation());
-        update.setTrashServiceConfirmation(object.getTrashServiceConfirmation());
-        update.setWaterSewerSetupConfirmation(object.getWaterSewerSetupConfirmation());
+        update.setDateAndTimeForInspections(object.getDateAndTimeForInspections() != null ? object.getDateAndTimeForInspections() : update.getDateAndTimeForInspections());
+        update.setInstructionsForAccess(object.getInstructionsForAccess() != null ? object.getInstructionsForAccess() : update.getInstructionsForAccess());
+        update.setHoaBuyerInterviewDate(object.getHoaBuyerInterviewDate() != null ? object.getHoaBuyerInterviewDate() : update.getHoaBuyerInterviewDate());
+        update.setPreferredMoveinDate(object.getPreferredMoveinDate() != null ? object.getPreferredMoveinDate() : update.getPreferredMoveinDate());
+        update.setESignAuthorization(object.getESignAuthorization() != null ? object.getESignAuthorization() : update.getESignAuthorization());
+        update.setFinalWalkthroughDate(object.getFinalWalkthroughDate() != null ? object.getFinalWalkthroughDate() : update.getFinalWalkthroughDate());
+        update.setWireAccountHolderName(object.getWireAccountHolderName() != null ? object.getWireAccountHolderName() : update.getWireAccountHolderName());
+        update.setWireAccountNumber(object.getWireAccountNumber() != null ? object.getWireAccountNumber() : update.getWireAccountNumber());
+        update.setWireRoutingNumber(object.getWireRoutingNumber() != null ? object.getWireRoutingNumber() : update.getWireRoutingNumber());
+        update.setZelleEmailorPhone(object.getZelleEmailorPhone() != null ? object.getZelleEmailorPhone() : update.getZelleEmailorPhone());
+        update.setElectricProviderConfirmation(object.getElectricProviderConfirmation() != null ? object.getElectricProviderConfirmation() : update.getElectricProviderConfirmation());
+        update.setGasServiceConfirmation(object.getGasServiceConfirmation() != null ? object.getGasServiceConfirmation() : update.getGasServiceConfirmation());
+        update.setTrashServiceConfirmation(object.getTrashServiceConfirmation() != null ? object.getTrashServiceConfirmation() : update.getTrashServiceConfirmation());
+        update.setWaterSewerSetupConfirmation(object.getWaterSewerSetupConfirmation() != null ? object.getWaterSewerSetupConfirmation() : update.getWaterSewerSetupConfirmation());
 
-        update.setUploadGovernmentIssuedId(object.getUploadGovernmentIssuedId());
-        update.setHoaApplicationForm(object.getHoaApplicationForm());
-        update.setHoaApplicationUpload(object.getHoaApplicationUpload());
-        update.setHoaFinancials(object.getHoaFinancials());
-        update.setHoaRulesRegulations(object.getHoaRulesRegulations());
-        update.setBuyerCarRegistration(object.getBuyerCarRegistration());
-        update.setBuyerBackgroundCheck(object.getBuyerBackgroundCheck());
-        update.setCommitmentLetter(object.getCommitmentLetter());
-        update.setAppraisalReport(object.getAppraisalReport());
-        update.setInspectionReport(object.getInspectionReport());
-        update.setSellerDisclosureForm(object.getSellerDisclosureForm());
-        update.setSurveyDocument(object.getSurveyDocument());
-        update.setTitleCommitment(object.getTitleCommitment());
-        update.setLegalEntityCertificationStatus(object.getLegalEntityCertificationStatus());
-        update.setAssignmentOfContract(object.getAssignmentOfContract());
-        update.setOwnerExecutedContract(object.getOwnerExecutedContract());
-        update.setContractAddendum(object.getContractAddendum());
-        update.setFinalSettlementStatement(object.getFinalSettlementStatement());
-        update.setBankStatementRequest(object.getBankStatementRequest());
-        update.setWarrantyDeed(object.getWarrantyDeed());
-        update.setTitleInsurance(object.getTitleInsurance());
-        update.setExecutedClosingDocuments(object.getExecutedClosingDocuments());
+        update.setUploadGovernmentIssuedId(object.getUploadGovernmentIssuedId() != null ? object.getUploadGovernmentIssuedId() : update.getUploadGovernmentIssuedId());
+        update.setHoaApplicationForm(object.getHoaApplicationForm() != null ? object.getHoaApplicationForm() : update.getHoaApplicationForm());
+        update.setHoaApplicationUpload(object.getHoaApplicationUpload() != null ? object.getHoaApplicationUpload() : update.getHoaApplicationUpload());
+        update.setHoaFinancials(object.getHoaFinancials() != null ? object.getHoaFinancials() : update.getHoaFinancials());
+        update.setHoaRulesRegulations(object.getHoaRulesRegulations() != null ? object.getHoaRulesRegulations() : update.getHoaRulesRegulations());
+        update.setBuyerCarRegistration(object.getBuyerCarRegistration() != null ? object.getBuyerCarRegistration() : update.getBuyerCarRegistration());
+        update.setBuyerBackgroundCheck(object.getBuyerBackgroundCheck() != null ? object.getBuyerBackgroundCheck() : update.getBuyerBackgroundCheck());
+        update.setCommitmentLetter(object.getCommitmentLetter() != null ? object.getCommitmentLetter() : update.getCommitmentLetter());
+        update.setAppraisalReport(object.getAppraisalReport() != null ? object.getAppraisalReport() : update.getAppraisalReport());
+        update.setInspectionReport(object.getInspectionReport() != null ? object.getInspectionReport() : update.getInspectionReport());
+        update.setSellerDisclosureForm(object.getSellerDisclosureForm() != null ? object.getSellerDisclosureForm() : update.getSellerDisclosureForm());
+        update.setSurveyDocument(object.getSurveyDocument() != null ? object.getSurveyDocument() : update.getSurveyDocument());
+        update.setTitleCommitment(object.getTitleCommitment() != null ? object.getTitleCommitment() : update.getTitleCommitment());
+        update.setLegalEntityCertificationStatus(object.getLegalEntityCertificationStatus() != null ? object.getLegalEntityCertificationStatus() : update.getLegalEntityCertificationStatus());
+        update.setAssignmentOfContract(object.getAssignmentOfContract() != null ? object.getAssignmentOfContract() : update.getAssignmentOfContract());
+        update.setOwnerExecutedContract(object.getOwnerExecutedContract() != null ? object.getOwnerExecutedContract() : update.getOwnerExecutedContract());
+        update.setContractAddendum(object.getContractAddendum() != null ? object.getContractAddendum() : update.getContractAddendum());
+        update.setFinalSettlementStatement(object.getFinalSettlementStatement() != null ? object.getFinalSettlementStatement() : update.getFinalSettlementStatement());
+        update.setBankStatementRequest(object.getBankStatementRequest() != null ? object.getBankStatementRequest() : update.getBankStatementRequest());
+        update.setWarrantyDeed(object.getWarrantyDeed() != null ? object.getWarrantyDeed() : update.getWarrantyDeed());
+        update.setTitleInsurance(object.getTitleInsurance() != null ? object.getTitleInsurance() : update.getTitleInsurance());
+        update.setExecutedClosingDocuments(object.getExecutedClosingDocuments() != null ? object.getExecutedClosingDocuments() : update.getExecutedClosingDocuments());
 
-        update.setBuyerFullLegalName(object.getBuyerFullLegalName());
-        update.setBuyerContactEmail(object.getBuyerContactEmail());
-        update.setBuyerEntityName(object.getBuyerEntityName());
-        update.setBuyerMailingAddress(object.getBuyerMailingAddress());
-        update.setBuyerMobilePhoneNumber(object.getBuyerMobilePhoneNumber());
-        update.setHoa4050certificationStatus(object.getHoa4050certificationStatus());
-        update.setHoaValidatorContactName(object.getHoaValidatorContactName());
-        update.setHoaValidatorEmail(object.getHoaValidatorEmail());
-        update.setHoaValidatorPhoneNumber(object.getHoaValidatorPhoneNumber());
-        update.setClosingCountdownClock(object.getClosingCountdownClock());
-        update.setContractClosingDate(object.getContractClosingDate());
+        update.setBuyerFullLegalName(object.getBuyerFullLegalName() != null ? object.getBuyerFullLegalName() : update.getBuyerFullLegalName());
+        update.setBuyerContactEmail(object.getBuyerContactEmail() != null ? object.getBuyerContactEmail() : update.getBuyerContactEmail());
+        update.setBuyerEntityName(object.getBuyerEntityName() != null ? object.getBuyerEntityName() : update.getBuyerEntityName());
+        update.setBuyerMailingAddress(object.getBuyerMailingAddress() != null ? object.getBuyerMailingAddress() : update.getBuyerMailingAddress());
+        update.setBuyerMobilePhoneNumber(object.getBuyerMobilePhoneNumber() != null ? object.getBuyerMobilePhoneNumber() : update.getBuyerMobilePhoneNumber());
+        update.setHoa4050certificationStatus(object.getHoa4050certificationStatus() != null ? object.getHoa4050certificationStatus() : update.getHoa4050certificationStatus());
+        update.setHoaValidatorContactName(object.getHoaValidatorContactName() != null ? object.getHoaValidatorContactName() : update.getHoaValidatorContactName());
+        update.setHoaValidatorEmail(object.getHoaValidatorEmail() != null ? object.getHoaValidatorEmail() : update.getHoaValidatorEmail());
+        update.setHoaValidatorPhoneNumber(object.getHoaValidatorPhoneNumber() != null ? object.getHoaValidatorPhoneNumber() : update.getHoaValidatorPhoneNumber());
+        update.setContractClosingDate(object.getContractClosingDate() != null ? object.getContractClosingDate() : update.getContractClosingDate());
 
-        update.setUpdatedAt(LocalDateTime.now());
-        repositoryCommand.save(update);
-    }
-
-    @Override
-    @Transactional
-    public void updateTitleCompany(UpdateAdquisitionTitleCompanyDto object) {
-        AdquisitionProperty update = this.findByIdSimple(object.getIdAdquisition());
-
-        update.setTitleCompany(AdquisitionTitleCompany
-                .builder()
-                .earnestMoneyDepositConfirmation(object.getEarnestMoneyDepositConfirmation())
-                .requestForEstoppelLetter(object.getRequestForEstoppelLetter())
-                .build());
-
-        update.setUpdatedAt(LocalDateTime.now());
-        repositoryCommand.save(update);
-    }
-
-    @Override
-    @Transactional
-    public void updateSeller(UpdateAdquisitionSellerDto object) {
-        AdquisitionProperty update = this.findByIdSimple(object.getIdAdquisition());
-
-        update.setSeller(AdquisitionSeller
-                .builder()
-                .fullName(object.getFullName())
-                .entityName(object.getEntityName())
-                .articlesOfIncorporation(object.getArticlesOfIncorporation())
-                .certificateOfGoodStanding(object.getCertificateOfGoodStanding())
-                .operatingAgreement(object.getOperatingAgreement())
-                .ownershipType(object.getOwnershipType())
-                .resolutionToSell(object.getResolutionToSell())
-                .contactEmail(object.getContactEmail())
-                .mobilePhone(object.getMobilePhone())
-                .mailingAddress(object.getMailingAddress())
-                .socialSecurityNumber(object.getSocialSecurityNumber())
-                .maritalStatus(object.getMaritalStatus())
-                .governmentId(object.getGovernmentId())
-                .w9Form(object.getW9Form())
-                .isForeignSeller(object.getIsForeignSeller())
-                .firptaAffidavit(object.getFirptaAffidavit())
-                .sellerWireAccountHolder(object.getWireAccountHolder())
-                .sellerWireAccountNumber(object.getWireAccountNumber())
-                .sellerWireRoutingNumber(object.getWireRoutingNumber())
-                .zelleContact(object.getZelleContact())
-                .build());
+        update.setSellerFullName(object.getSellerFullName() != null ? object.getSellerFullName() : update.getSellerFullName());
+        update.setSellerEntityName(object.getSellerEntityName() != null ? object.getSellerEntityName() : update.getSellerEntityName());
+        update.setSellerArticlesOfIncorporation(object.getSellerArticlesOfIncorporation() != null ? object.getSellerArticlesOfIncorporation() : update.getSellerArticlesOfIncorporation());
+        update.setSellerCertificateOfGoodStanding(object.getSellerCertificateOfGoodStanding() != null ? object.getSellerCertificateOfGoodStanding() : update.getSellerCertificateOfGoodStanding());
+        update.setSellerOperatingAgreement(object.getSellerOperatingAgreement() != null ? object.getSellerOperatingAgreement() : update.getSellerOperatingAgreement());
+        update.setSellerOwnershipType(object.getSellerOwnershipType() != null ? object.getSellerOwnershipType() : update.getSellerOwnershipType());
+        update.setSellerResolutionToSell(object.getSellerResolutionToSell() != null ? object.getSellerResolutionToSell() : update.getSellerResolutionToSell());
+        update.setSellerSocialSecurityNumber(object.getSellerSocialSecurityNumber() != null ? object.getSellerSocialSecurityNumber() : update.getSellerSocialSecurityNumber());
+        update.setSellerMaritalStatus(object.getSellerMaritalStatus() != null ? object.getSellerMaritalStatus() : update.getSellerMaritalStatus());
+        update.setSellerGovernmentId(object.getSellerGovernmentId() != null ? object.getSellerGovernmentId() : update.getSellerGovernmentId());
+        update.setSellerW9Form(object.getSellerW9Form() != null ? object.getSellerW9Form() : update.getSellerW9Form());
+        update.setSellerForeignSeller(object.getSellerForeignSeller() != null ? object.getSellerForeignSeller() : update.getSellerForeignSeller());
+        update.setSellerFirptaAffidavit(object.getSellerFirptaAffidavit() != null ? object.getSellerFirptaAffidavit() : update.getSellerFirptaAffidavit());
+        update.setSellerWireAccountHolder(object.getSellerWireAccountHolder() != null ? object.getSellerWireAccountHolder() : update.getSellerWireAccountHolder());
+        update.setSellerWireAccountNumber(object.getSellerWireAccountNumber() != null ? object.getSellerWireAccountNumber() : update.getSellerWireAccountNumber());
+        update.setSellerWireRoutingNumber(object.getSellerWireRoutingNumber() != null ? object.getSellerWireRoutingNumber() : update.getSellerWireRoutingNumber());
+        update.setZelleContact(object.getZelleContact() != null ? object.getZelleContact() : update.getZelleContact());
+        update.setTitleCompanyRequestForEstoppelLetter(object.getTitleCompanyRequestForEstoppelLetter() != null ? object.getTitleCompanyRequestForEstoppelLetter() : update.getTitleCompanyRequestForEstoppelLetter());
+        update.setTitleCompanyEarnestMoneyDepositConfirmation(object.getTitleCompanyEarnestMoneyDepositConfirmation() != null ? object.getTitleCompanyEarnestMoneyDepositConfirmation() : update.getTitleCompanyEarnestMoneyDepositConfirmation());
 
         update.setUpdatedAt(LocalDateTime.now());
         repositoryCommand.save(update);
