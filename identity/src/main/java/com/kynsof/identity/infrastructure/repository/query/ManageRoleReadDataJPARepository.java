@@ -24,7 +24,7 @@ public interface ManageRoleReadDataJPARepository extends JpaRepository<ManageRol
     @Query("SELECT COUNT(b) FROM ManageRole b WHERE b.code = :code AND b.id <> :id")
     Long countByCodeAndNotId(@Param("code") String code, @Param("id") UUID id);
 
-    @EntityGraph(attributePaths = {"permissions"})
+    @EntityGraph(attributePaths = {"permissions", "permissions.module"})
     @Override
     Optional<ManageRole> findById(UUID id);
 }

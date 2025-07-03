@@ -51,4 +51,8 @@ public class ModuleSystem {
         
         return new ModuleDto(id, name, image, description, p, createdAt);
     }
+
+    public ModuleDto toAggregateSimple() {
+        return new ModuleDto(id, name, image, description, createdAt);
+    }
 }
