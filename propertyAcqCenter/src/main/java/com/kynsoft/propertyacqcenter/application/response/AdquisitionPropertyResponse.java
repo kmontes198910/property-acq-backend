@@ -57,6 +57,7 @@ public class AdquisitionPropertyResponse implements IResponse {
     private AdquisitionDocumentResponse executedClosingDocuments;
 
     private TitleCompanyAdquisitionPropertyResponse titleCompany;
+    private SellerAdquisitionPropertyResponse seller;
 
     private LegalEntityBasicResponse buyer;
     private PropertiesBasicResponse property;
@@ -113,6 +114,7 @@ public class AdquisitionPropertyResponse implements IResponse {
         this.executedClosingDocuments = DocumentMapper.mapDocumentField(dto.getExecutedClosingDocuments());
 
         this.titleCompany = dto.getTitleCompany() != null ? new TitleCompanyAdquisitionPropertyResponse(dto.getTitleCompany()) : null;
+        this.seller = dto.getSeller() != null ? new SellerAdquisitionPropertyResponse(dto.getSeller()) : null;
 
         this.createdAt = dto.getCreatedAt();
         this.updatedAt = dto.getUpdatedAt();

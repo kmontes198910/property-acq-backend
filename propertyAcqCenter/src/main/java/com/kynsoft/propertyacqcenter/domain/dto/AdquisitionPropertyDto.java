@@ -1,5 +1,6 @@
 package com.kynsoft.propertyacqcenter.domain.dto;
 
+import com.kynsoft.propertyacqcenter.domain.dto.embedded.adquisitionProperty.AdquisitionSellerDto;
 import com.kynsoft.propertyacqcenter.domain.dto.embedded.adquisitionProperty.AdquisitionTitleCompanyDto;
 import java.time.LocalDate;
 import lombok.*;
@@ -64,4 +65,6 @@ public class AdquisitionPropertyDto {
     private String warrantyDeed;
     private String titleInsurance;
     private String executedClosingDocuments;
+
+    private AdquisitionSellerDto seller;
 }

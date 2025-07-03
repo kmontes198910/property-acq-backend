@@ -5,6 +5,7 @@ import com.kynsof.share.core.domain.response.PaginatedResponse;
 import com.kynsof.share.core.infrastructure.specifications.GenericSpecificationsBuilder;
 import com.kynsoft.propertyacqcenter.application.response.AdquisitionPropertyResponse;
 import com.kynsoft.propertyacqcenter.domain.dto.AdquisitionPropertyDto;
+import com.kynsoft.propertyacqcenter.domain.dto.embedded.adquisitionProperty.UpdateAdquisitionSellerDto;
 import com.kynsoft.propertyacqcenter.domain.dto.embedded.adquisitionProperty.UpdateAdquisitionTitleCompanyDto;
 import com.kynsoft.propertyacqcenter.domain.dto.exception.AddressNotFoundException;
 import com.kynsoft.propertyacqcenter.domain.dto.exception.NotDeleteException;
@@ -14,6 +15,7 @@ import com.kynsoft.propertyacqcenter.infrastructure.entity.AdquisitionProperty;
 import com.kynsoft.propertyacqcenter.infrastructure.entity.CompanyContact;
 import com.kynsoft.propertyacqcenter.infrastructure.entity.LegalEntity;
 import com.kynsoft.propertyacqcenter.infrastructure.entity.Property;
+import com.kynsoft.propertyacqcenter.infrastructure.entity.embedded.adquisitionProperty.AdquisitionSeller;
 import com.kynsoft.propertyacqcenter.infrastructure.entity.embedded.adquisitionProperty.AdquisitionTitleCompany;
 import com.kynsoft.propertyacqcenter.infrastructure.repository.command.AdquisitionPropertyWriteDataJPARepository;
 import com.kynsoft.propertyacqcenter.infrastructure.repository.query.AdquisitionPropertyReadDataJPARepository;
@@ -111,6 +113,39 @@ public class AdquisitionPropertyServiceImpl implements IAdquisitionPropertyServi
                 .builder()
                 .earnestMoneyDepositConfirmation(object.getEarnestMoneyDepositConfirmation())
                 .requestForEstoppelLetter(object.getRequestForEstoppelLetter())
+                .build());
+
+        update.setUpdatedAt(LocalDateTime.now());
+        repositoryCommand.save(update);
+    }
+
+    @Override
+    @Transactional
+    public void updateSeller(UpdateAdquisitionSellerDto object) {
+        AdquisitionProperty update = this.findByIdSimple(object.getIdAdquisition());
+
+        update.setSeller(AdquisitionSeller
+                .builder()
+                .fullName(object.getFullName())
+                .entityName(object.getEntityName())
+                .articlesOfIncorporation(object.getArticlesOfIncorporation())
+                .certificateOfGoodStanding(object.getCertificateOfGoodStanding())
+                .operatingAgreement(object.getOperatingAgreement())
+                .ownershipType(object.getOwnershipType())
+                .resolutionToSell(object.getResolutionToSell())
+                .contactEmail(object.getContactEmail())
+                .mobilePhone(object.getMobilePhone())
+                .mailingAddress(object.getMailingAddress())
+                .socialSecurityNumber(object.getSocialSecurityNumber())
+                .maritalStatus(object.getMaritalStatus())
+                .governmentId(object.getGovernmentId())
+                .w9Form(object.getW9Form())
+                .isForeignSeller(object.getIsForeignSeller())
+                .firptaAffidavit(object.getFirptaAffidavit())
+                .sellerWireAccountHolder(object.getWireAccountHolder())
+                .sellerWireAccountNumber(object.getWireAccountNumber())
+                .sellerWireRoutingNumber(object.getWireRoutingNumber())
+                .zelleContact(object.getZelleContact())
                 .build());
 
         update.setUpdatedAt(LocalDateTime.now());
