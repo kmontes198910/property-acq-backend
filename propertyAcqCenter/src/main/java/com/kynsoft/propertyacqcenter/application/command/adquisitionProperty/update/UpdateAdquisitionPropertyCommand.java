@@ -58,6 +58,18 @@ public class UpdateAdquisitionPropertyCommand implements ICommand {
     private CreateDocumentRequest titleInsurance;
     private CreateDocumentRequest executedClosingDocuments;
 
+    private String buyerFullLegalName;
+    private String buyerContactEmail;
+    private String buyerEntityName;
+    private String buyerMailingAddress;
+    private String buyerMobilePhoneNumber;
+    private String hoa4050certificationStatus;
+    private String hoaValidatorContactName;
+    private String hoaValidatorEmail;
+    private String hoaValidatorPhoneNumber;
+    private String closingCountdownClock;
+    private LocalDate contractClosingDate;
+
     public UpdateAdquisitionPropertyCommand(UUID id, UUID buyer, String property, UUID contact, String buyerNameAndYearVehicle,
                                             String buyerLicenseTagNo,
                                             LocalDate dateAndTimeForInspections, String instructionsForAccess, LocalDate hoaBuyerInterviewDate,
@@ -75,7 +87,10 @@ public class UpdateAdquisitionPropertyCommand implements ICommand {
                                             CreateDocumentRequest assignmentOfContract, CreateDocumentRequest ownerExecutedContract,
                                             CreateDocumentRequest contractAddendum, CreateDocumentRequest finalSettlementStatement,
                                             CreateDocumentRequest bankStatementRequest, CreateDocumentRequest warrantyDeed, CreateDocumentRequest titleInsurance,
-                                            CreateDocumentRequest executedClosingDocuments) {
+                                            CreateDocumentRequest executedClosingDocuments, String buyerFullLegalName, String buyerContactEmail,
+                                            String buyerEntityName, String buyerMailingAddress, String buyerMobilePhoneNumber, String hoa4050certificationStatus,
+                                            String hoaValidatorContactName, String hoaValidatorEmail, String hoaValidatorPhoneNumber,
+                                            String closingCountdownClock, LocalDate contractClosingDate) {
         this.id = id;
         this.buyer = buyer;
         this.property = property;
@@ -118,6 +133,17 @@ public class UpdateAdquisitionPropertyCommand implements ICommand {
         this.warrantyDeed = warrantyDeed;
         this.titleInsurance = titleInsurance;
         this.executedClosingDocuments = executedClosingDocuments;
+        this.buyerFullLegalName = buyerFullLegalName;
+        this.buyerContactEmail = buyerContactEmail;
+        this.buyerEntityName = buyerEntityName;
+        this.buyerMailingAddress = buyerMailingAddress;
+        this.buyerMobilePhoneNumber = buyerMobilePhoneNumber;
+        this.hoa4050certificationStatus = hoa4050certificationStatus;
+        this.hoaValidatorContactName = hoaValidatorContactName;
+        this.hoaValidatorEmail = hoaValidatorEmail;
+        this.hoaValidatorPhoneNumber = hoaValidatorPhoneNumber;
+        this.closingCountdownClock = closingCountdownClock;
+        this.contractClosingDate = contractClosingDate;
     }
 
     public static UpdateAdquisitionPropertyCommand fromRequest(UpdateAdquisitionPropertyRequest request, UUID id) {
@@ -163,7 +189,18 @@ public class UpdateAdquisitionPropertyCommand implements ICommand {
                 request.getBankStatementRequest(),
                 request.getWarrantyDeed(),
                 request.getTitleInsurance(),
-                request.getExecutedClosingDocuments()
+                request.getExecutedClosingDocuments(),
+                request.getBuyerFullLegalName(),
+                request.getBuyerContactEmail(),
+                request.getBuyerEntityName(),
+                request.getBuyerMailingAddress(),
+                request.getBuyerMobilePhoneNumber(),
+                request.getHoa4050certificationStatus(),
+                request.getHoaValidatorContactName(),
+                request.getHoaValidatorEmail(),
+                request.getHoaValidatorPhoneNumber(),
+                request.getClosingCountdownClock(),
+                request.getContractClosingDate()
         );
     }
 

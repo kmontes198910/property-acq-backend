@@ -50,4 +50,16 @@ public class CreateAdquisitionPropertyRequest {
     private CreateDocumentRequest warrantyDeed;
     private CreateDocumentRequest titleInsurance;
     private CreateDocumentRequest executedClosingDocuments;
+
+    private String buyerFullLegalName;
+    private String buyerContactEmail;
+    private String buyerEntityName;
+    private String buyerMailingAddress;
+    private String buyerMobilePhoneNumber;
+    private String hoa4050certificationStatus;
+    private String hoaValidatorContactName;
+    private String hoaValidatorEmail;
+    private String hoaValidatorPhoneNumber;
+    private String closingCountdownClock;
+    private LocalDate contractClosingDate;
 }

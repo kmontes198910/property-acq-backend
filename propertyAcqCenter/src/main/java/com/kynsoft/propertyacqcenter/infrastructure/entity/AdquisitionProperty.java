@@ -175,6 +175,39 @@ public class AdquisitionProperty {
     @Column(name = "updated_by")
     private UUID updatedBy;
 
+    @Column(name = "buyer_full_legal_name", nullable = true)
+    private String buyerFullLegalName;
+
+    @Column(name = "buyer_contact_email", nullable = true)
+    private String buyerContactEmail;
+
+    @Column(name = "buyer_entity_name", nullable = true)
+    private String buyerEntityName;
+
+    @Column(name = "buyer_mailing_address", nullable = true)
+    private String buyerMailingAddress;
+
+    @Column(name = "buyer_mobile_phone_number", nullable = true)
+    private String buyerMobilePhoneNumber;
+
+    @Column(name = "certification_status", nullable = true)
+    private String hoa4050certificationStatus;
+
+    @Column(name = "hoa_validator_contact_name", nullable = true)
+    private String hoaValidatorContactName;
+
+    @Column(name = "hoa_validator_email", nullable = true)
+    private String hoaValidatorEmail;
+
+    @Column(name = "hoa_validator_phone_number", nullable = true)
+    private String hoaValidatorPhoneNumber;
+
+    @Column(name = "closing_countdown_clock", nullable = true)
+    private String closingCountdownClock;
+
+    @Column(name = "contract_closing_date", nullable = true)
+    private LocalDate contractClosingDate;
+
     public AdquisitionProperty(AdquisitionPropertyDto dto) {
         this.id = dto.getId() != null ? dto.getId() : UUID.randomUUID();
         this.buyerNameAndYearVehicle = dto.getBuyerNameAndYearVehicle();
@@ -226,6 +259,18 @@ public class AdquisitionProperty {
         this.warrantyDeed = dto.getWarrantyDeed();
         this.titleInsurance = dto.getTitleInsurance();
         this.executedClosingDocuments = dto.getExecutedClosingDocuments();
+
+        this.buyerFullLegalName = dto.getBuyerFullLegalName();
+        this.buyerContactEmail = dto.getBuyerContactEmail();
+        this.buyerEntityName = dto.getBuyerEntityName();
+        this.buyerMailingAddress = dto.getBuyerMailingAddress();
+        this.buyerMobilePhoneNumber = dto.getBuyerMobilePhoneNumber();
+        this.hoa4050certificationStatus = dto.getHoa4050certificationStatus();
+        this.hoaValidatorContactName = dto.getHoaValidatorContactName();
+        this.hoaValidatorEmail = dto.getHoaValidatorEmail();
+        this.hoaValidatorPhoneNumber = dto.getHoaValidatorPhoneNumber();
+        this.closingCountdownClock = dto.getClosingCountdownClock();
+        this.contractClosingDate = dto.getContractClosingDate();
     }
 
     public AdquisitionPropertyDto toAggregate() {
@@ -272,18 +317,29 @@ public class AdquisitionProperty {
                 .warrantyDeed(warrantyDeed)
                 .titleInsurance(titleInsurance)
                 .executedClosingDocuments(executedClosingDocuments)
-
                 .titleCompany(titleCompany != null ? AdquisitionTitleCompanyDto
                         .builder()
                         .earnestMoneyDepositConfirmation(titleCompany.getEarnestMoneyDepositConfirmation())
                         .requestForEstoppelLetter(titleCompany.getRequestForEstoppelLetter())
                         .build() : null)
-
                 .seller(seller != null ? seller.toAggregate() : null)
                 .createdAt(this.createdAt)
                 .updatedAt(this.updatedAt)
                 .createdBy(this.createdBy)
                 .updatedBy(this.updatedBy)
+
+                .buyerFullLegalName(buyerFullLegalName)
+                .buyerContactEmail(buyerContactEmail)
+                .buyerEntityName(buyerEntityName)
+                .buyerMailingAddress(buyerMailingAddress)
+                .buyerMobilePhoneNumber(buyerMobilePhoneNumber)
+                .hoa4050certificationStatus(hoa4050certificationStatus)
+                .hoaValidatorContactName(hoaValidatorContactName)
+                .hoaValidatorEmail(hoaValidatorEmail)
+                .hoaValidatorPhoneNumber(hoaValidatorPhoneNumber)
+                .closingCountdownClock(closingCountdownClock)
+                .contractClosingDate(contractClosingDate)
+
                 .build();
     }
 

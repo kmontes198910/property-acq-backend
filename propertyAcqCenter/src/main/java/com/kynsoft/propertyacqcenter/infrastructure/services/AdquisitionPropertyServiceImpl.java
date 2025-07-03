@@ -39,7 +39,7 @@ public class AdquisitionPropertyServiceImpl implements IAdquisitionPropertyServi
     private final AdquisitionPropertyWriteDataJPARepository repositoryCommand;
 
     public AdquisitionPropertyServiceImpl(AdquisitionPropertyReadDataJPARepository repositoryQuery,
-                                          AdquisitionPropertyWriteDataJPARepository repositoryCommand) {
+            AdquisitionPropertyWriteDataJPARepository repositoryCommand) {
         this.repositoryQuery = repositoryQuery;
         this.repositoryCommand = repositoryCommand;
     }
@@ -99,6 +99,18 @@ public class AdquisitionPropertyServiceImpl implements IAdquisitionPropertyServi
         update.setWarrantyDeed(object.getWarrantyDeed());
         update.setTitleInsurance(object.getTitleInsurance());
         update.setExecutedClosingDocuments(object.getExecutedClosingDocuments());
+
+        update.setBuyerFullLegalName(object.getBuyerFullLegalName());
+        update.setBuyerContactEmail(object.getBuyerContactEmail());
+        update.setBuyerEntityName(object.getBuyerEntityName());
+        update.setBuyerMailingAddress(object.getBuyerMailingAddress());
+        update.setBuyerMobilePhoneNumber(object.getBuyerMobilePhoneNumber());
+        update.setHoa4050certificationStatus(object.getHoa4050certificationStatus());
+        update.setHoaValidatorContactName(object.getHoaValidatorContactName());
+        update.setHoaValidatorEmail(object.getHoaValidatorEmail());
+        update.setHoaValidatorPhoneNumber(object.getHoaValidatorPhoneNumber());
+        update.setClosingCountdownClock(object.getClosingCountdownClock());
+        update.setContractClosingDate(object.getContractClosingDate());
 
         update.setUpdatedAt(LocalDateTime.now());
         repositoryCommand.save(update);

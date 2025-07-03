@@ -81,6 +81,18 @@ public class CreateAdquisitionPropertyCommandHandler implements ICommandHandler<
                 .titleInsurance(command.getTitleInsurance() != null ? command.getTitleInsurance().getFilePath() + "|" + command.getTitleInsurance().getFileName() : null)
                 .executedClosingDocuments(command.getExecutedClosingDocuments() != null ? command.getExecutedClosingDocuments().getFilePath() + "|" + command.getExecutedClosingDocuments().getFileName() : null)
 
+                .buyerFullLegalName(command.getBuyerFullLegalName())
+                .buyerContactEmail(command.getBuyerContactEmail())
+                .buyerEntityName(command.getBuyerEntityName())
+                .buyerMailingAddress(command.getBuyerMailingAddress())
+                .buyerMobilePhoneNumber(command.getBuyerMobilePhoneNumber())
+                .hoa4050certificationStatus(command.getHoa4050certificationStatus())
+                .hoaValidatorContactName(command.getHoaValidatorContactName())
+                .hoaValidatorEmail(command.getHoaValidatorEmail())
+                .hoaValidatorPhoneNumber(command.getHoaValidatorPhoneNumber())
+                .closingCountdownClock(command.getClosingCountdownClock())
+                .contractClosingDate(command.getContractClosingDate())
+
                 .build()
         );
     }
