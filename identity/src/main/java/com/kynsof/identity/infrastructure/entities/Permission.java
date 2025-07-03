@@ -64,7 +64,7 @@ public class Permission {
                 this.id,
                 this.code,
                 this.description,
-                this.module != null ? this.module.toAggregate() : null,
+                this.module != null ? this.module.toAggregateSimple() : null,
                 this.status,
                 this.action,
                 createdAt
