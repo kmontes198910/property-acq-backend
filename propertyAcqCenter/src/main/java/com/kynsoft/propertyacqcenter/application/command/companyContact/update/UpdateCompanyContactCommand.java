@@ -27,11 +27,12 @@ public class UpdateCompanyContactCommand implements ICommand {
     private LocalDate birthDate;
 
     private Boolean isEmployee;
+    private String mailingAddress;
 
     public UpdateCompanyContactCommand(UUID id, UUID company, String firstName, String lastName, 
                                        String email, String phoneNumber, String position, DepartmentType department, 
                                        String notes, Boolean isActive, String personalEmail,
-                                       LocalDate birthDate, Boolean isEmployee) {
+                                       LocalDate birthDate, Boolean isEmployee, String mailingAddress) {
         this.id = id;
         this.birthDate = birthDate;
         this.company = company;
@@ -45,6 +46,7 @@ public class UpdateCompanyContactCommand implements ICommand {
         this.isActive = isActive;
         this.personalEmail = personalEmail;
         this.isEmployee = isEmployee;
+        this.mailingAddress = mailingAddress;
     }
 
     public static UpdateCompanyContactCommand fromRequest(UpdateCompanyContactRequest request, UUID id) {
@@ -61,7 +63,8 @@ public class UpdateCompanyContactCommand implements ICommand {
                 request.getIsActive(),
                 request.getPersonalEmail(),
                 request.getBirthDate(),
-                request.getIsEmployee()
+                request.getIsEmployee(),
+                request.getMailingAddress()
         );
     }
 

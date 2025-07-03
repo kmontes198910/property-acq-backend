@@ -87,6 +87,7 @@ public class CreateCompanyContactCommandHandler implements ICommandHandler<Creat
                     .phoneNumber(command.getPhoneNumber())
                     .position(command.getPosition())
                     .personalEmail(command.getPersonalEmail())
+                    .mailingAddress(command.getMailingAddress())
                     .build()
             );
         } catch (Exception exception) {

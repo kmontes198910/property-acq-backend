@@ -22,4 +22,5 @@ public class UpdateCompanyContactRequest {
     private String personalEmail;
     private LocalDate birthDate;
     private Boolean isEmployee;
+    private String mailingAddress;
 }

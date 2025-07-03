@@ -46,6 +46,9 @@ public class CompanyContact {
     @Column(name = "position")
     private String position;
 
+    @Column(name = "mailing_address")
+    private String mailingAddress;
+
     @Column(name = "birth_date")
     private LocalDate birthDate;
 
@@ -82,6 +85,7 @@ public class CompanyContact {
         this.createdAt = dto.getCreatedAt();
         this.updatedAt = dto.getUpdatedAt();
         this.personalEmail = dto.getPersonalEmail();
+        this.mailingAddress = dto.getMailingAddress();
     }
 
     public CompanyContactDto toAggregateSimple() {
@@ -100,6 +104,7 @@ public class CompanyContact {
                 .createdAt(this.createdAt)
                 .updatedAt(this.updatedAt)
                 .personalEmail(personalEmail)
+                .mailingAddress(mailingAddress)
                 .build();
     }
 
@@ -119,6 +124,7 @@ public class CompanyContact {
                 .updatedAt(this.updatedAt)
                 .company(company != null ? this.company.toAggregateBasic() : null)
                 .personalEmail(personalEmail)
+                .mailingAddress(mailingAddress)
                 .build();
     }
 
@@ -135,6 +141,7 @@ public class CompanyContact {
                 .notes(notes)
                 .personalEmail(personalEmail)
                 .company(company != null ? this.company.toAggregateBasic() : null)
+                .mailingAddress(mailingAddress)
                 .build();
     }
 

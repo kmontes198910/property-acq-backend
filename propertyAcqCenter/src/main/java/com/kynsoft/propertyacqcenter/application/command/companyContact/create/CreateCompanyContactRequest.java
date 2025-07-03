@@ -22,4 +22,5 @@ public class CreateCompanyContactRequest {
     private String personalEmail;
     private LocalDate birthDate;
     private Boolean isEmployee;
+    private String mailingAddress;
 }
