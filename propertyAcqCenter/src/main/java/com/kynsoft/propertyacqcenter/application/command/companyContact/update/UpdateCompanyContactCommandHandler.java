@@ -69,6 +69,7 @@ public class UpdateCompanyContactCommandHandler implements ICommandHandler<Updat
                     .position(command.getPosition())
                     .personalEmail(command.getPersonalEmail())
                     .birthDate(command.getBirthDate())
+                    .mailingAddress(command.getMailingAddress())
                     .build()
             );
         } catch (Exception exception) {

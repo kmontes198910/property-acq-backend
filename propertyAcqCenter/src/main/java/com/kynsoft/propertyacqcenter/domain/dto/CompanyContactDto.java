@@ -26,6 +26,7 @@ public class CompanyContactDto {
     private String notes;
     private Boolean isActive;
     private LocalDate birthDate;
+    private String mailingAddress;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 }
