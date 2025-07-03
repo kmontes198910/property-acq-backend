@@ -85,6 +85,7 @@ public class PropertiesResponse implements IResponse {
     private String hoaName;
     private String hoaType;
     private String hoaFeeFrequency;
+    private LocalDateTime clockCurrentDate;
     private List<PropertyTeamResponse> teamAssignments;
 
     public PropertiesResponse(PropertyDto dto) {
@@ -151,6 +152,7 @@ public class PropertiesResponse implements IResponse {
         this.hoaType = dto.getHoaType();
         this.hoaFeeFrequency = dto.getHoaFeeFrequency();
         this.teamAssignments = dto.getPropertyTeams() != null ? dto.getPropertyTeams().stream().map(PropertyTeamResponse::new).collect(Collectors.toList()) : null;
+        this.clockCurrentDate = LocalDateTime.now();
     }
 
 }
