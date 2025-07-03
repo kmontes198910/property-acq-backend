@@ -56,8 +56,27 @@ public class AdquisitionPropertyResponse implements IResponse {
     private AdquisitionDocumentResponse titleInsurance;
     private AdquisitionDocumentResponse executedClosingDocuments;
 
-    private TitleCompanyAdquisitionPropertyResponse titleCompany;
-    private SellerAdquisitionPropertyResponse seller;
+    private String sellerFullName;
+    private String sellerEntityName;
+    private AdquisitionDocumentResponse sellerArticlesOfIncorporation;
+    private AdquisitionDocumentResponse sellerCertificateOfGoodStanding;
+    private AdquisitionDocumentResponse sellerOperatingAgreement;
+    private String sellerOwnershipType;
+    private AdquisitionDocumentResponse sellerResolutionToSell;
+
+    private String sellerSocialSecurityNumber;
+    private String sellerMaritalStatus;
+    private AdquisitionDocumentResponse sellerGovernmentId;
+    private AdquisitionDocumentResponse sellerW9Form;
+    private Boolean sellerForeignSeller;
+    private AdquisitionDocumentResponse sellerFirptaAffidavit;
+    private String sellerWireAccountHolder;
+    private String sellerWireAccountNumber;
+    private String sellerWireRoutingNumber;
+    private String zelleContact;
+
+    private LocalDate titleCompanyRequestForEstoppelLetter;
+    private AdquisitionDocumentResponse titleCompanyEarnestMoneyDepositConfirmation;
 
     private LegalEntityBasicResponse buyer;
     private PropertiesBasicResponse property;
@@ -115,9 +134,28 @@ public class AdquisitionPropertyResponse implements IResponse {
         this.titleInsurance = DocumentMapper.mapDocumentField(dto.getTitleInsurance());
         this.executedClosingDocuments = DocumentMapper.mapDocumentField(dto.getExecutedClosingDocuments());
 
-        this.titleCompany = dto.getTitleCompany() != null ? new TitleCompanyAdquisitionPropertyResponse(dto.getTitleCompany()) : null;
-        this.seller = dto.getSeller() != null ? new SellerAdquisitionPropertyResponse(dto.getSeller()) : null;
+        this.sellerFullName = dto.getSellerFullName();
+        this.sellerEntityName = dto.getSellerEntityName();
+        this.sellerArticlesOfIncorporation = DocumentMapper.mapDocumentField(dto.getSellerArticlesOfIncorporation());
+        this.sellerCertificateOfGoodStanding = DocumentMapper.mapDocumentField(dto.getSellerCertificateOfGoodStanding());
+        this.sellerOperatingAgreement = DocumentMapper.mapDocumentField(dto.getSellerOperatingAgreement());
+        this.sellerOwnershipType = dto.getSellerOwnershipType();
+        this.sellerResolutionToSell = DocumentMapper.mapDocumentField(dto.getSellerResolutionToSell());
+        this.sellerSocialSecurityNumber = dto.getSellerSocialSecurityNumber();
+        this.sellerMaritalStatus = dto.getSellerMaritalStatus();
 
+        this.sellerGovernmentId = DocumentMapper.mapDocumentField(dto.getSellerGovernmentId());
+        this.sellerW9Form = DocumentMapper.mapDocumentField(dto.getSellerW9Form());
+        this.sellerFirptaAffidavit = DocumentMapper.mapDocumentField(dto.getSellerFirptaAffidavit());
+        this.sellerForeignSeller = dto.getSellerForeignSeller();
+        this.sellerWireAccountHolder = dto.getSellerWireAccountHolder();
+        this.sellerWireAccountNumber = dto.getSellerWireAccountNumber();
+        this.sellerWireRoutingNumber = dto.getSellerWireRoutingNumber();
+        this.zelleContact = dto.getZelleContact();
+
+        this.titleCompanyRequestForEstoppelLetter = dto.getTitleCompanyRequestForEstoppelLetter();
+        this.titleCompanyEarnestMoneyDepositConfirmation = DocumentMapper.mapDocumentField(dto.getTitleCompanyEarnestMoneyDepositConfirmation());
+        
         this.createdAt = dto.getCreatedAt();
         this.updatedAt = dto.getUpdatedAt();
         this.createdBy = dto.getCreatedBy();

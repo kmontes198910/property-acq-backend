@@ -1,7 +1,5 @@
 package com.kynsoft.propertyacqcenter.domain.dto;
 
-import com.kynsoft.propertyacqcenter.domain.dto.embedded.adquisitionProperty.AdquisitionSellerDto;
-import com.kynsoft.propertyacqcenter.domain.dto.embedded.adquisitionProperty.AdquisitionTitleCompanyDto;
 import java.time.LocalDate;
 import lombok.*;
 
@@ -42,7 +40,6 @@ public class AdquisitionPropertyDto {
     private UUID createdBy;
     private UUID updatedBy;
 
-    private AdquisitionTitleCompanyDto titleCompany;
     private String uploadGovernmentIssuedId;
     private String hoaApplicationForm;
     private String hoaApplicationUpload;
@@ -66,8 +63,6 @@ public class AdquisitionPropertyDto {
     private String titleInsurance;
     private String executedClosingDocuments;
 
-    private AdquisitionSellerDto seller;
-
     private String buyerFullLegalName;
     private String buyerContactEmail;
     private String buyerEntityName;
@@ -80,4 +75,32 @@ public class AdquisitionPropertyDto {
     private String closingCountdownClock;
     private LocalDate contractClosingDate;
 
+        //Seller
+    private String sellerFullName;//Sellers, Wholesaler, Real Estate Agent, Title Co.
+    private String sellerEntityName;//Sellers, Wholesaler, Real Estate Agent
+    private String sellerArticlesOfIncorporation;//Sellers, Wholesaler, Real Estate Agent, Title Co.
+    private String sellerCertificateOfGoodStanding;//Sellers, Wholesaler, Real Estate Agent, Title Co.
+    private String sellerOperatingAgreement;//Sellers, Wholesaler, Real Estate Agent, Title Co.
+    private String sellerOwnershipType;//Sellers, Wholesaler, Real Estate Agent, Title Co.
+    private String sellerResolutionToSell;
+
+    // Información personal
+    private String sellerSocialSecurityNumber;
+    private String sellerMaritalStatus;
+    private String sellerGovernmentId;
+    private String sellerW9Form;
+
+    // Información FIRPTA
+    private Boolean sellerForeignSeller;
+    private String sellerFirptaAffidavit;
+
+    // Información bancaria
+    private String sellerWireAccountHolder;
+    private String sellerWireAccountNumber;
+    private String sellerWireRoutingNumber;
+    private String zelleContact;
+
+    //Title Company
+    private LocalDate titleCompanyRequestForEstoppelLetter;
+    private String titleCompanyEarnestMoneyDepositConfirmation;
 }

@@ -66,4 +66,34 @@ public class UpdateAdquisitionPropertyRequest {
     private String hoaValidatorPhoneNumber;
     private String closingCountdownClock;
     private LocalDate contractClosingDate;
+
+    //Seller
+    private String sellerFullName;//Sellers, Wholesaler, Real Estate Agent, Title Co.
+    private String sellerEntityName;//Sellers, Wholesaler, Real Estate Agent
+    private CreateDocumentRequest sellerArticlesOfIncorporation;//Sellers, Wholesaler, Real Estate Agent, Title Co.
+    private CreateDocumentRequest sellerCertificateOfGoodStanding;//Sellers, Wholesaler, Real Estate Agent, Title Co.
+    private CreateDocumentRequest sellerOperatingAgreement;//Sellers, Wholesaler, Real Estate Agent, Title Co.
+    private String sellerOwnershipType;//Sellers, Wholesaler, Real Estate Agent, Title Co.
+    private CreateDocumentRequest sellerResolutionToSell;
+
+    // Información personal
+    private String sellerSocialSecurityNumber;
+    private String sellerMaritalStatus;
+    private CreateDocumentRequest sellerGovernmentId;
+    private CreateDocumentRequest sellerW9Form;
+
+    // Información FIRPTA
+    private Boolean sellerForeignSeller;
+    private CreateDocumentRequest sellerFirptaAffidavit;
+
+    // Información bancaria
+    private String sellerWireAccountHolder;
+    private String sellerWireAccountNumber;
+    private String sellerWireRoutingNumber;
+    private String zelleContact;
+
+    //Title Company
+    private LocalDate titleCompanyRequestForEstoppelLetter;
+    private CreateDocumentRequest titleCompanyEarnestMoneyDepositConfirmation;
+
 }

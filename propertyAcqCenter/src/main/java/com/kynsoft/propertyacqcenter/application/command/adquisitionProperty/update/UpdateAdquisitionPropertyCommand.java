@@ -70,6 +70,35 @@ public class UpdateAdquisitionPropertyCommand implements ICommand {
     private String closingCountdownClock;
     private LocalDate contractClosingDate;
 
+    //Seller
+    private String sellerFullName;//Sellers, Wholesaler, Real Estate Agent, Title Co.
+    private String sellerEntityName;//Sellers, Wholesaler, Real Estate Agent
+    private CreateDocumentRequest sellerArticlesOfIncorporation;//Sellers, Wholesaler, Real Estate Agent, Title Co.
+    private CreateDocumentRequest sellerCertificateOfGoodStanding;//Sellers, Wholesaler, Real Estate Agent, Title Co.
+    private CreateDocumentRequest sellerOperatingAgreement;//Sellers, Wholesaler, Real Estate Agent, Title Co.
+    private String sellerOwnershipType;//Sellers, Wholesaler, Real Estate Agent, Title Co.
+    private CreateDocumentRequest sellerResolutionToSell;
+
+    // Información personal
+    private String sellerSocialSecurityNumber;
+    private String sellerMaritalStatus;
+    private CreateDocumentRequest sellerGovernmentId;
+    private CreateDocumentRequest sellerW9Form;
+
+    // Información FIRPTA
+    private Boolean sellerForeignSeller;
+    private CreateDocumentRequest sellerFirptaAffidavit;
+
+    // Información bancaria
+    private String sellerWireAccountHolder;
+    private String sellerWireAccountNumber;
+    private String sellerWireRoutingNumber;
+    private String zelleContact;
+
+    //Title Company
+    private LocalDate titleCompanyRequestForEstoppelLetter;
+    private CreateDocumentRequest titleCompanyEarnestMoneyDepositConfirmation;
+
     public UpdateAdquisitionPropertyCommand(UUID id, UUID buyer, String property, UUID contact, String buyerNameAndYearVehicle,
                                             String buyerLicenseTagNo,
                                             LocalDate dateAndTimeForInspections, String instructionsForAccess, LocalDate hoaBuyerInterviewDate,
@@ -90,7 +119,14 @@ public class UpdateAdquisitionPropertyCommand implements ICommand {
                                             CreateDocumentRequest executedClosingDocuments, String buyerFullLegalName, String buyerContactEmail,
                                             String buyerEntityName, String buyerMailingAddress, String buyerMobilePhoneNumber, String hoa4050certificationStatus,
                                             String hoaValidatorContactName, String hoaValidatorEmail, String hoaValidatorPhoneNumber,
-                                            String closingCountdownClock, LocalDate contractClosingDate) {
+                                            String closingCountdownClock, LocalDate contractClosingDate,
+                                            String sellerFullName, String sellerEntityName, CreateDocumentRequest sellerArticlesOfIncorporation,
+                                            CreateDocumentRequest sellerCertificateOfGoodStanding, CreateDocumentRequest sellerOperatingAgreement,
+                                            String sellerOwnershipType, CreateDocumentRequest sellerResolutionToSell, String sellerSocialSecurityNumber,
+                                            String sellerMaritalStatus, CreateDocumentRequest sellerGovernmentId, CreateDocumentRequest sellerW9Form,
+                                            Boolean sellerForeignSeller, CreateDocumentRequest sellerFirptaAffidavit, String sellerWireAccountHolder,
+                                            String sellerWireAccountNumber, String sellerWireRoutingNumber, String zelleContact, LocalDate titleCompanyRequestForEstoppelLetter,
+                                            CreateDocumentRequest titleCompanyEarnestMoneyDepositConfirmation) {
         this.id = id;
         this.buyer = buyer;
         this.property = property;
@@ -144,6 +180,25 @@ public class UpdateAdquisitionPropertyCommand implements ICommand {
         this.hoaValidatorPhoneNumber = hoaValidatorPhoneNumber;
         this.closingCountdownClock = closingCountdownClock;
         this.contractClosingDate = contractClosingDate;
+        this.sellerFullName = sellerFullName;
+        this.sellerEntityName = sellerEntityName;
+        this.sellerArticlesOfIncorporation = sellerArticlesOfIncorporation;
+        this.sellerCertificateOfGoodStanding = sellerCertificateOfGoodStanding;
+        this.sellerOperatingAgreement = sellerOperatingAgreement;
+        this.sellerOwnershipType = sellerOwnershipType;
+        this.sellerResolutionToSell = sellerResolutionToSell;
+        this.sellerSocialSecurityNumber = sellerSocialSecurityNumber;
+        this.sellerMaritalStatus = sellerMaritalStatus;
+        this.sellerGovernmentId = sellerGovernmentId;
+        this.sellerW9Form = sellerW9Form;
+        this.sellerForeignSeller = sellerForeignSeller;
+        this.sellerFirptaAffidavit = sellerFirptaAffidavit;
+        this.sellerWireAccountHolder = sellerWireAccountHolder;
+        this.sellerWireAccountNumber = sellerWireAccountNumber;
+        this.sellerWireRoutingNumber = sellerWireRoutingNumber;
+        this.zelleContact = zelleContact;
+        this.titleCompanyRequestForEstoppelLetter = titleCompanyRequestForEstoppelLetter;
+        this.titleCompanyEarnestMoneyDepositConfirmation = titleCompanyEarnestMoneyDepositConfirmation;
     }
 
     public static UpdateAdquisitionPropertyCommand fromRequest(UpdateAdquisitionPropertyRequest request, UUID id) {
@@ -200,7 +255,26 @@ public class UpdateAdquisitionPropertyCommand implements ICommand {
                 request.getHoaValidatorEmail(),
                 request.getHoaValidatorPhoneNumber(),
                 request.getClosingCountdownClock(),
-                request.getContractClosingDate()
+                request.getContractClosingDate(),
+                request.getSellerFullName(),
+                request.getSellerEntityName(),
+                request.getSellerArticlesOfIncorporation(),
+                request.getSellerCertificateOfGoodStanding(),
+                request.getSellerOperatingAgreement(),
+                request.getSellerOwnershipType(),
+                request.getSellerResolutionToSell(),
+                request.getSellerSocialSecurityNumber(),
+                request.getSellerMaritalStatus(),
+                request.getSellerGovernmentId(),
+                request.getSellerW9Form(),
+                request.getSellerForeignSeller(),
+                request.getSellerFirptaAffidavit(),
+                request.getSellerWireAccountHolder(),
+                request.getSellerWireAccountNumber(),
+                request.getSellerWireRoutingNumber(),
+                request.getZelleContact(),
+                request.getTitleCompanyRequestForEstoppelLetter(),
+                request.getTitleCompanyEarnestMoneyDepositConfirmation()
         );
     }
 
