@@ -67,7 +67,7 @@ public class AdquisitionPropertyResponse implements IResponse {
     private UUID createdBy;
     private UUID updatedBy;
 
-    private LocalDateTime closingCountdownClock;
+    private LocalDateTime clockCurrentDate;
 
     public AdquisitionPropertyResponse(AdquisitionPropertyDto dto) {
         this.id = dto.getId();
@@ -122,7 +122,7 @@ public class AdquisitionPropertyResponse implements IResponse {
         this.updatedAt = dto.getUpdatedAt();
         this.createdBy = dto.getCreatedBy();
         this.updatedBy = dto.getUpdatedBy();
-        this.closingCountdownClock = LocalDateTime.now();
+        this.clockCurrentDate = LocalDateTime.now();
     }
 
 }
