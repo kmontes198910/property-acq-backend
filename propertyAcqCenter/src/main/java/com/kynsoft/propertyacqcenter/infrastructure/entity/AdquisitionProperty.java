@@ -2,6 +2,7 @@ package com.kynsoft.propertyacqcenter.infrastructure.entity;
 
 import com.kynsoft.propertyacqcenter.domain.dto.AdquisitionPropertyDto;
 import com.kynsoft.propertyacqcenter.domain.dto.embedded.adquisitionProperty.AdquisitionTitleCompanyDto;
+import com.kynsoft.propertyacqcenter.infrastructure.entity.embedded.adquisitionProperty.AdquisitionSeller;
 import com.kynsoft.propertyacqcenter.infrastructure.entity.embedded.adquisitionProperty.AdquisitionTitleCompany;
 import jakarta.persistence.*;
 import java.time.LocalDate;
@@ -157,6 +158,9 @@ public class AdquisitionProperty {
     @Embedded
     private AdquisitionTitleCompany titleCompany;
 
+    @Embedded
+    private AdquisitionSeller seller;
+
     @CreationTimestamp
     @Column(name = "created_at", updatable = false)
     private LocalDateTime createdAt;
@@ -195,6 +199,7 @@ public class AdquisitionProperty {
         this.waterSewerSetupConfirmation = dto.getWaterSewerSetupConfirmation();
 
         this.titleCompany = dto.getTitleCompany() != null ? new AdquisitionTitleCompany(dto.getTitleCompany()) : null;
+        this.seller = dto.getSeller() != null ? new AdquisitionSeller(dto.getSeller()) : null;
 
         this.createdBy = dto.getCreatedBy();
         this.updatedBy = dto.getUpdatedBy();
@@ -274,6 +279,7 @@ public class AdquisitionProperty {
                         .requestForEstoppelLetter(titleCompany.getRequestForEstoppelLetter())
                         .build() : null)
 
+                .seller(seller != null ? seller.toAggregate() : null)
                 .createdAt(this.createdAt)
                 .updatedAt(this.updatedAt)
                 .createdBy(this.createdBy)

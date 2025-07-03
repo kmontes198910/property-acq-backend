@@ -3,6 +3,7 @@ package com.kynsoft.propertyacqcenter.domain.services;
 import com.kynsof.share.core.domain.request.FilterCriteria;
 import com.kynsof.share.core.domain.response.PaginatedResponse;
 import com.kynsoft.propertyacqcenter.domain.dto.AdquisitionPropertyDto;
+import com.kynsoft.propertyacqcenter.domain.dto.embedded.adquisitionProperty.UpdateAdquisitionSellerDto;
 import com.kynsoft.propertyacqcenter.domain.dto.embedded.adquisitionProperty.UpdateAdquisitionTitleCompanyDto;
 import org.springframework.data.domain.Pageable;
 
@@ -25,4 +26,6 @@ public interface IAdquisitionPropertyService {
     void updateTitleCompany(UpdateAdquisitionTitleCompanyDto object);
 
     boolean existsByPropertyId(String propertyId);
+
+    void updateSeller(UpdateAdquisitionSellerDto object);
 }
