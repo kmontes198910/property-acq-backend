@@ -30,8 +30,7 @@ public class PermissionResponse implements IResponse {
         this.id = response.getId();
         this.code = response.getCode();
         this.description = response.getDescription();
-        this.module = new ModuleResponse(response.getModule().getId(),
-                response.getModule().getName());
+        this.module = response.getModule() != null ? new ModuleResponse(response.getModule().getId(), response.getModule().getName()) : null;
         this.status = response.getStatus();
         this.action = response.getAction();
         this.createdAt = response.getCreatedAt();

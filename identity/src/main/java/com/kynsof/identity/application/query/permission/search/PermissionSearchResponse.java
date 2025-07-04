@@ -30,7 +30,7 @@ public class PermissionSearchResponse implements IResponse {
         this.description = response.getDescription();
         this.status = response.getStatus();
         this.action = response.getAction();
-        this.moduleName = response.getModule().getName();
+        this.moduleName = response.getModule() != null ? response.getModule().getName() : null;
         this.createdAt = response.getCreatedAt().toLocalDate();
     }
 

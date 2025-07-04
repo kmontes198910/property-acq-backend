@@ -10,7 +10,6 @@ import com.kynsof.identity.infrastructure.services.rabbitMq.eventPublisher.Event
 import com.kynsof.share.core.domain.RulesChecker;
 import com.kynsof.share.core.domain.bus.command.ICommandHandler;
 import com.kynsof.share.core.domain.rules.ValidateObjectNotNullRule;
-import com.kynsof.share.utils.UpdateIfNotNull;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -35,21 +34,19 @@ public class UpdateManageRoleCommandHandler implements ICommandHandler<UpdateMan
     public void handle(UpdateManageRoleCommand command) {
         RulesChecker.checkRule(new ValidateObjectNotNullRule(command.getId(), "id", "Role ID cannot be null."));
 
-        ManageRolDto update = this.service.findById(command.getId());
-
         if (command.getCode()!= null || !command.getCode().isEmpty()) {
             RulesChecker.checkRule(new ManageRoleCodeMustBeUniqueRule(this.service, command.getCode(), command.getId()));
-            update.setCode(command.getCode());
         }
 
-        UpdateIfNotNull.updateIfNotNull(update::setName, command.getName());
+        service.update(ManageRolDto
+                .builder()
+                .code(command.getCode())
+                .name(command.getName())
+                .id(command.getId())
+                .permissions(command.getPermissions() != null ? get(command.getPermissions()) : null)
+                .build());
 
-        UpdateIfNotNull.updateIfNotNull(update::setCode, command.getCode());
-
-        update.setPermissions(command.getPermissions() != null ? get(command.getPermissions()) : null);
-        ManageRolDto updatedManageRole= service.update(update);
-
-        this.manageRolePublisherService.publishManageRoleEvent(updatedManageRole);
+        //this.manageRolePublisherService.publishManageRoleEvent(updatedManageRole);
     }
 
     

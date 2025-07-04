@@ -122,4 +122,9 @@ public class UpdateAdquisitionPropertyRequest {
     private String gasProviderAccountNumber;
     private String trashServiceProvider;
     private CreateDocumentRequest uploadLatestUtilityBill;
+
+    //Rental
+    private CreateDocumentRequest uploadSellersDisclosureForm;
+    private CreateDocumentRequest uploadTenantEstoppel;
+    private CreateDocumentRequest uploadRentalAgreement;
 }

@@ -150,7 +150,11 @@ public class AdquisitionPropertyServiceImpl implements IAdquisitionPropertyServi
         update.setGasProviderAccountNumber(object.getGasProviderAccountNumber() != null ? object.getGasProviderAccountNumber() : update.getGasProviderAccountNumber());
         update.setTrashServiceProvider(object.getTrashServiceProvider() != null ? object.getTrashServiceProvider() : update.getTrashServiceProvider());
         update.setUploadLatestUtilityBill(object.getUploadLatestUtilityBill() != null ? object.getUploadLatestUtilityBill() : update.getUploadLatestUtilityBill());
-        
+
+        update.setUploadSellersDisclosureForm(object.getUploadSellersDisclosureForm() != null ? object.getUploadSellersDisclosureForm() : update.getUploadSellersDisclosureForm());
+        update.setUploadTenantEstoppel(object.getUploadTenantEstoppel() != null ? object.getUploadTenantEstoppel() : update.getUploadTenantEstoppel());
+        update.setUploadRentalAgreement(object.getUploadRentalAgreement() != null ? object.getUploadRentalAgreement() : update.getUploadRentalAgreement());
+
         update.setUpdatedAt(LocalDateTime.now());
         repositoryCommand.save(update);
     }

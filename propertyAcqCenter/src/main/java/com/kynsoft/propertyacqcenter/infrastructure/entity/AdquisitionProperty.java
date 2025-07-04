@@ -327,6 +327,16 @@ public class AdquisitionProperty {
     @Column(name = "upload_latest_utility_bill", nullable = true)
     private String uploadLatestUtilityBill;
 
+    //Rental
+    @Column(name = "upload_sellers_disclosure_form", nullable = true)
+    private String uploadSellersDisclosureForm;
+
+    @Column(name = "upload_tenant_estoppel", nullable = true)
+    private String uploadTenantEstoppel;
+
+    @Column(name = "upload_rental_agreement", nullable = true)
+    private String uploadRentalAgreement;
+
     public AdquisitionProperty(AdquisitionPropertyDto dto) {
         this.id = dto.getId() != null ? dto.getId() : UUID.randomUUID();
         this.buyerNameAndYearVehicle = dto.getBuyerNameAndYearVehicle();
@@ -433,6 +443,10 @@ public class AdquisitionProperty {
         this.gasProviderAccountNumber = dto.getGasProviderAccountNumber();
         this.trashServiceProvider = dto.getTrashServiceProvider();
         this.uploadLatestUtilityBill = dto.getUploadLatestUtilityBill();
+
+        this.uploadSellersDisclosureForm = dto.getUploadSellersDisclosureForm();
+        this.uploadTenantEstoppel = dto.getUploadTenantEstoppel();
+        this.uploadRentalAgreement = dto.getUploadRentalAgreement();
     }
 
     public AdquisitionPropertyDto toAggregate() {
@@ -538,6 +552,10 @@ public class AdquisitionProperty {
                 .gasProviderAccountNumber(gasProviderAccountNumber)
                 .trashServiceProvider(trashServiceProvider)
                 .uploadLatestUtilityBill(uploadLatestUtilityBill)
+
+                .uploadSellersDisclosureForm(uploadSellersDisclosureForm)
+                .uploadTenantEstoppel(uploadTenantEstoppel)
+                .uploadRentalAgreement(uploadRentalAgreement)
 
                 .build();
     }

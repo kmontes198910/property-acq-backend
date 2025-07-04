@@ -115,6 +115,11 @@ public class AdquisitionPropertyResponse implements IResponse {
     private String trashServiceProvider;
     private AdquisitionDocumentResponse uploadLatestUtilityBill;
 
+    //Rental
+    private AdquisitionDocumentResponse uploadSellersDisclosureForm;
+    private AdquisitionDocumentResponse uploadTenantEstoppel;
+    private AdquisitionDocumentResponse uploadRentalAgreement;
+
     public AdquisitionPropertyResponse(AdquisitionPropertyDto dto) {
         this.id = dto.getId();
         this.buyer = dto.getBuyer() != null ? new LegalEntityBasicResponse(dto.getBuyer()) : null;
@@ -212,6 +217,10 @@ public class AdquisitionPropertyResponse implements IResponse {
         this.gasProviderAccountNumber = dto.getGasProviderAccountNumber();
         this.trashServiceProvider = dto.getTrashServiceProvider();
         this.uploadLatestUtilityBill = DocumentMapper.mapDocumentField(dto.getUploadLatestUtilityBill());
+
+        this.uploadSellersDisclosureForm = DocumentMapper.mapDocumentField(dto.getUploadSellersDisclosureForm());
+        this.uploadTenantEstoppel = DocumentMapper.mapDocumentField(dto.getUploadTenantEstoppel());
+        this.uploadRentalAgreement = DocumentMapper.mapDocumentField(dto.getUploadRentalAgreement());
     }
 
 }

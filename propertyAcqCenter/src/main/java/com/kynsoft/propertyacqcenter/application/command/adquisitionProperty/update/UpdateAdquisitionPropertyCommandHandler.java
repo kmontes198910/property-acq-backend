@@ -138,6 +138,11 @@ public class UpdateAdquisitionPropertyCommandHandler implements ICommandHandler<
                 .trashServiceProvider(command.getTrashServiceProvider())
                 .uploadLatestUtilityBill(command.getUploadLatestUtilityBill() != null ? command.getUploadLatestUtilityBill().getFilePath() + "|" + command.getUploadLatestUtilityBill().getFileName() : null)
 
+                //Rental
+                .uploadSellersDisclosureForm(command.getUploadSellersDisclosureForm() != null ? command.getUploadSellersDisclosureForm().getFilePath() + "|" + command.getUploadSellersDisclosureForm().getFileName() : null)
+                .uploadTenantEstoppel(command.getUploadTenantEstoppel() != null ? command.getUploadTenantEstoppel().getFilePath() + "|" + command.getUploadTenantEstoppel().getFileName() : null)
+                .uploadRentalAgreement(command.getUploadRentalAgreement() != null ? command.getUploadRentalAgreement().getFilePath() + "|" + command.getUploadRentalAgreement().getFileName() : null)
+
                 .build()
         );
     }
