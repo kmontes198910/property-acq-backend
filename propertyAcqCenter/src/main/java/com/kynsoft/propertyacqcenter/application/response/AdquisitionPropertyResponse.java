@@ -106,6 +106,15 @@ public class AdquisitionPropertyResponse implements IResponse {
     private Boolean irsLiensOrJudgments;
     private AdquisitionDocumentResponse uploadTaxProrationAgreement;
 
+    //Utilities
+    private String electricProvider;
+    private String electricProviderAccountNumber;
+    private String waterSewerProvider;
+    private String gasProvider;
+    private String gasProviderAccountNumber;
+    private String trashServiceProvider;
+    private AdquisitionDocumentResponse uploadLatestUtilityBill;
+
     public AdquisitionPropertyResponse(AdquisitionPropertyDto dto) {
         this.id = dto.getId();
         this.buyer = dto.getBuyer() != null ? new LegalEntityBasicResponse(dto.getBuyer()) : null;
@@ -195,7 +204,14 @@ public class AdquisitionPropertyResponse implements IResponse {
         this.secondLienOrHeloc = dto.getSecondLienOrHeloc();
         this.irsLiensOrJudgments = dto.getIrsLiensOrJudgments();
         this.uploadTaxProrationAgreement = DocumentMapper.mapDocumentField(dto.getUploadTaxProrationAgreement());
-        
+
+        this.electricProvider = dto.getElectricProvider();
+        this.electricProviderAccountNumber = dto.getElectricProviderAccountNumber();
+        this.waterSewerProvider = dto.getWaterSewerProvider();
+        this.gasProvider = dto.getGasProvider();
+        this.gasProviderAccountNumber = dto.getGasProviderAccountNumber();
+        this.trashServiceProvider = dto.getTrashServiceProvider();
+        this.uploadLatestUtilityBill = DocumentMapper.mapDocumentField(dto.getUploadLatestUtilityBill());
     }
 
 }

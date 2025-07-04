@@ -121,4 +121,13 @@ public class AdquisitionPropertyDto {
     private Boolean secondLienOrHeloc;
     private Boolean irsLiensOrJudgments;
     private String uploadTaxProrationAgreement;
+
+    //Utilities
+    private String electricProvider;
+    private String electricProviderAccountNumber;
+    private String waterSewerProvider;
+    private String gasProvider;
+    private String gasProviderAccountNumber;
+    private String trashServiceProvider;
+    private String uploadLatestUtilityBill;
 }

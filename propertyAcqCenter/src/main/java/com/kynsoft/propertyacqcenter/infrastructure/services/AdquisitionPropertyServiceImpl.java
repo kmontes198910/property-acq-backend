@@ -143,6 +143,14 @@ public class AdquisitionPropertyServiceImpl implements IAdquisitionPropertyServi
         update.setIrsLiensOrJudgments(object.getIrsLiensOrJudgments() != null ? object.getIrsLiensOrJudgments() : update.getIrsLiensOrJudgments());
         update.setUploadTaxProrationAgreement(object.getUploadTaxProrationAgreement() != null ? object.getUploadTaxProrationAgreement() : update.getUploadTaxProrationAgreement());
 
+        update.setElectricProvider(object.getElectricProvider() != null ? object.getElectricProvider() : update.getElectricProvider());
+        update.setElectricProviderAccountNumber(object.getElectricProviderAccountNumber() != null ? object.getElectricProviderAccountNumber() : update.getElectricProviderAccountNumber());
+        update.setWaterSewerProvider(object.getWaterSewerProvider() != null ? object.getWaterSewerProvider() : update.getWaterSewerProvider());
+        update.setGasProvider(object.getGasProvider() != null ? object.getGasProvider() : update.getGasProvider());
+        update.setGasProviderAccountNumber(object.getGasProviderAccountNumber() != null ? object.getGasProviderAccountNumber() : update.getGasProviderAccountNumber());
+        update.setTrashServiceProvider(object.getTrashServiceProvider() != null ? object.getTrashServiceProvider() : update.getTrashServiceProvider());
+        update.setUploadLatestUtilityBill(object.getUploadLatestUtilityBill() != null ? object.getUploadLatestUtilityBill() : update.getUploadLatestUtilityBill());
+        
         update.setUpdatedAt(LocalDateTime.now());
         repositoryCommand.save(update);
     }
