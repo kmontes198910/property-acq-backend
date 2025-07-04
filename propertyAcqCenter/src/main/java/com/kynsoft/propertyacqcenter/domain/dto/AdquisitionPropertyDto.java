@@ -130,4 +130,9 @@ public class AdquisitionPropertyDto {
     private String gasProviderAccountNumber;
     private String trashServiceProvider;
     private String uploadLatestUtilityBill;
+
+    //Rental
+    private String uploadSellersDisclosureForm;
+    private String uploadTenantEstoppel;
+    private String uploadRentalAgreement;
 }

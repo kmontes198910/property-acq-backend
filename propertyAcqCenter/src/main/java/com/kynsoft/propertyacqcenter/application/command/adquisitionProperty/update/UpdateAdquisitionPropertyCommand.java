@@ -126,6 +126,11 @@ public class UpdateAdquisitionPropertyCommand implements ICommand {
     private String trashServiceProvider;
     private CreateDocumentRequest uploadLatestUtilityBill;
 
+    //Rental
+    private CreateDocumentRequest uploadSellersDisclosureForm;
+    private CreateDocumentRequest uploadTenantEstoppel;
+    private CreateDocumentRequest uploadRentalAgreement;
+
     public UpdateAdquisitionPropertyCommand(UUID id, UUID buyer, String property, UUID contact, String buyerNameAndYearVehicle,
             String buyerLicenseTagNo,
             LocalDate dateAndTimeForInspections, String instructionsForAccess, LocalDate hoaBuyerInterviewDate,
@@ -176,7 +181,10 @@ public class UpdateAdquisitionPropertyCommand implements ICommand {
             String gasProvider,
             String gasProviderAccountNumber,
             String trashServiceProvider,
-            CreateDocumentRequest uploadLatestUtilityBill) {
+            CreateDocumentRequest uploadLatestUtilityBill,
+            CreateDocumentRequest uploadSellersDisclosureForm,
+            CreateDocumentRequest uploadTenantEstoppel,
+            CreateDocumentRequest uploadRentalAgreement) {
         this.id = id;
         this.buyer = buyer;
         this.property = property;
@@ -275,6 +283,11 @@ public class UpdateAdquisitionPropertyCommand implements ICommand {
         this.gasProviderAccountNumber = gasProviderAccountNumber;
         this.trashServiceProvider = trashServiceProvider;
         this.uploadLatestUtilityBill = uploadLatestUtilityBill;
+
+        //Rental
+        this.uploadSellersDisclosureForm = uploadSellersDisclosureForm;
+        this.uploadTenantEstoppel = uploadTenantEstoppel;
+        this.uploadRentalAgreement = uploadRentalAgreement;
     }
 
     public static UpdateAdquisitionPropertyCommand fromRequest(UpdateAdquisitionPropertyRequest request, UUID id) {
@@ -371,7 +384,10 @@ public class UpdateAdquisitionPropertyCommand implements ICommand {
                 request.getGasProvider(),
                 request.getGasProviderAccountNumber(),
                 request.getTrashServiceProvider(),
-                request.getUploadLatestUtilityBill()
+                request.getUploadLatestUtilityBill(),
+                request.getUploadSellersDisclosureForm(),
+                request.getUploadTenantEstoppel(),
+                request.getUploadRentalAgreement()
         );
     }
 
