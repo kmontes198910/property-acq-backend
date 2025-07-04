@@ -1,6 +1,7 @@
 package com.kynsof.identity.infrastructure.services;
 
 import com.kynsof.identity.controller.exception.ManageRole.UserSystemSetRolesDto;
+import com.kynsof.identity.domain.dto.ManageRolDto;
 import com.kynsof.identity.domain.dto.PermissionDto;
 import com.kynsof.identity.domain.interfaces.service.IUsersRolesService;
 import com.kynsof.identity.infrastructure.entities.ManageRole;
@@ -72,5 +73,17 @@ public class UserRolesServiceImpl implements IUsersRolesService {
             }
         }
         return permissions;
+    }
+
+    @Override
+    public List<ManageRolDto> roles(UUID userId) {
+        List<UsersRoles> list = this.repositoryQuery.findByUserId(userId);
+        List<ManageRolDto> roles = new ArrayList<>();
+        if (list != null) {
+            for (UsersRoles usersRoles : list) {
+                roles.add(usersRoles.getRole().toAggregateSimple());
+            }
+        }
+        return roles;
     }
 }
