@@ -15,14 +15,18 @@ import java.util.List;
 @Getter
 @Setter
 public class PermissionsByIdUserResponse implements IResponse {
-    private List<PermissionByIdUserResponse> permissions = new ArrayList<>();
+    private List<PermissionByIdUserResponse> manageRoles = new ArrayList<>();
 
     public PermissionsByIdUserResponse(UserSystemDto userSystemDto) {
         if(userSystemDto.getRoles() != null) {
             for (ManageRolDto role : userSystemDto.getRoles()) {
                 if (role.getPermissions() != null) {
                     for (PermissionDto permission : role.getPermissions()) {
-                        this.permissions.add(new PermissionByIdUserResponse(permission));
+                        this.manageRoles.add(PermissionByIdUserResponse
+                                .builder()
+                                .id(permission.getId())
+                                .code(permission.getCode())
+                                .build());
                     }
                 }
             }
