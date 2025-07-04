@@ -27,6 +27,8 @@ import com.kynsof.identity.application.command.user.update.setRoles.UpdateUserSy
 import com.kynsof.identity.application.command.user.update.setRoles.UpdateUserSystemSetRolesRequest;
 import com.kynsof.identity.application.query.users.getById.FindByIdUserSystemsQuery;
 import com.kynsof.identity.application.query.users.getById.UserSystemsByIdResponse;
+import com.kynsof.identity.application.query.users.getPermissionByIdUser.FindPermissionsByIdUserQuery;
+import com.kynsof.identity.application.query.users.getPermissionByIdUser.PermissionsByIdUserResponse;
 import com.kynsof.identity.application.query.users.getSearch.GetSearchUserSystemsQuery;
 import com.kynsof.identity.application.query.users.userByBusiness.FindUsersByBusinessQuery;
 import com.kynsof.identity.application.query.users.userMe.UserMeQuery;
@@ -71,6 +73,15 @@ public class UserSystemController {
 
         FindByIdUserSystemsQuery query = new FindByIdUserSystemsQuery(id);
         UserSystemsByIdResponse response = mediator.send(query);
+
+        return ResponseEntity.ok(response);
+    }
+
+    @GetMapping(path = "/permission/{id}")
+    public ResponseEntity<?> getPermissionByIdUser(@PathVariable UUID id) {
+
+        FindPermissionsByIdUserQuery query = new FindPermissionsByIdUserQuery(id);
+        PermissionsByIdUserResponse response = mediator.send(query);
 
         return ResponseEntity.ok(response);
     }
