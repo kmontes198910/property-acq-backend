@@ -1,23 +1,24 @@
 package com.kynsof.identity.application.query.users.getPermissionByIdUser;
 
-import com.kynsof.identity.domain.dto.UserSystemDto;
-import com.kynsof.identity.domain.interfaces.service.IUserSystemService;
+import com.kynsof.identity.domain.dto.PermissionDto;
+import com.kynsof.identity.domain.interfaces.service.IUsersRolesService;
 import com.kynsof.share.core.domain.bus.query.IQueryHandler;
+import java.util.List;
 import org.springframework.stereotype.Component;
 
 @Component
-public class FindPermissionsByIdUserQueryHandler implements IQueryHandler<FindPermissionsByIdUserQuery, PermissionsByIdUserResponse>  {
+public class FindPermissionsByIdUserQueryHandler implements IQueryHandler<FindPermissionsByIdUserQuery, RolesPermissionsUserResponse>  {
 
-    private final IUserSystemService serviceImpl;
+    private final IUsersRolesService serviceImpl;
 
-    public FindPermissionsByIdUserQueryHandler(IUserSystemService serviceImpl) {
+    public FindPermissionsByIdUserQueryHandler(IUsersRolesService serviceImpl) {
         this.serviceImpl = serviceImpl;
     }
 
     @Override
-    public PermissionsByIdUserResponse handle(FindPermissionsByIdUserQuery query) {
-        UserSystemDto userSystemDto = serviceImpl.findById(query.getId());
+    public RolesPermissionsUserResponse handle(FindPermissionsByIdUserQuery query) {
+        List<PermissionDto> userSystemDto = serviceImpl.permissions(query.getId());
 
-        return new PermissionsByIdUserResponse(userSystemDto);
+        return new RolesPermissionsUserResponse(userSystemDto);
     }
 }

@@ -29,6 +29,7 @@ import com.kynsof.identity.application.query.users.getById.FindByIdUserSystemsQu
 import com.kynsof.identity.application.query.users.getById.UserSystemsByIdResponse;
 import com.kynsof.identity.application.query.users.getPermissionByIdUser.FindPermissionsByIdUserQuery;
 import com.kynsof.identity.application.query.users.getPermissionByIdUser.PermissionsByIdUserResponse;
+import com.kynsof.identity.application.query.users.getPermissionByIdUser.RolesPermissionsUserResponse;
 import com.kynsof.identity.application.query.users.getSearch.GetSearchUserSystemsQuery;
 import com.kynsof.identity.application.query.users.userByBusiness.FindUsersByBusinessQuery;
 import com.kynsof.identity.application.query.users.userMe.UserMeQuery;
@@ -81,7 +82,7 @@ public class UserSystemController {
     public ResponseEntity<?> getPermissionByIdUser(@PathVariable UUID id) {
 
         FindPermissionsByIdUserQuery query = new FindPermissionsByIdUserQuery(id);
-        PermissionsByIdUserResponse response = mediator.send(query);
+        RolesPermissionsUserResponse response = mediator.send(query);
 
         return ResponseEntity.ok(response);
     }

@@ -105,4 +105,8 @@ public class UserSystem implements Serializable {
                 : Collections.emptyList());
         return dto;
     }
+
+    public UserSystemDto toAggregateBasic() {
+        return new UserSystemDto(this.id, this.userName, this.email, this.name, this.lastName, this.status, this.image);
+    }
 }
