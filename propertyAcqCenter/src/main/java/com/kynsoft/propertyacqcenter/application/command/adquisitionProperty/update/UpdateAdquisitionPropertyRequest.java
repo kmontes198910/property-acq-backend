@@ -42,7 +42,6 @@ public class UpdateAdquisitionPropertyRequest {
     private CreateDocumentRequest appraisalReport;
     private CreateDocumentRequest inspectionReport;
     private CreateDocumentRequest sellerDisclosureForm;
-    private CreateDocumentRequest surveyDocument;
     private CreateDocumentRequest titleCommitment;
     private CreateDocumentRequest legalEntityCertificationStatus;
     private CreateDocumentRequest assignmentOfContract;
@@ -95,5 +94,24 @@ public class UpdateAdquisitionPropertyRequest {
     //Title Company
     private LocalDate titleCompanyRequestForEstoppelLetter;
     private CreateDocumentRequest titleCompanyEarnestMoneyDepositConfirmation;
+
+    //Survey & Condition
+    private Boolean surveyavailable;
+    private CreateDocumentRequest surveyDocument;
+    private String recentImprovementsLast12Months;
+    private CreateDocumentRequest uploadInvoicesForImprovements;
+    private String summarizePropertyCondition;
+    private String discloseKnownRepairsOrDefects;
+    private String listItemsNotIncludedInSale;
+
+    //Mortgage & Liens
+    private Boolean isThereAMortgage;
+    private String lenderName;
+    private String loanNumber;
+    private Double estimatedPayoffAmount;
+    private CreateDocumentRequest uploadLatestMortgageStatement;
+    private Boolean secondLienOrHeloc;
+    private Boolean irsLiensOrJudgments;
+    private CreateDocumentRequest uploadTaxProrationAgreement;
 
 }

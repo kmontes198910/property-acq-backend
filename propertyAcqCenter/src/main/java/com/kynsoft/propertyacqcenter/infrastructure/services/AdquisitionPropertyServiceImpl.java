@@ -127,6 +127,22 @@ public class AdquisitionPropertyServiceImpl implements IAdquisitionPropertyServi
         update.setTitleCompanyRequestForEstoppelLetter(object.getTitleCompanyRequestForEstoppelLetter() != null ? object.getTitleCompanyRequestForEstoppelLetter() : update.getTitleCompanyRequestForEstoppelLetter());
         update.setTitleCompanyEarnestMoneyDepositConfirmation(object.getTitleCompanyEarnestMoneyDepositConfirmation() != null ? object.getTitleCompanyEarnestMoneyDepositConfirmation() : update.getTitleCompanyEarnestMoneyDepositConfirmation());
 
+        update.setSurveyavailable(object.getSurveyavailable() != null ? object.getSurveyavailable() : update.getSurveyavailable());
+        update.setRecentImprovementsLast12Months(object.getRecentImprovementsLast12Months() != null ? object.getRecentImprovementsLast12Months() : update.getRecentImprovementsLast12Months());
+        update.setUploadInvoicesForImprovements(object.getUploadInvoicesForImprovements() != null ? object.getUploadInvoicesForImprovements() : update.getUploadInvoicesForImprovements());
+        update.setSummarizePropertyCondition(object.getSummarizePropertyCondition() != null ? object.getSummarizePropertyCondition() : update.getSummarizePropertyCondition());
+        update.setDiscloseKnownRepairsOrDefects(object.getDiscloseKnownRepairsOrDefects() != null ? object.getDiscloseKnownRepairsOrDefects() : update.getDiscloseKnownRepairsOrDefects());
+        update.setListItemsNotIncludedInSale(object.getListItemsNotIncludedInSale() != null ? object.getListItemsNotIncludedInSale() : update.getListItemsNotIncludedInSale());
+
+        update.setIsThereAMortgage(object.getIsThereAMortgage() != null ? object.getIsThereAMortgage() : update.getIsThereAMortgage());
+        update.setLenderName(object.getLenderName() != null ? object.getLenderName() : update.getLenderName());
+        update.setLoanNumber(object.getLoanNumber() != null ? object.getLoanNumber() : update.getLoanNumber());
+        update.setEstimatedPayoffAmount(object.getEstimatedPayoffAmount() != null ? object.getEstimatedPayoffAmount() : update.getEstimatedPayoffAmount());
+        update.setUploadLatestMortgageStatement(object.getUploadLatestMortgageStatement() != null ? object.getUploadLatestMortgageStatement() : update.getUploadLatestMortgageStatement());
+        update.setSecondLienOrHeloc(object.getSecondLienOrHeloc() != null ? object.getSecondLienOrHeloc() : update.getSecondLienOrHeloc());
+        update.setIrsLiensOrJudgments(object.getIrsLiensOrJudgments() != null ? object.getIrsLiensOrJudgments() : update.getIrsLiensOrJudgments());
+        update.setUploadTaxProrationAgreement(object.getUploadTaxProrationAgreement() != null ? object.getUploadTaxProrationAgreement() : update.getUploadTaxProrationAgreement());
+
         update.setUpdatedAt(LocalDateTime.now());
         repositoryCommand.save(update);
     }

@@ -51,7 +51,6 @@ public class AdquisitionPropertyDto {
     private String appraisalReport;
     private String inspectionReport;
     private String sellerDisclosureForm;
-    private String surveyDocument;
     private String titleCommitment;
     private String legalEntityCertificationStatus;
     private String assignmentOfContract;
@@ -103,4 +102,23 @@ public class AdquisitionPropertyDto {
     //Title Company
     private LocalDate titleCompanyRequestForEstoppelLetter;
     private String titleCompanyEarnestMoneyDepositConfirmation;
+
+    //Survey & Condition
+    private Boolean surveyavailable;
+    private String surveyDocument;
+    private String recentImprovementsLast12Months;
+    private String uploadInvoicesForImprovements;
+    private String summarizePropertyCondition;
+    private String discloseKnownRepairsOrDefects;
+    private String listItemsNotIncludedInSale;
+
+    //Mortgage & Liens
+    private Boolean isThereAMortgage;
+    private String lenderName;
+    private String loanNumber;
+    private Double estimatedPayoffAmount;
+    private String uploadLatestMortgageStatement;
+    private Boolean secondLienOrHeloc;
+    private Boolean irsLiensOrJudgments;
+    private String uploadTaxProrationAgreement;
 }

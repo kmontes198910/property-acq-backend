@@ -261,6 +261,50 @@ public class AdquisitionProperty {
     @Column(name = "earnest_money_deposit_confirmation", nullable = true)
     private String titleCompanyEarnestMoneyDepositConfirmation;
 
+    //Survey & Condition
+    @Column(name = "surveya_vailable", nullable = true)
+    private Boolean surveyavailable;
+
+    @Column(name = "recent_improvements_last_12_months", nullable = true)
+    private String recentImprovementsLast12Months;
+
+    @Column(name = "upload_invoices_for_improvements", nullable = true)
+    private String uploadInvoicesForImprovements;
+
+    @Column(name = "summarize_property_condition", nullable = true)
+    private String summarizePropertyCondition;
+
+    @Column(name = "disclose_known_repairs_or_defects", nullable = true)
+    private String discloseKnownRepairsOrDefects;
+
+    @Column(name = "list_items_not_included_in_sale", nullable = true)
+    private String listItemsNotIncludedInSale;
+
+    //Mortgage & Liens
+    @Column(name = "is_there_a_mortgage", nullable = true)
+    private Boolean isThereAMortgage;
+
+    @Column(name = "lender_name", nullable = true)
+    private String lenderName;
+
+    @Column(name = "loan_number", nullable = true)
+    private String loanNumber;
+
+    @Column(name = "estimated_payoff_amount", nullable = true)
+    private Double estimatedPayoffAmount;
+
+    @Column(name = "upload_latest_mortgage_statement", nullable = true)
+    private String uploadLatestMortgageStatement;
+
+    @Column(name = "second_lien_or_heloc", nullable = true)
+    private Boolean secondLienOrHeloc;
+
+    @Column(name = "irs_liens_or_judgments", nullable = true)
+    private Boolean irsLiensOrJudgments;
+
+    @Column(name = "upload_tax_proration_agreement", nullable = true)
+    private String uploadTaxProrationAgreement;
+
     public AdquisitionProperty(AdquisitionPropertyDto dto) {
         this.id = dto.getId() != null ? dto.getId() : UUID.randomUUID();
         this.buyerNameAndYearVehicle = dto.getBuyerNameAndYearVehicle();
@@ -343,6 +387,22 @@ public class AdquisitionProperty {
         this.hoaValidatorPhoneNumber = dto.getHoaValidatorPhoneNumber();
         this.closingCountdownClock = dto.getClosingCountdownClock();
         this.contractClosingDate = dto.getContractClosingDate();
+
+        this.surveyavailable = dto.getSurveyavailable();
+        this.recentImprovementsLast12Months = dto.getRecentImprovementsLast12Months();
+        this.uploadInvoicesForImprovements = dto.getUploadInvoicesForImprovements();
+        this.summarizePropertyCondition = dto.getSummarizePropertyCondition();
+        this.discloseKnownRepairsOrDefects = dto.getDiscloseKnownRepairsOrDefects();
+        this.listItemsNotIncludedInSale = dto.getListItemsNotIncludedInSale();
+
+        this.isThereAMortgage = dto.getIsThereAMortgage();
+        this.lenderName = dto.getLenderName();
+        this.loanNumber = dto.getLoanNumber();
+        this.estimatedPayoffAmount = dto.getEstimatedPayoffAmount();
+        this.uploadLatestMortgageStatement = dto.getUploadLatestMortgageStatement();
+        this.secondLienOrHeloc = dto.getSecondLienOrHeloc();
+        this.irsLiensOrJudgments = dto.getIrsLiensOrJudgments();
+        this.uploadTaxProrationAgreement = dto.getUploadTaxProrationAgreement();
     }
 
     public AdquisitionPropertyDto toAggregate() {
@@ -424,6 +484,23 @@ public class AdquisitionProperty {
                 .zelleContact(zelleContact)
                 .titleCompanyRequestForEstoppelLetter(titleCompanyRequestForEstoppelLetter)
                 .titleCompanyEarnestMoneyDepositConfirmation(titleCompanyEarnestMoneyDepositConfirmation)
+
+                .surveyavailable(surveyavailable)
+                .recentImprovementsLast12Months(recentImprovementsLast12Months)
+                .uploadInvoicesForImprovements(uploadInvoicesForImprovements)
+                .summarizePropertyCondition(summarizePropertyCondition)
+                .discloseKnownRepairsOrDefects(discloseKnownRepairsOrDefects)
+                .listItemsNotIncludedInSale(listItemsNotIncludedInSale)
+
+                .isThereAMortgage(isThereAMortgage)
+                .lenderName(lenderName)
+                .loanNumber(loanNumber)
+                .estimatedPayoffAmount(estimatedPayoffAmount)
+                .uploadLatestMortgageStatement(uploadLatestMortgageStatement)
+                .secondLienOrHeloc(secondLienOrHeloc)
+                .irsLiensOrJudgments(irsLiensOrJudgments)
+                .uploadTaxProrationAgreement(uploadTaxProrationAgreement)
+
                 .build();
     }
 
