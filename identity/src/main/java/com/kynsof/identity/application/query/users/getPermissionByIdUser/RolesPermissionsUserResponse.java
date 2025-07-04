@@ -16,5 +16,5 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 public class RolesPermissionsUserResponse implements IResponse {
-    private List<PermissionDto> userSystemDto;
+    private List<PermissionDto> permissions;
 }
