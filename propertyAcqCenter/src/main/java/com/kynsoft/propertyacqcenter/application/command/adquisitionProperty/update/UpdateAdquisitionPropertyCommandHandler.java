@@ -112,6 +112,23 @@ public class UpdateAdquisitionPropertyCommandHandler implements ICommandHandler<
                 .zelleContact(command.getZelleContact())
                 .titleCompanyRequestForEstoppelLetter(command.getTitleCompanyRequestForEstoppelLetter())
                 .titleCompanyEarnestMoneyDepositConfirmation(command.getTitleCompanyEarnestMoneyDepositConfirmation() != null ? command.getTitleCompanyEarnestMoneyDepositConfirmation().getFilePath() + "|" + command.getTitleCompanyEarnestMoneyDepositConfirmation().getFileName() : null)
+
+                .surveyavailable(command.getSurveyavailable())
+                .recentImprovementsLast12Months(command.getRecentImprovementsLast12Months())
+                .uploadInvoicesForImprovements(command.getUploadInvoicesForImprovements() != null ? command.getUploadInvoicesForImprovements().getFilePath() + "|" + command.getUploadInvoicesForImprovements().getFileName() : null)
+                .summarizePropertyCondition(command.getSummarizePropertyCondition())
+                .discloseKnownRepairsOrDefects(command.getDiscloseKnownRepairsOrDefects())
+                .listItemsNotIncludedInSale(command.getListItemsNotIncludedInSale())
+
+                .isThereAMortgage(command.getIsThereAMortgage())
+                .lenderName(command.getLenderName())
+                .loanNumber(command.getLoanNumber())
+                .estimatedPayoffAmount(command.getEstimatedPayoffAmount())
+                .uploadLatestMortgageStatement(command.getUploadLatestMortgageStatement() != null ? command.getUploadLatestMortgageStatement().getFilePath() + "|" + command.getUploadLatestMortgageStatement().getFileName() : null)
+                .secondLienOrHeloc(command.getSecondLienOrHeloc())
+                .irsLiensOrJudgments(command.getIrsLiensOrJudgments())
+                .uploadTaxProrationAgreement(command.getUploadTaxProrationAgreement() != null ? command.getUploadTaxProrationAgreement().getFilePath() + "|" + command.getUploadTaxProrationAgreement().getFileName() : null)
+
                 .build()
         );
     }

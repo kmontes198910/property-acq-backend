@@ -99,34 +99,68 @@ public class UpdateAdquisitionPropertyCommand implements ICommand {
     private LocalDate titleCompanyRequestForEstoppelLetter;
     private CreateDocumentRequest titleCompanyEarnestMoneyDepositConfirmation;
 
+    //Survey & Condition
+    private Boolean surveyavailable;
+    private String recentImprovementsLast12Months;
+    private CreateDocumentRequest uploadInvoicesForImprovements;
+    private String summarizePropertyCondition;
+    private String discloseKnownRepairsOrDefects;
+    private String listItemsNotIncludedInSale;
+
+    //Mortgage & Liens
+    private Boolean isThereAMortgage;
+    private String lenderName;
+    private String loanNumber;
+    private Double estimatedPayoffAmount;
+    private CreateDocumentRequest uploadLatestMortgageStatement;
+    private Boolean secondLienOrHeloc;
+    private Boolean irsLiensOrJudgments;
+    private CreateDocumentRequest uploadTaxProrationAgreement;
+
     public UpdateAdquisitionPropertyCommand(UUID id, UUID buyer, String property, UUID contact, String buyerNameAndYearVehicle,
-                                            String buyerLicenseTagNo,
-                                            LocalDate dateAndTimeForInspections, String instructionsForAccess, LocalDate hoaBuyerInterviewDate,
-                                            LocalDate preferredMoveinDate, String eSignAuthorization, LocalDate finalWalkthroughDate,
-                                            String wireAccountHolderName, String wireAccountNumber, String wireRoutingNumber,
-                                            String zelleEmailorPhone, String electricProviderConfirmation, String gasServiceConfirmation,
-                                            String trashServiceConfirmation, String waterSewerSetupConfirmation,
-                                            CreateDocumentRequest uploadGovernmentIssuedId, CreateDocumentRequest hoaApplicationForm,
-                                            CreateDocumentRequest hoaApplicationUpload, CreateDocumentRequest hoaFinancials, 
-                                            CreateDocumentRequest hoaRulesRegulations, CreateDocumentRequest buyerCarRegistration,
-                                            CreateDocumentRequest buyerBackgroundCheck, CreateDocumentRequest commitmentLetter,
-                                            CreateDocumentRequest appraisalReport, CreateDocumentRequest inspectionReport,
-                                            CreateDocumentRequest sellerDisclosureForm, CreateDocumentRequest surveyDocument,
-                                            CreateDocumentRequest titleCommitment, CreateDocumentRequest legalEntityCertificationStatus,
-                                            CreateDocumentRequest assignmentOfContract, CreateDocumentRequest ownerExecutedContract,
-                                            CreateDocumentRequest contractAddendum, CreateDocumentRequest finalSettlementStatement,
-                                            CreateDocumentRequest bankStatementRequest, CreateDocumentRequest warrantyDeed, CreateDocumentRequest titleInsurance,
-                                            CreateDocumentRequest executedClosingDocuments, String buyerFullLegalName, String buyerContactEmail,
-                                            String buyerEntityName, String buyerMailingAddress, String buyerMobilePhoneNumber, String hoa4050certificationStatus,
-                                            String hoaValidatorContactName, String hoaValidatorEmail, String hoaValidatorPhoneNumber,
-                                            String closingCountdownClock, LocalDate contractClosingDate,
-                                            String sellerFullName, String sellerEntityName, CreateDocumentRequest sellerArticlesOfIncorporation,
-                                            CreateDocumentRequest sellerCertificateOfGoodStanding, CreateDocumentRequest sellerOperatingAgreement,
-                                            String sellerOwnershipType, CreateDocumentRequest sellerResolutionToSell, String sellerSocialSecurityNumber,
-                                            String sellerMaritalStatus, CreateDocumentRequest sellerGovernmentId, CreateDocumentRequest sellerW9Form,
-                                            Boolean sellerForeignSeller, CreateDocumentRequest sellerFirptaAffidavit, String sellerWireAccountHolder,
-                                            String sellerWireAccountNumber, String sellerWireRoutingNumber, String zelleContact, LocalDate titleCompanyRequestForEstoppelLetter,
-                                            CreateDocumentRequest titleCompanyEarnestMoneyDepositConfirmation) {
+            String buyerLicenseTagNo,
+            LocalDate dateAndTimeForInspections, String instructionsForAccess, LocalDate hoaBuyerInterviewDate,
+            LocalDate preferredMoveinDate, String eSignAuthorization, LocalDate finalWalkthroughDate,
+            String wireAccountHolderName, String wireAccountNumber, String wireRoutingNumber,
+            String zelleEmailorPhone, String electricProviderConfirmation, String gasServiceConfirmation,
+            String trashServiceConfirmation, String waterSewerSetupConfirmation,
+            CreateDocumentRequest uploadGovernmentIssuedId, CreateDocumentRequest hoaApplicationForm,
+            CreateDocumentRequest hoaApplicationUpload, CreateDocumentRequest hoaFinancials,
+            CreateDocumentRequest hoaRulesRegulations, CreateDocumentRequest buyerCarRegistration,
+            CreateDocumentRequest buyerBackgroundCheck, CreateDocumentRequest commitmentLetter,
+            CreateDocumentRequest appraisalReport, CreateDocumentRequest inspectionReport,
+            CreateDocumentRequest sellerDisclosureForm, CreateDocumentRequest surveyDocument,
+            CreateDocumentRequest titleCommitment, CreateDocumentRequest legalEntityCertificationStatus,
+            CreateDocumentRequest assignmentOfContract, CreateDocumentRequest ownerExecutedContract,
+            CreateDocumentRequest contractAddendum, CreateDocumentRequest finalSettlementStatement,
+            CreateDocumentRequest bankStatementRequest, CreateDocumentRequest warrantyDeed, CreateDocumentRequest titleInsurance,
+            CreateDocumentRequest executedClosingDocuments, String buyerFullLegalName, String buyerContactEmail,
+            String buyerEntityName, String buyerMailingAddress, String buyerMobilePhoneNumber, String hoa4050certificationStatus,
+            String hoaValidatorContactName, String hoaValidatorEmail, String hoaValidatorPhoneNumber,
+            String closingCountdownClock, LocalDate contractClosingDate,
+            String sellerFullName, String sellerEntityName, CreateDocumentRequest sellerArticlesOfIncorporation,
+            CreateDocumentRequest sellerCertificateOfGoodStanding, CreateDocumentRequest sellerOperatingAgreement,
+            String sellerOwnershipType, CreateDocumentRequest sellerResolutionToSell, String sellerSocialSecurityNumber,
+            String sellerMaritalStatus, CreateDocumentRequest sellerGovernmentId, CreateDocumentRequest sellerW9Form,
+            Boolean sellerForeignSeller, CreateDocumentRequest sellerFirptaAffidavit, String sellerWireAccountHolder,
+            String sellerWireAccountNumber, String sellerWireRoutingNumber, String zelleContact, LocalDate titleCompanyRequestForEstoppelLetter,
+            CreateDocumentRequest titleCompanyEarnestMoneyDepositConfirmation,
+            // Survey & Condition
+            Boolean surveyavailable,
+            String recentImprovementsLast12Months,
+            CreateDocumentRequest uploadInvoicesForImprovements,
+            String summarizePropertyCondition,
+            String discloseKnownRepairsOrDefects,
+            String listItemsNotIncludedInSale,
+            // Mortgage & Liens
+            Boolean isThereAMortgage,
+            String lenderName,
+            String loanNumber,
+            Double estimatedPayoffAmount,
+            CreateDocumentRequest uploadLatestMortgageStatement,
+            Boolean secondLienOrHeloc,
+            Boolean irsLiensOrJudgments,
+            CreateDocumentRequest uploadTaxProrationAgreement) {
         this.id = id;
         this.buyer = buyer;
         this.property = property;
@@ -199,6 +233,23 @@ public class UpdateAdquisitionPropertyCommand implements ICommand {
         this.zelleContact = zelleContact;
         this.titleCompanyRequestForEstoppelLetter = titleCompanyRequestForEstoppelLetter;
         this.titleCompanyEarnestMoneyDepositConfirmation = titleCompanyEarnestMoneyDepositConfirmation;
+
+        this.surveyavailable = surveyavailable;
+        this.recentImprovementsLast12Months = recentImprovementsLast12Months;
+        this.uploadInvoicesForImprovements = uploadInvoicesForImprovements;
+        this.summarizePropertyCondition = summarizePropertyCondition;
+        this.discloseKnownRepairsOrDefects = discloseKnownRepairsOrDefects;
+        this.listItemsNotIncludedInSale = listItemsNotIncludedInSale;
+
+        // Mortgage & Liens
+        this.isThereAMortgage = isThereAMortgage;
+        this.lenderName = lenderName;
+        this.loanNumber = loanNumber;
+        this.estimatedPayoffAmount = estimatedPayoffAmount;
+        this.uploadLatestMortgageStatement = uploadLatestMortgageStatement;
+        this.secondLienOrHeloc = secondLienOrHeloc;
+        this.irsLiensOrJudgments = irsLiensOrJudgments;
+        this.uploadTaxProrationAgreement = uploadTaxProrationAgreement;
     }
 
     public static UpdateAdquisitionPropertyCommand fromRequest(UpdateAdquisitionPropertyRequest request, UUID id) {
@@ -274,7 +325,21 @@ public class UpdateAdquisitionPropertyCommand implements ICommand {
                 request.getSellerWireRoutingNumber(),
                 request.getZelleContact(),
                 request.getTitleCompanyRequestForEstoppelLetter(),
-                request.getTitleCompanyEarnestMoneyDepositConfirmation()
+                request.getTitleCompanyEarnestMoneyDepositConfirmation(),
+                request.getSurveyavailable(),
+                request.getRecentImprovementsLast12Months(),
+                request.getUploadInvoicesForImprovements(),
+                request.getSummarizePropertyCondition(),
+                request.getDiscloseKnownRepairsOrDefects(),
+                request.getListItemsNotIncludedInSale(),
+                request.getIsThereAMortgage(),
+                request.getLenderName(),
+                request.getLoanNumber(),
+                request.getEstimatedPayoffAmount(),
+                request.getUploadLatestMortgageStatement(),
+                request.getSecondLienOrHeloc(),
+                request.getIrsLiensOrJudgments(),
+                request.getUploadTaxProrationAgreement()
         );
     }
 

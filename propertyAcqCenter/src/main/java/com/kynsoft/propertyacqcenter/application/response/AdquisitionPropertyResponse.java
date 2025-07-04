@@ -88,6 +88,24 @@ public class AdquisitionPropertyResponse implements IResponse {
 
     private LocalDateTime clockCurrentDate;
 
+    //Survey & Condition
+    private Boolean surveyavailable;
+    private String recentImprovementsLast12Months;
+    private AdquisitionDocumentResponse uploadInvoicesForImprovements;
+    private String summarizePropertyCondition;
+    private String discloseKnownRepairsOrDefects;
+    private String listItemsNotIncludedInSale;
+
+    //Mortgage & Liens
+    private Boolean isThereAMortgage;
+    private String lenderName;
+    private String loanNumber;
+    private Double estimatedPayoffAmount;
+    private AdquisitionDocumentResponse uploadLatestMortgageStatement;
+    private Boolean secondLienOrHeloc;
+    private Boolean irsLiensOrJudgments;
+    private AdquisitionDocumentResponse uploadTaxProrationAgreement;
+
     public AdquisitionPropertyResponse(AdquisitionPropertyDto dto) {
         this.id = dto.getId();
         this.buyer = dto.getBuyer() != null ? new LegalEntityBasicResponse(dto.getBuyer()) : null;
@@ -161,6 +179,23 @@ public class AdquisitionPropertyResponse implements IResponse {
         this.createdBy = dto.getCreatedBy();
         this.updatedBy = dto.getUpdatedBy();
         this.clockCurrentDate = LocalDateTime.now();
+
+        this.surveyavailable = dto.getSurveyavailable();
+        this.recentImprovementsLast12Months = dto.getRecentImprovementsLast12Months();
+        this.uploadInvoicesForImprovements = DocumentMapper.mapDocumentField(dto.getUploadInvoicesForImprovements());
+        this.summarizePropertyCondition = dto.getSummarizePropertyCondition();
+        this.discloseKnownRepairsOrDefects = dto.getDiscloseKnownRepairsOrDefects();
+        this.listItemsNotIncludedInSale = dto.getListItemsNotIncludedInSale();
+
+        this.isThereAMortgage = dto.getIsThereAMortgage();
+        this.lenderName = dto.getLenderName();
+        this.loanNumber = dto.getLoanNumber();
+        this.estimatedPayoffAmount = dto.getEstimatedPayoffAmount();
+        this.uploadLatestMortgageStatement = DocumentMapper.mapDocumentField(dto.getUploadLatestMortgageStatement());
+        this.secondLienOrHeloc = dto.getSecondLienOrHeloc();
+        this.irsLiensOrJudgments = dto.getIrsLiensOrJudgments();
+        this.uploadTaxProrationAgreement = DocumentMapper.mapDocumentField(dto.getUploadTaxProrationAgreement());
+        
     }
 
 }
