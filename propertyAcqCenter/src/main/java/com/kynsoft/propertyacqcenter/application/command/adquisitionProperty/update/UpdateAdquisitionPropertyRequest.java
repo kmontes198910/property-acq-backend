@@ -42,15 +42,10 @@ public class UpdateAdquisitionPropertyRequest {
     private CreateDocumentRequest appraisalReport;
     private CreateDocumentRequest inspectionReport;
     private CreateDocumentRequest sellerDisclosureForm;
-    private CreateDocumentRequest titleCommitment;
     private CreateDocumentRequest legalEntityCertificationStatus;
     private CreateDocumentRequest assignmentOfContract;
     private CreateDocumentRequest ownerExecutedContract;
     private CreateDocumentRequest contractAddendum;
-    private CreateDocumentRequest finalSettlementStatement;
-    private CreateDocumentRequest bankStatementRequest;
-    private CreateDocumentRequest warrantyDeed;
-    private CreateDocumentRequest titleInsurance;
     private CreateDocumentRequest executedClosingDocuments;
 
     //TODO: estos campos son optional, no necesarios en el momento actual, solo agregamos por si acaso.
@@ -94,6 +89,11 @@ public class UpdateAdquisitionPropertyRequest {
     //Title Company
     private LocalDate titleCompanyRequestForEstoppelLetter;
     private CreateDocumentRequest titleCompanyEarnestMoneyDepositConfirmation;
+    private CreateDocumentRequest titleCommitment;
+    private CreateDocumentRequest finalSettlementStatement;
+    private CreateDocumentRequest bankStatementRequest;
+    private CreateDocumentRequest titleInsurance;
+    private CreateDocumentRequest warrantyDeed;
 
     //Survey & Condition
     private Boolean surveyavailable;
