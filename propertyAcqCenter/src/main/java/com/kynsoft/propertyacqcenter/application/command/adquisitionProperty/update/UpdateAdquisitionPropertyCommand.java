@@ -117,6 +117,15 @@ public class UpdateAdquisitionPropertyCommand implements ICommand {
     private Boolean irsLiensOrJudgments;
     private CreateDocumentRequest uploadTaxProrationAgreement;
 
+    //Utilities
+    private String electricProvider;
+    private String electricProviderAccountNumber;
+    private String waterSewerProvider;
+    private String gasProvider;
+    private String gasProviderAccountNumber;
+    private String trashServiceProvider;
+    private CreateDocumentRequest uploadLatestUtilityBill;
+
     public UpdateAdquisitionPropertyCommand(UUID id, UUID buyer, String property, UUID contact, String buyerNameAndYearVehicle,
             String buyerLicenseTagNo,
             LocalDate dateAndTimeForInspections, String instructionsForAccess, LocalDate hoaBuyerInterviewDate,
@@ -160,7 +169,14 @@ public class UpdateAdquisitionPropertyCommand implements ICommand {
             CreateDocumentRequest uploadLatestMortgageStatement,
             Boolean secondLienOrHeloc,
             Boolean irsLiensOrJudgments,
-            CreateDocumentRequest uploadTaxProrationAgreement) {
+            CreateDocumentRequest uploadTaxProrationAgreement,
+            String electricProvider,
+            String electricProviderAccountNumber,
+            String waterSewerProvider,
+            String gasProvider,
+            String gasProviderAccountNumber,
+            String trashServiceProvider,
+            CreateDocumentRequest uploadLatestUtilityBill) {
         this.id = id;
         this.buyer = buyer;
         this.property = property;
@@ -250,6 +266,15 @@ public class UpdateAdquisitionPropertyCommand implements ICommand {
         this.secondLienOrHeloc = secondLienOrHeloc;
         this.irsLiensOrJudgments = irsLiensOrJudgments;
         this.uploadTaxProrationAgreement = uploadTaxProrationAgreement;
+
+        //Utilities
+        this.electricProvider = electricProvider;
+        this.electricProviderAccountNumber = electricProviderAccountNumber;
+        this.waterSewerProvider = waterSewerProvider;
+        this.gasProvider = gasProvider;
+        this.gasProviderAccountNumber = gasProviderAccountNumber;
+        this.trashServiceProvider = trashServiceProvider;
+        this.uploadLatestUtilityBill = uploadLatestUtilityBill;
     }
 
     public static UpdateAdquisitionPropertyCommand fromRequest(UpdateAdquisitionPropertyRequest request, UUID id) {
@@ -339,7 +364,14 @@ public class UpdateAdquisitionPropertyCommand implements ICommand {
                 request.getUploadLatestMortgageStatement(),
                 request.getSecondLienOrHeloc(),
                 request.getIrsLiensOrJudgments(),
-                request.getUploadTaxProrationAgreement()
+                request.getUploadTaxProrationAgreement(),
+                request.getElectricProvider(),
+                request.getElectricProviderAccountNumber(),
+                request.getWaterSewerProvider(),
+                request.getGasProvider(),
+                request.getGasProviderAccountNumber(),
+                request.getTrashServiceProvider(),
+                request.getUploadLatestUtilityBill()
         );
     }
 

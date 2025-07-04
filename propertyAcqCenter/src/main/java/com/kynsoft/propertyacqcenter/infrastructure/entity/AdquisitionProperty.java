@@ -305,6 +305,28 @@ public class AdquisitionProperty {
     @Column(name = "upload_tax_proration_agreement", nullable = true)
     private String uploadTaxProrationAgreement;
 
+    //Utilities
+    @Column(name = "electric_provider", nullable = true)
+    private String electricProvider;
+
+    @Column(name = "electric_provider_account_number", nullable = true)
+    private String electricProviderAccountNumber;
+
+    @Column(name = "water_sewer_provider", nullable = true)
+    private String waterSewerProvider;
+
+    @Column(name = "gas_provider", nullable = true)
+    private String gasProvider;
+
+    @Column(name = "gas_provider_account_number", nullable = true)
+    private String gasProviderAccountNumber;
+
+    @Column(name = "trash_service_provider", nullable = true)
+    private String trashServiceProvider;
+
+    @Column(name = "upload_latest_utility_bill", nullable = true)
+    private String uploadLatestUtilityBill;
+
     public AdquisitionProperty(AdquisitionPropertyDto dto) {
         this.id = dto.getId() != null ? dto.getId() : UUID.randomUUID();
         this.buyerNameAndYearVehicle = dto.getBuyerNameAndYearVehicle();
@@ -403,6 +425,14 @@ public class AdquisitionProperty {
         this.secondLienOrHeloc = dto.getSecondLienOrHeloc();
         this.irsLiensOrJudgments = dto.getIrsLiensOrJudgments();
         this.uploadTaxProrationAgreement = dto.getUploadTaxProrationAgreement();
+
+        this.electricProvider = dto.getElectricProvider();
+        this.electricProviderAccountNumber = dto.getElectricProviderAccountNumber();
+        this.waterSewerProvider = dto.getWaterSewerProvider();
+        this.gasProvider = dto.getGasProvider();
+        this.gasProviderAccountNumber = dto.getGasProviderAccountNumber();
+        this.trashServiceProvider = dto.getTrashServiceProvider();
+        this.uploadLatestUtilityBill = dto.getUploadLatestUtilityBill();
     }
 
     public AdquisitionPropertyDto toAggregate() {
@@ -500,6 +530,14 @@ public class AdquisitionProperty {
                 .secondLienOrHeloc(secondLienOrHeloc)
                 .irsLiensOrJudgments(irsLiensOrJudgments)
                 .uploadTaxProrationAgreement(uploadTaxProrationAgreement)
+
+                .electricProvider(electricProvider)
+                .electricProviderAccountNumber(electricProviderAccountNumber)
+                .waterSewerProvider(waterSewerProvider)
+                .gasProvider(gasProvider)
+                .gasProviderAccountNumber(gasProviderAccountNumber)
+                .trashServiceProvider(trashServiceProvider)
+                .uploadLatestUtilityBill(uploadLatestUtilityBill)
 
                 .build();
     }

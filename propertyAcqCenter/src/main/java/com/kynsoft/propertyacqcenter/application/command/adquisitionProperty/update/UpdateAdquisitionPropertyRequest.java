@@ -114,4 +114,12 @@ public class UpdateAdquisitionPropertyRequest {
     private Boolean irsLiensOrJudgments;
     private CreateDocumentRequest uploadTaxProrationAgreement;
 
+    //Utilities
+    private String electricProvider;
+    private String electricProviderAccountNumber;
+    private String waterSewerProvider;
+    private String gasProvider;
+    private String gasProviderAccountNumber;
+    private String trashServiceProvider;
+    private CreateDocumentRequest uploadLatestUtilityBill;
 }

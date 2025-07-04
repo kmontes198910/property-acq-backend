@@ -129,6 +129,15 @@ public class UpdateAdquisitionPropertyCommandHandler implements ICommandHandler<
                 .irsLiensOrJudgments(command.getIrsLiensOrJudgments())
                 .uploadTaxProrationAgreement(command.getUploadTaxProrationAgreement() != null ? command.getUploadTaxProrationAgreement().getFilePath() + "|" + command.getUploadTaxProrationAgreement().getFileName() : null)
 
+                //Utilities
+                .electricProvider(command.getElectricProvider())
+                .electricProviderAccountNumber(command.getElectricProviderAccountNumber())
+                .waterSewerProvider(command.getWaterSewerProvider())
+                .gasProvider(command.getGasProvider())
+                .gasProviderAccountNumber(command.getGasProviderAccountNumber())
+                .trashServiceProvider(command.getTrashServiceProvider())
+                .uploadLatestUtilityBill(command.getUploadLatestUtilityBill() != null ? command.getUploadLatestUtilityBill().getFilePath() + "|" + command.getUploadLatestUtilityBill().getFileName() : null)
+
                 .build()
         );
     }
