@@ -162,6 +162,13 @@ public class AdquisitionPropertyServiceImpl implements IAdquisitionPropertyServi
         update.setPowerOfAttorneyDocument(object.getPowerOfAttorneyDocument() != null ? object.getPowerOfAttorneyDocument() : update.getPowerOfAttorneyDocument());
         update.setTrustOrEstateDocuments(object.getTrustOrEstateDocuments() != null ? object.getTrustOrEstateDocuments() : update.getTrustOrEstateDocuments());
 
+        update.setEnterWireInstructions(object.getEnterWireInstructions() != null ? object.getEnterWireInstructions() : update.getEnterWireInstructions());
+        update.setAuthorizeTitleCompanyInfo(object.getAuthorizeTitleCompanyInfo() != null ? object.getAuthorizeTitleCompanyInfo() : update.getAuthorizeTitleCompanyInfo());
+
+        update.setPropertyAccessCode(object.getPropertyAccessCode() != null ? object.getPropertyAccessCode() : update.getPropertyAccessCode());
+        update.setTimeForAccess(object.getTimeForAccess() != null ? object.getTimeForAccess() : update.getTimeForAccess());
+        update.setInstructionsForInspections(object.getInstructionsForInspections() != null ? object.getInstructionsForInspections() : update.getInstructionsForInspections());
+
         update.setUpdatedAt(LocalDateTime.now());
         repositoryCommand.save(update);
     }

@@ -145,4 +145,12 @@ public class AdquisitionPropertyDto {
     private String powerOfAttorneyDocument;
     private String trustOrEstateDocuments;
 
+    //Closing
+    private String enterWireInstructions;
+    private String authorizeTitleCompanyInfo;
+
+    //Access & Inspection
+    private String propertyAccessCode;
+    private String timeForAccess;
+    private String instructionsForInspections;
 }

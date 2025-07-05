@@ -140,6 +140,15 @@ public class UpdateAdquisitionPropertyCommand implements ICommand {
     private CreateDocumentRequest powerOfAttorneyDocument;
     private CreateDocumentRequest trustOrEstateDocuments;
 
+    //Closing
+    private String enterWireInstructions;
+    private String authorizeTitleCompanyInfo;
+
+    //Access & Inspection
+    private String propertyAccessCode;
+    private String timeForAccess;
+    private String instructionsForInspections;
+
     public UpdateAdquisitionPropertyCommand(UUID id, UUID buyer, String property, UUID contact, String buyerNameAndYearVehicle,
             String buyerLicenseTagNo,
             LocalDate dateAndTimeForInspections, String instructionsForAccess, LocalDate hoaBuyerInterviewDate,
@@ -198,7 +207,12 @@ public class UpdateAdquisitionPropertyCommand implements ICommand {
             Double hoaDuesAmount,
             CreateDocumentRequest proofOfOwnershipDocument,
             CreateDocumentRequest powerOfAttorneyDocument,
-            CreateDocumentRequest trustOrEstateDocuments) {
+            CreateDocumentRequest trustOrEstateDocuments,
+            String enterWireInstructions,
+            String authorizeTitleCompanyInfo,
+            String propertyAccessCode,
+            String timeForAccess,
+            String instructionsForInspections) {
         this.id = id;
         this.buyer = buyer;
         this.property = property;
@@ -311,6 +325,14 @@ public class UpdateAdquisitionPropertyCommand implements ICommand {
         this.proofOfOwnershipDocument = proofOfOwnershipDocument;
         this.powerOfAttorneyDocument = powerOfAttorneyDocument;
         this.trustOrEstateDocuments = trustOrEstateDocuments;
+
+        //Closing
+        this.enterWireInstructions = enterWireInstructions;
+        this.authorizeTitleCompanyInfo = authorizeTitleCompanyInfo;
+
+        this.propertyAccessCode = propertyAccessCode;
+        this.timeForAccess = timeForAccess;
+        this.instructionsForInspections = instructionsForInspections;
     }
 
     public static UpdateAdquisitionPropertyCommand fromRequest(UpdateAdquisitionPropertyRequest request, UUID id) {
@@ -415,7 +437,12 @@ public class UpdateAdquisitionPropertyCommand implements ICommand {
                 request.getHoaDuesAmount(),
                 request.getProofOfOwnershipDocument(),
                 request.getPowerOfAttorneyDocument(),
-                request.getTrustOrEstateDocuments()
+                request.getTrustOrEstateDocuments(),
+                request.getEnterWireInstructions(),
+                request.getAuthorizeTitleCompanyInfo(),
+                request.getPropertyAccessCode(),
+                request.getTimeForAccess(),
+                request.getInstructionsForInspections()
         );
     }
 

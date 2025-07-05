@@ -152,6 +152,15 @@ public class UpdateAdquisitionPropertyCommandHandler implements ICommandHandler<
                 .powerOfAttorneyDocument(command.getPowerOfAttorneyDocument() != null ? command.getPowerOfAttorneyDocument().getFilePath() + "|" + command.getPowerOfAttorneyDocument().getFileName() : null)
                 .trustOrEstateDocuments(command.getTrustOrEstateDocuments() != null ? command.getTrustOrEstateDocuments().getFilePath() + "|" + command.getTrustOrEstateDocuments().getFileName() : null)
 
+                //Closing
+                .enterWireInstructions(command.getEnterWireInstructions())
+                .authorizeTitleCompanyInfo(command.getAuthorizeTitleCompanyInfo())
+
+                //Access & Inspection
+                .propertyAccessCode(command.getPropertyAccessCode())
+                .timeForAccess(command.getTimeForAccess())
+                .instructionsForInspections(command.getInstructionsForInspections())
+
                 .build()
         );
     }

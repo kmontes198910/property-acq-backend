@@ -353,6 +353,23 @@ public class AdquisitionProperty {
     @Column(name = "trust_estate_docs_upload", nullable = true)
     private String trustOrEstateDocuments;
 
+    //Closing
+    @Column(name = "enter_wire_instructions", nullable = true)
+    private String enterWireInstructions;
+
+    @Column(name = "authorize_title_company_info", nullable = true)
+    private String authorizeTitleCompanyInfo;
+
+    //Access & Inspection
+    @Column(name = "property_access_code", nullable = true)
+    private String propertyAccessCode;
+
+    @Column(name = "time_for_access", nullable = true)
+    private String timeForAccess;
+
+    @Column(name = "instructions_for_inspections", nullable = true)
+    private String instructionsForInspections;
+
     public AdquisitionProperty(AdquisitionPropertyDto dto) {
         this.id = dto.getId() != null ? dto.getId() : UUID.randomUUID();
         this.buyerNameAndYearVehicle = dto.getBuyerNameAndYearVehicle();
@@ -470,6 +487,13 @@ public class AdquisitionProperty {
         this.proofOfOwnershipDocument = dto.getProofOfOwnershipDocument();
         this.powerOfAttorneyDocument = dto.getPowerOfAttorneyDocument();
         this.trustOrEstateDocuments = dto.getTrustOrEstateDocuments();
+
+        this.enterWireInstructions = dto.getEnterWireInstructions();
+        this.authorizeTitleCompanyInfo = dto.getAuthorizeTitleCompanyInfo();
+
+        this.propertyAccessCode = dto.getPropertyAccessCode();
+        this.timeForAccess = dto.getTimeForAccess();
+        this.instructionsForInspections = dto.getInstructionsForInspections();
     }
 
     public AdquisitionPropertyDto toAggregate() {
@@ -579,7 +603,11 @@ public class AdquisitionProperty {
                 .proofOfOwnershipDocument(proofOfOwnershipDocument)
                 .powerOfAttorneyDocument(powerOfAttorneyDocument)
                 .trustOrEstateDocuments(trustOrEstateDocuments)
-
+                .enterWireInstructions(enterWireInstructions)
+                .authorizeTitleCompanyInfo(authorizeTitleCompanyInfo)
+                .propertyAccessCode(propertyAccessCode)
+                .timeForAccess(timeForAccess)
+                .instructionsForInspections(instructionsForInspections)
                 .build();
     }
 

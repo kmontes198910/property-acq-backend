@@ -136,4 +136,13 @@ public class UpdateAdquisitionPropertyRequest {
     private CreateDocumentRequest proofOfOwnershipDocument;
     private CreateDocumentRequest powerOfAttorneyDocument;
     private CreateDocumentRequest trustOrEstateDocuments;
+
+    //Closing
+    private String enterWireInstructions;
+    private String authorizeTitleCompanyInfo;
+
+    //Access & Inspection
+    private String propertyAccessCode;
+    private String timeForAccess;
+    private String instructionsForInspections;
 }
