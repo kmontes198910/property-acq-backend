@@ -120,8 +120,14 @@ public class AdquisitionPropertyResponse implements IResponse {
     private AdquisitionDocumentResponse uploadTenantEstoppel;
     private AdquisitionDocumentResponse uploadRentalAgreement;
 
+    //HOA
     private Integer hoaApprovalProcessingTime;
     private Double hoaDuesAmount;
+
+    //Legal & Estate
+    private AdquisitionDocumentResponse proofOfOwnershipDocument;
+    private AdquisitionDocumentResponse powerOfAttorneyDocument;
+    private AdquisitionDocumentResponse trustOrEstateDocuments;
 
     public AdquisitionPropertyResponse(AdquisitionPropertyDto dto) {
         this.id = dto.getId();
@@ -227,6 +233,10 @@ public class AdquisitionPropertyResponse implements IResponse {
 
         this.hoaApprovalProcessingTime = dto.getHoaApprovalProcessingTime();
         this.hoaDuesAmount = dto.getHoaDuesAmount();
+
+        this.proofOfOwnershipDocument = DocumentMapper.mapDocumentField(dto.getProofOfOwnershipDocument());
+        this.powerOfAttorneyDocument = DocumentMapper.mapDocumentField(dto.getPowerOfAttorneyDocument());
+        this.trustOrEstateDocuments = DocumentMapper.mapDocumentField(dto.getTrustOrEstateDocuments());
     }
 
 }

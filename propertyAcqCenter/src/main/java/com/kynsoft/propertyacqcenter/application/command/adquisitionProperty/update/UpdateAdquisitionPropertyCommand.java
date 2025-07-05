@@ -131,8 +131,14 @@ public class UpdateAdquisitionPropertyCommand implements ICommand {
     private CreateDocumentRequest uploadTenantEstoppel;
     private CreateDocumentRequest uploadRentalAgreement;
 
+    //HOA
     private Integer hoaApprovalProcessingTime;
     private Double hoaDuesAmount;
+
+    //Legal & Estate
+    private CreateDocumentRequest proofOfOwnershipDocument;
+    private CreateDocumentRequest powerOfAttorneyDocument;
+    private CreateDocumentRequest trustOrEstateDocuments;
 
     public UpdateAdquisitionPropertyCommand(UUID id, UUID buyer, String property, UUID contact, String buyerNameAndYearVehicle,
             String buyerLicenseTagNo,
@@ -189,7 +195,10 @@ public class UpdateAdquisitionPropertyCommand implements ICommand {
             CreateDocumentRequest uploadTenantEstoppel,
             CreateDocumentRequest uploadRentalAgreement,
             Integer hoaApprovalProcessingTime,
-            Double hoaDuesAmount) {
+            Double hoaDuesAmount,
+            CreateDocumentRequest proofOfOwnershipDocument,
+            CreateDocumentRequest powerOfAttorneyDocument,
+            CreateDocumentRequest trustOrEstateDocuments) {
         this.id = id;
         this.buyer = buyer;
         this.property = property;
@@ -294,8 +303,14 @@ public class UpdateAdquisitionPropertyCommand implements ICommand {
         this.uploadTenantEstoppel = uploadTenantEstoppel;
         this.uploadRentalAgreement = uploadRentalAgreement;
 
+        //HOA
         this.hoaApprovalProcessingTime = hoaApprovalProcessingTime;
         this.hoaDuesAmount = hoaDuesAmount;
+
+        //Legal & Estate
+        this.proofOfOwnershipDocument = proofOfOwnershipDocument;
+        this.powerOfAttorneyDocument = powerOfAttorneyDocument;
+        this.trustOrEstateDocuments = trustOrEstateDocuments;
     }
 
     public static UpdateAdquisitionPropertyCommand fromRequest(UpdateAdquisitionPropertyRequest request, UUID id) {
@@ -397,7 +412,10 @@ public class UpdateAdquisitionPropertyCommand implements ICommand {
                 request.getUploadTenantEstoppel(),
                 request.getUploadRentalAgreement(),
                 request.getHoaApprovalProcessingTime(),
-                request.getHoaDuesAmount()
+                request.getHoaDuesAmount(),
+                request.getProofOfOwnershipDocument(),
+                request.getPowerOfAttorneyDocument(),
+                request.getTrustOrEstateDocuments()
         );
     }
 

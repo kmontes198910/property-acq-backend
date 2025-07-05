@@ -128,6 +128,12 @@ public class UpdateAdquisitionPropertyRequest {
     private CreateDocumentRequest uploadTenantEstoppel;
     private CreateDocumentRequest uploadRentalAgreement;
 
+    //HOA
     private Integer hoaApprovalProcessingTime;
     private Double hoaDuesAmount;
+
+    //Legal & Estate
+    private CreateDocumentRequest proofOfOwnershipDocument;
+    private CreateDocumentRequest powerOfAttorneyDocument;
+    private CreateDocumentRequest trustOrEstateDocuments;
 }

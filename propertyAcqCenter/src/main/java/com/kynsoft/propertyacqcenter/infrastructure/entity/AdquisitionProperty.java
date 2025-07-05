@@ -343,6 +343,16 @@ public class AdquisitionProperty {
     @Column(name = "upload_rental_agreement", nullable = true)
     private String uploadRentalAgreement;
 
+    //Legal & Estate
+    @Column(name = "proof_of_ownership_deed", nullable = true)
+    private String proofOfOwnershipDocument;
+
+    @Column(name = "power_of_attorney_upload", nullable = true)
+    private String powerOfAttorneyDocument;
+
+    @Column(name = "trust_estate_docs_upload", nullable = true)
+    private String trustOrEstateDocuments;
+
     public AdquisitionProperty(AdquisitionPropertyDto dto) {
         this.id = dto.getId() != null ? dto.getId() : UUID.randomUUID();
         this.buyerNameAndYearVehicle = dto.getBuyerNameAndYearVehicle();
@@ -456,6 +466,10 @@ public class AdquisitionProperty {
 
         this.hoaApprovalProcessingTime = dto.getHoaApprovalProcessingTime();
         this.hoaDuesAmount = dto.getHoaDuesAmount();
+
+        this.proofOfOwnershipDocument = dto.getProofOfOwnershipDocument();
+        this.powerOfAttorneyDocument = dto.getPowerOfAttorneyDocument();
+        this.trustOrEstateDocuments = dto.getTrustOrEstateDocuments();
     }
 
     public AdquisitionPropertyDto toAggregate() {
@@ -562,6 +576,10 @@ public class AdquisitionProperty {
                 .uploadRentalAgreement(uploadRentalAgreement)
                 .hoaApprovalProcessingTime(hoaApprovalProcessingTime)
                 .hoaDuesAmount(hoaDuesAmount)
+                .proofOfOwnershipDocument(proofOfOwnershipDocument)
+                .powerOfAttorneyDocument(powerOfAttorneyDocument)
+                .trustOrEstateDocuments(trustOrEstateDocuments)
+
                 .build();
     }
 

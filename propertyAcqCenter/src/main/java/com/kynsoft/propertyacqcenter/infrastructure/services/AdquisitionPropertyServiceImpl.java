@@ -158,6 +158,10 @@ public class AdquisitionPropertyServiceImpl implements IAdquisitionPropertyServi
         update.setHoaApprovalProcessingTime(object.getHoaApprovalProcessingTime() != null ? object.getHoaApprovalProcessingTime() : update.getHoaApprovalProcessingTime());
         update.setHoaDuesAmount(object.getHoaDuesAmount() != null ? object.getHoaDuesAmount() : update.getHoaDuesAmount());
 
+        update.setProofOfOwnershipDocument(object.getProofOfOwnershipDocument() != null ? object.getProofOfOwnershipDocument() : update.getProofOfOwnershipDocument());
+        update.setPowerOfAttorneyDocument(object.getPowerOfAttorneyDocument() != null ? object.getPowerOfAttorneyDocument() : update.getPowerOfAttorneyDocument());
+        update.setTrustOrEstateDocuments(object.getTrustOrEstateDocuments() != null ? object.getTrustOrEstateDocuments() : update.getTrustOrEstateDocuments());
+
         update.setUpdatedAt(LocalDateTime.now());
         repositoryCommand.save(update);
     }

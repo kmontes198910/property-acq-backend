@@ -139,4 +139,10 @@ public class AdquisitionPropertyDto {
     private String uploadSellersDisclosureForm;
     private String uploadTenantEstoppel;
     private String uploadRentalAgreement;
+
+    //Legal & Estate
+    private String proofOfOwnershipDocument;
+    private String powerOfAttorneyDocument;
+    private String trustOrEstateDocuments;
+
 }
