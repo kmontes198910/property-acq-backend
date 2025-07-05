@@ -155,6 +155,9 @@ public class AdquisitionPropertyServiceImpl implements IAdquisitionPropertyServi
         update.setUploadTenantEstoppel(object.getUploadTenantEstoppel() != null ? object.getUploadTenantEstoppel() : update.getUploadTenantEstoppel());
         update.setUploadRentalAgreement(object.getUploadRentalAgreement() != null ? object.getUploadRentalAgreement() : update.getUploadRentalAgreement());
 
+        update.setHoaApprovalProcessingTime(object.getHoaApprovalProcessingTime() != null ? object.getHoaApprovalProcessingTime() : update.getHoaApprovalProcessingTime());
+        update.setHoaDuesAmount(object.getHoaDuesAmount() != null ? object.getHoaDuesAmount() : update.getHoaDuesAmount());
+
         update.setUpdatedAt(LocalDateTime.now());
         repositoryCommand.save(update);
     }

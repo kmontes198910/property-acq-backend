@@ -127,4 +127,7 @@ public class UpdateAdquisitionPropertyRequest {
     private CreateDocumentRequest uploadSellersDisclosureForm;
     private CreateDocumentRequest uploadTenantEstoppel;
     private CreateDocumentRequest uploadRentalAgreement;
+
+    private Integer hoaApprovalProcessingTime;
+    private Double hoaDuesAmount;
 }

@@ -131,6 +131,9 @@ public class UpdateAdquisitionPropertyCommand implements ICommand {
     private CreateDocumentRequest uploadTenantEstoppel;
     private CreateDocumentRequest uploadRentalAgreement;
 
+    private Integer hoaApprovalProcessingTime;
+    private Double hoaDuesAmount;
+
     public UpdateAdquisitionPropertyCommand(UUID id, UUID buyer, String property, UUID contact, String buyerNameAndYearVehicle,
             String buyerLicenseTagNo,
             LocalDate dateAndTimeForInspections, String instructionsForAccess, LocalDate hoaBuyerInterviewDate,
@@ -184,7 +187,9 @@ public class UpdateAdquisitionPropertyCommand implements ICommand {
             CreateDocumentRequest uploadLatestUtilityBill,
             CreateDocumentRequest uploadSellersDisclosureForm,
             CreateDocumentRequest uploadTenantEstoppel,
-            CreateDocumentRequest uploadRentalAgreement) {
+            CreateDocumentRequest uploadRentalAgreement,
+            Integer hoaApprovalProcessingTime,
+            Double hoaDuesAmount) {
         this.id = id;
         this.buyer = buyer;
         this.property = property;
@@ -288,6 +293,9 @@ public class UpdateAdquisitionPropertyCommand implements ICommand {
         this.uploadSellersDisclosureForm = uploadSellersDisclosureForm;
         this.uploadTenantEstoppel = uploadTenantEstoppel;
         this.uploadRentalAgreement = uploadRentalAgreement;
+
+        this.hoaApprovalProcessingTime = hoaApprovalProcessingTime;
+        this.hoaDuesAmount = hoaDuesAmount;
     }
 
     public static UpdateAdquisitionPropertyCommand fromRequest(UpdateAdquisitionPropertyRequest request, UUID id) {
@@ -387,7 +395,9 @@ public class UpdateAdquisitionPropertyCommand implements ICommand {
                 request.getUploadLatestUtilityBill(),
                 request.getUploadSellersDisclosureForm(),
                 request.getUploadTenantEstoppel(),
-                request.getUploadRentalAgreement()
+                request.getUploadRentalAgreement(),
+                request.getHoaApprovalProcessingTime(),
+                request.getHoaDuesAmount()
         );
     }
 

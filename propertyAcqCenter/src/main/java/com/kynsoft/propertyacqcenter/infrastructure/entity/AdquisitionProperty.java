@@ -193,6 +193,12 @@ public class AdquisitionProperty {
     @Column(name = "hoa_validator_phone_number", nullable = true)
     private String hoaValidatorPhoneNumber;
 
+    @Column(name = "hoa_approval_time", nullable = true)
+    private Integer hoaApprovalProcessingTime;
+
+    @Column(name = "hoa_dues_amount", nullable = true)
+    private Double hoaDuesAmount;
+
     @Column(name = "closing_countdown_clock", nullable = true)
     private String closingCountdownClock;
 
@@ -373,7 +379,7 @@ public class AdquisitionProperty {
         this.sellerW9Form = dto.getSellerW9Form();
         this.sellerForeignSeller = dto.getSellerForeignSeller();
         this.sellerFirptaAffidavit = dto.getSellerFirptaAffidavit();
-        
+
         this.sellerWireAccountHolder = dto.getSellerWireAccountHolder();
         this.sellerWireAccountNumber = dto.getSellerWireAccountNumber();
         this.sellerWireRoutingNumber = dto.getSellerWireRoutingNumber();
@@ -447,6 +453,9 @@ public class AdquisitionProperty {
         this.uploadSellersDisclosureForm = dto.getUploadSellersDisclosureForm();
         this.uploadTenantEstoppel = dto.getUploadTenantEstoppel();
         this.uploadRentalAgreement = dto.getUploadRentalAgreement();
+
+        this.hoaApprovalProcessingTime = dto.getHoaApprovalProcessingTime();
+        this.hoaDuesAmount = dto.getHoaDuesAmount();
     }
 
     public AdquisitionPropertyDto toAggregate() {
@@ -508,7 +517,6 @@ public class AdquisitionProperty {
                 .hoaValidatorPhoneNumber(hoaValidatorPhoneNumber)
                 .closingCountdownClock(closingCountdownClock)
                 .contractClosingDate(contractClosingDate)
-
                 .sellerFullName(sellerFullName)
                 .sellerEntityName(sellerEntityName)
                 .sellerArticlesOfIncorporation(sellerArticlesOfIncorporation)
@@ -528,14 +536,12 @@ public class AdquisitionProperty {
                 .zelleContact(zelleContact)
                 .titleCompanyRequestForEstoppelLetter(titleCompanyRequestForEstoppelLetter)
                 .titleCompanyEarnestMoneyDepositConfirmation(titleCompanyEarnestMoneyDepositConfirmation)
-
                 .surveyavailable(surveyavailable)
                 .recentImprovementsLast12Months(recentImprovementsLast12Months)
                 .uploadInvoicesForImprovements(uploadInvoicesForImprovements)
                 .summarizePropertyCondition(summarizePropertyCondition)
                 .discloseKnownRepairsOrDefects(discloseKnownRepairsOrDefects)
                 .listItemsNotIncludedInSale(listItemsNotIncludedInSale)
-
                 .isThereAMortgage(isThereAMortgage)
                 .lenderName(lenderName)
                 .loanNumber(loanNumber)
@@ -544,7 +550,6 @@ public class AdquisitionProperty {
                 .secondLienOrHeloc(secondLienOrHeloc)
                 .irsLiensOrJudgments(irsLiensOrJudgments)
                 .uploadTaxProrationAgreement(uploadTaxProrationAgreement)
-
                 .electricProvider(electricProvider)
                 .electricProviderAccountNumber(electricProviderAccountNumber)
                 .waterSewerProvider(waterSewerProvider)
@@ -552,11 +557,11 @@ public class AdquisitionProperty {
                 .gasProviderAccountNumber(gasProviderAccountNumber)
                 .trashServiceProvider(trashServiceProvider)
                 .uploadLatestUtilityBill(uploadLatestUtilityBill)
-
                 .uploadSellersDisclosureForm(uploadSellersDisclosureForm)
                 .uploadTenantEstoppel(uploadTenantEstoppel)
                 .uploadRentalAgreement(uploadRentalAgreement)
-
+                .hoaApprovalProcessingTime(hoaApprovalProcessingTime)
+                .hoaDuesAmount(hoaDuesAmount)
                 .build();
     }
 

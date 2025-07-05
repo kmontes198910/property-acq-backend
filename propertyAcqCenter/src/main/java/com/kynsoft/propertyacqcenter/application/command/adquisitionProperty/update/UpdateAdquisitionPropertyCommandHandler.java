@@ -143,6 +143,9 @@ public class UpdateAdquisitionPropertyCommandHandler implements ICommandHandler<
                 .uploadTenantEstoppel(command.getUploadTenantEstoppel() != null ? command.getUploadTenantEstoppel().getFilePath() + "|" + command.getUploadTenantEstoppel().getFileName() : null)
                 .uploadRentalAgreement(command.getUploadRentalAgreement() != null ? command.getUploadRentalAgreement().getFilePath() + "|" + command.getUploadRentalAgreement().getFileName() : null)
 
+                .hoaApprovalProcessingTime(command.getHoaApprovalProcessingTime())
+                .hoaDuesAmount(command.getHoaDuesAmount())
+
                 .build()
         );
     }

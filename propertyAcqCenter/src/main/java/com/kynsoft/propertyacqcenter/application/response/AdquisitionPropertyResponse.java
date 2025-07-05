@@ -120,6 +120,9 @@ public class AdquisitionPropertyResponse implements IResponse {
     private AdquisitionDocumentResponse uploadTenantEstoppel;
     private AdquisitionDocumentResponse uploadRentalAgreement;
 
+    private Integer hoaApprovalProcessingTime;
+    private Double hoaDuesAmount;
+
     public AdquisitionPropertyResponse(AdquisitionPropertyDto dto) {
         this.id = dto.getId();
         this.buyer = dto.getBuyer() != null ? new LegalEntityBasicResponse(dto.getBuyer()) : null;
@@ -221,6 +224,9 @@ public class AdquisitionPropertyResponse implements IResponse {
         this.uploadSellersDisclosureForm = DocumentMapper.mapDocumentField(dto.getUploadSellersDisclosureForm());
         this.uploadTenantEstoppel = DocumentMapper.mapDocumentField(dto.getUploadTenantEstoppel());
         this.uploadRentalAgreement = DocumentMapper.mapDocumentField(dto.getUploadRentalAgreement());
+
+        this.hoaApprovalProcessingTime = dto.getHoaApprovalProcessingTime();
+        this.hoaDuesAmount = dto.getHoaDuesAmount();
     }
 
 }
