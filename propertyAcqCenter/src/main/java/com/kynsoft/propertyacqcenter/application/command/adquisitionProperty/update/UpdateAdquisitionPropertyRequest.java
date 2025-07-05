@@ -127,4 +127,22 @@ public class UpdateAdquisitionPropertyRequest {
     private CreateDocumentRequest uploadSellersDisclosureForm;
     private CreateDocumentRequest uploadTenantEstoppel;
     private CreateDocumentRequest uploadRentalAgreement;
+
+    //HOA
+    private Integer hoaApprovalProcessingTime;
+    private Double hoaDuesAmount;
+
+    //Legal & Estate
+    private CreateDocumentRequest proofOfOwnershipDocument;
+    private CreateDocumentRequest powerOfAttorneyDocument;
+    private CreateDocumentRequest trustOrEstateDocuments;
+
+    //Closing
+    private String enterWireInstructions;
+    private String authorizeTitleCompanyInfo;
+
+    //Access & Inspection
+    private String propertyAccessCode;
+    private String timeForAccess;
+    private String instructionsForInspections;
 }

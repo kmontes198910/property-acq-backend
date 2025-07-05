@@ -120,6 +120,24 @@ public class AdquisitionPropertyResponse implements IResponse {
     private AdquisitionDocumentResponse uploadTenantEstoppel;
     private AdquisitionDocumentResponse uploadRentalAgreement;
 
+    //HOA
+    private Integer hoaApprovalProcessingTime;
+    private Double hoaDuesAmount;
+
+    //Legal & Estate
+    private AdquisitionDocumentResponse proofOfOwnershipDocument;
+    private AdquisitionDocumentResponse powerOfAttorneyDocument;
+    private AdquisitionDocumentResponse trustOrEstateDocuments;
+
+    //Closing
+    private String enterWireInstructions;
+    private String authorizeTitleCompanyInfo;
+
+    //Access & Inspection
+    private String propertyAccessCode;
+    private String timeForAccess;
+    private String instructionsForInspections;
+
     public AdquisitionPropertyResponse(AdquisitionPropertyDto dto) {
         this.id = dto.getId();
         this.buyer = dto.getBuyer() != null ? new LegalEntityBasicResponse(dto.getBuyer()) : null;
@@ -187,7 +205,7 @@ public class AdquisitionPropertyResponse implements IResponse {
 
         this.titleCompanyRequestForEstoppelLetter = dto.getTitleCompanyRequestForEstoppelLetter();
         this.titleCompanyEarnestMoneyDepositConfirmation = DocumentMapper.mapDocumentField(dto.getTitleCompanyEarnestMoneyDepositConfirmation());
-        
+
         this.createdAt = dto.getCreatedAt();
         this.updatedAt = dto.getUpdatedAt();
         this.createdBy = dto.getCreatedBy();
@@ -221,6 +239,20 @@ public class AdquisitionPropertyResponse implements IResponse {
         this.uploadSellersDisclosureForm = DocumentMapper.mapDocumentField(dto.getUploadSellersDisclosureForm());
         this.uploadTenantEstoppel = DocumentMapper.mapDocumentField(dto.getUploadTenantEstoppel());
         this.uploadRentalAgreement = DocumentMapper.mapDocumentField(dto.getUploadRentalAgreement());
+
+        this.hoaApprovalProcessingTime = dto.getHoaApprovalProcessingTime();
+        this.hoaDuesAmount = dto.getHoaDuesAmount();
+
+        this.proofOfOwnershipDocument = DocumentMapper.mapDocumentField(dto.getProofOfOwnershipDocument());
+        this.powerOfAttorneyDocument = DocumentMapper.mapDocumentField(dto.getPowerOfAttorneyDocument());
+        this.trustOrEstateDocuments = DocumentMapper.mapDocumentField(dto.getTrustOrEstateDocuments());
+
+        this.enterWireInstructions = dto.getEnterWireInstructions();
+        this.authorizeTitleCompanyInfo = dto.getAuthorizeTitleCompanyInfo();
+
+        this.propertyAccessCode = dto.getPropertyAccessCode();
+        this.timeForAccess = dto.getTimeForAccess();
+        this.instructionsForInspections = dto.getInstructionsForInspections();
     }
 
 }

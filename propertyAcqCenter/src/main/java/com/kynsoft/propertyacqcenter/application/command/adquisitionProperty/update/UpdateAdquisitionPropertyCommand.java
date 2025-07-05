@@ -131,6 +131,24 @@ public class UpdateAdquisitionPropertyCommand implements ICommand {
     private CreateDocumentRequest uploadTenantEstoppel;
     private CreateDocumentRequest uploadRentalAgreement;
 
+    //HOA
+    private Integer hoaApprovalProcessingTime;
+    private Double hoaDuesAmount;
+
+    //Legal & Estate
+    private CreateDocumentRequest proofOfOwnershipDocument;
+    private CreateDocumentRequest powerOfAttorneyDocument;
+    private CreateDocumentRequest trustOrEstateDocuments;
+
+    //Closing
+    private String enterWireInstructions;
+    private String authorizeTitleCompanyInfo;
+
+    //Access & Inspection
+    private String propertyAccessCode;
+    private String timeForAccess;
+    private String instructionsForInspections;
+
     public UpdateAdquisitionPropertyCommand(UUID id, UUID buyer, String property, UUID contact, String buyerNameAndYearVehicle,
             String buyerLicenseTagNo,
             LocalDate dateAndTimeForInspections, String instructionsForAccess, LocalDate hoaBuyerInterviewDate,
@@ -184,7 +202,17 @@ public class UpdateAdquisitionPropertyCommand implements ICommand {
             CreateDocumentRequest uploadLatestUtilityBill,
             CreateDocumentRequest uploadSellersDisclosureForm,
             CreateDocumentRequest uploadTenantEstoppel,
-            CreateDocumentRequest uploadRentalAgreement) {
+            CreateDocumentRequest uploadRentalAgreement,
+            Integer hoaApprovalProcessingTime,
+            Double hoaDuesAmount,
+            CreateDocumentRequest proofOfOwnershipDocument,
+            CreateDocumentRequest powerOfAttorneyDocument,
+            CreateDocumentRequest trustOrEstateDocuments,
+            String enterWireInstructions,
+            String authorizeTitleCompanyInfo,
+            String propertyAccessCode,
+            String timeForAccess,
+            String instructionsForInspections) {
         this.id = id;
         this.buyer = buyer;
         this.property = property;
@@ -288,6 +316,23 @@ public class UpdateAdquisitionPropertyCommand implements ICommand {
         this.uploadSellersDisclosureForm = uploadSellersDisclosureForm;
         this.uploadTenantEstoppel = uploadTenantEstoppel;
         this.uploadRentalAgreement = uploadRentalAgreement;
+
+        //HOA
+        this.hoaApprovalProcessingTime = hoaApprovalProcessingTime;
+        this.hoaDuesAmount = hoaDuesAmount;
+
+        //Legal & Estate
+        this.proofOfOwnershipDocument = proofOfOwnershipDocument;
+        this.powerOfAttorneyDocument = powerOfAttorneyDocument;
+        this.trustOrEstateDocuments = trustOrEstateDocuments;
+
+        //Closing
+        this.enterWireInstructions = enterWireInstructions;
+        this.authorizeTitleCompanyInfo = authorizeTitleCompanyInfo;
+
+        this.propertyAccessCode = propertyAccessCode;
+        this.timeForAccess = timeForAccess;
+        this.instructionsForInspections = instructionsForInspections;
     }
 
     public static UpdateAdquisitionPropertyCommand fromRequest(UpdateAdquisitionPropertyRequest request, UUID id) {
@@ -387,7 +432,17 @@ public class UpdateAdquisitionPropertyCommand implements ICommand {
                 request.getUploadLatestUtilityBill(),
                 request.getUploadSellersDisclosureForm(),
                 request.getUploadTenantEstoppel(),
-                request.getUploadRentalAgreement()
+                request.getUploadRentalAgreement(),
+                request.getHoaApprovalProcessingTime(),
+                request.getHoaDuesAmount(),
+                request.getProofOfOwnershipDocument(),
+                request.getPowerOfAttorneyDocument(),
+                request.getTrustOrEstateDocuments(),
+                request.getEnterWireInstructions(),
+                request.getAuthorizeTitleCompanyInfo(),
+                request.getPropertyAccessCode(),
+                request.getTimeForAccess(),
+                request.getInstructionsForInspections()
         );
     }
 

@@ -155,6 +155,20 @@ public class AdquisitionPropertyServiceImpl implements IAdquisitionPropertyServi
         update.setUploadTenantEstoppel(object.getUploadTenantEstoppel() != null ? object.getUploadTenantEstoppel() : update.getUploadTenantEstoppel());
         update.setUploadRentalAgreement(object.getUploadRentalAgreement() != null ? object.getUploadRentalAgreement() : update.getUploadRentalAgreement());
 
+        update.setHoaApprovalProcessingTime(object.getHoaApprovalProcessingTime() != null ? object.getHoaApprovalProcessingTime() : update.getHoaApprovalProcessingTime());
+        update.setHoaDuesAmount(object.getHoaDuesAmount() != null ? object.getHoaDuesAmount() : update.getHoaDuesAmount());
+
+        update.setProofOfOwnershipDocument(object.getProofOfOwnershipDocument() != null ? object.getProofOfOwnershipDocument() : update.getProofOfOwnershipDocument());
+        update.setPowerOfAttorneyDocument(object.getPowerOfAttorneyDocument() != null ? object.getPowerOfAttorneyDocument() : update.getPowerOfAttorneyDocument());
+        update.setTrustOrEstateDocuments(object.getTrustOrEstateDocuments() != null ? object.getTrustOrEstateDocuments() : update.getTrustOrEstateDocuments());
+
+        update.setEnterWireInstructions(object.getEnterWireInstructions() != null ? object.getEnterWireInstructions() : update.getEnterWireInstructions());
+        update.setAuthorizeTitleCompanyInfo(object.getAuthorizeTitleCompanyInfo() != null ? object.getAuthorizeTitleCompanyInfo() : update.getAuthorizeTitleCompanyInfo());
+
+        update.setPropertyAccessCode(object.getPropertyAccessCode() != null ? object.getPropertyAccessCode() : update.getPropertyAccessCode());
+        update.setTimeForAccess(object.getTimeForAccess() != null ? object.getTimeForAccess() : update.getTimeForAccess());
+        update.setInstructionsForInspections(object.getInstructionsForInspections() != null ? object.getInstructionsForInspections() : update.getInstructionsForInspections());
+
         update.setUpdatedAt(LocalDateTime.now());
         repositoryCommand.save(update);
     }

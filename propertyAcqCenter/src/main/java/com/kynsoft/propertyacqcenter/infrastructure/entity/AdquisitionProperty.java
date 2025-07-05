@@ -193,6 +193,12 @@ public class AdquisitionProperty {
     @Column(name = "hoa_validator_phone_number", nullable = true)
     private String hoaValidatorPhoneNumber;
 
+    @Column(name = "hoa_approval_time", nullable = true)
+    private Integer hoaApprovalProcessingTime;
+
+    @Column(name = "hoa_dues_amount", nullable = true)
+    private Double hoaDuesAmount;
+
     @Column(name = "closing_countdown_clock", nullable = true)
     private String closingCountdownClock;
 
@@ -337,6 +343,33 @@ public class AdquisitionProperty {
     @Column(name = "upload_rental_agreement", nullable = true)
     private String uploadRentalAgreement;
 
+    //Legal & Estate
+    @Column(name = "proof_of_ownership_deed", nullable = true)
+    private String proofOfOwnershipDocument;
+
+    @Column(name = "power_of_attorney_upload", nullable = true)
+    private String powerOfAttorneyDocument;
+
+    @Column(name = "trust_estate_docs_upload", nullable = true)
+    private String trustOrEstateDocuments;
+
+    //Closing
+    @Column(name = "enter_wire_instructions", nullable = true)
+    private String enterWireInstructions;
+
+    @Column(name = "authorize_title_company_info", nullable = true)
+    private String authorizeTitleCompanyInfo;
+
+    //Access & Inspection
+    @Column(name = "property_access_code", nullable = true)
+    private String propertyAccessCode;
+
+    @Column(name = "time_for_access", nullable = true)
+    private String timeForAccess;
+
+    @Column(name = "instructions_for_inspections", nullable = true)
+    private String instructionsForInspections;
+
     public AdquisitionProperty(AdquisitionPropertyDto dto) {
         this.id = dto.getId() != null ? dto.getId() : UUID.randomUUID();
         this.buyerNameAndYearVehicle = dto.getBuyerNameAndYearVehicle();
@@ -373,7 +406,7 @@ public class AdquisitionProperty {
         this.sellerW9Form = dto.getSellerW9Form();
         this.sellerForeignSeller = dto.getSellerForeignSeller();
         this.sellerFirptaAffidavit = dto.getSellerFirptaAffidavit();
-        
+
         this.sellerWireAccountHolder = dto.getSellerWireAccountHolder();
         this.sellerWireAccountNumber = dto.getSellerWireAccountNumber();
         this.sellerWireRoutingNumber = dto.getSellerWireRoutingNumber();
@@ -447,6 +480,20 @@ public class AdquisitionProperty {
         this.uploadSellersDisclosureForm = dto.getUploadSellersDisclosureForm();
         this.uploadTenantEstoppel = dto.getUploadTenantEstoppel();
         this.uploadRentalAgreement = dto.getUploadRentalAgreement();
+
+        this.hoaApprovalProcessingTime = dto.getHoaApprovalProcessingTime();
+        this.hoaDuesAmount = dto.getHoaDuesAmount();
+
+        this.proofOfOwnershipDocument = dto.getProofOfOwnershipDocument();
+        this.powerOfAttorneyDocument = dto.getPowerOfAttorneyDocument();
+        this.trustOrEstateDocuments = dto.getTrustOrEstateDocuments();
+
+        this.enterWireInstructions = dto.getEnterWireInstructions();
+        this.authorizeTitleCompanyInfo = dto.getAuthorizeTitleCompanyInfo();
+
+        this.propertyAccessCode = dto.getPropertyAccessCode();
+        this.timeForAccess = dto.getTimeForAccess();
+        this.instructionsForInspections = dto.getInstructionsForInspections();
     }
 
     public AdquisitionPropertyDto toAggregate() {
@@ -508,7 +555,6 @@ public class AdquisitionProperty {
                 .hoaValidatorPhoneNumber(hoaValidatorPhoneNumber)
                 .closingCountdownClock(closingCountdownClock)
                 .contractClosingDate(contractClosingDate)
-
                 .sellerFullName(sellerFullName)
                 .sellerEntityName(sellerEntityName)
                 .sellerArticlesOfIncorporation(sellerArticlesOfIncorporation)
@@ -528,14 +574,12 @@ public class AdquisitionProperty {
                 .zelleContact(zelleContact)
                 .titleCompanyRequestForEstoppelLetter(titleCompanyRequestForEstoppelLetter)
                 .titleCompanyEarnestMoneyDepositConfirmation(titleCompanyEarnestMoneyDepositConfirmation)
-
                 .surveyavailable(surveyavailable)
                 .recentImprovementsLast12Months(recentImprovementsLast12Months)
                 .uploadInvoicesForImprovements(uploadInvoicesForImprovements)
                 .summarizePropertyCondition(summarizePropertyCondition)
                 .discloseKnownRepairsOrDefects(discloseKnownRepairsOrDefects)
                 .listItemsNotIncludedInSale(listItemsNotIncludedInSale)
-
                 .isThereAMortgage(isThereAMortgage)
                 .lenderName(lenderName)
                 .loanNumber(loanNumber)
@@ -544,7 +588,6 @@ public class AdquisitionProperty {
                 .secondLienOrHeloc(secondLienOrHeloc)
                 .irsLiensOrJudgments(irsLiensOrJudgments)
                 .uploadTaxProrationAgreement(uploadTaxProrationAgreement)
-
                 .electricProvider(electricProvider)
                 .electricProviderAccountNumber(electricProviderAccountNumber)
                 .waterSewerProvider(waterSewerProvider)
@@ -552,11 +595,19 @@ public class AdquisitionProperty {
                 .gasProviderAccountNumber(gasProviderAccountNumber)
                 .trashServiceProvider(trashServiceProvider)
                 .uploadLatestUtilityBill(uploadLatestUtilityBill)
-
                 .uploadSellersDisclosureForm(uploadSellersDisclosureForm)
                 .uploadTenantEstoppel(uploadTenantEstoppel)
                 .uploadRentalAgreement(uploadRentalAgreement)
-
+                .hoaApprovalProcessingTime(hoaApprovalProcessingTime)
+                .hoaDuesAmount(hoaDuesAmount)
+                .proofOfOwnershipDocument(proofOfOwnershipDocument)
+                .powerOfAttorneyDocument(powerOfAttorneyDocument)
+                .trustOrEstateDocuments(trustOrEstateDocuments)
+                .enterWireInstructions(enterWireInstructions)
+                .authorizeTitleCompanyInfo(authorizeTitleCompanyInfo)
+                .propertyAccessCode(propertyAccessCode)
+                .timeForAccess(timeForAccess)
+                .instructionsForInspections(instructionsForInspections)
                 .build();
     }
 

@@ -143,6 +143,24 @@ public class UpdateAdquisitionPropertyCommandHandler implements ICommandHandler<
                 .uploadTenantEstoppel(command.getUploadTenantEstoppel() != null ? command.getUploadTenantEstoppel().getFilePath() + "|" + command.getUploadTenantEstoppel().getFileName() : null)
                 .uploadRentalAgreement(command.getUploadRentalAgreement() != null ? command.getUploadRentalAgreement().getFilePath() + "|" + command.getUploadRentalAgreement().getFileName() : null)
 
+                //HOA
+                .hoaApprovalProcessingTime(command.getHoaApprovalProcessingTime())
+                .hoaDuesAmount(command.getHoaDuesAmount())
+
+                //Legal & Estate
+                .proofOfOwnershipDocument(command.getProofOfOwnershipDocument() != null ? command.getProofOfOwnershipDocument().getFilePath() + "|" + command.getProofOfOwnershipDocument().getFileName() : null)
+                .powerOfAttorneyDocument(command.getPowerOfAttorneyDocument() != null ? command.getPowerOfAttorneyDocument().getFilePath() + "|" + command.getPowerOfAttorneyDocument().getFileName() : null)
+                .trustOrEstateDocuments(command.getTrustOrEstateDocuments() != null ? command.getTrustOrEstateDocuments().getFilePath() + "|" + command.getTrustOrEstateDocuments().getFileName() : null)
+
+                //Closing
+                .enterWireInstructions(command.getEnterWireInstructions())
+                .authorizeTitleCompanyInfo(command.getAuthorizeTitleCompanyInfo())
+
+                //Access & Inspection
+                .propertyAccessCode(command.getPropertyAccessCode())
+                .timeForAccess(command.getTimeForAccess())
+                .instructionsForInspections(command.getInstructionsForInspections())
+
                 .build()
         );
     }

@@ -41,10 +41,6 @@ public class AdquisitionPropertyDto {
     private UUID updatedBy;
 
     private String uploadGovernmentIssuedId;
-    private String hoaApplicationForm;
-    private String hoaApplicationUpload;
-    private String hoaFinancials;
-    private String hoaRulesRegulations;
     private String buyerCarRegistration;
     private String buyerBackgroundCheck;
     private String commitmentLetter;
@@ -67,12 +63,20 @@ public class AdquisitionPropertyDto {
     private String buyerEntityName;
     private String buyerMailingAddress;
     private String buyerMobilePhoneNumber;
+    private String closingCountdownClock;
+    private LocalDate contractClosingDate;
+
+    //HOA
+    private Integer hoaApprovalProcessingTime;
+    private Double hoaDuesAmount;
     private String hoa4050certificationStatus;
     private String hoaValidatorContactName;
     private String hoaValidatorEmail;
     private String hoaValidatorPhoneNumber;
-    private String closingCountdownClock;
-    private LocalDate contractClosingDate;
+    private String hoaApplicationForm;
+    private String hoaApplicationUpload;
+    private String hoaFinancials;
+    private String hoaRulesRegulations;
 
         //Seller
     private String sellerFullName;//Sellers, Wholesaler, Real Estate Agent, Title Co.
@@ -135,4 +139,18 @@ public class AdquisitionPropertyDto {
     private String uploadSellersDisclosureForm;
     private String uploadTenantEstoppel;
     private String uploadRentalAgreement;
+
+    //Legal & Estate
+    private String proofOfOwnershipDocument;
+    private String powerOfAttorneyDocument;
+    private String trustOrEstateDocuments;
+
+    //Closing
+    private String enterWireInstructions;
+    private String authorizeTitleCompanyInfo;
+
+    //Access & Inspection
+    private String propertyAccessCode;
+    private String timeForAccess;
+    private String instructionsForInspections;
 }
