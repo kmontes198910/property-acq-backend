@@ -142,6 +142,8 @@ public class AdquisitionPropertyServiceImpl implements IAdquisitionPropertyServi
         update.setSecondLienOrHeloc(object.getSecondLienOrHeloc() != null ? object.getSecondLienOrHeloc() : update.getSecondLienOrHeloc());
         update.setIrsLiensOrJudgments(object.getIrsLiensOrJudgments() != null ? object.getIrsLiensOrJudgments() : update.getIrsLiensOrJudgments());
         update.setUploadTaxProrationAgreement(object.getUploadTaxProrationAgreement() != null ? object.getUploadTaxProrationAgreement() : update.getUploadTaxProrationAgreement());
+        update.setLienSearch(object.getLienSearch() != null ? object.getLienSearch() : update.getLienSearch());
+        update.setFinalAgreedSalesPrice(object.getFinalAgreedSalesPrice() != null ? object.getFinalAgreedSalesPrice() : update.getFinalAgreedSalesPrice());
 
         update.setElectricProvider(object.getElectricProvider() != null ? object.getElectricProvider() : update.getElectricProvider());
         update.setElectricProviderAccountNumber(object.getElectricProviderAccountNumber() != null ? object.getElectricProviderAccountNumber() : update.getElectricProviderAccountNumber());

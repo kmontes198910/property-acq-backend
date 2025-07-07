@@ -142,6 +142,8 @@ public class AdquisitionPropertyDto {
     private Boolean secondLienOrHeloc;
     private Boolean irsLiensOrJudgments;
     private String uploadTaxProrationAgreement;
+    private String lienSearch;
+    private Double finalAgreedSalesPrice;
 
     //Utilities
     private String electricProvider;

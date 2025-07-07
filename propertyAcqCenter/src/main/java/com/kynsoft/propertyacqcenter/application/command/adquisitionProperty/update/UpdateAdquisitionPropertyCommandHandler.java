@@ -128,6 +128,8 @@ public class UpdateAdquisitionPropertyCommandHandler implements ICommandHandler<
                 .secondLienOrHeloc(command.getSecondLienOrHeloc())
                 .irsLiensOrJudgments(command.getIrsLiensOrJudgments())
                 .uploadTaxProrationAgreement(command.getUploadTaxProrationAgreement() != null ? command.getUploadTaxProrationAgreement().getFilePath() + "|" + command.getUploadTaxProrationAgreement().getFileName() : null)
+                .lienSearch(command.getLienSearch() != null ? command.getLienSearch().getFilePath() + "|" + command.getLienSearch().getFileName() : null)
+                .finalAgreedSalesPrice(command.getFinalAgreedSalesPrice())
 
                 //Utilities
                 .electricProvider(command.getElectricProvider())

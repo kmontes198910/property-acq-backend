@@ -116,6 +116,8 @@ public class UpdateAdquisitionPropertyCommand implements ICommand {
     private Boolean secondLienOrHeloc;
     private Boolean irsLiensOrJudgments;
     private CreateDocumentRequest uploadTaxProrationAgreement;
+    private CreateDocumentRequest lienSearch;
+    private Double finalAgreedSalesPrice;
 
     //Utilities
     private String electricProvider;
@@ -246,7 +248,9 @@ public class UpdateAdquisitionPropertyCommand implements ICommand {
             CreateDocumentRequest hoaHaveReserve,
             CreateDocumentRequest hoaCOICertificate,
             String buyersSocialSecurity,
-            CreateDocumentRequest hoaW9TaxID
+            CreateDocumentRequest hoaW9TaxID,
+            CreateDocumentRequest lienSearch,
+            Double finalAgreedSalesPrice
             ) {
         this.id = id;
         this.buyer = buyer;
@@ -384,6 +388,8 @@ public class UpdateAdquisitionPropertyCommand implements ICommand {
         this.propertyAccessCode = propertyAccessCode;
         this.timeForAccess = timeForAccess;
         this.instructionsForInspections = instructionsForInspections;
+        this.lienSearch = lienSearch;
+        this.finalAgreedSalesPrice = finalAgreedSalesPrice;
     }
 
     public static UpdateAdquisitionPropertyCommand fromRequest(UpdateAdquisitionPropertyRequest request, UUID id) {
@@ -509,7 +515,9 @@ public class UpdateAdquisitionPropertyCommand implements ICommand {
                 request.getHoaHaveReserve(),
                 request.getHoaCOICertificate(),
                 request.getBuyersSocialSecurity(),
-                request.getHoaW9TaxID()
+                request.getHoaW9TaxID(),
+                request.getLienSearch(),
+                request.getFinalAgreedSalesPrice()
         );
     }
 
