@@ -4,7 +4,9 @@ import com.kynsof.identity.application.query.module.getbyid.ModuleResponse;
 import com.kynsof.identity.application.query.permission.getById.PermissionResponse;
 import com.kynsof.identity.application.query.users.userMe.BusinessPermissionResponse;
 import com.kynsof.identity.application.query.users.userMe.UserMeResponse;
+import com.kynsof.identity.domain.dto.ManageRolDto;
 import com.kynsof.identity.domain.interfaces.service.IUserMeService;
+import com.kynsof.identity.domain.interfaces.service.IUsersRolesService;
 import com.kynsof.identity.infrastructure.entities.ManageRole;
 import com.kynsof.identity.infrastructure.entities.Permission;
 import com.kynsof.identity.infrastructure.entities.UserPermissionBusiness;
@@ -28,12 +30,15 @@ public class UserMeServiceImpl implements IUserMeService {
     private final UserPermissionBusinessReadDataJPARepository userPermissionBusinessReadDataJPARepository;
     private final UserSystemReadDataJPARepository repositoryQuery;
     private final BusinessModuleReadDataJPARepository businessModuleReadDataJPARepository;
+    private final IUsersRolesService usersRolesService;
 
     public UserMeServiceImpl(UserPermissionBusinessReadDataJPARepository userPermissionBusinessReadDataJPARepository,
-                             UserSystemReadDataJPARepository repositoryQuery, BusinessModuleReadDataJPARepository businessModuleReadDataJPARepository) {
+                             UserSystemReadDataJPARepository repositoryQuery, BusinessModuleReadDataJPARepository businessModuleReadDataJPARepository,
+                             IUsersRolesService usersRolesService) {
         this.userPermissionBusinessReadDataJPARepository = userPermissionBusinessReadDataJPARepository;
         this.repositoryQuery = repositoryQuery;
         this.businessModuleReadDataJPARepository = businessModuleReadDataJPARepository;
+        this.usersRolesService = usersRolesService;
     }
 
     @Override
@@ -43,15 +48,16 @@ public class UserMeServiceImpl implements IUserMeService {
                 .orElseThrow(() -> new BusinessNotFoundException(new GlobalBusinessException(
                         DomainErrorMessage.USER_NOT_FOUND, new ErrorField("id", DomainErrorMessage.USER_NOT_FOUND.getReasonPhrase()))));
 
+        List<ManageRolDto> roles = this.usersRolesService.roles(userSystem.getId());
         if (userSystem.getUserType().equals(EUserType.SUPER_ADMIN)) {
             List<BusinessPermissionResponse> businessPermissionResponses = getAllBusinessesWithPermissions();
-            return createUserMeResponse(userSystem, businessPermissionResponses);
+            return createUserMeResponse(userSystem, businessPermissionResponses, roles);
         }
 
         var userPermissions = userPermissionBusinessReadDataJPARepository.findUserPermissionBusinessByUserId(userSystem.getId());
         var businessResponses = groupUserPermissionsByBusiness(userPermissions);
 
-        return createUserMeResponse(userSystem, new ArrayList<>(businessResponses.values()));
+        return createUserMeResponse(userSystem, new ArrayList<>(businessResponses.values()), roles);
     }
 
     private Map<UUID, BusinessPermissionResponse> groupUserPermissionsByBusiness(List<UserPermissionBusiness> userPermissions) {
@@ -75,7 +81,7 @@ public class UserMeServiceImpl implements IUserMeService {
                 .collect(Collectors.toMap(BusinessPermissionResponse::getBusinessId, bpr -> bpr));
     }
 
-    private UserMeResponse createUserMeResponse(UserSystem userSystem, List<BusinessPermissionResponse> businessResponses) {
+    private UserMeResponse createUserMeResponse(UserSystem userSystem, List<BusinessPermissionResponse> businessResponses, List<ManageRolDto> roles) {
         return new UserMeResponse(
                 userSystem.getId(),
                 userSystem.getUserName(),
@@ -85,8 +91,8 @@ public class UserMeServiceImpl implements IUserMeService {
                 userSystem.getImage(),
                 userSystem.getSelectedBusiness(),
                 businessResponses,
-                null
-
+                null,
+                roles
         );
     }
 
