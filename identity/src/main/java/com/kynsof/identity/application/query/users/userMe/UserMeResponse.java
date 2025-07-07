@@ -1,6 +1,7 @@
 package com.kynsof.identity.application.query.users.userMe;
 
 import com.kynsof.identity.application.query.permission.getById.PermissionResponse;
+import com.kynsof.identity.domain.dto.ManageRolDto;
 import com.kynsof.share.core.domain.bus.query.IResponse;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -23,4 +24,5 @@ public class UserMeResponse implements IResponse, Serializable {
     private UUID selectedBusiness;
     private List<BusinessPermissionResponse> businesses;
     private List<PermissionResponse> permissions;
+    private List<ManageRolDto> manageRoles;
 }
