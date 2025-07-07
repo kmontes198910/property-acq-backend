@@ -113,6 +113,8 @@ public class UpdateAdquisitionPropertyRequest {
     private Boolean secondLienOrHeloc;
     private Boolean irsLiensOrJudgments;
     private CreateDocumentRequest uploadTaxProrationAgreement;
+    private CreateDocumentRequest lienSearch;
+    private Double finalAgreedSalesPrice;
 
     //Utilities
     private String electricProvider;

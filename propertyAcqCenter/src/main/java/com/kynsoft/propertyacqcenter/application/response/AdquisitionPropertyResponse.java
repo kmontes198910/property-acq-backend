@@ -105,6 +105,8 @@ public class AdquisitionPropertyResponse implements IResponse {
     private Boolean secondLienOrHeloc;
     private Boolean irsLiensOrJudgments;
     private AdquisitionDocumentResponse uploadTaxProrationAgreement;
+    private AdquisitionDocumentResponse lienSearch;
+    private Double finalAgreedSalesPrice;
 
     //Utilities
     private String electricProvider;
@@ -244,6 +246,8 @@ public class AdquisitionPropertyResponse implements IResponse {
         this.secondLienOrHeloc = dto.getSecondLienOrHeloc();
         this.irsLiensOrJudgments = dto.getIrsLiensOrJudgments();
         this.uploadTaxProrationAgreement = DocumentMapper.mapDocumentField(dto.getUploadTaxProrationAgreement());
+        this.lienSearch = DocumentMapper.mapDocumentField(dto.getLienSearch());
+        this.finalAgreedSalesPrice = dto.getFinalAgreedSalesPrice();
 
         this.electricProvider = dto.getElectricProvider();
         this.electricProviderAccountNumber = dto.getElectricProviderAccountNumber();

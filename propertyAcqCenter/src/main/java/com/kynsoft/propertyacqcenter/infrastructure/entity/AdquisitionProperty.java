@@ -311,6 +311,12 @@ public class AdquisitionProperty {
     @Column(name = "upload_tax_proration_agreement", nullable = true)
     private String uploadTaxProrationAgreement;
 
+    @Column(name = "lien_search", nullable = true)
+    private String lienSearch;
+
+    @Column(name = "final_agreed_sales_price", nullable = true)
+    private Double finalAgreedSalesPrice;
+
     //Utilities
     @Column(name = "electric_provider", nullable = true)
     private String electricProvider;
@@ -517,6 +523,8 @@ public class AdquisitionProperty {
         this.secondLienOrHeloc = dto.getSecondLienOrHeloc();
         this.irsLiensOrJudgments = dto.getIrsLiensOrJudgments();
         this.uploadTaxProrationAgreement = dto.getUploadTaxProrationAgreement();
+        this.lienSearch = dto.getLienSearch();
+        this.finalAgreedSalesPrice = dto.getFinalAgreedSalesPrice();
 
         this.electricProvider = dto.getElectricProvider();
         this.electricProviderAccountNumber = dto.getElectricProviderAccountNumber();
@@ -690,6 +698,8 @@ public class AdquisitionProperty {
                 .hoaCOICertificate(hoaCOICertificate)
                 .buyersSocialSecurity(buyersSocialSecurity)
                 .hoaW9TaxID(hoaW9TaxID)
+                .lienSearch(lienSearch)
+                .finalAgreedSalesPrice(finalAgreedSalesPrice)
                 .build();
     }
 
