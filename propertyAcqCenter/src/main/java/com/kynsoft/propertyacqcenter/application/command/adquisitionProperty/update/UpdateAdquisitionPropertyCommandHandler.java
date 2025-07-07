@@ -146,6 +146,22 @@ public class UpdateAdquisitionPropertyCommandHandler implements ICommandHandler<
                 //HOA
                 .hoaApprovalProcessingTime(command.getHoaApprovalProcessingTime())
                 .hoaDuesAmount(command.getHoaDuesAmount())
+                .hoaQASheet(command.getHoaQASheet() != null ? command.getHoaQASheet().getFilePath() + "|" + command.getHoaQASheet().getFileName() : null)
+                .hoaEstoppelCertificate(command.getHoaEstoppelCertificate() != null ? command.getHoaEstoppelCertificate().getFilePath() + "|" + command.getHoaEstoppelCertificate().getFileName() : null)
+                .hoaApprovalLetter(command.getHoaApprovalLetter() != null ? command.getHoaApprovalLetter().getFilePath() + "|" + command.getHoaApprovalLetter().getFileName() : null)
+                .buildingYearBuilt(command.getBuildingYearBuilt())
+                .hoaMoveInFee(command.getHoaMoveInFee())
+                .hoaInterviewRequired(command.getHoaInterviewRequired())
+                .hoaApplicationInstructions(command.getHoaApplicationInstructions() != null ? command.getHoaApplicationInstructions().getFilePath() + "|" + command.getHoaApplicationInstructions().getFileName() : null)
+                .buyersCarNameAndYear(command.getBuyersCarNameAndYear())
+                .applicationFeesAmount(command.getApplicationFeesAmount())
+                .applicationFeesSentDate(command.getApplicationFeesSentDate())
+                .rentalRestrictions(command.getRentalRestrictions())
+                .hoaSpecialAssessmentAmount(command.getHoaSpecialAssessmentAmount())
+                .hoaHaveReserve(command.getHoaHaveReserve() != null ? command.getHoaHaveReserve().getFilePath() + "|" + command.getHoaHaveReserve().getFileName() : null)
+                .hoaCOICertificate(command.getHoaCOICertificate() != null ? command.getHoaCOICertificate().getFilePath() + "|" + command.getHoaCOICertificate().getFileName() : null)
+                .buyersSocialSecurity(command.getBuyersSocialSecurity())
+                .hoaW9TaxID(command.getHoaW9TaxID() != null ? command.getHoaW9TaxID().getFilePath() + "|" + command.getHoaW9TaxID().getFileName() : null)
 
                 //Legal & Estate
                 .proofOfOwnershipDocument(command.getProofOfOwnershipDocument() != null ? command.getProofOfOwnershipDocument().getFilePath() + "|" + command.getProofOfOwnershipDocument().getFileName() : null)

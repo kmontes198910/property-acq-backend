@@ -169,6 +169,23 @@ public class AdquisitionPropertyServiceImpl implements IAdquisitionPropertyServi
         update.setTimeForAccess(object.getTimeForAccess() != null ? object.getTimeForAccess() : update.getTimeForAccess());
         update.setInstructionsForInspections(object.getInstructionsForInspections() != null ? object.getInstructionsForInspections() : update.getInstructionsForInspections());
 
+        update.setHoaQASheet(object.getHoaQASheet() != null ? object.getHoaQASheet() : update.getHoaQASheet());
+        update.setHoaEstoppelCertificate(object.getHoaEstoppelCertificate() != null ? object.getHoaEstoppelCertificate() : update.getHoaEstoppelCertificate());
+        update.setHoaApprovalLetter(object.getHoaApprovalLetter() != null ? object.getHoaApprovalLetter() : update.getHoaApprovalLetter());
+        update.setBuildingYearBuilt(object.getBuildingYearBuilt() != null ? object.getBuildingYearBuilt() : update.getBuildingYearBuilt());
+        update.setHoaMoveInFee(object.getHoaMoveInFee() != null ? object.getHoaMoveInFee() : update.getHoaMoveInFee());
+        update.setHoaInterviewRequired(object.getHoaInterviewRequired() != null ? object.getHoaInterviewRequired() : update.getHoaInterviewRequired());
+        update.setHoaApplicationInstructions(object.getHoaApplicationInstructions() != null ? object.getHoaApplicationInstructions() : update.getHoaApplicationInstructions());
+        update.setBuyersCarNameAndYear(object.getBuyersCarNameAndYear() != null ? object.getBuyersCarNameAndYear() : update.getBuyersCarNameAndYear());
+        update.setApplicationFeesAmount(object.getApplicationFeesAmount() != null ? object.getApplicationFeesAmount() : update.getApplicationFeesAmount());
+        update.setApplicationFeesSentDate(object.getApplicationFeesSentDate() != null ? object.getApplicationFeesSentDate() : update.getApplicationFeesSentDate());
+        update.setRentalRestrictions(object.getRentalRestrictions() != null ? object.getRentalRestrictions() : update.getRentalRestrictions());
+        update.setHoaSpecialAssessmentAmount(object.getHoaSpecialAssessmentAmount() != null ? object.getHoaSpecialAssessmentAmount() : update.getHoaSpecialAssessmentAmount());
+        update.setHoaHaveReserve(object.getHoaHaveReserve() != null ? object.getHoaHaveReserve() : update.getHoaHaveReserve());
+        update.setHoaCOICertificate(object.getHoaCOICertificate() != null ? object.getHoaCOICertificate() : update.getHoaCOICertificate());
+        update.setBuyersSocialSecurity(object.getBuyersSocialSecurity() != null ? object.getBuyersSocialSecurity() : update.getBuyersSocialSecurity());
+        update.setHoaW9TaxID(object.getHoaW9TaxID() != null ? object.getHoaW9TaxID() : update.getHoaW9TaxID());
+
         update.setUpdatedAt(LocalDateTime.now());
         repositoryCommand.save(update);
     }

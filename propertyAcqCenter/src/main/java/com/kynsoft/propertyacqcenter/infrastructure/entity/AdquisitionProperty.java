@@ -370,6 +370,55 @@ public class AdquisitionProperty {
     @Column(name = "instructions_for_inspections", nullable = true)
     private String instructionsForInspections;
 
+    //HOA
+    @Column(name = "hoa_qa_sheet", nullable = true)
+    private String hoaQASheet;
+
+    @Column(name = "hoa_estoppel_certificate", nullable = true)
+    private String hoaEstoppelCertificate;
+
+    @Column(name = "hoa_approval_letter", nullable = true)
+    private String hoaApprovalLetter;
+
+    @Column(name = "building_year_built", nullable = true)
+    private Integer buildingYearBuilt;
+
+    @Column(name = "hoa_move_in_fee", nullable = true)
+    private Double hoaMoveInFee;
+
+    @Column(name = "hoa_interview_required", nullable = true)
+    private Boolean hoaInterviewRequired;
+
+    @Column(name = "hoa_application_instructions", nullable = true)
+    private String hoaApplicationInstructions;
+
+    @Column(name = "buyers_car_name_and_year", nullable = true)
+    private String buyersCarNameAndYear;
+
+    @Column(name = "application_fees_amount", nullable = true)
+    private Double applicationFeesAmount;
+
+    @Column(name = "application_fees_sent_date", nullable = true)
+    private LocalDate applicationFeesSentDate;
+
+    @Column(name = "rental_restrictions", nullable = true)
+    private String rentalRestrictions;
+
+    @Column(name = "hoa_special_assessment_amount", nullable = true)
+    private Double hoaSpecialAssessmentAmount;
+
+    @Column(name = "hoa_have_reserve", nullable = true)
+    private String hoaHaveReserve;
+
+    @Column(name = "hoa_coi_certificate", nullable = true)
+    private String hoaCOICertificate;
+
+    @Column(name = "buyers_social_security", nullable = true)
+    private String buyersSocialSecurity;
+
+    @Column(name = "hoa_w9_tax_id", nullable = true)
+    private String hoaW9TaxID;
+
     public AdquisitionProperty(AdquisitionPropertyDto dto) {
         this.id = dto.getId() != null ? dto.getId() : UUID.randomUUID();
         this.buyerNameAndYearVehicle = dto.getBuyerNameAndYearVehicle();
@@ -494,6 +543,23 @@ public class AdquisitionProperty {
         this.propertyAccessCode = dto.getPropertyAccessCode();
         this.timeForAccess = dto.getTimeForAccess();
         this.instructionsForInspections = dto.getInstructionsForInspections();
+
+        this.hoaQASheet = dto.getHoaQASheet();
+        this.hoaEstoppelCertificate = dto.getHoaEstoppelCertificate();
+        this.hoaApprovalLetter = dto.getHoaApprovalLetter();
+        this.buildingYearBuilt = dto.getBuildingYearBuilt();
+        this.hoaMoveInFee = dto.getHoaMoveInFee();
+        this.hoaInterviewRequired = dto.getHoaInterviewRequired();
+        this.hoaApplicationInstructions = dto.getHoaApplicationInstructions();
+        this.buyersCarNameAndYear = dto.getBuyersCarNameAndYear();
+        this.applicationFeesAmount = dto.getApplicationFeesAmount();
+        this.applicationFeesSentDate = dto.getApplicationFeesSentDate();
+        this.rentalRestrictions = dto.getRentalRestrictions();
+        this.hoaSpecialAssessmentAmount = dto.getHoaSpecialAssessmentAmount();
+        this.hoaHaveReserve = dto.getHoaHaveReserve();
+        this.hoaCOICertificate = dto.getHoaCOICertificate();
+        this.buyersSocialSecurity = dto.getBuyersSocialSecurity();
+        this.hoaW9TaxID = dto.getHoaW9TaxID();
     }
 
     public AdquisitionPropertyDto toAggregate() {
@@ -608,6 +674,22 @@ public class AdquisitionProperty {
                 .propertyAccessCode(propertyAccessCode)
                 .timeForAccess(timeForAccess)
                 .instructionsForInspections(instructionsForInspections)
+                .hoaQASheet(hoaQASheet)
+                .hoaEstoppelCertificate(hoaEstoppelCertificate)
+                .hoaApprovalLetter(hoaApprovalLetter)
+                .buildingYearBuilt(buildingYearBuilt)
+                .hoaMoveInFee(hoaMoveInFee)
+                .hoaInterviewRequired(hoaInterviewRequired)
+                .hoaApplicationInstructions(hoaApplicationInstructions)
+                .buyersCarNameAndYear(buyersCarNameAndYear)
+                .applicationFeesAmount(applicationFeesAmount)
+                .applicationFeesSentDate(applicationFeesSentDate)
+                .rentalRestrictions(rentalRestrictions)
+                .hoaSpecialAssessmentAmount(hoaSpecialAssessmentAmount)
+                .hoaHaveReserve(hoaHaveReserve)
+                .hoaCOICertificate(hoaCOICertificate)
+                .buyersSocialSecurity(buyersSocialSecurity)
+                .hoaW9TaxID(hoaW9TaxID)
                 .build();
     }
 

@@ -124,6 +124,23 @@ public class AdquisitionPropertyResponse implements IResponse {
     private Integer hoaApprovalProcessingTime;
     private Double hoaDuesAmount;
 
+    private AdquisitionDocumentResponse hoaQASheet;
+    private AdquisitionDocumentResponse hoaEstoppelCertificate;
+    private AdquisitionDocumentResponse hoaApprovalLetter;
+    private Integer buildingYearBuilt;
+    private Double hoaMoveInFee;
+    private Boolean hoaInterviewRequired;
+    private AdquisitionDocumentResponse hoaApplicationInstructions;
+    private String buyersCarNameAndYear;
+    private Double applicationFeesAmount;
+    private LocalDate applicationFeesSentDate;
+    private String rentalRestrictions;
+    private Double hoaSpecialAssessmentAmount;
+    private AdquisitionDocumentResponse hoaHaveReserve;
+    private AdquisitionDocumentResponse hoaCOICertificate;
+    private String buyersSocialSecurity;
+    private AdquisitionDocumentResponse hoaW9TaxID;
+
     //Legal & Estate
     private AdquisitionDocumentResponse proofOfOwnershipDocument;
     private AdquisitionDocumentResponse powerOfAttorneyDocument;
@@ -253,6 +270,23 @@ public class AdquisitionPropertyResponse implements IResponse {
         this.propertyAccessCode = dto.getPropertyAccessCode();
         this.timeForAccess = dto.getTimeForAccess();
         this.instructionsForInspections = dto.getInstructionsForInspections();
+
+        this.hoaQASheet = DocumentMapper.mapDocumentField(dto.getHoaQASheet());
+        this.hoaEstoppelCertificate = DocumentMapper.mapDocumentField(dto.getHoaEstoppelCertificate());
+        this.hoaApprovalLetter = DocumentMapper.mapDocumentField(dto.getHoaApprovalLetter());
+        this.buildingYearBuilt = dto.getBuildingYearBuilt();
+        this.hoaMoveInFee = dto.getHoaMoveInFee();
+        this.hoaInterviewRequired = dto.getHoaInterviewRequired();
+        this.hoaApplicationInstructions = DocumentMapper.mapDocumentField(dto.getHoaApplicationInstructions());
+        this.buyersCarNameAndYear = dto.getBuyersCarNameAndYear();
+        this.applicationFeesAmount = dto.getApplicationFeesAmount();
+        this.applicationFeesSentDate = dto.getApplicationFeesSentDate();
+        this.rentalRestrictions = dto.getRentalRestrictions();
+        this.hoaSpecialAssessmentAmount = dto.getHoaSpecialAssessmentAmount();
+        this.hoaHaveReserve = DocumentMapper.mapDocumentField(dto.getHoaHaveReserve());
+        this.hoaCOICertificate = DocumentMapper.mapDocumentField(dto.getHoaCOICertificate());
+        this.buyersSocialSecurity = dto.getBuyersSocialSecurity();
+        this.hoaW9TaxID = DocumentMapper.mapDocumentField(dto.getHoaW9TaxID());
     }
 
 }
