@@ -78,7 +78,24 @@ public class AdquisitionPropertyDto {
     private String hoaFinancials;
     private String hoaRulesRegulations;
 
-        //Seller
+    private String hoaQASheet;
+    private String hoaEstoppelCertificate;
+    private String hoaApprovalLetter;
+    private Integer buildingYearBuilt;
+    private Double hoaMoveInFee;
+    private Boolean hoaInterviewRequired;
+    private String hoaApplicationInstructions;
+    private String buyersCarNameAndYear;
+    private Double applicationFeesAmount;
+    private LocalDate applicationFeesSentDate;
+    private String rentalRestrictions;
+    private Double hoaSpecialAssessmentAmount;
+    private String hoaHaveReserve;
+    private String hoaCOICertificate;
+    private String buyersSocialSecurity;
+    private String hoaW9TaxID;
+
+    //Seller
     private String sellerFullName;//Sellers, Wholesaler, Real Estate Agent, Title Co.
     private String sellerEntityName;//Sellers, Wholesaler, Real Estate Agent
     private String sellerArticlesOfIncorporation;//Sellers, Wholesaler, Real Estate Agent, Title Co.

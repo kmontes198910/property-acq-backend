@@ -135,6 +135,23 @@ public class UpdateAdquisitionPropertyCommand implements ICommand {
     private Integer hoaApprovalProcessingTime;
     private Double hoaDuesAmount;
 
+    private CreateDocumentRequest hoaQASheet;
+    private CreateDocumentRequest hoaEstoppelCertificate;
+    private CreateDocumentRequest hoaApprovalLetter;
+    private Integer buildingYearBuilt;
+    private Double hoaMoveInFee;
+    private Boolean hoaInterviewRequired;
+    private CreateDocumentRequest hoaApplicationInstructions;
+    private String buyersCarNameAndYear;
+    private Double applicationFeesAmount;
+    private LocalDate applicationFeesSentDate;
+    private String rentalRestrictions;
+    private Double hoaSpecialAssessmentAmount;
+    private CreateDocumentRequest hoaHaveReserve;
+    private CreateDocumentRequest hoaCOICertificate;
+    private String buyersSocialSecurity;
+    private CreateDocumentRequest hoaW9TaxID;
+
     //Legal & Estate
     private CreateDocumentRequest proofOfOwnershipDocument;
     private CreateDocumentRequest powerOfAttorneyDocument;
@@ -212,7 +229,25 @@ public class UpdateAdquisitionPropertyCommand implements ICommand {
             String authorizeTitleCompanyInfo,
             String propertyAccessCode,
             String timeForAccess,
-            String instructionsForInspections) {
+            String instructionsForInspections,
+            //HOA
+            CreateDocumentRequest hoaQASheet,
+            CreateDocumentRequest hoaEstoppelCertificate,
+            CreateDocumentRequest hoaApprovalLetter,
+            Integer buildingYearBuilt,
+            Double hoaMoveInFee,
+            Boolean hoaInterviewRequired,
+            CreateDocumentRequest hoaApplicationInstructions,
+            String buyersCarNameAndYear,
+            Double applicationFeesAmount,
+            LocalDate applicationFeesSentDate,
+            String rentalRestrictions,
+            Double hoaSpecialAssessmentAmount,
+            CreateDocumentRequest hoaHaveReserve,
+            CreateDocumentRequest hoaCOICertificate,
+            String buyersSocialSecurity,
+            CreateDocumentRequest hoaW9TaxID
+            ) {
         this.id = id;
         this.buyer = buyer;
         this.property = property;
@@ -320,6 +355,22 @@ public class UpdateAdquisitionPropertyCommand implements ICommand {
         //HOA
         this.hoaApprovalProcessingTime = hoaApprovalProcessingTime;
         this.hoaDuesAmount = hoaDuesAmount;
+        this.hoaQASheet = hoaQASheet;
+        this.hoaEstoppelCertificate = hoaEstoppelCertificate;
+        this.hoaApprovalLetter = hoaApprovalLetter;
+        this.buildingYearBuilt = buildingYearBuilt;
+        this.hoaMoveInFee = hoaMoveInFee;
+        this.hoaInterviewRequired = hoaInterviewRequired;
+        this.hoaApplicationInstructions = hoaApplicationInstructions;
+        this.buyersCarNameAndYear = buyersCarNameAndYear;
+        this.applicationFeesAmount = applicationFeesAmount;
+        this.applicationFeesSentDate = applicationFeesSentDate;
+        this.rentalRestrictions = rentalRestrictions;
+        this.hoaSpecialAssessmentAmount = hoaSpecialAssessmentAmount;
+        this.hoaHaveReserve = hoaHaveReserve;
+        this.hoaCOICertificate = hoaCOICertificate;
+        this.buyersSocialSecurity = buyersSocialSecurity;
+        this.hoaW9TaxID = hoaW9TaxID;
 
         //Legal & Estate
         this.proofOfOwnershipDocument = proofOfOwnershipDocument;
@@ -442,7 +493,23 @@ public class UpdateAdquisitionPropertyCommand implements ICommand {
                 request.getAuthorizeTitleCompanyInfo(),
                 request.getPropertyAccessCode(),
                 request.getTimeForAccess(),
-                request.getInstructionsForInspections()
+                request.getInstructionsForInspections(),
+                request.getHoaQASheet(),
+                request.getHoaEstoppelCertificate(),
+                request.getHoaApprovalLetter(),
+                request.getBuildingYearBuilt(),
+                request.getHoaMoveInFee(),
+                request.getHoaInterviewRequired(),
+                request.getHoaApplicationInstructions(),
+                request.getBuyersCarNameAndYear(),
+                request.getApplicationFeesAmount(),
+                request.getApplicationFeesSentDate(),
+                request.getRentalRestrictions(),
+                request.getHoaSpecialAssessmentAmount(),
+                request.getHoaHaveReserve(),
+                request.getHoaCOICertificate(),
+                request.getBuyersSocialSecurity(),
+                request.getHoaW9TaxID()
         );
     }
 

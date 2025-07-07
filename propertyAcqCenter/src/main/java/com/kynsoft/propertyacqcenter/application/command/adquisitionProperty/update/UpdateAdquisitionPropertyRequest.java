@@ -128,10 +128,6 @@ public class UpdateAdquisitionPropertyRequest {
     private CreateDocumentRequest uploadTenantEstoppel;
     private CreateDocumentRequest uploadRentalAgreement;
 
-    //HOA
-    private Integer hoaApprovalProcessingTime;
-    private Double hoaDuesAmount;
-
     //Legal & Estate
     private CreateDocumentRequest proofOfOwnershipDocument;
     private CreateDocumentRequest powerOfAttorneyDocument;
@@ -145,4 +141,26 @@ public class UpdateAdquisitionPropertyRequest {
     private String propertyAccessCode;
     private String timeForAccess;
     private String instructionsForInspections;
+
+    //HOA
+    private Integer hoaApprovalProcessingTime;
+    private Double hoaDuesAmount;
+
+    private CreateDocumentRequest hoaQASheet;
+    private CreateDocumentRequest hoaEstoppelCertificate;
+    private CreateDocumentRequest hoaApprovalLetter;
+    private Integer buildingYearBuilt;
+    private Double hoaMoveInFee;
+    private Boolean hoaInterviewRequired;
+    private CreateDocumentRequest hoaApplicationInstructions;
+    private String buyersCarNameAndYear;
+    private Double applicationFeesAmount;
+    private LocalDate applicationFeesSentDate;
+    private String rentalRestrictions;
+    private Double hoaSpecialAssessmentAmount;
+    private CreateDocumentRequest hoaHaveReserve;
+    private CreateDocumentRequest hoaCOICertificate;
+    private String buyersSocialSecurity;
+    private CreateDocumentRequest hoaW9TaxID;
+
 }
