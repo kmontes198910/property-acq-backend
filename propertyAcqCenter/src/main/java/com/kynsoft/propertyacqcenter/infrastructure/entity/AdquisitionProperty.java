@@ -425,6 +425,13 @@ public class AdquisitionProperty {
     @Column(name = "hoa_w9_tax_id", nullable = true)
     private String hoaW9TaxID;
 
+    //Wholesaler
+    @Column(name = "wsaler_closing_date", nullable = true)
+    private LocalDate wsalerClosingDate;
+
+    @Column(name = "wsaler_assignment_of_contract", nullable = true)
+    private String wsalerAssignmentOfContract;
+
     public AdquisitionProperty(AdquisitionPropertyDto dto) {
         this.id = dto.getId() != null ? dto.getId() : UUID.randomUUID();
         this.buyerNameAndYearVehicle = dto.getBuyerNameAndYearVehicle();
@@ -568,6 +575,9 @@ public class AdquisitionProperty {
         this.hoaCOICertificate = dto.getHoaCOICertificate();
         this.buyersSocialSecurity = dto.getBuyersSocialSecurity();
         this.hoaW9TaxID = dto.getHoaW9TaxID();
+
+        this.wsalerClosingDate = dto.getWsalerClosingDate();
+        this.wsalerAssignmentOfContract = dto.getWsalerAssignmentOfContract();
     }
 
     public AdquisitionPropertyDto toAggregate() {
@@ -700,6 +710,8 @@ public class AdquisitionProperty {
                 .hoaW9TaxID(hoaW9TaxID)
                 .lienSearch(lienSearch)
                 .finalAgreedSalesPrice(finalAgreedSalesPrice)
+                .wsalerClosingDate(wsalerClosingDate)
+                .wsalerAssignmentOfContract(wsalerAssignmentOfContract)
                 .build();
     }
 

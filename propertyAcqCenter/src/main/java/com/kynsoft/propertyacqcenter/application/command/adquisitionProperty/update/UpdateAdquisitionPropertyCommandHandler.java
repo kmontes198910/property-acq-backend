@@ -179,6 +179,10 @@ public class UpdateAdquisitionPropertyCommandHandler implements ICommandHandler<
                 .timeForAccess(command.getTimeForAccess())
                 .instructionsForInspections(command.getInstructionsForInspections())
 
+                //Wholesaler
+                .wsalerClosingDate(command.getWsalerClosingDate())
+                .wsalerAssignmentOfContract(command.getWsalerAssignmentOfContract() != null ? command.getWsalerAssignmentOfContract().getFilePath() + "|" + command.getWsalerAssignmentOfContract().getFileName() : null)
+
                 .build()
         );
     }

@@ -156,6 +156,10 @@ public class AdquisitionPropertyResponse implements IResponse {
     private String propertyAccessCode;
     private String timeForAccess;
     private String instructionsForInspections;
+    
+    //Wholesaler
+    private LocalDate wsalerClosingDate;
+    private AdquisitionDocumentResponse wsalerAssignmentOfContract;
 
     public AdquisitionPropertyResponse(AdquisitionPropertyDto dto) {
         this.id = dto.getId();
@@ -291,6 +295,9 @@ public class AdquisitionPropertyResponse implements IResponse {
         this.hoaCOICertificate = DocumentMapper.mapDocumentField(dto.getHoaCOICertificate());
         this.buyersSocialSecurity = dto.getBuyersSocialSecurity();
         this.hoaW9TaxID = DocumentMapper.mapDocumentField(dto.getHoaW9TaxID());
+
+        this.wsalerClosingDate = dto.getWsalerClosingDate();
+        this.wsalerAssignmentOfContract = DocumentMapper.mapDocumentField(dto.getWsalerAssignmentOfContract());
     }
 
 }

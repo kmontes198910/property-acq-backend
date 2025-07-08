@@ -188,6 +188,9 @@ public class AdquisitionPropertyServiceImpl implements IAdquisitionPropertyServi
         update.setBuyersSocialSecurity(object.getBuyersSocialSecurity() != null ? object.getBuyersSocialSecurity() : update.getBuyersSocialSecurity());
         update.setHoaW9TaxID(object.getHoaW9TaxID() != null ? object.getHoaW9TaxID() : update.getHoaW9TaxID());
 
+        update.setWsalerClosingDate(object.getWsalerClosingDate() != null ? object.getWsalerClosingDate() : update.getWsalerClosingDate());
+        update.setWsalerAssignmentOfContract(object.getWsalerAssignmentOfContract() != null ? object.getWsalerAssignmentOfContract() : update.getWsalerAssignmentOfContract());
+
         update.setUpdatedAt(LocalDateTime.now());
         repositoryCommand.save(update);
     }
