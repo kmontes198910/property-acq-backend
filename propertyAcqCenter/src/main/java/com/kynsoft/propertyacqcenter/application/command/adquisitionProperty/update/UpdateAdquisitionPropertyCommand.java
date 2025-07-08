@@ -185,6 +185,8 @@ public class UpdateAdquisitionPropertyCommand implements ICommand {
     private LocalDate dateSent;
     private String reportSentTo;
 
+    private String hoaCompanyName;
+
     public UpdateAdquisitionPropertyCommand(UUID id, UUID buyer, String property, UUID contact, String buyerNameAndYearVehicle,
             String buyerLicenseTagNo,
             LocalDate dateAndTimeForInspections, String instructionsForAccess, LocalDate hoaBuyerInterviewDate,
@@ -280,7 +282,8 @@ public class UpdateAdquisitionPropertyCommand implements ICommand {
             String requiredRepairsNoted,
             String valuationMethod,
             LocalDate dateSent,
-            String reportSentTo
+            String reportSentTo,
+            String hoaCompanyName
             ) {
         this.id = id;
         this.buyer = buyer;
@@ -435,6 +438,7 @@ public class UpdateAdquisitionPropertyCommand implements ICommand {
         this.valuationMethod = valuationMethod;
         this.dateSent = dateSent;
         this.reportSentTo = reportSentTo;
+        this.hoaCompanyName = hoaCompanyName;
     }
 
     public static UpdateAdquisitionPropertyCommand fromRequest(UpdateAdquisitionPropertyRequest request, UUID id) {
@@ -575,7 +579,8 @@ public class UpdateAdquisitionPropertyCommand implements ICommand {
                 request.getRequiredRepairsNoted(),
                 request.getValuationMethod(),
                 request.getDateSent(),
-                request.getReportSentTo()
+                request.getReportSentTo(),
+                request.getHoaCompanyName()
         );
     }
 

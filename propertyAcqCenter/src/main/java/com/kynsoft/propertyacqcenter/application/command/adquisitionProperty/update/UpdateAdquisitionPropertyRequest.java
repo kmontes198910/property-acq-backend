@@ -181,4 +181,6 @@ public class UpdateAdquisitionPropertyRequest {
     private String valuationMethod;
     private LocalDate dateSent;
     private String reportSentTo;
+
+    private String hoaCompanyName;
 }
