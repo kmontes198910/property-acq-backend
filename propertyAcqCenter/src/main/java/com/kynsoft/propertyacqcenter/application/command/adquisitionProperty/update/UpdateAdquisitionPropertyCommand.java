@@ -168,6 +168,10 @@ public class UpdateAdquisitionPropertyCommand implements ICommand {
     private String timeForAccess;
     private String instructionsForInspections;
 
+    //Wholesaler
+    private LocalDate wsalerClosingDate;
+    private CreateDocumentRequest wsalerAssignmentOfContract;
+
     public UpdateAdquisitionPropertyCommand(UUID id, UUID buyer, String property, UUID contact, String buyerNameAndYearVehicle,
             String buyerLicenseTagNo,
             LocalDate dateAndTimeForInspections, String instructionsForAccess, LocalDate hoaBuyerInterviewDate,
@@ -250,7 +254,9 @@ public class UpdateAdquisitionPropertyCommand implements ICommand {
             String buyersSocialSecurity,
             CreateDocumentRequest hoaW9TaxID,
             CreateDocumentRequest lienSearch,
-            Double finalAgreedSalesPrice
+            Double finalAgreedSalesPrice,
+            LocalDate wsalerClosingDate,
+            CreateDocumentRequest wsalerAssignmentOfContract
             ) {
         this.id = id;
         this.buyer = buyer;
@@ -390,6 +396,9 @@ public class UpdateAdquisitionPropertyCommand implements ICommand {
         this.instructionsForInspections = instructionsForInspections;
         this.lienSearch = lienSearch;
         this.finalAgreedSalesPrice = finalAgreedSalesPrice;
+
+        this.wsalerClosingDate = wsalerClosingDate;
+        this.wsalerAssignmentOfContract = wsalerAssignmentOfContract;
     }
 
     public static UpdateAdquisitionPropertyCommand fromRequest(UpdateAdquisitionPropertyRequest request, UUID id) {
@@ -517,7 +526,9 @@ public class UpdateAdquisitionPropertyCommand implements ICommand {
                 request.getBuyersSocialSecurity(),
                 request.getHoaW9TaxID(),
                 request.getLienSearch(),
-                request.getFinalAgreedSalesPrice()
+                request.getFinalAgreedSalesPrice(),
+                request.getWsalerClosingDate(),
+                request.getWsalerAssignmentOfContract()
         );
     }
 

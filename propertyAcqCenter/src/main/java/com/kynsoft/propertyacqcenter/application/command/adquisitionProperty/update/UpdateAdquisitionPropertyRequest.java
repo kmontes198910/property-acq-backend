@@ -165,4 +165,7 @@ public class UpdateAdquisitionPropertyRequest {
     private String buyersSocialSecurity;
     private CreateDocumentRequest hoaW9TaxID;
 
+    //Wholesaler
+    private LocalDate wsalerClosingDate;
+    private CreateDocumentRequest wsalerAssignmentOfContract;
 }

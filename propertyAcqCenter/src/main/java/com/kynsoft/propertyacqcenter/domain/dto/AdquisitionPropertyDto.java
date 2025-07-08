@@ -172,4 +172,8 @@ public class AdquisitionPropertyDto {
     private String propertyAccessCode;
     private String timeForAccess;
     private String instructionsForInspections;
+
+    //Wholesaler
+    private LocalDate wsalerClosingDate;
+    private String wsalerAssignmentOfContract;
 }
