@@ -183,6 +183,20 @@ public class UpdateAdquisitionPropertyCommandHandler implements ICommandHandler<
                 .wsalerClosingDate(command.getWsalerClosingDate())
                 .wsalerAssignmentOfContract(command.getWsalerAssignmentOfContract() != null ? command.getWsalerAssignmentOfContract().getFilePath() + "|" + command.getWsalerAssignmentOfContract().getFileName() : null)
 
+                //Appraiser
+                .requestAppraisalDate(command.getRequestAppraisalDate())
+                .confirmedAppointmentDateTime(command.getConfirmedAppointmentDateTime())
+                .confirmedAppointmentDateTime(command.getConfirmedAppointmentDateTime())
+                .appraisedValue(command.getAppraisedValue())
+                .appraiserLicenseNumber(command.getAppraiserLicenseNumber())
+                .asIsValue(command.getAsIsValue())
+                .asRepairedValue(command.getAsRepairedValue())
+                .inspectionPhotos(command.getInspectionPhotos() != null ? command.getInspectionPhotos().getFilePath() + "|" + command.getInspectionPhotos().getFileName() : null)
+                .requiredRepairsNoted(command.getRequiredRepairsNoted())
+                .valuationMethod(command.getValuationMethod())
+                .dateSent(command.getDateSent())
+                .reportSentTo(command.getReportSentTo())
+
                 .build()
         );
     }

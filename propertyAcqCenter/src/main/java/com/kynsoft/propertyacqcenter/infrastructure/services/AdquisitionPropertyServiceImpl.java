@@ -191,6 +191,18 @@ public class AdquisitionPropertyServiceImpl implements IAdquisitionPropertyServi
         update.setWsalerClosingDate(object.getWsalerClosingDate() != null ? object.getWsalerClosingDate() : update.getWsalerClosingDate());
         update.setWsalerAssignmentOfContract(object.getWsalerAssignmentOfContract() != null ? object.getWsalerAssignmentOfContract() : update.getWsalerAssignmentOfContract());
 
+        update.setRequestAppraisalDate(object.getRequestAppraisalDate() != null ? object.getRequestAppraisalDate() : update.getRequestAppraisalDate());
+        update.setConfirmedAppointmentDateTime(object.getConfirmedAppointmentDateTime() != null ? object.getConfirmedAppointmentDateTime() : update.getConfirmedAppointmentDateTime());
+        update.setAppraisedValue(object.getAppraisedValue() != null ? object.getAppraisedValue() : update.getAppraisedValue());
+        update.setAppraiserLicenseNumber(object.getAppraiserLicenseNumber() != null ? object.getAppraiserLicenseNumber() : update.getAppraiserLicenseNumber());
+        update.setAsIsValue(object.getAsIsValue() != null ? object.getAsIsValue() : update.getAsIsValue());
+        update.setAsRepairedValue(object.getAsRepairedValue() != null ? object.getAsRepairedValue() : update.getAsRepairedValue());
+        update.setInspectionPhotos(object.getInspectionPhotos() != null ? object.getInspectionPhotos() : update.getInspectionPhotos());
+        update.setRequiredRepairsNoted(object.getRequiredRepairsNoted() != null ? object.getRequiredRepairsNoted() : update.getRequiredRepairsNoted());
+        update.setValuationMethod(object.getValuationMethod() != null ? object.getValuationMethod() : update.getValuationMethod());
+        update.setDateSent(object.getDateSent() != null ? object.getDateSent() : update.getDateSent());
+        update.setReportSentTo(object.getReportSentTo() != null ? object.getReportSentTo() : update.getReportSentTo());
+
         update.setUpdatedAt(LocalDateTime.now());
         repositoryCommand.save(update);
     }

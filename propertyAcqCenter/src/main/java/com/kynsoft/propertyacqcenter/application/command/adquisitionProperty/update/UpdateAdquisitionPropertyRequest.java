@@ -168,4 +168,17 @@ public class UpdateAdquisitionPropertyRequest {
     //Wholesaler
     private LocalDate wsalerClosingDate;
     private CreateDocumentRequest wsalerAssignmentOfContract;
+
+    //Appraiser
+    private LocalDate requestAppraisalDate;
+    private LocalDate confirmedAppointmentDateTime;
+    private String appraisedValue;
+    private String appraiserLicenseNumber;
+    private String asIsValue;
+    private String asRepairedValue;
+    private CreateDocumentRequest inspectionPhotos;
+    private String requiredRepairsNoted;
+    private String valuationMethod;
+    private LocalDate dateSent;
+    private String reportSentTo;
 }

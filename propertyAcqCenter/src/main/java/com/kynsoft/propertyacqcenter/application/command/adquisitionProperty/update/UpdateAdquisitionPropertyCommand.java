@@ -172,6 +172,19 @@ public class UpdateAdquisitionPropertyCommand implements ICommand {
     private LocalDate wsalerClosingDate;
     private CreateDocumentRequest wsalerAssignmentOfContract;
 
+    //Appraiser
+    private LocalDate requestAppraisalDate;
+    private LocalDate confirmedAppointmentDateTime;
+    private String appraisedValue;
+    private String appraiserLicenseNumber;
+    private String asIsValue;
+    private String asRepairedValue;
+    private CreateDocumentRequest inspectionPhotos;
+    private String requiredRepairsNoted;
+    private String valuationMethod;
+    private LocalDate dateSent;
+    private String reportSentTo;
+
     public UpdateAdquisitionPropertyCommand(UUID id, UUID buyer, String property, UUID contact, String buyerNameAndYearVehicle,
             String buyerLicenseTagNo,
             LocalDate dateAndTimeForInspections, String instructionsForAccess, LocalDate hoaBuyerInterviewDate,
@@ -256,7 +269,18 @@ public class UpdateAdquisitionPropertyCommand implements ICommand {
             CreateDocumentRequest lienSearch,
             Double finalAgreedSalesPrice,
             LocalDate wsalerClosingDate,
-            CreateDocumentRequest wsalerAssignmentOfContract
+            CreateDocumentRequest wsalerAssignmentOfContract,
+            LocalDate requestAppraisalDate,
+            LocalDate confirmedAppointmentDateTime,
+            String appraisedValue,
+            String appraiserLicenseNumber,
+            String asIsValue,
+            String asRepairedValue,
+            CreateDocumentRequest inspectionPhotos,
+            String requiredRepairsNoted,
+            String valuationMethod,
+            LocalDate dateSent,
+            String reportSentTo
             ) {
         this.id = id;
         this.buyer = buyer;
@@ -399,6 +423,18 @@ public class UpdateAdquisitionPropertyCommand implements ICommand {
 
         this.wsalerClosingDate = wsalerClosingDate;
         this.wsalerAssignmentOfContract = wsalerAssignmentOfContract;
+
+        this.requestAppraisalDate = requestAppraisalDate;
+        this.confirmedAppointmentDateTime = confirmedAppointmentDateTime;
+        this.appraisedValue = appraisedValue;
+        this.appraiserLicenseNumber = appraiserLicenseNumber;
+        this.asIsValue = asIsValue;
+        this.asRepairedValue = asRepairedValue;
+        this.inspectionPhotos = inspectionPhotos;
+        this.requiredRepairsNoted = requiredRepairsNoted;
+        this.valuationMethod = valuationMethod;
+        this.dateSent = dateSent;
+        this.reportSentTo = reportSentTo;
     }
 
     public static UpdateAdquisitionPropertyCommand fromRequest(UpdateAdquisitionPropertyRequest request, UUID id) {
@@ -528,7 +564,18 @@ public class UpdateAdquisitionPropertyCommand implements ICommand {
                 request.getLienSearch(),
                 request.getFinalAgreedSalesPrice(),
                 request.getWsalerClosingDate(),
-                request.getWsalerAssignmentOfContract()
+                request.getWsalerAssignmentOfContract(),
+                request.getRequestAppraisalDate(),
+                request.getConfirmedAppointmentDateTime(),
+                request.getAppraisedValue(),
+                request.getAppraiserLicenseNumber(),
+                request.getAsIsValue(),
+                request.getAsRepairedValue(),
+                request.getInspectionPhotos(),
+                request.getRequiredRepairsNoted(),
+                request.getValuationMethod(),
+                request.getDateSent(),
+                request.getReportSentTo()
         );
     }
 
