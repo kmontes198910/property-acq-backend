@@ -109,9 +109,6 @@ public class AdquisitionProperty {
     @Column(name = "commitment_letter", nullable = true)
     private String commitmentLetter;
 
-    @Column(name = "appraisal_report", nullable = true)
-    private String appraisalReport;
-
     @Column(name = "inspection_report", nullable = true)
     private String inspectionReport;
 
@@ -432,6 +429,43 @@ public class AdquisitionProperty {
     @Column(name = "wsaler_assignment_of_contract", nullable = true)
     private String wsalerAssignmentOfContract;
 
+    //Appraiser
+    @Column(name = "request_appraisal_date", nullable = true)
+    private LocalDate requestAppraisalDate;
+
+    @Column(name = "confirmed_appointment_date_time", nullable = true)
+    private LocalDate confirmedAppointmentDateTime;
+
+    @Column(name = "appraisal_report", nullable = true)
+    private String appraisalReport;
+
+    @Column(name = "appraised_value", nullable = true)
+    private String appraisedValue;
+
+    @Column(name = "appraiser_license_number", nullable = true)
+    private String appraiserLicenseNumber;
+
+    @Column(name = "as_is_value", nullable = true)
+    private String asIsValue;
+
+    @Column(name = "as_repaired_value", nullable = true)
+    private String asRepairedValue;
+
+    @Column(name = "inspection_photos", nullable = true)
+    private String inspectionPhotos;
+
+    @Column(name = "required_repairs_noted", nullable = true)
+    private String requiredRepairsNoted;
+
+    @Column(name = "valuation_method", nullable = true)
+    private String valuationMethod;
+
+    @Column(name = "date_sent", nullable = true)
+    private LocalDate dateSent;
+
+    @Column(name = "report_sent_to", nullable = true)
+    private String reportSentTo;
+
     public AdquisitionProperty(AdquisitionPropertyDto dto) {
         this.id = dto.getId() != null ? dto.getId() : UUID.randomUUID();
         this.buyerNameAndYearVehicle = dto.getBuyerNameAndYearVehicle();
@@ -578,6 +612,18 @@ public class AdquisitionProperty {
 
         this.wsalerClosingDate = dto.getWsalerClosingDate();
         this.wsalerAssignmentOfContract = dto.getWsalerAssignmentOfContract();
+
+        this.requestAppraisalDate = dto.getRequestAppraisalDate();
+        this.confirmedAppointmentDateTime = dto.getConfirmedAppointmentDateTime();
+        this.appraisedValue = dto.getAppraisedValue();
+        this.appraiserLicenseNumber = dto.getAppraiserLicenseNumber();
+        this.asIsValue = dto.getAsIsValue();
+        this.asRepairedValue = dto.getAsRepairedValue();
+        this.inspectionPhotos = dto.getInspectionPhotos();
+        this.requiredRepairsNoted = dto.getRequiredRepairsNoted();
+        this.valuationMethod = dto.getValuationMethod();
+        this.dateSent = dto.getDateSent();
+        this.reportSentTo = dto.getReportSentTo();
     }
 
     public AdquisitionPropertyDto toAggregate() {
@@ -712,6 +758,18 @@ public class AdquisitionProperty {
                 .finalAgreedSalesPrice(finalAgreedSalesPrice)
                 .wsalerClosingDate(wsalerClosingDate)
                 .wsalerAssignmentOfContract(wsalerAssignmentOfContract)
+                .requestAppraisalDate(requestAppraisalDate)
+                .confirmedAppointmentDateTime(confirmedAppointmentDateTime)
+                .appraisedValue(appraisedValue)
+                .appraiserLicenseNumber(appraiserLicenseNumber)
+                .asIsValue(asIsValue)
+                .asRepairedValue(asRepairedValue)
+                .inspectionPhotos(inspectionPhotos)
+                .requiredRepairsNoted(requiredRepairsNoted)
+                .valuationMethod(valuationMethod)
+                .dateSent(dateSent)
+                .reportSentTo(reportSentTo)
+
                 .build();
     }
 

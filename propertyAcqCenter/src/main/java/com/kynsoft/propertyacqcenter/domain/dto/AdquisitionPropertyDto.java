@@ -176,4 +176,17 @@ public class AdquisitionPropertyDto {
     //Wholesaler
     private LocalDate wsalerClosingDate;
     private String wsalerAssignmentOfContract;
+
+    //Appraiser
+    private LocalDate requestAppraisalDate;
+    private LocalDate confirmedAppointmentDateTime;
+    private String appraisedValue;
+    private String appraiserLicenseNumber;
+    private String asIsValue;
+    private String asRepairedValue;
+    private String inspectionPhotos;
+    private String requiredRepairsNoted;
+    private String valuationMethod;
+    private LocalDate dateSent;
+    private String reportSentTo;
 }

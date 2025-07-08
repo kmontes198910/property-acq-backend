@@ -161,6 +161,19 @@ public class AdquisitionPropertyResponse implements IResponse {
     private LocalDate wsalerClosingDate;
     private AdquisitionDocumentResponse wsalerAssignmentOfContract;
 
+    //Appraiser
+    private LocalDate requestAppraisalDate;
+    private LocalDate confirmedAppointmentDateTime;
+    private String appraisedValue;
+    private String appraiserLicenseNumber;
+    private String asIsValue;
+    private String asRepairedValue;
+    private AdquisitionDocumentResponse inspectionPhotos;
+    private String requiredRepairsNoted;
+    private String valuationMethod;
+    private LocalDate dateSent;
+    private String reportSentTo;
+
     public AdquisitionPropertyResponse(AdquisitionPropertyDto dto) {
         this.id = dto.getId();
         this.buyer = dto.getBuyer() != null ? new LegalEntityBasicResponse(dto.getBuyer()) : null;
@@ -298,6 +311,18 @@ public class AdquisitionPropertyResponse implements IResponse {
 
         this.wsalerClosingDate = dto.getWsalerClosingDate();
         this.wsalerAssignmentOfContract = DocumentMapper.mapDocumentField(dto.getWsalerAssignmentOfContract());
+
+        this.requestAppraisalDate = dto.getRequestAppraisalDate();
+        this.confirmedAppointmentDateTime = dto.getConfirmedAppointmentDateTime();
+        this.appraisedValue = dto.getAppraisedValue();
+        this.appraiserLicenseNumber = dto.getAppraiserLicenseNumber();
+        this.asIsValue = dto.getAsIsValue();
+        this.asRepairedValue = dto.getAsRepairedValue();
+        this.inspectionPhotos = DocumentMapper.mapDocumentField(dto.getInspectionPhotos());
+        this.requiredRepairsNoted = dto.getRequiredRepairsNoted();
+        this.valuationMethod = dto.getValuationMethod();
+        this.dateSent = dto.getDateSent();
+        this.reportSentTo = dto.getReportSentTo();
     }
 
 }
