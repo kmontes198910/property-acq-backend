@@ -202,6 +202,7 @@ public class AdquisitionPropertyServiceImpl implements IAdquisitionPropertyServi
         update.setValuationMethod(object.getValuationMethod() != null ? object.getValuationMethod() : update.getValuationMethod());
         update.setDateSent(object.getDateSent() != null ? object.getDateSent() : update.getDateSent());
         update.setReportSentTo(object.getReportSentTo() != null ? object.getReportSentTo() : update.getReportSentTo());
+        update.setHoaCompanyName(object.getHoaCompanyName() != null ? object.getHoaCompanyName() : update.getHoaCompanyName());
 
         update.setUpdatedAt(LocalDateTime.now());
         repositoryCommand.save(update);

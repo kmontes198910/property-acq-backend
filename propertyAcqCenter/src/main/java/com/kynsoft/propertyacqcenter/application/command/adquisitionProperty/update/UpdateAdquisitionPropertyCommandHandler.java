@@ -197,6 +197,7 @@ public class UpdateAdquisitionPropertyCommandHandler implements ICommandHandler<
                 .dateSent(command.getDateSent())
                 .reportSentTo(command.getReportSentTo())
 
+                .hoaCompanyName(command.getHoaCompanyName())
                 .build()
         );
     }

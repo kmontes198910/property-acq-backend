@@ -184,6 +184,9 @@ public class AdquisitionProperty {
     @Column(name = "hoa_validator_contact_name", nullable = true)
     private String hoaValidatorContactName;
 
+    @Column(name = "hoa_company_name", nullable = true)
+    private String hoaCompanyName;
+
     @Column(name = "hoa_validator_email", nullable = true)
     private String hoaValidatorEmail;
 
@@ -624,6 +627,8 @@ public class AdquisitionProperty {
         this.valuationMethod = dto.getValuationMethod();
         this.dateSent = dto.getDateSent();
         this.reportSentTo = dto.getReportSentTo();
+
+        this.hoaCompanyName = dto.getHoaCompanyName();
     }
 
     public AdquisitionPropertyDto toAggregate() {
@@ -769,6 +774,7 @@ public class AdquisitionProperty {
                 .valuationMethod(valuationMethod)
                 .dateSent(dateSent)
                 .reportSentTo(reportSentTo)
+                .hoaCompanyName(hoaCompanyName)
 
                 .build();
     }

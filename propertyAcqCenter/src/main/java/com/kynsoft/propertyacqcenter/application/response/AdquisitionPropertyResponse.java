@@ -174,6 +174,8 @@ public class AdquisitionPropertyResponse implements IResponse {
     private LocalDate dateSent;
     private String reportSentTo;
 
+    private String hoaCompanyName;
+
     public AdquisitionPropertyResponse(AdquisitionPropertyDto dto) {
         this.id = dto.getId();
         this.buyer = dto.getBuyer() != null ? new LegalEntityBasicResponse(dto.getBuyer()) : null;
@@ -323,6 +325,8 @@ public class AdquisitionPropertyResponse implements IResponse {
         this.valuationMethod = dto.getValuationMethod();
         this.dateSent = dto.getDateSent();
         this.reportSentTo = dto.getReportSentTo();
+
+        this.hoaCompanyName = dto.getHoaCompanyName();
     }
 
 }
