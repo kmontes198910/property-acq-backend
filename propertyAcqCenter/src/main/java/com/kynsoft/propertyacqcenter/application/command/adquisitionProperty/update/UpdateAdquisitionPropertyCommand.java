@@ -190,6 +190,7 @@ public class UpdateAdquisitionPropertyCommand implements ICommand {
     private String preferredClosingLocation;
     private CreateDocumentRequest requireElevationCertificate;
     private CreateDocumentRequest elevationCertificate;
+    private String outstandingCodeViolations;
 
     public UpdateAdquisitionPropertyCommand(UUID id, UUID buyer, String property, UUID contact, String buyerNameAndYearVehicle,
             String buyerLicenseTagNo,
@@ -291,7 +292,8 @@ public class UpdateAdquisitionPropertyCommand implements ICommand {
             LocalDate hoaInterviewDateProposal,
             String preferredClosingLocation,
             CreateDocumentRequest requireElevationCertificate,
-            CreateDocumentRequest elevationCertificate
+            CreateDocumentRequest elevationCertificate,
+            String outstandingCodeViolations
             ) {
         this.id = id;
         this.buyer = buyer;
@@ -451,6 +453,7 @@ public class UpdateAdquisitionPropertyCommand implements ICommand {
         this.preferredClosingLocation = preferredClosingLocation;
         this.requireElevationCertificate = requireElevationCertificate;  
         this.elevationCertificate = elevationCertificate;
+        this.outstandingCodeViolations = outstandingCodeViolations;
     }
 
     public static UpdateAdquisitionPropertyCommand fromRequest(UpdateAdquisitionPropertyRequest request, UUID id) {
@@ -596,7 +599,8 @@ public class UpdateAdquisitionPropertyCommand implements ICommand {
                 request.getHoaInterviewDateProposal(),
                 request.getPreferredClosingLocation(),
                 request.getRequireElevationCertificate(),
-                request.getElevationCertificate()
+                request.getElevationCertificate(),
+                request.getOutstandingCodeViolations()
         );
     }
 

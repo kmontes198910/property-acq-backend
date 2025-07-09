@@ -202,7 +202,7 @@ public class UpdateAdquisitionPropertyCommandHandler implements ICommandHandler<
                 .preferredClosingLocation(command.getPreferredClosingLocation())
                 .requireElevationCertificate(command.getRequireElevationCertificate() != null ? command.getRequireElevationCertificate().getFilePath() + "|" + command.getRequireElevationCertificate().getFileName() : null)
                 .elevationCertificate(command.getElevationCertificate() != null ? command.getElevationCertificate().getFilePath() + "|" + command.getElevationCertificate().getFileName() : null)
-
+                .outstandingCodeViolations(command.getOutstandingCodeViolations())
                 .build()
         );
     }

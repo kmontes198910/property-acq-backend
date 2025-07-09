@@ -195,4 +195,5 @@ public class AdquisitionPropertyDto {
     private String preferredClosingLocation;
     private String requireElevationCertificate;
     private String elevationCertificate;
+    private String outstandingCodeViolations;
 }

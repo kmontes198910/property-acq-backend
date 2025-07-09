@@ -179,6 +179,7 @@ public class AdquisitionPropertyResponse implements IResponse {
     private String preferredClosingLocation;
     private AdquisitionDocumentResponse requireElevationCertificate;
     private AdquisitionDocumentResponse elevationCertificate;
+    private String outstandingCodeViolations;
 
     public AdquisitionPropertyResponse(AdquisitionPropertyDto dto) {
         this.id = dto.getId();
@@ -335,6 +336,7 @@ public class AdquisitionPropertyResponse implements IResponse {
         this.preferredClosingLocation = dto.getPreferredClosingLocation();
         this.requireElevationCertificate = DocumentMapper.mapDocumentField(dto.getRequireElevationCertificate());
         this.elevationCertificate = DocumentMapper.mapDocumentField(dto.getElevationCertificate());
+        this.outstandingCodeViolations = dto.getOutstandingCodeViolations();
     }
 
 }
