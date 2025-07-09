@@ -98,7 +98,7 @@ public class UpdateAdquisitionPropertyRequest {
     //Survey & Condition
     private Boolean surveyavailable;
     private CreateDocumentRequest surveyDocument;
-    private String recentImprovementsLast12Months;
+    private Boolean recentImprovementsLast12Months;
     private CreateDocumentRequest uploadInvoicesForImprovements;
     private String summarizePropertyCondition;
     private String discloseKnownRepairsOrDefects;

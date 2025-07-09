@@ -101,7 +101,7 @@ public class UpdateAdquisitionPropertyCommand implements ICommand {
 
     //Survey & Condition
     private Boolean surveyavailable;
-    private String recentImprovementsLast12Months;
+    private Boolean recentImprovementsLast12Months;
     private CreateDocumentRequest uploadInvoicesForImprovements;
     private String summarizePropertyCondition;
     private String discloseKnownRepairsOrDefects;
@@ -217,7 +217,7 @@ public class UpdateAdquisitionPropertyCommand implements ICommand {
             CreateDocumentRequest titleCompanyEarnestMoneyDepositConfirmation,
             // Survey & Condition
             Boolean surveyavailable,
-            String recentImprovementsLast12Months,
+            Boolean recentImprovementsLast12Months,
             CreateDocumentRequest uploadInvoicesForImprovements,
             String summarizePropertyCondition,
             String discloseKnownRepairsOrDefects,

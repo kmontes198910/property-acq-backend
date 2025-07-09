@@ -271,8 +271,8 @@ public class AdquisitionProperty {
     @Column(name = "surveya_vailable", nullable = true)
     private Boolean surveyavailable;
 
-    @Column(name = "recent_improvements_last_12_months", nullable = true)
-    private String recentImprovementsLast12Months;
+    @Column(name = "recent_improvements_12mo", nullable = true)
+    private Boolean recentImprovementsLast12Months;
 
     @Column(name = "upload_invoices_for_improvements", nullable = true)
     private String uploadInvoicesForImprovements;
