@@ -98,7 +98,7 @@ public class UpdateAdquisitionPropertyRequest {
     //Survey & Condition
     private Boolean surveyavailable;
     private CreateDocumentRequest surveyDocument;
-    private String recentImprovementsLast12Months;
+    private Boolean recentImprovementsLast12Months;
     private CreateDocumentRequest uploadInvoicesForImprovements;
     private String summarizePropertyCondition;
     private String discloseKnownRepairsOrDefects;
@@ -183,4 +183,8 @@ public class UpdateAdquisitionPropertyRequest {
     private String reportSentTo;
 
     private String hoaCompanyName;
+    private LocalDate hoaInterviewDateProposal;
+    private String preferredClosingLocation;
+    private CreateDocumentRequest requireElevationCertificate;
+    private CreateDocumentRequest elevationCertificate;
 }

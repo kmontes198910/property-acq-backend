@@ -29,6 +29,7 @@ public class CompanyContactResponse implements IResponse {
     private String notes;
     private Boolean isActive;
     private String mailingAddress;
+    private Boolean isEmployee;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
@@ -48,6 +49,7 @@ public class CompanyContactResponse implements IResponse {
         this.updatedAt = dto.getUpdatedAt();
         this.personalEmail = dto.getPersonalEmail();
         this.mailingAddress = dto.getMailingAddress();
+        this.isEmployee = dto.getIsEmployee();
     }
 
 }

@@ -75,7 +75,8 @@ public class UpdateContactCommandHandler implements ICommandHandler<UpdateContac
                     command.getIsActive(),
                     legalEntityDto,
                     command.getPersonalEmail(),
-                    subCategoryDto
+                    subCategoryDto,
+                    command.getIsEmployee()
             ));
         } catch (Exception exception) {
             throw new BusinessException(DomainErrorMessage.DOCTOR_NOT_FOUND, "Ocurrió un error al crear al usuario.");

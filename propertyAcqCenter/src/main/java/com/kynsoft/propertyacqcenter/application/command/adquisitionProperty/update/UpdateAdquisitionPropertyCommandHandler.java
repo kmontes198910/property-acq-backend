@@ -198,6 +198,11 @@ public class UpdateAdquisitionPropertyCommandHandler implements ICommandHandler<
                 .reportSentTo(command.getReportSentTo())
 
                 .hoaCompanyName(command.getHoaCompanyName())
+                .hoaInterviewDateProposal(command.getHoaInterviewDateProposal())
+                .preferredClosingLocation(command.getPreferredClosingLocation())
+                .requireElevationCertificate(command.getRequireElevationCertificate() != null ? command.getRequireElevationCertificate().getFilePath() + "|" + command.getRequireElevationCertificate().getFileName() : null)
+                .elevationCertificate(command.getElevationCertificate() != null ? command.getElevationCertificate().getFilePath() + "|" + command.getElevationCertificate().getFileName() : null)
+
                 .build()
         );
     }

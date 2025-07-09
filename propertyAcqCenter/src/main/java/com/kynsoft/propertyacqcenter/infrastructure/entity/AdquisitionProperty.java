@@ -271,8 +271,8 @@ public class AdquisitionProperty {
     @Column(name = "surveya_vailable", nullable = true)
     private Boolean surveyavailable;
 
-    @Column(name = "recent_improvements_last_12_months", nullable = true)
-    private String recentImprovementsLast12Months;
+    @Column(name = "recent_improvements_12mo", nullable = true)
+    private Boolean recentImprovementsLast12Months;
 
     @Column(name = "upload_invoices_for_improvements", nullable = true)
     private String uploadInvoicesForImprovements;
@@ -394,6 +394,18 @@ public class AdquisitionProperty {
 
     @Column(name = "hoa_interview_required", nullable = true)
     private Boolean hoaInterviewRequired;
+
+    @Column(name = "hoa_interview_date_proposal", nullable = true)
+    private LocalDate hoaInterviewDateProposal;
+
+    @Column(name = "preferred_closing_location", nullable = true)
+    private String preferredClosingLocation;
+
+    @Column(name = "require_elevation_certificate", nullable = true)
+    private String requireElevationCertificate;
+
+    @Column(name = "elevation_certificate", nullable = true)
+    private String elevationCertificate;
 
     @Column(name = "hoa_application_instructions", nullable = true)
     private String hoaApplicationInstructions;
@@ -629,6 +641,10 @@ public class AdquisitionProperty {
         this.reportSentTo = dto.getReportSentTo();
 
         this.hoaCompanyName = dto.getHoaCompanyName();
+        this.hoaInterviewDateProposal = dto.getHoaInterviewDateProposal();
+        this.preferredClosingLocation = dto.getPreferredClosingLocation();
+        this.requireElevationCertificate = dto.getRequireElevationCertificate();
+        this.elevationCertificate = dto.getElevationCertificate();
     }
 
     public AdquisitionPropertyDto toAggregate() {
@@ -775,6 +791,10 @@ public class AdquisitionProperty {
                 .dateSent(dateSent)
                 .reportSentTo(reportSentTo)
                 .hoaCompanyName(hoaCompanyName)
+                .hoaInterviewDateProposal(hoaInterviewDateProposal)
+                .preferredClosingLocation(preferredClosingLocation)
+                .requireElevationCertificate(requireElevationCertificate)
+                .elevationCertificate(elevationCertificate)
 
                 .build();
     }
