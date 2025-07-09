@@ -481,6 +481,9 @@ public class AdquisitionProperty {
     @Column(name = "report_sent_to", nullable = true)
     private String reportSentTo;
 
+    @Column(name = "outstanding_code_violations", nullable = true)
+    private String outstandingCodeViolations;
+
     public AdquisitionProperty(AdquisitionPropertyDto dto) {
         this.id = dto.getId() != null ? dto.getId() : UUID.randomUUID();
         this.buyerNameAndYearVehicle = dto.getBuyerNameAndYearVehicle();
@@ -645,6 +648,7 @@ public class AdquisitionProperty {
         this.preferredClosingLocation = dto.getPreferredClosingLocation();
         this.requireElevationCertificate = dto.getRequireElevationCertificate();
         this.elevationCertificate = dto.getElevationCertificate();
+        this.outstandingCodeViolations = dto.getOutstandingCodeViolations();
     }
 
     public AdquisitionPropertyDto toAggregate() {
@@ -795,6 +799,7 @@ public class AdquisitionProperty {
                 .preferredClosingLocation(preferredClosingLocation)
                 .requireElevationCertificate(requireElevationCertificate)
                 .elevationCertificate(elevationCertificate)
+                .outstandingCodeViolations(outstandingCodeViolations)
 
                 .build();
     }

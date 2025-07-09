@@ -207,6 +207,7 @@ public class AdquisitionPropertyServiceImpl implements IAdquisitionPropertyServi
         update.setPreferredClosingLocation(object.getPreferredClosingLocation() != null ? object.getPreferredClosingLocation() : update.getPreferredClosingLocation());
         update.setRequireElevationCertificate(object.getRequireElevationCertificate() != null ? object.getRequireElevationCertificate() : update.getRequireElevationCertificate());
         update.setElevationCertificate(object.getElevationCertificate() != null ? object.getElevationCertificate() : update.getElevationCertificate());
+        update.setOutstandingCodeViolations(object.getOutstandingCodeViolations() != null ? object.getOutstandingCodeViolations() : update.getOutstandingCodeViolations());
 
         update.setUpdatedAt(LocalDateTime.now());
         repositoryCommand.save(update);
