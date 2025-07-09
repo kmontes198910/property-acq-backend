@@ -191,4 +191,8 @@ public class AdquisitionPropertyDto {
     private String reportSentTo;
 
     private String hoaCompanyName;
+    private LocalDate hoaInterviewDateProposal;
+    private String preferredClosingLocation;
+    private String requireElevationCertificate;
+    private String elevationCertificate;
 }

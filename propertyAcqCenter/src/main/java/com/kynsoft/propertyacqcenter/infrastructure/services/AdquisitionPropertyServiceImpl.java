@@ -203,6 +203,10 @@ public class AdquisitionPropertyServiceImpl implements IAdquisitionPropertyServi
         update.setDateSent(object.getDateSent() != null ? object.getDateSent() : update.getDateSent());
         update.setReportSentTo(object.getReportSentTo() != null ? object.getReportSentTo() : update.getReportSentTo());
         update.setHoaCompanyName(object.getHoaCompanyName() != null ? object.getHoaCompanyName() : update.getHoaCompanyName());
+        update.setHoaInterviewDateProposal(object.getHoaInterviewDateProposal() != null ? object.getHoaInterviewDateProposal() : update.getHoaInterviewDateProposal());
+        update.setPreferredClosingLocation(object.getPreferredClosingLocation() != null ? object.getPreferredClosingLocation() : update.getPreferredClosingLocation());
+        update.setRequireElevationCertificate(object.getRequireElevationCertificate() != null ? object.getRequireElevationCertificate() : update.getRequireElevationCertificate());
+        update.setElevationCertificate(object.getElevationCertificate() != null ? object.getElevationCertificate() : update.getElevationCertificate());
 
         update.setUpdatedAt(LocalDateTime.now());
         repositoryCommand.save(update);

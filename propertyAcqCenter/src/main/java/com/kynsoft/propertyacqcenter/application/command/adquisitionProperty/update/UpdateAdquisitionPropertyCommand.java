@@ -186,6 +186,10 @@ public class UpdateAdquisitionPropertyCommand implements ICommand {
     private String reportSentTo;
 
     private String hoaCompanyName;
+    private LocalDate hoaInterviewDateProposal;
+    private String preferredClosingLocation;
+    private CreateDocumentRequest requireElevationCertificate;
+    private CreateDocumentRequest elevationCertificate;
 
     public UpdateAdquisitionPropertyCommand(UUID id, UUID buyer, String property, UUID contact, String buyerNameAndYearVehicle,
             String buyerLicenseTagNo,
@@ -283,7 +287,11 @@ public class UpdateAdquisitionPropertyCommand implements ICommand {
             String valuationMethod,
             LocalDate dateSent,
             String reportSentTo,
-            String hoaCompanyName
+            String hoaCompanyName,
+            LocalDate hoaInterviewDateProposal,
+            String preferredClosingLocation,
+            CreateDocumentRequest requireElevationCertificate,
+            CreateDocumentRequest elevationCertificate
             ) {
         this.id = id;
         this.buyer = buyer;
@@ -439,6 +447,10 @@ public class UpdateAdquisitionPropertyCommand implements ICommand {
         this.dateSent = dateSent;
         this.reportSentTo = reportSentTo;
         this.hoaCompanyName = hoaCompanyName;
+        this.hoaInterviewDateProposal = hoaInterviewDateProposal;
+        this.preferredClosingLocation = preferredClosingLocation;
+        this.requireElevationCertificate = requireElevationCertificate;  
+        this.elevationCertificate = elevationCertificate;
     }
 
     public static UpdateAdquisitionPropertyCommand fromRequest(UpdateAdquisitionPropertyRequest request, UUID id) {
@@ -580,7 +592,11 @@ public class UpdateAdquisitionPropertyCommand implements ICommand {
                 request.getValuationMethod(),
                 request.getDateSent(),
                 request.getReportSentTo(),
-                request.getHoaCompanyName()
+                request.getHoaCompanyName(),
+                request.getHoaInterviewDateProposal(),
+                request.getPreferredClosingLocation(),
+                request.getRequireElevationCertificate(),
+                request.getElevationCertificate()
         );
     }
 

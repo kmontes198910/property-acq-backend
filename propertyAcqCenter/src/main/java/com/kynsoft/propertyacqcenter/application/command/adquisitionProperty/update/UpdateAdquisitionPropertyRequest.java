@@ -183,4 +183,8 @@ public class UpdateAdquisitionPropertyRequest {
     private String reportSentTo;
 
     private String hoaCompanyName;
+    private LocalDate hoaInterviewDateProposal;
+    private String preferredClosingLocation;
+    private CreateDocumentRequest requireElevationCertificate;
+    private CreateDocumentRequest elevationCertificate;
 }

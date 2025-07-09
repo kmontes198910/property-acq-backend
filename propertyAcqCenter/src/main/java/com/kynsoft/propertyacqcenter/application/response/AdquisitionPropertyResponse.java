@@ -175,6 +175,10 @@ public class AdquisitionPropertyResponse implements IResponse {
     private String reportSentTo;
 
     private String hoaCompanyName;
+    private LocalDate hoaInterviewDateProposal;
+    private String preferredClosingLocation;
+    private AdquisitionDocumentResponse requireElevationCertificate;
+    private AdquisitionDocumentResponse elevationCertificate;
 
     public AdquisitionPropertyResponse(AdquisitionPropertyDto dto) {
         this.id = dto.getId();
@@ -327,6 +331,10 @@ public class AdquisitionPropertyResponse implements IResponse {
         this.reportSentTo = dto.getReportSentTo();
 
         this.hoaCompanyName = dto.getHoaCompanyName();
+        this.hoaInterviewDateProposal = dto.getHoaInterviewDateProposal();
+        this.preferredClosingLocation = dto.getPreferredClosingLocation();
+        this.requireElevationCertificate = DocumentMapper.mapDocumentField(dto.getRequireElevationCertificate());
+        this.elevationCertificate = DocumentMapper.mapDocumentField(dto.getElevationCertificate());
     }
 
 }
