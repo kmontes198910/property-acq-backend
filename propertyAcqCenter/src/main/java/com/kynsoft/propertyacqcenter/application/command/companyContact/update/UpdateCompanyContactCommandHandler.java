@@ -42,20 +42,20 @@ public class UpdateCompanyContactCommandHandler implements ICommandHandler<Updat
         this.companyContactService.validateEmail(command.getEmail(), command.getId());
         //this.companyContactService.validatePersonEmail(command.getPersonalEmail(), command.getId());
         try {
-//            if (command.getIsEmployee() && this.employeeService.countById(command.getId()) == 0) {
-//                consumeCreateUserSystemService(command, companyDto.getBusiness());
-//
-//                this.employeeService.create(EmployeeDto
-//                        .builder()
-//                        .id(command.getId())
-//                        .firstName(command.getFirstName())
-//                        .lastName(command.getLastName())
-//                        .email(command.getEmail())
-//                        .phoneNumber(command.getPhoneNumber())
-//                        .position(command.getPosition())
-//                        .business(companyDto.getBusiness())
-//                        .build());
-//            }
+            if (command.getIsEmployee() && this.employeeService.countById(command.getId()) == 0) {
+                consumeCreateUserSystemService(command, companyDto.getBusiness());
+
+                this.employeeService.create(EmployeeDto
+                        .builder()
+                        .id(command.getId())
+                        .firstName(command.getFirstName())
+                        .lastName(command.getLastName())
+                        .email(command.getEmail())
+                        .phoneNumber(command.getPhoneNumber())
+                        .position(command.getPosition())
+                        .business(companyDto.getBusiness())
+                        .build());
+            }
             companyContactService.update(CompanyContactDto.builder()
                     .id(command.getId())
                     .company(companyDto)

@@ -45,23 +45,23 @@ public class UpdateContactCommandHandler implements ICommandHandler<UpdateContac
         LegalEntityDto legalEntityDto = this.legalEntityService.findById(command.getLegalEntity());
         SubCategoryDto subCategoryDto = this.subCategoryService.findById(command.getSubCategory());
         try {
-//            if (command.getIsEmployee() && this.employeeService.countById(command.getId()) == 0) {
-//                consumeCreateUserSystemService(command, legalEntityDto.getBusiness());
-//
-//                System.err.println("||||||||||||||||||||||||||||||||||||||||");
-//                this.employeeService.create(EmployeeDto
-//                        .builder()
-//                        .id(command.getId())
-//                        .firstName(command.getFirstName())
-//                        .lastName(command.getLastName())
-//                        .email(command.getEmail())
-//                        .phoneNumber(command.getPhoneNumber())
-//                        .position(command.getPosition())
-//                        .business(legalEntityDto.getBusiness())
-//                        .build());
-//            } else {
-//                System.err.println("********************");
-//            }
+            if (command.getIsEmployee() && this.employeeService.countById(command.getId()) == 0) {
+                consumeCreateUserSystemService(command, legalEntityDto.getBusiness());
+
+                System.err.println("||||||||||||||||||||||||||||||||||||||||");
+                this.employeeService.create(EmployeeDto
+                        .builder()
+                        .id(command.getId())
+                        .firstName(command.getFirstName())
+                        .lastName(command.getLastName())
+                        .email(command.getEmail())
+                        .phoneNumber(command.getPhoneNumber())
+                        .position(command.getPosition())
+                        .business(legalEntityDto.getBusiness())
+                        .build());
+            } else {
+                System.err.println("********************");
+            }
             this.contactService.update(new ContactDto(
                     command.getId(),
                     command.getFirstName(),
