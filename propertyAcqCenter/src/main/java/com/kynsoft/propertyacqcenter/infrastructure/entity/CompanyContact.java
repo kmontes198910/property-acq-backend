@@ -62,6 +62,9 @@ public class CompanyContact {
     @Column(name = "is_active")
     private Boolean isActive;
 
+    @Column(name = "is_employee")
+    private Boolean isEmployee;
+
     @CreationTimestamp
     @Column(name = "created_at", updatable = false)
     private LocalDateTime createdAt;
@@ -86,6 +89,7 @@ public class CompanyContact {
         this.updatedAt = dto.getUpdatedAt();
         this.personalEmail = dto.getPersonalEmail();
         this.mailingAddress = dto.getMailingAddress();
+        this.isEmployee = dto.getIsEmployee();
     }
 
     public CompanyContactDto toAggregateSimple() {
@@ -105,6 +109,7 @@ public class CompanyContact {
                 .updatedAt(this.updatedAt)
                 .personalEmail(personalEmail)
                 .mailingAddress(mailingAddress)
+                .isEmployee(isEmployee)
                 .build();
     }
 
@@ -125,6 +130,7 @@ public class CompanyContact {
                 .company(company != null ? this.company.toAggregateBasic() : null)
                 .personalEmail(personalEmail)
                 .mailingAddress(mailingAddress)
+                .isEmployee(isEmployee)
                 .build();
     }
 
@@ -142,6 +148,7 @@ public class CompanyContact {
                 .personalEmail(personalEmail)
                 .company(company != null ? this.company.toAggregateBasic() : null)
                 .mailingAddress(mailingAddress)
+                .isEmployee(isEmployee)
                 .build();
     }
 

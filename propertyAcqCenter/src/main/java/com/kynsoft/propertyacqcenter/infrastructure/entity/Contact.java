@@ -54,7 +54,10 @@ public class Contact {
     
     @Column(name = "is_active")
     private Boolean isActive;
-    
+
+    @Column(name = "is_employee")
+    private Boolean isEmployee;
+
     @CreationTimestamp
     @Column(name = "created_at", updatable = false)
     private LocalDateTime createdAt;
@@ -92,6 +95,7 @@ public class Contact {
                 .legalEntity(this.legalEntity != null ? this.legalEntity.toAggregateBasic() : null)
                 .personalEmail(personalEmail)
                 .subCategory(subCategory != null ? this.subCategory.toAggregate() : null)
+                .isEmployee(isEmployee)
                 .build();
     }
 
@@ -112,6 +116,7 @@ public class Contact {
                 .personalEmail(personalEmail)
                 .legalEntity(this.legalEntity != null ? this.legalEntity.toAggregateFindById() : null)
                 .subCategory(subCategory != null ? this.subCategory.toAggregate() : null)
+                .isEmployee(isEmployee)
                 .build();
     }
 
@@ -144,6 +149,7 @@ public class Contact {
         this.legalEntity = dto.getLegalEntity() != null ? new LegalEntity(dto.getLegalEntity()) : null;
         this.personalEmail = dto.getPersonalEmail();
         this.subCategory = dto.getSubCategory() != null ? new SubCategory(dto.getSubCategory()) : null;
+        this.isEmployee = dto.getIsEmployee();
         // Las relaciones con LegalEntity y Business deben ser establecidas externamente
     }
 }

@@ -32,6 +32,7 @@ public class ContactResponse implements IResponse {
     private LegalEntityBasicResponse legalEntity;
     private String personalEmail;
     private SubCategoryDto subCategory;
+    private Boolean isEmployee;
 
     public ContactResponse(ContactDto contactDto){
         this.id = contactDto.getId();
@@ -49,5 +50,6 @@ public class ContactResponse implements IResponse {
         this.legalEntity = new LegalEntityBasicResponse(contactDto.getLegalEntity());
         this.personalEmail = contactDto.getPersonalEmail();
         this.subCategory = contactDto.getSubCategory();
+        this.isEmployee = contactDto.getIsEmployee();
     }
 }

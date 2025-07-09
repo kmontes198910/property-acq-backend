@@ -27,6 +27,7 @@ public class CompanyContactDto {
     private Boolean isActive;
     private LocalDate birthDate;
     private String mailingAddress;
+    private Boolean isEmployee;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 }
