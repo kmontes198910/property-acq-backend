@@ -203,6 +203,7 @@ public class UpdateAdquisitionPropertyCommandHandler implements ICommandHandler<
                 .requireElevationCertificate(command.getRequireElevationCertificate() != null ? command.getRequireElevationCertificate().getFilePath() + "|" + command.getRequireElevationCertificate().getFileName() : null)
                 .elevationCertificate(command.getElevationCertificate() != null ? command.getElevationCertificate().getFilePath() + "|" + command.getElevationCertificate().getFileName() : null)
                 .outstandingCodeViolations(command.getOutstandingCodeViolations())
+                .taxBillOrAmount(command.getTaxBillOrAmount())
                 .build()
         );
     }

@@ -484,6 +484,9 @@ public class AdquisitionProperty {
     @Column(name = "outstanding_code_violations", nullable = true)
     private String outstandingCodeViolations;
 
+    @Column(name = "tax_bill_or_amount", nullable = true)
+    private Boolean taxBillOrAmount;
+
     public AdquisitionProperty(AdquisitionPropertyDto dto) {
         this.id = dto.getId() != null ? dto.getId() : UUID.randomUUID();
         this.buyerNameAndYearVehicle = dto.getBuyerNameAndYearVehicle();
@@ -649,6 +652,7 @@ public class AdquisitionProperty {
         this.requireElevationCertificate = dto.getRequireElevationCertificate();
         this.elevationCertificate = dto.getElevationCertificate();
         this.outstandingCodeViolations = dto.getOutstandingCodeViolations();
+        this.taxBillOrAmount = dto.getTaxBillOrAmount();
     }
 
     public AdquisitionPropertyDto toAggregate() {
@@ -800,6 +804,7 @@ public class AdquisitionProperty {
                 .requireElevationCertificate(requireElevationCertificate)
                 .elevationCertificate(elevationCertificate)
                 .outstandingCodeViolations(outstandingCodeViolations)
+                .taxBillOrAmount(taxBillOrAmount)
 
                 .build();
     }

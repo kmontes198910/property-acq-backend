@@ -188,4 +188,5 @@ public class UpdateAdquisitionPropertyRequest {
     private CreateDocumentRequest requireElevationCertificate;
     private CreateDocumentRequest elevationCertificate;
     private String outstandingCodeViolations;
+    private Boolean taxBillOrAmount;
 }
