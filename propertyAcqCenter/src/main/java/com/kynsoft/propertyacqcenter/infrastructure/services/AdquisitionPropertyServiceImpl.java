@@ -208,6 +208,7 @@ public class AdquisitionPropertyServiceImpl implements IAdquisitionPropertyServi
         update.setRequireElevationCertificate(object.getRequireElevationCertificate() != null ? object.getRequireElevationCertificate() : update.getRequireElevationCertificate());
         update.setElevationCertificate(object.getElevationCertificate() != null ? object.getElevationCertificate() : update.getElevationCertificate());
         update.setOutstandingCodeViolations(object.getOutstandingCodeViolations() != null ? object.getOutstandingCodeViolations() : update.getOutstandingCodeViolations());
+        update.setTaxBillOrAmount(object.getTaxBillOrAmount() != null ? object.getTaxBillOrAmount() : update.getTaxBillOrAmount());
 
         update.setUpdatedAt(LocalDateTime.now());
         repositoryCommand.save(update);

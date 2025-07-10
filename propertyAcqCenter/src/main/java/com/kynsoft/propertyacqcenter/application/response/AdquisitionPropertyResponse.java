@@ -180,6 +180,7 @@ public class AdquisitionPropertyResponse implements IResponse {
     private AdquisitionDocumentResponse requireElevationCertificate;
     private AdquisitionDocumentResponse elevationCertificate;
     private String outstandingCodeViolations;
+    private Boolean taxBillOrAmount;
 
     public AdquisitionPropertyResponse(AdquisitionPropertyDto dto) {
         this.id = dto.getId();
@@ -337,6 +338,7 @@ public class AdquisitionPropertyResponse implements IResponse {
         this.requireElevationCertificate = DocumentMapper.mapDocumentField(dto.getRequireElevationCertificate());
         this.elevationCertificate = DocumentMapper.mapDocumentField(dto.getElevationCertificate());
         this.outstandingCodeViolations = dto.getOutstandingCodeViolations();
+        this.taxBillOrAmount = dto.getTaxBillOrAmount();
     }
 
 }
