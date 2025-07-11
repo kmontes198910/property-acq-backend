@@ -86,7 +86,7 @@ public class UpdateAdquisitionPropertyCommandHandler implements ICommandHandler<
                 .buyerEntityName(command.getBuyerEntityName())
                 .buyerMailingAddress(command.getBuyerMailingAddress())
                 .buyerMobilePhoneNumber(command.getBuyerMobilePhoneNumber())
-                .hoa4050certificationStatus(command.getHoa4050certificationStatus())
+                .hoa4050certificationStatus(command.getHoa4050certificationStatus() != null ? command.getHoa4050certificationStatus().getFilePath() + "|" + command.getHoa4050certificationStatus().getFileName() : null)
                 .hoaValidatorContactName(command.getHoaValidatorContactName())
                 .hoaValidatorEmail(command.getHoaValidatorEmail())
                 .hoaValidatorPhoneNumber(command.getHoaValidatorPhoneNumber())

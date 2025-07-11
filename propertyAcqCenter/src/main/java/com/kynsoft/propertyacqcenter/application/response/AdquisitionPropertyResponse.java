@@ -181,6 +181,7 @@ public class AdquisitionPropertyResponse implements IResponse {
     private AdquisitionDocumentResponse elevationCertificate;
     private String outstandingCodeViolations;
     private Boolean taxBillOrAmount;
+    private AdquisitionDocumentResponse hoa4050certificationStatus;
 
     public AdquisitionPropertyResponse(AdquisitionPropertyDto dto) {
         this.id = dto.getId();
@@ -227,6 +228,7 @@ public class AdquisitionPropertyResponse implements IResponse {
         this.warrantyDeed = DocumentMapper.mapDocumentField(dto.getWarrantyDeed());
         this.titleInsurance = DocumentMapper.mapDocumentField(dto.getTitleInsurance());
         this.executedClosingDocuments = DocumentMapper.mapDocumentField(dto.getExecutedClosingDocuments());
+        this.hoa4050certificationStatus = DocumentMapper.mapDocumentField(dto.getHoa4050certificationStatus());
 
         this.sellerFullName = dto.getSellerFullName();
         this.sellerEntityName = dto.getSellerEntityName();

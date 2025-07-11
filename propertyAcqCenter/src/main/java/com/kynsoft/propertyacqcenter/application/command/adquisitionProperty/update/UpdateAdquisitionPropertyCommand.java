@@ -63,7 +63,7 @@ public class UpdateAdquisitionPropertyCommand implements ICommand {
     private String buyerEntityName;
     private String buyerMailingAddress;
     private String buyerMobilePhoneNumber;
-    private String hoa4050certificationStatus;
+    private CreateDocumentRequest hoa4050certificationStatus;
     private String hoaValidatorContactName;
     private String hoaValidatorEmail;
     private String hoaValidatorPhoneNumber;
@@ -211,7 +211,7 @@ public class UpdateAdquisitionPropertyCommand implements ICommand {
             CreateDocumentRequest contractAddendum, CreateDocumentRequest finalSettlementStatement,
             CreateDocumentRequest bankStatementRequest, CreateDocumentRequest warrantyDeed, CreateDocumentRequest titleInsurance,
             CreateDocumentRequest executedClosingDocuments, String buyerFullLegalName, String buyerContactEmail,
-            String buyerEntityName, String buyerMailingAddress, String buyerMobilePhoneNumber, String hoa4050certificationStatus,
+            String buyerEntityName, String buyerMailingAddress, String buyerMobilePhoneNumber, CreateDocumentRequest hoa4050certificationStatus,
             String hoaValidatorContactName, String hoaValidatorEmail, String hoaValidatorPhoneNumber,
             String closingCountdownClock, LocalDate contractClosingDate,
             String sellerFullName, String sellerEntityName, CreateDocumentRequest sellerArticlesOfIncorporation,

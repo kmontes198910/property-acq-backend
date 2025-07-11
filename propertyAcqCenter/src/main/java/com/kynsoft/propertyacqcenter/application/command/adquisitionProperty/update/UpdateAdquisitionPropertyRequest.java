@@ -54,7 +54,7 @@ public class UpdateAdquisitionPropertyRequest {
     private String buyerEntityName;
     private String buyerMailingAddress;
     private String buyerMobilePhoneNumber;
-    private String hoa4050certificationStatus;
+    private CreateDocumentRequest hoa4050certificationStatus;
     private String hoaValidatorContactName;
     private String hoaValidatorEmail;
     private String hoaValidatorPhoneNumber;
