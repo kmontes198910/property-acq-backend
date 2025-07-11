@@ -179,7 +179,7 @@ public class AdquisitionPropertyResponse implements IResponse {
     private String preferredClosingLocation;
     private AdquisitionDocumentResponse requireElevationCertificate;
     private AdquisitionDocumentResponse elevationCertificate;
-    private String outstandingCodeViolations;
+    private Boolean outstandingCodeViolations;
     private AdquisitionDocumentResponse taxBillOrAmount;
     private AdquisitionDocumentResponse hoa4050certificationStatus;
 

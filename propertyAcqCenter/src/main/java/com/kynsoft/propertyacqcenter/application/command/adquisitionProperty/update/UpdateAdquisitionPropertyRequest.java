@@ -187,6 +187,6 @@ public class UpdateAdquisitionPropertyRequest {
     private String preferredClosingLocation;
     private CreateDocumentRequest requireElevationCertificate;
     private CreateDocumentRequest elevationCertificate;
-    private String outstandingCodeViolations;
+    private Boolean outstandingCodeViolations;
     private CreateDocumentRequest taxBillOrAmount;
 }

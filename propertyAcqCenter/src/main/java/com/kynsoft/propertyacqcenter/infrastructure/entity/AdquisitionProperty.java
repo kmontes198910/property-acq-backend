@@ -481,8 +481,8 @@ public class AdquisitionProperty {
     @Column(name = "report_sent_to", nullable = true)
     private String reportSentTo;
 
-    @Column(name = "outstanding_code_violations", nullable = true)
-    private String outstandingCodeViolations;
+    @Column(name = "outstanding_code_violation", nullable = true)
+    private Boolean outstandingCodeViolations;
 
     @Column(name = "tax_bill_amount", nullable = true)
     private String taxBillOrAmount;
