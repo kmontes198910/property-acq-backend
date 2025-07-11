@@ -484,8 +484,8 @@ public class AdquisitionProperty {
     @Column(name = "outstanding_code_violations", nullable = true)
     private String outstandingCodeViolations;
 
-    @Column(name = "tax_bill_or_amount", nullable = true)
-    private Boolean taxBillOrAmount;
+    @Column(name = "tax_bill_amount", nullable = true)
+    private String taxBillOrAmount;
 
     public AdquisitionProperty(AdquisitionPropertyDto dto) {
         this.id = dto.getId() != null ? dto.getId() : UUID.randomUUID();
