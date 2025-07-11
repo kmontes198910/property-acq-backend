@@ -190,7 +190,7 @@ public class UpdateAdquisitionPropertyCommand implements ICommand {
     private String preferredClosingLocation;
     private CreateDocumentRequest requireElevationCertificate;
     private CreateDocumentRequest elevationCertificate;
-    private String outstandingCodeViolations;
+    private Boolean outstandingCodeViolations;
     private CreateDocumentRequest taxBillOrAmount;
 
     public UpdateAdquisitionPropertyCommand(UUID id, UUID buyer, String property, UUID contact, String buyerNameAndYearVehicle,
@@ -294,7 +294,7 @@ public class UpdateAdquisitionPropertyCommand implements ICommand {
             String preferredClosingLocation,
             CreateDocumentRequest requireElevationCertificate,
             CreateDocumentRequest elevationCertificate,
-            String outstandingCodeViolations,
+            Boolean outstandingCodeViolations,
             CreateDocumentRequest taxBillOrAmount
             ) {
         this.id = id;
