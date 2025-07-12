@@ -363,8 +363,8 @@ public class AdquisitionProperty {
     @Column(name = "enter_wire_instructions", nullable = true)
     private String enterWireInstructions;
 
-    @Column(name = "authorize_title_company_info", nullable = true)
-    private String authorizeTitleCompanyInfo;
+    @Column(name = "authorize_tc_info", nullable = true)
+    private Boolean authorizeTitleCompanyInfo;
 
     //Access & Inspection
     @Column(name = "property_access_code", nullable = true)

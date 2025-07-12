@@ -150,7 +150,7 @@ public class AdquisitionPropertyResponse implements IResponse {
 
     //Closing
     private String enterWireInstructions;
-    private String authorizeTitleCompanyInfo;
+    private Boolean authorizeTitleCompanyInfo;
 
     //Access & Inspection
     private String propertyAccessCode;

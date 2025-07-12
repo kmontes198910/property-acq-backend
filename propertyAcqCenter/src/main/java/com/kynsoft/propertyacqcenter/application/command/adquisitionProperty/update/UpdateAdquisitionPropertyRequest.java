@@ -137,7 +137,7 @@ public class UpdateAdquisitionPropertyRequest {
 
     //Closing
     private String enterWireInstructions;
-    private String authorizeTitleCompanyInfo;
+    private Boolean authorizeTitleCompanyInfo;
 
     //Access & Inspection
     private String propertyAccessCode;
