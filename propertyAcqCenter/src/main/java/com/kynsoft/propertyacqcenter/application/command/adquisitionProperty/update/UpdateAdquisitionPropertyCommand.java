@@ -161,7 +161,7 @@ public class UpdateAdquisitionPropertyCommand implements ICommand {
 
     //Closing
     private String enterWireInstructions;
-    private String authorizeTitleCompanyInfo;
+    private Boolean authorizeTitleCompanyInfo;
 
     //Access & Inspection
     private String propertyAccessCode;
@@ -253,7 +253,7 @@ public class UpdateAdquisitionPropertyCommand implements ICommand {
             CreateDocumentRequest powerOfAttorneyDocument,
             CreateDocumentRequest trustOrEstateDocuments,
             String enterWireInstructions,
-            String authorizeTitleCompanyInfo,
+            Boolean authorizeTitleCompanyInfo,
             String propertyAccessCode,
             String timeForAccess,
             String instructionsForInspections,
