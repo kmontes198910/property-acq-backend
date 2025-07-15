@@ -88,6 +88,9 @@ public class AdquisitionProperty {
     @Column(name = "upload_government_issued_id", nullable = true)
     private String uploadGovernmentIssuedId;
 
+    @Column(name = "s_government_issued_id", nullable = true)
+    private String sellerUploadGovernmentIssuedId;
+
     @Column(name = "hoa_application_form", nullable = true)
     private String hoaApplicationForm;
 
@@ -193,8 +196,8 @@ public class AdquisitionProperty {
     @Column(name = "hoa_validator_phone_number", nullable = true)
     private String hoaValidatorPhoneNumber;
 
-    @Column(name = "hoa_approval_time", nullable = true)
-    private Integer hoaApprovalProcessingTime;
+    @Column(name = "approval_time", nullable = true)
+    private String hoaApprovalProcessingTime;
 
     @Column(name = "hoa_dues_amount", nullable = true)
     private Double hoaDuesAmount;
@@ -653,6 +656,7 @@ public class AdquisitionProperty {
         this.elevationCertificate = dto.getElevationCertificate();
         this.outstandingCodeViolations = dto.getOutstandingCodeViolations();
         this.taxBillOrAmount = dto.getTaxBillOrAmount();
+        this.sellerUploadGovernmentIssuedId = dto.getSellerUploadGovernmentIssuedId();
     }
 
     public AdquisitionPropertyDto toAggregate() {
@@ -805,6 +809,7 @@ public class AdquisitionProperty {
                 .elevationCertificate(elevationCertificate)
                 .outstandingCodeViolations(outstandingCodeViolations)
                 .taxBillOrAmount(taxBillOrAmount)
+                .sellerUploadGovernmentIssuedId(sellerUploadGovernmentIssuedId)
 
                 .build();
     }

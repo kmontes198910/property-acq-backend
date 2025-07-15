@@ -67,7 +67,7 @@ public class AdquisitionPropertyDto {
     private LocalDate contractClosingDate;
 
     //HOA
-    private Integer hoaApprovalProcessingTime;
+    private String hoaApprovalProcessingTime;
     private Double hoaDuesAmount;
     private String hoa4050certificationStatus;
     private String hoaValidatorContactName;
@@ -197,4 +197,5 @@ public class AdquisitionPropertyDto {
     private String elevationCertificate;
     private Boolean outstandingCodeViolations;
     private String taxBillOrAmount;
+    private String sellerUploadGovernmentIssuedId;
 }

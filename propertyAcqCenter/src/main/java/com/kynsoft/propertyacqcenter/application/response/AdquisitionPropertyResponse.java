@@ -123,7 +123,7 @@ public class AdquisitionPropertyResponse implements IResponse {
     private AdquisitionDocumentResponse uploadRentalAgreement;
 
     //HOA
-    private Integer hoaApprovalProcessingTime;
+    private String hoaApprovalProcessingTime;
     private Double hoaDuesAmount;
 
     private AdquisitionDocumentResponse hoaQASheet;
@@ -182,6 +182,7 @@ public class AdquisitionPropertyResponse implements IResponse {
     private Boolean outstandingCodeViolations;
     private AdquisitionDocumentResponse taxBillOrAmount;
     private AdquisitionDocumentResponse hoa4050certificationStatus;
+    private AdquisitionDocumentResponse sellerUploadGovernmentIssuedId;
 
     public AdquisitionPropertyResponse(AdquisitionPropertyDto dto) {
         this.id = dto.getId();
@@ -341,6 +342,7 @@ public class AdquisitionPropertyResponse implements IResponse {
         this.elevationCertificate = DocumentMapper.mapDocumentField(dto.getElevationCertificate());
         this.outstandingCodeViolations = dto.getOutstandingCodeViolations();
         this.taxBillOrAmount = DocumentMapper.mapDocumentField(dto.getTaxBillOrAmount());
+        this.sellerUploadGovernmentIssuedId = DocumentMapper.mapDocumentField(dto.getSellerUploadGovernmentIssuedId());
     }
 
 }
