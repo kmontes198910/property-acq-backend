@@ -192,6 +192,7 @@ public class UpdateAdquisitionPropertyCommand implements ICommand {
     private CreateDocumentRequest elevationCertificate;
     private Boolean outstandingCodeViolations;
     private CreateDocumentRequest taxBillOrAmount;
+    private CreateDocumentRequest sellerUploadGovernmentIssuedId;
 
     public UpdateAdquisitionPropertyCommand(UUID id, UUID buyer, String property, UUID contact, String buyerNameAndYearVehicle,
             String buyerLicenseTagNo,
@@ -295,7 +296,8 @@ public class UpdateAdquisitionPropertyCommand implements ICommand {
             CreateDocumentRequest requireElevationCertificate,
             CreateDocumentRequest elevationCertificate,
             Boolean outstandingCodeViolations,
-            CreateDocumentRequest taxBillOrAmount
+            CreateDocumentRequest taxBillOrAmount,
+            CreateDocumentRequest sellerUploadGovernmentIssuedId
             ) {
         this.id = id;
         this.buyer = buyer;
@@ -457,6 +459,7 @@ public class UpdateAdquisitionPropertyCommand implements ICommand {
         this.elevationCertificate = elevationCertificate;
         this.outstandingCodeViolations = outstandingCodeViolations;
         this.taxBillOrAmount = taxBillOrAmount;
+        this.sellerUploadGovernmentIssuedId = sellerUploadGovernmentIssuedId;
     }
 
     public static UpdateAdquisitionPropertyCommand fromRequest(UpdateAdquisitionPropertyRequest request, UUID id) {
@@ -604,7 +607,8 @@ public class UpdateAdquisitionPropertyCommand implements ICommand {
                 request.getRequireElevationCertificate(),
                 request.getElevationCertificate(),
                 request.getOutstandingCodeViolations(),
-                request.getTaxBillOrAmount()
+                request.getTaxBillOrAmount(),
+                request.getSellerUploadGovernmentIssuedId()
         );
     }
 

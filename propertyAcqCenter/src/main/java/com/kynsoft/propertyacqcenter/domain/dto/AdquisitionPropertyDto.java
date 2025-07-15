@@ -197,4 +197,5 @@ public class AdquisitionPropertyDto {
     private String elevationCertificate;
     private Boolean outstandingCodeViolations;
     private String taxBillOrAmount;
+    private String sellerUploadGovernmentIssuedId;
 }
