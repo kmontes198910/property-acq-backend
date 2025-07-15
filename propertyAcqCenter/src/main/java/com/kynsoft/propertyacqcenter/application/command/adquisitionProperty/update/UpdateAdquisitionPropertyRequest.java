@@ -145,7 +145,7 @@ public class UpdateAdquisitionPropertyRequest {
     private String instructionsForInspections;
 
     //HOA
-    private Integer hoaApprovalProcessingTime;
+    private String hoaApprovalProcessingTime;
     private Double hoaDuesAmount;
 
     private CreateDocumentRequest hoaQASheet;

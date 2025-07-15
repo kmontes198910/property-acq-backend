@@ -134,7 +134,7 @@ public class UpdateAdquisitionPropertyCommand implements ICommand {
     private CreateDocumentRequest uploadRentalAgreement;
 
     //HOA
-    private Integer hoaApprovalProcessingTime;
+    private String hoaApprovalProcessingTime;
     private Double hoaDuesAmount;
 
     private CreateDocumentRequest hoaQASheet;
@@ -247,7 +247,7 @@ public class UpdateAdquisitionPropertyCommand implements ICommand {
             CreateDocumentRequest uploadSellersDisclosureForm,
             CreateDocumentRequest uploadTenantEstoppel,
             CreateDocumentRequest uploadRentalAgreement,
-            Integer hoaApprovalProcessingTime,
+            String hoaApprovalProcessingTime,
             Double hoaDuesAmount,
             CreateDocumentRequest proofOfOwnershipDocument,
             CreateDocumentRequest powerOfAttorneyDocument,

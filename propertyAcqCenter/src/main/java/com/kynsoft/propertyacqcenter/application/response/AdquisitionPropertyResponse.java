@@ -123,7 +123,7 @@ public class AdquisitionPropertyResponse implements IResponse {
     private AdquisitionDocumentResponse uploadRentalAgreement;
 
     //HOA
-    private Integer hoaApprovalProcessingTime;
+    private String hoaApprovalProcessingTime;
     private Double hoaDuesAmount;
 
     private AdquisitionDocumentResponse hoaQASheet;
