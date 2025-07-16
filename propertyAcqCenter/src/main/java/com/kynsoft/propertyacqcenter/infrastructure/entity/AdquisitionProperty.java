@@ -490,6 +490,18 @@ public class AdquisitionProperty {
     @Column(name = "tax_bill_amount", nullable = true)
     private String taxBillOrAmount;
 
+    @Column(name = "wh_type_of_ownership", nullable = true)
+    private String whOwnershipType;
+
+    @Column(name = "wh_wire_account_holder_name", nullable = true)
+    private String whwireAccountHolderName;
+
+    @Column(name = "wh_wire_account_name", nullable = true)
+    private String whwireAccountNumber;
+
+    @Column(name = "wh_wire_routing_number", nullable = true)
+    private String whwireRoutingNumber;
+
     public AdquisitionProperty(AdquisitionPropertyDto dto) {
         this.id = dto.getId() != null ? dto.getId() : UUID.randomUUID();
         this.buyerNameAndYearVehicle = dto.getBuyerNameAndYearVehicle();
@@ -657,6 +669,11 @@ public class AdquisitionProperty {
         this.outstandingCodeViolations = dto.getOutstandingCodeViolations();
         this.taxBillOrAmount = dto.getTaxBillOrAmount();
         this.sellerUploadGovernmentIssuedId = dto.getSellerUploadGovernmentIssuedId();
+
+        this.whOwnershipType = dto.getWhOwnershipType();
+        this.whwireAccountHolderName = dto.getWhwireAccountHolderName();
+        this.whwireAccountNumber = dto.getWhwireAccountNumber();
+        this.whwireRoutingNumber = dto.getWhwireRoutingNumber();
     }
 
     public AdquisitionPropertyDto toAggregate() {
@@ -811,6 +828,10 @@ public class AdquisitionProperty {
                 .taxBillOrAmount(taxBillOrAmount)
                 .sellerUploadGovernmentIssuedId(sellerUploadGovernmentIssuedId)
 
+                .whOwnershipType(whOwnershipType)
+                .whwireAccountHolderName(whwireAccountHolderName)
+                .whwireAccountNumber(whwireAccountNumber)
+                .whwireRoutingNumber(whwireRoutingNumber)
                 .build();
     }
 

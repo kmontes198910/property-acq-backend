@@ -205,6 +205,12 @@ public class UpdateAdquisitionPropertyCommandHandler implements ICommandHandler<
                 .outstandingCodeViolations(command.getOutstandingCodeViolations())
                 .taxBillOrAmount(command.getTaxBillOrAmount() != null ? command.getTaxBillOrAmount().getFilePath() + "|" + command.getTaxBillOrAmount().getFileName() : null)
                 .sellerUploadGovernmentIssuedId(command.getSellerUploadGovernmentIssuedId() != null ? command.getSellerUploadGovernmentIssuedId().getFilePath() + "|" + command.getSellerUploadGovernmentIssuedId().getFileName() : null)
+
+                .whOwnershipType(command.getWhOwnershipType())
+                .whwireAccountHolderName(command.getWhwireAccountHolderName())
+                .whwireAccountNumber(command.getWhwireAccountNumber())
+                .whwireRoutingNumber(command.getWhwireRoutingNumber())
+
                 .build()
         );
     }
