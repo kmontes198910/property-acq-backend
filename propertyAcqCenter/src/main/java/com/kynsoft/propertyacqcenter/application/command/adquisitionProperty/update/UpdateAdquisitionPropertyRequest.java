@@ -190,4 +190,10 @@ public class UpdateAdquisitionPropertyRequest {
     private Boolean outstandingCodeViolations;
     private CreateDocumentRequest taxBillOrAmount;
     private CreateDocumentRequest sellerUploadGovernmentIssuedId;
+
+    private String whOwnershipType;
+    private String whwireAccountHolderName;
+    private String whwireAccountNumber;
+    private String whwireRoutingNumber;
+
 }

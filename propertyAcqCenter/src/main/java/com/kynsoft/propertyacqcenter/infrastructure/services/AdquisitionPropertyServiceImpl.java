@@ -211,6 +211,11 @@ public class AdquisitionPropertyServiceImpl implements IAdquisitionPropertyServi
         update.setTaxBillOrAmount(object.getTaxBillOrAmount() != null ? object.getTaxBillOrAmount() : update.getTaxBillOrAmount());
         update.setSellerUploadGovernmentIssuedId(object.getSellerUploadGovernmentIssuedId() != null ? object.getSellerUploadGovernmentIssuedId() : update.getSellerUploadGovernmentIssuedId());
 
+        update.setWhOwnershipType(object.getWhOwnershipType() != null ? object.getWhOwnershipType() : update.getWhOwnershipType());
+        update.setWhwireAccountHolderName(object.getWhwireAccountHolderName() != null ? object.getWhwireAccountHolderName() : update.getWhwireAccountHolderName());
+        update.setWhwireAccountNumber(object.getWhwireAccountNumber() != null ? object.getWhwireAccountNumber() : update.getWhwireAccountNumber());
+        update.setWhwireRoutingNumber(object.getWhwireRoutingNumber() != null ? object.getWhwireRoutingNumber() : update.getWhwireRoutingNumber());
+
         update.setUpdatedAt(LocalDateTime.now());
         repositoryCommand.save(update);
     }

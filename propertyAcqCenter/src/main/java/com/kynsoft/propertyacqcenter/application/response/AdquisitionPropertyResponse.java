@@ -184,6 +184,11 @@ public class AdquisitionPropertyResponse implements IResponse {
     private AdquisitionDocumentResponse hoa4050certificationStatus;
     private AdquisitionDocumentResponse sellerUploadGovernmentIssuedId;
 
+    private String whOwnershipType;
+    private String whwireAccountHolderName;
+    private String whwireAccountNumber;
+    private String whwireRoutingNumber;
+
     public AdquisitionPropertyResponse(AdquisitionPropertyDto dto) {
         this.id = dto.getId();
         this.buyer = dto.getBuyer() != null ? new LegalEntityBasicResponse(dto.getBuyer()) : null;
@@ -343,6 +348,11 @@ public class AdquisitionPropertyResponse implements IResponse {
         this.outstandingCodeViolations = dto.getOutstandingCodeViolations();
         this.taxBillOrAmount = DocumentMapper.mapDocumentField(dto.getTaxBillOrAmount());
         this.sellerUploadGovernmentIssuedId = DocumentMapper.mapDocumentField(dto.getSellerUploadGovernmentIssuedId());
+
+        this.whOwnershipType = dto.getWhOwnershipType();
+        this.whwireAccountHolderName = dto.getWhwireAccountHolderName();
+        this.whwireAccountNumber = dto.getWhwireAccountNumber();
+        this.whwireRoutingNumber = dto.getWhwireRoutingNumber();
     }
 
 }
