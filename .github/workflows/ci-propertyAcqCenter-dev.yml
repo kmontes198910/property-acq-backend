@@ -35,7 +35,7 @@ jobs:
             "PACKAGE_TOKEN=${{secrets.PACKAGE_TOKEN}}"
           context: "{{defaultContext}}:${{ env.SERVICE_PATH }}"
           push: true
-          tags: kmontes2020/property-dev:v1
+          tags: kmontes2020/property-acq-dev:v1
 
   deploy:
     needs: build-push
