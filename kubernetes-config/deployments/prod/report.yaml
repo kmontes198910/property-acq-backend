@@ -2,12 +2,12 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: report
-  namespace: medinec
+  namespace: property-prod
 spec:
   replicas: 1
   selector:
     matchLabels:
-      workload.user.cattle.io/workloadselector: apps.deployment-medinec-report
+      workload.user.cattle.io/workloadselector: apps.deployment-property-prod-report
   strategy:
     rollingUpdate:
       maxSurge: 25%
@@ -16,11 +16,11 @@ spec:
     metadata:
       labels:
         app: report
-        workload.user.cattle.io/workloadselector: apps.deployment-medinec-report
+        workload.user.cattle.io/workloadselector: apps.deployment-property-prod-report
     spec:
       containers:
         - name: report
-          image: kmontes2020/medinec-report:v1
+          image: kmontes2020/property-report:v1
           imagePullPolicy: Always
           ports:
             - containerPort: 9908

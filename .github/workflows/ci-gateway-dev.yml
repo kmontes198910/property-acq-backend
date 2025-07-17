@@ -39,7 +39,7 @@ jobs:
             PACKAGE_TOKEN=${{ secrets.PACKAGE_TOKEN }}
           context: ./${{ env.SERVICE_PATH }}
           push: true
-          tags: kmontes2020/medinec-gateway-dev:v1
+          tags: kmontes2020/property-gateway-dev:v1
 
   deploy:
     needs: build-push

@@ -2,12 +2,12 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: identity
-  namespace: medinec
+  namespace: property-prod
 spec:
   replicas: 1
   selector:
     matchLabels:
-      workload.user.cattle.io/workloadselector: apps.deployment-medinec-identity
+      workload.user.cattle.io/workloadselector: apps.deployment-property-prod-identity
   strategy:
     rollingUpdate:
       maxSurge: 25%
@@ -16,11 +16,11 @@ spec:
     metadata:
       labels:
         app: identity
-        workload.user.cattle.io/workloadselector: apps.deployment-medinec-identity
+        workload.user.cattle.io/workloadselector: apps.deployment-property-prod-identity
     spec:
       containers:
         - name: identity
-          image: kmontes2020/medinec-identity:v1
+          image: kmontes2020/property-identity:v1
           imagePullPolicy: Always
           ports:
             - containerPort: 9905

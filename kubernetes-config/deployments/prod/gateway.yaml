@@ -2,12 +2,12 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: gateway
-  namespace: medinec
+  namespace: property-prod
 spec:
   replicas: 1
   selector:
     matchLabels:
-      workload.user.cattle.io/workloadselector: apps.deployment-medinec-gateway
+      workload.user.cattle.io/workloadselector: apps.deployment-property-prod-gateway
   strategy:
     rollingUpdate:
       maxSurge: 25%
@@ -16,11 +16,11 @@ spec:
     metadata:
       labels:
         app: gateway
-        workload.user.cattle.io/workloadselector: apps.deployment-medinec-gateway
+        workload.user.cattle.io/workloadselector: apps.deployment-property-prod-gateway
     spec:
       containers:
         - name: gateway
-          image: kmontes2020/medinec-gateway:v1
+          image: kmontes2020/property-gateway:v1
           imagePullPolicy: Always
           ports:
             - containerPort: 8080

@@ -2,12 +2,12 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: digital-signature
-  namespace: medinec
+  namespace: property-prod
 spec:
   replicas: 1
   selector:
     matchLabels:
-      workload.user.cattle.io/workloadselector: apps.deployment-medinec-digital-signature
+      workload.user.cattle.io/workloadselector: apps.deployment-property-prod-digital-signature
   strategy:
     rollingUpdate:
       maxSurge: 25%
@@ -16,11 +16,11 @@ spec:
     metadata:
       labels:
         app: digital-signature
-        workload.user.cattle.io/workloadselector: apps.deployment-medinec-digital-signature
+        workload.user.cattle.io/workloadselector: apps.deployment-property-prod-digital-signature
     spec:
       containers:
         - name: digital-signature
-          image: kmontes2020/medinec-digital-signature:v1
+          image: kmontes2020/property-digital-signature:v1
           imagePullPolicy: Always
           ports:
             - containerPort: 9909
@@ -38,7 +38,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: digital-signature
-  namespace: medinec
+  namespace: property-prod
 spec:
   selector:
     app: digital-signature
