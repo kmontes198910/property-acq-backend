@@ -198,4 +198,9 @@ public class AdquisitionPropertyDto {
     private Boolean outstandingCodeViolations;
     private String taxBillOrAmount;
     private String sellerUploadGovernmentIssuedId;
+
+    private String whOwnershipType;
+    private String whwireAccountHolderName;
+    private String whwireAccountNumber;
+    private String whwireRoutingNumber;
 }

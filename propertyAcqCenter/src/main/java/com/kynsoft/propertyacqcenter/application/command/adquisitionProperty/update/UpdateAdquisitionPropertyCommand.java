@@ -194,6 +194,11 @@ public class UpdateAdquisitionPropertyCommand implements ICommand {
     private CreateDocumentRequest taxBillOrAmount;
     private CreateDocumentRequest sellerUploadGovernmentIssuedId;
 
+    private String whOwnershipType;
+    private String whwireAccountHolderName;
+    private String whwireAccountNumber;
+    private String whwireRoutingNumber;
+
     public UpdateAdquisitionPropertyCommand(UUID id, UUID buyer, String property, UUID contact, String buyerNameAndYearVehicle,
             String buyerLicenseTagNo,
             LocalDate dateAndTimeForInspections, String instructionsForAccess, LocalDate hoaBuyerInterviewDate,
@@ -297,7 +302,11 @@ public class UpdateAdquisitionPropertyCommand implements ICommand {
             CreateDocumentRequest elevationCertificate,
             Boolean outstandingCodeViolations,
             CreateDocumentRequest taxBillOrAmount,
-            CreateDocumentRequest sellerUploadGovernmentIssuedId
+            CreateDocumentRequest sellerUploadGovernmentIssuedId,
+            String whOwnershipType,
+            String whwireAccountHolderName,
+            String whwireAccountNumber,
+            String whwireRoutingNumber
             ) {
         this.id = id;
         this.buyer = buyer;
@@ -460,6 +469,10 @@ public class UpdateAdquisitionPropertyCommand implements ICommand {
         this.outstandingCodeViolations = outstandingCodeViolations;
         this.taxBillOrAmount = taxBillOrAmount;
         this.sellerUploadGovernmentIssuedId = sellerUploadGovernmentIssuedId;
+        this.whOwnershipType = whOwnershipType;
+        this.whwireAccountHolderName = whwireAccountHolderName;
+        this.whwireAccountNumber = whwireAccountNumber;
+        this.whwireRoutingNumber = whwireRoutingNumber;
     }
 
     public static UpdateAdquisitionPropertyCommand fromRequest(UpdateAdquisitionPropertyRequest request, UUID id) {
@@ -608,7 +621,11 @@ public class UpdateAdquisitionPropertyCommand implements ICommand {
                 request.getElevationCertificate(),
                 request.getOutstandingCodeViolations(),
                 request.getTaxBillOrAmount(),
-                request.getSellerUploadGovernmentIssuedId()
+                request.getSellerUploadGovernmentIssuedId(),
+                request.getWhOwnershipType(),
+                request.getWhwireAccountHolderName(),
+                request.getWhwireAccountNumber(),
+                request.getWhwireRoutingNumber()
         );
     }
 
