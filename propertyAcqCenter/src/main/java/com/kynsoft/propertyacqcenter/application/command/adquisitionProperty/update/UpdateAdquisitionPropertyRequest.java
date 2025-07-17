@@ -195,5 +195,6 @@ public class UpdateAdquisitionPropertyRequest {
     private String whwireAccountHolderName;
     private String whwireAccountNumber;
     private String whwireRoutingNumber;
+    private String whZelleEmailorPhone;
 
 }

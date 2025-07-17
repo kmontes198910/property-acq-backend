@@ -502,6 +502,9 @@ public class AdquisitionProperty {
     @Column(name = "wh_wire_routing_number", nullable = true)
     private String whwireRoutingNumber;
 
+    @Column(name = "wh_zelle_email_or_phone", nullable = true)
+    private String whZelleEmailorPhone;
+
     public AdquisitionProperty(AdquisitionPropertyDto dto) {
         this.id = dto.getId() != null ? dto.getId() : UUID.randomUUID();
         this.buyerNameAndYearVehicle = dto.getBuyerNameAndYearVehicle();
@@ -674,6 +677,7 @@ public class AdquisitionProperty {
         this.whwireAccountHolderName = dto.getWhwireAccountHolderName();
         this.whwireAccountNumber = dto.getWhwireAccountNumber();
         this.whwireRoutingNumber = dto.getWhwireRoutingNumber();
+        this.whZelleEmailorPhone = dto.getWhZelleEmailorPhone();
     }
 
     public AdquisitionPropertyDto toAggregate() {
@@ -832,6 +836,7 @@ public class AdquisitionProperty {
                 .whwireAccountHolderName(whwireAccountHolderName)
                 .whwireAccountNumber(whwireAccountNumber)
                 .whwireRoutingNumber(whwireRoutingNumber)
+                .whZelleEmailorPhone(whZelleEmailorPhone)
                 .build();
     }
 

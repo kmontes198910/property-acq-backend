@@ -210,6 +210,7 @@ public class UpdateAdquisitionPropertyCommandHandler implements ICommandHandler<
                 .whwireAccountHolderName(command.getWhwireAccountHolderName())
                 .whwireAccountNumber(command.getWhwireAccountNumber())
                 .whwireRoutingNumber(command.getWhwireRoutingNumber())
+                .whZelleEmailorPhone(command.getWhZelleEmailorPhone())
 
                 .build()
         );
