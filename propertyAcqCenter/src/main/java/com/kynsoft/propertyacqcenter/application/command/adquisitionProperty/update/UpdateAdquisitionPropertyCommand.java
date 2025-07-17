@@ -198,6 +198,7 @@ public class UpdateAdquisitionPropertyCommand implements ICommand {
     private String whwireAccountHolderName;
     private String whwireAccountNumber;
     private String whwireRoutingNumber;
+    private String whZelleEmailorPhone;
 
     public UpdateAdquisitionPropertyCommand(UUID id, UUID buyer, String property, UUID contact, String buyerNameAndYearVehicle,
             String buyerLicenseTagNo,
@@ -306,7 +307,8 @@ public class UpdateAdquisitionPropertyCommand implements ICommand {
             String whOwnershipType,
             String whwireAccountHolderName,
             String whwireAccountNumber,
-            String whwireRoutingNumber
+            String whwireRoutingNumber,
+            String whZelleEmailorPhone
             ) {
         this.id = id;
         this.buyer = buyer;
@@ -473,6 +475,7 @@ public class UpdateAdquisitionPropertyCommand implements ICommand {
         this.whwireAccountHolderName = whwireAccountHolderName;
         this.whwireAccountNumber = whwireAccountNumber;
         this.whwireRoutingNumber = whwireRoutingNumber;
+        this.whZelleEmailorPhone = whZelleEmailorPhone;
     }
 
     public static UpdateAdquisitionPropertyCommand fromRequest(UpdateAdquisitionPropertyRequest request, UUID id) {
@@ -625,7 +628,8 @@ public class UpdateAdquisitionPropertyCommand implements ICommand {
                 request.getWhOwnershipType(),
                 request.getWhwireAccountHolderName(),
                 request.getWhwireAccountNumber(),
-                request.getWhwireRoutingNumber()
+                request.getWhwireRoutingNumber(),
+                request.getWhZelleEmailorPhone()
         );
     }
 

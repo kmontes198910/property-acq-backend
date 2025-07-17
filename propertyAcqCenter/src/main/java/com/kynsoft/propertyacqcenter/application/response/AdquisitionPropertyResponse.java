@@ -188,6 +188,7 @@ public class AdquisitionPropertyResponse implements IResponse {
     private String whwireAccountHolderName;
     private String whwireAccountNumber;
     private String whwireRoutingNumber;
+    private String whZelleEmailorPhone;
 
     public AdquisitionPropertyResponse(AdquisitionPropertyDto dto) {
         this.id = dto.getId();
@@ -353,6 +354,7 @@ public class AdquisitionPropertyResponse implements IResponse {
         this.whwireAccountHolderName = dto.getWhwireAccountHolderName();
         this.whwireAccountNumber = dto.getWhwireAccountNumber();
         this.whwireRoutingNumber = dto.getWhwireRoutingNumber();
+        this.whZelleEmailorPhone = dto.getWhZelleEmailorPhone();
     }
 
 }
