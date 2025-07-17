@@ -40,7 +40,6 @@ jobs:
           context: "{{defaultContext}}:${{ env.SERVICE_PATH }}"
           push: true
           tags: kmontes2020/property-config-dev:v1
-
   deploy:
     needs: build-push
     runs-on: ubuntu-latest
