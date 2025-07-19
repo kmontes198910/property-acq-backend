@@ -1,6 +1,7 @@
 package com.kynsoft.propertyacqcenter.infrastructure.entity;
 
 import com.kynsoft.propertyacqcenter.domain.dto.AdquisitionPropertyDto;
+import com.kynsoft.propertyacqcenter.infrastructure.entity.embedded.adquisitionProperty.AdquisitionPropertyHoa;
 import jakarta.persistence.*;
 import java.time.LocalDate;
 import lombok.*;
@@ -151,14 +152,6 @@ public class AdquisitionProperty {
     @Column(name = "executed_closing_documents", nullable = true)
     private String executedClosingDocuments;
     ///
-
-    @CreationTimestamp
-    @Column(name = "created_at", updatable = false)
-    private LocalDateTime createdAt;
-
-    @UpdateTimestamp
-    @Column(name = "updated_at")
-    private LocalDateTime updatedAt;
 
     @Column(name = "created_by")
     private UUID createdBy;
@@ -505,6 +498,17 @@ public class AdquisitionProperty {
     @Column(name = "wh_zelle_email_or_phone", nullable = true)
     private String whZelleEmailorPhone;
 
+    @OneToOne(mappedBy = "adquisitionProperty", cascade = CascadeType.ALL, orphanRemoval = true)
+    private AdquisitionPropertyHoa adquisitionPropertyHoa; // Solo para Legal (puede ser null)
+
+    @CreationTimestamp
+    @Column(name = "created_at", updatable = false)
+    private LocalDateTime createdAt;
+
+    @UpdateTimestamp
+    @Column(name = "updated_at")
+    private LocalDateTime updatedAt;
+
     public AdquisitionProperty(AdquisitionPropertyDto dto) {
         this.id = dto.getId() != null ? dto.getId() : UUID.randomUUID();
         this.buyerNameAndYearVehicle = dto.getBuyerNameAndYearVehicle();
@@ -837,6 +841,22 @@ public class AdquisitionProperty {
                 .whwireAccountNumber(whwireAccountNumber)
                 .whwireRoutingNumber(whwireRoutingNumber)
                 .whZelleEmailorPhone(whZelleEmailorPhone)
+
+                //AdquisitionPropertyHoa
+                .hoaTotalUnits(adquisitionPropertyHoa != null ? adquisitionPropertyHoa.getHoaTotalUnits() : null)
+                .hoaDeclarationOfCondominium(adquisitionPropertyHoa != null ? adquisitionPropertyHoa.getHoaDeclarationOfCondominium() : null)
+                .hoaCondominiumRider(adquisitionPropertyHoa != null ? adquisitionPropertyHoa.getHoaCondominiumRider() : null)
+                .hoaBylaws(adquisitionPropertyHoa != null ? adquisitionPropertyHoa.getHoaBylaws() : null)
+                .hoaLatestApprovedBudget(adquisitionPropertyHoa != null ? adquisitionPropertyHoa.getHoaLatestApprovedBudget() : null)
+                .hoaReserveStudy(adquisitionPropertyHoa != null ? adquisitionPropertyHoa.getHoaReserveStudy() : null)
+                .hoaCurrentSpecialAssessmentDisclosure(adquisitionPropertyHoa != null ? adquisitionPropertyHoa.getHoaCurrentSpecialAssessmentDisclosure() : null)
+                .hoaPendingLawsuits(adquisitionPropertyHoa != null ? adquisitionPropertyHoa.getHoaPendingLawsuits() : null)
+                .hoaDelinquencyReport(adquisitionPropertyHoa != null ? adquisitionPropertyHoa.getHoaDelinquencyReport() : null)
+                .hoaParkingAssignment(adquisitionPropertyHoa != null ? adquisitionPropertyHoa.getHoaParkingAssignment() : null)
+                .hoaCondoQuestionnaireForm(adquisitionPropertyHoa != null ? adquisitionPropertyHoa.getHoaCondoQuestionnaireForm() : null)
+                .buyerCreditReport(adquisitionPropertyHoa != null ? adquisitionPropertyHoa.getBuyerCreditReport() : null)
+                .hoaValidatorWebsite(adquisitionPropertyHoa != null ? adquisitionPropertyHoa.getHoaValidatorWebsite() : null)
+                .hoaApplicationLink(adquisitionPropertyHoa != null ? adquisitionPropertyHoa.getHoaApplicationLink() : null)
                 .build();
     }
 
