@@ -13,6 +13,7 @@ import com.kynsoft.propertyacqcenter.infrastructure.entity.AdquisitionProperty;
 import com.kynsoft.propertyacqcenter.infrastructure.entity.CompanyContact;
 import com.kynsoft.propertyacqcenter.infrastructure.entity.LegalEntity;
 import com.kynsoft.propertyacqcenter.infrastructure.entity.Property;
+import com.kynsoft.propertyacqcenter.infrastructure.entity.embedded.adquisitionProperty.AdquisitionPropertyHoa;
 import com.kynsoft.propertyacqcenter.infrastructure.repository.command.AdquisitionPropertyWriteDataJPARepository;
 import com.kynsoft.propertyacqcenter.infrastructure.repository.query.AdquisitionPropertyReadDataJPARepository;
 import org.springframework.data.domain.Pageable;
@@ -50,6 +51,7 @@ public class AdquisitionPropertyServiceImpl implements IAdquisitionPropertyServi
     @Transactional
     public void update(AdquisitionPropertyDto object) {
         AdquisitionProperty update = this.findByIdSimple(object.getId());
+        update.setAdquisitionPropertyHoa(createAdquisitionPropertyHoa(object, update));
 
         update.setBuyer(object.getBuyer() != null ? new LegalEntity(object.getBuyer()) : null);
         update.setContact(object.getContact() != null ? new CompanyContact(object.getContact()) : null);
@@ -281,6 +283,51 @@ public class AdquisitionPropertyServiceImpl implements IAdquisitionPropertyServi
     @Override
     public boolean existsByPropertyId(String propertyId) {
         return this.repositoryQuery.existsByPropertyId(propertyId);
+    }
+
+    private AdquisitionPropertyHoa createAdquisitionPropertyHoa(AdquisitionPropertyDto object, AdquisitionProperty update) {
+        return update.getAdquisitionPropertyHoa() != null
+                ? //Si es diferente de null, es porque ya tiene datos.
+                AdquisitionPropertyHoa
+                        .builder()
+                        .id(update.getAdquisitionPropertyHoa().getId())
+                        .adquisitionProperty(update)
+                        .hoaTotalUnits(object.getHoaTotalUnits() != null ? object.getHoaTotalUnits() : update.getAdquisitionPropertyHoa().getHoaTotalUnits())
+                        .hoaDeclarationOfCondominium(object.getHoaDeclarationOfCondominium() != null ? object.getHoaDeclarationOfCondominium() : update.getAdquisitionPropertyHoa().getHoaDeclarationOfCondominium())
+                        .hoaCondominiumRider(object.getHoaCondominiumRider() != null ? object.getHoaCondominiumRider() : update.getAdquisitionPropertyHoa().getHoaCondominiumRider())
+                        .hoaBylaws(object.getHoaBylaws() != null ? object.getHoaBylaws() : update.getAdquisitionPropertyHoa().getHoaBylaws())
+                        .hoaLatestApprovedBudget(object.getHoaLatestApprovedBudget() != null ? object.getHoaLatestApprovedBudget() : update.getAdquisitionPropertyHoa().getHoaLatestApprovedBudget())
+                        .hoaReserveStudy(object.getHoaReserveStudy() != null ? object.getHoaReserveStudy() : update.getAdquisitionPropertyHoa().getHoaReserveStudy())
+                        .hoaCurrentSpecialAssessmentDisclosure(object.getHoaCurrentSpecialAssessmentDisclosure() != null ? object.getHoaCurrentSpecialAssessmentDisclosure() : update.getAdquisitionPropertyHoa().getHoaCurrentSpecialAssessmentDisclosure())
+                        .hoaPendingLawsuits(object.getHoaPendingLawsuits() != null ? object.getHoaPendingLawsuits() : update.getAdquisitionPropertyHoa().getHoaPendingLawsuits())
+                        .hoaDelinquencyReport(object.getHoaDelinquencyReport() != null ? object.getHoaDelinquencyReport() : update.getAdquisitionPropertyHoa().getHoaDelinquencyReport())
+                        .hoaParkingAssignment(object.getHoaParkingAssignment() != null ? object.getHoaParkingAssignment() : update.getAdquisitionPropertyHoa().getHoaParkingAssignment())
+                        .hoaCondoQuestionnaireForm(object.getHoaCondoQuestionnaireForm() != null ? object.getHoaCondoQuestionnaireForm() : update.getAdquisitionPropertyHoa().getHoaCondoQuestionnaireForm())
+                        .buyerCreditReport(object.getBuyerCreditReport() != null ? object.getBuyerCreditReport() : update.getAdquisitionPropertyHoa().getBuyerCreditReport())
+                        .hoaValidatorWebsite(object.getHoaValidatorWebsite() != null ? object.getHoaValidatorWebsite() : update.getAdquisitionPropertyHoa().getHoaValidatorWebsite())
+                        .hoaApplicationLink(object.getHoaApplicationLink() != null ? object.getHoaApplicationLink() : update.getAdquisitionPropertyHoa().getHoaApplicationLink())
+                        .hoaApplicationLink(object.getHoaApplicationLink() != null ? object.getHoaApplicationLink() : update.getAdquisitionPropertyHoa().getHoaApplicationLink())
+                        .build()
+                : AdquisitionPropertyHoa
+                        .builder()
+                        .id(UUID.randomUUID())
+                        .adquisitionProperty(update)
+                        .hoaTotalUnits(object.getHoaTotalUnits())
+                        .hoaDeclarationOfCondominium(object.getHoaDeclarationOfCondominium())
+                        .hoaCondominiumRider(object.getHoaCondominiumRider())
+                        .hoaBylaws(object.getHoaBylaws())
+                        .hoaLatestApprovedBudget(object.getHoaLatestApprovedBudget())
+                        .hoaReserveStudy(object.getHoaReserveStudy())
+                        .hoaCurrentSpecialAssessmentDisclosure(object.getHoaCurrentSpecialAssessmentDisclosure())
+                        .hoaPendingLawsuits(object.getHoaPendingLawsuits())
+                        .hoaDelinquencyReport(object.getHoaDelinquencyReport())
+                        .hoaParkingAssignment(object.getHoaParkingAssignment())
+                        .hoaCondoQuestionnaireForm(object.getHoaCondoQuestionnaireForm())
+                        .buyerCreditReport(object.getBuyerCreditReport())
+                        .hoaValidatorWebsite(object.getHoaValidatorWebsite())
+                        .hoaApplicationLink(object.getHoaApplicationLink())
+                        .hoaApplicationLink(object.getHoaApplicationLink())
+                        .build();
     }
 
 }

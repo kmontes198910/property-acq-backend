@@ -212,6 +212,20 @@ public class UpdateAdquisitionPropertyCommandHandler implements ICommandHandler<
                 .whwireRoutingNumber(command.getWhwireRoutingNumber())
                 .whZelleEmailorPhone(command.getWhZelleEmailorPhone())
 
+                .hoaTotalUnits(command.getHoaTotalUnits() != null ? command.getHoaTotalUnits().getFilePath() + "|" + command.getHoaTotalUnits().getFileName() : null)
+                .hoaDeclarationOfCondominium(command.getHoaDeclarationOfCondominium() != null ? command.getHoaDeclarationOfCondominium().getFilePath() + "|" + command.getHoaDeclarationOfCondominium().getFileName() : null)
+                .hoaCondominiumRider(command.getHoaCondominiumRider() != null ? command.getHoaCondominiumRider().getFilePath() + "|" + command.getHoaCondominiumRider().getFileName() : null)
+                .hoaBylaws(command.getHoaBylaws() != null ? command.getHoaBylaws().getFilePath() + "|" + command.getHoaBylaws().getFileName() : null)
+                .hoaLatestApprovedBudget(command.getHoaLatestApprovedBudget() != null ? command.getHoaLatestApprovedBudget().getFilePath() + "|" + command.getHoaLatestApprovedBudget().getFileName() : null)
+                .hoaReserveStudy(command.getHoaReserveStudy() != null ? command.getHoaReserveStudy().getFilePath() + "|" + command.getHoaReserveStudy().getFileName() : null)
+                .hoaCurrentSpecialAssessmentDisclosure(command.getHoaCurrentSpecialAssessmentDisclosure() != null ? command.getHoaCurrentSpecialAssessmentDisclosure().getFilePath() + "|" + command.getHoaCurrentSpecialAssessmentDisclosure().getFileName() : null)
+                .hoaPendingLawsuits(command.getHoaPendingLawsuits() != null ? command.getHoaPendingLawsuits().getFilePath() + "|" + command.getHoaPendingLawsuits().getFileName() : null)
+                .hoaDelinquencyReport(command.getHoaDelinquencyReport() != null ? command.getHoaDelinquencyReport().getFilePath() + "|" + command.getHoaDelinquencyReport().getFileName() : null)
+                .hoaParkingAssignment(command.getHoaParkingAssignment() != null ? command.getHoaParkingAssignment().getFilePath() + "|" + command.getHoaParkingAssignment().getFileName() : null)
+                .hoaCondoQuestionnaireForm(command.getHoaCondoQuestionnaireForm() != null ? command.getHoaCondoQuestionnaireForm().getFilePath() + "|" + command.getHoaCondoQuestionnaireForm().getFileName() : null)
+                .buyerCreditReport(command.getBuyerCreditReport() != null ? command.getBuyerCreditReport().getFilePath() + "|" + command.getBuyerCreditReport().getFileName() : null)
+                .hoaValidatorWebsite(command.getHoaValidatorWebsite())
+                .hoaApplicationLink(command.getHoaApplicationLink())
                 .build()
         );
     }

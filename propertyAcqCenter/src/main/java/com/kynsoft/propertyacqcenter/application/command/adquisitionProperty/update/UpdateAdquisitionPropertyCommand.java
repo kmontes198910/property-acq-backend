@@ -200,6 +200,21 @@ public class UpdateAdquisitionPropertyCommand implements ICommand {
     private String whwireRoutingNumber;
     private String whZelleEmailorPhone;
 
+    private CreateDocumentRequest hoaTotalUnits;
+    private CreateDocumentRequest hoaDeclarationOfCondominium;
+    private CreateDocumentRequest hoaCondominiumRider;
+    private CreateDocumentRequest hoaBylaws;
+    private CreateDocumentRequest hoaLatestApprovedBudget;
+    private CreateDocumentRequest hoaReserveStudy;
+    private CreateDocumentRequest hoaCurrentSpecialAssessmentDisclosure;
+    private CreateDocumentRequest hoaPendingLawsuits;
+    private CreateDocumentRequest hoaDelinquencyReport;
+    private CreateDocumentRequest hoaParkingAssignment;
+    private CreateDocumentRequest hoaCondoQuestionnaireForm;
+    private CreateDocumentRequest buyerCreditReport;
+    private String hoaValidatorWebsite;
+    private String hoaApplicationLink;
+
     public UpdateAdquisitionPropertyCommand(UUID id, UUID buyer, String property, UUID contact, String buyerNameAndYearVehicle,
             String buyerLicenseTagNo,
             LocalDate dateAndTimeForInspections, String instructionsForAccess, LocalDate hoaBuyerInterviewDate,
@@ -308,7 +323,21 @@ public class UpdateAdquisitionPropertyCommand implements ICommand {
             String whwireAccountHolderName,
             String whwireAccountNumber,
             String whwireRoutingNumber,
-            String whZelleEmailorPhone
+            String whZelleEmailorPhone,
+            CreateDocumentRequest hoaTotalUnits,
+            CreateDocumentRequest hoaDeclarationOfCondominium,
+            CreateDocumentRequest hoaCondominiumRider,
+            CreateDocumentRequest hoaBylaws,
+            CreateDocumentRequest hoaLatestApprovedBudget,
+            CreateDocumentRequest hoaReserveStudy,
+            CreateDocumentRequest hoaCurrentSpecialAssessmentDisclosure,
+            CreateDocumentRequest hoaPendingLawsuits,
+            CreateDocumentRequest hoaDelinquencyReport,
+            CreateDocumentRequest hoaParkingAssignment,
+            CreateDocumentRequest hoaCondoQuestionnaireForm,
+            CreateDocumentRequest buyerCreditReport,
+            String hoaValidatorWebsite,
+            String hoaApplicationLink
             ) {
         this.id = id;
         this.buyer = buyer;
@@ -476,6 +505,20 @@ public class UpdateAdquisitionPropertyCommand implements ICommand {
         this.whwireAccountNumber = whwireAccountNumber;
         this.whwireRoutingNumber = whwireRoutingNumber;
         this.whZelleEmailorPhone = whZelleEmailorPhone;
+        this.hoaTotalUnits = hoaTotalUnits;
+        this.hoaDeclarationOfCondominium = hoaDeclarationOfCondominium;
+        this.hoaCondominiumRider = hoaCondominiumRider;
+        this.hoaBylaws = hoaBylaws;
+        this.hoaLatestApprovedBudget = hoaLatestApprovedBudget;
+        this.hoaReserveStudy = hoaReserveStudy;
+        this.hoaCurrentSpecialAssessmentDisclosure = hoaCurrentSpecialAssessmentDisclosure;
+        this.hoaPendingLawsuits = hoaPendingLawsuits;
+        this.hoaDelinquencyReport = hoaDelinquencyReport;
+        this.hoaParkingAssignment = hoaParkingAssignment;
+        this.hoaCondoQuestionnaireForm = hoaCondoQuestionnaireForm;
+        this.buyerCreditReport = buyerCreditReport;
+        this.hoaValidatorWebsite = hoaValidatorWebsite;
+        this.hoaApplicationLink = hoaApplicationLink;
     }
 
     public static UpdateAdquisitionPropertyCommand fromRequest(UpdateAdquisitionPropertyRequest request, UUID id) {
@@ -629,7 +672,21 @@ public class UpdateAdquisitionPropertyCommand implements ICommand {
                 request.getWhwireAccountHolderName(),
                 request.getWhwireAccountNumber(),
                 request.getWhwireRoutingNumber(),
-                request.getWhZelleEmailorPhone()
+                request.getWhZelleEmailorPhone(),
+                request.getHoaTotalUnits(),
+                request.getHoaDeclarationOfCondominium(),
+                request.getHoaCondominiumRider(),
+                request.getHoaBylaws(),
+                request.getHoaLatestApprovedBudget(),
+                request.getHoaReserveStudy(),
+                request.getHoaCurrentSpecialAssessmentDisclosure(),
+                request.getHoaPendingLawsuits(),
+                request.getHoaDelinquencyReport(),
+                request.getHoaParkingAssignment(),
+                request.getHoaCondoQuestionnaireForm(),
+                request.getBuyerCreditReport(),
+                request.getHoaValidatorWebsite(),
+                request.getHoaApplicationLink()
         );
     }
 
