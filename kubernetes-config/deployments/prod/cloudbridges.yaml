@@ -2,12 +2,12 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: cloudbridges
-  namespace: medinec
+  namespace: property-prod
 spec:
   replicas: 1
   selector:
     matchLabels:
-      workload.user.cattle.io/workloadselector: apps.deployment-medinec-cloudbridges
+      workload.user.cattle.io/workloadselector: apps.deployment-property-prod-cloudbridges
   strategy:
     rollingUpdate:
       maxSurge: 25%
@@ -16,15 +16,32 @@ spec:
     metadata:
       labels:
         app: cloudbridges
-        workload.user.cattle.io/workloadselector: apps.deployment-medinec-cloudbridges
+        workload.user.cattle.io/workloadselector: apps.deployment-property-prod-cloudbridges
     spec:
       containers:
         - name: cloudbridges
-          image: kmontes2020/medinec-cloud-bridges:v1
+          image: kmontes2020/property-cloud-bridges:v1
           imagePullPolicy: Always
           envFrom:
             - secretRef:
                 name: cloudbridges-secret
+          ports:
+            - containerPort: 9090
       imagePullSecrets:
         - name: dokcer-hub
       restartPolicy: Always
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: cloudbridges
+  namespace: property-prod
+spec:
+  selector:
+    workload.user.cattle.io/workloadselector: apps.deployment-property-prod-cloudbridges
+  ports:
+    - name: http
+      port: 9090
+      targetPort: 9090
+      protocol: TCP
+  type: ClusterIP

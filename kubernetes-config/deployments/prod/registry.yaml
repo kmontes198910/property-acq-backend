@@ -2,12 +2,12 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: registry
-  namespace: medinec
+  namespace: property-prod
 spec:
   replicas: 1
   selector:
     matchLabels:
-      workload.user.cattle.io/workloadselector: apps.deployment-medinec-registry
+      workload.user.cattle.io/workloadselector: apps.deployment-property-prod-registry
   strategy:
     rollingUpdate:
       maxSurge: 25%
@@ -15,13 +15,13 @@ spec:
   template:
     metadata:
       labels:
-        app: medinec-registry
-        workload.user.cattle.io/workloadselector: apps.deployment-medinec-registry
+        app: property-prod-registry
+        workload.user.cattle.io/workloadselector: apps.deployment-property-prod-registry
     spec:
       containers:
-        - image: kmontes2020/medinec-registry:v1
+        - image: kmontes2020/property-registry:v1
           imagePullPolicy: Always
-          name: medinec-registry
+          name: property-prod-registry
           ports:
             - containerPort: 8761
               protocol: TCP

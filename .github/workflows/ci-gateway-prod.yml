@@ -39,7 +39,7 @@ jobs:
             PACKAGE_TOKEN=${{ secrets.PACKAGE_TOKEN }}
           context: ./${{ env.SERVICE_PATH }}
           push: true
-          tags: kmontes2020/medinec-gateway:v1
+          tags: kmontes2020/property-gateway:v1
 
   deploy:
     needs: build-push
@@ -56,10 +56,9 @@ jobs:
       - name: Connect to OpenVPN
         uses: kota65535/github-openvpn-connect-action@v3
         with:
-          config_file: vpnconfig/vpnserver1.ovpn
-          username: keimer
-          password: zlxk149hp/I2LzmV
-
+          config_file: vpnconfig/cicd-kynsoft-config.ovpn
+          username: cicd
+          password: cicd.password12.
       - name: Enable kubectl
         uses: tale/kubectl-action@v1
         with:
