@@ -188,6 +188,22 @@ public class AdquisitionPropertyResponse implements IResponse {
     private String whwireAccountHolderName;
     private String whwireAccountNumber;
     private String whwireRoutingNumber;
+    private String whZelleEmailorPhone;
+
+    private AdquisitionDocumentResponse hoaTotalUnits;
+    private AdquisitionDocumentResponse hoaDeclarationOfCondominium;
+    private AdquisitionDocumentResponse hoaCondominiumRider;
+    private AdquisitionDocumentResponse hoaBylaws;
+    private AdquisitionDocumentResponse hoaLatestApprovedBudget;
+    private AdquisitionDocumentResponse hoaReserveStudy;
+    private AdquisitionDocumentResponse hoaCurrentSpecialAssessmentDisclosure;
+    private AdquisitionDocumentResponse hoaPendingLawsuits;
+    private AdquisitionDocumentResponse hoaDelinquencyReport;
+    private AdquisitionDocumentResponse hoaParkingAssignment;
+    private AdquisitionDocumentResponse hoaCondoQuestionnaireForm;
+    private AdquisitionDocumentResponse buyerCreditReport;
+    private String hoaValidatorWebsite;
+    private String hoaApplicationLink;
 
     public AdquisitionPropertyResponse(AdquisitionPropertyDto dto) {
         this.id = dto.getId();
@@ -353,6 +369,22 @@ public class AdquisitionPropertyResponse implements IResponse {
         this.whwireAccountHolderName = dto.getWhwireAccountHolderName();
         this.whwireAccountNumber = dto.getWhwireAccountNumber();
         this.whwireRoutingNumber = dto.getWhwireRoutingNumber();
+        this.whZelleEmailorPhone = dto.getWhZelleEmailorPhone();
+
+        this.hoaTotalUnits = DocumentMapper.mapDocumentField(dto.getHoaTotalUnits());
+        this.hoaDeclarationOfCondominium = DocumentMapper.mapDocumentField(dto.getHoaDeclarationOfCondominium());
+        this.hoaCondominiumRider = DocumentMapper.mapDocumentField(dto.getHoaCondominiumRider());
+        this.hoaBylaws = DocumentMapper.mapDocumentField(dto.getHoaBylaws());
+        this.hoaLatestApprovedBudget = DocumentMapper.mapDocumentField(dto.getHoaLatestApprovedBudget());
+        this.hoaReserveStudy = DocumentMapper.mapDocumentField(dto.getHoaReserveStudy());
+        this.hoaCurrentSpecialAssessmentDisclosure = DocumentMapper.mapDocumentField(dto.getHoaCurrentSpecialAssessmentDisclosure());
+        this.hoaPendingLawsuits = DocumentMapper.mapDocumentField(dto.getHoaPendingLawsuits());
+        this.hoaDelinquencyReport = DocumentMapper.mapDocumentField(dto.getHoaDelinquencyReport());
+        this.hoaParkingAssignment = DocumentMapper.mapDocumentField(dto.getHoaParkingAssignment());
+        this.hoaCondoQuestionnaireForm = DocumentMapper.mapDocumentField(dto.getHoaCondoQuestionnaireForm());
+        this.buyerCreditReport = DocumentMapper.mapDocumentField(dto.getBuyerCreditReport());
+        this.hoaValidatorWebsite = dto.getHoaValidatorWebsite();
+        this.hoaApplicationLink = dto.getHoaApplicationLink();
     }
 
 }

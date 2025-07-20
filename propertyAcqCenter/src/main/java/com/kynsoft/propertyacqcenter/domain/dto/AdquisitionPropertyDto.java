@@ -203,4 +203,20 @@ public class AdquisitionPropertyDto {
     private String whwireAccountHolderName;
     private String whwireAccountNumber;
     private String whwireRoutingNumber;
+    private String whZelleEmailorPhone;
+
+    private String hoaTotalUnits;
+    private String hoaDeclarationOfCondominium;
+    private String hoaCondominiumRider;
+    private String hoaBylaws;
+    private String hoaLatestApprovedBudget;
+    private String hoaReserveStudy;
+    private String hoaCurrentSpecialAssessmentDisclosure;
+    private String hoaPendingLawsuits;
+    private String hoaDelinquencyReport;
+    private String hoaParkingAssignment;
+    private String hoaCondoQuestionnaireForm;
+    private String buyerCreditReport;
+    private String hoaValidatorWebsite;
+    private String hoaApplicationLink;
 }

@@ -47,7 +47,8 @@ public class PropertyServiceImpl implements IPropertyService {
     @Override
     @Transactional
     public void update(PropertyDto object) {
-        Property update = new Property(object);
+        Property update = this.getByIdSimple(object.getId());
+        //Property update = new Property(object);
         update.setAddressLine1(object.getAddressLine1());
         update.setAddressLine2(object.getAddressLine2());
         update.setApn(object.getApn());
@@ -79,13 +80,13 @@ public class PropertyServiceImpl implements IPropertyService {
         //Acquisition
         update.setContractExecutionDate(object.getContractExecutionDate());
         update.setAcquisitionType(object.getAcquisitionType());
+        update.setSourceType(object.getSourceType());
+        update.setSellerName(object.getSellerName() != null ? new LegalEntity(object.getSellerName()) : null);
+        update.setSellerContactInfo(object.getSellerContactInfo() != null ? new Contact(object.getSellerContactInfo()) : null);
+        update.setExpectedClosingDate(object.getExpectedClosingDate());
         update.setEmdOfferedAmount(object.getEmdOfferedAmount());
         update.setEmdRequirements(object.getEmdRequirements());
-        update.setExpectedClosingDate(object.getExpectedClosingDate());
-        update.setSellerContactInfo(object.getSellerContactInfo() != null ? new Contact(object.getSellerContactInfo()) : null);
-        update.setSellerName(object.getSellerName() != null ? new LegalEntity(object.getSellerName()) : null);
-        update.setBuyerName(object.getBuyerName() != null ? new LegalEntity(object.getBuyerName()) : null);
-        update.setSourceType(object.getSourceType());
+        update.setBuyerName(object.getBuyerName() != null ? new LegalEntity(object.getBuyerName()) : null);//
 
         //Mortagage
         update.setIsMortgage(object.getIsMortgage());

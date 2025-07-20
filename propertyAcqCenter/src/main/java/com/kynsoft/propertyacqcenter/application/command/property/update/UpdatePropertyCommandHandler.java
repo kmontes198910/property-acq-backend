@@ -72,8 +72,8 @@ public class UpdatePropertyCommandHandler implements ICommandHandler<UpdatePrope
                 .sellerName(sellerName)
                 .sellerContactInfo(sellerContactInfo)
                 .expectedClosingDate(command.getExpectedClosingDate())
-                .emdRequirements(command.getEmdRequirements())
                 .emdOfferedAmount(command.getEmdOfferedAmount())
+                .emdRequirements(command.getEmdRequirements())
 
                 .isMortgage(command.getIsMortgage())
                 .distressed(command.getDistressed())

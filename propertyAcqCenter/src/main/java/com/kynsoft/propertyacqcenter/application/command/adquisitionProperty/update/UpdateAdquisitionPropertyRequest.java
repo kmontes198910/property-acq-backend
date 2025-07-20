@@ -195,5 +195,20 @@ public class UpdateAdquisitionPropertyRequest {
     private String whwireAccountHolderName;
     private String whwireAccountNumber;
     private String whwireRoutingNumber;
+    private String whZelleEmailorPhone;
 
+    private CreateDocumentRequest hoaTotalUnits;
+    private CreateDocumentRequest hoaDeclarationOfCondominium;
+    private CreateDocumentRequest hoaCondominiumRider;
+    private CreateDocumentRequest hoaBylaws;
+    private CreateDocumentRequest hoaLatestApprovedBudget;
+    private CreateDocumentRequest hoaReserveStudy;
+    private CreateDocumentRequest hoaCurrentSpecialAssessmentDisclosure;
+    private CreateDocumentRequest hoaPendingLawsuits;
+    private CreateDocumentRequest hoaDelinquencyReport;
+    private CreateDocumentRequest hoaParkingAssignment;
+    private CreateDocumentRequest hoaCondoQuestionnaireForm;
+    private CreateDocumentRequest buyerCreditReport;
+    private String hoaValidatorWebsite;
+    private String hoaApplicationLink;
 }
