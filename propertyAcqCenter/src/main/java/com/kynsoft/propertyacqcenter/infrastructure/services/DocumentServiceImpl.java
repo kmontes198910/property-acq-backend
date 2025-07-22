@@ -7,6 +7,8 @@ import com.kynsoft.propertyacqcenter.application.response.DocumentResponse;
 import com.kynsoft.propertyacqcenter.domain.dto.DocumentDto;
 import com.kynsoft.propertyacqcenter.domain.dto.exception.DocumentNotFoundException;
 import com.kynsoft.propertyacqcenter.domain.dto.exception.NotDeleteException;
+import com.kynsoft.propertyacqcenter.domain.dto.exception.document.DocumentTypeCertificateOfGoodStandingMustBeUniqueException;
+import com.kynsoft.propertyacqcenter.domain.enums.DocumentType;
 import com.kynsoft.propertyacqcenter.domain.services.IDocumentService;
 import com.kynsoft.propertyacqcenter.infrastructure.entity.Document;
 import com.kynsoft.propertyacqcenter.infrastructure.entity.LegalEntity;
@@ -29,8 +31,8 @@ public class DocumentServiceImpl implements IDocumentService {
     private final DocumentReadDataJPARepository repositoryQuery;
     private final DocumentWriteDataJPARepository repositoryCommand;
 
-    public DocumentServiceImpl(DocumentReadDataJPARepository repositoryQuery, 
-                               DocumentWriteDataJPARepository repositoryCommand) {
+    public DocumentServiceImpl(DocumentReadDataJPARepository repositoryQuery,
+            DocumentWriteDataJPARepository repositoryCommand) {
         this.repositoryQuery = repositoryQuery;
         this.repositoryCommand = repositoryCommand;
     }
@@ -38,12 +40,26 @@ public class DocumentServiceImpl implements IDocumentService {
     @Override
     @Transactional
     public UUID create(DocumentDto object) {
+        this.validate(object, "CREATE");
         return repositoryCommand.save(new Document(object)).getId();
+    }
+
+    private void validate(DocumentDto object, String value) {
+        if (object.getDocumentType().equals(DocumentType.CERTIFICATE_OF_GOOD_STANDING) && value.equals("CREATE")) {
+            if (this.repositoryQuery.countByDocumentTypeAndLegalEntity(object.getLegalEntity().getId(), DocumentType.CERTIFICATE_OF_GOOD_STANDING) > 0) {
+                throw new DocumentTypeCertificateOfGoodStandingMustBeUniqueException();
+            }
+        } else if (object.getDocumentType().equals(DocumentType.CERTIFICATE_OF_GOOD_STANDING) && value.equals("UPDATE")) {
+            if (this.repositoryQuery.countByDocumentTypeAndLegalEntity(object.getLegalEntity().getId(), DocumentType.CERTIFICATE_OF_GOOD_STANDING, object.getId()) > 0) {
+                throw new DocumentTypeCertificateOfGoodStandingMustBeUniqueException();
+            }
+        }
     }
 
     @Override
     @Transactional
     public void update(DocumentDto object) {
+        this.validate(object, "UPDATE");
         Document document = this.findByIdSimple(object.getId());
         document.setContentType(object.getContentType());
         document.setDescription(object.getDescription());
