@@ -230,6 +230,8 @@ public class UpdateAdquisitionPropertyCommandHandler implements ICommandHandler<
                 .buyerProofOfFunds(command.getBuyerProofOfFunds() != null ? command.getBuyerProofOfFunds().getFilePath() + "|" + command.getBuyerProofOfFunds().getFileName() : null)
                 .buyerCarBrand(command.getBuyerCarBrand())
                 .buyerCarYear(command.getBuyerCarYear())
+                .buyerDriverLicense(command.getBuyerDriverLicense() != null ? command.getBuyerDriverLicense().getFilePath() + "|" + command.getBuyerDriverLicense().getFileName() : null)
+                .buyerCarInsurance(command.getBuyerCarInsurance() != null ? command.getBuyerCarInsurance().getFilePath() + "|" + command.getBuyerCarInsurance().getFileName() : null)
                 .build()
         );
     }
