@@ -205,6 +205,10 @@ public class AdquisitionPropertyResponse implements IResponse {
     private String hoaValidatorWebsite;
     private String hoaApplicationLink;
 
+    private AdquisitionDocumentResponse buyerProofOfFunds;
+    private String buyerCarBrand;
+    private Double buyerCarYear;
+
     public AdquisitionPropertyResponse(AdquisitionPropertyDto dto) {
         this.id = dto.getId();
         this.buyer = dto.getBuyer() != null ? new LegalEntityBasicResponse(dto.getBuyer()) : null;
@@ -385,6 +389,10 @@ public class AdquisitionPropertyResponse implements IResponse {
         this.buyerCreditReport = DocumentMapper.mapDocumentField(dto.getBuyerCreditReport());
         this.hoaValidatorWebsite = dto.getHoaValidatorWebsite();
         this.hoaApplicationLink = dto.getHoaApplicationLink();
+
+        this.buyerProofOfFunds = DocumentMapper.mapDocumentField(dto.getBuyerProofOfFunds());
+        this.buyerCarBrand = dto.getBuyerCarBrand();
+        this.buyerCarYear = dto.getBuyerCarYear();
     }
 
 }

@@ -1,6 +1,7 @@
 package com.kynsoft.propertyacqcenter.infrastructure.entity;
 
 import com.kynsoft.propertyacqcenter.domain.dto.AdquisitionPropertyDto;
+import com.kynsoft.propertyacqcenter.infrastructure.entity.embedded.adquisitionProperty.AdquisitionPropertyBuyer;
 import com.kynsoft.propertyacqcenter.infrastructure.entity.embedded.adquisitionProperty.AdquisitionPropertyHoa;
 import jakarta.persistence.*;
 import java.time.LocalDate;
@@ -501,6 +502,9 @@ public class AdquisitionProperty {
     @OneToOne(mappedBy = "adquisitionProperty", cascade = CascadeType.ALL, orphanRemoval = true)
     private AdquisitionPropertyHoa adquisitionPropertyHoa; // Solo para Legal (puede ser null)
 
+    @OneToOne(mappedBy = "adquisitionProperty", cascade = CascadeType.ALL, orphanRemoval = true)
+    private AdquisitionPropertyBuyer adquisitionPropertyBuyer; // Solo para Legal (puede ser null)
+
     @CreationTimestamp
     @Column(name = "created_at", updatable = false)
     private LocalDateTime createdAt;
@@ -857,6 +861,11 @@ public class AdquisitionProperty {
                 .buyerCreditReport(adquisitionPropertyHoa != null ? adquisitionPropertyHoa.getBuyerCreditReport() : null)
                 .hoaValidatorWebsite(adquisitionPropertyHoa != null ? adquisitionPropertyHoa.getHoaValidatorWebsite() : null)
                 .hoaApplicationLink(adquisitionPropertyHoa != null ? adquisitionPropertyHoa.getHoaApplicationLink() : null)
+
+                //AdquisitionPropertyBuyer
+                .buyerProofOfFunds(adquisitionPropertyBuyer != null ? adquisitionPropertyBuyer.getBuyerProofOfFunds() : null)
+                .buyerCarBrand(adquisitionPropertyBuyer != null ? adquisitionPropertyBuyer.getBuyerCarBrand() : null)
+                .buyerCarYear(adquisitionPropertyBuyer != null ? adquisitionPropertyBuyer.getBuyerCarYear() : null)
                 .build();
     }
 
