@@ -220,7 +220,10 @@ public class AdquisitionPropertyDto {
     private String hoaValidatorWebsite;
     private String hoaApplicationLink;
 
+    //Buyer
     private String buyerProofOfFunds;
     private String buyerCarBrand;
     private Double buyerCarYear;
+    private String buyerDriverLicense;
+    private String buyerCarInsurance;
 }

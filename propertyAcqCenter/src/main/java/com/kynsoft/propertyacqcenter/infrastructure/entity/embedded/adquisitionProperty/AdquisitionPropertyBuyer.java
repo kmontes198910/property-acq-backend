@@ -34,6 +34,12 @@ public class AdquisitionPropertyBuyer {
     @Column(name = "buyer_proof_of_funds", nullable = true)
     private String buyerProofOfFunds;
 
+    @Column(name = "buyer_driver_license", nullable = true)
+    private String buyerDriverLicense;
+
+    @Column(name = "buyer_car_insurance", nullable = true)
+    private String buyerCarInsurance;
+
     @Column(name = "buyer_car_brand", nullable = true)
     private String buyerCarBrand;
 

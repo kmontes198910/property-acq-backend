@@ -215,4 +215,6 @@ public class UpdateAdquisitionPropertyRequest {
     private CreateDocumentRequest buyerProofOfFunds;
     private String buyerCarBrand;
     private Double buyerCarYear;
+    private CreateDocumentRequest buyerDriverLicense;
+    private CreateDocumentRequest buyerCarInsurance;
 }

@@ -218,6 +218,8 @@ public class UpdateAdquisitionPropertyCommand implements ICommand {
     private CreateDocumentRequest buyerProofOfFunds;
     private String buyerCarBrand;
     private Double buyerCarYear;
+    private CreateDocumentRequest buyerDriverLicense;
+    private CreateDocumentRequest buyerCarInsurance;
 
     public UpdateAdquisitionPropertyCommand(UUID id, UUID buyer, String property, UUID contact, String buyerNameAndYearVehicle,
             String buyerLicenseTagNo,
@@ -344,7 +346,9 @@ public class UpdateAdquisitionPropertyCommand implements ICommand {
             String hoaApplicationLink,
             CreateDocumentRequest buyerProofOfFunds,
             String buyerCarBrand,
-            Double buyerCarYear
+            Double buyerCarYear,
+            CreateDocumentRequest buyerDriverLicense,
+            CreateDocumentRequest buyerCarInsurance
             ) {
         this.id = id;
         this.buyer = buyer;
@@ -529,6 +533,8 @@ public class UpdateAdquisitionPropertyCommand implements ICommand {
         this.buyerProofOfFunds = buyerProofOfFunds;
         this.buyerCarBrand = buyerCarBrand;
         this.buyerCarYear = buyerCarYear;
+        this.buyerDriverLicense = buyerDriverLicense;
+        this.buyerCarInsurance = buyerCarInsurance;
     }
 
     public static UpdateAdquisitionPropertyCommand fromRequest(UpdateAdquisitionPropertyRequest request, UUID id) {
@@ -699,7 +705,9 @@ public class UpdateAdquisitionPropertyCommand implements ICommand {
                 request.getHoaApplicationLink(),
                 request.getBuyerProofOfFunds(),
                 request.getBuyerCarBrand(),
-                request.getBuyerCarYear()
+                request.getBuyerCarYear(),
+                request.getBuyerDriverLicense(),
+                request.getBuyerCarInsurance()
         );
     }
 

@@ -866,6 +866,8 @@ public class AdquisitionProperty {
                 .buyerProofOfFunds(adquisitionPropertyBuyer != null ? adquisitionPropertyBuyer.getBuyerProofOfFunds() : null)
                 .buyerCarBrand(adquisitionPropertyBuyer != null ? adquisitionPropertyBuyer.getBuyerCarBrand() : null)
                 .buyerCarYear(adquisitionPropertyBuyer != null ? adquisitionPropertyBuyer.getBuyerCarYear() : null)
+                .buyerDriverLicense(adquisitionPropertyBuyer != null ? adquisitionPropertyBuyer.getBuyerDriverLicense() : null)
+                .buyerCarInsurance(adquisitionPropertyBuyer != null ? adquisitionPropertyBuyer.getBuyerCarInsurance() : null)
                 .build();
     }
 

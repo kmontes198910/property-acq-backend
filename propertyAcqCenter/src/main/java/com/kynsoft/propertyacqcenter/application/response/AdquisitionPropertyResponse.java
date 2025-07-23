@@ -208,6 +208,8 @@ public class AdquisitionPropertyResponse implements IResponse {
     private AdquisitionDocumentResponse buyerProofOfFunds;
     private String buyerCarBrand;
     private Double buyerCarYear;
+    private AdquisitionDocumentResponse buyerDriverLicense;
+    private AdquisitionDocumentResponse buyerCarInsurance;
 
     public AdquisitionPropertyResponse(AdquisitionPropertyDto dto) {
         this.id = dto.getId();
@@ -393,6 +395,8 @@ public class AdquisitionPropertyResponse implements IResponse {
         this.buyerProofOfFunds = DocumentMapper.mapDocumentField(dto.getBuyerProofOfFunds());
         this.buyerCarBrand = dto.getBuyerCarBrand();
         this.buyerCarYear = dto.getBuyerCarYear();
+        this.buyerDriverLicense = DocumentMapper.mapDocumentField(dto.getBuyerDriverLicense());
+        this.buyerCarInsurance = DocumentMapper.mapDocumentField(dto.getBuyerCarInsurance());
     }
 
 }

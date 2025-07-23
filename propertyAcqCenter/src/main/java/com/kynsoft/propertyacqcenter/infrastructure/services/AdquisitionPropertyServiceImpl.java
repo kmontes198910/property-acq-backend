@@ -342,6 +342,8 @@ public class AdquisitionPropertyServiceImpl implements IAdquisitionPropertyServi
                         .buyerProofOfFunds(object.getBuyerProofOfFunds() != null ? object.getBuyerProofOfFunds() : update.getAdquisitionPropertyBuyer().getBuyerProofOfFunds())
                         .buyerCarBrand(object.getBuyerCarBrand() != null ? object.getBuyerCarBrand() : update.getAdquisitionPropertyBuyer().getBuyerCarBrand())
                         .buyerCarYear(object.getBuyerCarYear() != null ? object.getBuyerCarYear() : update.getAdquisitionPropertyBuyer().getBuyerCarYear())
+                        .buyerDriverLicense(object.getBuyerDriverLicense() != null ? object.getBuyerDriverLicense() : update.getAdquisitionPropertyBuyer().getBuyerDriverLicense())
+                        .buyerCarInsurance(object.getBuyerCarInsurance() != null ? object.getBuyerCarInsurance() : update.getAdquisitionPropertyBuyer().getBuyerCarInsurance())
                         .build()
                 : AdquisitionPropertyBuyer
                         .builder()
@@ -350,6 +352,8 @@ public class AdquisitionPropertyServiceImpl implements IAdquisitionPropertyServi
                         .buyerProofOfFunds(object.getBuyerProofOfFunds())
                         .buyerCarBrand(object.getBuyerCarBrand())
                         .buyerCarYear(object.getBuyerCarYear())
+                        .buyerDriverLicense(object.getBuyerDriverLicense())
+                        .buyerCarInsurance(object.getBuyerCarInsurance())
                         .build();
     }
 
