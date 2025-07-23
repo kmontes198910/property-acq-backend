@@ -219,4 +219,8 @@ public class AdquisitionPropertyDto {
     private String buyerCreditReport;
     private String hoaValidatorWebsite;
     private String hoaApplicationLink;
+
+    private String buyerProofOfFunds;
+    private String buyerCarBrand;
+    private Double buyerCarYear;
 }

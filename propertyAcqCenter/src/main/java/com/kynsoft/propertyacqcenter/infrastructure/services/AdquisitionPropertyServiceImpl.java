@@ -13,6 +13,7 @@ import com.kynsoft.propertyacqcenter.infrastructure.entity.AdquisitionProperty;
 import com.kynsoft.propertyacqcenter.infrastructure.entity.CompanyContact;
 import com.kynsoft.propertyacqcenter.infrastructure.entity.LegalEntity;
 import com.kynsoft.propertyacqcenter.infrastructure.entity.Property;
+import com.kynsoft.propertyacqcenter.infrastructure.entity.embedded.adquisitionProperty.AdquisitionPropertyBuyer;
 import com.kynsoft.propertyacqcenter.infrastructure.entity.embedded.adquisitionProperty.AdquisitionPropertyHoa;
 import com.kynsoft.propertyacqcenter.infrastructure.repository.command.AdquisitionPropertyWriteDataJPARepository;
 import com.kynsoft.propertyacqcenter.infrastructure.repository.query.AdquisitionPropertyReadDataJPARepository;
@@ -52,6 +53,7 @@ public class AdquisitionPropertyServiceImpl implements IAdquisitionPropertyServi
     public void update(AdquisitionPropertyDto object) {
         AdquisitionProperty update = this.findByIdSimple(object.getId());
         update.setAdquisitionPropertyHoa(createAdquisitionPropertyHoa(object, update));
+        update.setAdquisitionPropertyBuyer(createAdquisitionPropertyBuyer(object, update));
 
         update.setBuyer(object.getBuyer() != null ? new LegalEntity(object.getBuyer()) : null);
         update.setContact(object.getContact() != null ? new CompanyContact(object.getContact()) : null);
@@ -327,6 +329,27 @@ public class AdquisitionPropertyServiceImpl implements IAdquisitionPropertyServi
                         .hoaValidatorWebsite(object.getHoaValidatorWebsite())
                         .hoaApplicationLink(object.getHoaApplicationLink())
                         .hoaApplicationLink(object.getHoaApplicationLink())
+                        .build();
+    }
+
+    private AdquisitionPropertyBuyer createAdquisitionPropertyBuyer(AdquisitionPropertyDto object, AdquisitionProperty update) {
+        return update.getAdquisitionPropertyBuyer() != null
+                ? //Si es diferente de null, es porque ya tiene datos.
+                AdquisitionPropertyBuyer
+                        .builder()
+                        .id(update.getAdquisitionPropertyHoa().getId())
+                        .adquisitionProperty(update)
+                        .buyerProofOfFunds(object.getBuyerProofOfFunds() != null ? object.getBuyerProofOfFunds() : update.getAdquisitionPropertyBuyer().getBuyerProofOfFunds())
+                        .buyerCarBrand(object.getBuyerCarBrand() != null ? object.getBuyerCarBrand() : update.getAdquisitionPropertyBuyer().getBuyerCarBrand())
+                        .buyerCarYear(object.getBuyerCarYear() != null ? object.getBuyerCarYear() : update.getAdquisitionPropertyBuyer().getBuyerCarYear())
+                        .build()
+                : AdquisitionPropertyBuyer
+                        .builder()
+                        .id(UUID.randomUUID())
+                        .adquisitionProperty(update)
+                        .buyerProofOfFunds(object.getBuyerProofOfFunds())
+                        .buyerCarBrand(object.getBuyerCarBrand())
+                        .buyerCarYear(object.getBuyerCarYear())
                         .build();
     }
 

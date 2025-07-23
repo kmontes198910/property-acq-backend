@@ -226,6 +226,10 @@ public class UpdateAdquisitionPropertyCommandHandler implements ICommandHandler<
                 .buyerCreditReport(command.getBuyerCreditReport() != null ? command.getBuyerCreditReport().getFilePath() + "|" + command.getBuyerCreditReport().getFileName() : null)
                 .hoaValidatorWebsite(command.getHoaValidatorWebsite())
                 .hoaApplicationLink(command.getHoaApplicationLink())
+
+                .buyerProofOfFunds(command.getBuyerProofOfFunds() != null ? command.getBuyerProofOfFunds().getFilePath() + "|" + command.getBuyerProofOfFunds().getFileName() : null)
+                .buyerCarBrand(command.getBuyerCarBrand())
+                .buyerCarYear(command.getBuyerCarYear())
                 .build()
         );
     }

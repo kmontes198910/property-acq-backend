@@ -211,4 +211,8 @@ public class UpdateAdquisitionPropertyRequest {
     private CreateDocumentRequest buyerCreditReport;
     private String hoaValidatorWebsite;
     private String hoaApplicationLink;
+
+    private CreateDocumentRequest buyerProofOfFunds;
+    private String buyerCarBrand;
+    private Double buyerCarYear;
 }

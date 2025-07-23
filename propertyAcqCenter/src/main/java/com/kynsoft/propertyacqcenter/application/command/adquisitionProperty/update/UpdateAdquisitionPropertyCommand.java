@@ -215,6 +215,10 @@ public class UpdateAdquisitionPropertyCommand implements ICommand {
     private String hoaValidatorWebsite;
     private String hoaApplicationLink;
 
+    private CreateDocumentRequest buyerProofOfFunds;
+    private String buyerCarBrand;
+    private Double buyerCarYear;
+
     public UpdateAdquisitionPropertyCommand(UUID id, UUID buyer, String property, UUID contact, String buyerNameAndYearVehicle,
             String buyerLicenseTagNo,
             LocalDate dateAndTimeForInspections, String instructionsForAccess, LocalDate hoaBuyerInterviewDate,
@@ -337,7 +341,10 @@ public class UpdateAdquisitionPropertyCommand implements ICommand {
             CreateDocumentRequest hoaCondoQuestionnaireForm,
             CreateDocumentRequest buyerCreditReport,
             String hoaValidatorWebsite,
-            String hoaApplicationLink
+            String hoaApplicationLink,
+            CreateDocumentRequest buyerProofOfFunds,
+            String buyerCarBrand,
+            Double buyerCarYear
             ) {
         this.id = id;
         this.buyer = buyer;
@@ -519,6 +526,9 @@ public class UpdateAdquisitionPropertyCommand implements ICommand {
         this.buyerCreditReport = buyerCreditReport;
         this.hoaValidatorWebsite = hoaValidatorWebsite;
         this.hoaApplicationLink = hoaApplicationLink;
+        this.buyerProofOfFunds = buyerProofOfFunds;
+        this.buyerCarBrand = buyerCarBrand;
+        this.buyerCarYear = buyerCarYear;
     }
 
     public static UpdateAdquisitionPropertyCommand fromRequest(UpdateAdquisitionPropertyRequest request, UUID id) {
@@ -686,7 +696,10 @@ public class UpdateAdquisitionPropertyCommand implements ICommand {
                 request.getHoaCondoQuestionnaireForm(),
                 request.getBuyerCreditReport(),
                 request.getHoaValidatorWebsite(),
-                request.getHoaApplicationLink()
+                request.getHoaApplicationLink(),
+                request.getBuyerProofOfFunds(),
+                request.getBuyerCarBrand(),
+                request.getBuyerCarYear()
         );
     }
 
