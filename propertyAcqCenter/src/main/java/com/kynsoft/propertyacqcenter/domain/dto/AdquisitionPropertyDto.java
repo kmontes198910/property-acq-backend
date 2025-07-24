@@ -226,4 +226,13 @@ public class AdquisitionPropertyDto {
     private Double buyerCarYear;
     private String buyerDriverLicense;
     private String buyerCarInsurance;
+
+    private String buyerPersonalAccountHolderName;
+    private String buyerPersonalAccountNumber;
+    private String buyerPersonalRoutingNumber;
+    private String buyerPersonalZelleEmailorPhone;
+    private String buyerPersonalBankStatements;
+    private String buyerPersonalBankName;
+    private Boolean buyerPersonalUseForHoaBankReference;
+    private Boolean buyerPersonalUseForLenderBankReference;
 }

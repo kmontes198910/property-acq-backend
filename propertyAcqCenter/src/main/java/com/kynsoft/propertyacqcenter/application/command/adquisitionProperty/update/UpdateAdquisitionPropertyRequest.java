@@ -217,4 +217,13 @@ public class UpdateAdquisitionPropertyRequest {
     private Double buyerCarYear;
     private CreateDocumentRequest buyerDriverLicense;
     private CreateDocumentRequest buyerCarInsurance;
+
+    private String buyerPersonalAccountHolderName;
+    private String buyerPersonalAccountNumber;
+    private String buyerPersonalRoutingNumber;
+    private String buyerPersonalZelleEmailorPhone;
+    private String buyerPersonalBankStatements;
+    private String buyerPersonalBankName;
+    private Boolean buyerPersonalUseForHoaBankReference;
+    private Boolean buyerPersonalUseForLenderBankReference;
 }

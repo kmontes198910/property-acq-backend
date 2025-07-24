@@ -232,6 +232,15 @@ public class UpdateAdquisitionPropertyCommandHandler implements ICommandHandler<
                 .buyerCarYear(command.getBuyerCarYear())
                 .buyerDriverLicense(command.getBuyerDriverLicense() != null ? command.getBuyerDriverLicense().getFilePath() + "|" + command.getBuyerDriverLicense().getFileName() : null)
                 .buyerCarInsurance(command.getBuyerCarInsurance() != null ? command.getBuyerCarInsurance().getFilePath() + "|" + command.getBuyerCarInsurance().getFileName() : null)
+
+                .buyerPersonalAccountHolderName(command.getBuyerPersonalAccountHolderName())
+                .buyerPersonalAccountNumber(command.getBuyerPersonalAccountNumber())
+                .buyerPersonalRoutingNumber(command.getBuyerPersonalRoutingNumber())
+                .buyerPersonalZelleEmailorPhone(command.getBuyerPersonalZelleEmailorPhone())
+                .buyerPersonalBankStatements(command.getBuyerPersonalBankStatements())
+                .buyerPersonalBankName(command.getBuyerPersonalBankName())
+                .buyerPersonalUseForHoaBankReference(command.getBuyerPersonalUseForHoaBankReference())
+                .buyerPersonalUseForLenderBankReference(command.getBuyerPersonalUseForLenderBankReference())
                 .build()
         );
     }

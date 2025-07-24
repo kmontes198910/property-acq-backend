@@ -211,6 +211,15 @@ public class AdquisitionPropertyResponse implements IResponse {
     private AdquisitionDocumentResponse buyerDriverLicense;
     private AdquisitionDocumentResponse buyerCarInsurance;
 
+    private String buyerPersonalAccountHolderName;
+    private String buyerPersonalAccountNumber;
+    private String buyerPersonalRoutingNumber;
+    private String buyerPersonalZelleEmailorPhone;
+    private String buyerPersonalBankStatements;
+    private String buyerPersonalBankName;
+    private Boolean buyerPersonalUseForHoaBankReference;
+    private Boolean buyerPersonalUseForLenderBankReference;
+
     public AdquisitionPropertyResponse(AdquisitionPropertyDto dto) {
         this.id = dto.getId();
         this.buyer = dto.getBuyer() != null ? new LegalEntityBasicResponse(dto.getBuyer()) : null;
@@ -397,6 +406,15 @@ public class AdquisitionPropertyResponse implements IResponse {
         this.buyerCarYear = dto.getBuyerCarYear();
         this.buyerDriverLicense = DocumentMapper.mapDocumentField(dto.getBuyerDriverLicense());
         this.buyerCarInsurance = DocumentMapper.mapDocumentField(dto.getBuyerCarInsurance());
+
+        this.buyerPersonalAccountHolderName = dto.getBuyerPersonalAccountHolderName();
+        this.buyerPersonalAccountNumber = dto.getBuyerPersonalAccountNumber();
+        this.buyerPersonalRoutingNumber = dto.getBuyerPersonalRoutingNumber();
+        this.buyerPersonalZelleEmailorPhone = dto.getBuyerPersonalZelleEmailorPhone();
+        this.buyerPersonalBankStatements = dto.getBuyerPersonalBankStatements();
+        this.buyerPersonalBankName = dto.getBuyerPersonalBankName();
+        this.buyerPersonalUseForHoaBankReference = dto.getBuyerPersonalUseForHoaBankReference();
+        this.buyerPersonalUseForLenderBankReference = dto.getBuyerPersonalUseForLenderBankReference();
     }
 
 }

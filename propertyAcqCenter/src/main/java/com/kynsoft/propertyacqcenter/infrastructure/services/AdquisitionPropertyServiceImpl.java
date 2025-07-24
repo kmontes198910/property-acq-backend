@@ -14,6 +14,7 @@ import com.kynsoft.propertyacqcenter.infrastructure.entity.CompanyContact;
 import com.kynsoft.propertyacqcenter.infrastructure.entity.LegalEntity;
 import com.kynsoft.propertyacqcenter.infrastructure.entity.Property;
 import com.kynsoft.propertyacqcenter.infrastructure.entity.embedded.adquisitionProperty.AdquisitionPropertyBuyer;
+import com.kynsoft.propertyacqcenter.infrastructure.entity.embedded.adquisitionProperty.AdquisitionPropertyBuyerPersonalBankInfo;
 import com.kynsoft.propertyacqcenter.infrastructure.entity.embedded.adquisitionProperty.AdquisitionPropertyHoa;
 import com.kynsoft.propertyacqcenter.infrastructure.repository.command.AdquisitionPropertyWriteDataJPARepository;
 import com.kynsoft.propertyacqcenter.infrastructure.repository.query.AdquisitionPropertyReadDataJPARepository;
@@ -54,6 +55,7 @@ public class AdquisitionPropertyServiceImpl implements IAdquisitionPropertyServi
         AdquisitionProperty update = this.findByIdSimple(object.getId());
         update.setAdquisitionPropertyHoa(createAdquisitionPropertyHoa(object, update));
         update.setAdquisitionPropertyBuyer(createAdquisitionPropertyBuyer(object, update));
+        update.setAdquisitionPropertyBuyerPersonalBankInfo(createAdquisitionPropertyBuyerPersonalBankInfo(object, update));
 
         update.setBuyer(object.getBuyer() != null ? new LegalEntity(object.getBuyer()) : null);
         update.setContact(object.getContact() != null ? new CompanyContact(object.getContact()) : null);
@@ -337,7 +339,7 @@ public class AdquisitionPropertyServiceImpl implements IAdquisitionPropertyServi
                 ? //Si es diferente de null, es porque ya tiene datos.
                 AdquisitionPropertyBuyer
                         .builder()
-                        .id(update.getAdquisitionPropertyHoa().getId())
+                        .id(update.getAdquisitionPropertyBuyer().getId())
                         .adquisitionProperty(update)
                         .buyerProofOfFunds(object.getBuyerProofOfFunds() != null ? object.getBuyerProofOfFunds() : update.getAdquisitionPropertyBuyer().getBuyerProofOfFunds())
                         .buyerCarBrand(object.getBuyerCarBrand() != null ? object.getBuyerCarBrand() : update.getAdquisitionPropertyBuyer().getBuyerCarBrand())
@@ -354,6 +356,37 @@ public class AdquisitionPropertyServiceImpl implements IAdquisitionPropertyServi
                         .buyerCarYear(object.getBuyerCarYear())
                         .buyerDriverLicense(object.getBuyerDriverLicense())
                         .buyerCarInsurance(object.getBuyerCarInsurance())
+                        .build();
+    }
+
+    private AdquisitionPropertyBuyerPersonalBankInfo createAdquisitionPropertyBuyerPersonalBankInfo(AdquisitionPropertyDto object, AdquisitionProperty update) {
+        return update.getAdquisitionPropertyBuyerPersonalBankInfo() != null
+                ? //Si es diferente de null, es porque ya tiene datos.
+                AdquisitionPropertyBuyerPersonalBankInfo
+                        .builder()
+                        .id(update.getAdquisitionPropertyBuyerPersonalBankInfo().getId())
+                        .adquisitionProperty(update)
+                        .buyerPersonalAccountHolderName(object.getBuyerPersonalAccountHolderName() != null ? object.getBuyerPersonalAccountHolderName() : update.getAdquisitionPropertyBuyerPersonalBankInfo().getBuyerPersonalAccountHolderName())
+                        .buyerPersonalAccountNumber(object.getBuyerPersonalAccountNumber() != null ? object.getBuyerPersonalAccountNumber() : update.getAdquisitionPropertyBuyerPersonalBankInfo().getBuyerPersonalAccountNumber())
+                        .buyerPersonalRoutingNumber(object.getBuyerPersonalRoutingNumber() != null ? object.getBuyerPersonalRoutingNumber() : update.getAdquisitionPropertyBuyerPersonalBankInfo().getBuyerPersonalRoutingNumber())
+                        .buyerPersonalZelleEmailorPhone(object.getBuyerPersonalZelleEmailorPhone() != null ? object.getBuyerPersonalZelleEmailorPhone() : update.getAdquisitionPropertyBuyerPersonalBankInfo().getBuyerPersonalZelleEmailorPhone())
+                        .buyerPersonalBankStatements(object.getBuyerPersonalBankStatements() != null ? object.getBuyerPersonalBankStatements() : update.getAdquisitionPropertyBuyerPersonalBankInfo().getBuyerPersonalBankStatements())
+                        .buyerPersonalBankName(object.getBuyerPersonalBankName() != null ? object.getBuyerPersonalBankName() : update.getAdquisitionPropertyBuyerPersonalBankInfo().getBuyerPersonalBankName())
+                        .buyerPersonalUseForHoaBankReference(object.getBuyerPersonalUseForHoaBankReference() != null ? object.getBuyerPersonalUseForHoaBankReference() : update.getAdquisitionPropertyBuyerPersonalBankInfo().getBuyerPersonalUseForHoaBankReference())
+                        .buyerPersonalUseForLenderBankReference(object.getBuyerPersonalUseForLenderBankReference() != null ? object.getBuyerPersonalUseForLenderBankReference() : update.getAdquisitionPropertyBuyerPersonalBankInfo().getBuyerPersonalUseForLenderBankReference())
+                        .build()
+                : AdquisitionPropertyBuyerPersonalBankInfo
+                        .builder()
+                        .id(UUID.randomUUID())
+                        .adquisitionProperty(update)
+                        .buyerPersonalAccountHolderName(object.getBuyerPersonalAccountHolderName())
+                        .buyerPersonalAccountNumber(object.getBuyerPersonalAccountNumber())
+                        .buyerPersonalRoutingNumber(object.getBuyerPersonalRoutingNumber())
+                        .buyerPersonalZelleEmailorPhone(object.getBuyerPersonalZelleEmailorPhone())
+                        .buyerPersonalBankStatements(object.getBuyerPersonalBankStatements())
+                        .buyerPersonalBankName(object.getBuyerPersonalBankName())
+                        .buyerPersonalUseForHoaBankReference(object.getBuyerPersonalUseForHoaBankReference())
+                        .buyerPersonalUseForLenderBankReference(object.getBuyerPersonalUseForLenderBankReference())
                         .build();
     }
 

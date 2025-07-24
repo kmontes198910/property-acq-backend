@@ -221,6 +221,15 @@ public class UpdateAdquisitionPropertyCommand implements ICommand {
     private CreateDocumentRequest buyerDriverLicense;
     private CreateDocumentRequest buyerCarInsurance;
 
+    private String buyerPersonalAccountHolderName;
+    private String buyerPersonalAccountNumber;
+    private String buyerPersonalRoutingNumber;
+    private String buyerPersonalZelleEmailorPhone;
+    private String buyerPersonalBankStatements;
+    private String buyerPersonalBankName;
+    private Boolean buyerPersonalUseForHoaBankReference;
+    private Boolean buyerPersonalUseForLenderBankReference;
+
     public UpdateAdquisitionPropertyCommand(UUID id, UUID buyer, String property, UUID contact, String buyerNameAndYearVehicle,
             String buyerLicenseTagNo,
             LocalDate dateAndTimeForInspections, String instructionsForAccess, LocalDate hoaBuyerInterviewDate,
@@ -348,7 +357,15 @@ public class UpdateAdquisitionPropertyCommand implements ICommand {
             String buyerCarBrand,
             Double buyerCarYear,
             CreateDocumentRequest buyerDriverLicense,
-            CreateDocumentRequest buyerCarInsurance
+            CreateDocumentRequest buyerCarInsurance,
+            String buyerPersonalAccountHolderName,
+            String buyerPersonalAccountNumber,
+            String buyerPersonalRoutingNumber,
+            String buyerPersonalZelleEmailorPhone,
+            String buyerPersonalBankStatements,
+            String buyerPersonalBankName,
+            Boolean buyerPersonalUseForHoaBankReference,
+            Boolean buyerPersonalUseForLenderBankReference
             ) {
         this.id = id;
         this.buyer = buyer;
@@ -535,6 +552,14 @@ public class UpdateAdquisitionPropertyCommand implements ICommand {
         this.buyerCarYear = buyerCarYear;
         this.buyerDriverLicense = buyerDriverLicense;
         this.buyerCarInsurance = buyerCarInsurance;
+        this.buyerPersonalAccountHolderName = buyerPersonalAccountHolderName;
+        this.buyerPersonalAccountNumber = buyerPersonalAccountNumber;
+        this.buyerPersonalRoutingNumber = buyerPersonalRoutingNumber;
+        this.buyerPersonalZelleEmailorPhone = buyerPersonalZelleEmailorPhone;
+        this.buyerPersonalBankStatements = buyerPersonalBankStatements;
+        this.buyerPersonalBankName = buyerPersonalBankName;
+        this.buyerPersonalUseForHoaBankReference = buyerPersonalUseForHoaBankReference;
+        this.buyerPersonalUseForLenderBankReference = buyerPersonalUseForLenderBankReference;
     }
 
     public static UpdateAdquisitionPropertyCommand fromRequest(UpdateAdquisitionPropertyRequest request, UUID id) {
@@ -707,7 +732,15 @@ public class UpdateAdquisitionPropertyCommand implements ICommand {
                 request.getBuyerCarBrand(),
                 request.getBuyerCarYear(),
                 request.getBuyerDriverLicense(),
-                request.getBuyerCarInsurance()
+                request.getBuyerCarInsurance(),
+                request.getBuyerPersonalAccountHolderName(),
+                request.getBuyerPersonalAccountNumber(),
+                request.getBuyerPersonalRoutingNumber(),
+                request.getBuyerPersonalZelleEmailorPhone(),
+                request.getBuyerPersonalBankStatements(),
+                request.getBuyerPersonalBankName(),
+                request.getBuyerPersonalUseForHoaBankReference(),
+                request.getBuyerPersonalUseForLenderBankReference()
         );
     }
 
