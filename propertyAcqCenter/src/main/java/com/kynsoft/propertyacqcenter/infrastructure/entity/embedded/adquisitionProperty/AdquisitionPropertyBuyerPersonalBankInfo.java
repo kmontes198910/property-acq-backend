@@ -43,7 +43,7 @@ public class AdquisitionPropertyBuyerPersonalBankInfo {
     @Column(name = "zelle_email_or_phone", nullable = true)
     private String buyerPersonalZelleEmailorPhone;
 
-    @Column(name = "bank_statements", nullable = true)
+    @Column(name = "personal_bank_statements", nullable = true)
     private String buyerPersonalBankStatements;
 
     @Column(name = "bank_name", nullable = true)
