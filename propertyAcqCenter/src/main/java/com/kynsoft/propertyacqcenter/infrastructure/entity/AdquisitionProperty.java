@@ -408,9 +408,6 @@ public class AdquisitionProperty {
     @Column(name = "hoa_application_instructions", nullable = true)
     private String hoaApplicationInstructions;
 
-    @Column(name = "buyers_car_name_and_year", nullable = true)
-    private String buyersCarNameAndYear;
-
     @Column(name = "application_fees_amount", nullable = true)
     private Double applicationFeesAmount;
 
@@ -651,7 +648,6 @@ public class AdquisitionProperty {
         this.hoaMoveInFee = dto.getHoaMoveInFee();
         this.hoaInterviewRequired = dto.getHoaInterviewRequired();
         this.hoaApplicationInstructions = dto.getHoaApplicationInstructions();
-        this.buyersCarNameAndYear = dto.getBuyersCarNameAndYear();
         this.applicationFeesAmount = dto.getApplicationFeesAmount();
         this.applicationFeesSentDate = dto.getApplicationFeesSentDate();
         this.rentalRestrictions = dto.getRentalRestrictions();
@@ -811,7 +807,6 @@ public class AdquisitionProperty {
                 .hoaMoveInFee(hoaMoveInFee)
                 .hoaInterviewRequired(hoaInterviewRequired)
                 .hoaApplicationInstructions(hoaApplicationInstructions)
-                .buyersCarNameAndYear(buyersCarNameAndYear)
                 .applicationFeesAmount(applicationFeesAmount)
                 .applicationFeesSentDate(applicationFeesSentDate)
                 .rentalRestrictions(rentalRestrictions)

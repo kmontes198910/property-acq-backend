@@ -133,7 +133,6 @@ public class AdquisitionPropertyResponse implements IResponse {
     private Double hoaMoveInFee;
     private Boolean hoaInterviewRequired;
     private AdquisitionDocumentResponse hoaApplicationInstructions;
-    private String buyersCarNameAndYear;
     private Double applicationFeesAmount;
     private LocalDate applicationFeesSentDate;
     private String rentalRestrictions;
@@ -346,7 +345,6 @@ public class AdquisitionPropertyResponse implements IResponse {
         this.hoaMoveInFee = dto.getHoaMoveInFee();
         this.hoaInterviewRequired = dto.getHoaInterviewRequired();
         this.hoaApplicationInstructions = DocumentMapper.mapDocumentField(dto.getHoaApplicationInstructions());
-        this.buyersCarNameAndYear = dto.getBuyersCarNameAndYear();
         this.applicationFeesAmount = dto.getApplicationFeesAmount();
         this.applicationFeesSentDate = dto.getApplicationFeesSentDate();
         this.rentalRestrictions = dto.getRentalRestrictions();

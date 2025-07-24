@@ -155,7 +155,6 @@ public class UpdateAdquisitionPropertyCommandHandler implements ICommandHandler<
                 .hoaMoveInFee(command.getHoaMoveInFee())
                 .hoaInterviewRequired(command.getHoaInterviewRequired())
                 .hoaApplicationInstructions(command.getHoaApplicationInstructions() != null ? command.getHoaApplicationInstructions().getFilePath() + "|" + command.getHoaApplicationInstructions().getFileName() : null)
-                .buyersCarNameAndYear(command.getBuyersCarNameAndYear())
                 .applicationFeesAmount(command.getApplicationFeesAmount())
                 .applicationFeesSentDate(command.getApplicationFeesSentDate())
                 .rentalRestrictions(command.getRentalRestrictions())

@@ -144,7 +144,6 @@ public class UpdateAdquisitionPropertyCommand implements ICommand {
     private Double hoaMoveInFee;
     private Boolean hoaInterviewRequired;
     private CreateDocumentRequest hoaApplicationInstructions;
-    private String buyersCarNameAndYear;
     private Double applicationFeesAmount;
     private LocalDate applicationFeesSentDate;
     private String rentalRestrictions;
@@ -302,7 +301,6 @@ public class UpdateAdquisitionPropertyCommand implements ICommand {
             Double hoaMoveInFee,
             Boolean hoaInterviewRequired,
             CreateDocumentRequest hoaApplicationInstructions,
-            String buyersCarNameAndYear,
             Double applicationFeesAmount,
             LocalDate applicationFeesSentDate,
             String rentalRestrictions,
@@ -481,7 +479,6 @@ public class UpdateAdquisitionPropertyCommand implements ICommand {
         this.hoaMoveInFee = hoaMoveInFee;
         this.hoaInterviewRequired = hoaInterviewRequired;
         this.hoaApplicationInstructions = hoaApplicationInstructions;
-        this.buyersCarNameAndYear = buyersCarNameAndYear;
         this.applicationFeesAmount = applicationFeesAmount;
         this.applicationFeesSentDate = applicationFeesSentDate;
         this.rentalRestrictions = rentalRestrictions;
@@ -677,7 +674,6 @@ public class UpdateAdquisitionPropertyCommand implements ICommand {
                 request.getHoaMoveInFee(),
                 request.getHoaInterviewRequired(),
                 request.getHoaApplicationInstructions(),
-                request.getBuyersCarNameAndYear(),
                 request.getApplicationFeesAmount(),
                 request.getApplicationFeesSentDate(),
                 request.getRentalRestrictions(),
