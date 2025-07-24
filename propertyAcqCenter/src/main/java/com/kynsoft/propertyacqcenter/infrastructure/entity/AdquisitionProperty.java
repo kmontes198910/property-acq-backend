@@ -3,6 +3,7 @@ package com.kynsoft.propertyacqcenter.infrastructure.entity;
 import com.kynsoft.propertyacqcenter.domain.dto.AdquisitionPropertyDto;
 import com.kynsoft.propertyacqcenter.infrastructure.entity.embedded.adquisitionProperty.AdquisitionPropertyBuyer;
 import com.kynsoft.propertyacqcenter.infrastructure.entity.embedded.adquisitionProperty.AdquisitionPropertyBuyerPersonalBankInfo;
+import com.kynsoft.propertyacqcenter.infrastructure.entity.embedded.adquisitionProperty.AdquisitionPropertyBuyerUtilitiesInfo;
 import com.kynsoft.propertyacqcenter.infrastructure.entity.embedded.adquisitionProperty.AdquisitionPropertyHoa;
 import jakarta.persistence.*;
 import java.time.LocalDate;
@@ -498,13 +499,16 @@ public class AdquisitionProperty {
     private String whZelleEmailorPhone;
 
     @OneToOne(mappedBy = "adquisitionProperty", cascade = CascadeType.ALL, orphanRemoval = true)
-    private AdquisitionPropertyHoa adquisitionPropertyHoa; // Solo para Legal (puede ser null)
+    private AdquisitionPropertyHoa adquisitionPropertyHoa;
 
     @OneToOne(mappedBy = "adquisitionProperty", cascade = CascadeType.ALL, orphanRemoval = true)
-    private AdquisitionPropertyBuyer adquisitionPropertyBuyer; // Solo para Legal (puede ser null)
+    private AdquisitionPropertyBuyer adquisitionPropertyBuyer;
 
     @OneToOne(mappedBy = "adquisitionProperty", cascade = CascadeType.ALL, orphanRemoval = true)
-    private AdquisitionPropertyBuyerPersonalBankInfo adquisitionPropertyBuyerPersonalBankInfo; // Solo para Legal (puede ser null)
+    private AdquisitionPropertyBuyerPersonalBankInfo adquisitionPropertyBuyerPersonalBankInfo;
+
+    @OneToOne(mappedBy = "adquisitionProperty", cascade = CascadeType.ALL, orphanRemoval = true)
+    private AdquisitionPropertyBuyerUtilitiesInfo adquisitionPropertyBuyerUtilitiesInfo;
 
     @CreationTimestamp
     @Column(name = "created_at", updatable = false)
@@ -879,6 +883,16 @@ public class AdquisitionProperty {
                 .buyerPersonalUseForLenderBankReference(adquisitionPropertyBuyerPersonalBankInfo != null ? adquisitionPropertyBuyerPersonalBankInfo.getBuyerPersonalUseForLenderBankReference() : null)
                 .buyerVoidCheck(adquisitionPropertyBuyerPersonalBankInfo != null ? adquisitionPropertyBuyerPersonalBankInfo.getBuyerVoidCheck() : null)
                 .buyerLegalEntityUseForHoaBankReference(adquisitionPropertyBuyerPersonalBankInfo != null ? adquisitionPropertyBuyerPersonalBankInfo.getBuyerLegalEntityUseForHoaBankReference() : null)
+
+                //AdquisitionPropertyBuyerUtilitiesInfo
+                .buyerElectricProviderAccount(adquisitionPropertyBuyerUtilitiesInfo != null ? adquisitionPropertyBuyerUtilitiesInfo.getBuyerElectricProviderAccount() : null)
+                .buyerGasServiceAccount(adquisitionPropertyBuyerUtilitiesInfo != null ? adquisitionPropertyBuyerUtilitiesInfo.getBuyerGasServiceAccount() : null)
+                .buyerTrashServiceAccount(adquisitionPropertyBuyerUtilitiesInfo != null ? adquisitionPropertyBuyerUtilitiesInfo.getBuyerTrashServiceAccount() : null)
+                .buyerWaterSewerSetupAccount(adquisitionPropertyBuyerUtilitiesInfo != null ? adquisitionPropertyBuyerUtilitiesInfo.getBuyerWaterSewerSetupAccount() : null)
+                .buyerInternetService(adquisitionPropertyBuyerUtilitiesInfo != null ? adquisitionPropertyBuyerUtilitiesInfo.getBuyerInternetService() : null)
+                .buyerNotes(adquisitionPropertyBuyerUtilitiesInfo != null ? adquisitionPropertyBuyerUtilitiesInfo.getBuyerNotes() : null)
+                .buyerStartServiceDate(adquisitionPropertyBuyerUtilitiesInfo != null ? adquisitionPropertyBuyerUtilitiesInfo.getBuyerStartServiceDate() : null)
+                .buyerDepositAmount(adquisitionPropertyBuyerUtilitiesInfo != null ? adquisitionPropertyBuyerUtilitiesInfo.getBuyerDepositAmount() : null)
                 .build();
     }
 

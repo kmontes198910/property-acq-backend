@@ -231,6 +231,15 @@ public class UpdateAdquisitionPropertyCommand implements ICommand {
     private Boolean buyerVoidCheck;
     private Boolean buyerLegalEntityUseForHoaBankReference;
 
+    private String buyerElectricProviderAccount;
+    private String buyerGasServiceAccount;
+    private String buyerTrashServiceAccount;
+    private String buyerWaterSewerSetupAccount;
+    private String buyerInternetService;
+    private String buyerNotes;
+    private LocalDate buyerStartServiceDate;
+    private Double buyerDepositAmount;
+
     public UpdateAdquisitionPropertyCommand(UUID id, UUID buyer, String property, UUID contact, String buyerNameAndYearVehicle,
             String buyerLicenseTagNo,
             LocalDate dateAndTimeForInspections, String instructionsForAccess, LocalDate hoaBuyerInterviewDate,
@@ -367,7 +376,15 @@ public class UpdateAdquisitionPropertyCommand implements ICommand {
             Boolean buyerPersonalUseForHoaBankReference,
             Boolean buyerPersonalUseForLenderBankReference,
             Boolean buyerVoidCheck,
-            Boolean buyerLegalEntityUseForHoaBankReference
+            Boolean buyerLegalEntityUseForHoaBankReference,
+            String buyerElectricProviderAccount,
+            String buyerGasServiceAccount,
+            String buyerTrashServiceAccount,
+            String buyerWaterSewerSetupAccount,
+            String buyerInternetService,
+            String buyerNotes,
+            LocalDate buyerStartServiceDate,
+            Double buyerDepositAmount
             ) {
         this.id = id;
         this.buyer = buyer;
@@ -563,6 +580,14 @@ public class UpdateAdquisitionPropertyCommand implements ICommand {
         this.buyerPersonalUseForLenderBankReference = buyerPersonalUseForLenderBankReference;
         this.buyerVoidCheck = buyerVoidCheck;
         this.buyerLegalEntityUseForHoaBankReference = buyerLegalEntityUseForHoaBankReference;
+        this.buyerElectricProviderAccount = buyerElectricProviderAccount;
+        this.buyerGasServiceAccount = buyerGasServiceAccount;
+        this.buyerTrashServiceAccount = buyerTrashServiceAccount;
+        this.buyerWaterSewerSetupAccount = buyerWaterSewerSetupAccount;
+        this.buyerInternetService = buyerInternetService;
+        this.buyerNotes = buyerNotes;
+        this.buyerStartServiceDate = buyerStartServiceDate;
+        this.buyerDepositAmount = buyerDepositAmount;
     }
 
     public static UpdateAdquisitionPropertyCommand fromRequest(UpdateAdquisitionPropertyRequest request, UUID id) {
@@ -744,7 +769,15 @@ public class UpdateAdquisitionPropertyCommand implements ICommand {
                 request.getBuyerPersonalUseForHoaBankReference(),
                 request.getBuyerPersonalUseForLenderBankReference(),
                 request.getBuyerVoidCheck(),
-                request.getBuyerLegalEntityUseForHoaBankReference()
+                request.getBuyerLegalEntityUseForHoaBankReference(),
+                request.getBuyerElectricProviderAccount(),
+                request.getBuyerGasServiceAccount(),
+                request.getBuyerTrashServiceAccount(),
+                request.getBuyerWaterSewerSetupAccount(),
+                request.getBuyerInternetService(),
+                request.getBuyerNotes(),
+                request.getBuyerStartServiceDate(),
+                request.getBuyerDepositAmount()
         );
     }
 

@@ -227,4 +227,13 @@ public class UpdateAdquisitionPropertyRequest {
     private Boolean buyerPersonalUseForLenderBankReference;
     private Boolean buyerVoidCheck;
     private Boolean buyerLegalEntityUseForHoaBankReference;
+
+    private String buyerElectricProviderAccount;
+    private String buyerGasServiceAccount;
+    private String buyerTrashServiceAccount;
+    private String buyerWaterSewerSetupAccount;
+    private String buyerInternetService;
+    private String buyerNotes;
+    private LocalDate buyerStartServiceDate;
+    private Double buyerDepositAmount;
 }
