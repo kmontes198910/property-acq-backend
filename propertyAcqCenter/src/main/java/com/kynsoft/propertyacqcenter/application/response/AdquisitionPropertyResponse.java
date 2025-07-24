@@ -214,7 +214,7 @@ public class AdquisitionPropertyResponse implements IResponse {
     private String buyerPersonalAccountNumber;
     private String buyerPersonalRoutingNumber;
     private String buyerPersonalZelleEmailorPhone;
-    private String buyerPersonalBankStatements;
+    private AdquisitionDocumentResponse buyerPersonalBankStatements;
     private String buyerPersonalBankName;
     private Boolean buyerPersonalUseForHoaBankReference;
     private Boolean buyerPersonalUseForLenderBankReference;
@@ -411,7 +411,7 @@ public class AdquisitionPropertyResponse implements IResponse {
         this.buyerPersonalAccountNumber = dto.getBuyerPersonalAccountNumber();
         this.buyerPersonalRoutingNumber = dto.getBuyerPersonalRoutingNumber();
         this.buyerPersonalZelleEmailorPhone = dto.getBuyerPersonalZelleEmailorPhone();
-        this.buyerPersonalBankStatements = dto.getBuyerPersonalBankStatements();
+        this.buyerPersonalBankStatements = DocumentMapper.mapDocumentField(dto.getBuyerPersonalBankStatements());
         this.buyerPersonalBankName = dto.getBuyerPersonalBankName();
         this.buyerPersonalUseForHoaBankReference = dto.getBuyerPersonalUseForHoaBankReference();
         this.buyerPersonalUseForLenderBankReference = dto.getBuyerPersonalUseForLenderBankReference();

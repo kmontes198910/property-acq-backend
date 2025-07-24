@@ -236,7 +236,7 @@ public class UpdateAdquisitionPropertyCommandHandler implements ICommandHandler<
                 .buyerPersonalAccountNumber(command.getBuyerPersonalAccountNumber())
                 .buyerPersonalRoutingNumber(command.getBuyerPersonalRoutingNumber())
                 .buyerPersonalZelleEmailorPhone(command.getBuyerPersonalZelleEmailorPhone())
-                .buyerPersonalBankStatements(command.getBuyerPersonalBankStatements())
+                .buyerPersonalBankStatements(command.getBuyerPersonalBankStatements() != null ? command.getBuyerProofOfFunds().getFilePath() + "|" + command.getBuyerProofOfFunds().getFileName() : null)
                 .buyerPersonalBankName(command.getBuyerPersonalBankName())
                 .buyerPersonalUseForHoaBankReference(command.getBuyerPersonalUseForHoaBankReference())
                 .buyerPersonalUseForLenderBankReference(command.getBuyerPersonalUseForLenderBankReference())
