@@ -225,4 +225,6 @@ public class UpdateAdquisitionPropertyRequest {
     private String buyerPersonalBankName;
     private Boolean buyerPersonalUseForHoaBankReference;
     private Boolean buyerPersonalUseForLenderBankReference;
+    private Boolean buyerVoidCheck;
+    private Boolean buyerLegalEntityUseForHoaBankReference;
 }

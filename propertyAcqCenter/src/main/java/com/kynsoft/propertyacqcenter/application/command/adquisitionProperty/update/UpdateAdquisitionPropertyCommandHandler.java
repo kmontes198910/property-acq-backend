@@ -240,6 +240,8 @@ public class UpdateAdquisitionPropertyCommandHandler implements ICommandHandler<
                 .buyerPersonalBankName(command.getBuyerPersonalBankName())
                 .buyerPersonalUseForHoaBankReference(command.getBuyerPersonalUseForHoaBankReference())
                 .buyerPersonalUseForLenderBankReference(command.getBuyerPersonalUseForLenderBankReference())
+                .buyerVoidCheck(command.getBuyerVoidCheck())
+                .buyerLegalEntityUseForHoaBankReference(command.getBuyerLegalEntityUseForHoaBankReference())
                 .build()
         );
     }

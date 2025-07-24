@@ -52,6 +52,12 @@ public class AdquisitionPropertyBuyerPersonalBankInfo {
     @Column(name = "use_for_hoa_bank_reference", nullable = true)
     private Boolean buyerPersonalUseForHoaBankReference;
 
+    @Column(name = "use_legal_entity_for_hoa_bank_reference", nullable = true)
+    private Boolean buyerLegalEntityUseForHoaBankReference;
+
+    @Column(name = "void_check", nullable = true)
+    private Boolean buyerVoidCheck;
+
     @Column(name = "use_for_lender_bank_reference", nullable = true)
     private Boolean buyerPersonalUseForLenderBankReference;
 

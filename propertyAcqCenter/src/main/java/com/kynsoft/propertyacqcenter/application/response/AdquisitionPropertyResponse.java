@@ -218,6 +218,8 @@ public class AdquisitionPropertyResponse implements IResponse {
     private String buyerPersonalBankName;
     private Boolean buyerPersonalUseForHoaBankReference;
     private Boolean buyerPersonalUseForLenderBankReference;
+    private Boolean buyerVoidCheck;
+    private Boolean buyerLegalEntityUseForHoaBankReference;
 
     public AdquisitionPropertyResponse(AdquisitionPropertyDto dto) {
         this.id = dto.getId();
@@ -413,6 +415,8 @@ public class AdquisitionPropertyResponse implements IResponse {
         this.buyerPersonalBankName = dto.getBuyerPersonalBankName();
         this.buyerPersonalUseForHoaBankReference = dto.getBuyerPersonalUseForHoaBankReference();
         this.buyerPersonalUseForLenderBankReference = dto.getBuyerPersonalUseForLenderBankReference();
+        this.buyerVoidCheck = dto.getBuyerVoidCheck();
+        this.buyerLegalEntityUseForHoaBankReference = dto.getBuyerLegalEntityUseForHoaBankReference();
     }
 
 }

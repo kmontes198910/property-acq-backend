@@ -373,6 +373,8 @@ public class AdquisitionPropertyServiceImpl implements IAdquisitionPropertyServi
                         .buyerPersonalBankName(object.getBuyerPersonalBankName() != null ? object.getBuyerPersonalBankName() : update.getAdquisitionPropertyBuyerPersonalBankInfo().getBuyerPersonalBankName())
                         .buyerPersonalUseForHoaBankReference(object.getBuyerPersonalUseForHoaBankReference() != null ? object.getBuyerPersonalUseForHoaBankReference() : update.getAdquisitionPropertyBuyerPersonalBankInfo().getBuyerPersonalUseForHoaBankReference())
                         .buyerPersonalUseForLenderBankReference(object.getBuyerPersonalUseForLenderBankReference() != null ? object.getBuyerPersonalUseForLenderBankReference() : update.getAdquisitionPropertyBuyerPersonalBankInfo().getBuyerPersonalUseForLenderBankReference())
+                        .buyerVoidCheck(object.getBuyerVoidCheck() != null ? object.getBuyerVoidCheck() : update.getAdquisitionPropertyBuyerPersonalBankInfo().getBuyerVoidCheck())
+                        .buyerLegalEntityUseForHoaBankReference(object.getBuyerLegalEntityUseForHoaBankReference() != null ? object.getBuyerLegalEntityUseForHoaBankReference() : update.getAdquisitionPropertyBuyerPersonalBankInfo().getBuyerLegalEntityUseForHoaBankReference())
                         .build()
                 : AdquisitionPropertyBuyerPersonalBankInfo
                         .builder()

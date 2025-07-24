@@ -234,4 +234,6 @@ public class AdquisitionPropertyDto {
     private String buyerPersonalBankName;
     private Boolean buyerPersonalUseForHoaBankReference;
     private Boolean buyerPersonalUseForLenderBankReference;
+    private Boolean buyerVoidCheck;
+    private Boolean buyerLegalEntityUseForHoaBankReference;
 }
