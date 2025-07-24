@@ -2,6 +2,7 @@ package com.kynsoft.propertyacqcenter.infrastructure.entity;
 
 import com.kynsoft.propertyacqcenter.domain.dto.AdquisitionPropertyDto;
 import com.kynsoft.propertyacqcenter.infrastructure.entity.embedded.adquisitionProperty.AdquisitionPropertyBuyer;
+import com.kynsoft.propertyacqcenter.infrastructure.entity.embedded.adquisitionProperty.AdquisitionPropertyBuyerPersonalBankInfo;
 import com.kynsoft.propertyacqcenter.infrastructure.entity.embedded.adquisitionProperty.AdquisitionPropertyHoa;
 import jakarta.persistence.*;
 import java.time.LocalDate;
@@ -505,6 +506,9 @@ public class AdquisitionProperty {
     @OneToOne(mappedBy = "adquisitionProperty", cascade = CascadeType.ALL, orphanRemoval = true)
     private AdquisitionPropertyBuyer adquisitionPropertyBuyer; // Solo para Legal (puede ser null)
 
+    @OneToOne(mappedBy = "adquisitionProperty", cascade = CascadeType.ALL, orphanRemoval = true)
+    private AdquisitionPropertyBuyerPersonalBankInfo adquisitionPropertyBuyerPersonalBankInfo; // Solo para Legal (puede ser null)
+
     @CreationTimestamp
     @Column(name = "created_at", updatable = false)
     private LocalDateTime createdAt;
@@ -868,6 +872,16 @@ public class AdquisitionProperty {
                 .buyerCarYear(adquisitionPropertyBuyer != null ? adquisitionPropertyBuyer.getBuyerCarYear() : null)
                 .buyerDriverLicense(adquisitionPropertyBuyer != null ? adquisitionPropertyBuyer.getBuyerDriverLicense() : null)
                 .buyerCarInsurance(adquisitionPropertyBuyer != null ? adquisitionPropertyBuyer.getBuyerCarInsurance() : null)
+
+                //AdquisitionPropertyBuyerPersonalBankInfo
+                .buyerPersonalAccountHolderName(adquisitionPropertyBuyerPersonalBankInfo != null ? adquisitionPropertyBuyerPersonalBankInfo.getBuyerPersonalAccountHolderName() : null)
+                .buyerPersonalAccountNumber(adquisitionPropertyBuyerPersonalBankInfo != null ? adquisitionPropertyBuyerPersonalBankInfo.getBuyerPersonalAccountNumber() : null)
+                .buyerPersonalRoutingNumber(adquisitionPropertyBuyerPersonalBankInfo != null ? adquisitionPropertyBuyerPersonalBankInfo.getBuyerPersonalRoutingNumber() : null)
+                .buyerPersonalZelleEmailorPhone(adquisitionPropertyBuyerPersonalBankInfo != null ? adquisitionPropertyBuyerPersonalBankInfo.getBuyerPersonalZelleEmailorPhone() : null)
+                .buyerPersonalBankStatements(adquisitionPropertyBuyerPersonalBankInfo != null ? adquisitionPropertyBuyerPersonalBankInfo.getBuyerPersonalBankStatements() : null)
+                .buyerPersonalBankName(adquisitionPropertyBuyerPersonalBankInfo != null ? adquisitionPropertyBuyerPersonalBankInfo.getBuyerPersonalBankName() : null)
+                .buyerPersonalUseForHoaBankReference(adquisitionPropertyBuyerPersonalBankInfo != null ? adquisitionPropertyBuyerPersonalBankInfo.getBuyerPersonalUseForHoaBankReference() : null)
+                .buyerPersonalUseForLenderBankReference(adquisitionPropertyBuyerPersonalBankInfo != null ? adquisitionPropertyBuyerPersonalBankInfo.getBuyerPersonalUseForLenderBankReference() : null)
                 .build();
     }
 
