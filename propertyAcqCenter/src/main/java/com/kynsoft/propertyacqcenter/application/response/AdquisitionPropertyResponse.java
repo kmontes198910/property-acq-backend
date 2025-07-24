@@ -133,7 +133,6 @@ public class AdquisitionPropertyResponse implements IResponse {
     private Double hoaMoveInFee;
     private Boolean hoaInterviewRequired;
     private AdquisitionDocumentResponse hoaApplicationInstructions;
-    private String buyersCarNameAndYear;
     private Double applicationFeesAmount;
     private LocalDate applicationFeesSentDate;
     private String rentalRestrictions;
@@ -219,6 +218,8 @@ public class AdquisitionPropertyResponse implements IResponse {
     private String buyerPersonalBankName;
     private Boolean buyerPersonalUseForHoaBankReference;
     private Boolean buyerPersonalUseForLenderBankReference;
+    private Boolean buyerVoidCheck;
+    private Boolean buyerLegalEntityUseForHoaBankReference;
 
     public AdquisitionPropertyResponse(AdquisitionPropertyDto dto) {
         this.id = dto.getId();
@@ -346,7 +347,6 @@ public class AdquisitionPropertyResponse implements IResponse {
         this.hoaMoveInFee = dto.getHoaMoveInFee();
         this.hoaInterviewRequired = dto.getHoaInterviewRequired();
         this.hoaApplicationInstructions = DocumentMapper.mapDocumentField(dto.getHoaApplicationInstructions());
-        this.buyersCarNameAndYear = dto.getBuyersCarNameAndYear();
         this.applicationFeesAmount = dto.getApplicationFeesAmount();
         this.applicationFeesSentDate = dto.getApplicationFeesSentDate();
         this.rentalRestrictions = dto.getRentalRestrictions();
@@ -415,6 +415,8 @@ public class AdquisitionPropertyResponse implements IResponse {
         this.buyerPersonalBankName = dto.getBuyerPersonalBankName();
         this.buyerPersonalUseForHoaBankReference = dto.getBuyerPersonalUseForHoaBankReference();
         this.buyerPersonalUseForLenderBankReference = dto.getBuyerPersonalUseForLenderBankReference();
+        this.buyerVoidCheck = dto.getBuyerVoidCheck();
+        this.buyerLegalEntityUseForHoaBankReference = dto.getBuyerLegalEntityUseForHoaBankReference();
     }
 
 }

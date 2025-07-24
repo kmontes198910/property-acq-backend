@@ -155,7 +155,6 @@ public class UpdateAdquisitionPropertyRequest {
     private Double hoaMoveInFee;
     private Boolean hoaInterviewRequired;
     private CreateDocumentRequest hoaApplicationInstructions;
-    private String buyersCarNameAndYear;
     private Double applicationFeesAmount;
     private LocalDate applicationFeesSentDate;
     private String rentalRestrictions;
@@ -226,4 +225,6 @@ public class UpdateAdquisitionPropertyRequest {
     private String buyerPersonalBankName;
     private Boolean buyerPersonalUseForHoaBankReference;
     private Boolean buyerPersonalUseForLenderBankReference;
+    private Boolean buyerVoidCheck;
+    private Boolean buyerLegalEntityUseForHoaBankReference;
 }

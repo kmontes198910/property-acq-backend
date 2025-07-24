@@ -144,7 +144,6 @@ public class UpdateAdquisitionPropertyCommand implements ICommand {
     private Double hoaMoveInFee;
     private Boolean hoaInterviewRequired;
     private CreateDocumentRequest hoaApplicationInstructions;
-    private String buyersCarNameAndYear;
     private Double applicationFeesAmount;
     private LocalDate applicationFeesSentDate;
     private String rentalRestrictions;
@@ -229,6 +228,8 @@ public class UpdateAdquisitionPropertyCommand implements ICommand {
     private String buyerPersonalBankName;
     private Boolean buyerPersonalUseForHoaBankReference;
     private Boolean buyerPersonalUseForLenderBankReference;
+    private Boolean buyerVoidCheck;
+    private Boolean buyerLegalEntityUseForHoaBankReference;
 
     public UpdateAdquisitionPropertyCommand(UUID id, UUID buyer, String property, UUID contact, String buyerNameAndYearVehicle,
             String buyerLicenseTagNo,
@@ -302,7 +303,6 @@ public class UpdateAdquisitionPropertyCommand implements ICommand {
             Double hoaMoveInFee,
             Boolean hoaInterviewRequired,
             CreateDocumentRequest hoaApplicationInstructions,
-            String buyersCarNameAndYear,
             Double applicationFeesAmount,
             LocalDate applicationFeesSentDate,
             String rentalRestrictions,
@@ -365,7 +365,9 @@ public class UpdateAdquisitionPropertyCommand implements ICommand {
             String buyerPersonalBankStatements,
             String buyerPersonalBankName,
             Boolean buyerPersonalUseForHoaBankReference,
-            Boolean buyerPersonalUseForLenderBankReference
+            Boolean buyerPersonalUseForLenderBankReference,
+            Boolean buyerVoidCheck,
+            Boolean buyerLegalEntityUseForHoaBankReference
             ) {
         this.id = id;
         this.buyer = buyer;
@@ -481,7 +483,6 @@ public class UpdateAdquisitionPropertyCommand implements ICommand {
         this.hoaMoveInFee = hoaMoveInFee;
         this.hoaInterviewRequired = hoaInterviewRequired;
         this.hoaApplicationInstructions = hoaApplicationInstructions;
-        this.buyersCarNameAndYear = buyersCarNameAndYear;
         this.applicationFeesAmount = applicationFeesAmount;
         this.applicationFeesSentDate = applicationFeesSentDate;
         this.rentalRestrictions = rentalRestrictions;
@@ -560,6 +561,8 @@ public class UpdateAdquisitionPropertyCommand implements ICommand {
         this.buyerPersonalBankName = buyerPersonalBankName;
         this.buyerPersonalUseForHoaBankReference = buyerPersonalUseForHoaBankReference;
         this.buyerPersonalUseForLenderBankReference = buyerPersonalUseForLenderBankReference;
+        this.buyerVoidCheck = buyerVoidCheck;
+        this.buyerLegalEntityUseForHoaBankReference = buyerLegalEntityUseForHoaBankReference;
     }
 
     public static UpdateAdquisitionPropertyCommand fromRequest(UpdateAdquisitionPropertyRequest request, UUID id) {
@@ -677,7 +680,6 @@ public class UpdateAdquisitionPropertyCommand implements ICommand {
                 request.getHoaMoveInFee(),
                 request.getHoaInterviewRequired(),
                 request.getHoaApplicationInstructions(),
-                request.getBuyersCarNameAndYear(),
                 request.getApplicationFeesAmount(),
                 request.getApplicationFeesSentDate(),
                 request.getRentalRestrictions(),
@@ -740,7 +742,9 @@ public class UpdateAdquisitionPropertyCommand implements ICommand {
                 request.getBuyerPersonalBankStatements(),
                 request.getBuyerPersonalBankName(),
                 request.getBuyerPersonalUseForHoaBankReference(),
-                request.getBuyerPersonalUseForLenderBankReference()
+                request.getBuyerPersonalUseForLenderBankReference(),
+                request.getBuyerVoidCheck(),
+                request.getBuyerLegalEntityUseForHoaBankReference()
         );
     }
 

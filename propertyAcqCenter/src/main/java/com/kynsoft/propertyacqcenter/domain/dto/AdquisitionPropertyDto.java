@@ -85,7 +85,6 @@ public class AdquisitionPropertyDto {
     private Double hoaMoveInFee;
     private Boolean hoaInterviewRequired;
     private String hoaApplicationInstructions;
-    private String buyersCarNameAndYear;
     private Double applicationFeesAmount;
     private LocalDate applicationFeesSentDate;
     private String rentalRestrictions;
@@ -235,4 +234,6 @@ public class AdquisitionPropertyDto {
     private String buyerPersonalBankName;
     private Boolean buyerPersonalUseForHoaBankReference;
     private Boolean buyerPersonalUseForLenderBankReference;
+    private Boolean buyerVoidCheck;
+    private Boolean buyerLegalEntityUseForHoaBankReference;
 }

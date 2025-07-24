@@ -184,7 +184,6 @@ public class AdquisitionPropertyServiceImpl implements IAdquisitionPropertyServi
         update.setHoaMoveInFee(object.getHoaMoveInFee() != null ? object.getHoaMoveInFee() : update.getHoaMoveInFee());
         update.setHoaInterviewRequired(object.getHoaInterviewRequired() != null ? object.getHoaInterviewRequired() : update.getHoaInterviewRequired());
         update.setHoaApplicationInstructions(object.getHoaApplicationInstructions() != null ? object.getHoaApplicationInstructions() : update.getHoaApplicationInstructions());
-        update.setBuyersCarNameAndYear(object.getBuyersCarNameAndYear() != null ? object.getBuyersCarNameAndYear() : update.getBuyersCarNameAndYear());
         update.setApplicationFeesAmount(object.getApplicationFeesAmount() != null ? object.getApplicationFeesAmount() : update.getApplicationFeesAmount());
         update.setApplicationFeesSentDate(object.getApplicationFeesSentDate() != null ? object.getApplicationFeesSentDate() : update.getApplicationFeesSentDate());
         update.setRentalRestrictions(object.getRentalRestrictions() != null ? object.getRentalRestrictions() : update.getRentalRestrictions());
@@ -374,6 +373,8 @@ public class AdquisitionPropertyServiceImpl implements IAdquisitionPropertyServi
                         .buyerPersonalBankName(object.getBuyerPersonalBankName() != null ? object.getBuyerPersonalBankName() : update.getAdquisitionPropertyBuyerPersonalBankInfo().getBuyerPersonalBankName())
                         .buyerPersonalUseForHoaBankReference(object.getBuyerPersonalUseForHoaBankReference() != null ? object.getBuyerPersonalUseForHoaBankReference() : update.getAdquisitionPropertyBuyerPersonalBankInfo().getBuyerPersonalUseForHoaBankReference())
                         .buyerPersonalUseForLenderBankReference(object.getBuyerPersonalUseForLenderBankReference() != null ? object.getBuyerPersonalUseForLenderBankReference() : update.getAdquisitionPropertyBuyerPersonalBankInfo().getBuyerPersonalUseForLenderBankReference())
+                        .buyerVoidCheck(object.getBuyerVoidCheck() != null ? object.getBuyerVoidCheck() : update.getAdquisitionPropertyBuyerPersonalBankInfo().getBuyerVoidCheck())
+                        .buyerLegalEntityUseForHoaBankReference(object.getBuyerLegalEntityUseForHoaBankReference() != null ? object.getBuyerLegalEntityUseForHoaBankReference() : update.getAdquisitionPropertyBuyerPersonalBankInfo().getBuyerLegalEntityUseForHoaBankReference())
                         .build()
                 : AdquisitionPropertyBuyerPersonalBankInfo
                         .builder()
