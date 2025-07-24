@@ -242,6 +242,15 @@ public class UpdateAdquisitionPropertyCommandHandler implements ICommandHandler<
                 .buyerPersonalUseForLenderBankReference(command.getBuyerPersonalUseForLenderBankReference())
                 .buyerVoidCheck(command.getBuyerVoidCheck())
                 .buyerLegalEntityUseForHoaBankReference(command.getBuyerLegalEntityUseForHoaBankReference())
+
+                .buyerElectricProviderAccount(command.getBuyerElectricProviderAccount())
+                .buyerGasServiceAccount(command.getBuyerGasServiceAccount())
+                .buyerTrashServiceAccount(command.getBuyerTrashServiceAccount())
+                .buyerWaterSewerSetupAccount(command.getBuyerWaterSewerSetupAccount())
+                .buyerInternetService(command.getBuyerInternetService())
+                .buyerNotes(command.getBuyerNotes())
+                .buyerStartServiceDate(command.getBuyerStartServiceDate())
+                .buyerDepositAmount(command.getBuyerDepositAmount())
                 .build()
         );
     }

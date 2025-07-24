@@ -221,6 +221,15 @@ public class AdquisitionPropertyResponse implements IResponse {
     private Boolean buyerVoidCheck;
     private Boolean buyerLegalEntityUseForHoaBankReference;
 
+    private String buyerElectricProviderAccount;
+    private String buyerGasServiceAccount;
+    private String buyerTrashServiceAccount;
+    private String buyerWaterSewerSetupAccount;
+    private String buyerInternetService;
+    private String buyerNotes;
+    private LocalDate buyerStartServiceDate;
+    private Double buyerDepositAmount;
+
     public AdquisitionPropertyResponse(AdquisitionPropertyDto dto) {
         this.id = dto.getId();
         this.buyer = dto.getBuyer() != null ? new LegalEntityBasicResponse(dto.getBuyer()) : null;
@@ -417,6 +426,15 @@ public class AdquisitionPropertyResponse implements IResponse {
         this.buyerPersonalUseForLenderBankReference = dto.getBuyerPersonalUseForLenderBankReference();
         this.buyerVoidCheck = dto.getBuyerVoidCheck();
         this.buyerLegalEntityUseForHoaBankReference = dto.getBuyerLegalEntityUseForHoaBankReference();
+
+        this.buyerElectricProviderAccount = dto.getBuyerElectricProviderAccount();
+        this.buyerGasServiceAccount = dto.getBuyerGasServiceAccount();
+        this.buyerTrashServiceAccount = dto.getBuyerTrashServiceAccount();
+        this.buyerWaterSewerSetupAccount = dto.getBuyerWaterSewerSetupAccount();
+        this.buyerInternetService = dto.getBuyerInternetService();
+        this.buyerNotes = dto.getBuyerNotes();
+        this.buyerStartServiceDate = dto.getBuyerStartServiceDate();
+        this.buyerDepositAmount = dto.getBuyerDepositAmount();
     }
 
 }

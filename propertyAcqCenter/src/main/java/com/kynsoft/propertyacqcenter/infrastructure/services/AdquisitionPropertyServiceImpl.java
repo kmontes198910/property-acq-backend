@@ -15,6 +15,7 @@ import com.kynsoft.propertyacqcenter.infrastructure.entity.LegalEntity;
 import com.kynsoft.propertyacqcenter.infrastructure.entity.Property;
 import com.kynsoft.propertyacqcenter.infrastructure.entity.embedded.adquisitionProperty.AdquisitionPropertyBuyer;
 import com.kynsoft.propertyacqcenter.infrastructure.entity.embedded.adquisitionProperty.AdquisitionPropertyBuyerPersonalBankInfo;
+import com.kynsoft.propertyacqcenter.infrastructure.entity.embedded.adquisitionProperty.AdquisitionPropertyBuyerUtilitiesInfo;
 import com.kynsoft.propertyacqcenter.infrastructure.entity.embedded.adquisitionProperty.AdquisitionPropertyHoa;
 import com.kynsoft.propertyacqcenter.infrastructure.repository.command.AdquisitionPropertyWriteDataJPARepository;
 import com.kynsoft.propertyacqcenter.infrastructure.repository.query.AdquisitionPropertyReadDataJPARepository;
@@ -56,6 +57,7 @@ public class AdquisitionPropertyServiceImpl implements IAdquisitionPropertyServi
         update.setAdquisitionPropertyHoa(createAdquisitionPropertyHoa(object, update));
         update.setAdquisitionPropertyBuyer(createAdquisitionPropertyBuyer(object, update));
         update.setAdquisitionPropertyBuyerPersonalBankInfo(createAdquisitionPropertyBuyerPersonalBankInfo(object, update));
+        update.setAdquisitionPropertyBuyerUtilitiesInfo(createAdquisitionPropertyBuyerUtilitiesInfo(object, update));
 
         update.setBuyer(object.getBuyer() != null ? new LegalEntity(object.getBuyer()) : null);
         update.setContact(object.getContact() != null ? new CompanyContact(object.getContact()) : null);
@@ -388,6 +390,37 @@ public class AdquisitionPropertyServiceImpl implements IAdquisitionPropertyServi
                         .buyerPersonalBankName(object.getBuyerPersonalBankName())
                         .buyerPersonalUseForHoaBankReference(object.getBuyerPersonalUseForHoaBankReference())
                         .buyerPersonalUseForLenderBankReference(object.getBuyerPersonalUseForLenderBankReference())
+                        .build();
+    }
+
+    private AdquisitionPropertyBuyerUtilitiesInfo createAdquisitionPropertyBuyerUtilitiesInfo(AdquisitionPropertyDto object, AdquisitionProperty update) {
+        return update.getAdquisitionPropertyBuyerUtilitiesInfo() != null
+                ? //Si es diferente de null, es porque ya tiene datos.
+                AdquisitionPropertyBuyerUtilitiesInfo
+                        .builder()
+                        .id(update.getAdquisitionPropertyBuyerUtilitiesInfo().getId())
+                        .adquisitionProperty(update)
+                        .buyerElectricProviderAccount(object.getBuyerElectricProviderAccount() != null ? object.getBuyerElectricProviderAccount() : update.getAdquisitionPropertyBuyerUtilitiesInfo().getBuyerElectricProviderAccount())
+                        .buyerGasServiceAccount(object.getBuyerGasServiceAccount() != null ? object.getBuyerGasServiceAccount() : update.getAdquisitionPropertyBuyerUtilitiesInfo().getBuyerGasServiceAccount())
+                        .buyerTrashServiceAccount(object.getBuyerTrashServiceAccount() != null ? object.getBuyerTrashServiceAccount() : update.getAdquisitionPropertyBuyerUtilitiesInfo().getBuyerTrashServiceAccount())
+                        .buyerWaterSewerSetupAccount(object.getBuyerWaterSewerSetupAccount() != null ? object.getBuyerWaterSewerSetupAccount() : update.getAdquisitionPropertyBuyerUtilitiesInfo().getBuyerWaterSewerSetupAccount())
+                        .buyerInternetService(object.getBuyerInternetService() != null ? object.getBuyerInternetService() : update.getAdquisitionPropertyBuyerUtilitiesInfo().getBuyerInternetService())
+                        .buyerNotes(object.getBuyerNotes() != null ? object.getBuyerNotes() : update.getAdquisitionPropertyBuyerUtilitiesInfo().getBuyerNotes())
+                        .buyerStartServiceDate(object.getBuyerStartServiceDate() != null ? object.getBuyerStartServiceDate() : update.getAdquisitionPropertyBuyerUtilitiesInfo().getBuyerStartServiceDate())
+                        .buyerDepositAmount(object.getBuyerDepositAmount() != null ? object.getBuyerDepositAmount() : update.getAdquisitionPropertyBuyerUtilitiesInfo().getBuyerDepositAmount())
+                        .build()
+                : AdquisitionPropertyBuyerUtilitiesInfo
+                        .builder()
+                        .id(UUID.randomUUID())
+                        .adquisitionProperty(update)
+                        .buyerElectricProviderAccount(object.getBuyerElectricProviderAccount())
+                        .buyerGasServiceAccount(object.getBuyerGasServiceAccount())
+                        .buyerTrashServiceAccount(object.getBuyerTrashServiceAccount())
+                        .buyerWaterSewerSetupAccount(object.getBuyerWaterSewerSetupAccount())
+                        .buyerInternetService(object.getBuyerInternetService())
+                        .buyerNotes(object.getBuyerNotes())
+                        .buyerStartServiceDate(object.getBuyerStartServiceDate())
+                        .buyerDepositAmount(object.getBuyerDepositAmount())
                         .build();
     }
 
