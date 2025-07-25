@@ -53,7 +53,7 @@ public class UpdateAdquisitionPropertyCommand implements ICommand {
     private CreateDocumentRequest ownerExecutedContract;
     private CreateDocumentRequest contractAddendum;
     private CreateDocumentRequest finalSettlementStatement;
-    private CreateDocumentRequest bankStatementRequest;
+    //private CreateDocumentRequest bankStatementRequest;
     private CreateDocumentRequest warrantyDeed;
     private CreateDocumentRequest titleInsurance;
     private CreateDocumentRequest executedClosingDocuments;
@@ -256,7 +256,8 @@ public class UpdateAdquisitionPropertyCommand implements ICommand {
             CreateDocumentRequest titleCommitment, CreateDocumentRequest legalEntityCertificationStatus,
             CreateDocumentRequest assignmentOfContract, CreateDocumentRequest ownerExecutedContract,
             CreateDocumentRequest contractAddendum, CreateDocumentRequest finalSettlementStatement,
-            CreateDocumentRequest bankStatementRequest, CreateDocumentRequest warrantyDeed, CreateDocumentRequest titleInsurance,
+            //CreateDocumentRequest bankStatementRequest, 
+            CreateDocumentRequest warrantyDeed, CreateDocumentRequest titleInsurance,
             CreateDocumentRequest executedClosingDocuments, String buyerFullLegalName, String buyerContactEmail,
             String buyerEntityName, String buyerMailingAddress, String buyerMobilePhoneNumber, CreateDocumentRequest hoa4050certificationStatus,
             String hoaValidatorContactName, String hoaValidatorEmail, String hoaValidatorPhoneNumber,
@@ -424,7 +425,7 @@ public class UpdateAdquisitionPropertyCommand implements ICommand {
         this.ownerExecutedContract = ownerExecutedContract;
         this.contractAddendum = contractAddendum;
         this.finalSettlementStatement = finalSettlementStatement;
-        this.bankStatementRequest = bankStatementRequest;
+        //this.bankStatementRequest = bankStatementRequest;
         this.warrantyDeed = warrantyDeed;
         this.titleInsurance = titleInsurance;
         this.executedClosingDocuments = executedClosingDocuments;
@@ -630,7 +631,7 @@ public class UpdateAdquisitionPropertyCommand implements ICommand {
                 request.getOwnerExecutedContract(),
                 request.getContractAddendum(),
                 request.getFinalSettlementStatement(),
-                request.getBankStatementRequest(),
+                //request.getBankStatementRequest(),
                 request.getWarrantyDeed(),
                 request.getTitleInsurance(),
                 request.getExecutedClosingDocuments(),

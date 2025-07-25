@@ -91,7 +91,7 @@ public class UpdateAdquisitionPropertyRequest {
     private CreateDocumentRequest titleCompanyEarnestMoneyDepositConfirmation;
     private CreateDocumentRequest titleCommitment;
     private CreateDocumentRequest finalSettlementStatement;
-    private CreateDocumentRequest bankStatementRequest;
+    //private CreateDocumentRequest bankStatementRequest;
     private CreateDocumentRequest titleInsurance;
     private CreateDocumentRequest warrantyDeed;
 
