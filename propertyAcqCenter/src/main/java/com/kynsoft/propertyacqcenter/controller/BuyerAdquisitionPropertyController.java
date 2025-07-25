@@ -12,6 +12,9 @@ import com.kynsoft.propertyacqcenter.application.command.adquisitionProperty.del
 import com.kynsoft.propertyacqcenter.application.command.adquisitionProperty.update.UpdateAdquisitionPropertyCommand;
 import com.kynsoft.propertyacqcenter.application.command.adquisitionProperty.update.UpdateAdquisitionPropertyMessage;
 import com.kynsoft.propertyacqcenter.application.command.adquisitionProperty.update.UpdateAdquisitionPropertyRequest;
+import com.kynsoft.propertyacqcenter.application.command.adquisitionProperty.update.bankStatementRequest.UpdateBankStatementRequestCommand;
+import com.kynsoft.propertyacqcenter.application.command.adquisitionProperty.update.bankStatementRequest.UpdateBankStatementRequestMessage;
+import com.kynsoft.propertyacqcenter.application.command.adquisitionProperty.update.bankStatementRequest.UpdateBankStatementRequestRequest;
 import com.kynsoft.propertyacqcenter.application.query.adquisitionProperty.getById.GetByIdAdquisitionPropertyQuery;
 import com.kynsoft.propertyacqcenter.application.query.adquisitionProperty.getByPropertyId.FindByAdquisitionPropertyByPropertyIdQuery;
 import com.kynsoft.propertyacqcenter.application.query.adquisitionProperty.search.GetSearchAdquisitionPropertyQuery;
@@ -46,6 +49,14 @@ public class BuyerAdquisitionPropertyController {
 
         UpdateAdquisitionPropertyCommand command = UpdateAdquisitionPropertyCommand.fromRequest(request, id);
         UpdateAdquisitionPropertyMessage response = mediator.send(command);
+        return ResponseEntity.ok(response);
+    }
+
+    @PatchMapping("/bank-statement-request/{id}")
+    public ResponseEntity<?> UpdateBankStatementRequest(@PathVariable("id") UUID id, @RequestBody UpdateBankStatementRequestRequest request) {
+
+        UpdateBankStatementRequestCommand command = UpdateBankStatementRequestCommand.fromRequest(request, id);
+        UpdateBankStatementRequestMessage response = mediator.send(command);
         return ResponseEntity.ok(response);
     }
 

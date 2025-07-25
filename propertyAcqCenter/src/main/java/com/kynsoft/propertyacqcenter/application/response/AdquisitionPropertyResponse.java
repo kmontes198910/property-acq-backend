@@ -6,6 +6,8 @@ import java.time.LocalDate;
 import lombok.*;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @Getter
@@ -51,7 +53,7 @@ public class AdquisitionPropertyResponse implements IResponse {
     private AdquisitionDocumentResponse ownerExecutedContract;
     private AdquisitionDocumentResponse contractAddendum;
     private AdquisitionDocumentResponse finalSettlementStatement;
-    private AdquisitionDocumentResponse bankStatementRequest;
+    private List<AdquisitionDocumentResponse> bankStatementRequest;
     private AdquisitionDocumentResponse warrantyDeed;
     private AdquisitionDocumentResponse titleInsurance;
     private AdquisitionDocumentResponse executedClosingDocuments;
@@ -271,7 +273,7 @@ public class AdquisitionPropertyResponse implements IResponse {
         this.ownerExecutedContract = DocumentMapper.mapDocumentField(dto.getOwnerExecutedContract());
         this.contractAddendum = DocumentMapper.mapDocumentField(dto.getContractAddendum());
         this.finalSettlementStatement = DocumentMapper.mapDocumentField(dto.getFinalSettlementStatement());
-        this.bankStatementRequest = DocumentMapper.mapDocumentField(dto.getBankStatementRequest());
+        this.bankStatementRequest = convertDbToList(dto.getBankStatementRequest());
         this.warrantyDeed = DocumentMapper.mapDocumentField(dto.getWarrantyDeed());
         this.titleInsurance = DocumentMapper.mapDocumentField(dto.getTitleInsurance());
         this.executedClosingDocuments = DocumentMapper.mapDocumentField(dto.getExecutedClosingDocuments());
@@ -435,6 +437,25 @@ public class AdquisitionPropertyResponse implements IResponse {
         this.buyerNotes = dto.getBuyerNotes();
         this.buyerStartServiceDate = dto.getBuyerStartServiceDate();
         this.buyerDepositAmount = dto.getBuyerDepositAmount();
+    }
+
+    private List<AdquisitionDocumentResponse> convertDbToList(String dbData) {
+        List<AdquisitionDocumentResponse> result = new ArrayList<>();
+        if (dbData == null || dbData.isEmpty()) {
+            return result;
+        }
+
+        String[] parts = dbData.split("\\|");
+        // Asumimos que los datos vienen en pares fileName, filePath
+        for (int i = 0; i < parts.length; i += 2) {
+            if (i + 1 < parts.length) {
+                AdquisitionDocumentResponse request = new AdquisitionDocumentResponse();
+                request.setFileName(parts[i]);
+                request.setFilePath(parts[i + 1]);
+                result.add(request);
+            }
+        }
+        return result;
     }
 
 }

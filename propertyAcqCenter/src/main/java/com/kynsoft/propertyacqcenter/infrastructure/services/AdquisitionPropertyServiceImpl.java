@@ -4,6 +4,7 @@ import com.kynsof.share.core.domain.request.FilterCriteria;
 import com.kynsof.share.core.domain.response.PaginatedResponse;
 import com.kynsof.share.core.infrastructure.specifications.GenericSpecificationsBuilder;
 import com.kynsoft.propertyacqcenter.application.response.AdquisitionPropertyResponse;
+import com.kynsoft.propertyacqcenter.domain.dto.AdquisitionPropertyDocumentDto;
 import com.kynsoft.propertyacqcenter.domain.dto.AdquisitionPropertyDto;
 import com.kynsoft.propertyacqcenter.domain.dto.exception.AddressNotFoundException;
 import com.kynsoft.propertyacqcenter.domain.dto.exception.NotDeleteException;
@@ -99,7 +100,7 @@ public class AdquisitionPropertyServiceImpl implements IAdquisitionPropertyServi
         update.setOwnerExecutedContract(object.getOwnerExecutedContract() != null ? object.getOwnerExecutedContract() : update.getOwnerExecutedContract());
         update.setContractAddendum(object.getContractAddendum() != null ? object.getContractAddendum() : update.getContractAddendum());
         update.setFinalSettlementStatement(object.getFinalSettlementStatement() != null ? object.getFinalSettlementStatement() : update.getFinalSettlementStatement());
-        update.setBankStatementRequest(object.getBankStatementRequest() != null ? object.getBankStatementRequest() : update.getBankStatementRequest());
+        //update.setBankStatementRequest(object.getBankStatementRequest() != null ? object.getBankStatementRequest() : update.getBankStatementRequest());
         update.setWarrantyDeed(object.getWarrantyDeed() != null ? object.getWarrantyDeed() : update.getWarrantyDeed());
         update.setTitleInsurance(object.getTitleInsurance() != null ? object.getTitleInsurance() : update.getTitleInsurance());
         update.setExecutedClosingDocuments(object.getExecutedClosingDocuments() != null ? object.getExecutedClosingDocuments() : update.getExecutedClosingDocuments());
@@ -273,12 +274,12 @@ public class AdquisitionPropertyServiceImpl implements IAdquisitionPropertyServi
     }
 
     @Override
-    public List<AdquisitionPropertyDto> findByPropertyId(String propertyId) {
+    public List<AdquisitionPropertyDocumentDto> findByPropertyId(String propertyId) {
         List<AdquisitionProperty> entity = repositoryQuery.findByPropertyId(propertyId);
         if (!entity.isEmpty()) {
-            List<AdquisitionPropertyDto> list = new ArrayList<>();
+            List<AdquisitionPropertyDocumentDto> list = new ArrayList<>();
             for (AdquisitionProperty adquisitionProperty : entity) {
-                list.add(adquisitionProperty.toAggregate());
+                list.add(adquisitionProperty.toAggregateByPropertyId());
             }
             return list;
         }
@@ -422,6 +423,13 @@ public class AdquisitionPropertyServiceImpl implements IAdquisitionPropertyServi
                         .buyerStartServiceDate(object.getBuyerStartServiceDate())
                         .buyerDepositAmount(object.getBuyerDepositAmount())
                         .build();
+    }
+
+    @Override
+    public void updateBankStatementRequest(UUID id, String bankStatementRequest) {
+        AdquisitionProperty update = this.findByIdSimple(id);
+        update.setBankStatementRequest(bankStatementRequest);
+        repositoryCommand.save(update);
     }
 
 }
