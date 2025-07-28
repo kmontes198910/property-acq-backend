@@ -236,6 +236,8 @@ public class AdquisitionPropertyDto {
     private Boolean buyerPersonalUseForLenderBankReference;
     private Boolean buyerVoidCheck;
     private Boolean buyerLegalEntityUseForHoaBankReference;
+    private String buyerBankName;
+    private Boolean buyerPersonalVoidCheck;
 
     private String buyerElectricProviderAccount;
     private String buyerGasServiceAccount;

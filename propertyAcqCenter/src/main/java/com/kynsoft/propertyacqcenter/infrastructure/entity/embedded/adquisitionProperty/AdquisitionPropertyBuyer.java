@@ -45,4 +45,10 @@ public class AdquisitionPropertyBuyer {
 
     @Column(name = "buyer_car_year", nullable = true)
     private Double buyerCarYear;
+
+    @Column(name = "buyer_bank_name", nullable = true)
+    private String buyerBankName;
+
+    @Column(name = "buyer_p_void_check", nullable = true)
+    private Boolean buyerPersonalVoidCheck;
 }

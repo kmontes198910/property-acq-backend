@@ -260,6 +260,9 @@ public class UpdateAdquisitionPropertyCommandHandler implements ICommandHandler<
                 .waterBuyerDepositAmount(command.getWaterBuyerDepositAmount())
                 .internetBuyerStartServiceDate(command.getInternetBuyerStartServiceDate())
                 .internetBuyerDepositAmount(command.getInternetBuyerDepositAmount())
+                .buyerBankName(command.getBuyerBankName())
+                .buyerPersonalVoidCheck(command.getBuyerPersonalVoidCheck())
+
                 .build()
         );
     }

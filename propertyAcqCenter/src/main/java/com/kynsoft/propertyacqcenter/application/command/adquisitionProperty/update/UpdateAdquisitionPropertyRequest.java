@@ -245,4 +245,6 @@ public class UpdateAdquisitionPropertyRequest {
     private Double waterBuyerDepositAmount;
     private LocalDate internetBuyerStartServiceDate;
     private Double internetBuyerDepositAmount;
+    private String buyerBankName;
+    private Boolean buyerPersonalVoidCheck;
 }

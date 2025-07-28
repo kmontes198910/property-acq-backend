@@ -866,12 +866,16 @@ public class AdquisitionProperty {
                 .buyerCreditReport(adquisitionPropertyHoa != null ? adquisitionPropertyHoa.getBuyerCreditReport() : null)
                 .hoaValidatorWebsite(adquisitionPropertyHoa != null ? adquisitionPropertyHoa.getHoaValidatorWebsite() : null)
                 .hoaApplicationLink(adquisitionPropertyHoa != null ? adquisitionPropertyHoa.getHoaApplicationLink() : null)
+
                 //AdquisitionPropertyBuyer
                 .buyerProofOfFunds(adquisitionPropertyBuyer != null ? adquisitionPropertyBuyer.getBuyerProofOfFunds() : null)
                 .buyerCarBrand(adquisitionPropertyBuyer != null ? adquisitionPropertyBuyer.getBuyerCarBrand() : null)
                 .buyerCarYear(adquisitionPropertyBuyer != null ? adquisitionPropertyBuyer.getBuyerCarYear() : null)
                 .buyerDriverLicense(adquisitionPropertyBuyer != null ? adquisitionPropertyBuyer.getBuyerDriverLicense() : null)
                 .buyerCarInsurance(adquisitionPropertyBuyer != null ? adquisitionPropertyBuyer.getBuyerCarInsurance() : null)
+                .buyerBankName(adquisitionPropertyBuyer != null ? adquisitionPropertyBuyer.getBuyerBankName() : null)
+                .buyerPersonalVoidCheck(adquisitionPropertyBuyer != null ? adquisitionPropertyBuyer.getBuyerPersonalVoidCheck() : null)
+
                 //AdquisitionPropertyBuyerPersonalBankInfo
                 .buyerPersonalAccountHolderName(adquisitionPropertyBuyerPersonalBankInfo != null ? adquisitionPropertyBuyerPersonalBankInfo.getBuyerPersonalAccountHolderName() : null)
                 .buyerPersonalAccountNumber(adquisitionPropertyBuyerPersonalBankInfo != null ? adquisitionPropertyBuyerPersonalBankInfo.getBuyerPersonalAccountNumber() : null)
@@ -1081,6 +1085,9 @@ public class AdquisitionProperty {
                 .buyerCarYear(adquisitionPropertyBuyer != null ? adquisitionPropertyBuyer.getBuyerCarYear() : null)
                 .buyerDriverLicense(adquisitionPropertyBuyer != null ? adquisitionPropertyBuyer.getBuyerDriverLicense() : null)
                 .buyerCarInsurance(adquisitionPropertyBuyer != null ? adquisitionPropertyBuyer.getBuyerCarInsurance() : null)
+                .buyerBankName(adquisitionPropertyBuyer != null ? adquisitionPropertyBuyer.getBuyerBankName() : null)
+                .buyerPersonalVoidCheck(adquisitionPropertyBuyer != null ? adquisitionPropertyBuyer.getBuyerPersonalVoidCheck() : null)
+
                 //AdquisitionPropertyBuyerPersonalBankInfo
                 .buyerPersonalAccountHolderName(adquisitionPropertyBuyerPersonalBankInfo != null ? adquisitionPropertyBuyerPersonalBankInfo.getBuyerPersonalAccountHolderName() : null)
                 .buyerPersonalAccountNumber(adquisitionPropertyBuyerPersonalBankInfo != null ? adquisitionPropertyBuyerPersonalBankInfo.getBuyerPersonalAccountNumber() : null)
