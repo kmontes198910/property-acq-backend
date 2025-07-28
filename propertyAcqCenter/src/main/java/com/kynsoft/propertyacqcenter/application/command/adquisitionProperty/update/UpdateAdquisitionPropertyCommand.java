@@ -249,7 +249,7 @@ public class UpdateAdquisitionPropertyCommand implements ICommand {
     private LocalDate internetBuyerStartServiceDate;
     private Double internetBuyerDepositAmount;
     private String buyerBankName;
-    private String buyerPersonalVoidCheck;
+    private Boolean buyerPersonalVoidCheck;
 
     public UpdateAdquisitionPropertyCommand(UUID id, UUID buyer, String property, UUID contact, String buyerNameAndYearVehicle,
             String buyerLicenseTagNo,
@@ -406,7 +406,7 @@ public class UpdateAdquisitionPropertyCommand implements ICommand {
             LocalDate internetBuyerStartServiceDate,
             Double internetBuyerDepositAmount,
             String buyerBankName,
-            String buyerPersonalVoidCheck
+            Boolean buyerPersonalVoidCheck
             ) {
         this.id = id;
         this.buyer = buyer;

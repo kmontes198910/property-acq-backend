@@ -241,7 +241,7 @@ public class AdquisitionPropertyResponse implements IResponse {
     private LocalDate internetBuyerStartServiceDate;
     private Double internetBuyerDepositAmount;
     private String buyerBankName;
-    private String buyerPersonalVoidCheck;
+    private Boolean buyerPersonalVoidCheck;
 
     public AdquisitionPropertyResponse(AdquisitionPropertyDto dto) {
         this.id = dto.getId();
