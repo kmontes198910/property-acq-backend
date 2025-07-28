@@ -251,6 +251,15 @@ public class UpdateAdquisitionPropertyCommandHandler implements ICommandHandler<
                 .buyerNotes(command.getBuyerNotes())
                 .buyerStartServiceDate(command.getBuyerStartServiceDate())
                 .buyerDepositAmount(command.getBuyerDepositAmount())
+
+                .gasBuyerStartServiceDate(command.getGasBuyerStartServiceDate())
+                .gasBuyerDepositAmount(command.getGasBuyerDepositAmount())
+                .trashBuyerStartServiceDate(command.getTrashBuyerStartServiceDate())
+                .trashBuyerDepositAmount(command.getTrashBuyerDepositAmount())
+                .waterBuyerStartServiceDate(command.getWaterBuyerStartServiceDate())
+                .waterBuyerDepositAmount(command.getWaterBuyerDepositAmount())
+                .internetBuyerStartServiceDate(command.getInternetBuyerStartServiceDate())
+                .internetBuyerDepositAmount(command.getInternetBuyerDepositAmount())
                 .build()
         );
     }

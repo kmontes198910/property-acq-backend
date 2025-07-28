@@ -246,4 +246,13 @@ public class AdquisitionPropertyDocumentDto {
     private String buyerNotes;
     private LocalDate buyerStartServiceDate;
     private Double buyerDepositAmount;
+
+    private LocalDate gasBuyerStartServiceDate;
+    private Double gasBuyerDepositAmount;
+    private LocalDate trashBuyerStartServiceDate;
+    private Double trashBuyerDepositAmount;
+    private LocalDate waterBuyerStartServiceDate;
+    private Double waterBuyerDepositAmount;
+    private LocalDate internetBuyerStartServiceDate;
+    private Double internetBuyerDepositAmount;
 }

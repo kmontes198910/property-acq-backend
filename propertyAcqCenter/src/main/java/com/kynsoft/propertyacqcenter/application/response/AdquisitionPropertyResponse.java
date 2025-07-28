@@ -232,6 +232,15 @@ public class AdquisitionPropertyResponse implements IResponse {
     private LocalDate buyerStartServiceDate;
     private Double buyerDepositAmount;
 
+    private LocalDate gasBuyerStartServiceDate;
+    private Double gasBuyerDepositAmount;
+    private LocalDate trashBuyerStartServiceDate;
+    private Double trashBuyerDepositAmount;
+    private LocalDate waterBuyerStartServiceDate;
+    private Double waterBuyerDepositAmount;
+    private LocalDate internetBuyerStartServiceDate;
+    private Double internetBuyerDepositAmount;
+
     public AdquisitionPropertyResponse(AdquisitionPropertyDto dto) {
         this.id = dto.getId();
         this.buyer = dto.getBuyer() != null ? new LegalEntityBasicResponse(dto.getBuyer()) : null;
@@ -437,6 +446,15 @@ public class AdquisitionPropertyResponse implements IResponse {
         this.buyerNotes = dto.getBuyerNotes();
         this.buyerStartServiceDate = dto.getBuyerStartServiceDate();
         this.buyerDepositAmount = dto.getBuyerDepositAmount();
+
+        this.gasBuyerStartServiceDate = dto.getGasBuyerStartServiceDate();
+        this.gasBuyerDepositAmount = dto.getGasBuyerDepositAmount();
+        this.trashBuyerStartServiceDate = dto.getTrashBuyerStartServiceDate();
+        this.trashBuyerDepositAmount = dto.getTrashBuyerDepositAmount();
+        this.waterBuyerStartServiceDate = dto.getWaterBuyerStartServiceDate();
+        this.waterBuyerDepositAmount = dto.getWaterBuyerDepositAmount();
+        this.internetBuyerStartServiceDate = dto.getInternetBuyerStartServiceDate();
+        this.internetBuyerDepositAmount = dto.getInternetBuyerDepositAmount();
     }
 
     private List<AdquisitionDocumentResponse> convertDbToList(String dbData) {

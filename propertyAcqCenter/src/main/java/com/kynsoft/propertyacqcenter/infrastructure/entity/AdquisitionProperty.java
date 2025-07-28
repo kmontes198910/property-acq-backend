@@ -892,6 +892,16 @@ public class AdquisitionProperty {
                 .buyerNotes(adquisitionPropertyBuyerUtilitiesInfo != null ? adquisitionPropertyBuyerUtilitiesInfo.getBuyerNotes() : null)
                 .buyerStartServiceDate(adquisitionPropertyBuyerUtilitiesInfo != null ? adquisitionPropertyBuyerUtilitiesInfo.getBuyerStartServiceDate() : null)
                 .buyerDepositAmount(adquisitionPropertyBuyerUtilitiesInfo != null ? adquisitionPropertyBuyerUtilitiesInfo.getBuyerDepositAmount() : null)
+
+                .gasBuyerStartServiceDate(adquisitionPropertyBuyerUtilitiesInfo != null ? adquisitionPropertyBuyerUtilitiesInfo.getGasBuyerStartServiceDate() : null)
+                .gasBuyerDepositAmount(adquisitionPropertyBuyerUtilitiesInfo != null ? adquisitionPropertyBuyerUtilitiesInfo.getGasBuyerDepositAmount() : null)
+                .trashBuyerStartServiceDate(adquisitionPropertyBuyerUtilitiesInfo != null ? adquisitionPropertyBuyerUtilitiesInfo.getTrashBuyerStartServiceDate() : null)
+                .trashBuyerDepositAmount(adquisitionPropertyBuyerUtilitiesInfo != null ? adquisitionPropertyBuyerUtilitiesInfo.getTrashBuyerDepositAmount() : null)
+                .waterBuyerStartServiceDate(adquisitionPropertyBuyerUtilitiesInfo != null ? adquisitionPropertyBuyerUtilitiesInfo.getWaterBuyerStartServiceDate() : null)
+                .waterBuyerDepositAmount(adquisitionPropertyBuyerUtilitiesInfo != null ? adquisitionPropertyBuyerUtilitiesInfo.getWaterBuyerDepositAmount() : null)
+                .internetBuyerStartServiceDate(adquisitionPropertyBuyerUtilitiesInfo != null ? adquisitionPropertyBuyerUtilitiesInfo.getInternetBuyerStartServiceDate() : null)
+                .internetBuyerDepositAmount(adquisitionPropertyBuyerUtilitiesInfo != null ? adquisitionPropertyBuyerUtilitiesInfo.getInternetBuyerDepositAmount() : null)
+
                 .build();
     }
 
@@ -1082,6 +1092,7 @@ public class AdquisitionProperty {
                 .buyerPersonalUseForLenderBankReference(adquisitionPropertyBuyerPersonalBankInfo != null ? adquisitionPropertyBuyerPersonalBankInfo.getBuyerPersonalUseForLenderBankReference() : null)
                 .buyerVoidCheck(adquisitionPropertyBuyerPersonalBankInfo != null ? adquisitionPropertyBuyerPersonalBankInfo.getBuyerVoidCheck() : null)
                 .buyerLegalEntityUseForHoaBankReference(adquisitionPropertyBuyerPersonalBankInfo != null ? adquisitionPropertyBuyerPersonalBankInfo.getBuyerLegalEntityUseForHoaBankReference() : null)
+                
                 //AdquisitionPropertyBuyerUtilitiesInfo
                 .buyerElectricProviderAccount(adquisitionPropertyBuyerUtilitiesInfo != null ? adquisitionPropertyBuyerUtilitiesInfo.getBuyerElectricProviderAccount() : null)
                 .buyerGasServiceAccount(adquisitionPropertyBuyerUtilitiesInfo != null ? adquisitionPropertyBuyerUtilitiesInfo.getBuyerGasServiceAccount() : null)
@@ -1091,6 +1102,16 @@ public class AdquisitionProperty {
                 .buyerNotes(adquisitionPropertyBuyerUtilitiesInfo != null ? adquisitionPropertyBuyerUtilitiesInfo.getBuyerNotes() : null)
                 .buyerStartServiceDate(adquisitionPropertyBuyerUtilitiesInfo != null ? adquisitionPropertyBuyerUtilitiesInfo.getBuyerStartServiceDate() : null)
                 .buyerDepositAmount(adquisitionPropertyBuyerUtilitiesInfo != null ? adquisitionPropertyBuyerUtilitiesInfo.getBuyerDepositAmount() : null)
+
+                .gasBuyerStartServiceDate(adquisitionPropertyBuyerUtilitiesInfo != null ? adquisitionPropertyBuyerUtilitiesInfo.getGasBuyerStartServiceDate() : null)
+                .gasBuyerDepositAmount(adquisitionPropertyBuyerUtilitiesInfo != null ? adquisitionPropertyBuyerUtilitiesInfo.getGasBuyerDepositAmount() : null)
+                .trashBuyerStartServiceDate(adquisitionPropertyBuyerUtilitiesInfo != null ? adquisitionPropertyBuyerUtilitiesInfo.getTrashBuyerStartServiceDate() : null)
+                .trashBuyerDepositAmount(adquisitionPropertyBuyerUtilitiesInfo != null ? adquisitionPropertyBuyerUtilitiesInfo.getTrashBuyerDepositAmount() : null)
+                .waterBuyerStartServiceDate(adquisitionPropertyBuyerUtilitiesInfo != null ? adquisitionPropertyBuyerUtilitiesInfo.getWaterBuyerStartServiceDate() : null)
+                .waterBuyerDepositAmount(adquisitionPropertyBuyerUtilitiesInfo != null ? adquisitionPropertyBuyerUtilitiesInfo.getWaterBuyerDepositAmount() : null)
+                .internetBuyerStartServiceDate(adquisitionPropertyBuyerUtilitiesInfo != null ? adquisitionPropertyBuyerUtilitiesInfo.getInternetBuyerStartServiceDate() : null)
+                .internetBuyerDepositAmount(adquisitionPropertyBuyerUtilitiesInfo != null ? adquisitionPropertyBuyerUtilitiesInfo.getInternetBuyerDepositAmount() : null)
+
                 .build();
     }
 

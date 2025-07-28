@@ -409,6 +409,15 @@ public class AdquisitionPropertyServiceImpl implements IAdquisitionPropertyServi
                         .buyerNotes(object.getBuyerNotes() != null ? object.getBuyerNotes() : update.getAdquisitionPropertyBuyerUtilitiesInfo().getBuyerNotes())
                         .buyerStartServiceDate(object.getBuyerStartServiceDate() != null ? object.getBuyerStartServiceDate() : update.getAdquisitionPropertyBuyerUtilitiesInfo().getBuyerStartServiceDate())
                         .buyerDepositAmount(object.getBuyerDepositAmount() != null ? object.getBuyerDepositAmount() : update.getAdquisitionPropertyBuyerUtilitiesInfo().getBuyerDepositAmount())
+
+                        .gasBuyerStartServiceDate(object.getGasBuyerStartServiceDate() != null ? object.getGasBuyerStartServiceDate() : update.getAdquisitionPropertyBuyerUtilitiesInfo().getGasBuyerStartServiceDate())
+                        .gasBuyerDepositAmount(object.getGasBuyerDepositAmount() != null ? object.getGasBuyerDepositAmount() : update.getAdquisitionPropertyBuyerUtilitiesInfo().getGasBuyerDepositAmount())
+                        .trashBuyerStartServiceDate(object.getTrashBuyerStartServiceDate() != null ? object.getTrashBuyerStartServiceDate() : update.getAdquisitionPropertyBuyerUtilitiesInfo().getTrashBuyerStartServiceDate())
+                        .trashBuyerDepositAmount(object.getTrashBuyerDepositAmount() != null ? object.getTrashBuyerDepositAmount() : update.getAdquisitionPropertyBuyerUtilitiesInfo().getTrashBuyerDepositAmount())
+                        .waterBuyerStartServiceDate(object.getWaterBuyerStartServiceDate() != null ? object.getWaterBuyerStartServiceDate() : update.getAdquisitionPropertyBuyerUtilitiesInfo().getWaterBuyerStartServiceDate())
+                        .waterBuyerDepositAmount(object.getWaterBuyerDepositAmount() != null ? object.getWaterBuyerDepositAmount() : update.getAdquisitionPropertyBuyerUtilitiesInfo().getWaterBuyerDepositAmount())
+                        .internetBuyerStartServiceDate(object.getInternetBuyerStartServiceDate() != null ? object.getInternetBuyerStartServiceDate() : update.getAdquisitionPropertyBuyerUtilitiesInfo().getInternetBuyerStartServiceDate())
+                        .internetBuyerDepositAmount(object.getInternetBuyerDepositAmount() != null ? object.getInternetBuyerDepositAmount() : update.getAdquisitionPropertyBuyerUtilitiesInfo().getInternetBuyerDepositAmount())
                         .build()
                 : AdquisitionPropertyBuyerUtilitiesInfo
                         .builder()
@@ -422,6 +431,15 @@ public class AdquisitionPropertyServiceImpl implements IAdquisitionPropertyServi
                         .buyerNotes(object.getBuyerNotes())
                         .buyerStartServiceDate(object.getBuyerStartServiceDate())
                         .buyerDepositAmount(object.getBuyerDepositAmount())
+
+                        .gasBuyerStartServiceDate(object.getGasBuyerStartServiceDate())
+                        .gasBuyerDepositAmount(object.getGasBuyerDepositAmount())
+                        .trashBuyerStartServiceDate(object.getTrashBuyerStartServiceDate())
+                        .trashBuyerDepositAmount(object.getTrashBuyerDepositAmount())
+                        .waterBuyerStartServiceDate(object.getWaterBuyerStartServiceDate())
+                        .waterBuyerDepositAmount(object.getWaterBuyerDepositAmount())
+                        .internetBuyerStartServiceDate(object.getInternetBuyerStartServiceDate())
+                        .internetBuyerDepositAmount(object.getInternetBuyerDepositAmount())
                         .build();
     }
 
