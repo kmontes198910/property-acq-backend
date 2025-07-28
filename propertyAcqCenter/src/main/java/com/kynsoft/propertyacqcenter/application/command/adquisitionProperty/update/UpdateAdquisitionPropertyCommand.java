@@ -240,6 +240,15 @@ public class UpdateAdquisitionPropertyCommand implements ICommand {
     private LocalDate buyerStartServiceDate;
     private Double buyerDepositAmount;
 
+    private LocalDate gasBuyerStartServiceDate;
+    private Double gasBuyerDepositAmount;
+    private LocalDate trashBuyerStartServiceDate;
+    private Double trashBuyerDepositAmount;
+    private LocalDate waterBuyerStartServiceDate;
+    private Double waterBuyerDepositAmount;
+    private LocalDate internetBuyerStartServiceDate;
+    private Double internetBuyerDepositAmount;
+
     public UpdateAdquisitionPropertyCommand(UUID id, UUID buyer, String property, UUID contact, String buyerNameAndYearVehicle,
             String buyerLicenseTagNo,
             LocalDate dateAndTimeForInspections, String instructionsForAccess, LocalDate hoaBuyerInterviewDate,
@@ -385,7 +394,15 @@ public class UpdateAdquisitionPropertyCommand implements ICommand {
             String buyerInternetService,
             String buyerNotes,
             LocalDate buyerStartServiceDate,
-            Double buyerDepositAmount
+            Double buyerDepositAmount,
+            LocalDate gasBuyerStartServiceDate,
+            Double gasBuyerDepositAmount,
+            LocalDate trashBuyerStartServiceDate,
+            Double trashBuyerDepositAmount,
+            LocalDate waterBuyerStartServiceDate,
+            Double waterBuyerDepositAmount,
+            LocalDate internetBuyerStartServiceDate,
+            Double internetBuyerDepositAmount
             ) {
         this.id = id;
         this.buyer = buyer;
@@ -589,6 +606,14 @@ public class UpdateAdquisitionPropertyCommand implements ICommand {
         this.buyerNotes = buyerNotes;
         this.buyerStartServiceDate = buyerStartServiceDate;
         this.buyerDepositAmount = buyerDepositAmount;
+        this.gasBuyerStartServiceDate = gasBuyerStartServiceDate;
+        this.gasBuyerDepositAmount = gasBuyerDepositAmount;
+        this.trashBuyerStartServiceDate = trashBuyerStartServiceDate;
+        this.trashBuyerDepositAmount = trashBuyerDepositAmount;
+        this.waterBuyerStartServiceDate = waterBuyerStartServiceDate;
+        this.waterBuyerDepositAmount = waterBuyerDepositAmount;
+        this.internetBuyerStartServiceDate = internetBuyerStartServiceDate;
+        this.internetBuyerDepositAmount = internetBuyerDepositAmount;
     }
 
     public static UpdateAdquisitionPropertyCommand fromRequest(UpdateAdquisitionPropertyRequest request, UUID id) {
@@ -778,7 +803,15 @@ public class UpdateAdquisitionPropertyCommand implements ICommand {
                 request.getBuyerInternetService(),
                 request.getBuyerNotes(),
                 request.getBuyerStartServiceDate(),
-                request.getBuyerDepositAmount()
+                request.getBuyerDepositAmount(),
+                request.getGasBuyerStartServiceDate(),
+                request.getGasBuyerDepositAmount(),
+                request.getTrashBuyerStartServiceDate(),
+                request.getTrashBuyerDepositAmount(),
+                request.getWaterBuyerStartServiceDate(),
+                request.getWaterBuyerDepositAmount(),
+                request.getInternetBuyerStartServiceDate(),
+                request.getInternetBuyerDepositAmount()
         );
     }
 
