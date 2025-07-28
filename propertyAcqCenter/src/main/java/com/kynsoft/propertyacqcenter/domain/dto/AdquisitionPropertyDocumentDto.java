@@ -226,6 +226,8 @@ public class AdquisitionPropertyDocumentDto {
     private Double buyerCarYear;
     private String buyerDriverLicense;
     private String buyerCarInsurance;
+    private String buyerBankName;
+    private String buyerPersonalVoidCheck;
 
     private String buyerPersonalAccountHolderName;
     private String buyerPersonalAccountNumber;

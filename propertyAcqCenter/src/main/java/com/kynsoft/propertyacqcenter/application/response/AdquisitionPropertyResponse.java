@@ -240,6 +240,8 @@ public class AdquisitionPropertyResponse implements IResponse {
     private Double waterBuyerDepositAmount;
     private LocalDate internetBuyerStartServiceDate;
     private Double internetBuyerDepositAmount;
+    private String buyerBankName;
+    private String buyerPersonalVoidCheck;
 
     public AdquisitionPropertyResponse(AdquisitionPropertyDto dto) {
         this.id = dto.getId();
@@ -455,6 +457,8 @@ public class AdquisitionPropertyResponse implements IResponse {
         this.waterBuyerDepositAmount = dto.getWaterBuyerDepositAmount();
         this.internetBuyerStartServiceDate = dto.getInternetBuyerStartServiceDate();
         this.internetBuyerDepositAmount = dto.getInternetBuyerDepositAmount();
+        this.buyerBankName = dto.getBuyerBankName();
+        this.buyerPersonalVoidCheck = dto.getBuyerPersonalVoidCheck();
     }
 
     private List<AdquisitionDocumentResponse> convertDbToList(String dbData) {
