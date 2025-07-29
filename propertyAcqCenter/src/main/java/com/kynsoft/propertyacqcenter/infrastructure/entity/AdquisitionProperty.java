@@ -1097,7 +1097,7 @@ public class AdquisitionProperty {
                 .buyerPersonalAccountNumber(adquisitionPropertyBuyerPersonalBankInfo != null ? adquisitionPropertyBuyerPersonalBankInfo.getBuyerPersonalAccountNumber() : null)
                 .buyerPersonalRoutingNumber(adquisitionPropertyBuyerPersonalBankInfo != null ? adquisitionPropertyBuyerPersonalBankInfo.getBuyerPersonalRoutingNumber() : null)
                 .buyerPersonalZelleEmailorPhone(adquisitionPropertyBuyerPersonalBankInfo != null ? adquisitionPropertyBuyerPersonalBankInfo.getBuyerPersonalZelleEmailorPhone() : null)
-                .buyerPersonalBankStatements(adquisitionPropertyBuyerPersonalBankInfo != null ? adquisitionPropertyBuyerPersonalBankInfo.getBuyerPersonalBankStatements() : null)
+                .buyerPersonalBankStatements(adquisitionPropertyBuyerPersonalBankInfo != null ? this.convertDbToList(adquisitionPropertyBuyerPersonalBankInfo.getBuyerPersonalBankStatements()) : null)
                 .buyerPersonalBankName(adquisitionPropertyBuyerPersonalBankInfo != null ? adquisitionPropertyBuyerPersonalBankInfo.getBuyerPersonalBankName() : null)
                 .buyerPersonalUseForHoaBankReference(adquisitionPropertyBuyerPersonalBankInfo != null ? adquisitionPropertyBuyerPersonalBankInfo.getBuyerPersonalUseForHoaBankReference() : null)
                 .buyerPersonalUseForLenderBankReference(adquisitionPropertyBuyerPersonalBankInfo != null ? adquisitionPropertyBuyerPersonalBankInfo.getBuyerPersonalUseForLenderBankReference() : null)

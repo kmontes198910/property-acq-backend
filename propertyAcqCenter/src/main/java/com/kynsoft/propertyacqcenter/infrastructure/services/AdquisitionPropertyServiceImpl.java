@@ -377,7 +377,7 @@ public class AdquisitionPropertyServiceImpl implements IAdquisitionPropertyServi
                         .buyerPersonalAccountNumber(object.getBuyerPersonalAccountNumber() != null ? object.getBuyerPersonalAccountNumber() : update.getAdquisitionPropertyBuyerPersonalBankInfo().getBuyerPersonalAccountNumber())
                         .buyerPersonalRoutingNumber(object.getBuyerPersonalRoutingNumber() != null ? object.getBuyerPersonalRoutingNumber() : update.getAdquisitionPropertyBuyerPersonalBankInfo().getBuyerPersonalRoutingNumber())
                         .buyerPersonalZelleEmailorPhone(object.getBuyerPersonalZelleEmailorPhone() != null ? object.getBuyerPersonalZelleEmailorPhone() : update.getAdquisitionPropertyBuyerPersonalBankInfo().getBuyerPersonalZelleEmailorPhone())
-                        .buyerPersonalBankStatements(object.getBuyerPersonalBankStatements() != null ? object.getBuyerPersonalBankStatements() : update.getAdquisitionPropertyBuyerPersonalBankInfo().getBuyerPersonalBankStatements())
+                        //.buyerPersonalBankStatements(object.getBuyerPersonalBankStatements() != null ? object.getBuyerPersonalBankStatements() : update.getAdquisitionPropertyBuyerPersonalBankInfo().getBuyerPersonalBankStatements())
                         .buyerPersonalBankName(object.getBuyerPersonalBankName() != null ? object.getBuyerPersonalBankName() : update.getAdquisitionPropertyBuyerPersonalBankInfo().getBuyerPersonalBankName())
                         .buyerPersonalUseForHoaBankReference(object.getBuyerPersonalUseForHoaBankReference() != null ? object.getBuyerPersonalUseForHoaBankReference() : update.getAdquisitionPropertyBuyerPersonalBankInfo().getBuyerPersonalUseForHoaBankReference())
                         .buyerPersonalUseForLenderBankReference(object.getBuyerPersonalUseForLenderBankReference() != null ? object.getBuyerPersonalUseForLenderBankReference() : update.getAdquisitionPropertyBuyerPersonalBankInfo().getBuyerPersonalUseForLenderBankReference())
@@ -392,7 +392,7 @@ public class AdquisitionPropertyServiceImpl implements IAdquisitionPropertyServi
                         .buyerPersonalAccountNumber(object.getBuyerPersonalAccountNumber())
                         .buyerPersonalRoutingNumber(object.getBuyerPersonalRoutingNumber())
                         .buyerPersonalZelleEmailorPhone(object.getBuyerPersonalZelleEmailorPhone())
-                        .buyerPersonalBankStatements(object.getBuyerPersonalBankStatements())
+                        //.buyerPersonalBankStatements(object.getBuyerPersonalBankStatements())
                         .buyerPersonalBankName(object.getBuyerPersonalBankName())
                         .buyerPersonalUseForHoaBankReference(object.getBuyerPersonalUseForHoaBankReference())
                         .buyerPersonalUseForLenderBankReference(object.getBuyerPersonalUseForLenderBankReference())
@@ -452,6 +452,22 @@ public class AdquisitionPropertyServiceImpl implements IAdquisitionPropertyServi
     public void updateBankStatementRequest(UUID id, String bankStatementRequest) {
         AdquisitionProperty update = this.findByIdSimple(id);
         update.setBankStatementRequest(bankStatementRequest);
+        repositoryCommand.save(update);
+    }
+
+    @Override
+    public void updatebuyerPersonalBankStatements(UUID id, String buyerPersonalBankStatements) {
+        AdquisitionProperty update = this.findByIdSimple(id);
+        if (update.getAdquisitionPropertyBuyerPersonalBankInfo() != null) {
+            update.getAdquisitionPropertyBuyerPersonalBankInfo().setBuyerPersonalBankStatements(buyerPersonalBankStatements);
+        } else {
+            update.setAdquisitionPropertyBuyerPersonalBankInfo(AdquisitionPropertyBuyerPersonalBankInfo
+                    .builder()
+                    .id(UUID.randomUUID())
+                    .buyerPersonalBankStatements(buyerPersonalBankStatements)
+                    .build());
+        }
+
         repositoryCommand.save(update);
     }
 

@@ -25,4 +25,6 @@ public interface IAdquisitionPropertyService {
     boolean existsByPropertyId(String propertyId);
 
     void updateBankStatementRequest(UUID id, String bankStatementRequest);
+
+    void updatebuyerPersonalBankStatements(UUID id, String buyerPersonalBankStatements);
 }

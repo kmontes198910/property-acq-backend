@@ -233,7 +233,7 @@ public class AdquisitionPropertyDocumentDto {
     private String buyerPersonalAccountNumber;
     private String buyerPersonalRoutingNumber;
     private String buyerPersonalZelleEmailorPhone;
-    private String buyerPersonalBankStatements;
+    private List<AdquisitionDocumentDto> buyerPersonalBankStatements;
     private String buyerPersonalBankName;
     private Boolean buyerPersonalUseForHoaBankReference;
     private Boolean buyerPersonalUseForLenderBankReference;
