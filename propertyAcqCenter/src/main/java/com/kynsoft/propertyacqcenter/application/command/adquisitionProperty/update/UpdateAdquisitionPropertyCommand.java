@@ -224,7 +224,7 @@ public class UpdateAdquisitionPropertyCommand implements ICommand {
     private String buyerPersonalAccountNumber;
     private String buyerPersonalRoutingNumber;
     private String buyerPersonalZelleEmailorPhone;
-    private CreateDocumentRequest buyerPersonalBankStatements;
+    //private CreateDocumentRequest buyerPersonalBankStatements;
     private String buyerPersonalBankName;
     private Boolean buyerPersonalUseForHoaBankReference;
     private Boolean buyerPersonalUseForLenderBankReference;
@@ -384,7 +384,7 @@ public class UpdateAdquisitionPropertyCommand implements ICommand {
             String buyerPersonalAccountNumber,
             String buyerPersonalRoutingNumber,
             String buyerPersonalZelleEmailorPhone,
-            CreateDocumentRequest buyerPersonalBankStatements,
+            //CreateDocumentRequest buyerPersonalBankStatements,
             String buyerPersonalBankName,
             Boolean buyerPersonalUseForHoaBankReference,
             Boolean buyerPersonalUseForLenderBankReference,
@@ -598,7 +598,7 @@ public class UpdateAdquisitionPropertyCommand implements ICommand {
         this.buyerPersonalAccountNumber = buyerPersonalAccountNumber;
         this.buyerPersonalRoutingNumber = buyerPersonalRoutingNumber;
         this.buyerPersonalZelleEmailorPhone = buyerPersonalZelleEmailorPhone;
-        this.buyerPersonalBankStatements = buyerPersonalBankStatements;
+        //this.buyerPersonalBankStatements = buyerPersonalBankStatements;
         this.buyerPersonalBankName = buyerPersonalBankName;
         this.buyerPersonalUseForHoaBankReference = buyerPersonalUseForHoaBankReference;
         this.buyerPersonalUseForLenderBankReference = buyerPersonalUseForLenderBankReference;
@@ -799,7 +799,7 @@ public class UpdateAdquisitionPropertyCommand implements ICommand {
                 request.getBuyerPersonalAccountNumber(),
                 request.getBuyerPersonalRoutingNumber(),
                 request.getBuyerPersonalZelleEmailorPhone(),
-                request.getBuyerPersonalBankStatements(),
+                //request.getBuyerPersonalBankStatements(),
                 request.getBuyerPersonalBankName(),
                 request.getBuyerPersonalUseForHoaBankReference(),
                 request.getBuyerPersonalUseForLenderBankReference(),
