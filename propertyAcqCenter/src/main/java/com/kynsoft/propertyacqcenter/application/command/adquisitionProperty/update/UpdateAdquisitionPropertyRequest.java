@@ -221,7 +221,7 @@ public class UpdateAdquisitionPropertyRequest {
     private String buyerPersonalAccountNumber;
     private String buyerPersonalRoutingNumber;
     private String buyerPersonalZelleEmailorPhone;
-    private CreateDocumentRequest buyerPersonalBankStatements;
+    //private CreateDocumentRequest buyerPersonalBankStatements;
     private String buyerPersonalBankName;
     private Boolean buyerPersonalUseForHoaBankReference;
     private Boolean buyerPersonalUseForLenderBankReference;
