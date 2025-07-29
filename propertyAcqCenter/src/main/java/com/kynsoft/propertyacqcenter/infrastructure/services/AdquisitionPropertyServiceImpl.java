@@ -351,6 +351,7 @@ public class AdquisitionPropertyServiceImpl implements IAdquisitionPropertyServi
                         .buyerCarInsurance(object.getBuyerCarInsurance() != null ? object.getBuyerCarInsurance() : update.getAdquisitionPropertyBuyer().getBuyerCarInsurance())
                         .buyerBankName(object.getBuyerBankName() != null ? object.getBuyerBankName() : update.getAdquisitionPropertyBuyer().getBuyerBankName())
                         .buyerPersonalVoidCheck(object.getBuyerPersonalVoidCheck() != null ? object.getBuyerPersonalVoidCheck() : update.getAdquisitionPropertyBuyer().getBuyerPersonalVoidCheck())
+                        .buyerMaritalStatus(object.getBuyerMaritalStatus() != null ? object.getBuyerMaritalStatus() : update.getAdquisitionPropertyBuyer().getBuyerMaritalStatus())
                         .build()
                 : AdquisitionPropertyBuyer
                         .builder()
@@ -363,6 +364,7 @@ public class AdquisitionPropertyServiceImpl implements IAdquisitionPropertyServi
                         .buyerCarInsurance(object.getBuyerCarInsurance())
                         .buyerBankName(object.getBuyerBankName())
                         .buyerPersonalVoidCheck(object.getBuyerPersonalVoidCheck())
+                        .buyerMaritalStatus(object.getBuyerMaritalStatus())
                         .build();
     }
 

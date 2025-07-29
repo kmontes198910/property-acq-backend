@@ -243,6 +243,7 @@ public class AdquisitionPropertyResponse implements IResponse {
     private String buyerBankName;
     private Boolean buyerPersonalVoidCheck;
     private LocalDate originalContractClosingDate;
+    private String buyerMaritalStatus;
 
     public AdquisitionPropertyResponse(AdquisitionPropertyDto dto) {
         this.id = dto.getId();
@@ -462,6 +463,7 @@ public class AdquisitionPropertyResponse implements IResponse {
         this.buyerBankName = dto.getBuyerBankName();
         this.buyerPersonalVoidCheck = dto.getBuyerPersonalVoidCheck();
         this.originalContractClosingDate = dto.getOriginalContractClosingDate();
+        this.buyerMaritalStatus = dto.getBuyerMaritalStatus();
     }
 
     private List<AdquisitionDocumentResponse> convertDbToList(String dbData) {

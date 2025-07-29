@@ -878,6 +878,7 @@ public class AdquisitionProperty {
                 .buyerCarInsurance(adquisitionPropertyBuyer != null ? adquisitionPropertyBuyer.getBuyerCarInsurance() : null)
                 .buyerBankName(adquisitionPropertyBuyer != null ? adquisitionPropertyBuyer.getBuyerBankName() : null)
                 .buyerPersonalVoidCheck(adquisitionPropertyBuyer != null ? adquisitionPropertyBuyer.getBuyerPersonalVoidCheck() : null)
+                .buyerMaritalStatus(adquisitionPropertyBuyer != null ? adquisitionPropertyBuyer.getBuyerMaritalStatus() : null)
 
                 //AdquisitionPropertyBuyerPersonalBankInfo
                 .buyerPersonalAccountHolderName(adquisitionPropertyBuyerPersonalBankInfo != null ? adquisitionPropertyBuyerPersonalBankInfo.getBuyerPersonalAccountHolderName() : null)
@@ -1091,6 +1092,7 @@ public class AdquisitionProperty {
                 .buyerCarInsurance(adquisitionPropertyBuyer != null ? adquisitionPropertyBuyer.getBuyerCarInsurance() : null)
                 .buyerBankName(adquisitionPropertyBuyer != null ? adquisitionPropertyBuyer.getBuyerBankName() : null)
                 .buyerPersonalVoidCheck(adquisitionPropertyBuyer != null ? adquisitionPropertyBuyer.getBuyerPersonalVoidCheck() : null)
+                .buyerMaritalStatus(adquisitionPropertyBuyer != null ? adquisitionPropertyBuyer.getBuyerMaritalStatus() : null)
 
                 //AdquisitionPropertyBuyerPersonalBankInfo
                 .buyerPersonalAccountHolderName(adquisitionPropertyBuyerPersonalBankInfo != null ? adquisitionPropertyBuyerPersonalBankInfo.getBuyerPersonalAccountHolderName() : null)
