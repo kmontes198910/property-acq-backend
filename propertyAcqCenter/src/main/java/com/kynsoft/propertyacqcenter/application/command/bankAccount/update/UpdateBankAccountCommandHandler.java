@@ -60,7 +60,8 @@ public class UpdateBankAccountCommandHandler implements ICommandHandler<UpdateBa
                         currencyDto
                 ),
                 command.getBranchInfo(),
-                command.getDomesticWare()
+                command.getDomesticWare(),
+                command.getHolderName()
         ));
     }
 

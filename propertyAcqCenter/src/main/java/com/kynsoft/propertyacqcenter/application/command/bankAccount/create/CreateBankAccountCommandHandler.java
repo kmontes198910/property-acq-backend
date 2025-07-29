@@ -58,7 +58,8 @@ public class CreateBankAccountCommandHandler implements ICommandHandler<CreateBa
                         currencyDto
                 ),
                 command.getBranchInfo(),
-                command.getDomesticWare()
+                command.getDomesticWare(),
+                command.getHolderName()
         ));
     }
 

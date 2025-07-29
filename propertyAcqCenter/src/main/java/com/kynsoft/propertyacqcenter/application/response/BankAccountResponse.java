@@ -41,6 +41,7 @@ public class BankAccountResponse implements IResponse {
     //private List<BankDocumentDto> bankDocuments;
     private int bankDocuments;
     private String domesticWare;
+    private String holderName;
 
     public BankAccountResponse(BankAccountDto dto) {
         this.id = dto.getId();
@@ -62,6 +63,7 @@ public class BankAccountResponse implements IResponse {
         this.branchInfo = dto.getBranchInfo();
         this.legalEntity = new LegalEntityBasicResponse(dto.getLegalEntity());
         this.bankDocuments = dto.getBankDocuments() != null ? dto.getBankDocuments().size() : 0;
+        this.holderName = dto.getHolderName();
         //this.bankDocuments = dto.getBankDocuments();
     }
 

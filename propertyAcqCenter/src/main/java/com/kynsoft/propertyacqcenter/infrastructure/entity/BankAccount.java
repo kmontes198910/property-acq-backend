@@ -86,6 +86,9 @@ public class BankAccount {
     @Column(name = "notes",columnDefinition = "TEXT")
     private String notes;
 
+    @Column(name = "holder_name")
+    private String holderName;
+
     @CreationTimestamp
     @Column(name = "created_at", updatable = false)
     private LocalDateTime createdAt;
@@ -137,6 +140,7 @@ public class BankAccount {
                 dto.getBranchInfo().getPhone()
         );
         this.currency = new Currency(dto.getInternationalDetails().getCurrency());
+        this.holderName = dto.getHolderName();
     }
 
     public BankAccountDto toAggregate() {
@@ -156,6 +160,7 @@ public class BankAccount {
                 .updatedAt(this.updatedAt)
                 .createdBy(this.createdBy)
                 .updatedBy(this.updatedBy)
+                .holderName(holderName)
                 .contactDetails(contactDetails != null ? new BankContactDto(contactDetails.getName(), contactDetails.getPhone(), contactDetails.getEmail()) : null)
                 .bankDocuments(bankDocuments != null ? bankDocuments.stream().map(bankAccount -> bankAccount.toAggregateBasic()).collect(Collectors.toList()) : null)
                 .internationalDetails(internationalDetails != null ?
@@ -195,6 +200,7 @@ public class BankAccount {
                 .updatedAt(this.updatedAt)
                 .createdBy(this.createdBy)
                 .updatedBy(this.updatedBy)
+                .holderName(holderName)
                 .contactDetails(contactDetails != null ? new BankContactDto(contactDetails.getName(), contactDetails.getPhone(), contactDetails.getEmail()) : null)
                 .internationalDetails(internationalDetails != null ? 
                         new InternationalBankingDetailsDto(
