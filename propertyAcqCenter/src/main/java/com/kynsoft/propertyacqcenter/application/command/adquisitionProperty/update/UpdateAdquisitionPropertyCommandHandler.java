@@ -263,6 +263,8 @@ public class UpdateAdquisitionPropertyCommandHandler implements ICommandHandler<
                 .buyerBankName(command.getBuyerBankName())
                 .buyerPersonalVoidCheck(command.getBuyerPersonalVoidCheck())
 
+                .originalContractClosingDate(command.getOriginalContractClosingDate())
+
                 .build()
         );
     }

@@ -208,6 +208,9 @@ public class AdquisitionProperty {
     @Column(name = "contract_closing_date", nullable = true)
     private LocalDate contractClosingDate;
 
+    @Column(name = "original_contract_closing_date", nullable = true)
+    private LocalDate originalContractClosingDate;
+
     //Seller
     @Column(name = "full_name", nullable = true)
     private String sellerFullName;//Sellers, Wholesaler, Real Estate Agent, Title Co.
@@ -906,6 +909,7 @@ public class AdquisitionProperty {
                 .internetBuyerStartServiceDate(adquisitionPropertyBuyerUtilitiesInfo != null ? adquisitionPropertyBuyerUtilitiesInfo.getInternetBuyerStartServiceDate() : null)
                 .internetBuyerDepositAmount(adquisitionPropertyBuyerUtilitiesInfo != null ? adquisitionPropertyBuyerUtilitiesInfo.getInternetBuyerDepositAmount() : null)
 
+                .originalContractClosingDate(originalContractClosingDate)
                 .build();
     }
 
@@ -1119,6 +1123,7 @@ public class AdquisitionProperty {
                 .internetBuyerStartServiceDate(adquisitionPropertyBuyerUtilitiesInfo != null ? adquisitionPropertyBuyerUtilitiesInfo.getInternetBuyerStartServiceDate() : null)
                 .internetBuyerDepositAmount(adquisitionPropertyBuyerUtilitiesInfo != null ? adquisitionPropertyBuyerUtilitiesInfo.getInternetBuyerDepositAmount() : null)
 
+                .originalContractClosingDate(originalContractClosingDate)
                 .build();
     }
 

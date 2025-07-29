@@ -257,4 +257,5 @@ public class AdquisitionPropertyDocumentDto {
     private Double waterBuyerDepositAmount;
     private LocalDate internetBuyerStartServiceDate;
     private Double internetBuyerDepositAmount;
+    private LocalDate originalContractClosingDate;
 }

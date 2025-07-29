@@ -250,6 +250,7 @@ public class UpdateAdquisitionPropertyCommand implements ICommand {
     private Double internetBuyerDepositAmount;
     private String buyerBankName;
     private Boolean buyerPersonalVoidCheck;
+    private LocalDate originalContractClosingDate;
 
     public UpdateAdquisitionPropertyCommand(UUID id, UUID buyer, String property, UUID contact, String buyerNameAndYearVehicle,
             String buyerLicenseTagNo,
@@ -406,7 +407,8 @@ public class UpdateAdquisitionPropertyCommand implements ICommand {
             LocalDate internetBuyerStartServiceDate,
             Double internetBuyerDepositAmount,
             String buyerBankName,
-            Boolean buyerPersonalVoidCheck
+            Boolean buyerPersonalVoidCheck,
+            LocalDate originalContractClosingDate
             ) {
         this.id = id;
         this.buyer = buyer;
@@ -620,6 +622,7 @@ public class UpdateAdquisitionPropertyCommand implements ICommand {
         this.internetBuyerDepositAmount = internetBuyerDepositAmount;
         this.buyerBankName = buyerBankName;
         this.buyerPersonalVoidCheck = buyerPersonalVoidCheck;
+        this.originalContractClosingDate = originalContractClosingDate;
     }
 
     public static UpdateAdquisitionPropertyCommand fromRequest(UpdateAdquisitionPropertyRequest request, UUID id) {
@@ -819,7 +822,8 @@ public class UpdateAdquisitionPropertyCommand implements ICommand {
                 request.getInternetBuyerStartServiceDate(),
                 request.getInternetBuyerDepositAmount(),
                 request.getBuyerBankName(),
-                request.getBuyerPersonalVoidCheck()
+                request.getBuyerPersonalVoidCheck(),
+                request.getOriginalContractClosingDate()
         );
     }
 
