@@ -64,7 +64,8 @@ public class AdquisitionPropertyDto {
     private String buyerMailingAddress;
     private String buyerMobilePhoneNumber;
     private String closingCountdownClock;
-    private LocalDate contractClosingDate;
+    private LocalDate contractClosingDate;    
+    private LocalDate originalContractClosingDate;
 
     //HOA
     private String hoaApprovalProcessingTime;

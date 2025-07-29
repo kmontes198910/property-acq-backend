@@ -247,4 +247,5 @@ public class UpdateAdquisitionPropertyRequest {
     private Double internetBuyerDepositAmount;
     private String buyerBankName;
     private Boolean buyerPersonalVoidCheck;
+    private LocalDate originalContractClosingDate;
 }
