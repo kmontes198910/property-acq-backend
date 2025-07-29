@@ -25,7 +25,7 @@ public class CompanyContact {
     private UUID id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "company_id", nullable = false)
+    @JoinColumn(name = "company_id", nullable = true)
     private Company company;
 
     @Column(name = "first_name", nullable = false)
@@ -72,6 +72,21 @@ public class CompanyContact {
     @UpdateTimestamp
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
+
+    ///
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "legal_entity_id", nullable = true)
+    private LegalEntity legalEntity;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "sub_category", nullable = true)
+    private SubCategory subCategory;
+
+    @Column(name = "category", nullable = true)
+    private String category;//es un enum que se almacena como String ContactType
+
+    @Column(name = "type", nullable = true)
+    private String type;//es un enum que se almacena como String (LEGAL_ENTITY or COMPANY)
 
     public CompanyContact(CompanyContactDto dto) {
         this.id = dto.getId();
