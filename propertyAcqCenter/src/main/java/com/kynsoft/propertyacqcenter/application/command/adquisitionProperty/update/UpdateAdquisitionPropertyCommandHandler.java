@@ -264,6 +264,7 @@ public class UpdateAdquisitionPropertyCommandHandler implements ICommandHandler<
                 .buyerPersonalVoidCheck(command.getBuyerPersonalVoidCheck())
 
                 .originalContractClosingDate(command.getOriginalContractClosingDate())
+                .buyerMaritalStatus(command.getBuyerMaritalStatus())
 
                 .build()
         );

@@ -258,4 +258,5 @@ public class AdquisitionPropertyDocumentDto {
     private LocalDate internetBuyerStartServiceDate;
     private Double internetBuyerDepositAmount;
     private LocalDate originalContractClosingDate;
+    private String buyerMaritalStatus;
 }

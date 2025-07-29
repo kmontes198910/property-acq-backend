@@ -49,6 +49,9 @@ public class AdquisitionPropertyBuyer {
     @Column(name = "buyer_bank_name", nullable = true)
     private String buyerBankName;
 
+    @Column(name = "buyer_marital_status", nullable = true)
+    private String buyerMaritalStatus;
+
     @Column(name = "buyer_p_void_check", nullable = true)
     private Boolean buyerPersonalVoidCheck;
 }

@@ -248,4 +248,5 @@ public class UpdateAdquisitionPropertyRequest {
     private String buyerBankName;
     private Boolean buyerPersonalVoidCheck;
     private LocalDate originalContractClosingDate;
+    private String buyerMaritalStatus;
 }
