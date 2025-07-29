@@ -62,6 +62,7 @@ public class BankAccountServiceImpl implements IBankAccountService {
         update.setLegalEntity(new LegalEntity(dto.getLegalEntity()));
         update.setInternationalDetails(new InternationalBankingDetails(dto.getInternationalDetails()));
         update.setDomesticWare(dto.getDomesticWare());
+        update.setHolderName(dto.getHolderName());
 
         update.setUpdatedAt(LocalDateTime.now());
 

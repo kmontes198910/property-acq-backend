@@ -30,12 +30,13 @@ public class CreateBankAccountCommand implements ICommand {
     private InternationalBankingDetailsRequest internationalDetails;
     private BankBranchDto branchInfo;
     private String domesticWare;
+    private String holderName;
 
     public CreateBankAccountCommand(UUID legalEntity, String bankName, String accountNumber, 
             String routingNumber, AccountType accountType, String accountNickname, 
             LocalDate openingDate, String onlineBankingUrl, String notes, 
             BankContactDto contactDetails, InternationalBankingDetailsRequest internationalDetails, 
-            BankBranchDto branchInfo, String domesticWare) {
+            BankBranchDto branchInfo, String domesticWare, String holderName) {
         this.id = UUID.randomUUID();
         this.legalEntity = legalEntity;
         this.bankName = bankName;
@@ -50,6 +51,7 @@ public class CreateBankAccountCommand implements ICommand {
         this.internationalDetails = internationalDetails;
         this.branchInfo = branchInfo;
         this.domesticWare = domesticWare;
+        this.holderName = holderName;
     }
 
     public static CreateBankAccountCommand fromRequest(CreateBankAccountRequest request) {
@@ -66,7 +68,8 @@ public class CreateBankAccountCommand implements ICommand {
                 request.getContactDetails(),
                 request.getInternationalDetails(),
                 request.getBranchInfo(),
-                request.getDomesticWare()
+                request.getDomesticWare(),
+                request.getHolderName()
         );
     }
 

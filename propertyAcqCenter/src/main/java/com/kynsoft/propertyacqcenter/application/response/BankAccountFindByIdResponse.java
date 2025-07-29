@@ -31,6 +31,7 @@ public class BankAccountFindByIdResponse implements IResponse {
     private LocalDate openingDate;//
     private String onlineBankingUrl;//
     private String notes;//
+    private String holderName;
     private LocalDateTime createdAt;//
     private LocalDateTime updatedAt;//
     private UUID createdBy;//
@@ -59,6 +60,7 @@ public class BankAccountFindByIdResponse implements IResponse {
         this.internationalDetails = dto.getInternationalDetails();
         this.branchInfo = dto.getBranchInfo();
         this.domesticWare = dto.getDomesticWare();
+        this.holderName = dto.getHolderName();
     }
 
 }
