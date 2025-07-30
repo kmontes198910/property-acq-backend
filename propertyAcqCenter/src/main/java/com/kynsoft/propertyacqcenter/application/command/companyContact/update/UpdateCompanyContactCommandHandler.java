@@ -8,10 +8,14 @@ import com.kynsoft.propertyacqcenter.domain.dto.BusinessDto;
 import com.kynsoft.propertyacqcenter.domain.dto.CompanyContactDto;
 import com.kynsoft.propertyacqcenter.domain.dto.CompanyDto;
 import com.kynsoft.propertyacqcenter.domain.dto.EmployeeDto;
+import com.kynsoft.propertyacqcenter.domain.dto.LegalEntityDto;
+import com.kynsoft.propertyacqcenter.domain.dto.SubCategoryDto;
 import com.kynsoft.propertyacqcenter.domain.dto.http.CreateUserSystemRequest;
 import com.kynsoft.propertyacqcenter.domain.services.ICompanyContactService;
 import com.kynsoft.propertyacqcenter.domain.services.ICompanyService;
 import com.kynsoft.propertyacqcenter.domain.services.IEmployeeService;
+import com.kynsoft.propertyacqcenter.domain.services.ILegalEntityService;
+import com.kynsoft.propertyacqcenter.domain.services.ISubCategoryService;
 import com.kynsoft.propertyacqcenter.infrastructure.services.http.UserSystemService;
 import java.io.IOException;
 import java.net.URISyntaxException;
@@ -25,25 +29,41 @@ public class UpdateCompanyContactCommandHandler implements ICommandHandler<Updat
     private final ICompanyService companyService;
     private final IEmployeeService employeeService;
     private final UserSystemService userSystemService;
+    private final ILegalEntityService legalEntityService;
+    private final ISubCategoryService subCategoryService;
 
     public UpdateCompanyContactCommandHandler(ICompanyContactService companyContactService,
-            ICompanyService companyService,
-            UserSystemService userSystemService,
-            IEmployeeService employeeService) {
+                                                ICompanyService companyService,
+                                                UserSystemService userSystemService,
+                                                IEmployeeService employeeService,
+                                                ILegalEntityService legalEntityService,
+                                                ISubCategoryService subCategoryService) {
         this.companyContactService = companyContactService;
         this.companyService = companyService;
         this.userSystemService = userSystemService;
         this.employeeService = employeeService;
+        this.legalEntityService = legalEntityService;
+        this.subCategoryService = subCategoryService;
     }
 
     @Override
     public void handle(UpdateCompanyContactCommand command) {
-        CompanyDto companyDto = this.companyService.findById(command.getCompany());
+        CompanyDto companyDto = command.getCompany() != null ? this.companyService.findById(command.getCompany()) : null;
+        LegalEntityDto legalEntityDto = command.getLegalEntity() != null ? this.legalEntityService.findById(command.getLegalEntity()) : null;
+        SubCategoryDto subCategoryDto = command.getSubCategory() != null ? this.subCategoryService.findById(command.getSubCategory()) : null;
+
         this.companyContactService.validateEmail(command.getEmail(), command.getId());
+        BusinessDto businessDto = null;
+        if (companyDto != null) {
+            businessDto = companyDto.getBusiness();
+        } else if (legalEntityDto != null) {
+            businessDto =legalEntityDto.getBusiness();
+        }
+
         //this.companyContactService.validatePersonEmail(command.getPersonalEmail(), command.getId());
         try {
             if (command.getIsEmployee() && this.employeeService.countById(command.getId()) == 0) {
-                consumeCreateUserSystemService(command, companyDto.getBusiness());
+                consumeCreateUserSystemService(command, businessDto);
 
                 this.employeeService.create(EmployeeDto
                         .builder()
@@ -53,7 +73,7 @@ public class UpdateCompanyContactCommandHandler implements ICommandHandler<Updat
                         .email(command.getEmail())
                         .phoneNumber(command.getPhoneNumber())
                         .position(command.getPosition())
-                        .business(companyDto.getBusiness())
+                        .business(businessDto)
                         .build());
             }
             companyContactService.update(CompanyContactDto.builder()
@@ -71,6 +91,10 @@ public class UpdateCompanyContactCommandHandler implements ICommandHandler<Updat
                     .birthDate(command.getBirthDate())
                     .mailingAddress(command.getMailingAddress())
                     .isEmployee(command.getIsEmployee())
+                    .legalEntity(legalEntityDto)
+                    .subCategory(subCategoryDto)
+                    .category(command.getCategory())
+                    .type(command.getType())
                     .build()
             );
         } catch (Exception exception) {

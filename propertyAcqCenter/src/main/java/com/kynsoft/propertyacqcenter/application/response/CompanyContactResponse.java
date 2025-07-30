@@ -2,7 +2,9 @@ package com.kynsoft.propertyacqcenter.application.response;
 
 import com.kynsof.share.core.domain.bus.query.IResponse;
 import com.kynsoft.propertyacqcenter.domain.dto.*;
+import com.kynsoft.propertyacqcenter.domain.enums.ContactType;
 import com.kynsoft.propertyacqcenter.domain.enums.DepartmentType;
+import com.kynsoft.propertyacqcenter.domain.enums.Type;
 import java.time.LocalDate;
 import lombok.*;
 
@@ -19,6 +21,10 @@ public class CompanyContactResponse implements IResponse {
     private UUID id;
     private LocalDate birthDate;
     private CompanyDto company;
+    private LegalEntityBasicResponse legalEntity;
+    private SubCategoryResponse subCategory;
+    private ContactType category;
+    private Type type;
     private String firstName;
     private String lastName;
     private String email;
@@ -50,6 +56,10 @@ public class CompanyContactResponse implements IResponse {
         this.personalEmail = dto.getPersonalEmail();
         this.mailingAddress = dto.getMailingAddress();
         this.isEmployee = dto.getIsEmployee();
+        this.legalEntity = dto.getLegalEntity() != null ? new LegalEntityBasicResponse(dto.getLegalEntity()) : null;
+        this.subCategory = dto.getSubCategory() != null ? new SubCategoryResponse(dto.getSubCategory()) : null;
+        this.category = dto.getCategory();
+        this.type = dto.getType();
     }
 
 }

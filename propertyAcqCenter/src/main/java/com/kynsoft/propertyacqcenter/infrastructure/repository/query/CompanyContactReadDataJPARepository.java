@@ -20,7 +20,7 @@ public interface CompanyContactReadDataJPARepository extends JpaRepository<Compa
     @Override
     Page<CompanyContact> findAll(Specification<CompanyContact> specification, Pageable pageable);
 
-    @EntityGraph(attributePaths = {"company", "company.companyType", "company.business", "company.subCompanyType", "company.subCategory"})
+    @EntityGraph(attributePaths = {"company", "company.companyType", "company.business", "company.subCompanyType", "company.subCategory", "legalEntity", "subCategory"})
     @Override
     Optional<CompanyContact> findById(UUID id);
 
