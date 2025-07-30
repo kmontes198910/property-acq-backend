@@ -2,10 +2,12 @@ package com.kynsoft.propertyacqcenter.application.command.adquisitionProperty.up
 
 import com.kynsof.share.core.domain.bus.command.ICommandHandler;
 import com.kynsoft.propertyacqcenter.domain.dto.AdquisitionPropertyDto;
+import com.kynsoft.propertyacqcenter.domain.dto.BankAccountDto;
 import com.kynsoft.propertyacqcenter.domain.dto.CompanyContactDto;
 import com.kynsoft.propertyacqcenter.domain.dto.LegalEntityDto;
 import com.kynsoft.propertyacqcenter.domain.dto.PropertyDto;
 import com.kynsoft.propertyacqcenter.domain.services.IAdquisitionPropertyService;
+import com.kynsoft.propertyacqcenter.domain.services.IBankAccountService;
 import com.kynsoft.propertyacqcenter.domain.services.ICompanyContactService;
 import com.kynsoft.propertyacqcenter.domain.services.ILegalEntityService;
 import com.kynsoft.propertyacqcenter.domain.services.IPropertyService;
@@ -18,15 +20,18 @@ public class UpdateAdquisitionPropertyCommandHandler implements ICommandHandler<
     private final ILegalEntityService legalEntityService;
     private final IPropertyService propertyService;
     private final ICompanyContactService companyContactService;
+    private final IBankAccountService bankAccountService;
 
     public UpdateAdquisitionPropertyCommandHandler(IAdquisitionPropertyService adquisitionPropertyService, 
                                                    ILegalEntityService legalEntityService,
                                                    IPropertyService propertyService,
-                                                   ICompanyContactService companyContactService) {
+                                                   ICompanyContactService companyContactService,
+                                                   IBankAccountService bankAccountService) {
         this.adquisitionPropertyService = adquisitionPropertyService;
         this.legalEntityService = legalEntityService;
         this.propertyService = propertyService;
         this.companyContactService = companyContactService;
+        this.bankAccountService = bankAccountService;
     }
 
     @Override
@@ -34,6 +39,8 @@ public class UpdateAdquisitionPropertyCommandHandler implements ICommandHandler<
         LegalEntityDto legalEntityDto = command.getBuyer() != null ? this.legalEntityService.findById(command.getBuyer()) : null;
         PropertyDto propertyDto = command.getProperty() != null ? this.propertyService.getById(command.getProperty()) : null;
         CompanyContactDto contactDto = command.getContact() != null ? this.companyContactService.findById(command.getContact()) : null;
+        BankAccountDto buyerBankAccount = command.getBuyerBankAccount() != null ? this.bankAccountService.findById(command.getBuyerBankAccount()) : null;
+        BankAccountDto sellerBankAccount = command.getSellerBankAccount() != null ? this.bankAccountService.findById(command.getSellerBankAccount()) : null;
 
         adquisitionPropertyService.update(AdquisitionPropertyDto
                 .builder()
@@ -41,6 +48,8 @@ public class UpdateAdquisitionPropertyCommandHandler implements ICommandHandler<
                 .buyer(legalEntityDto)
                 .property(propertyDto)
                 .contact(contactDto)
+                .buyerBankAccount(buyerBankAccount)
+                .sellerBankAccount(sellerBankAccount)
                 .buyerLicenseTagNo(command.getBuyerLicenseTagNo())
                 .buyerNameAndYearVehicle(command.getBuyerNameAndYearVehicle())
                 .dateAndTimeForInspections(command.getDateAndTimeForInspections())

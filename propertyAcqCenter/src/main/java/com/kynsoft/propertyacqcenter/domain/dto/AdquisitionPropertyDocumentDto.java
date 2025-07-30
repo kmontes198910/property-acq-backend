@@ -21,6 +21,9 @@ public class AdquisitionPropertyDocumentDto {
     private String buyerNameAndYearVehicle;
     private String buyerLicenseTagNo;
 
+    private BankAccountDto buyerBankAccount;
+    private BankAccountDto sellerBankAccount;
+
     private LocalDate dateAndTimeForInspections;
     private String instructionsForAccess;
     private LocalDate hoaBuyerInterviewDate;
