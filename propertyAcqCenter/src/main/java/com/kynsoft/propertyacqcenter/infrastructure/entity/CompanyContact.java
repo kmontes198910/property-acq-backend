@@ -1,7 +1,9 @@
 package com.kynsoft.propertyacqcenter.infrastructure.entity;
 
 import com.kynsoft.propertyacqcenter.domain.dto.CompanyContactDto;
+import com.kynsoft.propertyacqcenter.domain.enums.ContactType;
 import com.kynsoft.propertyacqcenter.domain.enums.DepartmentType;
+import com.kynsoft.propertyacqcenter.domain.enums.Type;
 import jakarta.persistence.*;
 import java.time.LocalDate;
 import lombok.*;
@@ -105,6 +107,10 @@ public class CompanyContact {
         this.personalEmail = dto.getPersonalEmail();
         this.mailingAddress = dto.getMailingAddress();
         this.isEmployee = dto.getIsEmployee();
+        this.legalEntity = dto.getLegalEntity() != null ? new LegalEntity(dto.getLegalEntity()) : null;
+        this.subCategory = dto.getSubCategory() != null ? new SubCategory(dto.getSubCategory()) : null;
+        this.category = dto.getCategory() != null ? dto.getCategory().name() : null;
+        this.type = dto.getType() != null ? dto.getType().name() : null;
     }
 
     public CompanyContactDto toAggregateSimple() {
@@ -112,6 +118,10 @@ public class CompanyContact {
                 .id(this.id)
                 .birthDate(birthDate)
                 .company(company != null ? this.company.toAggregateSimple() : null)
+                .legalEntity(legalEntity != null ? this.legalEntity.toAggregateBasic() : null)
+                .subCategory(subCategory != null ? this.subCategory.toAggregate() : null)
+                .category(category != null ? ContactType.valueOf(category) : null)
+                .type(type != null ? Type.valueOf(type) : null)
                 .firstName(firstName)
                 .lastName(lastName)
                 .email(email)
@@ -143,6 +153,10 @@ public class CompanyContact {
                 .createdAt(this.createdAt)
                 .updatedAt(this.updatedAt)
                 .company(company != null ? this.company.toAggregateBasic() : null)
+                .legalEntity(legalEntity != null ? this.legalEntity.toAggregateBasic() : null)
+                .subCategory(subCategory != null ? this.subCategory.toAggregate() : null)
+                .category(category != null ? ContactType.valueOf(category) : null)
+                .type(type != null ? Type.valueOf(type) : null)
                 .personalEmail(personalEmail)
                 .mailingAddress(mailingAddress)
                 .isEmployee(isEmployee)
@@ -162,6 +176,10 @@ public class CompanyContact {
                 .notes(notes)
                 .personalEmail(personalEmail)
                 .company(company != null ? this.company.toAggregateBasic() : null)
+                .legalEntity(legalEntity != null ? this.legalEntity.toAggregateBasic() : null)
+                .subCategory(subCategory != null ? this.subCategory.toAggregate() : null)
+                .category(category != null ? ContactType.valueOf(category) : null)
+                .type(type != null ? Type.valueOf(type) : null)
                 .mailingAddress(mailingAddress)
                 .isEmployee(isEmployee)
                 .build();

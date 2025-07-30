@@ -1,6 +1,8 @@
 package com.kynsoft.propertyacqcenter.application.command.companyContact.update;
 
+import com.kynsoft.propertyacqcenter.domain.enums.ContactType;
 import com.kynsoft.propertyacqcenter.domain.enums.DepartmentType;
+import com.kynsoft.propertyacqcenter.domain.enums.Type;
 import java.time.LocalDate;
 import java.util.UUID;
 import lombok.Getter;
@@ -23,4 +25,9 @@ public class UpdateCompanyContactRequest {
     private LocalDate birthDate;
     private Boolean isEmployee;
     private String mailingAddress;
+
+    private UUID legalEntity;
+    private UUID subCategory;
+    private ContactType category;
+    private Type type;
 }

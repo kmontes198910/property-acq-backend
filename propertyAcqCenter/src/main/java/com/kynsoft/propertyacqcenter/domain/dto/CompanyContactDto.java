@@ -1,6 +1,8 @@
 package com.kynsoft.propertyacqcenter.domain.dto;
 
+import com.kynsoft.propertyacqcenter.domain.enums.ContactType;
 import com.kynsoft.propertyacqcenter.domain.enums.DepartmentType;
+import com.kynsoft.propertyacqcenter.domain.enums.Type;
 import java.time.LocalDate;
 import lombok.*;
 
@@ -30,4 +32,9 @@ public class CompanyContactDto {
     private Boolean isEmployee;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
+
+    private LegalEntityDto legalEntity;
+    private SubCategoryDto subCategory;
+    private ContactType category;
+    private Type type;
 }
