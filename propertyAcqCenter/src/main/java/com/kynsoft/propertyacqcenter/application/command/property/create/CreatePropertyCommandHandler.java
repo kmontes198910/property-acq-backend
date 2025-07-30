@@ -65,6 +65,7 @@ public class CreatePropertyCommandHandler implements ICommandHandler<CreatePrope
                 .sellerName(sellerName)
                 .sellerContactInfo(sellerContactInfo)
                 .expectedClosingDate(command.getExpectedClosingDate())
+                .originalContractClosingDate(command.getOriginalContractClosingDate())
                 .emdRequirements(command.getEmdRequirements())
                 .emdOfferedAmount(command.getEmdOfferedAmount())
 

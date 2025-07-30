@@ -84,6 +84,7 @@ public class PropertyServiceImpl implements IPropertyService {
         update.setSellerName(object.getSellerName() != null ? new LegalEntity(object.getSellerName()) : null);
         update.setSellerContactInfo(object.getSellerContactInfo() != null ? new Contact(object.getSellerContactInfo()) : null);
         update.setExpectedClosingDate(object.getExpectedClosingDate());
+        update.setOriginalContractClosingDate(object.getOriginalContractClosingDate());
         update.setEmdOfferedAmount(object.getEmdOfferedAmount());
         update.setEmdRequirements(object.getEmdRequirements());
         update.setBuyerName(object.getBuyerName() != null ? new LegalEntity(object.getBuyerName()) : null);//

@@ -96,6 +96,9 @@ public class Property {
     @Column(name = "expected_closing_date", nullable = true)
     private LocalDate expectedClosingDate;//
 
+    @Column(name = "original_contract_closing_date", nullable = true)
+    private LocalDate originalContractClosingDate;//
+
     @Enumerated(EnumType.STRING)
     @Column(name = "acquisition_type", nullable = true)
     private AcquisitionType acquisitionType;//
@@ -203,6 +206,7 @@ public class Property {
         this.acquisitionType = dto.getAcquisitionType();
         this.sourceType = dto.getSourceType();
         this.expectedClosingDate = dto.getExpectedClosingDate();
+        this.originalContractClosingDate = dto.getOriginalContractClosingDate();
         this.emdRequirements = dto.getEmdRequirements();
         this.emdOfferedAmount = dto.getEmdOfferedAmount();
 
@@ -284,6 +288,7 @@ public class Property {
                 .buyerName(buyerName != null ? buyerName.toAggregateBasic() : null)
                 .sellerContactInfo(sellerContactInfo != null ? sellerContactInfo.toAggregateBasic() : null)
                 .expectedClosingDate(expectedClosingDate)
+                .originalContractClosingDate(originalContractClosingDate)
                 .emdRequirements(emdRequirements)
                 .emdOfferedAmount(emdOfferedAmount)
 
@@ -348,6 +353,7 @@ public class Property {
                 .sellerContactInfo(sellerContactInfo != null ? sellerContactInfo.toAggregateBasic() : null)
                 .buyerName(buyerName != null ? buyerName.toAggregateBasic() : null)
                 .expectedClosingDate(expectedClosingDate)
+                .originalContractClosingDate(originalContractClosingDate)
                 .emdRequirements(emdRequirements)
                 .emdOfferedAmount(emdOfferedAmount)
 
@@ -413,6 +419,7 @@ public class Property {
                 .sellerContactInfo(sellerContactInfo != null ? sellerContactInfo.toAggregateBasic() : null)
                 .buyerName(buyerName != null ? buyerName.toAggregateBasic() : null)
                 .expectedClosingDate(expectedClosingDate)
+                .originalContractClosingDate(originalContractClosingDate)
                 .emdRequirements(emdRequirements)
                 .emdOfferedAmount(emdOfferedAmount)
 
