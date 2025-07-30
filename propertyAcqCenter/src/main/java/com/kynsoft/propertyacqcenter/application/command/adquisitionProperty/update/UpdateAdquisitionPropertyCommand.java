@@ -253,6 +253,16 @@ public class UpdateAdquisitionPropertyCommand implements ICommand {
     private LocalDate originalContractClosingDate;
     private String buyerMaritalStatus;
 
+    private String sellerPersonalAccountHolderName;
+    private String sellerPersonalAccountNumber;
+    private String sellerPersonalRoutingNumber;
+    private String sellerPersonalZelleEmailorPhone;
+    private String sellerPersonalBankName;
+    private String sellerBankStatementRequest;//array
+    private String sellerPersonalBankStatements;//array
+    private Boolean sellerVoidCheck;
+    private Boolean sellerPersonalVoidCheck;
+
     public UpdateAdquisitionPropertyCommand(UUID id, UUID buyer, String property, UUID contact, String buyerNameAndYearVehicle,
             String buyerLicenseTagNo,
             LocalDate dateAndTimeForInspections, String instructionsForAccess, LocalDate hoaBuyerInterviewDate,
@@ -410,7 +420,16 @@ public class UpdateAdquisitionPropertyCommand implements ICommand {
             String buyerBankName,
             Boolean buyerPersonalVoidCheck,
             LocalDate originalContractClosingDate,
-            String buyerMaritalStatus
+            String buyerMaritalStatus,
+            String sellerPersonalAccountHolderName,
+            String sellerPersonalAccountNumber,
+            String sellerPersonalRoutingNumber,
+            String sellerPersonalZelleEmailorPhone,
+            String sellerPersonalBankName,
+            String sellerBankStatementRequest,
+            String sellerPersonalBankStatements,
+            Boolean sellerVoidCheck,
+            Boolean sellerPersonalVoidCheck
             ) {
         this.id = id;
         this.buyer = buyer;
@@ -626,6 +645,15 @@ public class UpdateAdquisitionPropertyCommand implements ICommand {
         this.buyerPersonalVoidCheck = buyerPersonalVoidCheck;
         this.originalContractClosingDate = originalContractClosingDate;
         this.buyerMaritalStatus = buyerMaritalStatus;
+        this.sellerPersonalAccountHolderName = sellerPersonalAccountHolderName;
+        this.sellerPersonalAccountNumber = sellerPersonalAccountNumber;
+        this.sellerPersonalRoutingNumber = sellerPersonalRoutingNumber;
+        this.sellerPersonalZelleEmailorPhone = sellerPersonalZelleEmailorPhone;
+        this.sellerPersonalBankName = sellerPersonalBankName;
+        this.sellerBankStatementRequest = sellerBankStatementRequest;
+        this.sellerPersonalBankStatements = sellerPersonalBankStatements;
+        this.sellerVoidCheck = sellerVoidCheck;
+        this.sellerPersonalVoidCheck = sellerPersonalVoidCheck;
     }
 
     public static UpdateAdquisitionPropertyCommand fromRequest(UpdateAdquisitionPropertyRequest request, UUID id) {
@@ -827,7 +855,16 @@ public class UpdateAdquisitionPropertyCommand implements ICommand {
                 request.getBuyerBankName(),
                 request.getBuyerPersonalVoidCheck(),
                 request.getOriginalContractClosingDate(),
-                request.getBuyerMaritalStatus()
+                request.getBuyerMaritalStatus(),
+                request.getSellerPersonalAccountHolderName(),
+                request.getSellerPersonalAccountNumber(),
+                request.getSellerPersonalRoutingNumber(),
+                request.getSellerPersonalZelleEmailorPhone(),
+                request.getSellerPersonalBankName(),
+                request.getSellerBankStatementRequest(),
+                request.getSellerPersonalBankStatements(),
+                request.getSellerVoidCheck(),
+                request.getSellerPersonalVoidCheck()
         );
     }
 

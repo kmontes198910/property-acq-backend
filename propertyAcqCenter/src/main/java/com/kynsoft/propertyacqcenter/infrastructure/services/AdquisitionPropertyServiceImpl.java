@@ -18,6 +18,7 @@ import com.kynsoft.propertyacqcenter.infrastructure.entity.embedded.adquisitionP
 import com.kynsoft.propertyacqcenter.infrastructure.entity.embedded.adquisitionProperty.AdquisitionPropertyBuyerPersonalBankInfo;
 import com.kynsoft.propertyacqcenter.infrastructure.entity.embedded.adquisitionProperty.AdquisitionPropertyBuyerUtilitiesInfo;
 import com.kynsoft.propertyacqcenter.infrastructure.entity.embedded.adquisitionProperty.AdquisitionPropertyHoa;
+import com.kynsoft.propertyacqcenter.infrastructure.entity.embedded.adquisitionProperty.AdquisitionPropertySeller;
 import com.kynsoft.propertyacqcenter.infrastructure.repository.command.AdquisitionPropertyWriteDataJPARepository;
 import com.kynsoft.propertyacqcenter.infrastructure.repository.query.AdquisitionPropertyReadDataJPARepository;
 import org.springframework.data.domain.Pageable;
@@ -59,6 +60,7 @@ public class AdquisitionPropertyServiceImpl implements IAdquisitionPropertyServi
         update.setAdquisitionPropertyBuyer(createAdquisitionPropertyBuyer(object, update));
         update.setAdquisitionPropertyBuyerPersonalBankInfo(createAdquisitionPropertyBuyerPersonalBankInfo(object, update));
         update.setAdquisitionPropertyBuyerUtilitiesInfo(createAdquisitionPropertyBuyerUtilitiesInfo(object, update));
+        update.setAdquisitionPropertySeller(createAdquisitionPropertySeller(object, update));
 
         update.setBuyer(object.getBuyer() != null ? new LegalEntity(object.getBuyer()) : null);
         update.setContact(object.getContact() != null ? new CompanyContact(object.getContact()) : null);
@@ -365,6 +367,39 @@ public class AdquisitionPropertyServiceImpl implements IAdquisitionPropertyServi
                         .buyerBankName(object.getBuyerBankName())
                         .buyerPersonalVoidCheck(object.getBuyerPersonalVoidCheck())
                         .buyerMaritalStatus(object.getBuyerMaritalStatus())
+                        .build();
+    }
+
+    private AdquisitionPropertySeller createAdquisitionPropertySeller(AdquisitionPropertyDto object, AdquisitionProperty update) {
+        return update.getAdquisitionPropertySeller() != null
+                ? //Si es diferente de null, es porque ya tiene datos.
+                AdquisitionPropertySeller
+                        .builder()
+                        .id(update.getAdquisitionPropertySeller().getId())
+                        .adquisitionProperty(update)
+                        .sellerPersonalAccountHolderName(object.getSellerPersonalAccountHolderName() != null ? object.getSellerPersonalAccountHolderName() : update.getAdquisitionPropertySeller().getSellerPersonalAccountHolderName())
+                        .sellerPersonalAccountNumber(object.getSellerPersonalAccountNumber() != null ? object.getSellerPersonalAccountNumber() : update.getAdquisitionPropertySeller().getSellerPersonalAccountNumber())
+                        .sellerPersonalRoutingNumber(object.getSellerPersonalRoutingNumber() != null ? object.getSellerPersonalRoutingNumber() : update.getAdquisitionPropertySeller().getSellerPersonalRoutingNumber())
+                        .sellerPersonalZelleEmailorPhone(object.getSellerPersonalZelleEmailorPhone() != null ? object.getSellerPersonalZelleEmailorPhone() : update.getAdquisitionPropertySeller().getSellerPersonalZelleEmailorPhone())
+                        .sellerPersonalBankName(object.getSellerPersonalBankName() != null ? object.getSellerPersonalBankName() : update.getAdquisitionPropertySeller().getSellerPersonalBankName())
+                        .sellerBankStatementRequest(object.getSellerBankStatementRequest() != null ? object.getSellerBankStatementRequest() : update.getAdquisitionPropertySeller().getSellerBankStatementRequest())
+                        .sellerPersonalBankStatements(object.getSellerPersonalBankStatements() != null ? object.getSellerPersonalBankStatements() : update.getAdquisitionPropertySeller().getSellerPersonalBankStatements())
+                        .sellerVoidCheck(object.getSellerVoidCheck() != null ? object.getSellerVoidCheck() : update.getAdquisitionPropertySeller().getSellerVoidCheck())
+                        .sellerPersonalVoidCheck(object.getSellerPersonalVoidCheck() != null ? object.getSellerPersonalVoidCheck() : update.getAdquisitionPropertySeller().getSellerPersonalVoidCheck())
+                        .build()
+                : AdquisitionPropertySeller
+                        .builder()
+                        .id(UUID.randomUUID())
+                        .adquisitionProperty(update)
+                        .sellerPersonalAccountHolderName(object.getSellerPersonalAccountHolderName())
+                        .sellerPersonalAccountNumber(object.getSellerPersonalAccountNumber())
+                        .sellerPersonalRoutingNumber(object.getSellerPersonalRoutingNumber())
+                        .sellerPersonalZelleEmailorPhone(object.getSellerPersonalZelleEmailorPhone())
+                        .sellerPersonalBankName(object.getSellerPersonalBankName())
+                        .sellerBankStatementRequest(object.getSellerBankStatementRequest())
+                        .sellerPersonalBankStatements(object.getSellerPersonalBankStatements())
+                        .sellerVoidCheck(object.getSellerVoidCheck())
+                        .sellerPersonalVoidCheck(object.getSellerPersonalVoidCheck())
                         .build();
     }
 

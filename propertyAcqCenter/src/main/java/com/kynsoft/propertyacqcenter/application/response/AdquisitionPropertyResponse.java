@@ -245,6 +245,17 @@ public class AdquisitionPropertyResponse implements IResponse {
     private LocalDate originalContractClosingDate;
     private String buyerMaritalStatus;
 
+    //Seller
+    private String sellerPersonalAccountHolderName;
+    private String sellerPersonalAccountNumber;
+    private String sellerPersonalRoutingNumber;
+    private String sellerPersonalZelleEmailorPhone;
+    private String sellerPersonalBankName;
+    private String sellerBankStatementRequest;//array
+    private String sellerPersonalBankStatements;//array
+    private Boolean sellerVoidCheck;
+    private Boolean sellerPersonalVoidCheck;
+
     public AdquisitionPropertyResponse(AdquisitionPropertyDto dto) {
         this.id = dto.getId();
         this.buyer = dto.getBuyer() != null ? new LegalEntityBasicResponse(dto.getBuyer()) : null;
@@ -464,6 +475,16 @@ public class AdquisitionPropertyResponse implements IResponse {
         this.buyerPersonalVoidCheck = dto.getBuyerPersonalVoidCheck();
         this.originalContractClosingDate = dto.getOriginalContractClosingDate();
         this.buyerMaritalStatus = dto.getBuyerMaritalStatus();
+
+        this.sellerPersonalAccountHolderName = dto.getSellerPersonalAccountHolderName();
+        this.sellerPersonalAccountNumber = dto.getSellerPersonalAccountNumber();
+        this.sellerPersonalRoutingNumber = dto.getSellerPersonalRoutingNumber();
+        this.sellerPersonalZelleEmailorPhone = dto.getSellerPersonalZelleEmailorPhone();
+        this.sellerPersonalBankName = dto.getSellerPersonalBankName();
+        this.sellerBankStatementRequest = dto.getSellerBankStatementRequest();
+        this.sellerPersonalBankStatements = dto.getSellerPersonalBankStatements();
+        this.sellerVoidCheck = dto.getSellerVoidCheck();
+        this.sellerPersonalVoidCheck = dto.getSellerPersonalVoidCheck();
     }
 
     private List<AdquisitionDocumentResponse> convertDbToList(String dbData) {
