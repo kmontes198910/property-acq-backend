@@ -19,7 +19,7 @@ import org.springframework.stereotype.Repository;
 public interface PropertyReadDataJPARepository extends JpaRepository<Property, String>, JpaSpecificationExecutor<Property> {
 
     @EntityGraph(attributePaths = {"sellerName", "sellerContactInfo", "buyerName", "propertyTeams", "propertyTeams.property",
-        "propertyTeams.contact", "propertyTeams.contact.company"})
+        "propertyTeams.contact", "propertyTeams.contact.company", "propertyTeams.contact.subCategory", "propertyTeams.contact.legalEntity"})
     @Override
     Page<Property> findAll(Specification<Property> specification, Pageable pageable);
 
@@ -27,14 +27,14 @@ public interface PropertyReadDataJPARepository extends JpaRepository<Property, S
 
     @EntityGraph(attributePaths = {
         "sellerName", "sellerContactInfo", "buyerName", "propertyTeams", "propertyTeams.property",
-        "propertyTeams.contact", "propertyTeams.contact.company"
+        "propertyTeams.contact", "propertyTeams.contact.company", "propertyTeams.contact.subCategory", "propertyTeams.contact.legalEntity"
     })
     @Override
     Optional<Property> findById(String id);
 
     @EntityGraph(attributePaths = {
         "sellerName", "sellerContactInfo", "buyerName", "propertyTeams", "propertyTeams.property",
-        "propertyTeams.contact", "propertyTeams.contact.company"
+        "propertyTeams.contact", "propertyTeams.contact.company", "propertyTeams.contact.subCategory", "propertyTeams.contact.legalEntity"
     })
     @Query("SELECT NEW com.kynsoft.propertyacqcenter.domain.dto.projection.PropertyWithProfileDTO(p, pt.profile) "
             + "FROM Property p JOIN p.propertyTeams pt "

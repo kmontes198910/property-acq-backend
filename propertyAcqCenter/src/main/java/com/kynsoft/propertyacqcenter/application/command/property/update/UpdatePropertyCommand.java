@@ -55,6 +55,7 @@ public class UpdatePropertyCommand implements ICommand {
     private UUID sellerName;//Relacion con Legal entity
     private UUID sellerContactInfo;//Relacion con Company
     private LocalDate expectedClosingDate;
+    private LocalDate originalContractClosingDate;
     private Boolean emdRequirements;
     private Double emdOfferedAmount;
 
@@ -96,7 +97,7 @@ public class UpdatePropertyCommand implements ICommand {
                                  Boolean distressed, String lenghOfOwership, Double openBalanceMortagage, Double involuntaryLiensAmount,
                                  Double publicRecord, Double mls, Boolean isMortgage,
                                  Double buildingArea, Double livingArea, Double grossArea, Double taxableArea, Double garageArea,
-                                 Boolean hasHoa, String hoaName, String hoaType, String hoaFeeFrequency) {
+                                 Boolean hasHoa, String hoaName, String hoaType, String hoaFeeFrequency, LocalDate originalContractClosingDate) {
         this.id = id;
         this.hasHoa = hasHoa;
         this.hoaName = hoaName;
@@ -141,6 +142,7 @@ public class UpdatePropertyCommand implements ICommand {
         this.sellerName = sellerName;
         this.sellerContactInfo = sellerContactInfo;
         this.expectedClosingDate = expectedClosingDate;
+        this.originalContractClosingDate = originalContractClosingDate;
         this.emdRequirements = emdRequirements;
         this.emdOfferedAmount = emdOfferedAmount;
         this.isMortgage = isMortgage;
@@ -206,7 +208,8 @@ public class UpdatePropertyCommand implements ICommand {
                 request.getHasHoa(),
                 request.getHoaName(),
                 request.getHoaType(),
-                request.getHoaFeeFrequency()
+                request.getHoaFeeFrequency(),
+                request.getOriginalContractClosingDate()
         );
     }
 

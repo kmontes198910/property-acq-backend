@@ -52,6 +52,7 @@ public class UpdatePropertyRequest {
     private UUID sellerName;//Relacion con Legal entity
     private UUID sellerContactInfo;//Relacion con Company
     private LocalDate expectedClosingDate;
+    private LocalDate originalContractClosingDate;
     private Boolean emdRequirements;
     private Double emdOfferedAmount;
 

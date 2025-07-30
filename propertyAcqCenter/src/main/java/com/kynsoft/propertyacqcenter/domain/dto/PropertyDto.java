@@ -61,6 +61,7 @@ public class PropertyDto {
     private Boolean emdRequirements;//
     private Double emdOfferedAmount;//
     private LocalDate expectedClosingDate;//
+    private LocalDate originalContractClosingDate;
 
     //Mortagage
     private Boolean distressed;//

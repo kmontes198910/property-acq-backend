@@ -60,6 +60,7 @@ public class PropertiesResponse implements IResponse {
     private ContactBasicResponse sellerContactInfo;//Relacion con Legal entity
     private LegalEntityBasicResponse buyerName;
     private LocalDate expectedClosingDate;
+    private LocalDate originalContractClosingDate;
     private Boolean emdRequirements;
     private Double emdOfferedAmount;
 
@@ -134,6 +135,7 @@ public class PropertiesResponse implements IResponse {
         this.buyerName = dto.getBuyerName() != null ? new LegalEntityBasicResponse(dto.getBuyerName()) : null;
         this.sellerContactInfo = dto.getSellerContactInfo() != null ? new ContactBasicResponse(dto.getSellerContactInfo()) : null;
         this.expectedClosingDate = dto.getExpectedClosingDate();
+        this.originalContractClosingDate = dto.getOriginalContractClosingDate();
         this.emdRequirements = dto.getEmdRequirements();
         this.emdOfferedAmount = dto.getEmdOfferedAmount();
 
