@@ -266,6 +266,16 @@ public class UpdateAdquisitionPropertyCommandHandler implements ICommandHandler<
                 .originalContractClosingDate(command.getOriginalContractClosingDate())
                 .buyerMaritalStatus(command.getBuyerMaritalStatus())
 
+                .sellerPersonalAccountHolderName(command.getSellerPersonalAccountHolderName())
+                .sellerPersonalAccountNumber(command.getSellerPersonalAccountNumber())
+                .sellerPersonalRoutingNumber(command.getSellerPersonalRoutingNumber())
+                .sellerPersonalZelleEmailorPhone(command.getSellerPersonalZelleEmailorPhone())
+                .sellerPersonalBankName(command.getSellerPersonalBankName())
+                .sellerBankStatementRequest(command.getSellerBankStatementRequest())
+                .sellerPersonalBankStatements(command.getSellerPersonalBankStatements())
+                .sellerVoidCheck(command.getSellerVoidCheck())
+                .sellerPersonalVoidCheck(command.getSellerPersonalVoidCheck())
+
                 .build()
         );
     }

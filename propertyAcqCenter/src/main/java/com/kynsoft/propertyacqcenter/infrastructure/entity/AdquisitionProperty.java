@@ -7,6 +7,7 @@ import com.kynsoft.propertyacqcenter.infrastructure.entity.embedded.adquisitionP
 import com.kynsoft.propertyacqcenter.infrastructure.entity.embedded.adquisitionProperty.AdquisitionPropertyBuyerPersonalBankInfo;
 import com.kynsoft.propertyacqcenter.infrastructure.entity.embedded.adquisitionProperty.AdquisitionPropertyBuyerUtilitiesInfo;
 import com.kynsoft.propertyacqcenter.infrastructure.entity.embedded.adquisitionProperty.AdquisitionPropertyHoa;
+import com.kynsoft.propertyacqcenter.infrastructure.entity.embedded.adquisitionProperty.AdquisitionPropertySeller;
 import jakarta.persistence.*;
 import java.time.LocalDate;
 import lombok.*;
@@ -517,6 +518,9 @@ public class AdquisitionProperty {
     @OneToOne(mappedBy = "adquisitionProperty", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private AdquisitionPropertyBuyerUtilitiesInfo adquisitionPropertyBuyerUtilitiesInfo;
 
+    @OneToOne(mappedBy = "adquisitionProperty", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    private AdquisitionPropertySeller adquisitionPropertySeller;
+
     @CreationTimestamp
     @Column(name = "created_at", updatable = false)
     private LocalDateTime createdAt;
@@ -910,6 +914,16 @@ public class AdquisitionProperty {
                 .internetBuyerStartServiceDate(adquisitionPropertyBuyerUtilitiesInfo != null ? adquisitionPropertyBuyerUtilitiesInfo.getInternetBuyerStartServiceDate() : null)
                 .internetBuyerDepositAmount(adquisitionPropertyBuyerUtilitiesInfo != null ? adquisitionPropertyBuyerUtilitiesInfo.getInternetBuyerDepositAmount() : null)
 
+                .sellerPersonalAccountHolderName(adquisitionPropertySeller != null ? adquisitionPropertySeller.getSellerPersonalAccountHolderName() : null)
+                .sellerPersonalAccountNumber(adquisitionPropertySeller != null ? adquisitionPropertySeller.getSellerPersonalAccountNumber() : null)
+                .sellerPersonalRoutingNumber(adquisitionPropertySeller != null ? adquisitionPropertySeller.getSellerPersonalRoutingNumber() : null)
+                .sellerPersonalZelleEmailorPhone(adquisitionPropertySeller != null ? adquisitionPropertySeller.getSellerPersonalZelleEmailorPhone() : null)
+                .sellerPersonalBankName(adquisitionPropertySeller != null ? adquisitionPropertySeller.getSellerPersonalBankName() : null)
+                .sellerBankStatementRequest(adquisitionPropertySeller != null ? adquisitionPropertySeller.getSellerBankStatementRequest() : null)
+                .sellerPersonalBankStatements(adquisitionPropertySeller != null ? adquisitionPropertySeller.getSellerPersonalBankStatements() : null)
+                .sellerVoidCheck(adquisitionPropertySeller != null ? adquisitionPropertySeller.getSellerVoidCheck() : null)
+                .sellerPersonalVoidCheck(adquisitionPropertySeller != null ? adquisitionPropertySeller.getSellerPersonalVoidCheck() : null)
+
                 .originalContractClosingDate(originalContractClosingDate)
                 .build();
     }
@@ -1124,6 +1138,16 @@ public class AdquisitionProperty {
                 .waterBuyerDepositAmount(adquisitionPropertyBuyerUtilitiesInfo != null ? adquisitionPropertyBuyerUtilitiesInfo.getWaterBuyerDepositAmount() : null)
                 .internetBuyerStartServiceDate(adquisitionPropertyBuyerUtilitiesInfo != null ? adquisitionPropertyBuyerUtilitiesInfo.getInternetBuyerStartServiceDate() : null)
                 .internetBuyerDepositAmount(adquisitionPropertyBuyerUtilitiesInfo != null ? adquisitionPropertyBuyerUtilitiesInfo.getInternetBuyerDepositAmount() : null)
+
+                .sellerPersonalAccountHolderName(adquisitionPropertySeller != null ? adquisitionPropertySeller.getSellerPersonalAccountHolderName() : null)
+                .sellerPersonalAccountNumber(adquisitionPropertySeller != null ? adquisitionPropertySeller.getSellerPersonalAccountNumber() : null)
+                .sellerPersonalRoutingNumber(adquisitionPropertySeller != null ? adquisitionPropertySeller.getSellerPersonalRoutingNumber() : null)
+                .sellerPersonalZelleEmailorPhone(adquisitionPropertySeller != null ? adquisitionPropertySeller.getSellerPersonalZelleEmailorPhone() : null)
+                .sellerPersonalBankName(adquisitionPropertySeller != null ? adquisitionPropertySeller.getSellerPersonalBankName() : null)
+                .sellerBankStatementRequest(adquisitionPropertySeller != null ? adquisitionPropertySeller.getSellerBankStatementRequest() : null)
+                .sellerPersonalBankStatements(adquisitionPropertySeller != null ? adquisitionPropertySeller.getSellerPersonalBankStatements() : null)
+                .sellerVoidCheck(adquisitionPropertySeller != null ? adquisitionPropertySeller.getSellerVoidCheck() : null)
+                .sellerPersonalVoidCheck(adquisitionPropertySeller != null ? adquisitionPropertySeller.getSellerPersonalVoidCheck() : null)
 
                 .originalContractClosingDate(originalContractClosingDate)
                 .build();

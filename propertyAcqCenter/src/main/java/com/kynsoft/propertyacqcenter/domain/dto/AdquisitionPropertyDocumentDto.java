@@ -259,4 +259,15 @@ public class AdquisitionPropertyDocumentDto {
     private Double internetBuyerDepositAmount;
     private LocalDate originalContractClosingDate;
     private String buyerMaritalStatus;
+
+    //Seller
+    private String sellerPersonalAccountHolderName;
+    private String sellerPersonalAccountNumber;
+    private String sellerPersonalRoutingNumber;
+    private String sellerPersonalZelleEmailorPhone;
+    private String sellerPersonalBankName;
+    private String sellerBankStatementRequest;//array
+    private String sellerPersonalBankStatements;//array
+    private Boolean sellerVoidCheck;
+    private Boolean sellerPersonalVoidCheck;
 }

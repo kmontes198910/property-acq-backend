@@ -258,4 +258,15 @@ public class AdquisitionPropertyDto {
     private Double waterBuyerDepositAmount;
     private LocalDate internetBuyerStartServiceDate;
     private Double internetBuyerDepositAmount;
+
+    //Seller
+    private String sellerPersonalAccountHolderName;
+    private String sellerPersonalAccountNumber;
+    private String sellerPersonalRoutingNumber;
+    private String sellerPersonalZelleEmailorPhone;
+    private String sellerPersonalBankName;
+    private String sellerBankStatementRequest;//array
+    private String sellerPersonalBankStatements;//array
+    private Boolean sellerVoidCheck;
+    private Boolean sellerPersonalVoidCheck;
 }
