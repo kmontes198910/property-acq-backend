@@ -11,6 +11,7 @@ import com.kynsoft.propertyacqcenter.domain.dto.exception.NotDeleteException;
 import com.kynsoft.propertyacqcenter.domain.dto.exception.PurchaseForPropertyNotFoundException;
 import com.kynsoft.propertyacqcenter.domain.services.IAdquisitionPropertyService;
 import com.kynsoft.propertyacqcenter.infrastructure.entity.AdquisitionProperty;
+import com.kynsoft.propertyacqcenter.infrastructure.entity.BankAccount;
 import com.kynsoft.propertyacqcenter.infrastructure.entity.CompanyContact;
 import com.kynsoft.propertyacqcenter.infrastructure.entity.LegalEntity;
 import com.kynsoft.propertyacqcenter.infrastructure.entity.Property;
@@ -65,6 +66,9 @@ public class AdquisitionPropertyServiceImpl implements IAdquisitionPropertyServi
         update.setBuyer(object.getBuyer() != null ? new LegalEntity(object.getBuyer()) : null);
         update.setContact(object.getContact() != null ? new CompanyContact(object.getContact()) : null);
         update.setProperty(new Property(object.getProperty()));
+
+        update.setBuyerBankAccount(object.getBuyerBankAccount() != null ? new BankAccount(object.getBuyerBankAccount()) : null);
+        update.setSellerBankAccount(object.getSellerBankAccount() != null ? new BankAccount(object.getSellerBankAccount()) : null);
 
         update.setBuyerNameAndYearVehicle(object.getBuyerNameAndYearVehicle() != null ? object.getBuyerNameAndYearVehicle() : update.getBuyerNameAndYearVehicle());
         update.setBuyerLicenseTagNo(object.getBuyerLicenseTagNo() != null ? object.getBuyerLicenseTagNo() : update.getBuyerLicenseTagNo());

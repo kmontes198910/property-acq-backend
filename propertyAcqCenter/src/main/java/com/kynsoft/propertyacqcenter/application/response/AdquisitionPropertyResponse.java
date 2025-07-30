@@ -256,11 +256,16 @@ public class AdquisitionPropertyResponse implements IResponse {
     private Boolean sellerVoidCheck;
     private Boolean sellerPersonalVoidCheck;
 
+    private BankAccountAdquisitionPropertyResponse buyerBankAccount;
+    private BankAccountAdquisitionPropertyResponse sellerBankAccount;
+
     public AdquisitionPropertyResponse(AdquisitionPropertyDto dto) {
         this.id = dto.getId();
         this.buyer = dto.getBuyer() != null ? new LegalEntityBasicResponse(dto.getBuyer()) : null;
         this.property = dto.getProperty() != null ? new PropertiesBasicResponse(dto.getProperty()) : null;
         this.contact = dto.getContact() != null ? new CompanyContactResponse(dto.getContact()) : null;
+        this.buyerBankAccount = dto.getBuyerBankAccount() != null ? new BankAccountAdquisitionPropertyResponse(dto.getBuyerBankAccount()) : null;
+        this.sellerBankAccount = dto.getSellerBankAccount() != null ? new BankAccountAdquisitionPropertyResponse(dto.getSellerBankAccount()) : null;
         this.buyerNameAndYearVehicle = dto.getBuyerNameAndYearVehicle();
         this.buyerLicenseTagNo = dto.getBuyerLicenseTagNo();
 

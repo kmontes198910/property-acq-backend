@@ -222,6 +222,20 @@ public class BankAccount {
                 .build();
     }
 
+    public BankAccountDto toAggregateToAdquisition() {
+        return BankAccountDto.builder()
+                .id(this.id)
+                .domesticWare(domesticWare)
+                .bankName(bankName)
+                .accountNumber(accountNumber)
+                .routingNumber(routingNumber)
+                .accountType(accountType)
+                .accountNickname(accountNickname)
+                .openingDate(openingDate)
+                .holderName(holderName)
+                .build();
+    }
+
     public BankAccountDto toAggregateBasic() {
         return BankAccountDto.builder()
                 .id(this.id)

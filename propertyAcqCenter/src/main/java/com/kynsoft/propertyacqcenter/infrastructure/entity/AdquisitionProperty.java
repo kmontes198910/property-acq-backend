@@ -37,6 +37,14 @@ public class AdquisitionProperty {
     private LegalEntity buyer;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "buyer_bank_account_id", nullable = true)
+    private BankAccount buyerBankAccount;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "seller_bank_account_id", nullable = true)
+    private BankAccount sellerBankAccount;
+
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "property_id", nullable = false)
     private Property property;
 
@@ -537,6 +545,9 @@ public class AdquisitionProperty {
         this.property = dto.getProperty() != null ? new Property(dto.getProperty()) : null;
         this.contact = dto.getContact() != null ? new CompanyContact(dto.getContact()) : null;
 
+        this.buyerBankAccount = dto.getBuyerBankAccount() != null ? new BankAccount(dto.getBuyerBankAccount()) : null;
+        this.sellerBankAccount = dto.getBuyerBankAccount() != null ? new BankAccount(dto.getBuyerBankAccount()) : null;
+
         this.dateAndTimeForInspections = dto.getDateAndTimeForInspections();
         this.instructionsForAccess = dto.getInstructionsForAccess();
         this.hoaBuyerInterviewDate = dto.getHoaBuyerInterviewDate();
@@ -709,6 +720,8 @@ public class AdquisitionProperty {
                 .buyer(this.buyer != null ? this.buyer.toAggregateBasic() : null)
                 .property(this.property != null ? this.property.toAggregateBasic() : null)
                 .contact(this.contact != null ? this.contact.toAggregate() : null)
+                .buyerBankAccount(this.buyerBankAccount != null ? this.buyerBankAccount.toAggregateToAdquisition() : null)
+                .sellerBankAccount(this.sellerBankAccount != null ? this.sellerBankAccount.toAggregateToAdquisition() : null)
                 .buyerNameAndYearVehicle(buyerNameAndYearVehicle)
                 .buyerLicenseTagNo(buyerLicenseTagNo)
                 .dateAndTimeForInspections(dateAndTimeForInspections)
@@ -934,6 +947,8 @@ public class AdquisitionProperty {
                 .buyer(this.buyer != null ? this.buyer.toAggregateBasic() : null)
                 .property(this.property != null ? this.property.toAggregateBasic() : null)
                 .contact(this.contact != null ? this.contact.toAggregate() : null)
+                .buyerBankAccount(this.buyerBankAccount != null ? this.buyerBankAccount.toAggregateToAdquisition() : null)
+                .sellerBankAccount(this.sellerBankAccount != null ? this.sellerBankAccount.toAggregateToAdquisition() : null)
                 .buyerNameAndYearVehicle(buyerNameAndYearVehicle)
                 .buyerLicenseTagNo(buyerLicenseTagNo)
                 .dateAndTimeForInspections(dateAndTimeForInspections)

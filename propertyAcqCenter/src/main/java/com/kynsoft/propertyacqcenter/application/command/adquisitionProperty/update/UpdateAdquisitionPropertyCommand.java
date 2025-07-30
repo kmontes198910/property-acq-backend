@@ -263,6 +263,9 @@ public class UpdateAdquisitionPropertyCommand implements ICommand {
     private Boolean sellerVoidCheck;
     private Boolean sellerPersonalVoidCheck;
 
+    private UUID buyerBankAccount;
+    private UUID sellerBankAccount;
+
     public UpdateAdquisitionPropertyCommand(UUID id, UUID buyer, String property, UUID contact, String buyerNameAndYearVehicle,
             String buyerLicenseTagNo,
             LocalDate dateAndTimeForInspections, String instructionsForAccess, LocalDate hoaBuyerInterviewDate,
@@ -429,7 +432,9 @@ public class UpdateAdquisitionPropertyCommand implements ICommand {
             String sellerBankStatementRequest,
             String sellerPersonalBankStatements,
             Boolean sellerVoidCheck,
-            Boolean sellerPersonalVoidCheck
+            Boolean sellerPersonalVoidCheck,
+            UUID buyerBankAccount,
+            UUID sellerBankAccount
             ) {
         this.id = id;
         this.buyer = buyer;
@@ -654,6 +659,8 @@ public class UpdateAdquisitionPropertyCommand implements ICommand {
         this.sellerPersonalBankStatements = sellerPersonalBankStatements;
         this.sellerVoidCheck = sellerVoidCheck;
         this.sellerPersonalVoidCheck = sellerPersonalVoidCheck;
+        this.buyerBankAccount = buyerBankAccount;
+        this.sellerBankAccount = sellerBankAccount;
     }
 
     public static UpdateAdquisitionPropertyCommand fromRequest(UpdateAdquisitionPropertyRequest request, UUID id) {
@@ -864,7 +871,9 @@ public class UpdateAdquisitionPropertyCommand implements ICommand {
                 request.getSellerBankStatementRequest(),
                 request.getSellerPersonalBankStatements(),
                 request.getSellerVoidCheck(),
-                request.getSellerPersonalVoidCheck()
+                request.getSellerPersonalVoidCheck(),
+                request.getBuyerBankAccount(),
+                request.getSellerBankAccount()
         );
     }
 

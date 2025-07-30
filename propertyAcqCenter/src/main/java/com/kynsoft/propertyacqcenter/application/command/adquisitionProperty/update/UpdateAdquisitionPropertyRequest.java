@@ -260,4 +260,7 @@ public class UpdateAdquisitionPropertyRequest {
     private String sellerPersonalBankStatements;//array
     private Boolean sellerVoidCheck;
     private Boolean sellerPersonalVoidCheck;
+
+    private UUID buyerBankAccount;
+    private UUID sellerBankAccount;
 }
