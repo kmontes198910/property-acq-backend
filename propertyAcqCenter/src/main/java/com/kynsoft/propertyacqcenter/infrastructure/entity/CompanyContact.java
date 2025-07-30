@@ -155,7 +155,7 @@ public class CompanyContact {
                 .company(company != null ? this.company.toAggregateBasic() : null)
                 .legalEntity(legalEntity != null ? this.legalEntity.toAggregateBasic() : null)
                 .subCategory(subCategory != null ? this.subCategory.toAggregate() : null)
-                .category(category != null ? ContactType.valueOf(category) : null)
+                //.category(category != null ? ContactType.valueOf(category) : null)
                 .type(type != null ? Type.valueOf(type) : null)
                 .personalEmail(personalEmail)
                 .mailingAddress(mailingAddress)
