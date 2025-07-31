@@ -191,7 +191,7 @@ public class AdquisitionPropertyResponse implements IResponse {
     private String whwireRoutingNumber;
     private String whZelleEmailorPhone;
 
-    private AdquisitionDocumentResponse hoaTotalUnits;
+    private Double hoaTotalUnits;
     private AdquisitionDocumentResponse hoaDeclarationOfCondominium;
     private AdquisitionDocumentResponse hoaCondominiumRider;
     private AdquisitionDocumentResponse hoaBylaws;
@@ -426,7 +426,7 @@ public class AdquisitionPropertyResponse implements IResponse {
         this.whwireRoutingNumber = dto.getWhwireRoutingNumber();
         this.whZelleEmailorPhone = dto.getWhZelleEmailorPhone();
 
-        this.hoaTotalUnits = DocumentMapper.mapDocumentField(dto.getHoaTotalUnits());
+        this.hoaTotalUnits = dto.getHoaTotalUnits();
         this.hoaDeclarationOfCondominium = DocumentMapper.mapDocumentField(dto.getHoaDeclarationOfCondominium());
         this.hoaCondominiumRider = DocumentMapper.mapDocumentField(dto.getHoaCondominiumRider());
         this.hoaBylaws = DocumentMapper.mapDocumentField(dto.getHoaBylaws());

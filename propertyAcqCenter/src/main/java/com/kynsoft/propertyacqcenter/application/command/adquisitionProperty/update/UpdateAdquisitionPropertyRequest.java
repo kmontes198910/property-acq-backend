@@ -196,7 +196,7 @@ public class UpdateAdquisitionPropertyRequest {
     private String whwireRoutingNumber;
     private String whZelleEmailorPhone;
 
-    private CreateDocumentRequest hoaTotalUnits;
+    private Double hoaTotalUnits;
     private CreateDocumentRequest hoaDeclarationOfCondominium;
     private CreateDocumentRequest hoaCondominiumRider;
     private CreateDocumentRequest hoaBylaws;

@@ -208,7 +208,7 @@ public class AdquisitionPropertyDocumentDto {
     private String whwireRoutingNumber;
     private String whZelleEmailorPhone;
 
-    private String hoaTotalUnits;
+    private Double hoaTotalUnits;
     private String hoaDeclarationOfCondominium;
     private String hoaCondominiumRider;
     private String hoaBylaws;
