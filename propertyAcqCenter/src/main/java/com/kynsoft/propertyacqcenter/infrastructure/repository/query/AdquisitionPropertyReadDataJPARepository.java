@@ -18,15 +18,27 @@ import org.springframework.data.repository.query.Param;
 @Repository
 public interface AdquisitionPropertyReadDataJPARepository extends JpaRepository<AdquisitionProperty, UUID>, JpaSpecificationExecutor<AdquisitionProperty> {
 
-    @EntityGraph(attributePaths = {"buyer", "property", "contact", "contact.company", "adquisitionPropertyHoa", "adquisitionPropertyBuyer", "adquisitionPropertyBuyerPersonalBankInfo", "adquisitionPropertyBuyerUtilitiesInfo", "buyerBankAccount", "sellerBankAccount"})
+    @EntityGraph(attributePaths = {
+        "buyer", "property", "contact", "contact.company", "adquisitionPropertyHoa", "adquisitionPropertyBuyer", 
+        "adquisitionPropertyBuyerPersonalBankInfo", "adquisitionPropertyBuyerUtilitiesInfo", "buyerBankAccount", 
+        "sellerBankAccount", "buyerBankAccount.contactDetails", "sellerBankAccount.contactDetails"
+    })
     @Override
     Page<AdquisitionProperty> findAll(Specification<AdquisitionProperty> specification, Pageable pageable);
 
-    @EntityGraph(attributePaths = {"buyer", "property", "contact", "contact.company", "adquisitionPropertyHoa", "adquisitionPropertyBuyer", "adquisitionPropertyBuyerPersonalBankInfo", "adquisitionPropertyBuyerUtilitiesInfo", "buyerBankAccount", "sellerBankAccount"})
+    @EntityGraph(attributePaths = {
+        "buyer", "property", "contact", "contact.company", "adquisitionPropertyHoa", "adquisitionPropertyBuyer", 
+        "adquisitionPropertyBuyerPersonalBankInfo", "adquisitionPropertyBuyerUtilitiesInfo", "buyerBankAccount", 
+        "sellerBankAccount", "buyerBankAccount.contactDetails", "sellerBankAccount.contactDetails"
+    })
     @Override
     Optional<AdquisitionProperty> findById(UUID id);
 
-    @EntityGraph(attributePaths = {"buyer", "property", "contact", "contact.company", "adquisitionPropertyHoa", "adquisitionPropertyBuyer", "adquisitionPropertyBuyerPersonalBankInfo", "adquisitionPropertyBuyerUtilitiesInfo", "buyerBankAccount", "sellerBankAccount"})
+    @EntityGraph(attributePaths = {
+        "buyer", "property", "contact", "contact.company", "adquisitionPropertyHoa", "adquisitionPropertyBuyer", 
+        "adquisitionPropertyBuyerPersonalBankInfo", "adquisitionPropertyBuyerUtilitiesInfo", "buyerBankAccount", 
+        "sellerBankAccount", "buyerBankAccount.contactDetails", "sellerBankAccount.contactDetails"
+    })
     List<AdquisitionProperty> findByPropertyId(String propertyId);
 
     @Query("SELECT CASE WHEN COUNT(ap) > 0 THEN true ELSE false END "
