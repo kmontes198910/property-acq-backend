@@ -512,4 +512,36 @@ public class AdquisitionPropertyServiceImpl implements IAdquisitionPropertyServi
         repositoryCommand.save(update);
     }
 
+    @Override
+    public void updateSellerPersonalBankStatements(UUID id, String sellerPersonalBankStatements) {
+        AdquisitionProperty update = this.findByIdSimple(id);
+        if (update.getAdquisitionPropertySeller() != null) {
+            update.getAdquisitionPropertySeller().setSellerPersonalBankStatements(sellerPersonalBankStatements);
+        } else {
+            update.setAdquisitionPropertySeller(AdquisitionPropertySeller
+                    .builder()
+                    .id(UUID.randomUUID())
+                    .sellerPersonalBankStatements(sellerPersonalBankStatements)
+                    .build());
+        }
+
+        repositoryCommand.save(update);
+    }
+
+    @Override
+    public void updateSellerBankStatementRequest(UUID id, String sellerBankStatementRequest) {
+        AdquisitionProperty update = this.findByIdSimple(id);
+        if (update.getAdquisitionPropertySeller() != null) {
+            update.getAdquisitionPropertySeller().setSellerBankStatementRequest(sellerBankStatementRequest);
+        } else {
+            update.setAdquisitionPropertySeller(AdquisitionPropertySeller
+                    .builder()
+                    .id(UUID.randomUUID())
+                    .sellerBankStatementRequest(sellerBankStatementRequest)
+                    .build());
+        }
+
+        repositoryCommand.save(update);
+    }
+
 }
