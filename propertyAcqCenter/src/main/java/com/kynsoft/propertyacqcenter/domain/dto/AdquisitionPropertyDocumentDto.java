@@ -269,8 +269,8 @@ public class AdquisitionPropertyDocumentDto {
     private String sellerPersonalRoutingNumber;
     private String sellerPersonalZelleEmailorPhone;
     private String sellerPersonalBankName;
-    private String sellerBankStatementRequest;//array
-    private String sellerPersonalBankStatements;//array
+    private List<AdquisitionDocumentDto> sellerBankStatementRequest;//array
+    private List<AdquisitionDocumentDto> sellerPersonalBankStatements;//array
     private Boolean sellerVoidCheck;
     private Boolean sellerPersonalVoidCheck;
 }

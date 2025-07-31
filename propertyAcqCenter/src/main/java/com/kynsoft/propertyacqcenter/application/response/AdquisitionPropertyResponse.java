@@ -251,8 +251,8 @@ public class AdquisitionPropertyResponse implements IResponse {
     private String sellerPersonalRoutingNumber;
     private String sellerPersonalZelleEmailorPhone;
     private String sellerPersonalBankName;
-    private String sellerBankStatementRequest;//array
-    private String sellerPersonalBankStatements;//array
+    private List<AdquisitionDocumentResponse> sellerBankStatementRequest;//array
+    private List<AdquisitionDocumentResponse> sellerPersonalBankStatements;//array
     private Boolean sellerVoidCheck;
     private Boolean sellerPersonalVoidCheck;
 
@@ -486,8 +486,8 @@ public class AdquisitionPropertyResponse implements IResponse {
         this.sellerPersonalRoutingNumber = dto.getSellerPersonalRoutingNumber();
         this.sellerPersonalZelleEmailorPhone = dto.getSellerPersonalZelleEmailorPhone();
         this.sellerPersonalBankName = dto.getSellerPersonalBankName();
-        this.sellerBankStatementRequest = dto.getSellerBankStatementRequest();
-        this.sellerPersonalBankStatements = dto.getSellerPersonalBankStatements();
+        this.sellerBankStatementRequest = convertDbToList(dto.getSellerBankStatementRequest());
+        this.sellerPersonalBankStatements = convertDbToList(dto.getSellerPersonalBankStatements());
         this.sellerVoidCheck = dto.getSellerVoidCheck();
         this.sellerPersonalVoidCheck = dto.getSellerPersonalVoidCheck();
     }

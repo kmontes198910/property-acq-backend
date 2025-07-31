@@ -1159,8 +1159,8 @@ public class AdquisitionProperty {
                 .sellerPersonalRoutingNumber(adquisitionPropertySeller != null ? adquisitionPropertySeller.getSellerPersonalRoutingNumber() : null)
                 .sellerPersonalZelleEmailorPhone(adquisitionPropertySeller != null ? adquisitionPropertySeller.getSellerPersonalZelleEmailorPhone() : null)
                 .sellerPersonalBankName(adquisitionPropertySeller != null ? adquisitionPropertySeller.getSellerPersonalBankName() : null)
-                .sellerBankStatementRequest(adquisitionPropertySeller != null ? adquisitionPropertySeller.getSellerBankStatementRequest() : null)
-                .sellerPersonalBankStatements(adquisitionPropertySeller != null ? adquisitionPropertySeller.getSellerPersonalBankStatements() : null)
+                .sellerBankStatementRequest(adquisitionPropertySeller != null ? this.convertDbToList(adquisitionPropertySeller.getSellerBankStatementRequest()) : null)
+                .sellerPersonalBankStatements(adquisitionPropertySeller != null ? this.convertDbToList(adquisitionPropertySeller.getSellerPersonalBankStatements()) : null)
                 .sellerVoidCheck(adquisitionPropertySeller != null ? adquisitionPropertySeller.getSellerVoidCheck() : null)
                 .sellerPersonalVoidCheck(adquisitionPropertySeller != null ? adquisitionPropertySeller.getSellerPersonalVoidCheck() : null)
 
