@@ -7,6 +7,7 @@ import com.kynsoft.propertyacqcenter.infrastructure.entity.embedded.adquisitionP
 import com.kynsoft.propertyacqcenter.infrastructure.entity.embedded.adquisitionProperty.AdquisitionPropertyBuyerPersonalBankInfo;
 import com.kynsoft.propertyacqcenter.infrastructure.entity.embedded.adquisitionProperty.AdquisitionPropertyBuyerUtilitiesInfo;
 import com.kynsoft.propertyacqcenter.infrastructure.entity.embedded.adquisitionProperty.AdquisitionPropertyHoa;
+import com.kynsoft.propertyacqcenter.infrastructure.entity.embedded.adquisitionProperty.AdquisitionPropertyHoaBuildingInfo;
 import com.kynsoft.propertyacqcenter.infrastructure.entity.embedded.adquisitionProperty.AdquisitionPropertySeller;
 import jakarta.persistence.*;
 import java.time.LocalDate;
@@ -518,6 +519,9 @@ public class AdquisitionProperty {
     private AdquisitionPropertyHoa adquisitionPropertyHoa;
 
     @OneToOne(mappedBy = "adquisitionProperty", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    private AdquisitionPropertyHoaBuildingInfo adquisitionPropertyHoaBuildingInfo;
+
+    @OneToOne(mappedBy = "adquisitionProperty", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private AdquisitionPropertyBuyer adquisitionPropertyBuyer;
 
     @OneToOne(mappedBy = "adquisitionProperty", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
@@ -937,6 +941,15 @@ public class AdquisitionProperty {
                 .sellerVoidCheck(adquisitionPropertySeller != null ? adquisitionPropertySeller.getSellerVoidCheck() : null)
                 .sellerPersonalVoidCheck(adquisitionPropertySeller != null ? adquisitionPropertySeller.getSellerPersonalVoidCheck() : null)
 
+                .hoaInpectionReport(adquisitionPropertyHoaBuildingInfo != null ? adquisitionPropertyHoaBuildingInfo.getHoaInpectionReport() : null)
+                .hoaElectricalReport(adquisitionPropertyHoaBuildingInfo != null ? adquisitionPropertyHoaBuildingInfo.getHoaElectricalReport() : null)
+                .hoaHvacReport(adquisitionPropertyHoaBuildingInfo != null ? adquisitionPropertyHoaBuildingInfo.getHoaHvacReport() : null)
+                .hoaRoofReport(adquisitionPropertyHoaBuildingInfo != null ? adquisitionPropertyHoaBuildingInfo.getHoaRoofReport() : null)
+                .hoaStructuralReport(adquisitionPropertyHoaBuildingInfo != null ? adquisitionPropertyHoaBuildingInfo.getHoaStructuralReport() : null)
+                .hoaPlumbingReport(adquisitionPropertyHoaBuildingInfo != null ? adquisitionPropertyHoaBuildingInfo.getHoaPlumbingReport() : null)
+                .hoaNotesReport(adquisitionPropertyHoaBuildingInfo != null ? adquisitionPropertyHoaBuildingInfo.getHoaNotesReport() : null)
+                .hoaNotes(adquisitionPropertyHoaBuildingInfo != null ? adquisitionPropertyHoaBuildingInfo.getHoaNotes() : null)
+
                 .originalContractClosingDate(originalContractClosingDate)
                 .build();
     }
@@ -1163,6 +1176,15 @@ public class AdquisitionProperty {
                 .sellerPersonalBankStatements(adquisitionPropertySeller != null ? this.convertDbToList(adquisitionPropertySeller.getSellerPersonalBankStatements()) : null)
                 .sellerVoidCheck(adquisitionPropertySeller != null ? adquisitionPropertySeller.getSellerVoidCheck() : null)
                 .sellerPersonalVoidCheck(adquisitionPropertySeller != null ? adquisitionPropertySeller.getSellerPersonalVoidCheck() : null)
+
+                .hoaInpectionReport(adquisitionPropertyHoaBuildingInfo != null ? adquisitionPropertyHoaBuildingInfo.getHoaInpectionReport() : null)
+                .hoaElectricalReport(adquisitionPropertyHoaBuildingInfo != null ? adquisitionPropertyHoaBuildingInfo.getHoaElectricalReport() : null)
+                .hoaHvacReport(adquisitionPropertyHoaBuildingInfo != null ? adquisitionPropertyHoaBuildingInfo.getHoaHvacReport() : null)
+                .hoaRoofReport(adquisitionPropertyHoaBuildingInfo != null ? adquisitionPropertyHoaBuildingInfo.getHoaRoofReport() : null)
+                .hoaStructuralReport(adquisitionPropertyHoaBuildingInfo != null ? adquisitionPropertyHoaBuildingInfo.getHoaStructuralReport() : null)
+                .hoaPlumbingReport(adquisitionPropertyHoaBuildingInfo != null ? adquisitionPropertyHoaBuildingInfo.getHoaPlumbingReport() : null)
+                .hoaNotesReport(adquisitionPropertyHoaBuildingInfo != null ? adquisitionPropertyHoaBuildingInfo.getHoaNotesReport() : null)
+                .hoaNotes(adquisitionPropertyHoaBuildingInfo != null ? adquisitionPropertyHoaBuildingInfo.getHoaNotes() : null)
 
                 .originalContractClosingDate(originalContractClosingDate)
                 .build();

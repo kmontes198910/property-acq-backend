@@ -285,6 +285,14 @@ public class UpdateAdquisitionPropertyCommandHandler implements ICommandHandler<
                 .sellerVoidCheck(command.getSellerVoidCheck())
                 .sellerPersonalVoidCheck(command.getSellerPersonalVoidCheck())
 
+                .hoaInpectionReport(command.getHoaInpectionReport() != null ? command.getHoaInpectionReport().getFilePath() + "|" + command.getHoaInpectionReport().getFileName() : null)
+                .hoaElectricalReport(command.getHoaElectricalReport() != null ? command.getHoaElectricalReport().getFilePath() + "|" + command.getHoaElectricalReport().getFileName() : null)
+                .hoaHvacReport(command.getHoaHvacReport() != null ? command.getHoaHvacReport().getFilePath() + "|" + command.getHoaHvacReport().getFileName() : null)
+                .hoaRoofReport(command.getHoaRoofReport() != null ? command.getHoaRoofReport().getFilePath() + "|" + command.getHoaRoofReport().getFileName() : null)
+                .hoaStructuralReport(command.getHoaStructuralReport() != null ? command.getHoaStructuralReport().getFilePath() + "|" + command.getHoaStructuralReport().getFileName() : null)
+                .hoaPlumbingReport(command.getHoaPlumbingReport() != null ? command.getHoaPlumbingReport().getFilePath() + "|" + command.getHoaPlumbingReport().getFileName() : null)
+                .hoaNotesReport(command.getHoaNotesReport() != null ? command.getHoaNotesReport().getFilePath() + "|" + command.getHoaNotesReport().getFileName() : null)
+                .hoaNotes(command.getHoaNotes())
                 .build()
         );
     }

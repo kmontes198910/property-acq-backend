@@ -263,4 +263,13 @@ public class UpdateAdquisitionPropertyRequest {
 
     private UUID buyerBankAccount;
     private UUID sellerBankAccount;
+
+    private CreateDocumentRequest hoaInpectionReport;
+    private CreateDocumentRequest hoaElectricalReport;
+    private CreateDocumentRequest hoaHvacReport;
+    private CreateDocumentRequest hoaRoofReport;
+    private CreateDocumentRequest hoaStructuralReport;
+    private CreateDocumentRequest hoaPlumbingReport;
+    private CreateDocumentRequest hoaNotesReport;
+    private String hoaNotes;
 }
