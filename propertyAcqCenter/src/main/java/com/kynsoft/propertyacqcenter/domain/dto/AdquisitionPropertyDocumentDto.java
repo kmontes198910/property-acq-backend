@@ -273,4 +273,15 @@ public class AdquisitionPropertyDocumentDto {
     private List<AdquisitionDocumentDto> sellerPersonalBankStatements;//array
     private Boolean sellerVoidCheck;
     private Boolean sellerPersonalVoidCheck;
+
+    private String hoaInpectionReport;
+    private String hoaElectricalReport;
+    private String hoaHvacReport;
+    private String hoaRoofReport;
+    private String hoaStructuralReport;
+    private String hoaPlumbingReport;
+    private String hoaOthersReport;
+    private String hoaNotesReport;
+    private String hoaNotes;
+
 }

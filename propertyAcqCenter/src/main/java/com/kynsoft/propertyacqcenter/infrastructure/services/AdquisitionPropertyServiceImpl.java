@@ -19,6 +19,7 @@ import com.kynsoft.propertyacqcenter.infrastructure.entity.embedded.adquisitionP
 import com.kynsoft.propertyacqcenter.infrastructure.entity.embedded.adquisitionProperty.AdquisitionPropertyBuyerPersonalBankInfo;
 import com.kynsoft.propertyacqcenter.infrastructure.entity.embedded.adquisitionProperty.AdquisitionPropertyBuyerUtilitiesInfo;
 import com.kynsoft.propertyacqcenter.infrastructure.entity.embedded.adquisitionProperty.AdquisitionPropertyHoa;
+import com.kynsoft.propertyacqcenter.infrastructure.entity.embedded.adquisitionProperty.AdquisitionPropertyHoaBuildingInfo;
 import com.kynsoft.propertyacqcenter.infrastructure.entity.embedded.adquisitionProperty.AdquisitionPropertySeller;
 import com.kynsoft.propertyacqcenter.infrastructure.repository.command.AdquisitionPropertyWriteDataJPARepository;
 import com.kynsoft.propertyacqcenter.infrastructure.repository.query.AdquisitionPropertyReadDataJPARepository;
@@ -62,6 +63,7 @@ public class AdquisitionPropertyServiceImpl implements IAdquisitionPropertyServi
         update.setAdquisitionPropertyBuyerPersonalBankInfo(createAdquisitionPropertyBuyerPersonalBankInfo(object, update));
         update.setAdquisitionPropertyBuyerUtilitiesInfo(createAdquisitionPropertyBuyerUtilitiesInfo(object, update));
         update.setAdquisitionPropertySeller(createAdquisitionPropertySeller(object, update));
+        update.setAdquisitionPropertyHoaBuildingInfo(createAdquisitionPropertyHoaBuildingInfo(object, update));
 
         update.setBuyer(object.getBuyer() != null ? new LegalEntity(object.getBuyer()) : null);
         update.setContact(object.getContact() != null ? new CompanyContact(object.getContact()) : null);
@@ -437,6 +439,39 @@ public class AdquisitionPropertyServiceImpl implements IAdquisitionPropertyServi
                         .buyerPersonalBankName(object.getBuyerPersonalBankName())
                         .buyerPersonalUseForHoaBankReference(object.getBuyerPersonalUseForHoaBankReference())
                         .buyerPersonalUseForLenderBankReference(object.getBuyerPersonalUseForLenderBankReference())
+                        .build();
+    }
+
+    private AdquisitionPropertyHoaBuildingInfo createAdquisitionPropertyHoaBuildingInfo(AdquisitionPropertyDto object, AdquisitionProperty update) {
+        return update.getAdquisitionPropertyHoaBuildingInfo() != null
+                ? //Si es diferente de null, es porque ya tiene datos.
+                AdquisitionPropertyHoaBuildingInfo
+                        .builder()
+                        .id(update.getAdquisitionPropertyHoaBuildingInfo().getId())
+                        .adquisitionProperty(update)
+                        .hoaInpectionReport(object.getHoaInpectionReport() != null ? object.getHoaInpectionReport() : update.getAdquisitionPropertyHoaBuildingInfo().getHoaInpectionReport())
+                        .hoaElectricalReport(object.getHoaElectricalReport() != null ? object.getHoaElectricalReport() : update.getAdquisitionPropertyHoaBuildingInfo().getHoaElectricalReport())
+                        .hoaHvacReport(object.getHoaHvacReport() != null ? object.getHoaHvacReport() : update.getAdquisitionPropertyHoaBuildingInfo().getHoaHvacReport())
+                        .hoaRoofReport(object.getHoaRoofReport() != null ? object.getHoaRoofReport() : update.getAdquisitionPropertyHoaBuildingInfo().getHoaRoofReport())
+                        .hoaStructuralReport(object.getHoaStructuralReport() != null ? object.getHoaStructuralReport() : update.getAdquisitionPropertyHoaBuildingInfo().getHoaStructuralReport())
+                        .hoaPlumbingReport(object.getHoaPlumbingReport() != null ? object.getHoaPlumbingReport() : update.getAdquisitionPropertyHoaBuildingInfo().getHoaPlumbingReport())
+                        .hoaOthersReport(object.getHoaOthersReport() != null ? object.getHoaOthersReport() : update.getAdquisitionPropertyHoaBuildingInfo().getHoaOthersReport())
+                        .hoaNotesReport(object.getHoaNotesReport() != null ? object.getHoaNotesReport() : update.getAdquisitionPropertyHoaBuildingInfo().getHoaNotesReport())
+                        .hoaNotes(object.getHoaNotes() != null ? object.getHoaNotes() : update.getAdquisitionPropertyHoaBuildingInfo().getHoaNotes())
+                        .build()
+                : AdquisitionPropertyHoaBuildingInfo
+                        .builder()
+                        .id(UUID.randomUUID())
+                        .adquisitionProperty(update)
+                        .hoaInpectionReport(object.getHoaInpectionReport())
+                        .hoaElectricalReport(object.getHoaElectricalReport())
+                        .hoaHvacReport(object.getHoaHvacReport())
+                        .hoaRoofReport(object.getHoaRoofReport())
+                        .hoaStructuralReport(object.getHoaStructuralReport())
+                        .hoaPlumbingReport(object.getHoaPlumbingReport())
+                        .hoaOthersReport(object.getHoaOthersReport())
+                        .hoaNotesReport(object.getHoaNotesReport())
+                        .hoaNotes(object.getHoaNotes())
                         .build();
     }
 

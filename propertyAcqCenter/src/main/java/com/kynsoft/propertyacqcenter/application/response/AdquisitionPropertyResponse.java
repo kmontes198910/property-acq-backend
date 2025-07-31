@@ -259,6 +259,15 @@ public class AdquisitionPropertyResponse implements IResponse {
     private BankAccountAdquisitionPropertyResponse buyerBankAccount;
     private BankAccountAdquisitionPropertyResponse sellerBankAccount;
 
+    private AdquisitionDocumentResponse hoaInpectionReport;
+    private AdquisitionDocumentResponse hoaElectricalReport;
+    private AdquisitionDocumentResponse hoaHvacReport;
+    private AdquisitionDocumentResponse hoaRoofReport;
+    private AdquisitionDocumentResponse hoaStructuralReport;
+    private AdquisitionDocumentResponse hoaPlumbingReport;
+    private AdquisitionDocumentResponse hoaNotesReport;
+    private String hoaNotes;
+
     public AdquisitionPropertyResponse(AdquisitionPropertyDto dto) {
         this.id = dto.getId();
         this.buyer = dto.getBuyer() != null ? new LegalEntityBasicResponse(dto.getBuyer()) : null;
@@ -490,6 +499,15 @@ public class AdquisitionPropertyResponse implements IResponse {
         this.sellerPersonalBankStatements = convertDbToList(dto.getSellerPersonalBankStatements());
         this.sellerVoidCheck = dto.getSellerVoidCheck();
         this.sellerPersonalVoidCheck = dto.getSellerPersonalVoidCheck();
+
+        this.hoaInpectionReport = DocumentMapper.mapDocumentField(dto.getHoaInpectionReport());
+        this.hoaElectricalReport = DocumentMapper.mapDocumentField(dto.getHoaElectricalReport());
+        this.hoaHvacReport = DocumentMapper.mapDocumentField(dto.getHoaHvacReport());
+        this.hoaRoofReport = DocumentMapper.mapDocumentField(dto.getHoaRoofReport());
+        this.hoaStructuralReport = DocumentMapper.mapDocumentField(dto.getHoaStructuralReport());
+        this.hoaPlumbingReport = DocumentMapper.mapDocumentField(dto.getHoaPlumbingReport());
+        this.hoaNotesReport = DocumentMapper.mapDocumentField(dto.getHoaNotesReport());
+        this.hoaNotes = dto.getHoaNotes();
     }
 
     private List<AdquisitionDocumentResponse> convertDbToList(String dbData) {

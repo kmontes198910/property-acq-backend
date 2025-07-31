@@ -266,6 +266,15 @@ public class UpdateAdquisitionPropertyCommand implements ICommand {
     private UUID buyerBankAccount;
     private UUID sellerBankAccount;
 
+    private CreateDocumentRequest hoaInpectionReport;
+    private CreateDocumentRequest hoaElectricalReport;
+    private CreateDocumentRequest hoaHvacReport;
+    private CreateDocumentRequest hoaRoofReport;
+    private CreateDocumentRequest hoaStructuralReport;
+    private CreateDocumentRequest hoaPlumbingReport;
+    private CreateDocumentRequest hoaNotesReport;
+    private String hoaNotes;
+
     public UpdateAdquisitionPropertyCommand(UUID id, UUID buyer, String property, UUID contact, String buyerNameAndYearVehicle,
             String buyerLicenseTagNo,
             LocalDate dateAndTimeForInspections, String instructionsForAccess, LocalDate hoaBuyerInterviewDate,
@@ -434,7 +443,15 @@ public class UpdateAdquisitionPropertyCommand implements ICommand {
             Boolean sellerVoidCheck,
             Boolean sellerPersonalVoidCheck,
             UUID buyerBankAccount,
-            UUID sellerBankAccount
+            UUID sellerBankAccount,
+            CreateDocumentRequest hoaInpectionReport,
+            CreateDocumentRequest hoaElectricalReport,
+            CreateDocumentRequest hoaHvacReport,
+            CreateDocumentRequest hoaRoofReport,
+            CreateDocumentRequest hoaStructuralReport,
+            CreateDocumentRequest hoaPlumbingReport,
+            CreateDocumentRequest hoaNotesReport,
+            String hoaNotes
             ) {
         this.id = id;
         this.buyer = buyer;
@@ -661,6 +678,14 @@ public class UpdateAdquisitionPropertyCommand implements ICommand {
         this.sellerPersonalVoidCheck = sellerPersonalVoidCheck;
         this.buyerBankAccount = buyerBankAccount;
         this.sellerBankAccount = sellerBankAccount;
+        this.hoaInpectionReport = hoaInpectionReport;
+        this.hoaElectricalReport = hoaElectricalReport;
+        this.hoaHvacReport = hoaHvacReport;
+        this.hoaRoofReport = hoaRoofReport;
+        this.hoaStructuralReport = hoaStructuralReport;
+        this.hoaPlumbingReport = hoaPlumbingReport;
+        this.hoaNotesReport = hoaNotesReport;
+        this.hoaNotes = hoaNotes;
     }
 
     public static UpdateAdquisitionPropertyCommand fromRequest(UpdateAdquisitionPropertyRequest request, UUID id) {
@@ -873,7 +898,15 @@ public class UpdateAdquisitionPropertyCommand implements ICommand {
                 request.getSellerVoidCheck(),
                 request.getSellerPersonalVoidCheck(),
                 request.getBuyerBankAccount(),
-                request.getSellerBankAccount()
+                request.getSellerBankAccount(),
+                request.getHoaInpectionReport(),
+                request.getHoaElectricalReport(),
+                request.getHoaHvacReport(),
+                request.getHoaRoofReport(),
+                request.getHoaStructuralReport(),
+                request.getHoaPlumbingReport(),
+                request.getHoaNotesReport(),
+                request.getHoaNotes()
         );
     }
 
