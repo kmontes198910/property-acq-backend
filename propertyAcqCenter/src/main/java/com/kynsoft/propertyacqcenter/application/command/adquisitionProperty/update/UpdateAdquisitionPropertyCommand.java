@@ -199,7 +199,7 @@ public class UpdateAdquisitionPropertyCommand implements ICommand {
     private String whwireRoutingNumber;
     private String whZelleEmailorPhone;
 
-    private CreateDocumentRequest hoaTotalUnits;
+    private Double hoaTotalUnits;
     private CreateDocumentRequest hoaDeclarationOfCondominium;
     private CreateDocumentRequest hoaCondominiumRider;
     private CreateDocumentRequest hoaBylaws;
@@ -375,7 +375,7 @@ public class UpdateAdquisitionPropertyCommand implements ICommand {
             String whwireAccountNumber,
             String whwireRoutingNumber,
             String whZelleEmailorPhone,
-            CreateDocumentRequest hoaTotalUnits,
+            Double hoaTotalUnits,
             CreateDocumentRequest hoaDeclarationOfCondominium,
             CreateDocumentRequest hoaCondominiumRider,
             CreateDocumentRequest hoaBylaws,

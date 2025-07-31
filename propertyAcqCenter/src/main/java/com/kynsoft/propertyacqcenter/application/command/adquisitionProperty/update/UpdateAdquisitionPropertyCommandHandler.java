@@ -220,7 +220,7 @@ public class UpdateAdquisitionPropertyCommandHandler implements ICommandHandler<
                 .whwireRoutingNumber(command.getWhwireRoutingNumber())
                 .whZelleEmailorPhone(command.getWhZelleEmailorPhone())
 
-                .hoaTotalUnits(command.getHoaTotalUnits() != null ? command.getHoaTotalUnits().getFilePath() + "|" + command.getHoaTotalUnits().getFileName() : null)
+                .hoaTotalUnits(command.getHoaTotalUnits())
                 .hoaDeclarationOfCondominium(command.getHoaDeclarationOfCondominium() != null ? command.getHoaDeclarationOfCondominium().getFilePath() + "|" + command.getHoaDeclarationOfCondominium().getFileName() : null)
                 .hoaCondominiumRider(command.getHoaCondominiumRider() != null ? command.getHoaCondominiumRider().getFilePath() + "|" + command.getHoaCondominiumRider().getFileName() : null)
                 .hoaBylaws(command.getHoaBylaws() != null ? command.getHoaBylaws().getFilePath() + "|" + command.getHoaBylaws().getFileName() : null)

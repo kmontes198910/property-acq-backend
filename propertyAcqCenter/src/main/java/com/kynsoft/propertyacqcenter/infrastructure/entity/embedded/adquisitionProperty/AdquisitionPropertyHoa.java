@@ -31,8 +31,8 @@ public class AdquisitionPropertyHoa {
     @JoinColumn(name = "adquisition_property_id")
     private AdquisitionProperty adquisitionProperty; // Relación bidireccional
 
-    @Column(name = "hoa_total_units", nullable = true)
-    private String hoaTotalUnits;
+    @Column(name = "hoa_t_units", nullable = true)
+    private Double hoaTotalUnits;
 
     @Column(name = "hoa_declaration_of_condominium", nullable = true)
     private String hoaDeclarationOfCondominium;
