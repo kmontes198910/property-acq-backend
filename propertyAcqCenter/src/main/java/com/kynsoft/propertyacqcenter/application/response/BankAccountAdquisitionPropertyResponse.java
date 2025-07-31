@@ -25,6 +25,9 @@ public class BankAccountAdquisitionPropertyResponse implements IResponse {
     private LocalDate openingDate;
     private String domesticWare;
     private String holderName;
+    private String contactName;
+    private String contactPhone;
+    private String contactEmail;
 
     public BankAccountAdquisitionPropertyResponse(BankAccountDto dto) {
         this.id = dto.getId();
@@ -36,6 +39,9 @@ public class BankAccountAdquisitionPropertyResponse implements IResponse {
         this.accountNickname = dto.getAccountNickname();
         this.openingDate = dto.getOpeningDate();
         this.holderName = dto.getHolderName();
+        this.contactName = dto.getContactDetails() != null ? dto.getContactDetails().getName() : null;
+        this.contactPhone = dto.getContactDetails() != null ? dto.getContactDetails().getPhone() : null;
+        this.contactEmail = dto.getContactDetails() != null ? dto.getContactDetails().getEmail() : null;
     }
 
 }

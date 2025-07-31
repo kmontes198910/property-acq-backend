@@ -233,6 +233,7 @@ public class BankAccount {
                 .accountNickname(accountNickname)
                 .openingDate(openingDate)
                 .holderName(holderName)
+                .contactDetails(contactDetails != null ? new BankContactDto(contactDetails.getName(), contactDetails.getPhone(), contactDetails.getEmail()) : null)
                 .build();
     }
 
