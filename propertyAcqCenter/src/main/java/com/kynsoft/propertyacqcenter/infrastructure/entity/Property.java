@@ -87,8 +87,8 @@ public class Property {
     private LegalEntity buyerName;//
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "contact_id", nullable = true)
-    private Contact sellerContactInfo;//
+    @JoinColumn(name = "company_contact_id", nullable = true)
+    private CompanyContact sellerContactInfo;//
 
     @Column(name = "contract_execution_date", nullable = true)
     private LocalDate contractExecutionDate;//
@@ -201,7 +201,7 @@ public class Property {
         //Acquisition
         this.sellerName = dto.getSellerName() != null ? new LegalEntity(dto.getSellerName()) : null;
         this.buyerName = dto.getBuyerName() != null ? new LegalEntity(dto.getBuyerName()) : null;
-        this.sellerContactInfo = dto.getSellerContactInfo() != null ? new Contact(dto.getSellerContactInfo()) : null;
+        this.sellerContactInfo = dto.getSellerContactInfo() != null ? new CompanyContact(dto.getSellerContactInfo()) : null;
         this.contractExecutionDate = dto.getContractExecutionDate();
         this.acquisitionType = dto.getAcquisitionType();
         this.sourceType = dto.getSourceType();
@@ -286,7 +286,7 @@ public class Property {
                 .sourceType(sourceType)
                 .sellerName(sellerName != null ? sellerName.toAggregateBasic() : null)
                 .buyerName(buyerName != null ? buyerName.toAggregateBasic() : null)
-                .sellerContactInfo(sellerContactInfo != null ? sellerContactInfo.toAggregateBasic() : null)
+                .sellerContactInfo(sellerContactInfo != null ? sellerContactInfo.toAggregate() : null)
                 .expectedClosingDate(expectedClosingDate)
                 .originalContractClosingDate(originalContractClosingDate)
                 .emdRequirements(emdRequirements)
@@ -350,7 +350,7 @@ public class Property {
                 .acquisitionType(acquisitionType)
                 .sourceType(sourceType)
                 .sellerName(sellerName != null ? sellerName.toAggregateBasic() : null)
-                .sellerContactInfo(sellerContactInfo != null ? sellerContactInfo.toAggregateBasic() : null)
+                .sellerContactInfo(sellerContactInfo != null ? sellerContactInfo.toAggregate() : null)
                 .buyerName(buyerName != null ? buyerName.toAggregateBasic() : null)
                 .expectedClosingDate(expectedClosingDate)
                 .originalContractClosingDate(originalContractClosingDate)
@@ -416,7 +416,7 @@ public class Property {
                 .acquisitionType(acquisitionType)
                 .sourceType(sourceType)
                 .sellerName(sellerName != null ? sellerName.toAggregateBasic() : null)
-                .sellerContactInfo(sellerContactInfo != null ? sellerContactInfo.toAggregateBasic() : null)
+                .sellerContactInfo(sellerContactInfo != null ? sellerContactInfo.toAggregate() : null)
                 .buyerName(buyerName != null ? buyerName.toAggregateBasic() : null)
                 .expectedClosingDate(expectedClosingDate)
                 .originalContractClosingDate(originalContractClosingDate)
