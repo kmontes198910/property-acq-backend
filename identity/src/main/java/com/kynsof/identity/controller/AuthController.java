@@ -56,20 +56,26 @@ public class AuthController {
     public ResponseEntity<?> authenticate(@RequestBody LoginRequest loginDTO) {
         AuthenticateCommand authenticateCommand = new AuthenticateCommand(loginDTO.getUsername(), loginDTO.getPassword());
         AuthenticateMessage response = mediator.send(authenticateCommand);
-        
+
         // Verificar si hay errores de autenticación
         TokenResponse tokenResponse = response.getTokenResponse();
         if (tokenResponse.getError() != null) {
             // Si hay error, devolver respuesta de error en el formato estandarizado
             ApiError apiError = ApiError.withSingleError(
-                tokenResponse.getErrorDescription(),
-                tokenResponse.getErrorField(), 
-                tokenResponse.getErrorMessage()
+                    tokenResponse.getErrorDescription(),
+                    tokenResponse.getErrorField(),
+                    tokenResponse.getErrorMessage()
             );
-            return ResponseEntity.status(HttpStatus.PRECONDITION_REQUIRED)
+            if( "password_change_required".equals(tokenResponse.getError())) {
+                // Si el error es de cambio de contraseña, devolver un código 412
+                return ResponseEntity.status(HttpStatus.PRECONDITION_REQUIRED)
+                        .body(ApiResponse.fail(apiError));
+            }
+
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
                     .body(ApiResponse.fail(apiError));
         }
-        
+
         // Si no hay error, devolver directamente la estructura del token
         // sin encapsularla en un ApiResponse
         return ResponseEntity.ok(tokenResponse);
