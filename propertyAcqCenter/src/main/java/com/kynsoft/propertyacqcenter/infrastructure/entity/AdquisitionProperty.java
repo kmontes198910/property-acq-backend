@@ -948,6 +948,7 @@ public class AdquisitionProperty {
                 .hoaStructuralReport(adquisitionPropertyHoaBuildingInfo != null ? adquisitionPropertyHoaBuildingInfo.getHoaStructuralReport() : null)
                 .hoaPlumbingReport(adquisitionPropertyHoaBuildingInfo != null ? adquisitionPropertyHoaBuildingInfo.getHoaPlumbingReport() : null)
                 .hoaNotesReport(adquisitionPropertyHoaBuildingInfo != null ? adquisitionPropertyHoaBuildingInfo.getHoaNotesReport() : null)
+                .hoaOthersReport(adquisitionPropertyHoaBuildingInfo != null ? adquisitionPropertyHoaBuildingInfo.getHoaOthersReport() : null)
                 .hoaNotes(adquisitionPropertyHoaBuildingInfo != null ? adquisitionPropertyHoaBuildingInfo.getHoaNotes() : null)
 
                 .originalContractClosingDate(originalContractClosingDate)
@@ -1184,6 +1185,7 @@ public class AdquisitionProperty {
                 .hoaStructuralReport(adquisitionPropertyHoaBuildingInfo != null ? adquisitionPropertyHoaBuildingInfo.getHoaStructuralReport() : null)
                 .hoaPlumbingReport(adquisitionPropertyHoaBuildingInfo != null ? adquisitionPropertyHoaBuildingInfo.getHoaPlumbingReport() : null)
                 .hoaNotesReport(adquisitionPropertyHoaBuildingInfo != null ? adquisitionPropertyHoaBuildingInfo.getHoaNotesReport() : null)
+                .hoaOthersReport(adquisitionPropertyHoaBuildingInfo != null ? adquisitionPropertyHoaBuildingInfo.getHoaOthersReport() : null)
                 .hoaNotes(adquisitionPropertyHoaBuildingInfo != null ? adquisitionPropertyHoaBuildingInfo.getHoaNotes() : null)
 
                 .originalContractClosingDate(originalContractClosingDate)

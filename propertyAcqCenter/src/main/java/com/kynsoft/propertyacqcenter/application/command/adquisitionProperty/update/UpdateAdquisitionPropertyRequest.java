@@ -270,6 +270,22 @@ public class UpdateAdquisitionPropertyRequest {
     private CreateDocumentRequest hoaRoofReport;
     private CreateDocumentRequest hoaStructuralReport;
     private CreateDocumentRequest hoaPlumbingReport;
-    private CreateDocumentRequest hoaNotesReport;
+    private String hoaNotesReport;
+    private String hoaOthersReport;
     private String hoaNotes;
+
+    private String employerReferenceName;
+    private String employerReferencePhone;
+    private String employerReferenceEmail;
+    private String employerReferencePosition;
+
+    private String bankReferenceName;
+    private String bankReferencePhone;
+    private String bankReferenceEmail;
+    private String bankReferencePosition;
+
+    private String personalReferenceName;
+    private String personalReferencePhone;
+    private String personalReferenceEmail;
+    private String personalReferencePosition;
 }
