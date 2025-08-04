@@ -291,8 +291,22 @@ public class UpdateAdquisitionPropertyCommandHandler implements ICommandHandler<
                 .hoaRoofReport(command.getHoaRoofReport() != null ? command.getHoaRoofReport().getFilePath() + "|" + command.getHoaRoofReport().getFileName() : null)
                 .hoaStructuralReport(command.getHoaStructuralReport() != null ? command.getHoaStructuralReport().getFilePath() + "|" + command.getHoaStructuralReport().getFileName() : null)
                 .hoaPlumbingReport(command.getHoaPlumbingReport() != null ? command.getHoaPlumbingReport().getFilePath() + "|" + command.getHoaPlumbingReport().getFileName() : null)
-                .hoaNotesReport(command.getHoaNotesReport() != null ? command.getHoaNotesReport().getFilePath() + "|" + command.getHoaNotesReport().getFileName() : null)
+                .hoaNotesReport(command.getHoaNotesReport())
+                .hoaOthersReport(command.getHoaOthersReport())
                 .hoaNotes(command.getHoaNotes())
+
+                .employerReferenceName(command.getEmployerReferenceName())
+                .employerReferencePhone(command.getEmployerReferencePhone())
+                .employerReferenceEmail(command.getEmployerReferenceEmail())
+                .employerReferencePosition(command.getEmployerReferencePosition())
+                .bankReferenceName(command.getBankReferenceName())
+                .bankReferencePhone(command.getBankReferencePhone())
+                .bankReferenceEmail(command.getBankReferenceEmail())
+                .bankReferencePosition(command.getBankReferencePosition())
+                .personalReferenceName(command.getPersonalReferenceName())
+                .personalReferencePhone(command.getPersonalReferencePhone())
+                .personalReferenceEmail(command.getPersonalReferenceEmail())
+                .personalReferencePosition(command.getPersonalReferencePosition())
                 .build()
         );
     }

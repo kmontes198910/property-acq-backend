@@ -272,8 +272,24 @@ public class UpdateAdquisitionPropertyCommand implements ICommand {
     private CreateDocumentRequest hoaRoofReport;
     private CreateDocumentRequest hoaStructuralReport;
     private CreateDocumentRequest hoaPlumbingReport;
-    private CreateDocumentRequest hoaNotesReport;
+    private String hoaNotesReport;
+    private String hoaOthersReport;
     private String hoaNotes;
+
+    private String employerReferenceName;
+    private String employerReferencePhone;
+    private String employerReferenceEmail;
+    private String employerReferencePosition;
+
+    private String bankReferenceName;
+    private String bankReferencePhone;
+    private String bankReferenceEmail;
+    private String bankReferencePosition;
+
+    private String personalReferenceName;
+    private String personalReferencePhone;
+    private String personalReferenceEmail;
+    private String personalReferencePosition;
 
     public UpdateAdquisitionPropertyCommand(UUID id, UUID buyer, String property, UUID contact, String buyerNameAndYearVehicle,
             String buyerLicenseTagNo,
@@ -450,8 +466,21 @@ public class UpdateAdquisitionPropertyCommand implements ICommand {
             CreateDocumentRequest hoaRoofReport,
             CreateDocumentRequest hoaStructuralReport,
             CreateDocumentRequest hoaPlumbingReport,
-            CreateDocumentRequest hoaNotesReport,
-            String hoaNotes
+            String hoaNotesReport,
+            String hoaOthersReport,
+            String hoaNotes,
+            String employerReferenceName,
+            String employerReferencePhone,
+            String employerReferenceEmail,
+            String employerReferencePosition,
+            String bankReferenceName,
+            String bankReferencePhone,
+            String bankReferenceEmail,
+            String bankReferencePosition,
+            String personalReferenceName,
+            String personalReferencePhone,
+            String personalReferenceEmail,
+            String personalReferencePosition
             ) {
         this.id = id;
         this.buyer = buyer;
@@ -685,7 +714,20 @@ public class UpdateAdquisitionPropertyCommand implements ICommand {
         this.hoaStructuralReport = hoaStructuralReport;
         this.hoaPlumbingReport = hoaPlumbingReport;
         this.hoaNotesReport = hoaNotesReport;
+        this.hoaOthersReport = hoaOthersReport;
         this.hoaNotes = hoaNotes;
+        this.employerReferenceName = employerReferenceName;
+        this.employerReferencePhone = employerReferencePhone;
+        this.employerReferenceEmail = employerReferenceEmail;
+        this.employerReferencePosition = employerReferencePosition;
+        this.bankReferenceName = bankReferenceName;
+        this.bankReferencePhone = bankReferencePhone;
+        this.bankReferenceEmail = bankReferenceEmail;
+        this.bankReferencePosition = bankReferencePosition;
+        this.personalReferenceName = personalReferenceName;
+        this.personalReferencePhone = personalReferencePhone;
+        this.personalReferenceEmail = personalReferenceEmail;
+        this.personalReferencePosition = personalReferencePosition;
     }
 
     public static UpdateAdquisitionPropertyCommand fromRequest(UpdateAdquisitionPropertyRequest request, UUID id) {
@@ -906,7 +948,20 @@ public class UpdateAdquisitionPropertyCommand implements ICommand {
                 request.getHoaStructuralReport(),
                 request.getHoaPlumbingReport(),
                 request.getHoaNotesReport(),
-                request.getHoaNotes()
+                request.getHoaOthersReport(),
+                request.getHoaNotes(),
+                request.getEmployerReferenceName(),
+                request.getEmployerReferencePhone(),
+                request.getEmployerReferenceEmail(),
+                request.getEmployerReferencePosition(),
+                request.getBankReferenceName(),
+                request.getBankReferencePhone(),
+                request.getBankReferenceEmail(),
+                request.getBankReferencePosition(),
+                request.getPersonalReferenceName(),
+                request.getPersonalReferencePhone(),
+                request.getPersonalReferenceEmail(),
+                request.getPersonalReferencePosition()
         );
     }
 
