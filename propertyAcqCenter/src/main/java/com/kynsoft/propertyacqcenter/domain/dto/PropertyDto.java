@@ -57,10 +57,11 @@ public class PropertyDto {
     private SourceType sourceType; // Broker, Wholesaler, Direct-to-Seller, etc.//
     private LegalEntityDto sellerName;//Relacion con Legal entity//
     private LegalEntityDto buyerName;
-    private ContactDto sellerContactInfo;//Relacion con Contact//
+    private CompanyContactDto sellerContactInfo;//Relacion con Contact//
     private Boolean emdRequirements;//
     private Double emdOfferedAmount;//
     private LocalDate expectedClosingDate;//
+    private LocalDate originalContractClosingDate;
 
     //Mortagage
     private Boolean distressed;//

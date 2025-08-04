@@ -53,7 +53,7 @@ public class UpdateAdquisitionPropertyCommand implements ICommand {
     private CreateDocumentRequest ownerExecutedContract;
     private CreateDocumentRequest contractAddendum;
     private CreateDocumentRequest finalSettlementStatement;
-    private CreateDocumentRequest bankStatementRequest;
+    //private CreateDocumentRequest bankStatementRequest;
     private CreateDocumentRequest warrantyDeed;
     private CreateDocumentRequest titleInsurance;
     private CreateDocumentRequest executedClosingDocuments;
@@ -144,7 +144,6 @@ public class UpdateAdquisitionPropertyCommand implements ICommand {
     private Double hoaMoveInFee;
     private Boolean hoaInterviewRequired;
     private CreateDocumentRequest hoaApplicationInstructions;
-    private String buyersCarNameAndYear;
     private Double applicationFeesAmount;
     private LocalDate applicationFeesSentDate;
     private String rentalRestrictions;
@@ -200,7 +199,7 @@ public class UpdateAdquisitionPropertyCommand implements ICommand {
     private String whwireRoutingNumber;
     private String whZelleEmailorPhone;
 
-    private CreateDocumentRequest hoaTotalUnits;
+    private Double hoaTotalUnits;
     private CreateDocumentRequest hoaDeclarationOfCondominium;
     private CreateDocumentRequest hoaCondominiumRider;
     private CreateDocumentRequest hoaBylaws;
@@ -214,6 +213,83 @@ public class UpdateAdquisitionPropertyCommand implements ICommand {
     private CreateDocumentRequest buyerCreditReport;
     private String hoaValidatorWebsite;
     private String hoaApplicationLink;
+
+    private CreateDocumentRequest buyerProofOfFunds;
+    private String buyerCarBrand;
+    private Double buyerCarYear;
+    private CreateDocumentRequest buyerDriverLicense;
+    private CreateDocumentRequest buyerCarInsurance;
+
+    private String buyerPersonalAccountHolderName;
+    private String buyerPersonalAccountNumber;
+    private String buyerPersonalRoutingNumber;
+    private String buyerPersonalZelleEmailorPhone;
+    //private CreateDocumentRequest buyerPersonalBankStatements;
+    private String buyerPersonalBankName;
+    private Boolean buyerPersonalUseForHoaBankReference;
+    private Boolean buyerPersonalUseForLenderBankReference;
+    private Boolean buyerVoidCheck;
+    private Boolean buyerLegalEntityUseForHoaBankReference;
+
+    private String buyerElectricProviderAccount;
+    private String buyerGasServiceAccount;
+    private String buyerTrashServiceAccount;
+    private String buyerWaterSewerSetupAccount;
+    private String buyerInternetService;
+    private String buyerNotes;
+    private LocalDate buyerStartServiceDate;
+    private Double buyerDepositAmount;
+
+    private LocalDate gasBuyerStartServiceDate;
+    private Double gasBuyerDepositAmount;
+    private LocalDate trashBuyerStartServiceDate;
+    private Double trashBuyerDepositAmount;
+    private LocalDate waterBuyerStartServiceDate;
+    private Double waterBuyerDepositAmount;
+    private LocalDate internetBuyerStartServiceDate;
+    private Double internetBuyerDepositAmount;
+    private String buyerBankName;
+    private Boolean buyerPersonalVoidCheck;
+    private LocalDate originalContractClosingDate;
+    private String buyerMaritalStatus;
+
+    private String sellerPersonalAccountHolderName;
+    private String sellerPersonalAccountNumber;
+    private String sellerPersonalRoutingNumber;
+    private String sellerPersonalZelleEmailorPhone;
+    private String sellerPersonalBankName;
+    private String sellerBankStatementRequest;//array
+    private String sellerPersonalBankStatements;//array
+    private Boolean sellerVoidCheck;
+    private Boolean sellerPersonalVoidCheck;
+
+    private UUID buyerBankAccount;
+    private UUID sellerBankAccount;
+
+    private CreateDocumentRequest hoaInpectionReport;
+    private CreateDocumentRequest hoaElectricalReport;
+    private CreateDocumentRequest hoaHvacReport;
+    private CreateDocumentRequest hoaRoofReport;
+    private CreateDocumentRequest hoaStructuralReport;
+    private CreateDocumentRequest hoaPlumbingReport;
+    private String hoaNotesReport;
+    private String hoaOthersReport;
+    private String hoaNotes;
+
+    private String employerReferenceName;
+    private String employerReferencePhone;
+    private String employerReferenceEmail;
+    private String employerReferencePosition;
+
+    private String bankReferenceName;
+    private String bankReferencePhone;
+    private String bankReferenceEmail;
+    private String bankReferencePosition;
+
+    private String personalReferenceName;
+    private String personalReferencePhone;
+    private String personalReferenceEmail;
+    private String personalReferencePosition;
 
     public UpdateAdquisitionPropertyCommand(UUID id, UUID buyer, String property, UUID contact, String buyerNameAndYearVehicle,
             String buyerLicenseTagNo,
@@ -231,7 +307,8 @@ public class UpdateAdquisitionPropertyCommand implements ICommand {
             CreateDocumentRequest titleCommitment, CreateDocumentRequest legalEntityCertificationStatus,
             CreateDocumentRequest assignmentOfContract, CreateDocumentRequest ownerExecutedContract,
             CreateDocumentRequest contractAddendum, CreateDocumentRequest finalSettlementStatement,
-            CreateDocumentRequest bankStatementRequest, CreateDocumentRequest warrantyDeed, CreateDocumentRequest titleInsurance,
+            //CreateDocumentRequest bankStatementRequest, 
+            CreateDocumentRequest warrantyDeed, CreateDocumentRequest titleInsurance,
             CreateDocumentRequest executedClosingDocuments, String buyerFullLegalName, String buyerContactEmail,
             String buyerEntityName, String buyerMailingAddress, String buyerMobilePhoneNumber, CreateDocumentRequest hoa4050certificationStatus,
             String hoaValidatorContactName, String hoaValidatorEmail, String hoaValidatorPhoneNumber,
@@ -287,7 +364,6 @@ public class UpdateAdquisitionPropertyCommand implements ICommand {
             Double hoaMoveInFee,
             Boolean hoaInterviewRequired,
             CreateDocumentRequest hoaApplicationInstructions,
-            String buyersCarNameAndYear,
             Double applicationFeesAmount,
             LocalDate applicationFeesSentDate,
             String rentalRestrictions,
@@ -324,7 +400,7 @@ public class UpdateAdquisitionPropertyCommand implements ICommand {
             String whwireAccountNumber,
             String whwireRoutingNumber,
             String whZelleEmailorPhone,
-            CreateDocumentRequest hoaTotalUnits,
+            Double hoaTotalUnits,
             CreateDocumentRequest hoaDeclarationOfCondominium,
             CreateDocumentRequest hoaCondominiumRider,
             CreateDocumentRequest hoaBylaws,
@@ -337,7 +413,74 @@ public class UpdateAdquisitionPropertyCommand implements ICommand {
             CreateDocumentRequest hoaCondoQuestionnaireForm,
             CreateDocumentRequest buyerCreditReport,
             String hoaValidatorWebsite,
-            String hoaApplicationLink
+            String hoaApplicationLink,
+            CreateDocumentRequest buyerProofOfFunds,
+            String buyerCarBrand,
+            Double buyerCarYear,
+            CreateDocumentRequest buyerDriverLicense,
+            CreateDocumentRequest buyerCarInsurance,
+            String buyerPersonalAccountHolderName,
+            String buyerPersonalAccountNumber,
+            String buyerPersonalRoutingNumber,
+            String buyerPersonalZelleEmailorPhone,
+            //CreateDocumentRequest buyerPersonalBankStatements,
+            String buyerPersonalBankName,
+            Boolean buyerPersonalUseForHoaBankReference,
+            Boolean buyerPersonalUseForLenderBankReference,
+            Boolean buyerVoidCheck,
+            Boolean buyerLegalEntityUseForHoaBankReference,
+            String buyerElectricProviderAccount,
+            String buyerGasServiceAccount,
+            String buyerTrashServiceAccount,
+            String buyerWaterSewerSetupAccount,
+            String buyerInternetService,
+            String buyerNotes,
+            LocalDate buyerStartServiceDate,
+            Double buyerDepositAmount,
+            LocalDate gasBuyerStartServiceDate,
+            Double gasBuyerDepositAmount,
+            LocalDate trashBuyerStartServiceDate,
+            Double trashBuyerDepositAmount,
+            LocalDate waterBuyerStartServiceDate,
+            Double waterBuyerDepositAmount,
+            LocalDate internetBuyerStartServiceDate,
+            Double internetBuyerDepositAmount,
+            String buyerBankName,
+            Boolean buyerPersonalVoidCheck,
+            LocalDate originalContractClosingDate,
+            String buyerMaritalStatus,
+            String sellerPersonalAccountHolderName,
+            String sellerPersonalAccountNumber,
+            String sellerPersonalRoutingNumber,
+            String sellerPersonalZelleEmailorPhone,
+            String sellerPersonalBankName,
+            String sellerBankStatementRequest,
+            String sellerPersonalBankStatements,
+            Boolean sellerVoidCheck,
+            Boolean sellerPersonalVoidCheck,
+            UUID buyerBankAccount,
+            UUID sellerBankAccount,
+            CreateDocumentRequest hoaInpectionReport,
+            CreateDocumentRequest hoaElectricalReport,
+            CreateDocumentRequest hoaHvacReport,
+            CreateDocumentRequest hoaRoofReport,
+            CreateDocumentRequest hoaStructuralReport,
+            CreateDocumentRequest hoaPlumbingReport,
+            String hoaNotesReport,
+            String hoaOthersReport,
+            String hoaNotes,
+            String employerReferenceName,
+            String employerReferencePhone,
+            String employerReferenceEmail,
+            String employerReferencePosition,
+            String bankReferenceName,
+            String bankReferencePhone,
+            String bankReferenceEmail,
+            String bankReferencePosition,
+            String personalReferenceName,
+            String personalReferencePhone,
+            String personalReferenceEmail,
+            String personalReferencePosition
             ) {
         this.id = id;
         this.buyer = buyer;
@@ -377,7 +520,7 @@ public class UpdateAdquisitionPropertyCommand implements ICommand {
         this.ownerExecutedContract = ownerExecutedContract;
         this.contractAddendum = contractAddendum;
         this.finalSettlementStatement = finalSettlementStatement;
-        this.bankStatementRequest = bankStatementRequest;
+        //this.bankStatementRequest = bankStatementRequest;
         this.warrantyDeed = warrantyDeed;
         this.titleInsurance = titleInsurance;
         this.executedClosingDocuments = executedClosingDocuments;
@@ -453,7 +596,6 @@ public class UpdateAdquisitionPropertyCommand implements ICommand {
         this.hoaMoveInFee = hoaMoveInFee;
         this.hoaInterviewRequired = hoaInterviewRequired;
         this.hoaApplicationInstructions = hoaApplicationInstructions;
-        this.buyersCarNameAndYear = buyersCarNameAndYear;
         this.applicationFeesAmount = applicationFeesAmount;
         this.applicationFeesSentDate = applicationFeesSentDate;
         this.rentalRestrictions = rentalRestrictions;
@@ -519,6 +661,73 @@ public class UpdateAdquisitionPropertyCommand implements ICommand {
         this.buyerCreditReport = buyerCreditReport;
         this.hoaValidatorWebsite = hoaValidatorWebsite;
         this.hoaApplicationLink = hoaApplicationLink;
+        this.buyerProofOfFunds = buyerProofOfFunds;
+        this.buyerCarBrand = buyerCarBrand;
+        this.buyerCarYear = buyerCarYear;
+        this.buyerDriverLicense = buyerDriverLicense;
+        this.buyerCarInsurance = buyerCarInsurance;
+        this.buyerPersonalAccountHolderName = buyerPersonalAccountHolderName;
+        this.buyerPersonalAccountNumber = buyerPersonalAccountNumber;
+        this.buyerPersonalRoutingNumber = buyerPersonalRoutingNumber;
+        this.buyerPersonalZelleEmailorPhone = buyerPersonalZelleEmailorPhone;
+        //this.buyerPersonalBankStatements = buyerPersonalBankStatements;
+        this.buyerPersonalBankName = buyerPersonalBankName;
+        this.buyerPersonalUseForHoaBankReference = buyerPersonalUseForHoaBankReference;
+        this.buyerPersonalUseForLenderBankReference = buyerPersonalUseForLenderBankReference;
+        this.buyerVoidCheck = buyerVoidCheck;
+        this.buyerLegalEntityUseForHoaBankReference = buyerLegalEntityUseForHoaBankReference;
+        this.buyerElectricProviderAccount = buyerElectricProviderAccount;
+        this.buyerGasServiceAccount = buyerGasServiceAccount;
+        this.buyerTrashServiceAccount = buyerTrashServiceAccount;
+        this.buyerWaterSewerSetupAccount = buyerWaterSewerSetupAccount;
+        this.buyerInternetService = buyerInternetService;
+        this.buyerNotes = buyerNotes;
+        this.buyerStartServiceDate = buyerStartServiceDate;
+        this.buyerDepositAmount = buyerDepositAmount;
+        this.gasBuyerStartServiceDate = gasBuyerStartServiceDate;
+        this.gasBuyerDepositAmount = gasBuyerDepositAmount;
+        this.trashBuyerStartServiceDate = trashBuyerStartServiceDate;
+        this.trashBuyerDepositAmount = trashBuyerDepositAmount;
+        this.waterBuyerStartServiceDate = waterBuyerStartServiceDate;
+        this.waterBuyerDepositAmount = waterBuyerDepositAmount;
+        this.internetBuyerStartServiceDate = internetBuyerStartServiceDate;
+        this.internetBuyerDepositAmount = internetBuyerDepositAmount;
+        this.buyerBankName = buyerBankName;
+        this.buyerPersonalVoidCheck = buyerPersonalVoidCheck;
+        this.originalContractClosingDate = originalContractClosingDate;
+        this.buyerMaritalStatus = buyerMaritalStatus;
+        this.sellerPersonalAccountHolderName = sellerPersonalAccountHolderName;
+        this.sellerPersonalAccountNumber = sellerPersonalAccountNumber;
+        this.sellerPersonalRoutingNumber = sellerPersonalRoutingNumber;
+        this.sellerPersonalZelleEmailorPhone = sellerPersonalZelleEmailorPhone;
+        this.sellerPersonalBankName = sellerPersonalBankName;
+        this.sellerBankStatementRequest = sellerBankStatementRequest;
+        this.sellerPersonalBankStatements = sellerPersonalBankStatements;
+        this.sellerVoidCheck = sellerVoidCheck;
+        this.sellerPersonalVoidCheck = sellerPersonalVoidCheck;
+        this.buyerBankAccount = buyerBankAccount;
+        this.sellerBankAccount = sellerBankAccount;
+        this.hoaInpectionReport = hoaInpectionReport;
+        this.hoaElectricalReport = hoaElectricalReport;
+        this.hoaHvacReport = hoaHvacReport;
+        this.hoaRoofReport = hoaRoofReport;
+        this.hoaStructuralReport = hoaStructuralReport;
+        this.hoaPlumbingReport = hoaPlumbingReport;
+        this.hoaNotesReport = hoaNotesReport;
+        this.hoaOthersReport = hoaOthersReport;
+        this.hoaNotes = hoaNotes;
+        this.employerReferenceName = employerReferenceName;
+        this.employerReferencePhone = employerReferencePhone;
+        this.employerReferenceEmail = employerReferenceEmail;
+        this.employerReferencePosition = employerReferencePosition;
+        this.bankReferenceName = bankReferenceName;
+        this.bankReferencePhone = bankReferencePhone;
+        this.bankReferenceEmail = bankReferenceEmail;
+        this.bankReferencePosition = bankReferencePosition;
+        this.personalReferenceName = personalReferenceName;
+        this.personalReferencePhone = personalReferencePhone;
+        this.personalReferenceEmail = personalReferenceEmail;
+        this.personalReferencePosition = personalReferencePosition;
     }
 
     public static UpdateAdquisitionPropertyCommand fromRequest(UpdateAdquisitionPropertyRequest request, UUID id) {
@@ -561,7 +770,7 @@ public class UpdateAdquisitionPropertyCommand implements ICommand {
                 request.getOwnerExecutedContract(),
                 request.getContractAddendum(),
                 request.getFinalSettlementStatement(),
-                request.getBankStatementRequest(),
+                //request.getBankStatementRequest(),
                 request.getWarrantyDeed(),
                 request.getTitleInsurance(),
                 request.getExecutedClosingDocuments(),
@@ -636,7 +845,6 @@ public class UpdateAdquisitionPropertyCommand implements ICommand {
                 request.getHoaMoveInFee(),
                 request.getHoaInterviewRequired(),
                 request.getHoaApplicationInstructions(),
-                request.getBuyersCarNameAndYear(),
                 request.getApplicationFeesAmount(),
                 request.getApplicationFeesSentDate(),
                 request.getRentalRestrictions(),
@@ -686,7 +894,74 @@ public class UpdateAdquisitionPropertyCommand implements ICommand {
                 request.getHoaCondoQuestionnaireForm(),
                 request.getBuyerCreditReport(),
                 request.getHoaValidatorWebsite(),
-                request.getHoaApplicationLink()
+                request.getHoaApplicationLink(),
+                request.getBuyerProofOfFunds(),
+                request.getBuyerCarBrand(),
+                request.getBuyerCarYear(),
+                request.getBuyerDriverLicense(),
+                request.getBuyerCarInsurance(),
+                request.getBuyerPersonalAccountHolderName(),
+                request.getBuyerPersonalAccountNumber(),
+                request.getBuyerPersonalRoutingNumber(),
+                request.getBuyerPersonalZelleEmailorPhone(),
+                //request.getBuyerPersonalBankStatements(),
+                request.getBuyerPersonalBankName(),
+                request.getBuyerPersonalUseForHoaBankReference(),
+                request.getBuyerPersonalUseForLenderBankReference(),
+                request.getBuyerVoidCheck(),
+                request.getBuyerLegalEntityUseForHoaBankReference(),
+                request.getBuyerElectricProviderAccount(),
+                request.getBuyerGasServiceAccount(),
+                request.getBuyerTrashServiceAccount(),
+                request.getBuyerWaterSewerSetupAccount(),
+                request.getBuyerInternetService(),
+                request.getBuyerNotes(),
+                request.getBuyerStartServiceDate(),
+                request.getBuyerDepositAmount(),
+                request.getGasBuyerStartServiceDate(),
+                request.getGasBuyerDepositAmount(),
+                request.getTrashBuyerStartServiceDate(),
+                request.getTrashBuyerDepositAmount(),
+                request.getWaterBuyerStartServiceDate(),
+                request.getWaterBuyerDepositAmount(),
+                request.getInternetBuyerStartServiceDate(),
+                request.getInternetBuyerDepositAmount(),
+                request.getBuyerBankName(),
+                request.getBuyerPersonalVoidCheck(),
+                request.getOriginalContractClosingDate(),
+                request.getBuyerMaritalStatus(),
+                request.getSellerPersonalAccountHolderName(),
+                request.getSellerPersonalAccountNumber(),
+                request.getSellerPersonalRoutingNumber(),
+                request.getSellerPersonalZelleEmailorPhone(),
+                request.getSellerPersonalBankName(),
+                request.getSellerBankStatementRequest(),
+                request.getSellerPersonalBankStatements(),
+                request.getSellerVoidCheck(),
+                request.getSellerPersonalVoidCheck(),
+                request.getBuyerBankAccount(),
+                request.getSellerBankAccount(),
+                request.getHoaInpectionReport(),
+                request.getHoaElectricalReport(),
+                request.getHoaHvacReport(),
+                request.getHoaRoofReport(),
+                request.getHoaStructuralReport(),
+                request.getHoaPlumbingReport(),
+                request.getHoaNotesReport(),
+                request.getHoaOthersReport(),
+                request.getHoaNotes(),
+                request.getEmployerReferenceName(),
+                request.getEmployerReferencePhone(),
+                request.getEmployerReferenceEmail(),
+                request.getEmployerReferencePosition(),
+                request.getBankReferenceName(),
+                request.getBankReferencePhone(),
+                request.getBankReferenceEmail(),
+                request.getBankReferencePosition(),
+                request.getPersonalReferenceName(),
+                request.getPersonalReferencePhone(),
+                request.getPersonalReferenceEmail(),
+                request.getPersonalReferencePosition()
         );
     }
 

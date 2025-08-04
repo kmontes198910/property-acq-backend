@@ -2,12 +2,12 @@ package com.kynsoft.propertyacqcenter.application.command.property.update;
 
 import com.kynsof.share.core.domain.bus.command.ICommandHandler;
 import com.kynsoft.propertyacqcenter.domain.dto.AdquisitionPropertyDto;
-import com.kynsoft.propertyacqcenter.domain.dto.ContactDto;
+import com.kynsoft.propertyacqcenter.domain.dto.CompanyContactDto;
 import com.kynsoft.propertyacqcenter.domain.dto.LegalEntityDto;
 import com.kynsoft.propertyacqcenter.domain.dto.PropertyDto;
 import com.kynsoft.propertyacqcenter.domain.enums.PropertyStatus;
 import com.kynsoft.propertyacqcenter.domain.services.IAdquisitionPropertyService;
-import com.kynsoft.propertyacqcenter.domain.services.IContactService;
+import com.kynsoft.propertyacqcenter.domain.services.ICompanyContactService;
 import com.kynsoft.propertyacqcenter.domain.services.ILegalEntityService;
 import com.kynsoft.propertyacqcenter.domain.services.IPropertyService;
 import java.util.UUID;
@@ -17,12 +17,12 @@ import org.springframework.stereotype.Component;
 public class UpdatePropertyCommandHandler implements ICommandHandler<UpdatePropertyCommand> {
 
     private final IPropertyService propertyService;
-    private final IContactService contactService;
+    private final ICompanyContactService contactService;
     private final ILegalEntityService legalEntityService;
     private final IAdquisitionPropertyService adquisitionPropertyService;
 
     public UpdatePropertyCommandHandler(IPropertyService propertyService, 
-                                        IContactService contactService, 
+                                        ICompanyContactService contactService, 
                                         ILegalEntityService legalEntityService,
                                         IAdquisitionPropertyService adquisitionPropertyService) {
         this.propertyService = propertyService;
@@ -34,7 +34,7 @@ public class UpdatePropertyCommandHandler implements ICommandHandler<UpdatePrope
     @Override
     public void handle(UpdatePropertyCommand command) {
         LegalEntityDto sellerName = command.getSellerName() != null ? this.legalEntityService.findById(command.getSellerName()) : null;
-        ContactDto sellerContactInfo = command.getSellerContactInfo() != null ? this.contactService.findById(command.getSellerContactInfo()) : null;
+        CompanyContactDto sellerContactInfo = command.getSellerContactInfo() != null ? this.contactService.findById(command.getSellerContactInfo()) : null;
         propertyService.update(PropertyDto.builder()
                 .addressLine1(command.getAddressLine1())
                 .addressLine2(command.getAddressLine2())
@@ -72,6 +72,7 @@ public class UpdatePropertyCommandHandler implements ICommandHandler<UpdatePrope
                 .sellerName(sellerName)
                 .sellerContactInfo(sellerContactInfo)
                 .expectedClosingDate(command.getExpectedClosingDate())
+                .originalContractClosingDate(command.getOriginalContractClosingDate())
                 .emdOfferedAmount(command.getEmdOfferedAmount())
                 .emdRequirements(command.getEmdRequirements())
 

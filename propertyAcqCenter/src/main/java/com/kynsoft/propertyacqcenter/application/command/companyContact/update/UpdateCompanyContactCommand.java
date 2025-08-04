@@ -2,7 +2,9 @@ package com.kynsoft.propertyacqcenter.application.command.companyContact.update;
 
 import com.kynsof.share.core.domain.bus.command.ICommand;
 import com.kynsof.share.core.domain.bus.command.ICommandMessage;
+import com.kynsoft.propertyacqcenter.domain.enums.ContactType;
 import com.kynsoft.propertyacqcenter.domain.enums.DepartmentType;
+import com.kynsoft.propertyacqcenter.domain.enums.Type;
 import java.time.LocalDate;
 import lombok.Getter;
 import lombok.Setter;
@@ -29,10 +31,16 @@ public class UpdateCompanyContactCommand implements ICommand {
     private Boolean isEmployee;
     private String mailingAddress;
 
+    private UUID legalEntity;
+    private UUID subCategory;
+    private ContactType category;
+    private Type type;
+
     public UpdateCompanyContactCommand(UUID id, UUID company, String firstName, String lastName, 
                                        String email, String phoneNumber, String position, DepartmentType department, 
                                        String notes, Boolean isActive, String personalEmail,
-                                       LocalDate birthDate, Boolean isEmployee, String mailingAddress) {
+                                       LocalDate birthDate, Boolean isEmployee, String mailingAddress,
+                                       UUID legalEntity, UUID subCategory, ContactType category, Type type) {
         this.id = id;
         this.birthDate = birthDate;
         this.company = company;
@@ -47,6 +55,10 @@ public class UpdateCompanyContactCommand implements ICommand {
         this.personalEmail = personalEmail;
         this.isEmployee = isEmployee;
         this.mailingAddress = mailingAddress;
+        this.legalEntity = legalEntity;
+        this.subCategory = subCategory;
+        this.category = category;
+        this.type = type;
     }
 
     public static UpdateCompanyContactCommand fromRequest(UpdateCompanyContactRequest request, UUID id) {
@@ -64,7 +76,11 @@ public class UpdateCompanyContactCommand implements ICommand {
                 request.getPersonalEmail(),
                 request.getBirthDate(),
                 request.getIsEmployee(),
-                request.getMailingAddress()
+                request.getMailingAddress(),
+                request.getLegalEntity(),
+                request.getSubCategory(),
+                request.getCategory(),
+                request.getType()
         );
     }
 

@@ -31,12 +31,13 @@ public class UpdateBankAccountCommand implements ICommand {
     private BankContactDto contactDetails;
     private InternationalBankingDetailsRequest internationalDetails;
     private BankBranchDto branchInfo;
+    private String holderName;
 
     public UpdateBankAccountCommand(UUID id, UUID legalEntity, String bankName, String accountNumber, 
             String routingNumber, AccountType accountType, String accountNickname, 
             LocalDate openingDate, String onlineBankingUrl, String notes, 
             BankContactDto contactDetails, InternationalBankingDetailsRequest internationalDetails, 
-            BankBranchDto branchInfo, String domesticWare) {
+            BankBranchDto branchInfo, String domesticWare, String holderName) {
         this.id = id;
         this.legalEntity = legalEntity;
         this.bankName = bankName;
@@ -51,6 +52,7 @@ public class UpdateBankAccountCommand implements ICommand {
         this.internationalDetails = internationalDetails;
         this.branchInfo = branchInfo;
         this.domesticWare = domesticWare;
+        this.holderName = holderName;
     }
 
     public static UpdateBankAccountCommand fromRequest(UpdateBankAccountRequest request, UUID id) {
@@ -68,7 +70,8 @@ public class UpdateBankAccountCommand implements ICommand {
                 request.getContactDetails(),
                 request.getInternationalDetails(),
                 request.getBranchInfo(),
-                request.getDomesticWare()
+                request.getDomesticWare(),
+                request.getHolderName()
         );
     }
 

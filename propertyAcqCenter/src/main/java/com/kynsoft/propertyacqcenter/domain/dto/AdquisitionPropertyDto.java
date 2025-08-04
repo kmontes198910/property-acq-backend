@@ -20,6 +20,9 @@ public class AdquisitionPropertyDto {
     private String buyerNameAndYearVehicle;
     private String buyerLicenseTagNo;
 
+    private BankAccountDto buyerBankAccount;
+    private BankAccountDto sellerBankAccount;
+
     private LocalDate dateAndTimeForInspections;
     private String instructionsForAccess;
     private LocalDate hoaBuyerInterviewDate;
@@ -64,7 +67,8 @@ public class AdquisitionPropertyDto {
     private String buyerMailingAddress;
     private String buyerMobilePhoneNumber;
     private String closingCountdownClock;
-    private LocalDate contractClosingDate;
+    private LocalDate contractClosingDate;    
+    private LocalDate originalContractClosingDate;
 
     //HOA
     private String hoaApprovalProcessingTime;
@@ -85,7 +89,6 @@ public class AdquisitionPropertyDto {
     private Double hoaMoveInFee;
     private Boolean hoaInterviewRequired;
     private String hoaApplicationInstructions;
-    private String buyersCarNameAndYear;
     private Double applicationFeesAmount;
     private LocalDate applicationFeesSentDate;
     private String rentalRestrictions;
@@ -205,7 +208,7 @@ public class AdquisitionPropertyDto {
     private String whwireRoutingNumber;
     private String whZelleEmailorPhone;
 
-    private String hoaTotalUnits;
+    private Double hoaTotalUnits;
     private String hoaDeclarationOfCondominium;
     private String hoaCondominiumRider;
     private String hoaBylaws;
@@ -219,4 +222,79 @@ public class AdquisitionPropertyDto {
     private String buyerCreditReport;
     private String hoaValidatorWebsite;
     private String hoaApplicationLink;
+
+    //Buyer
+    private String buyerProofOfFunds;
+    private String buyerCarBrand;
+    private Double buyerCarYear;
+    private String buyerDriverLicense;
+    private String buyerCarInsurance;
+    private String buyerMaritalStatus;
+
+    private String buyerPersonalAccountHolderName;
+    private String buyerPersonalAccountNumber;
+    private String buyerPersonalRoutingNumber;
+    private String buyerPersonalZelleEmailorPhone;
+    private String buyerPersonalBankStatements;
+    private String buyerPersonalBankName;
+    private Boolean buyerPersonalUseForHoaBankReference;
+    private Boolean buyerPersonalUseForLenderBankReference;
+    private Boolean buyerVoidCheck;
+    private Boolean buyerLegalEntityUseForHoaBankReference;
+    private String buyerBankName;
+    private Boolean buyerPersonalVoidCheck;
+
+    private String buyerElectricProviderAccount;
+    private String buyerGasServiceAccount;
+    private String buyerTrashServiceAccount;
+    private String buyerWaterSewerSetupAccount;
+    private String buyerInternetService;
+    private String buyerNotes;
+    private LocalDate buyerStartServiceDate;
+    private Double buyerDepositAmount;
+
+    private LocalDate gasBuyerStartServiceDate;
+    private Double gasBuyerDepositAmount;
+    private LocalDate trashBuyerStartServiceDate;
+    private Double trashBuyerDepositAmount;
+    private LocalDate waterBuyerStartServiceDate;
+    private Double waterBuyerDepositAmount;
+    private LocalDate internetBuyerStartServiceDate;
+    private Double internetBuyerDepositAmount;
+
+    //Seller
+    private String sellerPersonalAccountHolderName;
+    private String sellerPersonalAccountNumber;
+    private String sellerPersonalRoutingNumber;
+    private String sellerPersonalZelleEmailorPhone;
+    private String sellerPersonalBankName;
+    private String sellerBankStatementRequest;//array
+    private String sellerPersonalBankStatements;//array
+    private Boolean sellerVoidCheck;
+    private Boolean sellerPersonalVoidCheck;
+
+    private String hoaInpectionReport;
+    private String hoaElectricalReport;
+    private String hoaHvacReport;
+    private String hoaRoofReport;
+    private String hoaStructuralReport;
+    private String hoaPlumbingReport;
+    private String hoaOthersReport;
+    private String hoaNotesReport;
+    private String hoaNotes;
+
+    private String employerReferenceName;
+    private String employerReferencePhone;
+    private String employerReferenceEmail;
+    private String employerReferencePosition;
+
+    private String bankReferenceName;
+    private String bankReferencePhone;
+    private String bankReferenceEmail;
+    private String bankReferencePosition;
+
+    private String personalReferenceName;
+    private String personalReferencePhone;
+    private String personalReferenceEmail;
+    private String personalReferencePosition;
 }

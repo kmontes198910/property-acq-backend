@@ -8,11 +8,15 @@ import com.kynsoft.propertyacqcenter.domain.dto.BusinessDto;
 import com.kynsoft.propertyacqcenter.domain.dto.CompanyContactDto;
 import com.kynsoft.propertyacqcenter.domain.dto.CompanyDto;
 import com.kynsoft.propertyacqcenter.domain.dto.EmployeeDto;
+import com.kynsoft.propertyacqcenter.domain.dto.LegalEntityDto;
+import com.kynsoft.propertyacqcenter.domain.dto.SubCategoryDto;
 import com.kynsoft.propertyacqcenter.domain.dto.http.CreateUserSystemRequest;
 import com.kynsoft.propertyacqcenter.domain.services.IBusinessService;
 import com.kynsoft.propertyacqcenter.domain.services.ICompanyContactService;
 import com.kynsoft.propertyacqcenter.domain.services.ICompanyService;
 import com.kynsoft.propertyacqcenter.domain.services.IEmployeeService;
+import com.kynsoft.propertyacqcenter.domain.services.ILegalEntityService;
+import com.kynsoft.propertyacqcenter.domain.services.ISubCategoryService;
 import com.kynsoft.propertyacqcenter.infrastructure.services.http.UserSystemService;
 import com.kynsoft.propertyacqcenter.infrastructure.services.rabbitMQ.eventPublisher.EventEmployeePublisherService;
 import java.io.IOException;
@@ -33,26 +37,40 @@ public class CreateCompanyContactCommandHandler implements ICommandHandler<Creat
     private final IBusinessService businessService;
     private final EventEmployeePublisherService eventEmployeePublisherService;
     private final UserSystemService userSystemService;
+    private final ILegalEntityService legalEntityService;
+    private final ISubCategoryService subCategoryService;
 
     public CreateCompanyContactCommandHandler(ICompanyContactService companyContactService,
-            ICompanyService companyService,
-            IEmployeeService employeeService,
-            IBusinessService businessService,
-            EventEmployeePublisherService eventEmployeePublisherService,
-            UserSystemService userSystemService) {
+                                                ICompanyService companyService,
+                                                IEmployeeService employeeService,
+                                                IBusinessService businessService,
+                                                EventEmployeePublisherService eventEmployeePublisherService,
+                                                UserSystemService userSystemService,
+                                                ILegalEntityService legalEntityService,
+                                                ISubCategoryService subCategoryService) {
         this.companyContactService = companyContactService;
         this.companyService = companyService;
         this.employeeService = employeeService;
         this.businessService = businessService;
         this.eventEmployeePublisherService = eventEmployeePublisherService;
         this.userSystemService = userSystemService;
+        this.legalEntityService = legalEntityService;
+        this.subCategoryService = subCategoryService;
     }
 
     @Override
     @Transactional
     public void handle(CreateCompanyContactCommand command) {
-        CompanyDto companyDto = this.companyService.findById(command.getCompany());
-        BusinessDto businessDto = this.businessService.findById(companyDto.getBusiness().getId());
+        CompanyDto companyDto = command.getCompany() != null ? this.companyService.findById(command.getCompany()) : null;
+        LegalEntityDto legalEntityDto = command.getLegalEntity() != null ? this.legalEntityService.findById(command.getLegalEntity()) : null;
+        SubCategoryDto subCategoryDto = command.getSubCategory() != null ? this.subCategoryService.findById(command.getSubCategory()) : null;
+
+        BusinessDto businessDto = null;
+        if (companyDto != null) {
+            businessDto = this.businessService.findById(companyDto.getBusiness().getId());
+        } else if (legalEntityDto != null) {
+            businessDto = this.businessService.findById(legalEntityDto.getBusiness().getId());
+        }
 
         this.companyContactService.validateEmail(command.getEmail(), command.getId());
 
@@ -89,6 +107,10 @@ public class CreateCompanyContactCommandHandler implements ICommandHandler<Creat
                     .personalEmail(command.getPersonalEmail())
                     .mailingAddress(command.getMailingAddress())
                     .isEmployee(command.getIsEmployee())
+                    .legalEntity(legalEntityDto)
+                    .subCategory(subCategoryDto)
+                    .category(command.getCategory())
+                    .type(command.getType())
                     .build()
             );
         } catch (Exception exception) {

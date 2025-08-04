@@ -6,6 +6,8 @@ import java.time.LocalDate;
 import lombok.*;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @Getter
@@ -51,7 +53,7 @@ public class AdquisitionPropertyResponse implements IResponse {
     private AdquisitionDocumentResponse ownerExecutedContract;
     private AdquisitionDocumentResponse contractAddendum;
     private AdquisitionDocumentResponse finalSettlementStatement;
-    private AdquisitionDocumentResponse bankStatementRequest;
+    private List<AdquisitionDocumentResponse> bankStatementRequest;
     private AdquisitionDocumentResponse warrantyDeed;
     private AdquisitionDocumentResponse titleInsurance;
     private AdquisitionDocumentResponse executedClosingDocuments;
@@ -133,7 +135,6 @@ public class AdquisitionPropertyResponse implements IResponse {
     private Double hoaMoveInFee;
     private Boolean hoaInterviewRequired;
     private AdquisitionDocumentResponse hoaApplicationInstructions;
-    private String buyersCarNameAndYear;
     private Double applicationFeesAmount;
     private LocalDate applicationFeesSentDate;
     private String rentalRestrictions;
@@ -190,7 +191,7 @@ public class AdquisitionPropertyResponse implements IResponse {
     private String whwireRoutingNumber;
     private String whZelleEmailorPhone;
 
-    private AdquisitionDocumentResponse hoaTotalUnits;
+    private Double hoaTotalUnits;
     private AdquisitionDocumentResponse hoaDeclarationOfCondominium;
     private AdquisitionDocumentResponse hoaCondominiumRider;
     private AdquisitionDocumentResponse hoaBylaws;
@@ -205,11 +206,76 @@ public class AdquisitionPropertyResponse implements IResponse {
     private String hoaValidatorWebsite;
     private String hoaApplicationLink;
 
+    private AdquisitionDocumentResponse buyerProofOfFunds;
+    private String buyerCarBrand;
+    private Double buyerCarYear;
+    private AdquisitionDocumentResponse buyerDriverLicense;
+    private AdquisitionDocumentResponse buyerCarInsurance;
+
+    private String buyerPersonalAccountHolderName;
+    private String buyerPersonalAccountNumber;
+    private String buyerPersonalRoutingNumber;
+    private String buyerPersonalZelleEmailorPhone;
+    private List<AdquisitionDocumentResponse> buyerPersonalBankStatements;
+    private String buyerPersonalBankName;
+    private Boolean buyerPersonalUseForHoaBankReference;
+    private Boolean buyerPersonalUseForLenderBankReference;
+    private Boolean buyerVoidCheck;
+    private Boolean buyerLegalEntityUseForHoaBankReference;
+
+    private String buyerElectricProviderAccount;
+    private String buyerGasServiceAccount;
+    private String buyerTrashServiceAccount;
+    private String buyerWaterSewerSetupAccount;
+    private String buyerInternetService;
+    private String buyerNotes;
+    private LocalDate buyerStartServiceDate;
+    private Double buyerDepositAmount;
+
+    private LocalDate gasBuyerStartServiceDate;
+    private Double gasBuyerDepositAmount;
+    private LocalDate trashBuyerStartServiceDate;
+    private Double trashBuyerDepositAmount;
+    private LocalDate waterBuyerStartServiceDate;
+    private Double waterBuyerDepositAmount;
+    private LocalDate internetBuyerStartServiceDate;
+    private Double internetBuyerDepositAmount;
+    private String buyerBankName;
+    private Boolean buyerPersonalVoidCheck;
+    private LocalDate originalContractClosingDate;
+    private String buyerMaritalStatus;
+
+    //Seller
+    private String sellerPersonalAccountHolderName;
+    private String sellerPersonalAccountNumber;
+    private String sellerPersonalRoutingNumber;
+    private String sellerPersonalZelleEmailorPhone;
+    private String sellerPersonalBankName;
+    private List<AdquisitionDocumentResponse> sellerBankStatementRequest;//array
+    private List<AdquisitionDocumentResponse> sellerPersonalBankStatements;//array
+    private Boolean sellerVoidCheck;
+    private Boolean sellerPersonalVoidCheck;
+
+    private BankAccountAdquisitionPropertyResponse buyerBankAccount;
+    private BankAccountAdquisitionPropertyResponse sellerBankAccount;
+
+    private AdquisitionDocumentResponse hoaInpectionReport;
+    private AdquisitionDocumentResponse hoaElectricalReport;
+    private AdquisitionDocumentResponse hoaHvacReport;
+    private AdquisitionDocumentResponse hoaRoofReport;
+    private AdquisitionDocumentResponse hoaStructuralReport;
+    private AdquisitionDocumentResponse hoaPlumbingReport;
+    private String hoaNotesReport;
+    private String hoaOthersReport;
+    private String hoaNotes;
+
     public AdquisitionPropertyResponse(AdquisitionPropertyDto dto) {
         this.id = dto.getId();
         this.buyer = dto.getBuyer() != null ? new LegalEntityBasicResponse(dto.getBuyer()) : null;
         this.property = dto.getProperty() != null ? new PropertiesBasicResponse(dto.getProperty()) : null;
         this.contact = dto.getContact() != null ? new CompanyContactResponse(dto.getContact()) : null;
+        this.buyerBankAccount = dto.getBuyerBankAccount() != null ? new BankAccountAdquisitionPropertyResponse(dto.getBuyerBankAccount()) : null;
+        this.sellerBankAccount = dto.getSellerBankAccount() != null ? new BankAccountAdquisitionPropertyResponse(dto.getSellerBankAccount()) : null;
         this.buyerNameAndYearVehicle = dto.getBuyerNameAndYearVehicle();
         this.buyerLicenseTagNo = dto.getBuyerLicenseTagNo();
 
@@ -246,7 +312,7 @@ public class AdquisitionPropertyResponse implements IResponse {
         this.ownerExecutedContract = DocumentMapper.mapDocumentField(dto.getOwnerExecutedContract());
         this.contractAddendum = DocumentMapper.mapDocumentField(dto.getContractAddendum());
         this.finalSettlementStatement = DocumentMapper.mapDocumentField(dto.getFinalSettlementStatement());
-        this.bankStatementRequest = DocumentMapper.mapDocumentField(dto.getBankStatementRequest());
+        this.bankStatementRequest = convertDbToList(dto.getBankStatementRequest());
         this.warrantyDeed = DocumentMapper.mapDocumentField(dto.getWarrantyDeed());
         this.titleInsurance = DocumentMapper.mapDocumentField(dto.getTitleInsurance());
         this.executedClosingDocuments = DocumentMapper.mapDocumentField(dto.getExecutedClosingDocuments());
@@ -331,7 +397,6 @@ public class AdquisitionPropertyResponse implements IResponse {
         this.hoaMoveInFee = dto.getHoaMoveInFee();
         this.hoaInterviewRequired = dto.getHoaInterviewRequired();
         this.hoaApplicationInstructions = DocumentMapper.mapDocumentField(dto.getHoaApplicationInstructions());
-        this.buyersCarNameAndYear = dto.getBuyersCarNameAndYear();
         this.applicationFeesAmount = dto.getApplicationFeesAmount();
         this.applicationFeesSentDate = dto.getApplicationFeesSentDate();
         this.rentalRestrictions = dto.getRentalRestrictions();
@@ -371,7 +436,7 @@ public class AdquisitionPropertyResponse implements IResponse {
         this.whwireRoutingNumber = dto.getWhwireRoutingNumber();
         this.whZelleEmailorPhone = dto.getWhZelleEmailorPhone();
 
-        this.hoaTotalUnits = DocumentMapper.mapDocumentField(dto.getHoaTotalUnits());
+        this.hoaTotalUnits = dto.getHoaTotalUnits();
         this.hoaDeclarationOfCondominium = DocumentMapper.mapDocumentField(dto.getHoaDeclarationOfCondominium());
         this.hoaCondominiumRider = DocumentMapper.mapDocumentField(dto.getHoaCondominiumRider());
         this.hoaBylaws = DocumentMapper.mapDocumentField(dto.getHoaBylaws());
@@ -385,6 +450,85 @@ public class AdquisitionPropertyResponse implements IResponse {
         this.buyerCreditReport = DocumentMapper.mapDocumentField(dto.getBuyerCreditReport());
         this.hoaValidatorWebsite = dto.getHoaValidatorWebsite();
         this.hoaApplicationLink = dto.getHoaApplicationLink();
+
+        this.buyerProofOfFunds = DocumentMapper.mapDocumentField(dto.getBuyerProofOfFunds());
+        this.buyerCarBrand = dto.getBuyerCarBrand();
+        this.buyerCarYear = dto.getBuyerCarYear();
+        this.buyerDriverLicense = DocumentMapper.mapDocumentField(dto.getBuyerDriverLicense());
+        this.buyerCarInsurance = DocumentMapper.mapDocumentField(dto.getBuyerCarInsurance());
+
+        this.buyerPersonalAccountHolderName = dto.getBuyerPersonalAccountHolderName();
+        this.buyerPersonalAccountNumber = dto.getBuyerPersonalAccountNumber();
+        this.buyerPersonalRoutingNumber = dto.getBuyerPersonalRoutingNumber();
+        this.buyerPersonalZelleEmailorPhone = dto.getBuyerPersonalZelleEmailorPhone();
+        this.buyerPersonalBankStatements = convertDbToList(dto.getBuyerPersonalBankStatements());
+        //this.buyerPersonalBankStatements = DocumentMapper.mapDocumentField(dto.getBuyerPersonalBankStatements());
+        this.buyerPersonalBankName = dto.getBuyerPersonalBankName();
+        this.buyerPersonalUseForHoaBankReference = dto.getBuyerPersonalUseForHoaBankReference();
+        this.buyerPersonalUseForLenderBankReference = dto.getBuyerPersonalUseForLenderBankReference();
+        this.buyerVoidCheck = dto.getBuyerVoidCheck();
+        this.buyerLegalEntityUseForHoaBankReference = dto.getBuyerLegalEntityUseForHoaBankReference();
+
+        this.buyerElectricProviderAccount = dto.getBuyerElectricProviderAccount();
+        this.buyerGasServiceAccount = dto.getBuyerGasServiceAccount();
+        this.buyerTrashServiceAccount = dto.getBuyerTrashServiceAccount();
+        this.buyerWaterSewerSetupAccount = dto.getBuyerWaterSewerSetupAccount();
+        this.buyerInternetService = dto.getBuyerInternetService();
+        this.buyerNotes = dto.getBuyerNotes();
+        this.buyerStartServiceDate = dto.getBuyerStartServiceDate();
+        this.buyerDepositAmount = dto.getBuyerDepositAmount();
+
+        this.gasBuyerStartServiceDate = dto.getGasBuyerStartServiceDate();
+        this.gasBuyerDepositAmount = dto.getGasBuyerDepositAmount();
+        this.trashBuyerStartServiceDate = dto.getTrashBuyerStartServiceDate();
+        this.trashBuyerDepositAmount = dto.getTrashBuyerDepositAmount();
+        this.waterBuyerStartServiceDate = dto.getWaterBuyerStartServiceDate();
+        this.waterBuyerDepositAmount = dto.getWaterBuyerDepositAmount();
+        this.internetBuyerStartServiceDate = dto.getInternetBuyerStartServiceDate();
+        this.internetBuyerDepositAmount = dto.getInternetBuyerDepositAmount();
+        this.buyerBankName = dto.getBuyerBankName();
+        this.buyerPersonalVoidCheck = dto.getBuyerPersonalVoidCheck();
+        this.originalContractClosingDate = dto.getOriginalContractClosingDate();
+        this.buyerMaritalStatus = dto.getBuyerMaritalStatus();
+
+        this.sellerPersonalAccountHolderName = dto.getSellerPersonalAccountHolderName();
+        this.sellerPersonalAccountNumber = dto.getSellerPersonalAccountNumber();
+        this.sellerPersonalRoutingNumber = dto.getSellerPersonalRoutingNumber();
+        this.sellerPersonalZelleEmailorPhone = dto.getSellerPersonalZelleEmailorPhone();
+        this.sellerPersonalBankName = dto.getSellerPersonalBankName();
+        this.sellerBankStatementRequest = convertDbToList(dto.getSellerBankStatementRequest());
+        this.sellerPersonalBankStatements = convertDbToList(dto.getSellerPersonalBankStatements());
+        this.sellerVoidCheck = dto.getSellerVoidCheck();
+        this.sellerPersonalVoidCheck = dto.getSellerPersonalVoidCheck();
+
+        this.hoaInpectionReport = DocumentMapper.mapDocumentField(dto.getHoaInpectionReport());
+        this.hoaElectricalReport = DocumentMapper.mapDocumentField(dto.getHoaElectricalReport());
+        this.hoaHvacReport = DocumentMapper.mapDocumentField(dto.getHoaHvacReport());
+        this.hoaRoofReport = DocumentMapper.mapDocumentField(dto.getHoaRoofReport());
+        this.hoaStructuralReport = DocumentMapper.mapDocumentField(dto.getHoaStructuralReport());
+        this.hoaPlumbingReport = DocumentMapper.mapDocumentField(dto.getHoaPlumbingReport());
+        this.hoaNotesReport = dto.getHoaNotesReport();
+        this.hoaOthersReport = dto.getHoaOthersReport();
+        this.hoaNotes = dto.getHoaNotes();
+    }
+
+    private List<AdquisitionDocumentResponse> convertDbToList(String dbData) {
+        List<AdquisitionDocumentResponse> result = new ArrayList<>();
+        if (dbData == null || dbData.isEmpty()) {
+            return result;
+        }
+
+        String[] parts = dbData.split("\\|");
+        // Asumimos que los datos vienen en pares fileName, filePath
+        for (int i = 0; i < parts.length; i += 2) {
+            if (i + 1 < parts.length) {
+                AdquisitionDocumentResponse request = new AdquisitionDocumentResponse();
+                request.setFileName(parts[i]);
+                request.setFilePath(parts[i + 1]);
+                result.add(request);
+            }
+        }
+        return result;
     }
 
 }

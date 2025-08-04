@@ -12,6 +12,18 @@ import com.kynsoft.propertyacqcenter.application.command.adquisitionProperty.del
 import com.kynsoft.propertyacqcenter.application.command.adquisitionProperty.update.UpdateAdquisitionPropertyCommand;
 import com.kynsoft.propertyacqcenter.application.command.adquisitionProperty.update.UpdateAdquisitionPropertyMessage;
 import com.kynsoft.propertyacqcenter.application.command.adquisitionProperty.update.UpdateAdquisitionPropertyRequest;
+import com.kynsoft.propertyacqcenter.application.command.adquisitionProperty.update.bankStatementRequest.UpdateBankStatementRequestCommand;
+import com.kynsoft.propertyacqcenter.application.command.adquisitionProperty.update.bankStatementRequest.UpdateBankStatementRequestMessage;
+import com.kynsoft.propertyacqcenter.application.command.adquisitionProperty.update.bankStatementRequest.UpdateBankStatementRequestRequest;
+import com.kynsoft.propertyacqcenter.application.command.adquisitionProperty.update.buyerPersonalBankStatementRequest.UpdateBuyerPersonalBankStatementRequestCommand;
+import com.kynsoft.propertyacqcenter.application.command.adquisitionProperty.update.buyerPersonalBankStatementRequest.UpdateBuyerPersonalBankStatementRequestMessage;
+import com.kynsoft.propertyacqcenter.application.command.adquisitionProperty.update.buyerPersonalBankStatementRequest.UpdateBuyerPersonalBankStatementRequestRequest;
+import com.kynsoft.propertyacqcenter.application.command.adquisitionProperty.update.sellerBankStatementRequest.UpdateSellerBankStatementCommand;
+import com.kynsoft.propertyacqcenter.application.command.adquisitionProperty.update.sellerBankStatementRequest.UpdateSellerBankStatementMessage;
+import com.kynsoft.propertyacqcenter.application.command.adquisitionProperty.update.sellerBankStatementRequest.UpdateSellerBankStatementRequest;
+import com.kynsoft.propertyacqcenter.application.command.adquisitionProperty.update.sellerPersonalBankStatements.UpdateSellerPersonalBankStatementsRequestCommand;
+import com.kynsoft.propertyacqcenter.application.command.adquisitionProperty.update.sellerPersonalBankStatements.UpdateSellerPersonalBankStatementsRequestMessage;
+import com.kynsoft.propertyacqcenter.application.command.adquisitionProperty.update.sellerPersonalBankStatements.UpdateSellerPersonalBankStatementsRequestRequest;
 import com.kynsoft.propertyacqcenter.application.query.adquisitionProperty.getById.GetByIdAdquisitionPropertyQuery;
 import com.kynsoft.propertyacqcenter.application.query.adquisitionProperty.getByPropertyId.FindByAdquisitionPropertyByPropertyIdQuery;
 import com.kynsoft.propertyacqcenter.application.query.adquisitionProperty.search.GetSearchAdquisitionPropertyQuery;
@@ -46,6 +58,38 @@ public class BuyerAdquisitionPropertyController {
 
         UpdateAdquisitionPropertyCommand command = UpdateAdquisitionPropertyCommand.fromRequest(request, id);
         UpdateAdquisitionPropertyMessage response = mediator.send(command);
+        return ResponseEntity.ok(response);
+    }
+
+    @PatchMapping("/bank-statement-request/{id}")
+    public ResponseEntity<?> UpdateBankStatementRequest(@PathVariable("id") UUID id, @RequestBody UpdateBankStatementRequestRequest request) {
+
+        UpdateBankStatementRequestCommand command = UpdateBankStatementRequestCommand.fromRequest(request, id);
+        UpdateBankStatementRequestMessage response = mediator.send(command);
+        return ResponseEntity.ok(response);
+    }
+
+    @PatchMapping("/buyer_personal_bank_statements/{id}")
+    public ResponseEntity<?> UpdateBuyerPersonalBankStatements(@PathVariable("id") UUID id, @RequestBody UpdateBuyerPersonalBankStatementRequestRequest request) {
+
+        UpdateBuyerPersonalBankStatementRequestCommand command = UpdateBuyerPersonalBankStatementRequestCommand.fromRequest(request, id);
+        UpdateBuyerPersonalBankStatementRequestMessage response = mediator.send(command);
+        return ResponseEntity.ok(response);
+    }
+
+    @PatchMapping("/seller_personal_bank_statements/{id}")
+    public ResponseEntity<?> UpdateSellerPersonalBankStatements(@PathVariable("id") UUID id, @RequestBody UpdateSellerPersonalBankStatementsRequestRequest request) {
+
+        UpdateSellerPersonalBankStatementsRequestCommand command = UpdateSellerPersonalBankStatementsRequestCommand.fromRequest(request, id);
+        UpdateSellerPersonalBankStatementsRequestMessage response = mediator.send(command);
+        return ResponseEntity.ok(response);
+    }
+
+    @PatchMapping("/seller_bank_statement_request/{id}")
+    public ResponseEntity<?> UpdateSellerPersonalBankStatements(@PathVariable("id") UUID id, @RequestBody UpdateSellerBankStatementRequest request) {
+
+        UpdateSellerBankStatementCommand command = UpdateSellerBankStatementCommand.fromRequest(request, id);
+        UpdateSellerBankStatementMessage response = mediator.send(command);
         return ResponseEntity.ok(response);
     }
 

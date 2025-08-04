@@ -56,6 +56,7 @@ public class CreatePropertyCommand implements ICommand {
     private UUID sellerName;//Relacion con Legal entity
     private UUID sellerContactInfo;//Relacion con Company
     private LocalDate expectedClosingDate;
+    private LocalDate originalContractClosingDate;
     private Boolean emdRequirements;
     private Double emdOfferedAmount;
 
@@ -96,7 +97,7 @@ public class CreatePropertyCommand implements ICommand {
                                  Boolean distressed, String lenghOfOwership, Double openBalanceMortagage, Double involuntaryLiensAmount,
                                  Double publicRecord, Double mls, Boolean isMortgage,
                                  Double buildingArea, Double livingArea, Double grossArea, Double taxableArea, Double garageArea,
-                                 Boolean hasHoa, String hoaName, String hoaType, String hoaFeeFrequency) {
+                                 Boolean hasHoa, String hoaName, String hoaType, String hoaFeeFrequency, LocalDate originalContractClosingDate) {
         this.id = UUID.randomUUID().toString();
         this.fkId = fkId;
         this.hasHoa = hasHoa;
@@ -151,6 +152,7 @@ public class CreatePropertyCommand implements ICommand {
         this.publicRecord = publicRecord;
         this.mls = mls;
         this.isMortgage = isMortgage;
+        this.originalContractClosingDate = originalContractClosingDate;
     }
 
     public static CreatePropertyCommand fromRequest(CreatePropertyRequest request) {
@@ -207,7 +209,8 @@ public class CreatePropertyCommand implements ICommand {
                 request.getHasHoa(),
                 request.getHoaName(),
                 request.getHoaType(),
-                request.getHoaFeeFrequency()
+                request.getHoaFeeFrequency(),
+                request.getOriginalContractClosingDate()
         );
     }
 

@@ -2,10 +2,12 @@ package com.kynsoft.propertyacqcenter.application.command.adquisitionProperty.up
 
 import com.kynsof.share.core.domain.bus.command.ICommandHandler;
 import com.kynsoft.propertyacqcenter.domain.dto.AdquisitionPropertyDto;
+import com.kynsoft.propertyacqcenter.domain.dto.BankAccountDto;
 import com.kynsoft.propertyacqcenter.domain.dto.CompanyContactDto;
 import com.kynsoft.propertyacqcenter.domain.dto.LegalEntityDto;
 import com.kynsoft.propertyacqcenter.domain.dto.PropertyDto;
 import com.kynsoft.propertyacqcenter.domain.services.IAdquisitionPropertyService;
+import com.kynsoft.propertyacqcenter.domain.services.IBankAccountService;
 import com.kynsoft.propertyacqcenter.domain.services.ICompanyContactService;
 import com.kynsoft.propertyacqcenter.domain.services.ILegalEntityService;
 import com.kynsoft.propertyacqcenter.domain.services.IPropertyService;
@@ -18,15 +20,18 @@ public class UpdateAdquisitionPropertyCommandHandler implements ICommandHandler<
     private final ILegalEntityService legalEntityService;
     private final IPropertyService propertyService;
     private final ICompanyContactService companyContactService;
+    private final IBankAccountService bankAccountService;
 
     public UpdateAdquisitionPropertyCommandHandler(IAdquisitionPropertyService adquisitionPropertyService, 
                                                    ILegalEntityService legalEntityService,
                                                    IPropertyService propertyService,
-                                                   ICompanyContactService companyContactService) {
+                                                   ICompanyContactService companyContactService,
+                                                   IBankAccountService bankAccountService) {
         this.adquisitionPropertyService = adquisitionPropertyService;
         this.legalEntityService = legalEntityService;
         this.propertyService = propertyService;
         this.companyContactService = companyContactService;
+        this.bankAccountService = bankAccountService;
     }
 
     @Override
@@ -34,6 +39,8 @@ public class UpdateAdquisitionPropertyCommandHandler implements ICommandHandler<
         LegalEntityDto legalEntityDto = command.getBuyer() != null ? this.legalEntityService.findById(command.getBuyer()) : null;
         PropertyDto propertyDto = command.getProperty() != null ? this.propertyService.getById(command.getProperty()) : null;
         CompanyContactDto contactDto = command.getContact() != null ? this.companyContactService.findById(command.getContact()) : null;
+        BankAccountDto buyerBankAccount = command.getBuyerBankAccount() != null ? this.bankAccountService.findById(command.getBuyerBankAccount()) : null;
+        BankAccountDto sellerBankAccount = command.getSellerBankAccount() != null ? this.bankAccountService.findById(command.getSellerBankAccount()) : null;
 
         adquisitionPropertyService.update(AdquisitionPropertyDto
                 .builder()
@@ -41,6 +48,8 @@ public class UpdateAdquisitionPropertyCommandHandler implements ICommandHandler<
                 .buyer(legalEntityDto)
                 .property(propertyDto)
                 .contact(contactDto)
+                .buyerBankAccount(buyerBankAccount)
+                .sellerBankAccount(sellerBankAccount)
                 .buyerLicenseTagNo(command.getBuyerLicenseTagNo())
                 .buyerNameAndYearVehicle(command.getBuyerNameAndYearVehicle())
                 .dateAndTimeForInspections(command.getDateAndTimeForInspections())
@@ -76,7 +85,7 @@ public class UpdateAdquisitionPropertyCommandHandler implements ICommandHandler<
                 .ownerExecutedContract(command.getOwnerExecutedContract() != null ? command.getOwnerExecutedContract().getFilePath() + "|" + command.getOwnerExecutedContract().getFileName() : null)
                 .contractAddendum(command.getContractAddendum() != null ? command.getContractAddendum().getFilePath() + "|" + command.getContractAddendum().getFileName() : null)
                 .finalSettlementStatement(command.getFinalSettlementStatement() != null ? command.getFinalSettlementStatement().getFilePath() + "|" + command.getFinalSettlementStatement().getFileName() : null)
-                .bankStatementRequest(command.getBankStatementRequest() != null ? command.getBankStatementRequest().getFilePath() + "|" + command.getBankStatementRequest().getFileName() : null)
+                //.bankStatementRequest(command.getBankStatementRequest() != null ? command.getBankStatementRequest().getFilePath() + "|" + command.getBankStatementRequest().getFileName() : null)
                 .warrantyDeed(command.getWarrantyDeed() != null ? command.getWarrantyDeed().getFilePath() + "|" + command.getWarrantyDeed().getFileName() : null)
                 .titleInsurance(command.getTitleInsurance() != null ? command.getTitleInsurance().getFilePath() + "|" + command.getTitleInsurance().getFileName() : null)
                 .executedClosingDocuments(command.getExecutedClosingDocuments() != null ? command.getExecutedClosingDocuments().getFilePath() + "|" + command.getExecutedClosingDocuments().getFileName() : null)
@@ -155,7 +164,6 @@ public class UpdateAdquisitionPropertyCommandHandler implements ICommandHandler<
                 .hoaMoveInFee(command.getHoaMoveInFee())
                 .hoaInterviewRequired(command.getHoaInterviewRequired())
                 .hoaApplicationInstructions(command.getHoaApplicationInstructions() != null ? command.getHoaApplicationInstructions().getFilePath() + "|" + command.getHoaApplicationInstructions().getFileName() : null)
-                .buyersCarNameAndYear(command.getBuyersCarNameAndYear())
                 .applicationFeesAmount(command.getApplicationFeesAmount())
                 .applicationFeesSentDate(command.getApplicationFeesSentDate())
                 .rentalRestrictions(command.getRentalRestrictions())
@@ -212,7 +220,7 @@ public class UpdateAdquisitionPropertyCommandHandler implements ICommandHandler<
                 .whwireRoutingNumber(command.getWhwireRoutingNumber())
                 .whZelleEmailorPhone(command.getWhZelleEmailorPhone())
 
-                .hoaTotalUnits(command.getHoaTotalUnits() != null ? command.getHoaTotalUnits().getFilePath() + "|" + command.getHoaTotalUnits().getFileName() : null)
+                .hoaTotalUnits(command.getHoaTotalUnits())
                 .hoaDeclarationOfCondominium(command.getHoaDeclarationOfCondominium() != null ? command.getHoaDeclarationOfCondominium().getFilePath() + "|" + command.getHoaDeclarationOfCondominium().getFileName() : null)
                 .hoaCondominiumRider(command.getHoaCondominiumRider() != null ? command.getHoaCondominiumRider().getFilePath() + "|" + command.getHoaCondominiumRider().getFileName() : null)
                 .hoaBylaws(command.getHoaBylaws() != null ? command.getHoaBylaws().getFilePath() + "|" + command.getHoaBylaws().getFileName() : null)
@@ -226,6 +234,79 @@ public class UpdateAdquisitionPropertyCommandHandler implements ICommandHandler<
                 .buyerCreditReport(command.getBuyerCreditReport() != null ? command.getBuyerCreditReport().getFilePath() + "|" + command.getBuyerCreditReport().getFileName() : null)
                 .hoaValidatorWebsite(command.getHoaValidatorWebsite())
                 .hoaApplicationLink(command.getHoaApplicationLink())
+
+                .buyerProofOfFunds(command.getBuyerProofOfFunds() != null ? command.getBuyerProofOfFunds().getFilePath() + "|" + command.getBuyerProofOfFunds().getFileName() : null)
+                .buyerCarBrand(command.getBuyerCarBrand())
+                .buyerCarYear(command.getBuyerCarYear())
+                .buyerDriverLicense(command.getBuyerDriverLicense() != null ? command.getBuyerDriverLicense().getFilePath() + "|" + command.getBuyerDriverLicense().getFileName() : null)
+                .buyerCarInsurance(command.getBuyerCarInsurance() != null ? command.getBuyerCarInsurance().getFilePath() + "|" + command.getBuyerCarInsurance().getFileName() : null)
+
+                .buyerPersonalAccountHolderName(command.getBuyerPersonalAccountHolderName())
+                .buyerPersonalAccountNumber(command.getBuyerPersonalAccountNumber())
+                .buyerPersonalRoutingNumber(command.getBuyerPersonalRoutingNumber())
+                .buyerPersonalZelleEmailorPhone(command.getBuyerPersonalZelleEmailorPhone())
+                //.buyerPersonalBankStatements(command.getBuyerPersonalBankStatements() != null ? command.getBuyerProofOfFunds().getFilePath() + "|" + command.getBuyerProofOfFunds().getFileName() : null)
+                .buyerPersonalBankName(command.getBuyerPersonalBankName())
+                .buyerPersonalUseForHoaBankReference(command.getBuyerPersonalUseForHoaBankReference())
+                .buyerPersonalUseForLenderBankReference(command.getBuyerPersonalUseForLenderBankReference())
+                .buyerVoidCheck(command.getBuyerVoidCheck())
+                .buyerLegalEntityUseForHoaBankReference(command.getBuyerLegalEntityUseForHoaBankReference())
+
+                .buyerElectricProviderAccount(command.getBuyerElectricProviderAccount())
+                .buyerGasServiceAccount(command.getBuyerGasServiceAccount())
+                .buyerTrashServiceAccount(command.getBuyerTrashServiceAccount())
+                .buyerWaterSewerSetupAccount(command.getBuyerWaterSewerSetupAccount())
+                .buyerInternetService(command.getBuyerInternetService())
+                .buyerNotes(command.getBuyerNotes())
+                .buyerStartServiceDate(command.getBuyerStartServiceDate())
+                .buyerDepositAmount(command.getBuyerDepositAmount())
+
+                .gasBuyerStartServiceDate(command.getGasBuyerStartServiceDate())
+                .gasBuyerDepositAmount(command.getGasBuyerDepositAmount())
+                .trashBuyerStartServiceDate(command.getTrashBuyerStartServiceDate())
+                .trashBuyerDepositAmount(command.getTrashBuyerDepositAmount())
+                .waterBuyerStartServiceDate(command.getWaterBuyerStartServiceDate())
+                .waterBuyerDepositAmount(command.getWaterBuyerDepositAmount())
+                .internetBuyerStartServiceDate(command.getInternetBuyerStartServiceDate())
+                .internetBuyerDepositAmount(command.getInternetBuyerDepositAmount())
+                .buyerBankName(command.getBuyerBankName())
+                .buyerPersonalVoidCheck(command.getBuyerPersonalVoidCheck())
+
+                .originalContractClosingDate(command.getOriginalContractClosingDate())
+                .buyerMaritalStatus(command.getBuyerMaritalStatus())
+
+                .sellerPersonalAccountHolderName(command.getSellerPersonalAccountHolderName())
+                .sellerPersonalAccountNumber(command.getSellerPersonalAccountNumber())
+                .sellerPersonalRoutingNumber(command.getSellerPersonalRoutingNumber())
+                .sellerPersonalZelleEmailorPhone(command.getSellerPersonalZelleEmailorPhone())
+                .sellerPersonalBankName(command.getSellerPersonalBankName())
+                .sellerBankStatementRequest(command.getSellerBankStatementRequest())
+                .sellerPersonalBankStatements(command.getSellerPersonalBankStatements())
+                .sellerVoidCheck(command.getSellerVoidCheck())
+                .sellerPersonalVoidCheck(command.getSellerPersonalVoidCheck())
+
+                .hoaInpectionReport(command.getHoaInpectionReport() != null ? command.getHoaInpectionReport().getFilePath() + "|" + command.getHoaInpectionReport().getFileName() : null)
+                .hoaElectricalReport(command.getHoaElectricalReport() != null ? command.getHoaElectricalReport().getFilePath() + "|" + command.getHoaElectricalReport().getFileName() : null)
+                .hoaHvacReport(command.getHoaHvacReport() != null ? command.getHoaHvacReport().getFilePath() + "|" + command.getHoaHvacReport().getFileName() : null)
+                .hoaRoofReport(command.getHoaRoofReport() != null ? command.getHoaRoofReport().getFilePath() + "|" + command.getHoaRoofReport().getFileName() : null)
+                .hoaStructuralReport(command.getHoaStructuralReport() != null ? command.getHoaStructuralReport().getFilePath() + "|" + command.getHoaStructuralReport().getFileName() : null)
+                .hoaPlumbingReport(command.getHoaPlumbingReport() != null ? command.getHoaPlumbingReport().getFilePath() + "|" + command.getHoaPlumbingReport().getFileName() : null)
+                .hoaNotesReport(command.getHoaNotesReport())
+                .hoaOthersReport(command.getHoaOthersReport())
+                .hoaNotes(command.getHoaNotes())
+
+                .employerReferenceName(command.getEmployerReferenceName())
+                .employerReferencePhone(command.getEmployerReferencePhone())
+                .employerReferenceEmail(command.getEmployerReferenceEmail())
+                .employerReferencePosition(command.getEmployerReferencePosition())
+                .bankReferenceName(command.getBankReferenceName())
+                .bankReferencePhone(command.getBankReferencePhone())
+                .bankReferenceEmail(command.getBankReferenceEmail())
+                .bankReferencePosition(command.getBankReferencePosition())
+                .personalReferenceName(command.getPersonalReferenceName())
+                .personalReferencePhone(command.getPersonalReferencePhone())
+                .personalReferenceEmail(command.getPersonalReferenceEmail())
+                .personalReferencePosition(command.getPersonalReferencePosition())
                 .build()
         );
     }

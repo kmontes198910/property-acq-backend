@@ -29,10 +29,10 @@ public class CreateBankAccountCommandHandler implements ICommandHandler<CreateBa
 
     @Override
     public void handle(CreateBankAccountCommand command) {
-        this.validateRoutingNumber(command.getRoutingNumber());
-        if (command.getDomesticWare() != null) {
-            this.validateDomesticWare(command.getDomesticWare());
-        }
+//        this.validateRoutingNumber(command.getRoutingNumber());
+//        if (command.getDomesticWare() != null) {
+//            this.validateDomesticWare(command.getDomesticWare());
+//        }
         LegalEntityDto legalEntityDto = this.legalEntityService.findById(command.getLegalEntity());
 
         this.bankAccountService.validateAccountNumber(command.getLegalEntity(), command.getAccountNumber(), command.getId());
@@ -58,7 +58,8 @@ public class CreateBankAccountCommandHandler implements ICommandHandler<CreateBa
                         currencyDto
                 ),
                 command.getBranchInfo(),
-                command.getDomesticWare()
+                command.getDomesticWare(),
+                command.getHolderName()
         ));
     }
 

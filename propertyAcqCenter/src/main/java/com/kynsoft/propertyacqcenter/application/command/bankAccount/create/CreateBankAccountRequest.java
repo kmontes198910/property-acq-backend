@@ -26,4 +26,5 @@ public class CreateBankAccountRequest {
     private InternationalBankingDetailsRequest internationalDetails;
     private BankBranchDto branchInfo;
     private String domesticWare;
+    private String holderName;
 }

@@ -4,16 +4,23 @@ import com.kynsof.share.core.domain.request.FilterCriteria;
 import com.kynsof.share.core.domain.response.PaginatedResponse;
 import com.kynsof.share.core.infrastructure.specifications.GenericSpecificationsBuilder;
 import com.kynsoft.propertyacqcenter.application.response.AdquisitionPropertyResponse;
+import com.kynsoft.propertyacqcenter.domain.dto.AdquisitionPropertyDocumentDto;
 import com.kynsoft.propertyacqcenter.domain.dto.AdquisitionPropertyDto;
 import com.kynsoft.propertyacqcenter.domain.dto.exception.AddressNotFoundException;
 import com.kynsoft.propertyacqcenter.domain.dto.exception.NotDeleteException;
 import com.kynsoft.propertyacqcenter.domain.dto.exception.PurchaseForPropertyNotFoundException;
 import com.kynsoft.propertyacqcenter.domain.services.IAdquisitionPropertyService;
 import com.kynsoft.propertyacqcenter.infrastructure.entity.AdquisitionProperty;
+import com.kynsoft.propertyacqcenter.infrastructure.entity.BankAccount;
 import com.kynsoft.propertyacqcenter.infrastructure.entity.CompanyContact;
 import com.kynsoft.propertyacqcenter.infrastructure.entity.LegalEntity;
 import com.kynsoft.propertyacqcenter.infrastructure.entity.Property;
+import com.kynsoft.propertyacqcenter.infrastructure.entity.embedded.adquisitionProperty.AdquisitionPropertyBuyer;
+import com.kynsoft.propertyacqcenter.infrastructure.entity.embedded.adquisitionProperty.AdquisitionPropertyBuyerPersonalBankInfo;
+import com.kynsoft.propertyacqcenter.infrastructure.entity.embedded.adquisitionProperty.AdquisitionPropertyBuyerUtilitiesInfo;
 import com.kynsoft.propertyacqcenter.infrastructure.entity.embedded.adquisitionProperty.AdquisitionPropertyHoa;
+import com.kynsoft.propertyacqcenter.infrastructure.entity.embedded.adquisitionProperty.AdquisitionPropertyHoaBuildingInfo;
+import com.kynsoft.propertyacqcenter.infrastructure.entity.embedded.adquisitionProperty.AdquisitionPropertySeller;
 import com.kynsoft.propertyacqcenter.infrastructure.repository.command.AdquisitionPropertyWriteDataJPARepository;
 import com.kynsoft.propertyacqcenter.infrastructure.repository.query.AdquisitionPropertyReadDataJPARepository;
 import org.springframework.data.domain.Pageable;
@@ -52,10 +59,18 @@ public class AdquisitionPropertyServiceImpl implements IAdquisitionPropertyServi
     public void update(AdquisitionPropertyDto object) {
         AdquisitionProperty update = this.findByIdSimple(object.getId());
         update.setAdquisitionPropertyHoa(createAdquisitionPropertyHoa(object, update));
+        update.setAdquisitionPropertyBuyer(createAdquisitionPropertyBuyer(object, update));
+        update.setAdquisitionPropertyBuyerPersonalBankInfo(createAdquisitionPropertyBuyerPersonalBankInfo(object, update));
+        update.setAdquisitionPropertyBuyerUtilitiesInfo(createAdquisitionPropertyBuyerUtilitiesInfo(object, update));
+        update.setAdquisitionPropertySeller(createAdquisitionPropertySeller(object, update));
+        update.setAdquisitionPropertyHoaBuildingInfo(createAdquisitionPropertyHoaBuildingInfo(object, update));
 
         update.setBuyer(object.getBuyer() != null ? new LegalEntity(object.getBuyer()) : null);
         update.setContact(object.getContact() != null ? new CompanyContact(object.getContact()) : null);
         update.setProperty(new Property(object.getProperty()));
+
+        update.setBuyerBankAccount(object.getBuyerBankAccount() != null ? new BankAccount(object.getBuyerBankAccount()) : null);
+        update.setSellerBankAccount(object.getSellerBankAccount() != null ? new BankAccount(object.getSellerBankAccount()) : null);
 
         update.setBuyerNameAndYearVehicle(object.getBuyerNameAndYearVehicle() != null ? object.getBuyerNameAndYearVehicle() : update.getBuyerNameAndYearVehicle());
         update.setBuyerLicenseTagNo(object.getBuyerLicenseTagNo() != null ? object.getBuyerLicenseTagNo() : update.getBuyerLicenseTagNo());
@@ -93,7 +108,7 @@ public class AdquisitionPropertyServiceImpl implements IAdquisitionPropertyServi
         update.setOwnerExecutedContract(object.getOwnerExecutedContract() != null ? object.getOwnerExecutedContract() : update.getOwnerExecutedContract());
         update.setContractAddendum(object.getContractAddendum() != null ? object.getContractAddendum() : update.getContractAddendum());
         update.setFinalSettlementStatement(object.getFinalSettlementStatement() != null ? object.getFinalSettlementStatement() : update.getFinalSettlementStatement());
-        update.setBankStatementRequest(object.getBankStatementRequest() != null ? object.getBankStatementRequest() : update.getBankStatementRequest());
+        //update.setBankStatementRequest(object.getBankStatementRequest() != null ? object.getBankStatementRequest() : update.getBankStatementRequest());
         update.setWarrantyDeed(object.getWarrantyDeed() != null ? object.getWarrantyDeed() : update.getWarrantyDeed());
         update.setTitleInsurance(object.getTitleInsurance() != null ? object.getTitleInsurance() : update.getTitleInsurance());
         update.setExecutedClosingDocuments(object.getExecutedClosingDocuments() != null ? object.getExecutedClosingDocuments() : update.getExecutedClosingDocuments());
@@ -180,7 +195,6 @@ public class AdquisitionPropertyServiceImpl implements IAdquisitionPropertyServi
         update.setHoaMoveInFee(object.getHoaMoveInFee() != null ? object.getHoaMoveInFee() : update.getHoaMoveInFee());
         update.setHoaInterviewRequired(object.getHoaInterviewRequired() != null ? object.getHoaInterviewRequired() : update.getHoaInterviewRequired());
         update.setHoaApplicationInstructions(object.getHoaApplicationInstructions() != null ? object.getHoaApplicationInstructions() : update.getHoaApplicationInstructions());
-        update.setBuyersCarNameAndYear(object.getBuyersCarNameAndYear() != null ? object.getBuyersCarNameAndYear() : update.getBuyersCarNameAndYear());
         update.setApplicationFeesAmount(object.getApplicationFeesAmount() != null ? object.getApplicationFeesAmount() : update.getApplicationFeesAmount());
         update.setApplicationFeesSentDate(object.getApplicationFeesSentDate() != null ? object.getApplicationFeesSentDate() : update.getApplicationFeesSentDate());
         update.setRentalRestrictions(object.getRentalRestrictions() != null ? object.getRentalRestrictions() : update.getRentalRestrictions());
@@ -218,6 +232,7 @@ public class AdquisitionPropertyServiceImpl implements IAdquisitionPropertyServi
         update.setWhwireAccountNumber(object.getWhwireAccountNumber() != null ? object.getWhwireAccountNumber() : update.getWhwireAccountNumber());
         update.setWhwireRoutingNumber(object.getWhwireRoutingNumber() != null ? object.getWhwireRoutingNumber() : update.getWhwireRoutingNumber());
         update.setWhZelleEmailorPhone(object.getWhZelleEmailorPhone() != null ? object.getWhZelleEmailorPhone() : update.getWhZelleEmailorPhone());
+        update.setOriginalContractClosingDate(object.getOriginalContractClosingDate() != null ? object.getOriginalContractClosingDate() : update.getOriginalContractClosingDate());
 
         update.setUpdatedAt(LocalDateTime.now());
         repositoryCommand.save(update);
@@ -268,12 +283,12 @@ public class AdquisitionPropertyServiceImpl implements IAdquisitionPropertyServi
     }
 
     @Override
-    public List<AdquisitionPropertyDto> findByPropertyId(String propertyId) {
+    public List<AdquisitionPropertyDocumentDto> findByPropertyId(String propertyId) {
         List<AdquisitionProperty> entity = repositoryQuery.findByPropertyId(propertyId);
         if (!entity.isEmpty()) {
-            List<AdquisitionPropertyDto> list = new ArrayList<>();
+            List<AdquisitionPropertyDocumentDto> list = new ArrayList<>();
             for (AdquisitionProperty adquisitionProperty : entity) {
-                list.add(adquisitionProperty.toAggregate());
+                list.add(adquisitionProperty.toAggregateByPropertyId());
             }
             return list;
         }
@@ -328,6 +343,240 @@ public class AdquisitionPropertyServiceImpl implements IAdquisitionPropertyServi
                         .hoaApplicationLink(object.getHoaApplicationLink())
                         .hoaApplicationLink(object.getHoaApplicationLink())
                         .build();
+    }
+
+    private AdquisitionPropertyBuyer createAdquisitionPropertyBuyer(AdquisitionPropertyDto object, AdquisitionProperty update) {
+        return update.getAdquisitionPropertyBuyer() != null
+                ? //Si es diferente de null, es porque ya tiene datos.
+                AdquisitionPropertyBuyer
+                        .builder()
+                        .id(update.getAdquisitionPropertyBuyer().getId())
+                        .adquisitionProperty(update)
+                        .buyerProofOfFunds(object.getBuyerProofOfFunds() != null ? object.getBuyerProofOfFunds() : update.getAdquisitionPropertyBuyer().getBuyerProofOfFunds())
+                        .buyerCarBrand(object.getBuyerCarBrand() != null ? object.getBuyerCarBrand() : update.getAdquisitionPropertyBuyer().getBuyerCarBrand())
+                        .buyerCarYear(object.getBuyerCarYear() != null ? object.getBuyerCarYear() : update.getAdquisitionPropertyBuyer().getBuyerCarYear())
+                        .buyerDriverLicense(object.getBuyerDriverLicense() != null ? object.getBuyerDriverLicense() : update.getAdquisitionPropertyBuyer().getBuyerDriverLicense())
+                        .buyerCarInsurance(object.getBuyerCarInsurance() != null ? object.getBuyerCarInsurance() : update.getAdquisitionPropertyBuyer().getBuyerCarInsurance())
+                        .buyerBankName(object.getBuyerBankName() != null ? object.getBuyerBankName() : update.getAdquisitionPropertyBuyer().getBuyerBankName())
+                        .buyerPersonalVoidCheck(object.getBuyerPersonalVoidCheck() != null ? object.getBuyerPersonalVoidCheck() : update.getAdquisitionPropertyBuyer().getBuyerPersonalVoidCheck())
+                        .buyerMaritalStatus(object.getBuyerMaritalStatus() != null ? object.getBuyerMaritalStatus() : update.getAdquisitionPropertyBuyer().getBuyerMaritalStatus())
+                        .build()
+                : AdquisitionPropertyBuyer
+                        .builder()
+                        .id(UUID.randomUUID())
+                        .adquisitionProperty(update)
+                        .buyerProofOfFunds(object.getBuyerProofOfFunds())
+                        .buyerCarBrand(object.getBuyerCarBrand())
+                        .buyerCarYear(object.getBuyerCarYear())
+                        .buyerDriverLicense(object.getBuyerDriverLicense())
+                        .buyerCarInsurance(object.getBuyerCarInsurance())
+                        .buyerBankName(object.getBuyerBankName())
+                        .buyerPersonalVoidCheck(object.getBuyerPersonalVoidCheck())
+                        .buyerMaritalStatus(object.getBuyerMaritalStatus())
+                        .build();
+    }
+
+    private AdquisitionPropertySeller createAdquisitionPropertySeller(AdquisitionPropertyDto object, AdquisitionProperty update) {
+        return update.getAdquisitionPropertySeller() != null
+                ? //Si es diferente de null, es porque ya tiene datos.
+                AdquisitionPropertySeller
+                        .builder()
+                        .id(update.getAdquisitionPropertySeller().getId())
+                        .adquisitionProperty(update)
+                        .sellerPersonalAccountHolderName(object.getSellerPersonalAccountHolderName() != null ? object.getSellerPersonalAccountHolderName() : update.getAdquisitionPropertySeller().getSellerPersonalAccountHolderName())
+                        .sellerPersonalAccountNumber(object.getSellerPersonalAccountNumber() != null ? object.getSellerPersonalAccountNumber() : update.getAdquisitionPropertySeller().getSellerPersonalAccountNumber())
+                        .sellerPersonalRoutingNumber(object.getSellerPersonalRoutingNumber() != null ? object.getSellerPersonalRoutingNumber() : update.getAdquisitionPropertySeller().getSellerPersonalRoutingNumber())
+                        .sellerPersonalZelleEmailorPhone(object.getSellerPersonalZelleEmailorPhone() != null ? object.getSellerPersonalZelleEmailorPhone() : update.getAdquisitionPropertySeller().getSellerPersonalZelleEmailorPhone())
+                        .sellerPersonalBankName(object.getSellerPersonalBankName() != null ? object.getSellerPersonalBankName() : update.getAdquisitionPropertySeller().getSellerPersonalBankName())
+                        //.sellerBankStatementRequest(object.getSellerBankStatementRequest() != null ? object.getSellerBankStatementRequest() : update.getAdquisitionPropertySeller().getSellerBankStatementRequest())
+                        //.sellerPersonalBankStatements(object.getSellerPersonalBankStatements() != null ? object.getSellerPersonalBankStatements() : update.getAdquisitionPropertySeller().getSellerPersonalBankStatements())
+                        .sellerVoidCheck(object.getSellerVoidCheck() != null ? object.getSellerVoidCheck() : update.getAdquisitionPropertySeller().getSellerVoidCheck())
+                        .sellerPersonalVoidCheck(object.getSellerPersonalVoidCheck() != null ? object.getSellerPersonalVoidCheck() : update.getAdquisitionPropertySeller().getSellerPersonalVoidCheck())
+                        .build()
+                : AdquisitionPropertySeller
+                        .builder()
+                        .id(UUID.randomUUID())
+                        .adquisitionProperty(update)
+                        .sellerPersonalAccountHolderName(object.getSellerPersonalAccountHolderName())
+                        .sellerPersonalAccountNumber(object.getSellerPersonalAccountNumber())
+                        .sellerPersonalRoutingNumber(object.getSellerPersonalRoutingNumber())
+                        .sellerPersonalZelleEmailorPhone(object.getSellerPersonalZelleEmailorPhone())
+                        .sellerPersonalBankName(object.getSellerPersonalBankName())
+                        //.sellerBankStatementRequest(object.getSellerBankStatementRequest())
+                        //.sellerPersonalBankStatements(object.getSellerPersonalBankStatements())
+                        .sellerVoidCheck(object.getSellerVoidCheck())
+                        .sellerPersonalVoidCheck(object.getSellerPersonalVoidCheck())
+                        .build();
+    }
+
+    private AdquisitionPropertyBuyerPersonalBankInfo createAdquisitionPropertyBuyerPersonalBankInfo(AdquisitionPropertyDto object, AdquisitionProperty update) {
+        return update.getAdquisitionPropertyBuyerPersonalBankInfo() != null
+                ? //Si es diferente de null, es porque ya tiene datos.
+                AdquisitionPropertyBuyerPersonalBankInfo
+                        .builder()
+                        .id(update.getAdquisitionPropertyBuyerPersonalBankInfo().getId())
+                        .adquisitionProperty(update)
+                        .buyerPersonalAccountHolderName(object.getBuyerPersonalAccountHolderName() != null ? object.getBuyerPersonalAccountHolderName() : update.getAdquisitionPropertyBuyerPersonalBankInfo().getBuyerPersonalAccountHolderName())
+                        .buyerPersonalAccountNumber(object.getBuyerPersonalAccountNumber() != null ? object.getBuyerPersonalAccountNumber() : update.getAdquisitionPropertyBuyerPersonalBankInfo().getBuyerPersonalAccountNumber())
+                        .buyerPersonalRoutingNumber(object.getBuyerPersonalRoutingNumber() != null ? object.getBuyerPersonalRoutingNumber() : update.getAdquisitionPropertyBuyerPersonalBankInfo().getBuyerPersonalRoutingNumber())
+                        .buyerPersonalZelleEmailorPhone(object.getBuyerPersonalZelleEmailorPhone() != null ? object.getBuyerPersonalZelleEmailorPhone() : update.getAdquisitionPropertyBuyerPersonalBankInfo().getBuyerPersonalZelleEmailorPhone())
+                        //.buyerPersonalBankStatements(object.getBuyerPersonalBankStatements() != null ? object.getBuyerPersonalBankStatements() : update.getAdquisitionPropertyBuyerPersonalBankInfo().getBuyerPersonalBankStatements())
+                        .buyerPersonalBankName(object.getBuyerPersonalBankName() != null ? object.getBuyerPersonalBankName() : update.getAdquisitionPropertyBuyerPersonalBankInfo().getBuyerPersonalBankName())
+                        .buyerPersonalUseForHoaBankReference(object.getBuyerPersonalUseForHoaBankReference() != null ? object.getBuyerPersonalUseForHoaBankReference() : update.getAdquisitionPropertyBuyerPersonalBankInfo().getBuyerPersonalUseForHoaBankReference())
+                        .buyerPersonalUseForLenderBankReference(object.getBuyerPersonalUseForLenderBankReference() != null ? object.getBuyerPersonalUseForLenderBankReference() : update.getAdquisitionPropertyBuyerPersonalBankInfo().getBuyerPersonalUseForLenderBankReference())
+                        .buyerVoidCheck(object.getBuyerVoidCheck() != null ? object.getBuyerVoidCheck() : update.getAdquisitionPropertyBuyerPersonalBankInfo().getBuyerVoidCheck())
+                        .buyerLegalEntityUseForHoaBankReference(object.getBuyerLegalEntityUseForHoaBankReference() != null ? object.getBuyerLegalEntityUseForHoaBankReference() : update.getAdquisitionPropertyBuyerPersonalBankInfo().getBuyerLegalEntityUseForHoaBankReference())
+                        .build()
+                : AdquisitionPropertyBuyerPersonalBankInfo
+                        .builder()
+                        .id(UUID.randomUUID())
+                        .adquisitionProperty(update)
+                        .buyerPersonalAccountHolderName(object.getBuyerPersonalAccountHolderName())
+                        .buyerPersonalAccountNumber(object.getBuyerPersonalAccountNumber())
+                        .buyerPersonalRoutingNumber(object.getBuyerPersonalRoutingNumber())
+                        .buyerPersonalZelleEmailorPhone(object.getBuyerPersonalZelleEmailorPhone())
+                        //.buyerPersonalBankStatements(object.getBuyerPersonalBankStatements())
+                        .buyerPersonalBankName(object.getBuyerPersonalBankName())
+                        .buyerPersonalUseForHoaBankReference(object.getBuyerPersonalUseForHoaBankReference())
+                        .buyerPersonalUseForLenderBankReference(object.getBuyerPersonalUseForLenderBankReference())
+                        .build();
+    }
+
+    private AdquisitionPropertyHoaBuildingInfo createAdquisitionPropertyHoaBuildingInfo(AdquisitionPropertyDto object, AdquisitionProperty update) {
+        return update.getAdquisitionPropertyHoaBuildingInfo() != null
+                ? //Si es diferente de null, es porque ya tiene datos.
+                AdquisitionPropertyHoaBuildingInfo
+                        .builder()
+                        .id(update.getAdquisitionPropertyHoaBuildingInfo().getId())
+                        .adquisitionProperty(update)
+                        .hoaInpectionReport(object.getHoaInpectionReport() != null ? object.getHoaInpectionReport() : update.getAdquisitionPropertyHoaBuildingInfo().getHoaInpectionReport())
+                        .hoaElectricalReport(object.getHoaElectricalReport() != null ? object.getHoaElectricalReport() : update.getAdquisitionPropertyHoaBuildingInfo().getHoaElectricalReport())
+                        .hoaHvacReport(object.getHoaHvacReport() != null ? object.getHoaHvacReport() : update.getAdquisitionPropertyHoaBuildingInfo().getHoaHvacReport())
+                        .hoaRoofReport(object.getHoaRoofReport() != null ? object.getHoaRoofReport() : update.getAdquisitionPropertyHoaBuildingInfo().getHoaRoofReport())
+                        .hoaStructuralReport(object.getHoaStructuralReport() != null ? object.getHoaStructuralReport() : update.getAdquisitionPropertyHoaBuildingInfo().getHoaStructuralReport())
+                        .hoaPlumbingReport(object.getHoaPlumbingReport() != null ? object.getHoaPlumbingReport() : update.getAdquisitionPropertyHoaBuildingInfo().getHoaPlumbingReport())
+                        .hoaOthersReport(object.getHoaOthersReport() != null ? object.getHoaOthersReport() : update.getAdquisitionPropertyHoaBuildingInfo().getHoaOthersReport())
+                        .hoaNotesReport(object.getHoaNotesReport() != null ? object.getHoaNotesReport() : update.getAdquisitionPropertyHoaBuildingInfo().getHoaNotesReport())
+                        .hoaNotes(object.getHoaNotes() != null ? object.getHoaNotes() : update.getAdquisitionPropertyHoaBuildingInfo().getHoaNotes())
+                        .build()
+                : AdquisitionPropertyHoaBuildingInfo
+                        .builder()
+                        .id(UUID.randomUUID())
+                        .adquisitionProperty(update)
+                        .hoaInpectionReport(object.getHoaInpectionReport())
+                        .hoaElectricalReport(object.getHoaElectricalReport())
+                        .hoaHvacReport(object.getHoaHvacReport())
+                        .hoaRoofReport(object.getHoaRoofReport())
+                        .hoaStructuralReport(object.getHoaStructuralReport())
+                        .hoaPlumbingReport(object.getHoaPlumbingReport())
+                        .hoaOthersReport(object.getHoaOthersReport())
+                        .hoaNotesReport(object.getHoaNotesReport())
+                        .hoaNotes(object.getHoaNotes())
+                        .build();
+    }
+
+    private AdquisitionPropertyBuyerUtilitiesInfo createAdquisitionPropertyBuyerUtilitiesInfo(AdquisitionPropertyDto object, AdquisitionProperty update) {
+        return update.getAdquisitionPropertyBuyerUtilitiesInfo() != null
+                ? //Si es diferente de null, es porque ya tiene datos.
+                AdquisitionPropertyBuyerUtilitiesInfo
+                        .builder()
+                        .id(update.getAdquisitionPropertyBuyerUtilitiesInfo().getId())
+                        .adquisitionProperty(update)
+                        .buyerElectricProviderAccount(object.getBuyerElectricProviderAccount() != null ? object.getBuyerElectricProviderAccount() : update.getAdquisitionPropertyBuyerUtilitiesInfo().getBuyerElectricProviderAccount())
+                        .buyerGasServiceAccount(object.getBuyerGasServiceAccount() != null ? object.getBuyerGasServiceAccount() : update.getAdquisitionPropertyBuyerUtilitiesInfo().getBuyerGasServiceAccount())
+                        .buyerTrashServiceAccount(object.getBuyerTrashServiceAccount() != null ? object.getBuyerTrashServiceAccount() : update.getAdquisitionPropertyBuyerUtilitiesInfo().getBuyerTrashServiceAccount())
+                        .buyerWaterSewerSetupAccount(object.getBuyerWaterSewerSetupAccount() != null ? object.getBuyerWaterSewerSetupAccount() : update.getAdquisitionPropertyBuyerUtilitiesInfo().getBuyerWaterSewerSetupAccount())
+                        .buyerInternetService(object.getBuyerInternetService() != null ? object.getBuyerInternetService() : update.getAdquisitionPropertyBuyerUtilitiesInfo().getBuyerInternetService())
+                        .buyerNotes(object.getBuyerNotes() != null ? object.getBuyerNotes() : update.getAdquisitionPropertyBuyerUtilitiesInfo().getBuyerNotes())
+                        .buyerStartServiceDate(object.getBuyerStartServiceDate() != null ? object.getBuyerStartServiceDate() : update.getAdquisitionPropertyBuyerUtilitiesInfo().getBuyerStartServiceDate())
+                        .buyerDepositAmount(object.getBuyerDepositAmount() != null ? object.getBuyerDepositAmount() : update.getAdquisitionPropertyBuyerUtilitiesInfo().getBuyerDepositAmount())
+
+                        .gasBuyerStartServiceDate(object.getGasBuyerStartServiceDate() != null ? object.getGasBuyerStartServiceDate() : update.getAdquisitionPropertyBuyerUtilitiesInfo().getGasBuyerStartServiceDate())
+                        .gasBuyerDepositAmount(object.getGasBuyerDepositAmount() != null ? object.getGasBuyerDepositAmount() : update.getAdquisitionPropertyBuyerUtilitiesInfo().getGasBuyerDepositAmount())
+                        .trashBuyerStartServiceDate(object.getTrashBuyerStartServiceDate() != null ? object.getTrashBuyerStartServiceDate() : update.getAdquisitionPropertyBuyerUtilitiesInfo().getTrashBuyerStartServiceDate())
+                        .trashBuyerDepositAmount(object.getTrashBuyerDepositAmount() != null ? object.getTrashBuyerDepositAmount() : update.getAdquisitionPropertyBuyerUtilitiesInfo().getTrashBuyerDepositAmount())
+                        .waterBuyerStartServiceDate(object.getWaterBuyerStartServiceDate() != null ? object.getWaterBuyerStartServiceDate() : update.getAdquisitionPropertyBuyerUtilitiesInfo().getWaterBuyerStartServiceDate())
+                        .waterBuyerDepositAmount(object.getWaterBuyerDepositAmount() != null ? object.getWaterBuyerDepositAmount() : update.getAdquisitionPropertyBuyerUtilitiesInfo().getWaterBuyerDepositAmount())
+                        .internetBuyerStartServiceDate(object.getInternetBuyerStartServiceDate() != null ? object.getInternetBuyerStartServiceDate() : update.getAdquisitionPropertyBuyerUtilitiesInfo().getInternetBuyerStartServiceDate())
+                        .internetBuyerDepositAmount(object.getInternetBuyerDepositAmount() != null ? object.getInternetBuyerDepositAmount() : update.getAdquisitionPropertyBuyerUtilitiesInfo().getInternetBuyerDepositAmount())
+                        .build()
+                : AdquisitionPropertyBuyerUtilitiesInfo
+                        .builder()
+                        .id(UUID.randomUUID())
+                        .adquisitionProperty(update)
+                        .buyerElectricProviderAccount(object.getBuyerElectricProviderAccount())
+                        .buyerGasServiceAccount(object.getBuyerGasServiceAccount())
+                        .buyerTrashServiceAccount(object.getBuyerTrashServiceAccount())
+                        .buyerWaterSewerSetupAccount(object.getBuyerWaterSewerSetupAccount())
+                        .buyerInternetService(object.getBuyerInternetService())
+                        .buyerNotes(object.getBuyerNotes())
+                        .buyerStartServiceDate(object.getBuyerStartServiceDate())
+                        .buyerDepositAmount(object.getBuyerDepositAmount())
+
+                        .gasBuyerStartServiceDate(object.getGasBuyerStartServiceDate())
+                        .gasBuyerDepositAmount(object.getGasBuyerDepositAmount())
+                        .trashBuyerStartServiceDate(object.getTrashBuyerStartServiceDate())
+                        .trashBuyerDepositAmount(object.getTrashBuyerDepositAmount())
+                        .waterBuyerStartServiceDate(object.getWaterBuyerStartServiceDate())
+                        .waterBuyerDepositAmount(object.getWaterBuyerDepositAmount())
+                        .internetBuyerStartServiceDate(object.getInternetBuyerStartServiceDate())
+                        .internetBuyerDepositAmount(object.getInternetBuyerDepositAmount())
+                        .build();
+    }
+
+    @Override
+    public void updateBankStatementRequest(UUID id, String bankStatementRequest) {
+        AdquisitionProperty update = this.findByIdSimple(id);
+        update.setBankStatementRequest(bankStatementRequest);
+        repositoryCommand.save(update);
+    }
+
+    @Override
+    public void updatebuyerPersonalBankStatements(UUID id, String buyerPersonalBankStatements) {
+        AdquisitionProperty update = this.findByIdSimple(id);
+        if (update.getAdquisitionPropertyBuyerPersonalBankInfo() != null) {
+            update.getAdquisitionPropertyBuyerPersonalBankInfo().setBuyerPersonalBankStatements(buyerPersonalBankStatements);
+        } else {
+            update.setAdquisitionPropertyBuyerPersonalBankInfo(AdquisitionPropertyBuyerPersonalBankInfo
+                    .builder()
+                    .id(UUID.randomUUID())
+                    .buyerPersonalBankStatements(buyerPersonalBankStatements)
+                    .build());
+        }
+
+        repositoryCommand.save(update);
+    }
+
+    @Override
+    public void updateSellerPersonalBankStatements(UUID id, String sellerPersonalBankStatements) {
+        AdquisitionProperty update = this.findByIdSimple(id);
+        if (update.getAdquisitionPropertySeller() != null) {
+            update.getAdquisitionPropertySeller().setSellerPersonalBankStatements(sellerPersonalBankStatements);
+        } else {
+            update.setAdquisitionPropertySeller(AdquisitionPropertySeller
+                    .builder()
+                    .id(UUID.randomUUID())
+                    .sellerPersonalBankStatements(sellerPersonalBankStatements)
+                    .build());
+        }
+
+        repositoryCommand.save(update);
+    }
+
+    @Override
+    public void updateSellerBankStatementRequest(UUID id, String sellerBankStatementRequest) {
+        AdquisitionProperty update = this.findByIdSimple(id);
+        if (update.getAdquisitionPropertySeller() != null) {
+            update.getAdquisitionPropertySeller().setSellerBankStatementRequest(sellerBankStatementRequest);
+        } else {
+            update.setAdquisitionPropertySeller(AdquisitionPropertySeller
+                    .builder()
+                    .id(UUID.randomUUID())
+                    .sellerBankStatementRequest(sellerBankStatementRequest)
+                    .build());
+        }
+
+        repositoryCommand.save(update);
     }
 
 }

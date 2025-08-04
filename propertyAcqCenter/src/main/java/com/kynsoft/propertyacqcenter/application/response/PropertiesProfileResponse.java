@@ -55,7 +55,7 @@ public class PropertiesProfileResponse implements IResponse {
     private AcquisitionType acquisitionType; // Purchase, Assignment, Inherited, JV
     private SourceType sourceType; // Broker, Wholesaler, Direct-to-Seller, etc.
     private LegalEntityBasicResponse sellerName;//Relacion con Legal entity
-    private ContactBasicResponse sellerContactInfo;//Relacion con Legal entity
+    private CompanyContactResponse sellerContactInfo;//Relacion con Legal entity
     private LocalDate expectedClosingDate;
     private Boolean emdRequirements;
     private Double emdOfferedAmount;
@@ -126,7 +126,7 @@ public class PropertiesProfileResponse implements IResponse {
         this.acquisitionType = dto.getAcquisitionType();
         this.sourceType = dto.getSourceType();
         this.sellerName = dto.getSellerName() != null ? new LegalEntityBasicResponse(dto.getSellerName()) : null;
-        this.sellerContactInfo = dto.getSellerContactInfo() != null ? new ContactBasicResponse(dto.getSellerContactInfo()) : null;
+        this.sellerContactInfo = dto.getSellerContactInfo() != null ? new CompanyContactResponse(dto.getSellerContactInfo()) : null;
         this.expectedClosingDate = dto.getExpectedClosingDate();
         this.emdRequirements = dto.getEmdRequirements();
         this.emdOfferedAmount = dto.getEmdOfferedAmount();

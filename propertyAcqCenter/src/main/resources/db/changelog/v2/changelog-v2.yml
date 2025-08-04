@@ -1,0 +1,7 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1
+      author: Yannier Penna Escalona
+      changes:
+        - sql:
+            sql: ALTER TABLE company_contacts ALTER COLUMN company_id SET NOT NULL

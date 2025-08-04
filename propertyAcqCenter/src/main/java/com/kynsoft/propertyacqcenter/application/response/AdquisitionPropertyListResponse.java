@@ -1,7 +1,7 @@
 package com.kynsoft.propertyacqcenter.application.response;
 
 import com.kynsof.share.core.domain.bus.query.IResponse;
-import com.kynsoft.propertyacqcenter.domain.dto.AdquisitionPropertyDto;
+import com.kynsoft.propertyacqcenter.domain.dto.AdquisitionPropertyDocumentDto;
 import java.util.List;
 import lombok.*;
 
@@ -12,5 +12,5 @@ import lombok.*;
 @Builder
 public class AdquisitionPropertyListResponse implements IResponse {
 
-    private List<AdquisitionPropertyDto> adquisitions;
+    private List<AdquisitionPropertyDocumentDto> adquisitions;
 }

@@ -14,6 +14,8 @@ import com.kynsoft.propertyacqcenter.domain.dto.exception.contact.EmailMustBeUni
 import com.kynsoft.propertyacqcenter.domain.services.ICompanyContactService;
 import com.kynsoft.propertyacqcenter.infrastructure.entity.Company;
 import com.kynsoft.propertyacqcenter.infrastructure.entity.CompanyContact;
+import com.kynsoft.propertyacqcenter.infrastructure.entity.LegalEntity;
+import com.kynsoft.propertyacqcenter.infrastructure.entity.SubCategory;
 import com.kynsoft.propertyacqcenter.infrastructure.repository.command.CompanyContactWriteDataJPARepository;
 import com.kynsoft.propertyacqcenter.infrastructure.repository.query.CompanyContactReadDataJPARepository;
 import org.springframework.data.domain.Pageable;
@@ -50,7 +52,11 @@ public class CompanyContactServiceImpl implements ICompanyContactService {
     public void update(CompanyContactDto object) {
         CompanyContact update = this.findByIdSimple(object.getId());
 
-        update.setCompany(new Company(object.getCompany()));
+        update.setCompany(object.getCompany() != null ? new Company(object.getCompany()) : null);
+        update.setLegalEntity(object.getLegalEntity() != null ? new LegalEntity(object.getLegalEntity()) : null);
+        update.setSubCategory(object.getSubCategory() != null ? new SubCategory(object.getSubCategory()) : null);
+        update.setCategory(object.getCategory() != null ? object.getCategory().name() : null);
+        update.setType(object.getType() != null ? object.getType().name() : null);
         update.setFirstName(object.getFirstName());
         update.setLastName(object.getLastName());
         update.setEmail(object.getEmail());

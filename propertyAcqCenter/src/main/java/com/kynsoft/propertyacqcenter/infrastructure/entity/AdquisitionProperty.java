@@ -1,7 +1,14 @@
 package com.kynsoft.propertyacqcenter.infrastructure.entity;
 
+import com.kynsoft.propertyacqcenter.domain.dto.AdquisitionDocumentDto;
+import com.kynsoft.propertyacqcenter.domain.dto.AdquisitionPropertyDocumentDto;
 import com.kynsoft.propertyacqcenter.domain.dto.AdquisitionPropertyDto;
+import com.kynsoft.propertyacqcenter.infrastructure.entity.embedded.adquisitionProperty.AdquisitionPropertyBuyer;
+import com.kynsoft.propertyacqcenter.infrastructure.entity.embedded.adquisitionProperty.AdquisitionPropertyBuyerPersonalBankInfo;
+import com.kynsoft.propertyacqcenter.infrastructure.entity.embedded.adquisitionProperty.AdquisitionPropertyBuyerUtilitiesInfo;
 import com.kynsoft.propertyacqcenter.infrastructure.entity.embedded.adquisitionProperty.AdquisitionPropertyHoa;
+import com.kynsoft.propertyacqcenter.infrastructure.entity.embedded.adquisitionProperty.AdquisitionPropertyHoaBuildingInfo;
+import com.kynsoft.propertyacqcenter.infrastructure.entity.embedded.adquisitionProperty.AdquisitionPropertySeller;
 import jakarta.persistence.*;
 import java.time.LocalDate;
 import lombok.*;
@@ -9,6 +16,8 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -27,6 +36,14 @@ public class AdquisitionProperty {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "legal_entity_id", nullable = true)
     private LegalEntity buyer;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "buyer_bank_account_id", nullable = true)
+    private BankAccount buyerBankAccount;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "seller_bank_account_id", nullable = true)
+    private BankAccount sellerBankAccount;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "property_id", nullable = false)
@@ -200,6 +217,9 @@ public class AdquisitionProperty {
 
     @Column(name = "contract_closing_date", nullable = true)
     private LocalDate contractClosingDate;
+
+    @Column(name = "original_contract_closing_date", nullable = true)
+    private LocalDate originalContractClosingDate;
 
     //Seller
     @Column(name = "full_name", nullable = true)
@@ -406,9 +426,6 @@ public class AdquisitionProperty {
     @Column(name = "hoa_application_instructions", nullable = true)
     private String hoaApplicationInstructions;
 
-    @Column(name = "buyers_car_name_and_year", nullable = true)
-    private String buyersCarNameAndYear;
-
     @Column(name = "application_fees_amount", nullable = true)
     private Double applicationFeesAmount;
 
@@ -498,8 +515,23 @@ public class AdquisitionProperty {
     @Column(name = "wh_zelle_email_or_phone", nullable = true)
     private String whZelleEmailorPhone;
 
-    @OneToOne(mappedBy = "adquisitionProperty", cascade = CascadeType.ALL, orphanRemoval = true)
-    private AdquisitionPropertyHoa adquisitionPropertyHoa; // Solo para Legal (puede ser null)
+    @OneToOne(mappedBy = "adquisitionProperty", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    private AdquisitionPropertyHoa adquisitionPropertyHoa;
+
+    @OneToOne(mappedBy = "adquisitionProperty", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    private AdquisitionPropertyHoaBuildingInfo adquisitionPropertyHoaBuildingInfo;
+
+    @OneToOne(mappedBy = "adquisitionProperty", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    private AdquisitionPropertyBuyer adquisitionPropertyBuyer;
+
+    @OneToOne(mappedBy = "adquisitionProperty", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    private AdquisitionPropertyBuyerPersonalBankInfo adquisitionPropertyBuyerPersonalBankInfo;
+
+    @OneToOne(mappedBy = "adquisitionProperty", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    private AdquisitionPropertyBuyerUtilitiesInfo adquisitionPropertyBuyerUtilitiesInfo;
+
+    @OneToOne(mappedBy = "adquisitionProperty", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    private AdquisitionPropertySeller adquisitionPropertySeller;
 
     @CreationTimestamp
     @Column(name = "created_at", updatable = false)
@@ -516,6 +548,9 @@ public class AdquisitionProperty {
         this.buyer = dto.getBuyer() != null ? new LegalEntity(dto.getBuyer()) : null;
         this.property = dto.getProperty() != null ? new Property(dto.getProperty()) : null;
         this.contact = dto.getContact() != null ? new CompanyContact(dto.getContact()) : null;
+
+        this.buyerBankAccount = dto.getBuyerBankAccount() != null ? new BankAccount(dto.getBuyerBankAccount()) : null;
+        this.sellerBankAccount = dto.getBuyerBankAccount() != null ? new BankAccount(dto.getBuyerBankAccount()) : null;
 
         this.dateAndTimeForInspections = dto.getDateAndTimeForInspections();
         this.instructionsForAccess = dto.getInstructionsForAccess();
@@ -643,7 +678,6 @@ public class AdquisitionProperty {
         this.hoaMoveInFee = dto.getHoaMoveInFee();
         this.hoaInterviewRequired = dto.getHoaInterviewRequired();
         this.hoaApplicationInstructions = dto.getHoaApplicationInstructions();
-        this.buyersCarNameAndYear = dto.getBuyersCarNameAndYear();
         this.applicationFeesAmount = dto.getApplicationFeesAmount();
         this.applicationFeesSentDate = dto.getApplicationFeesSentDate();
         this.rentalRestrictions = dto.getRentalRestrictions();
@@ -690,6 +724,8 @@ public class AdquisitionProperty {
                 .buyer(this.buyer != null ? this.buyer.toAggregateBasic() : null)
                 .property(this.property != null ? this.property.toAggregateBasic() : null)
                 .contact(this.contact != null ? this.contact.toAggregate() : null)
+                .buyerBankAccount(this.buyerBankAccount != null ? this.buyerBankAccount.toAggregateToAdquisition() : null)
+                .sellerBankAccount(this.sellerBankAccount != null ? this.sellerBankAccount.toAggregateToAdquisition() : null)
                 .buyerNameAndYearVehicle(buyerNameAndYearVehicle)
                 .buyerLicenseTagNo(buyerLicenseTagNo)
                 .dateAndTimeForInspections(dateAndTimeForInspections)
@@ -803,7 +839,6 @@ public class AdquisitionProperty {
                 .hoaMoveInFee(hoaMoveInFee)
                 .hoaInterviewRequired(hoaInterviewRequired)
                 .hoaApplicationInstructions(hoaApplicationInstructions)
-                .buyersCarNameAndYear(buyersCarNameAndYear)
                 .applicationFeesAmount(applicationFeesAmount)
                 .applicationFeesSentDate(applicationFeesSentDate)
                 .rentalRestrictions(rentalRestrictions)
@@ -835,13 +870,11 @@ public class AdquisitionProperty {
                 .outstandingCodeViolations(outstandingCodeViolations)
                 .taxBillOrAmount(taxBillOrAmount)
                 .sellerUploadGovernmentIssuedId(sellerUploadGovernmentIssuedId)
-
                 .whOwnershipType(whOwnershipType)
                 .whwireAccountHolderName(whwireAccountHolderName)
                 .whwireAccountNumber(whwireAccountNumber)
                 .whwireRoutingNumber(whwireRoutingNumber)
                 .whZelleEmailorPhone(whZelleEmailorPhone)
-
                 //AdquisitionPropertyHoa
                 .hoaTotalUnits(adquisitionPropertyHoa != null ? adquisitionPropertyHoa.getHoaTotalUnits() : null)
                 .hoaDeclarationOfCondominium(adquisitionPropertyHoa != null ? adquisitionPropertyHoa.getHoaDeclarationOfCondominium() : null)
@@ -857,6 +890,305 @@ public class AdquisitionProperty {
                 .buyerCreditReport(adquisitionPropertyHoa != null ? adquisitionPropertyHoa.getBuyerCreditReport() : null)
                 .hoaValidatorWebsite(adquisitionPropertyHoa != null ? adquisitionPropertyHoa.getHoaValidatorWebsite() : null)
                 .hoaApplicationLink(adquisitionPropertyHoa != null ? adquisitionPropertyHoa.getHoaApplicationLink() : null)
+
+                //AdquisitionPropertyBuyer
+                .buyerProofOfFunds(adquisitionPropertyBuyer != null ? adquisitionPropertyBuyer.getBuyerProofOfFunds() : null)
+                .buyerCarBrand(adquisitionPropertyBuyer != null ? adquisitionPropertyBuyer.getBuyerCarBrand() : null)
+                .buyerCarYear(adquisitionPropertyBuyer != null ? adquisitionPropertyBuyer.getBuyerCarYear() : null)
+                .buyerDriverLicense(adquisitionPropertyBuyer != null ? adquisitionPropertyBuyer.getBuyerDriverLicense() : null)
+                .buyerCarInsurance(adquisitionPropertyBuyer != null ? adquisitionPropertyBuyer.getBuyerCarInsurance() : null)
+                .buyerBankName(adquisitionPropertyBuyer != null ? adquisitionPropertyBuyer.getBuyerBankName() : null)
+                .buyerPersonalVoidCheck(adquisitionPropertyBuyer != null ? adquisitionPropertyBuyer.getBuyerPersonalVoidCheck() : null)
+                .buyerMaritalStatus(adquisitionPropertyBuyer != null ? adquisitionPropertyBuyer.getBuyerMaritalStatus() : null)
+
+                //AdquisitionPropertyBuyerPersonalBankInfo
+                .buyerPersonalAccountHolderName(adquisitionPropertyBuyerPersonalBankInfo != null ? adquisitionPropertyBuyerPersonalBankInfo.getBuyerPersonalAccountHolderName() : null)
+                .buyerPersonalAccountNumber(adquisitionPropertyBuyerPersonalBankInfo != null ? adquisitionPropertyBuyerPersonalBankInfo.getBuyerPersonalAccountNumber() : null)
+                .buyerPersonalRoutingNumber(adquisitionPropertyBuyerPersonalBankInfo != null ? adquisitionPropertyBuyerPersonalBankInfo.getBuyerPersonalRoutingNumber() : null)
+                .buyerPersonalZelleEmailorPhone(adquisitionPropertyBuyerPersonalBankInfo != null ? adquisitionPropertyBuyerPersonalBankInfo.getBuyerPersonalZelleEmailorPhone() : null)
+                .buyerPersonalBankStatements(adquisitionPropertyBuyerPersonalBankInfo != null ? adquisitionPropertyBuyerPersonalBankInfo.getBuyerPersonalBankStatements() : null)
+                .buyerPersonalBankName(adquisitionPropertyBuyerPersonalBankInfo != null ? adquisitionPropertyBuyerPersonalBankInfo.getBuyerPersonalBankName() : null)
+                .buyerPersonalUseForHoaBankReference(adquisitionPropertyBuyerPersonalBankInfo != null ? adquisitionPropertyBuyerPersonalBankInfo.getBuyerPersonalUseForHoaBankReference() : null)
+                .buyerPersonalUseForLenderBankReference(adquisitionPropertyBuyerPersonalBankInfo != null ? adquisitionPropertyBuyerPersonalBankInfo.getBuyerPersonalUseForLenderBankReference() : null)
+                .buyerVoidCheck(adquisitionPropertyBuyerPersonalBankInfo != null ? adquisitionPropertyBuyerPersonalBankInfo.getBuyerVoidCheck() : null)
+                .buyerLegalEntityUseForHoaBankReference(adquisitionPropertyBuyerPersonalBankInfo != null ? adquisitionPropertyBuyerPersonalBankInfo.getBuyerLegalEntityUseForHoaBankReference() : null)
+                //AdquisitionPropertyBuyerUtilitiesInfo
+                .buyerElectricProviderAccount(adquisitionPropertyBuyerUtilitiesInfo != null ? adquisitionPropertyBuyerUtilitiesInfo.getBuyerElectricProviderAccount() : null)
+                .buyerGasServiceAccount(adquisitionPropertyBuyerUtilitiesInfo != null ? adquisitionPropertyBuyerUtilitiesInfo.getBuyerGasServiceAccount() : null)
+                .buyerTrashServiceAccount(adquisitionPropertyBuyerUtilitiesInfo != null ? adquisitionPropertyBuyerUtilitiesInfo.getBuyerTrashServiceAccount() : null)
+                .buyerWaterSewerSetupAccount(adquisitionPropertyBuyerUtilitiesInfo != null ? adquisitionPropertyBuyerUtilitiesInfo.getBuyerWaterSewerSetupAccount() : null)
+                .buyerInternetService(adquisitionPropertyBuyerUtilitiesInfo != null ? adquisitionPropertyBuyerUtilitiesInfo.getBuyerInternetService() : null)
+                .buyerNotes(adquisitionPropertyBuyerUtilitiesInfo != null ? adquisitionPropertyBuyerUtilitiesInfo.getBuyerNotes() : null)
+                .buyerStartServiceDate(adquisitionPropertyBuyerUtilitiesInfo != null ? adquisitionPropertyBuyerUtilitiesInfo.getBuyerStartServiceDate() : null)
+                .buyerDepositAmount(adquisitionPropertyBuyerUtilitiesInfo != null ? adquisitionPropertyBuyerUtilitiesInfo.getBuyerDepositAmount() : null)
+
+                .gasBuyerStartServiceDate(adquisitionPropertyBuyerUtilitiesInfo != null ? adquisitionPropertyBuyerUtilitiesInfo.getGasBuyerStartServiceDate() : null)
+                .gasBuyerDepositAmount(adquisitionPropertyBuyerUtilitiesInfo != null ? adquisitionPropertyBuyerUtilitiesInfo.getGasBuyerDepositAmount() : null)
+                .trashBuyerStartServiceDate(adquisitionPropertyBuyerUtilitiesInfo != null ? adquisitionPropertyBuyerUtilitiesInfo.getTrashBuyerStartServiceDate() : null)
+                .trashBuyerDepositAmount(adquisitionPropertyBuyerUtilitiesInfo != null ? adquisitionPropertyBuyerUtilitiesInfo.getTrashBuyerDepositAmount() : null)
+                .waterBuyerStartServiceDate(adquisitionPropertyBuyerUtilitiesInfo != null ? adquisitionPropertyBuyerUtilitiesInfo.getWaterBuyerStartServiceDate() : null)
+                .waterBuyerDepositAmount(adquisitionPropertyBuyerUtilitiesInfo != null ? adquisitionPropertyBuyerUtilitiesInfo.getWaterBuyerDepositAmount() : null)
+                .internetBuyerStartServiceDate(adquisitionPropertyBuyerUtilitiesInfo != null ? adquisitionPropertyBuyerUtilitiesInfo.getInternetBuyerStartServiceDate() : null)
+                .internetBuyerDepositAmount(adquisitionPropertyBuyerUtilitiesInfo != null ? adquisitionPropertyBuyerUtilitiesInfo.getInternetBuyerDepositAmount() : null)
+
+                .sellerPersonalAccountHolderName(adquisitionPropertySeller != null ? adquisitionPropertySeller.getSellerPersonalAccountHolderName() : null)
+                .sellerPersonalAccountNumber(adquisitionPropertySeller != null ? adquisitionPropertySeller.getSellerPersonalAccountNumber() : null)
+                .sellerPersonalRoutingNumber(adquisitionPropertySeller != null ? adquisitionPropertySeller.getSellerPersonalRoutingNumber() : null)
+                .sellerPersonalZelleEmailorPhone(adquisitionPropertySeller != null ? adquisitionPropertySeller.getSellerPersonalZelleEmailorPhone() : null)
+                .sellerPersonalBankName(adquisitionPropertySeller != null ? adquisitionPropertySeller.getSellerPersonalBankName() : null)
+                .sellerBankStatementRequest(adquisitionPropertySeller != null ? adquisitionPropertySeller.getSellerBankStatementRequest() : null)
+                .sellerPersonalBankStatements(adquisitionPropertySeller != null ? adquisitionPropertySeller.getSellerPersonalBankStatements() : null)
+                .sellerVoidCheck(adquisitionPropertySeller != null ? adquisitionPropertySeller.getSellerVoidCheck() : null)
+                .sellerPersonalVoidCheck(adquisitionPropertySeller != null ? adquisitionPropertySeller.getSellerPersonalVoidCheck() : null)
+
+                .hoaInpectionReport(adquisitionPropertyHoaBuildingInfo != null ? adquisitionPropertyHoaBuildingInfo.getHoaInpectionReport() : null)
+                .hoaElectricalReport(adquisitionPropertyHoaBuildingInfo != null ? adquisitionPropertyHoaBuildingInfo.getHoaElectricalReport() : null)
+                .hoaHvacReport(adquisitionPropertyHoaBuildingInfo != null ? adquisitionPropertyHoaBuildingInfo.getHoaHvacReport() : null)
+                .hoaRoofReport(adquisitionPropertyHoaBuildingInfo != null ? adquisitionPropertyHoaBuildingInfo.getHoaRoofReport() : null)
+                .hoaStructuralReport(adquisitionPropertyHoaBuildingInfo != null ? adquisitionPropertyHoaBuildingInfo.getHoaStructuralReport() : null)
+                .hoaPlumbingReport(adquisitionPropertyHoaBuildingInfo != null ? adquisitionPropertyHoaBuildingInfo.getHoaPlumbingReport() : null)
+                .hoaNotesReport(adquisitionPropertyHoaBuildingInfo != null ? adquisitionPropertyHoaBuildingInfo.getHoaNotesReport() : null)
+                .hoaOthersReport(adquisitionPropertyHoaBuildingInfo != null ? adquisitionPropertyHoaBuildingInfo.getHoaOthersReport() : null)
+                .hoaNotes(adquisitionPropertyHoaBuildingInfo != null ? adquisitionPropertyHoaBuildingInfo.getHoaNotes() : null)
+
+                .originalContractClosingDate(originalContractClosingDate)
+                .build();
+    }
+
+    public AdquisitionPropertyDocumentDto toAggregateByPropertyId() {
+        return AdquisitionPropertyDocumentDto.builder()
+                .id(this.id)
+                .buyer(this.buyer != null ? this.buyer.toAggregateBasic() : null)
+                .property(this.property != null ? this.property.toAggregateBasic() : null)
+                .contact(this.contact != null ? this.contact.toAggregate() : null)
+                .buyerBankAccount(this.buyerBankAccount != null ? this.buyerBankAccount.toAggregateToAdquisition() : null)
+                .sellerBankAccount(this.sellerBankAccount != null ? this.sellerBankAccount.toAggregateToAdquisition() : null)
+                .buyerNameAndYearVehicle(buyerNameAndYearVehicle)
+                .buyerLicenseTagNo(buyerLicenseTagNo)
+                .dateAndTimeForInspections(dateAndTimeForInspections)
+                .instructionsForAccess(instructionsForAccess)
+                .hoaBuyerInterviewDate(hoaBuyerInterviewDate)
+                .preferredMoveinDate(preferredMoveinDate)
+                .eSignAuthorization(eSignAuthorization)
+                .finalWalkthroughDate(finalWalkthroughDate)
+                .wireAccountHolderName(wireAccountHolderName)
+                .wireAccountNumber(wireAccountNumber)
+                .wireRoutingNumber(wireRoutingNumber)
+                .zelleEmailorPhone(zelleEmailorPhone)
+                .electricProviderConfirmation(electricProviderConfirmation)
+                .gasServiceConfirmation(gasServiceConfirmation)
+                .trashServiceConfirmation(trashServiceConfirmation)
+                .waterSewerSetupConfirmation(waterSewerSetupConfirmation)
+                .uploadGovernmentIssuedId(uploadGovernmentIssuedId)
+                .hoaApplicationForm(hoaApplicationForm)
+                .hoaApplicationUpload(hoaApplicationUpload)
+                .hoaFinancials(hoaFinancials)
+                .hoaRulesRegulations(hoaRulesRegulations)
+                .buyerCarRegistration(buyerCarRegistration)
+                .buyerBackgroundCheck(buyerBackgroundCheck)
+                .commitmentLetter(commitmentLetter)
+                .appraisalReport(appraisalReport)
+                .inspectionReport(inspectionReport)
+                .sellerDisclosureForm(sellerDisclosureForm)
+                .surveyDocument(surveyDocument)
+                .titleCommitment(titleCommitment)
+                .legalEntityCertificationStatus(legalEntityCertificationStatus)
+                .assignmentOfContract(assignmentOfContract)
+                .ownerExecutedContract(ownerExecutedContract)
+                .contractAddendum(contractAddendum)
+                .finalSettlementStatement(finalSettlementStatement)
+                .bankStatementRequest(this.convertDbToList(bankStatementRequest))
+                .warrantyDeed(warrantyDeed)
+                .titleInsurance(titleInsurance)
+                .executedClosingDocuments(executedClosingDocuments)
+                .createdAt(this.createdAt)
+                .updatedAt(this.updatedAt)
+                .createdBy(this.createdBy)
+                .updatedBy(this.updatedBy)
+                .buyerFullLegalName(buyerFullLegalName)
+                .buyerContactEmail(buyerContactEmail)
+                .buyerEntityName(buyerEntityName)
+                .buyerMailingAddress(buyerMailingAddress)
+                .buyerMobilePhoneNumber(buyerMobilePhoneNumber)
+                .hoa4050certificationStatus(hoa4050certificationStatus)
+                .hoaValidatorContactName(hoaValidatorContactName)
+                .hoaValidatorEmail(hoaValidatorEmail)
+                .hoaValidatorPhoneNumber(hoaValidatorPhoneNumber)
+                .closingCountdownClock(closingCountdownClock)
+                .contractClosingDate(contractClosingDate)
+                .sellerFullName(sellerFullName)
+                .sellerEntityName(sellerEntityName)
+                .sellerArticlesOfIncorporation(sellerArticlesOfIncorporation)
+                .sellerCertificateOfGoodStanding(sellerCertificateOfGoodStanding)
+                .sellerOperatingAgreement(sellerOperatingAgreement)
+                .sellerOwnershipType(sellerOwnershipType)
+                .sellerResolutionToSell(sellerResolutionToSell)
+                .sellerSocialSecurityNumber(sellerSocialSecurityNumber)
+                .sellerMaritalStatus(sellerMaritalStatus)
+                .sellerGovernmentId(sellerGovernmentId)
+                .sellerW9Form(sellerW9Form)
+                .sellerForeignSeller(sellerForeignSeller)
+                .sellerFirptaAffidavit(sellerFirptaAffidavit)
+                .sellerWireAccountHolder(sellerWireAccountHolder)
+                .sellerWireAccountNumber(sellerWireAccountNumber)
+                .sellerWireRoutingNumber(sellerWireRoutingNumber)
+                .zelleContact(zelleContact)
+                .titleCompanyRequestForEstoppelLetter(titleCompanyRequestForEstoppelLetter)
+                .titleCompanyEarnestMoneyDepositConfirmation(titleCompanyEarnestMoneyDepositConfirmation)
+                .surveyavailable(surveyavailable)
+                .recentImprovementsLast12Months(recentImprovementsLast12Months)
+                .uploadInvoicesForImprovements(uploadInvoicesForImprovements)
+                .summarizePropertyCondition(summarizePropertyCondition)
+                .discloseKnownRepairsOrDefects(discloseKnownRepairsOrDefects)
+                .listItemsNotIncludedInSale(listItemsNotIncludedInSale)
+                .isThereAMortgage(isThereAMortgage)
+                .lenderName(lenderName)
+                .loanNumber(loanNumber)
+                .estimatedPayoffAmount(estimatedPayoffAmount)
+                .uploadLatestMortgageStatement(uploadLatestMortgageStatement)
+                .secondLienOrHeloc(secondLienOrHeloc)
+                .irsLiensOrJudgments(irsLiensOrJudgments)
+                .uploadTaxProrationAgreement(uploadTaxProrationAgreement)
+                .electricProvider(electricProvider)
+                .electricProviderAccountNumber(electricProviderAccountNumber)
+                .waterSewerProvider(waterSewerProvider)
+                .gasProvider(gasProvider)
+                .gasProviderAccountNumber(gasProviderAccountNumber)
+                .trashServiceProvider(trashServiceProvider)
+                .uploadLatestUtilityBill(uploadLatestUtilityBill)
+                .uploadSellersDisclosureForm(uploadSellersDisclosureForm)
+                .uploadTenantEstoppel(uploadTenantEstoppel)
+                .uploadRentalAgreement(uploadRentalAgreement)
+                .hoaApprovalProcessingTime(hoaApprovalProcessingTime)
+                .hoaDuesAmount(hoaDuesAmount)
+                .proofOfOwnershipDocument(proofOfOwnershipDocument)
+                .powerOfAttorneyDocument(powerOfAttorneyDocument)
+                .trustOrEstateDocuments(trustOrEstateDocuments)
+                .enterWireInstructions(enterWireInstructions)
+                .authorizeTitleCompanyInfo(authorizeTitleCompanyInfo)
+                .propertyAccessCode(propertyAccessCode)
+                .timeForAccess(timeForAccess)
+                .instructionsForInspections(instructionsForInspections)
+                .hoaQASheet(hoaQASheet)
+                .hoaEstoppelCertificate(hoaEstoppelCertificate)
+                .hoaApprovalLetter(hoaApprovalLetter)
+                .buildingYearBuilt(buildingYearBuilt)
+                .hoaMoveInFee(hoaMoveInFee)
+                .hoaInterviewRequired(hoaInterviewRequired)
+                .hoaApplicationInstructions(hoaApplicationInstructions)
+                .applicationFeesAmount(applicationFeesAmount)
+                .applicationFeesSentDate(applicationFeesSentDate)
+                .rentalRestrictions(rentalRestrictions)
+                .hoaSpecialAssessmentAmount(hoaSpecialAssessmentAmount)
+                .hoaHaveReserve(hoaHaveReserve)
+                .hoaCOICertificate(hoaCOICertificate)
+                .buyersSocialSecurity(buyersSocialSecurity)
+                .hoaW9TaxID(hoaW9TaxID)
+                .lienSearch(lienSearch)
+                .finalAgreedSalesPrice(finalAgreedSalesPrice)
+                .wsalerClosingDate(wsalerClosingDate)
+                .wsalerAssignmentOfContract(wsalerAssignmentOfContract)
+                .requestAppraisalDate(requestAppraisalDate)
+                .confirmedAppointmentDateTime(confirmedAppointmentDateTime)
+                .appraisedValue(appraisedValue)
+                .appraiserLicenseNumber(appraiserLicenseNumber)
+                .asIsValue(asIsValue)
+                .asRepairedValue(asRepairedValue)
+                .inspectionPhotos(inspectionPhotos)
+                .requiredRepairsNoted(requiredRepairsNoted)
+                .valuationMethod(valuationMethod)
+                .dateSent(dateSent)
+                .reportSentTo(reportSentTo)
+                .hoaCompanyName(hoaCompanyName)
+                .hoaInterviewDateProposal(hoaInterviewDateProposal)
+                .preferredClosingLocation(preferredClosingLocation)
+                .requireElevationCertificate(requireElevationCertificate)
+                .elevationCertificate(elevationCertificate)
+                .outstandingCodeViolations(outstandingCodeViolations)
+                .taxBillOrAmount(taxBillOrAmount)
+                .sellerUploadGovernmentIssuedId(sellerUploadGovernmentIssuedId)
+                .whOwnershipType(whOwnershipType)
+                .whwireAccountHolderName(whwireAccountHolderName)
+                .whwireAccountNumber(whwireAccountNumber)
+                .whwireRoutingNumber(whwireRoutingNumber)
+                .whZelleEmailorPhone(whZelleEmailorPhone)
+                //AdquisitionPropertyHoa
+                .hoaTotalUnits(adquisitionPropertyHoa != null ? adquisitionPropertyHoa.getHoaTotalUnits() : null)
+                .hoaDeclarationOfCondominium(adquisitionPropertyHoa != null ? adquisitionPropertyHoa.getHoaDeclarationOfCondominium() : null)
+                .hoaCondominiumRider(adquisitionPropertyHoa != null ? adquisitionPropertyHoa.getHoaCondominiumRider() : null)
+                .hoaBylaws(adquisitionPropertyHoa != null ? adquisitionPropertyHoa.getHoaBylaws() : null)
+                .hoaLatestApprovedBudget(adquisitionPropertyHoa != null ? adquisitionPropertyHoa.getHoaLatestApprovedBudget() : null)
+                .hoaReserveStudy(adquisitionPropertyHoa != null ? adquisitionPropertyHoa.getHoaReserveStudy() : null)
+                .hoaCurrentSpecialAssessmentDisclosure(adquisitionPropertyHoa != null ? adquisitionPropertyHoa.getHoaCurrentSpecialAssessmentDisclosure() : null)
+                .hoaPendingLawsuits(adquisitionPropertyHoa != null ? adquisitionPropertyHoa.getHoaPendingLawsuits() : null)
+                .hoaDelinquencyReport(adquisitionPropertyHoa != null ? adquisitionPropertyHoa.getHoaDelinquencyReport() : null)
+                .hoaParkingAssignment(adquisitionPropertyHoa != null ? adquisitionPropertyHoa.getHoaParkingAssignment() : null)
+                .hoaCondoQuestionnaireForm(adquisitionPropertyHoa != null ? adquisitionPropertyHoa.getHoaCondoQuestionnaireForm() : null)
+                .buyerCreditReport(adquisitionPropertyHoa != null ? adquisitionPropertyHoa.getBuyerCreditReport() : null)
+                .hoaValidatorWebsite(adquisitionPropertyHoa != null ? adquisitionPropertyHoa.getHoaValidatorWebsite() : null)
+                .hoaApplicationLink(adquisitionPropertyHoa != null ? adquisitionPropertyHoa.getHoaApplicationLink() : null)
+                //AdquisitionPropertyBuyer
+                .buyerProofOfFunds(adquisitionPropertyBuyer != null ? adquisitionPropertyBuyer.getBuyerProofOfFunds() : null)
+                .buyerCarBrand(adquisitionPropertyBuyer != null ? adquisitionPropertyBuyer.getBuyerCarBrand() : null)
+                .buyerCarYear(adquisitionPropertyBuyer != null ? adquisitionPropertyBuyer.getBuyerCarYear() : null)
+                .buyerDriverLicense(adquisitionPropertyBuyer != null ? adquisitionPropertyBuyer.getBuyerDriverLicense() : null)
+                .buyerCarInsurance(adquisitionPropertyBuyer != null ? adquisitionPropertyBuyer.getBuyerCarInsurance() : null)
+                .buyerBankName(adquisitionPropertyBuyer != null ? adquisitionPropertyBuyer.getBuyerBankName() : null)
+                .buyerPersonalVoidCheck(adquisitionPropertyBuyer != null ? adquisitionPropertyBuyer.getBuyerPersonalVoidCheck() : null)
+                .buyerMaritalStatus(adquisitionPropertyBuyer != null ? adquisitionPropertyBuyer.getBuyerMaritalStatus() : null)
+
+                //AdquisitionPropertyBuyerPersonalBankInfo
+                .buyerPersonalAccountHolderName(adquisitionPropertyBuyerPersonalBankInfo != null ? adquisitionPropertyBuyerPersonalBankInfo.getBuyerPersonalAccountHolderName() : null)
+                .buyerPersonalAccountNumber(adquisitionPropertyBuyerPersonalBankInfo != null ? adquisitionPropertyBuyerPersonalBankInfo.getBuyerPersonalAccountNumber() : null)
+                .buyerPersonalRoutingNumber(adquisitionPropertyBuyerPersonalBankInfo != null ? adquisitionPropertyBuyerPersonalBankInfo.getBuyerPersonalRoutingNumber() : null)
+                .buyerPersonalZelleEmailorPhone(adquisitionPropertyBuyerPersonalBankInfo != null ? adquisitionPropertyBuyerPersonalBankInfo.getBuyerPersonalZelleEmailorPhone() : null)
+                .buyerPersonalBankStatements(adquisitionPropertyBuyerPersonalBankInfo != null ? this.convertDbToList(adquisitionPropertyBuyerPersonalBankInfo.getBuyerPersonalBankStatements()) : null)
+                .buyerPersonalBankName(adquisitionPropertyBuyerPersonalBankInfo != null ? adquisitionPropertyBuyerPersonalBankInfo.getBuyerPersonalBankName() : null)
+                .buyerPersonalUseForHoaBankReference(adquisitionPropertyBuyerPersonalBankInfo != null ? adquisitionPropertyBuyerPersonalBankInfo.getBuyerPersonalUseForHoaBankReference() : null)
+                .buyerPersonalUseForLenderBankReference(adquisitionPropertyBuyerPersonalBankInfo != null ? adquisitionPropertyBuyerPersonalBankInfo.getBuyerPersonalUseForLenderBankReference() : null)
+                .buyerVoidCheck(adquisitionPropertyBuyerPersonalBankInfo != null ? adquisitionPropertyBuyerPersonalBankInfo.getBuyerVoidCheck() : null)
+                .buyerLegalEntityUseForHoaBankReference(adquisitionPropertyBuyerPersonalBankInfo != null ? adquisitionPropertyBuyerPersonalBankInfo.getBuyerLegalEntityUseForHoaBankReference() : null)
+                
+                //AdquisitionPropertyBuyerUtilitiesInfo
+                .buyerElectricProviderAccount(adquisitionPropertyBuyerUtilitiesInfo != null ? adquisitionPropertyBuyerUtilitiesInfo.getBuyerElectricProviderAccount() : null)
+                .buyerGasServiceAccount(adquisitionPropertyBuyerUtilitiesInfo != null ? adquisitionPropertyBuyerUtilitiesInfo.getBuyerGasServiceAccount() : null)
+                .buyerTrashServiceAccount(adquisitionPropertyBuyerUtilitiesInfo != null ? adquisitionPropertyBuyerUtilitiesInfo.getBuyerTrashServiceAccount() : null)
+                .buyerWaterSewerSetupAccount(adquisitionPropertyBuyerUtilitiesInfo != null ? adquisitionPropertyBuyerUtilitiesInfo.getBuyerWaterSewerSetupAccount() : null)
+                .buyerInternetService(adquisitionPropertyBuyerUtilitiesInfo != null ? adquisitionPropertyBuyerUtilitiesInfo.getBuyerInternetService() : null)
+                .buyerNotes(adquisitionPropertyBuyerUtilitiesInfo != null ? adquisitionPropertyBuyerUtilitiesInfo.getBuyerNotes() : null)
+                .buyerStartServiceDate(adquisitionPropertyBuyerUtilitiesInfo != null ? adquisitionPropertyBuyerUtilitiesInfo.getBuyerStartServiceDate() : null)
+                .buyerDepositAmount(adquisitionPropertyBuyerUtilitiesInfo != null ? adquisitionPropertyBuyerUtilitiesInfo.getBuyerDepositAmount() : null)
+
+                .gasBuyerStartServiceDate(adquisitionPropertyBuyerUtilitiesInfo != null ? adquisitionPropertyBuyerUtilitiesInfo.getGasBuyerStartServiceDate() : null)
+                .gasBuyerDepositAmount(adquisitionPropertyBuyerUtilitiesInfo != null ? adquisitionPropertyBuyerUtilitiesInfo.getGasBuyerDepositAmount() : null)
+                .trashBuyerStartServiceDate(adquisitionPropertyBuyerUtilitiesInfo != null ? adquisitionPropertyBuyerUtilitiesInfo.getTrashBuyerStartServiceDate() : null)
+                .trashBuyerDepositAmount(adquisitionPropertyBuyerUtilitiesInfo != null ? adquisitionPropertyBuyerUtilitiesInfo.getTrashBuyerDepositAmount() : null)
+                .waterBuyerStartServiceDate(adquisitionPropertyBuyerUtilitiesInfo != null ? adquisitionPropertyBuyerUtilitiesInfo.getWaterBuyerStartServiceDate() : null)
+                .waterBuyerDepositAmount(adquisitionPropertyBuyerUtilitiesInfo != null ? adquisitionPropertyBuyerUtilitiesInfo.getWaterBuyerDepositAmount() : null)
+                .internetBuyerStartServiceDate(adquisitionPropertyBuyerUtilitiesInfo != null ? adquisitionPropertyBuyerUtilitiesInfo.getInternetBuyerStartServiceDate() : null)
+                .internetBuyerDepositAmount(adquisitionPropertyBuyerUtilitiesInfo != null ? adquisitionPropertyBuyerUtilitiesInfo.getInternetBuyerDepositAmount() : null)
+
+                .sellerPersonalAccountHolderName(adquisitionPropertySeller != null ? adquisitionPropertySeller.getSellerPersonalAccountHolderName() : null)
+                .sellerPersonalAccountNumber(adquisitionPropertySeller != null ? adquisitionPropertySeller.getSellerPersonalAccountNumber() : null)
+                .sellerPersonalRoutingNumber(adquisitionPropertySeller != null ? adquisitionPropertySeller.getSellerPersonalRoutingNumber() : null)
+                .sellerPersonalZelleEmailorPhone(adquisitionPropertySeller != null ? adquisitionPropertySeller.getSellerPersonalZelleEmailorPhone() : null)
+                .sellerPersonalBankName(adquisitionPropertySeller != null ? adquisitionPropertySeller.getSellerPersonalBankName() : null)
+                .sellerBankStatementRequest(adquisitionPropertySeller != null ? this.convertDbToList(adquisitionPropertySeller.getSellerBankStatementRequest()) : null)
+                .sellerPersonalBankStatements(adquisitionPropertySeller != null ? this.convertDbToList(adquisitionPropertySeller.getSellerPersonalBankStatements()) : null)
+                .sellerVoidCheck(adquisitionPropertySeller != null ? adquisitionPropertySeller.getSellerVoidCheck() : null)
+                .sellerPersonalVoidCheck(adquisitionPropertySeller != null ? adquisitionPropertySeller.getSellerPersonalVoidCheck() : null)
+
+                .hoaInpectionReport(adquisitionPropertyHoaBuildingInfo != null ? adquisitionPropertyHoaBuildingInfo.getHoaInpectionReport() : null)
+                .hoaElectricalReport(adquisitionPropertyHoaBuildingInfo != null ? adquisitionPropertyHoaBuildingInfo.getHoaElectricalReport() : null)
+                .hoaHvacReport(adquisitionPropertyHoaBuildingInfo != null ? adquisitionPropertyHoaBuildingInfo.getHoaHvacReport() : null)
+                .hoaRoofReport(adquisitionPropertyHoaBuildingInfo != null ? adquisitionPropertyHoaBuildingInfo.getHoaRoofReport() : null)
+                .hoaStructuralReport(adquisitionPropertyHoaBuildingInfo != null ? adquisitionPropertyHoaBuildingInfo.getHoaStructuralReport() : null)
+                .hoaPlumbingReport(adquisitionPropertyHoaBuildingInfo != null ? adquisitionPropertyHoaBuildingInfo.getHoaPlumbingReport() : null)
+                .hoaNotesReport(adquisitionPropertyHoaBuildingInfo != null ? adquisitionPropertyHoaBuildingInfo.getHoaNotesReport() : null)
+                .hoaOthersReport(adquisitionPropertyHoaBuildingInfo != null ? adquisitionPropertyHoaBuildingInfo.getHoaOthersReport() : null)
+                .hoaNotes(adquisitionPropertyHoaBuildingInfo != null ? adquisitionPropertyHoaBuildingInfo.getHoaNotes() : null)
+
+                .originalContractClosingDate(originalContractClosingDate)
                 .build();
     }
 
@@ -864,5 +1196,24 @@ public class AdquisitionProperty {
         return AdquisitionPropertyDto.builder()
                 .id(this.id)
                 .build();
+    }
+
+    private List<AdquisitionDocumentDto> convertDbToList(String dbData) {
+        List<AdquisitionDocumentDto> result = new ArrayList<>();
+        if (dbData == null || dbData.isEmpty()) {
+            return result;
+        }
+
+        String[] parts = dbData.split("\\|");
+        // Asumimos que los datos vienen en pares fileName, filePath
+        for (int i = 0; i < parts.length; i += 2) {
+            if (i + 1 < parts.length) {
+                AdquisitionDocumentDto request = new AdquisitionDocumentDto();
+                request.setFileName(parts[i]);
+                request.setFilePath(parts[i + 1]);
+                result.add(request);
+            }
+        }
+        return result;
     }
 }
