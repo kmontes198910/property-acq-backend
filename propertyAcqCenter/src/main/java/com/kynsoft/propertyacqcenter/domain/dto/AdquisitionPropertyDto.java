@@ -297,4 +297,6 @@ public class AdquisitionPropertyDto {
     private String personalReferencePhone;
     private String personalReferenceEmail;
     private String personalReferencePosition;
+
+    private String executeHud;
 }

@@ -273,7 +273,7 @@ public class UpdateAdquisitionPropertyCommand implements ICommand {
     private CreateDocumentRequest hoaStructuralReport;
     private CreateDocumentRequest hoaPlumbingReport;
     private String hoaNotesReport;
-    private String hoaOthersReport;
+    private CreateDocumentRequest hoaOthersReport;
     private String hoaNotes;
 
     private String employerReferenceName;
@@ -290,6 +290,8 @@ public class UpdateAdquisitionPropertyCommand implements ICommand {
     private String personalReferencePhone;
     private String personalReferenceEmail;
     private String personalReferencePosition;
+
+    private CreateDocumentRequest executeHud;
 
     public UpdateAdquisitionPropertyCommand(UUID id, UUID buyer, String property, UUID contact, String buyerNameAndYearVehicle,
             String buyerLicenseTagNo,
@@ -467,7 +469,7 @@ public class UpdateAdquisitionPropertyCommand implements ICommand {
             CreateDocumentRequest hoaStructuralReport,
             CreateDocumentRequest hoaPlumbingReport,
             String hoaNotesReport,
-            String hoaOthersReport,
+            CreateDocumentRequest hoaOthersReport,
             String hoaNotes,
             String employerReferenceName,
             String employerReferencePhone,
@@ -480,7 +482,8 @@ public class UpdateAdquisitionPropertyCommand implements ICommand {
             String personalReferenceName,
             String personalReferencePhone,
             String personalReferenceEmail,
-            String personalReferencePosition
+            String personalReferencePosition,
+            CreateDocumentRequest executeHud
             ) {
         this.id = id;
         this.buyer = buyer;
@@ -728,6 +731,7 @@ public class UpdateAdquisitionPropertyCommand implements ICommand {
         this.personalReferencePhone = personalReferencePhone;
         this.personalReferenceEmail = personalReferenceEmail;
         this.personalReferencePosition = personalReferencePosition;
+        this.executeHud = executeHud;
     }
 
     public static UpdateAdquisitionPropertyCommand fromRequest(UpdateAdquisitionPropertyRequest request, UUID id) {
@@ -961,7 +965,8 @@ public class UpdateAdquisitionPropertyCommand implements ICommand {
                 request.getPersonalReferenceName(),
                 request.getPersonalReferencePhone(),
                 request.getPersonalReferenceEmail(),
-                request.getPersonalReferencePosition()
+                request.getPersonalReferencePosition(),
+                request.getExecuteHud()
         );
     }
 

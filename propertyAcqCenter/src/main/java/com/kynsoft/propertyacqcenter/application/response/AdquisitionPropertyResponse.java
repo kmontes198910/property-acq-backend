@@ -266,8 +266,25 @@ public class AdquisitionPropertyResponse implements IResponse {
     private AdquisitionDocumentResponse hoaStructuralReport;
     private AdquisitionDocumentResponse hoaPlumbingReport;
     private String hoaNotesReport;
-    private String hoaOthersReport;
+    private AdquisitionDocumentResponse hoaOthersReport;
     private String hoaNotes;
+
+    private String employerReferenceName;
+    private String employerReferencePhone;
+    private String employerReferenceEmail;
+    private String employerReferencePosition;
+
+    private String bankReferenceName;
+    private String bankReferencePhone;
+    private String bankReferenceEmail;
+    private String bankReferencePosition;
+
+    private String personalReferenceName;
+    private String personalReferencePhone;
+    private String personalReferenceEmail;
+    private String personalReferencePosition;
+
+    private AdquisitionDocumentResponse executeHud;
 
     public AdquisitionPropertyResponse(AdquisitionPropertyDto dto) {
         this.id = dto.getId();
@@ -508,8 +525,23 @@ public class AdquisitionPropertyResponse implements IResponse {
         this.hoaStructuralReport = DocumentMapper.mapDocumentField(dto.getHoaStructuralReport());
         this.hoaPlumbingReport = DocumentMapper.mapDocumentField(dto.getHoaPlumbingReport());
         this.hoaNotesReport = dto.getHoaNotesReport();
-        this.hoaOthersReport = dto.getHoaOthersReport();
+        this.hoaOthersReport = DocumentMapper.mapDocumentField(dto.getHoaOthersReport());
         this.hoaNotes = dto.getHoaNotes();
+
+        this.employerReferenceName = dto.getEmployerReferenceName();
+        this.employerReferencePhone = dto.getEmployerReferencePhone();
+        this.employerReferenceEmail = dto.getEmployerReferenceEmail();
+        this.employerReferencePosition = dto.getEmployerReferencePosition();
+        this.bankReferenceName = dto.getBankReferenceName();
+        this.bankReferencePhone = dto.getBankReferencePhone();
+        this.bankReferenceEmail = dto.getBankReferenceEmail();
+        this.bankReferencePosition = dto.getBankReferencePosition();
+        this.personalReferenceName = dto.getPersonalReferenceName();
+        this.personalReferencePhone = dto.getPersonalReferencePhone();
+        this.personalReferenceEmail = dto.getPersonalReferenceEmail();
+        this.personalReferencePosition = dto.getPersonalReferencePosition();
+
+        this.executeHud = DocumentMapper.mapDocumentField(dto.getExecuteHud());
     }
 
     private List<AdquisitionDocumentResponse> convertDbToList(String dbData) {
