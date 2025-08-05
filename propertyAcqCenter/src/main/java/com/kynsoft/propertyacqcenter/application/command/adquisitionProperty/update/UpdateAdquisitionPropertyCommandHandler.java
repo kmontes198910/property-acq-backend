@@ -292,7 +292,7 @@ public class UpdateAdquisitionPropertyCommandHandler implements ICommandHandler<
                 .hoaStructuralReport(command.getHoaStructuralReport() != null ? command.getHoaStructuralReport().getFilePath() + "|" + command.getHoaStructuralReport().getFileName() : null)
                 .hoaPlumbingReport(command.getHoaPlumbingReport() != null ? command.getHoaPlumbingReport().getFilePath() + "|" + command.getHoaPlumbingReport().getFileName() : null)
                 .hoaNotesReport(command.getHoaNotesReport())
-                .hoaOthersReport(command.getHoaOthersReport())
+                .hoaOthersReport(command.getHoaOthersReport()  != null ? command.getHoaOthersReport().getFilePath() + "|" + command.getHoaOthersReport().getFileName() : null)
                 .hoaNotes(command.getHoaNotes())
 
                 .employerReferenceName(command.getEmployerReferenceName())

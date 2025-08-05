@@ -273,7 +273,7 @@ public class UpdateAdquisitionPropertyCommand implements ICommand {
     private CreateDocumentRequest hoaStructuralReport;
     private CreateDocumentRequest hoaPlumbingReport;
     private String hoaNotesReport;
-    private String hoaOthersReport;
+    private CreateDocumentRequest hoaOthersReport;
     private String hoaNotes;
 
     private String employerReferenceName;
@@ -467,7 +467,7 @@ public class UpdateAdquisitionPropertyCommand implements ICommand {
             CreateDocumentRequest hoaStructuralReport,
             CreateDocumentRequest hoaPlumbingReport,
             String hoaNotesReport,
-            String hoaOthersReport,
+            CreateDocumentRequest hoaOthersReport,
             String hoaNotes,
             String employerReferenceName,
             String employerReferencePhone,

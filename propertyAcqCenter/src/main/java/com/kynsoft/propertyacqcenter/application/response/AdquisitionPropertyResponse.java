@@ -266,7 +266,7 @@ public class AdquisitionPropertyResponse implements IResponse {
     private AdquisitionDocumentResponse hoaStructuralReport;
     private AdquisitionDocumentResponse hoaPlumbingReport;
     private String hoaNotesReport;
-    private String hoaOthersReport;
+    private AdquisitionDocumentResponse hoaOthersReport;
     private String hoaNotes;
 
     private String employerReferenceName;
@@ -523,7 +523,7 @@ public class AdquisitionPropertyResponse implements IResponse {
         this.hoaStructuralReport = DocumentMapper.mapDocumentField(dto.getHoaStructuralReport());
         this.hoaPlumbingReport = DocumentMapper.mapDocumentField(dto.getHoaPlumbingReport());
         this.hoaNotesReport = dto.getHoaNotesReport();
-        this.hoaOthersReport = dto.getHoaOthersReport();
+        this.hoaOthersReport = DocumentMapper.mapDocumentField(dto.getHoaOthersReport());
         this.hoaNotes = dto.getHoaNotes();
 
         this.employerReferenceName = dto.getEmployerReferenceName();
