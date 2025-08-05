@@ -3,11 +3,14 @@ package com.kynsoft.propertyacqcenter.infrastructure.entity;
 import com.kynsoft.propertyacqcenter.domain.dto.AdquisitionDocumentDto;
 import com.kynsoft.propertyacqcenter.domain.dto.AdquisitionPropertyDocumentDto;
 import com.kynsoft.propertyacqcenter.domain.dto.AdquisitionPropertyDto;
+import com.kynsoft.propertyacqcenter.infrastructure.entity.embedded.adquisitionProperty.AdquisitionPropertyBankReference;
 import com.kynsoft.propertyacqcenter.infrastructure.entity.embedded.adquisitionProperty.AdquisitionPropertyBuyer;
 import com.kynsoft.propertyacqcenter.infrastructure.entity.embedded.adquisitionProperty.AdquisitionPropertyBuyerPersonalBankInfo;
 import com.kynsoft.propertyacqcenter.infrastructure.entity.embedded.adquisitionProperty.AdquisitionPropertyBuyerUtilitiesInfo;
+import com.kynsoft.propertyacqcenter.infrastructure.entity.embedded.adquisitionProperty.AdquisitionPropertyEmployerReference;
 import com.kynsoft.propertyacqcenter.infrastructure.entity.embedded.adquisitionProperty.AdquisitionPropertyHoa;
 import com.kynsoft.propertyacqcenter.infrastructure.entity.embedded.adquisitionProperty.AdquisitionPropertyHoaBuildingInfo;
+import com.kynsoft.propertyacqcenter.infrastructure.entity.embedded.adquisitionProperty.AdquisitionPropertyPersonalReference;
 import com.kynsoft.propertyacqcenter.infrastructure.entity.embedded.adquisitionProperty.AdquisitionPropertySeller;
 import jakarta.persistence.*;
 import java.time.LocalDate;
@@ -533,6 +536,15 @@ public class AdquisitionProperty {
     @OneToOne(mappedBy = "adquisitionProperty", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private AdquisitionPropertySeller adquisitionPropertySeller;
 
+    @OneToOne(mappedBy = "adquisitionProperty", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    private AdquisitionPropertyEmployerReference adquisitionPropertyEmployerReference;
+
+    @OneToOne(mappedBy = "adquisitionProperty", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    private AdquisitionPropertyBankReference adquisitionPropertyBankReference;
+
+    @OneToOne(mappedBy = "adquisitionProperty", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    private AdquisitionPropertyPersonalReference adquisitionPropertyPersonalReference;
+
     @CreationTimestamp
     @Column(name = "created_at", updatable = false)
     private LocalDateTime createdAt;
@@ -951,6 +963,21 @@ public class AdquisitionProperty {
                 .hoaOthersReport(adquisitionPropertyHoaBuildingInfo != null ? adquisitionPropertyHoaBuildingInfo.getHoaOthersReport() : null)
                 .hoaNotes(adquisitionPropertyHoaBuildingInfo != null ? adquisitionPropertyHoaBuildingInfo.getHoaNotes() : null)
 
+                .bankReferenceName(adquisitionPropertyBankReference != null ? adquisitionPropertyBankReference.getBankReferenceName() : null)
+                .bankReferencePhone(adquisitionPropertyBankReference != null ? adquisitionPropertyBankReference.getBankReferencePhone() : null)
+                .bankReferenceEmail(adquisitionPropertyBankReference != null ? adquisitionPropertyBankReference.getBankReferenceEmail() : null)
+                .bankReferencePosition(adquisitionPropertyBankReference != null ? adquisitionPropertyBankReference.getBankReferencePosition() : null)
+
+                .personalReferenceName(adquisitionPropertyPersonalReference != null ? adquisitionPropertyPersonalReference.getPersonalReferenceName() : null)
+                .personalReferencePhone(adquisitionPropertyPersonalReference != null ? adquisitionPropertyPersonalReference.getPersonalReferencePhone() : null)
+                .personalReferenceEmail(adquisitionPropertyPersonalReference != null ? adquisitionPropertyPersonalReference.getPersonalReferenceEmail() : null)
+                .personalReferencePosition(adquisitionPropertyPersonalReference != null ? adquisitionPropertyPersonalReference.getPersonalReferencePosition() : null)
+
+                .employerReferenceName(adquisitionPropertyEmployerReference != null ? adquisitionPropertyEmployerReference.getEmployerReferenceName() : null)
+                .employerReferencePhone(adquisitionPropertyEmployerReference != null ? adquisitionPropertyEmployerReference.getEmployerReferencePhone() : null)
+                .employerReferenceEmail(adquisitionPropertyEmployerReference != null ? adquisitionPropertyEmployerReference.getEmployerReferenceEmail() : null)
+                .employerReferencePosition(adquisitionPropertyEmployerReference != null ? adquisitionPropertyEmployerReference.getEmployerReferencePosition() : null)
+
                 .originalContractClosingDate(originalContractClosingDate)
                 .build();
     }
@@ -1187,6 +1214,21 @@ public class AdquisitionProperty {
                 .hoaNotesReport(adquisitionPropertyHoaBuildingInfo != null ? adquisitionPropertyHoaBuildingInfo.getHoaNotesReport() : null)
                 .hoaOthersReport(adquisitionPropertyHoaBuildingInfo != null ? adquisitionPropertyHoaBuildingInfo.getHoaOthersReport() : null)
                 .hoaNotes(adquisitionPropertyHoaBuildingInfo != null ? adquisitionPropertyHoaBuildingInfo.getHoaNotes() : null)
+                
+                .employerReferenceName(adquisitionPropertyBankReference != null ? adquisitionPropertyBankReference.getBankReferenceName() : null)
+                .bankReferencePhone(adquisitionPropertyBankReference != null ? adquisitionPropertyBankReference.getBankReferencePhone() : null)
+                .bankReferenceEmail(adquisitionPropertyBankReference != null ? adquisitionPropertyBankReference.getBankReferenceEmail() : null)
+                .bankReferencePosition(adquisitionPropertyBankReference != null ? adquisitionPropertyBankReference.getBankReferencePosition() : null)
+
+                .personalReferenceName(adquisitionPropertyPersonalReference != null ? adquisitionPropertyPersonalReference.getPersonalReferenceName() : null)
+                .personalReferencePhone(adquisitionPropertyPersonalReference != null ? adquisitionPropertyPersonalReference.getPersonalReferencePhone() : null)
+                .personalReferenceEmail(adquisitionPropertyPersonalReference != null ? adquisitionPropertyPersonalReference.getPersonalReferenceEmail() : null)
+                .personalReferencePosition(adquisitionPropertyPersonalReference != null ? adquisitionPropertyPersonalReference.getPersonalReferencePosition() : null)
+
+                .employerReferenceName(adquisitionPropertyEmployerReference != null ? adquisitionPropertyEmployerReference.getEmployerReferenceName() : null)
+                .employerReferencePhone(adquisitionPropertyEmployerReference != null ? adquisitionPropertyEmployerReference.getEmployerReferencePhone() : null)
+                .employerReferenceEmail(adquisitionPropertyEmployerReference != null ? adquisitionPropertyEmployerReference.getEmployerReferenceEmail() : null)
+                .employerReferencePosition(adquisitionPropertyEmployerReference != null ? adquisitionPropertyEmployerReference.getEmployerReferencePosition() : null)
 
                 .originalContractClosingDate(originalContractClosingDate)
                 .build();

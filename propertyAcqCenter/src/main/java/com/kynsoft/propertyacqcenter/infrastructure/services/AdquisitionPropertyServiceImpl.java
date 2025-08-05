@@ -15,11 +15,14 @@ import com.kynsoft.propertyacqcenter.infrastructure.entity.BankAccount;
 import com.kynsoft.propertyacqcenter.infrastructure.entity.CompanyContact;
 import com.kynsoft.propertyacqcenter.infrastructure.entity.LegalEntity;
 import com.kynsoft.propertyacqcenter.infrastructure.entity.Property;
+import com.kynsoft.propertyacqcenter.infrastructure.entity.embedded.adquisitionProperty.AdquisitionPropertyBankReference;
 import com.kynsoft.propertyacqcenter.infrastructure.entity.embedded.adquisitionProperty.AdquisitionPropertyBuyer;
 import com.kynsoft.propertyacqcenter.infrastructure.entity.embedded.adquisitionProperty.AdquisitionPropertyBuyerPersonalBankInfo;
 import com.kynsoft.propertyacqcenter.infrastructure.entity.embedded.adquisitionProperty.AdquisitionPropertyBuyerUtilitiesInfo;
+import com.kynsoft.propertyacqcenter.infrastructure.entity.embedded.adquisitionProperty.AdquisitionPropertyEmployerReference;
 import com.kynsoft.propertyacqcenter.infrastructure.entity.embedded.adquisitionProperty.AdquisitionPropertyHoa;
 import com.kynsoft.propertyacqcenter.infrastructure.entity.embedded.adquisitionProperty.AdquisitionPropertyHoaBuildingInfo;
+import com.kynsoft.propertyacqcenter.infrastructure.entity.embedded.adquisitionProperty.AdquisitionPropertyPersonalReference;
 import com.kynsoft.propertyacqcenter.infrastructure.entity.embedded.adquisitionProperty.AdquisitionPropertySeller;
 import com.kynsoft.propertyacqcenter.infrastructure.repository.command.AdquisitionPropertyWriteDataJPARepository;
 import com.kynsoft.propertyacqcenter.infrastructure.repository.query.AdquisitionPropertyReadDataJPARepository;
@@ -64,6 +67,9 @@ public class AdquisitionPropertyServiceImpl implements IAdquisitionPropertyServi
         update.setAdquisitionPropertyBuyerUtilitiesInfo(createAdquisitionPropertyBuyerUtilitiesInfo(object, update));
         update.setAdquisitionPropertySeller(createAdquisitionPropertySeller(object, update));
         update.setAdquisitionPropertyHoaBuildingInfo(createAdquisitionPropertyHoaBuildingInfo(object, update));
+        update.setAdquisitionPropertyEmployerReference(createAdquisitionPropertyEmployerReference(object, update));
+        update.setAdquisitionPropertyPersonalReference(createAdquisitionPropertyPersonalReference(object, update));
+        update.setAdquisitionPropertyBankReference(createAdquisitionPropertyBankReference(object, update));
 
         update.setBuyer(object.getBuyer() != null ? new LegalEntity(object.getBuyer()) : null);
         update.setContact(object.getContact() != null ? new CompanyContact(object.getContact()) : null);
@@ -472,6 +478,75 @@ public class AdquisitionPropertyServiceImpl implements IAdquisitionPropertyServi
                         .hoaOthersReport(object.getHoaOthersReport())
                         .hoaNotesReport(object.getHoaNotesReport())
                         .hoaNotes(object.getHoaNotes())
+                        .build();
+    }
+
+    private AdquisitionPropertyEmployerReference createAdquisitionPropertyEmployerReference(AdquisitionPropertyDto object, AdquisitionProperty update) {
+        return update.getAdquisitionPropertyEmployerReference() != null
+                ? //Si es diferente de null, es porque ya tiene datos.
+                AdquisitionPropertyEmployerReference
+                        .builder()
+                        .id(update.getAdquisitionPropertyEmployerReference().getId())
+                        .adquisitionProperty(update)
+                        .employerReferenceName(object.getEmployerReferenceName() != null ? object.getEmployerReferenceName() : update.getAdquisitionPropertyEmployerReference().getEmployerReferenceName())
+                        .employerReferencePhone(object.getEmployerReferencePhone() != null ? object.getEmployerReferencePhone() : update.getAdquisitionPropertyEmployerReference().getEmployerReferencePhone())
+                        .employerReferenceEmail(object.getEmployerReferenceEmail() != null ? object.getEmployerReferenceEmail() : update.getAdquisitionPropertyEmployerReference().getEmployerReferenceEmail())
+                        .employerReferencePosition(object.getEmployerReferencePosition() != null ? object.getEmployerReferencePosition() : update.getAdquisitionPropertyEmployerReference().getEmployerReferencePosition())
+                        .build()
+                : AdquisitionPropertyEmployerReference
+                        .builder()
+                        .id(UUID.randomUUID())
+                        .adquisitionProperty(update)
+                        .employerReferenceName(object.getEmployerReferenceName())
+                        .employerReferencePhone(object.getEmployerReferencePhone())
+                        .employerReferenceEmail(object.getEmployerReferenceEmail())
+                        .employerReferencePosition(object.getEmployerReferencePosition())
+                        .build();
+    }
+
+    private AdquisitionPropertyPersonalReference createAdquisitionPropertyPersonalReference(AdquisitionPropertyDto object, AdquisitionProperty update) {
+        return update.getAdquisitionPropertyPersonalReference() != null
+                ? //Si es diferente de null, es porque ya tiene datos.
+                AdquisitionPropertyPersonalReference
+                        .builder()
+                        .id(update.getAdquisitionPropertyPersonalReference().getId())
+                        .adquisitionProperty(update)
+                        .personalReferenceName(object.getPersonalReferenceName() != null ? object.getPersonalReferenceName() : update.getAdquisitionPropertyPersonalReference().getPersonalReferenceName())
+                        .personalReferencePhone(object.getPersonalReferencePhone() != null ? object.getPersonalReferencePhone() : update.getAdquisitionPropertyPersonalReference().getPersonalReferencePhone())
+                        .personalReferenceEmail(object.getPersonalReferenceEmail() != null ? object.getPersonalReferenceEmail() : update.getAdquisitionPropertyPersonalReference().getPersonalReferenceEmail())
+                        .personalReferencePosition(object.getPersonalReferencePosition() != null ? object.getPersonalReferencePosition() : update.getAdquisitionPropertyPersonalReference().getPersonalReferencePosition())
+                        .build()
+                : AdquisitionPropertyPersonalReference
+                        .builder()
+                        .id(UUID.randomUUID())
+                        .adquisitionProperty(update)
+                        .personalReferenceName(object.getPersonalReferenceName())
+                        .personalReferencePhone(object.getPersonalReferencePhone())
+                        .personalReferenceEmail(object.getPersonalReferenceEmail())
+                        .personalReferencePosition(object.getPersonalReferencePosition())
+                        .build();
+    }
+
+    private AdquisitionPropertyBankReference createAdquisitionPropertyBankReference(AdquisitionPropertyDto object, AdquisitionProperty update) {
+        return update.getAdquisitionPropertyBankReference() != null
+                ? //Si es diferente de null, es porque ya tiene datos.
+                AdquisitionPropertyBankReference
+                        .builder()
+                        .id(update.getAdquisitionPropertyBankReference().getId())
+                        .adquisitionProperty(update)
+                        .bankReferenceName(object.getBankReferenceName() != null ? object.getBankReferenceName() : update.getAdquisitionPropertyBankReference().getBankReferenceName())
+                        .bankReferencePhone(object.getBankReferencePhone() != null ? object.getBankReferencePhone() : update.getAdquisitionPropertyBankReference().getBankReferencePhone())
+                        .bankReferenceEmail(object.getBankReferenceEmail() != null ? object.getBankReferenceEmail() : update.getAdquisitionPropertyBankReference().getBankReferenceEmail())
+                        .bankReferencePosition(object.getBankReferencePosition() != null ? object.getBankReferencePosition() : update.getAdquisitionPropertyBankReference().getBankReferencePosition())
+                        .build()
+                : AdquisitionPropertyBankReference
+                        .builder()
+                        .id(UUID.randomUUID())
+                        .adquisitionProperty(update)
+                        .bankReferenceName(object.getBankReferenceName())
+                        .bankReferencePhone(object.getBankReferencePhone())
+                        .bankReferenceEmail(object.getBankReferenceEmail())
+                        .bankReferencePosition(object.getBankReferencePosition())
                         .build();
     }
 

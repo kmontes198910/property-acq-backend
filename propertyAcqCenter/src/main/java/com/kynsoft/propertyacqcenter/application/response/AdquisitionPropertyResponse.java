@@ -269,6 +269,21 @@ public class AdquisitionPropertyResponse implements IResponse {
     private String hoaOthersReport;
     private String hoaNotes;
 
+    private String employerReferenceName;
+    private String employerReferencePhone;
+    private String employerReferenceEmail;
+    private String employerReferencePosition;
+
+    private String bankReferenceName;
+    private String bankReferencePhone;
+    private String bankReferenceEmail;
+    private String bankReferencePosition;
+
+    private String personalReferenceName;
+    private String personalReferencePhone;
+    private String personalReferenceEmail;
+    private String personalReferencePosition;
+
     public AdquisitionPropertyResponse(AdquisitionPropertyDto dto) {
         this.id = dto.getId();
         this.buyer = dto.getBuyer() != null ? new LegalEntityBasicResponse(dto.getBuyer()) : null;
@@ -510,6 +525,19 @@ public class AdquisitionPropertyResponse implements IResponse {
         this.hoaNotesReport = dto.getHoaNotesReport();
         this.hoaOthersReport = dto.getHoaOthersReport();
         this.hoaNotes = dto.getHoaNotes();
+
+        this.employerReferenceName = dto.getEmployerReferenceName();
+        this.employerReferencePhone = dto.getEmployerReferencePhone();
+        this.employerReferenceEmail = dto.getEmployerReferenceEmail();
+        this.employerReferencePosition = dto.getEmployerReferencePosition();
+        this.bankReferenceName = dto.getBankReferenceName();
+        this.bankReferencePhone = dto.getBankReferencePhone();
+        this.bankReferenceEmail = dto.getBankReferenceEmail();
+        this.bankReferencePosition = dto.getBankReferencePosition();
+        this.personalReferenceName = dto.getPersonalReferenceName();
+        this.personalReferencePhone = dto.getPersonalReferencePhone();
+        this.personalReferenceEmail = dto.getPersonalReferenceEmail();
+        this.personalReferencePosition = dto.getPersonalReferencePosition();
     }
 
     private List<AdquisitionDocumentResponse> convertDbToList(String dbData) {
