@@ -307,6 +307,8 @@ public class UpdateAdquisitionPropertyCommandHandler implements ICommandHandler<
                 .personalReferencePhone(command.getPersonalReferencePhone())
                 .personalReferenceEmail(command.getPersonalReferenceEmail())
                 .personalReferencePosition(command.getPersonalReferencePosition())
+
+                .executeHud(command.getExecuteHud()  != null ? command.getExecuteHud().getFilePath() + "|" + command.getExecuteHud().getFileName() : null)
                 .build()
         );
     }

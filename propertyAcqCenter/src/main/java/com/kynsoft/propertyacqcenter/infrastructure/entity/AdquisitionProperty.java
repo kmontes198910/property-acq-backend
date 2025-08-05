@@ -518,6 +518,9 @@ public class AdquisitionProperty {
     @Column(name = "wh_zelle_email_or_phone", nullable = true)
     private String whZelleEmailorPhone;
 
+    @Column(name = "execute_hud", nullable = true)
+    private String executeHud;
+
     @OneToOne(mappedBy = "adquisitionProperty", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private AdquisitionPropertyHoa adquisitionPropertyHoa;
 
@@ -979,6 +982,7 @@ public class AdquisitionProperty {
                 .employerReferencePosition(adquisitionPropertyEmployerReference != null ? adquisitionPropertyEmployerReference.getEmployerReferencePosition() : null)
 
                 .originalContractClosingDate(originalContractClosingDate)
+                .executeHud(executeHud)
                 .build();
     }
 
@@ -1231,6 +1235,7 @@ public class AdquisitionProperty {
                 .employerReferencePosition(adquisitionPropertyEmployerReference != null ? adquisitionPropertyEmployerReference.getEmployerReferencePosition() : null)
 
                 .originalContractClosingDate(originalContractClosingDate)
+                .executeHud(executeHud)
                 .build();
     }
 

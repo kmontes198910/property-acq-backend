@@ -299,4 +299,5 @@ public class AdquisitionPropertyDocumentDto {
     private String personalReferenceEmail;
     private String personalReferencePosition;
 
+    private String executeHud;
 }

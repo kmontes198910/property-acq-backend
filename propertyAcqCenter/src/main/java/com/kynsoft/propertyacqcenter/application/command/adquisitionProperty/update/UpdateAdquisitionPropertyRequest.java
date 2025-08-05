@@ -288,4 +288,6 @@ public class UpdateAdquisitionPropertyRequest {
     private String personalReferencePhone;
     private String personalReferenceEmail;
     private String personalReferencePosition;
+
+    private CreateDocumentRequest executeHud;
 }

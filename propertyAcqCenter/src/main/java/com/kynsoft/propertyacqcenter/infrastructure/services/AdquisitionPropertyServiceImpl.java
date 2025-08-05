@@ -239,6 +239,7 @@ public class AdquisitionPropertyServiceImpl implements IAdquisitionPropertyServi
         update.setWhwireRoutingNumber(object.getWhwireRoutingNumber() != null ? object.getWhwireRoutingNumber() : update.getWhwireRoutingNumber());
         update.setWhZelleEmailorPhone(object.getWhZelleEmailorPhone() != null ? object.getWhZelleEmailorPhone() : update.getWhZelleEmailorPhone());
         update.setOriginalContractClosingDate(object.getOriginalContractClosingDate() != null ? object.getOriginalContractClosingDate() : update.getOriginalContractClosingDate());
+        update.setExecuteHud(object.getExecuteHud() != null ? object.getExecuteHud() : update.getExecuteHud());
 
         update.setUpdatedAt(LocalDateTime.now());
         repositoryCommand.save(update);

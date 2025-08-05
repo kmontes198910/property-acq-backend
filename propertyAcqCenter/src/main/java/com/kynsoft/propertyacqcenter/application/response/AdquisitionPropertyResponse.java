@@ -284,6 +284,8 @@ public class AdquisitionPropertyResponse implements IResponse {
     private String personalReferenceEmail;
     private String personalReferencePosition;
 
+    private AdquisitionDocumentResponse executeHud;
+
     public AdquisitionPropertyResponse(AdquisitionPropertyDto dto) {
         this.id = dto.getId();
         this.buyer = dto.getBuyer() != null ? new LegalEntityBasicResponse(dto.getBuyer()) : null;
@@ -538,6 +540,8 @@ public class AdquisitionPropertyResponse implements IResponse {
         this.personalReferencePhone = dto.getPersonalReferencePhone();
         this.personalReferenceEmail = dto.getPersonalReferenceEmail();
         this.personalReferencePosition = dto.getPersonalReferencePosition();
+
+        this.executeHud = DocumentMapper.mapDocumentField(dto.getExecuteHud());
     }
 
     private List<AdquisitionDocumentResponse> convertDbToList(String dbData) {
