@@ -31,7 +31,7 @@ public class AdquisitionPropertyBuyerPropertyInformationResponse implements IRes
     private String lenderPrepaymentPenalty;
     private AdquisitionDocumentResponse lenderSignTermSheet;//File
     private String lenderSignedCreditApplication;
-    private String lenderCommitmentLetter;
+    private AdquisitionDocumentResponse lenderCommitmentLetter;
     private AdquisitionDocumentResponse lenderFinalLoanPackage;//File
 
     public AdquisitionPropertyBuyerPropertyInformationResponse(AdquisitionPropertyBuyerPropertyInformationDto dto) {
@@ -49,7 +49,7 @@ public class AdquisitionPropertyBuyerPropertyInformationResponse implements IRes
         this.lenderPrepaymentPenalty = dto.getLenderPrepaymentPenalty();
         this.lenderSignTermSheet = DocumentMapper.mapDocumentField(dto.getLenderSignTermSheet());
         this.lenderSignedCreditApplication = dto.getLenderSignedCreditApplication();
-        this.lenderCommitmentLetter = dto.getLenderCommitmentLetter();
+        this.lenderCommitmentLetter = DocumentMapper.mapDocumentField(dto.getLenderCommitmentLetter());
         this.lenderFinalLoanPackage = DocumentMapper.mapDocumentField(dto.getLenderFinalLoanPackage());
     }
 
