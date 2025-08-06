@@ -6,6 +6,7 @@ import com.kynsoft.propertyacqcenter.domain.dto.BankAccountDto;
 import com.kynsoft.propertyacqcenter.domain.dto.CompanyContactDto;
 import com.kynsoft.propertyacqcenter.domain.dto.LegalEntityDto;
 import com.kynsoft.propertyacqcenter.domain.dto.PropertyDto;
+import com.kynsoft.propertyacqcenter.domain.dto.embedded.adquisitionProperty.AdquisitionPropertyBuyerPropertyInformationDto;
 import com.kynsoft.propertyacqcenter.domain.services.IAdquisitionPropertyService;
 import com.kynsoft.propertyacqcenter.domain.services.IBankAccountService;
 import com.kynsoft.propertyacqcenter.domain.services.ICompanyContactService;
@@ -309,6 +310,30 @@ public class UpdateAdquisitionPropertyCommandHandler implements ICommandHandler<
                 .personalReferencePosition(command.getPersonalReferencePosition())
 
                 .executeHud(command.getExecuteHud()  != null ? command.getExecuteHud().getFilePath() + "|" + command.getExecuteHud().getFileName() : null)
+                .lender(AdquisitionPropertyBuyerPropertyInformationDto
+                        .builder()
+                        .buyerRepairBudget(command.getLender() != null ? command.getLender().getBuyerRepairBudget() : null)
+                        .buyerApprovedPlans((command.getLender() != null && command.getLender().getBuyerApprovedPlans() != null) ? command.getLender().getBuyerApprovedPlans().getFilePath() + "|" + command.getLender().getBuyerApprovedPlans().getFileName() : null)
+                        .buyerPermits((command.getLender() != null && command.getLender().getBuyerPermits() != null) ? command.getLender().getBuyerPermits().getFilePath() + "|" + command.getLender().getBuyerPermits().getFileName() : null)
+                        .lenderOriginationFee(command.getLender() != null ? command.getLender().getLenderOriginationFee() : null)
+                        .lenderUnderwritingFee(command.getLender() != null ? command.getLender().getLenderUnderwritingFee() : null)
+                        .lenderProcessingFee(command.getLender() != null ? command.getLender().getLenderProcessingFee() : null)
+                        .lenderServicingFee(command.getLender() != null ? command.getLender().getLenderServicingFee() : null)
+                        .lenderLegalFee(command.getLender() != null ? command.getLender().getLenderLegalFee() : null)
+                        .lenderAppraisalFee(command.getLender() != null ? command.getLender().getLenderAppraisalFee() : null)
+                        .lenderAttorneyFees(command.getLender() != null ? command.getLender().getLenderAttorneyFees() : null)
+                        .lenderLoanType(command.getLender() != null ? command.getLender().getLenderLoanType() : null)
+                        .lenderLoanAmount(command.getLender() != null ? command.getLender().getLenderLoanAmount() : null)
+                        .lenderInterestRate(command.getLender() != null ? command.getLender().getLenderInterestRate() : null)
+                        .lenderLoanTerm(command.getLender() != null ? command.getLender().getLenderLoanTerm() : null)
+                        .lenderPrepaymentPenalty(command.getLender() != null ? command.getLender().getLenderPrepaymentPenalty() : null)
+                        .lenderSignTermSheet((command.getLender() != null && command.getLender().getLenderSignTermSheet() != null) ? command.getLender().getLenderSignTermSheet().getFilePath() + "|" + command.getLender().getLenderSignTermSheet().getFileName() : null)
+                        .lenderSignedCreditApplication(command.getLender() != null ? command.getLender().getLenderSignedCreditApplication() : null)
+                        .lenderCommitmentLetter(command.getLender() != null ? command.getLender().getLenderCommitmentLetter() : null)
+                        .lenderFinalLoanPackage((command.getLender() != null && command.getLender().getLenderFinalLoanPackage() != null) ? command.getLender().getLenderFinalLoanPackage().getFilePath() + "|" + command.getLender().getLenderFinalLoanPackage().getFileName() : null)
+                        .buyerTitleInsurance((command.getLender() != null && command.getLender().getBuyerTitleInsurance() != null) ? command.getLender().getBuyerTitleInsurance().getFilePath() + "|" + command.getLender().getBuyerTitleInsurance().getFileName() : null)
+                        .buyerExecutedClosingDocuments((command.getLender() != null && command.getLender().getBuyerExecutedClosingDocuments() != null) ? command.getLender().getBuyerExecutedClosingDocuments().getFilePath() + "|" + command.getLender().getBuyerExecutedClosingDocuments().getFileName() : null)
+                        .build())
                 .build()
         );
     }

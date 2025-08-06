@@ -3,9 +3,11 @@ package com.kynsoft.propertyacqcenter.infrastructure.entity;
 import com.kynsoft.propertyacqcenter.domain.dto.AdquisitionDocumentDto;
 import com.kynsoft.propertyacqcenter.domain.dto.AdquisitionPropertyDocumentDto;
 import com.kynsoft.propertyacqcenter.domain.dto.AdquisitionPropertyDto;
+import com.kynsoft.propertyacqcenter.domain.dto.embedded.adquisitionProperty.AdquisitionPropertyBuyerPropertyInformationDto;
 import com.kynsoft.propertyacqcenter.infrastructure.entity.embedded.adquisitionProperty.AdquisitionPropertyBankReference;
 import com.kynsoft.propertyacqcenter.infrastructure.entity.embedded.adquisitionProperty.AdquisitionPropertyBuyer;
 import com.kynsoft.propertyacqcenter.infrastructure.entity.embedded.adquisitionProperty.AdquisitionPropertyBuyerPersonalBankInfo;
+import com.kynsoft.propertyacqcenter.infrastructure.entity.embedded.adquisitionProperty.AdquisitionPropertyBuyerPropertyInformation;
 import com.kynsoft.propertyacqcenter.infrastructure.entity.embedded.adquisitionProperty.AdquisitionPropertyBuyerUtilitiesInfo;
 import com.kynsoft.propertyacqcenter.infrastructure.entity.embedded.adquisitionProperty.AdquisitionPropertyEmployerReference;
 import com.kynsoft.propertyacqcenter.infrastructure.entity.embedded.adquisitionProperty.AdquisitionPropertyHoa;
@@ -548,6 +550,9 @@ public class AdquisitionProperty {
     @OneToOne(mappedBy = "adquisitionProperty", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private AdquisitionPropertyPersonalReference adquisitionPropertyPersonalReference;
 
+    @OneToOne(mappedBy = "adquisitionProperty", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    private AdquisitionPropertyBuyerPropertyInformation adquisitionPropertyBuyerPropertyInformation;
+
     @CreationTimestamp
     @Column(name = "created_at", updatable = false)
     private LocalDateTime createdAt;
@@ -983,6 +988,30 @@ public class AdquisitionProperty {
 
                 .originalContractClosingDate(originalContractClosingDate)
                 .executeHud(executeHud)
+                .lender(AdquisitionPropertyBuyerPropertyInformationDto
+                        .builder()
+                        .buyerRepairBudget(adquisitionPropertyBuyerPropertyInformation != null ? adquisitionPropertyBuyerPropertyInformation.getBuyerRepairBudget() : null)
+                        .buyerApprovedPlans(adquisitionPropertyBuyerPropertyInformation != null ? adquisitionPropertyBuyerPropertyInformation.getBuyerApprovedPlans() : null)
+                        .buyerPermits(adquisitionPropertyBuyerPropertyInformation != null ? adquisitionPropertyBuyerPropertyInformation.getBuyerPermits() : null)
+                        .lenderOriginationFee(adquisitionPropertyBuyerPropertyInformation != null ? adquisitionPropertyBuyerPropertyInformation.getLenderOriginationFee() : null)
+                        .lenderUnderwritingFee(adquisitionPropertyBuyerPropertyInformation != null ? adquisitionPropertyBuyerPropertyInformation.getLenderUnderwritingFee() : null)
+                        .lenderProcessingFee(adquisitionPropertyBuyerPropertyInformation != null ? adquisitionPropertyBuyerPropertyInformation.getLenderProcessingFee() : null)
+                        .lenderServicingFee(adquisitionPropertyBuyerPropertyInformation != null ? adquisitionPropertyBuyerPropertyInformation.getLenderServicingFee() : null)
+                        .lenderLegalFee(adquisitionPropertyBuyerPropertyInformation != null ? adquisitionPropertyBuyerPropertyInformation.getLenderLegalFee() : null)
+                        .lenderAppraisalFee(adquisitionPropertyBuyerPropertyInformation != null ? adquisitionPropertyBuyerPropertyInformation.getLenderAppraisalFee() : null)
+                        .lenderAttorneyFees(adquisitionPropertyBuyerPropertyInformation != null ? adquisitionPropertyBuyerPropertyInformation.getLenderAttorneyFees() : null)
+                        .lenderLoanType(adquisitionPropertyBuyerPropertyInformation != null ? adquisitionPropertyBuyerPropertyInformation.getLenderLoanType() : null)
+                        .lenderLoanAmount(adquisitionPropertyBuyerPropertyInformation != null ? adquisitionPropertyBuyerPropertyInformation.getLenderLoanAmount() : null)
+                        .lenderInterestRate(adquisitionPropertyBuyerPropertyInformation != null ? adquisitionPropertyBuyerPropertyInformation.getLenderInterestRate() : null)
+                        .lenderLoanTerm(adquisitionPropertyBuyerPropertyInformation != null ? adquisitionPropertyBuyerPropertyInformation.getLenderLoanTerm() : null)
+                        .lenderPrepaymentPenalty(adquisitionPropertyBuyerPropertyInformation != null ? adquisitionPropertyBuyerPropertyInformation.getLenderPrepaymentPenalty() : null)
+                        .lenderSignTermSheet(adquisitionPropertyBuyerPropertyInformation != null ? adquisitionPropertyBuyerPropertyInformation.getLenderSignTermSheet() : null)
+                        .lenderSignedCreditApplication(adquisitionPropertyBuyerPropertyInformation != null ? adquisitionPropertyBuyerPropertyInformation.getLenderSignedCreditApplication() : null)
+                        .lenderCommitmentLetter(adquisitionPropertyBuyerPropertyInformation != null ? adquisitionPropertyBuyerPropertyInformation.getLenderCommitmentLetter() : null)
+                        .lenderFinalLoanPackage(adquisitionPropertyBuyerPropertyInformation != null ? adquisitionPropertyBuyerPropertyInformation.getLenderFinalLoanPackage() : null)
+                        .buyerTitleInsurance(adquisitionPropertyBuyerPropertyInformation != null ? adquisitionPropertyBuyerPropertyInformation.getBuyerTitleInsurance() : null)
+                        .buyerExecutedClosingDocuments(adquisitionPropertyBuyerPropertyInformation != null ? adquisitionPropertyBuyerPropertyInformation.getBuyerExecutedClosingDocuments() : null)
+                        .build())
                 .build();
     }
 
@@ -1236,6 +1265,30 @@ public class AdquisitionProperty {
 
                 .originalContractClosingDate(originalContractClosingDate)
                 .executeHud(executeHud)
+                .lender(AdquisitionPropertyBuyerPropertyInformationDto
+                        .builder()
+                        .buyerRepairBudget(adquisitionPropertyBuyerPropertyInformation != null ? adquisitionPropertyBuyerPropertyInformation.getBuyerRepairBudget() : null)
+                        .buyerApprovedPlans(adquisitionPropertyBuyerPropertyInformation != null ? adquisitionPropertyBuyerPropertyInformation.getBuyerApprovedPlans() : null)
+                        .buyerPermits(adquisitionPropertyBuyerPropertyInformation != null ? adquisitionPropertyBuyerPropertyInformation.getBuyerPermits() : null)
+                        .lenderOriginationFee(adquisitionPropertyBuyerPropertyInformation != null ? adquisitionPropertyBuyerPropertyInformation.getLenderOriginationFee() : null)
+                        .lenderUnderwritingFee(adquisitionPropertyBuyerPropertyInformation != null ? adquisitionPropertyBuyerPropertyInformation.getLenderUnderwritingFee() : null)
+                        .lenderProcessingFee(adquisitionPropertyBuyerPropertyInformation != null ? adquisitionPropertyBuyerPropertyInformation.getLenderProcessingFee() : null)
+                        .lenderServicingFee(adquisitionPropertyBuyerPropertyInformation != null ? adquisitionPropertyBuyerPropertyInformation.getLenderServicingFee() : null)
+                        .lenderLegalFee(adquisitionPropertyBuyerPropertyInformation != null ? adquisitionPropertyBuyerPropertyInformation.getLenderLegalFee() : null)
+                        .lenderAppraisalFee(adquisitionPropertyBuyerPropertyInformation != null ? adquisitionPropertyBuyerPropertyInformation.getLenderAppraisalFee() : null)
+                        .lenderAttorneyFees(adquisitionPropertyBuyerPropertyInformation != null ? adquisitionPropertyBuyerPropertyInformation.getLenderAttorneyFees() : null)
+                        .lenderLoanType(adquisitionPropertyBuyerPropertyInformation != null ? adquisitionPropertyBuyerPropertyInformation.getLenderLoanType() : null)
+                        .lenderLoanAmount(adquisitionPropertyBuyerPropertyInformation != null ? adquisitionPropertyBuyerPropertyInformation.getLenderLoanAmount() : null)
+                        .lenderInterestRate(adquisitionPropertyBuyerPropertyInformation != null ? adquisitionPropertyBuyerPropertyInformation.getLenderInterestRate() : null)
+                        .lenderLoanTerm(adquisitionPropertyBuyerPropertyInformation != null ? adquisitionPropertyBuyerPropertyInformation.getLenderLoanTerm() : null)
+                        .lenderPrepaymentPenalty(adquisitionPropertyBuyerPropertyInformation != null ? adquisitionPropertyBuyerPropertyInformation.getLenderPrepaymentPenalty() : null)
+                        .lenderSignTermSheet(adquisitionPropertyBuyerPropertyInformation != null ? adquisitionPropertyBuyerPropertyInformation.getLenderSignTermSheet() : null)
+                        .lenderSignedCreditApplication(adquisitionPropertyBuyerPropertyInformation != null ? adquisitionPropertyBuyerPropertyInformation.getLenderSignedCreditApplication() : null)
+                        .lenderCommitmentLetter(adquisitionPropertyBuyerPropertyInformation != null ? adquisitionPropertyBuyerPropertyInformation.getLenderCommitmentLetter() : null)
+                        .lenderFinalLoanPackage(adquisitionPropertyBuyerPropertyInformation != null ? adquisitionPropertyBuyerPropertyInformation.getLenderFinalLoanPackage() : null)
+                        .buyerTitleInsurance(adquisitionPropertyBuyerPropertyInformation != null ? adquisitionPropertyBuyerPropertyInformation.getBuyerTitleInsurance() : null)
+                        .buyerExecutedClosingDocuments(adquisitionPropertyBuyerPropertyInformation != null ? adquisitionPropertyBuyerPropertyInformation.getBuyerExecutedClosingDocuments() : null)
+                        .build())
                 .build();
     }
 

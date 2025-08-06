@@ -1,5 +1,6 @@
 package com.kynsoft.propertyacqcenter.domain.dto;
 
+import com.kynsoft.propertyacqcenter.domain.dto.embedded.adquisitionProperty.AdquisitionPropertyBuyerPropertyInformationDto;
 import java.time.LocalDate;
 import lombok.*;
 
@@ -299,4 +300,5 @@ public class AdquisitionPropertyDto {
     private String personalReferencePosition;
 
     private String executeHud;
+    private AdquisitionPropertyBuyerPropertyInformationDto lender;
 }
