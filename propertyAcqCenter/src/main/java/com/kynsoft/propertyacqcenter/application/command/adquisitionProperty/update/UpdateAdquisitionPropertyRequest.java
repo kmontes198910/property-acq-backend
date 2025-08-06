@@ -290,4 +290,5 @@ public class UpdateAdquisitionPropertyRequest {
     private String personalReferencePosition;
 
     private CreateDocumentRequest executeHud;
+    private AdquisitionPropertyBuyerPropertyInformationRequest lender;
 }

@@ -1,6 +1,7 @@
 package com.kynsoft.propertyacqcenter.application.response;
 
 import com.kynsof.share.core.domain.bus.query.IResponse;
+import com.kynsoft.propertyacqcenter.application.response.adquisitionProperty.AdquisitionPropertyBuyerPropertyInformationResponse;
 import com.kynsoft.propertyacqcenter.domain.dto.AdquisitionPropertyDto;
 import java.time.LocalDate;
 import lombok.*;
@@ -285,6 +286,7 @@ public class AdquisitionPropertyResponse implements IResponse {
     private String personalReferencePosition;
 
     private AdquisitionDocumentResponse executeHud;
+    private AdquisitionPropertyBuyerPropertyInformationResponse lender;
 
     public AdquisitionPropertyResponse(AdquisitionPropertyDto dto) {
         this.id = dto.getId();
@@ -542,6 +544,7 @@ public class AdquisitionPropertyResponse implements IResponse {
         this.personalReferencePosition = dto.getPersonalReferencePosition();
 
         this.executeHud = DocumentMapper.mapDocumentField(dto.getExecuteHud());
+        this.lender = dto.getLender() != null ? new AdquisitionPropertyBuyerPropertyInformationResponse(dto.getLender()) : null;
     }
 
     private List<AdquisitionDocumentResponse> convertDbToList(String dbData) {

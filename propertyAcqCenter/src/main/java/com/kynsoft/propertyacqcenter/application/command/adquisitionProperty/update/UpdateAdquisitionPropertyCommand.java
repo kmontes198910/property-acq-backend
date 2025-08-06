@@ -292,6 +292,7 @@ public class UpdateAdquisitionPropertyCommand implements ICommand {
     private String personalReferencePosition;
 
     private CreateDocumentRequest executeHud;
+    private AdquisitionPropertyBuyerPropertyInformationRequest lender;
 
     public UpdateAdquisitionPropertyCommand(UUID id, UUID buyer, String property, UUID contact, String buyerNameAndYearVehicle,
             String buyerLicenseTagNo,
@@ -483,7 +484,8 @@ public class UpdateAdquisitionPropertyCommand implements ICommand {
             String personalReferencePhone,
             String personalReferenceEmail,
             String personalReferencePosition,
-            CreateDocumentRequest executeHud
+            CreateDocumentRequest executeHud,
+            AdquisitionPropertyBuyerPropertyInformationRequest lender
             ) {
         this.id = id;
         this.buyer = buyer;
@@ -732,6 +734,7 @@ public class UpdateAdquisitionPropertyCommand implements ICommand {
         this.personalReferenceEmail = personalReferenceEmail;
         this.personalReferencePosition = personalReferencePosition;
         this.executeHud = executeHud;
+        this.lender = lender;
     }
 
     public static UpdateAdquisitionPropertyCommand fromRequest(UpdateAdquisitionPropertyRequest request, UUID id) {
@@ -966,7 +969,8 @@ public class UpdateAdquisitionPropertyCommand implements ICommand {
                 request.getPersonalReferencePhone(),
                 request.getPersonalReferenceEmail(),
                 request.getPersonalReferencePosition(),
-                request.getExecuteHud()
+                request.getExecuteHud(),
+                request.getLender()
         );
     }
 

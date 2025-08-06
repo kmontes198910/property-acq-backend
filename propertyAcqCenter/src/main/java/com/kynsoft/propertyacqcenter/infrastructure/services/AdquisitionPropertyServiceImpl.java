@@ -18,6 +18,7 @@ import com.kynsoft.propertyacqcenter.infrastructure.entity.Property;
 import com.kynsoft.propertyacqcenter.infrastructure.entity.embedded.adquisitionProperty.AdquisitionPropertyBankReference;
 import com.kynsoft.propertyacqcenter.infrastructure.entity.embedded.adquisitionProperty.AdquisitionPropertyBuyer;
 import com.kynsoft.propertyacqcenter.infrastructure.entity.embedded.adquisitionProperty.AdquisitionPropertyBuyerPersonalBankInfo;
+import com.kynsoft.propertyacqcenter.infrastructure.entity.embedded.adquisitionProperty.AdquisitionPropertyBuyerPropertyInformation;
 import com.kynsoft.propertyacqcenter.infrastructure.entity.embedded.adquisitionProperty.AdquisitionPropertyBuyerUtilitiesInfo;
 import com.kynsoft.propertyacqcenter.infrastructure.entity.embedded.adquisitionProperty.AdquisitionPropertyEmployerReference;
 import com.kynsoft.propertyacqcenter.infrastructure.entity.embedded.adquisitionProperty.AdquisitionPropertyHoa;
@@ -70,6 +71,7 @@ public class AdquisitionPropertyServiceImpl implements IAdquisitionPropertyServi
         update.setAdquisitionPropertyEmployerReference(createAdquisitionPropertyEmployerReference(object, update));
         update.setAdquisitionPropertyPersonalReference(createAdquisitionPropertyPersonalReference(object, update));
         update.setAdquisitionPropertyBankReference(createAdquisitionPropertyBankReference(object, update));
+        update.setAdquisitionPropertyBuyerPropertyInformation(createAdquisitionPropertyBuyerPropertyInformation(object, update));
 
         update.setBuyer(object.getBuyer() != null ? new LegalEntity(object.getBuyer()) : null);
         update.setContact(object.getContact() != null ? new CompanyContact(object.getContact()) : null);
@@ -380,6 +382,65 @@ public class AdquisitionPropertyServiceImpl implements IAdquisitionPropertyServi
                         .buyerBankName(object.getBuyerBankName())
                         .buyerPersonalVoidCheck(object.getBuyerPersonalVoidCheck())
                         .buyerMaritalStatus(object.getBuyerMaritalStatus())
+                        .build();
+    }
+
+    private AdquisitionPropertyBuyerPropertyInformation createAdquisitionPropertyBuyerPropertyInformation(AdquisitionPropertyDto object, AdquisitionProperty update) {
+        return update.getAdquisitionPropertyBuyerPropertyInformation() != null
+                ? //Si es diferente de null, es porque ya tiene datos.
+                AdquisitionPropertyBuyerPropertyInformation
+                        .builder()
+                        .id(update.getAdquisitionPropertyBuyerPropertyInformation().getId())
+                        .adquisitionProperty(update)
+                        .buyerRepairBudget(object.getLender().getBuyerRepairBudget() != null ? object.getLender().getBuyerRepairBudget() : update.getAdquisitionPropertyBuyerPropertyInformation().getBuyerRepairBudget())
+                        .buyerApprovedPlans(object.getLender().getBuyerApprovedPlans() != null ? object.getLender().getBuyerApprovedPlans() : update.getAdquisitionPropertyBuyerPropertyInformation().getBuyerApprovedPlans())
+                        .buyerPermits(object.getLender().getBuyerPermits() != null ? object.getLender().getBuyerPermits() : update.getAdquisitionPropertyBuyerPropertyInformation().getBuyerPermits())
+                        .lenderOriginationFee(object.getLender().getLenderOriginationFee() != null ? object.getLender().getLenderOriginationFee() : update.getAdquisitionPropertyBuyerPropertyInformation().getLenderOriginationFee())
+                        .lenderUnderwritingFee(object.getLender().getLenderUnderwritingFee() != null ? object.getLender().getLenderUnderwritingFee() : update.getAdquisitionPropertyBuyerPropertyInformation().getLenderUnderwritingFee())
+                        .lenderProcessingFee(object.getLender().getLenderProcessingFee() != null ? object.getLender().getLenderProcessingFee() : update.getAdquisitionPropertyBuyerPropertyInformation().getLenderProcessingFee())
+                        .lenderProcessingFee(object.getLender().getLenderProcessingFee() != null ? object.getLender().getLenderProcessingFee() : update.getAdquisitionPropertyBuyerPropertyInformation().getLenderProcessingFee())
+                        .lenderServicingFee(object.getLender().getLenderServicingFee() != null ? object.getLender().getLenderServicingFee() : update.getAdquisitionPropertyBuyerPropertyInformation().getLenderServicingFee())
+                        .lenderLegalFee(object.getLender().getLenderLegalFee() != null ? object.getLender().getLenderLegalFee() : update.getAdquisitionPropertyBuyerPropertyInformation().getLenderLegalFee())
+                        .lenderAppraisalFee(object.getLender().getLenderAppraisalFee() != null ? object.getLender().getLenderAppraisalFee() : update.getAdquisitionPropertyBuyerPropertyInformation().getLenderAppraisalFee())
+                        .lenderAttorneyFees(object.getLender().getLenderAttorneyFees() != null ? object.getLender().getLenderAttorneyFees() : update.getAdquisitionPropertyBuyerPropertyInformation().getLenderAttorneyFees())
+                        .lenderLoanType(object.getLender().getLenderLoanType() != null ? object.getLender().getLenderLoanType() : update.getAdquisitionPropertyBuyerPropertyInformation().getLenderLoanType())
+                        .lenderLoanAmount(object.getLender().getLenderLoanAmount() != null ? object.getLender().getLenderLoanAmount() : update.getAdquisitionPropertyBuyerPropertyInformation().getLenderLoanAmount())
+                        .lenderInterestRate(object.getLender().getLenderInterestRate() != null ? object.getLender().getLenderInterestRate() : update.getAdquisitionPropertyBuyerPropertyInformation().getLenderInterestRate())
+                        .lenderLoanTerm(object.getLender().getLenderLoanTerm() != null ? object.getLender().getLenderLoanTerm() : update.getAdquisitionPropertyBuyerPropertyInformation().getLenderLoanTerm())
+                        .lenderPrepaymentPenalty(object.getLender().getLenderPrepaymentPenalty() != null ? object.getLender().getLenderPrepaymentPenalty() : update.getAdquisitionPropertyBuyerPropertyInformation().getLenderPrepaymentPenalty())
+                        .lenderSignTermSheet(object.getLender().getLenderSignTermSheet() != null ? object.getLender().getLenderSignTermSheet() : update.getAdquisitionPropertyBuyerPropertyInformation().getLenderSignTermSheet())
+                        .lenderSignedCreditApplication(object.getLender().getLenderSignedCreditApplication() != null ? object.getLender().getLenderSignedCreditApplication() : update.getAdquisitionPropertyBuyerPropertyInformation().getLenderSignedCreditApplication())
+                        .lenderCommitmentLetter(object.getLender().getLenderCommitmentLetter() != null ? object.getLender().getLenderCommitmentLetter() : update.getAdquisitionPropertyBuyerPropertyInformation().getLenderCommitmentLetter())
+                        .lenderFinalLoanPackage(object.getLender().getLenderFinalLoanPackage() != null ? object.getLender().getLenderFinalLoanPackage() : update.getAdquisitionPropertyBuyerPropertyInformation().getLenderFinalLoanPackage())
+                        .buyerTitleInsurance(object.getLender().getBuyerTitleInsurance() != null ? object.getLender().getBuyerTitleInsurance() : update.getAdquisitionPropertyBuyerPropertyInformation().getBuyerTitleInsurance())
+                        .buyerExecutedClosingDocuments(object.getLender().getBuyerExecutedClosingDocuments() != null ? object.getLender().getBuyerExecutedClosingDocuments() : update.getAdquisitionPropertyBuyerPropertyInformation().getBuyerExecutedClosingDocuments())
+                        .build()
+                : AdquisitionPropertyBuyerPropertyInformation
+                        .builder()
+                        .id(UUID.randomUUID())
+                        .adquisitionProperty(update)
+                        .buyerRepairBudget(object.getLender().getBuyerRepairBudget())
+                        .buyerApprovedPlans(object.getLender().getBuyerApprovedPlans())
+                        .buyerPermits(object.getLender().getBuyerPermits())
+                        .lenderOriginationFee(object.getLender().getLenderOriginationFee())
+                        .lenderUnderwritingFee(object.getLender().getLenderUnderwritingFee())
+                        .lenderProcessingFee(object.getLender().getLenderProcessingFee())
+                        .lenderProcessingFee(object.getLender().getLenderProcessingFee())
+                        .lenderServicingFee(object.getLender().getLenderServicingFee())
+                        .lenderLegalFee(object.getLender().getLenderLegalFee())
+                        .lenderAppraisalFee(object.getLender().getLenderAppraisalFee())
+                        .lenderAttorneyFees(object.getLender().getLenderAttorneyFees())
+                        .lenderLoanType(object.getLender().getLenderLoanType())
+                        .lenderLoanAmount(object.getLender().getLenderLoanAmount())
+                        .lenderInterestRate(object.getLender().getLenderInterestRate())
+                        .lenderLoanTerm(object.getLender().getLenderLoanTerm())
+                        .lenderPrepaymentPenalty(object.getLender().getLenderPrepaymentPenalty())
+                        .lenderSignTermSheet(object.getLender().getLenderSignTermSheet())
+                        .lenderSignedCreditApplication(object.getLender().getLenderSignedCreditApplication())
+                        .lenderCommitmentLetter(object.getLender().getLenderCommitmentLetter())
+                        .lenderFinalLoanPackage(object.getLender().getLenderFinalLoanPackage())
+                        .buyerTitleInsurance(object.getLender().getBuyerTitleInsurance())
+                        .buyerExecutedClosingDocuments(object.getLender().getBuyerExecutedClosingDocuments())
                         .build();
     }
 
