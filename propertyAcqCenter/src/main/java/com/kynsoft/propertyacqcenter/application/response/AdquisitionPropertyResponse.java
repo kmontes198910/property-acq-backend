@@ -286,6 +286,9 @@ public class AdquisitionPropertyResponse implements IResponse {
     private String personalReferencePosition;
 
     private AdquisitionDocumentResponse executeHud;
+    private Double buyerRepairBudget;
+    private AdquisitionDocumentResponse buyerApprovedPlans;//File
+    private AdquisitionDocumentResponse buyerPermits;//File
     private AdquisitionPropertyBuyerPropertyInformationResponse lender;
 
     public AdquisitionPropertyResponse(AdquisitionPropertyDto dto) {
@@ -544,6 +547,9 @@ public class AdquisitionPropertyResponse implements IResponse {
         this.personalReferencePosition = dto.getPersonalReferencePosition();
 
         this.executeHud = DocumentMapper.mapDocumentField(dto.getExecuteHud());
+        this.buyerRepairBudget = dto.getLender() != null ? dto.getLender().getBuyerRepairBudget() : null;
+        this.buyerApprovedPlans = dto.getLender() != null ? DocumentMapper.mapDocumentField(dto.getLender().getBuyerApprovedPlans()) : null;
+        this.buyerPermits = dto.getLender() != null ? DocumentMapper.mapDocumentField(dto.getLender().getBuyerPermits()) : null;
         this.lender = dto.getLender() != null ? new AdquisitionPropertyBuyerPropertyInformationResponse(dto.getLender()) : null;
     }
 

@@ -312,9 +312,9 @@ public class UpdateAdquisitionPropertyCommandHandler implements ICommandHandler<
                 .executeHud(command.getExecuteHud()  != null ? command.getExecuteHud().getFilePath() + "|" + command.getExecuteHud().getFileName() : null)
                 .lender(AdquisitionPropertyBuyerPropertyInformationDto
                         .builder()
-                        .buyerRepairBudget(command.getLender() != null ? command.getLender().getBuyerRepairBudget() : null)
-                        .buyerApprovedPlans((command.getLender() != null && command.getLender().getBuyerApprovedPlans() != null) ? command.getLender().getBuyerApprovedPlans().getFilePath() + "|" + command.getLender().getBuyerApprovedPlans().getFileName() : null)
-                        .buyerPermits((command.getLender() != null && command.getLender().getBuyerPermits() != null) ? command.getLender().getBuyerPermits().getFilePath() + "|" + command.getLender().getBuyerPermits().getFileName() : null)
+                        .buyerRepairBudget(command.getLender() != null ? command.getBuyerRepairBudget() : null)
+                        .buyerApprovedPlans((command.getLender() != null && command.getBuyerApprovedPlans() != null) ? command.getBuyerApprovedPlans().getFilePath() + "|" + command.getBuyerApprovedPlans().getFileName() : null)
+                        .buyerPermits((command.getLender() != null && command.getBuyerPermits() != null) ? command.getBuyerPermits().getFilePath() + "|" + command.getBuyerPermits().getFileName() : null)
                         .lenderOriginationFee(command.getLender() != null ? command.getLender().getLenderOriginationFee() : null)
                         .lenderUnderwritingFee(command.getLender() != null ? command.getLender().getLenderUnderwritingFee() : null)
                         .lenderProcessingFee(command.getLender() != null ? command.getLender().getLenderProcessingFee() : null)
@@ -331,8 +331,8 @@ public class UpdateAdquisitionPropertyCommandHandler implements ICommandHandler<
                         .lenderSignedCreditApplication(command.getLender() != null ? command.getLender().getLenderSignedCreditApplication() : null)
                         .lenderCommitmentLetter(command.getLender() != null ? command.getLender().getLenderCommitmentLetter() : null)
                         .lenderFinalLoanPackage((command.getLender() != null && command.getLender().getLenderFinalLoanPackage() != null) ? command.getLender().getLenderFinalLoanPackage().getFilePath() + "|" + command.getLender().getLenderFinalLoanPackage().getFileName() : null)
-                        .buyerTitleInsurance((command.getLender() != null && command.getLender().getBuyerTitleInsurance() != null) ? command.getLender().getBuyerTitleInsurance().getFilePath() + "|" + command.getLender().getBuyerTitleInsurance().getFileName() : null)
-                        .buyerExecutedClosingDocuments((command.getLender() != null && command.getLender().getBuyerExecutedClosingDocuments() != null) ? command.getLender().getBuyerExecutedClosingDocuments().getFilePath() + "|" + command.getLender().getBuyerExecutedClosingDocuments().getFileName() : null)
+                        //.buyerTitleInsurance((command.getLender() != null && command.getLender().getBuyerTitleInsurance() != null) ? command.getLender().getBuyerTitleInsurance().getFilePath() + "|" + command.getLender().getBuyerTitleInsurance().getFileName() : null)
+                        //.buyerExecutedClosingDocuments((command.getLender() != null && command.getLender().getBuyerExecutedClosingDocuments() != null) ? command.getLender().getBuyerExecutedClosingDocuments().getFilePath() + "|" + command.getLender().getBuyerExecutedClosingDocuments().getFileName() : null)
                         .build())
                 .build()
         );

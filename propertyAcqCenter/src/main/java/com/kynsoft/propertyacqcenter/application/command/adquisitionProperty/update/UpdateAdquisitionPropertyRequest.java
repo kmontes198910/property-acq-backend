@@ -290,5 +290,8 @@ public class UpdateAdquisitionPropertyRequest {
     private String personalReferencePosition;
 
     private CreateDocumentRequest executeHud;
+    private Double buyerRepairBudget;
+    private CreateDocumentRequest buyerApprovedPlans;//File
+    private CreateDocumentRequest buyerPermits;//File
     private AdquisitionPropertyBuyerPropertyInformationRequest lender;
 }
