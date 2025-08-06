@@ -17,9 +17,6 @@ import lombok.Setter;
 @Builder
 public class AdquisitionPropertyBuyerPropertyInformationResponse implements IResponse {
 
-    private Double buyerRepairBudget;
-    private AdquisitionDocumentResponse buyerApprovedPlans;//File
-    private AdquisitionDocumentResponse buyerPermits;//File
     private Double lenderOriginationFee;
     private Double lenderUnderwritingFee;
     private Double lenderProcessingFee;
@@ -36,13 +33,8 @@ public class AdquisitionPropertyBuyerPropertyInformationResponse implements IRes
     private String lenderSignedCreditApplication;
     private String lenderCommitmentLetter;
     private AdquisitionDocumentResponse lenderFinalLoanPackage;//File
-    private AdquisitionDocumentResponse buyerTitleInsurance;//File
-    private AdquisitionDocumentResponse buyerExecutedClosingDocuments;//File
 
     public AdquisitionPropertyBuyerPropertyInformationResponse(AdquisitionPropertyBuyerPropertyInformationDto dto) {
-        this.buyerRepairBudget = dto.getBuyerRepairBudget();
-        this.buyerApprovedPlans = DocumentMapper.mapDocumentField(dto.getBuyerApprovedPlans());
-        this.buyerPermits = DocumentMapper.mapDocumentField(dto.getBuyerPermits());
         this.lenderOriginationFee = dto.getLenderOriginationFee();
         this.lenderUnderwritingFee = dto.getLenderUnderwritingFee();
         this.lenderProcessingFee = dto.getLenderProcessingFee();
@@ -59,8 +51,6 @@ public class AdquisitionPropertyBuyerPropertyInformationResponse implements IRes
         this.lenderSignedCreditApplication = dto.getLenderSignedCreditApplication();
         this.lenderCommitmentLetter = dto.getLenderCommitmentLetter();
         this.lenderFinalLoanPackage = DocumentMapper.mapDocumentField(dto.getLenderFinalLoanPackage());
-        this.buyerTitleInsurance = DocumentMapper.mapDocumentField(dto.getBuyerTitleInsurance());
-        this.buyerExecutedClosingDocuments = DocumentMapper.mapDocumentField(dto.getBuyerExecutedClosingDocuments());
     }
 
 }

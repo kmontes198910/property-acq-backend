@@ -14,9 +14,6 @@ import lombok.Setter;
 @Builder
 public class AdquisitionPropertyBuyerPropertyInformationRequest {
 
-    private Double buyerRepairBudget;
-    private CreateDocumentRequest buyerApprovedPlans;//File
-    private CreateDocumentRequest buyerPermits;//File
     private Double lenderOriginationFee;
     private Double lenderUnderwritingFee;
     private Double lenderProcessingFee;
@@ -33,6 +30,6 @@ public class AdquisitionPropertyBuyerPropertyInformationRequest {
     private String lenderSignedCreditApplication;
     private String lenderCommitmentLetter;
     private CreateDocumentRequest lenderFinalLoanPackage;//File
-    private CreateDocumentRequest buyerTitleInsurance;//File
-    private CreateDocumentRequest buyerExecutedClosingDocuments;//File
+    //private CreateDocumentRequest buyerTitleInsurance;//File
+    //private CreateDocumentRequest buyerExecutedClosingDocuments;//File
 }
