@@ -77,8 +77,8 @@ public class AdquisitionPropertyServiceImpl implements IAdquisitionPropertyServi
         update.setContact(object.getContact() != null ? new CompanyContact(object.getContact()) : null);
         update.setProperty(new Property(object.getProperty()));
 
-        update.setBuyerBankAccount(object.getBuyerBankAccount() != null ? new BankAccount(object.getBuyerBankAccount()) : null);
-        update.setSellerBankAccount(object.getSellerBankAccount() != null ? new BankAccount(object.getSellerBankAccount()) : null);
+        update.setBuyerBankAccount(object.getBuyerBankAccount() != null ? new BankAccount(object.getBuyerBankAccount()) : update.getBuyerBankAccount());
+        update.setSellerBankAccount(object.getSellerBankAccount() != null ? new BankAccount(object.getSellerBankAccount()) : update.getSellerBankAccount());
 
         update.setBuyerNameAndYearVehicle(object.getBuyerNameAndYearVehicle() != null ? object.getBuyerNameAndYearVehicle() : update.getBuyerNameAndYearVehicle());
         update.setBuyerLicenseTagNo(object.getBuyerLicenseTagNo() != null ? object.getBuyerLicenseTagNo() : update.getBuyerLicenseTagNo());
