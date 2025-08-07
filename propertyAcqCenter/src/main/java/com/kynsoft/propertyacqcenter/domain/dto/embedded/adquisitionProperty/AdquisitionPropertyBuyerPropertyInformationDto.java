@@ -30,7 +30,6 @@ public class AdquisitionPropertyBuyerPropertyInformationDto {
     private String lenderPrepaymentPenalty;
     private String lenderSignTermSheet;//File
     private String lenderSignedCreditApplication;
-    private String lenderCommitmentLetter;
     private String lenderFinalLoanPackage;//File
     private String buyerTitleInsurance;//File
     private String buyerExecutedClosingDocuments;//File

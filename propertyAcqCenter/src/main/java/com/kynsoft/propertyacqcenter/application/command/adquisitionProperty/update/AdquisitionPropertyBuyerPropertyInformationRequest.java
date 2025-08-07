@@ -28,7 +28,6 @@ public class AdquisitionPropertyBuyerPropertyInformationRequest {
     private String lenderPrepaymentPenalty;
     private CreateDocumentRequest lenderSignTermSheet;//File
     private String lenderSignedCreditApplication;
-    private CreateDocumentRequest lenderCommitmentLetter;
     private CreateDocumentRequest lenderFinalLoanPackage;//File
     //private CreateDocumentRequest buyerTitleInsurance;//File
     //private CreateDocumentRequest buyerExecutedClosingDocuments;//File
