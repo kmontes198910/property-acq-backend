@@ -93,4 +93,10 @@ public class AdquisitionPropertyBuyerPropertyInformation {
 
     @Column(name = "lender_amortization_type", nullable = true)
     private String lenderAmortizationType;
+
+    @Column(name = "lender_payoff_instructions", nullable = true)
+    private String lenderPayoffInstructions;
+
+    @Column(name = "lender_homeowner_insurance_requirements", nullable = true)
+    private String lenderHomeownerInsuranceRequirements;
 }

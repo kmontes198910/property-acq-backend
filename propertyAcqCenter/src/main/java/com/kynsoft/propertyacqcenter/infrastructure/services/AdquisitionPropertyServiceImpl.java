@@ -77,8 +77,8 @@ public class AdquisitionPropertyServiceImpl implements IAdquisitionPropertyServi
         update.setContact(object.getContact() != null ? new CompanyContact(object.getContact()) : null);
         update.setProperty(new Property(object.getProperty()));
 
-        update.setBuyerBankAccount(object.getBuyerBankAccount() != null ? new BankAccount(object.getBuyerBankAccount()) : null);
-        update.setSellerBankAccount(object.getSellerBankAccount() != null ? new BankAccount(object.getSellerBankAccount()) : null);
+        update.setBuyerBankAccount(object.getBuyerBankAccount() != null ? new BankAccount(object.getBuyerBankAccount()) : update.getBuyerBankAccount());
+        update.setSellerBankAccount(object.getSellerBankAccount() != null ? new BankAccount(object.getSellerBankAccount()) : update.getSellerBankAccount());
 
         update.setBuyerNameAndYearVehicle(object.getBuyerNameAndYearVehicle() != null ? object.getBuyerNameAndYearVehicle() : update.getBuyerNameAndYearVehicle());
         update.setBuyerLicenseTagNo(object.getBuyerLicenseTagNo() != null ? object.getBuyerLicenseTagNo() : update.getBuyerLicenseTagNo());
@@ -414,6 +414,8 @@ public class AdquisitionPropertyServiceImpl implements IAdquisitionPropertyServi
                         .buyerTitleInsurance(object.getLender().getBuyerTitleInsurance() != null ? object.getLender().getBuyerTitleInsurance() : update.getAdquisitionPropertyBuyerPropertyInformation().getBuyerTitleInsurance())
                         .buyerExecutedClosingDocuments(object.getLender().getBuyerExecutedClosingDocuments() != null ? object.getLender().getBuyerExecutedClosingDocuments() : update.getAdquisitionPropertyBuyerPropertyInformation().getBuyerExecutedClosingDocuments())
                         .lenderAmortizationType(object.getLender().getLenderAmortizationType() != null ? object.getLender().getLenderAmortizationType() : update.getAdquisitionPropertyBuyerPropertyInformation().getLenderAmortizationType())
+                        .lenderPayoffInstructions(object.getLender().getLenderPayoffInstructions() != null ? object.getLender().getLenderPayoffInstructions() : update.getAdquisitionPropertyBuyerPropertyInformation().getLenderPayoffInstructions())
+                        .lenderHomeownerInsuranceRequirements(object.getLender().getLenderHomeownerInsuranceRequirements() != null ? object.getLender().getLenderHomeownerInsuranceRequirements() : update.getAdquisitionPropertyBuyerPropertyInformation().getLenderHomeownerInsuranceRequirements())
                         .build()
                 : AdquisitionPropertyBuyerPropertyInformation
                         .builder()
@@ -441,6 +443,8 @@ public class AdquisitionPropertyServiceImpl implements IAdquisitionPropertyServi
                         .buyerTitleInsurance(object.getLender().getBuyerTitleInsurance())
                         .buyerExecutedClosingDocuments(object.getLender().getBuyerExecutedClosingDocuments())
                         .lenderAmortizationType(object.getLender().getLenderAmortizationType())
+                        .lenderPayoffInstructions(object.getLender().getLenderPayoffInstructions())
+                        .lenderHomeownerInsuranceRequirements(object.getLender().getLenderHomeownerInsuranceRequirements())
                         .build();
     }
 
