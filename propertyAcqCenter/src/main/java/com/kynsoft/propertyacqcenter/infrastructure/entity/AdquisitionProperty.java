@@ -910,7 +910,6 @@ public class AdquisitionProperty {
                 .buyerCreditReport(adquisitionPropertyHoa != null ? adquisitionPropertyHoa.getBuyerCreditReport() : null)
                 .hoaValidatorWebsite(adquisitionPropertyHoa != null ? adquisitionPropertyHoa.getHoaValidatorWebsite() : null)
                 .hoaApplicationLink(adquisitionPropertyHoa != null ? adquisitionPropertyHoa.getHoaApplicationLink() : null)
-
                 //AdquisitionPropertyBuyer
                 .buyerProofOfFunds(adquisitionPropertyBuyer != null ? adquisitionPropertyBuyer.getBuyerProofOfFunds() : null)
                 .buyerCarBrand(adquisitionPropertyBuyer != null ? adquisitionPropertyBuyer.getBuyerCarBrand() : null)
@@ -920,7 +919,6 @@ public class AdquisitionProperty {
                 .buyerBankName(adquisitionPropertyBuyer != null ? adquisitionPropertyBuyer.getBuyerBankName() : null)
                 .buyerPersonalVoidCheck(adquisitionPropertyBuyer != null ? adquisitionPropertyBuyer.getBuyerPersonalVoidCheck() : null)
                 .buyerMaritalStatus(adquisitionPropertyBuyer != null ? adquisitionPropertyBuyer.getBuyerMaritalStatus() : null)
-
                 //AdquisitionPropertyBuyerPersonalBankInfo
                 .buyerPersonalAccountHolderName(adquisitionPropertyBuyerPersonalBankInfo != null ? adquisitionPropertyBuyerPersonalBankInfo.getBuyerPersonalAccountHolderName() : null)
                 .buyerPersonalAccountNumber(adquisitionPropertyBuyerPersonalBankInfo != null ? adquisitionPropertyBuyerPersonalBankInfo.getBuyerPersonalAccountNumber() : null)
@@ -941,7 +939,6 @@ public class AdquisitionProperty {
                 .buyerNotes(adquisitionPropertyBuyerUtilitiesInfo != null ? adquisitionPropertyBuyerUtilitiesInfo.getBuyerNotes() : null)
                 .buyerStartServiceDate(adquisitionPropertyBuyerUtilitiesInfo != null ? adquisitionPropertyBuyerUtilitiesInfo.getBuyerStartServiceDate() : null)
                 .buyerDepositAmount(adquisitionPropertyBuyerUtilitiesInfo != null ? adquisitionPropertyBuyerUtilitiesInfo.getBuyerDepositAmount() : null)
-
                 .gasBuyerStartServiceDate(adquisitionPropertyBuyerUtilitiesInfo != null ? adquisitionPropertyBuyerUtilitiesInfo.getGasBuyerStartServiceDate() : null)
                 .gasBuyerDepositAmount(adquisitionPropertyBuyerUtilitiesInfo != null ? adquisitionPropertyBuyerUtilitiesInfo.getGasBuyerDepositAmount() : null)
                 .trashBuyerStartServiceDate(adquisitionPropertyBuyerUtilitiesInfo != null ? adquisitionPropertyBuyerUtilitiesInfo.getTrashBuyerStartServiceDate() : null)
@@ -950,7 +947,6 @@ public class AdquisitionProperty {
                 .waterBuyerDepositAmount(adquisitionPropertyBuyerUtilitiesInfo != null ? adquisitionPropertyBuyerUtilitiesInfo.getWaterBuyerDepositAmount() : null)
                 .internetBuyerStartServiceDate(adquisitionPropertyBuyerUtilitiesInfo != null ? adquisitionPropertyBuyerUtilitiesInfo.getInternetBuyerStartServiceDate() : null)
                 .internetBuyerDepositAmount(adquisitionPropertyBuyerUtilitiesInfo != null ? adquisitionPropertyBuyerUtilitiesInfo.getInternetBuyerDepositAmount() : null)
-
                 .sellerPersonalAccountHolderName(adquisitionPropertySeller != null ? adquisitionPropertySeller.getSellerPersonalAccountHolderName() : null)
                 .sellerPersonalAccountNumber(adquisitionPropertySeller != null ? adquisitionPropertySeller.getSellerPersonalAccountNumber() : null)
                 .sellerPersonalRoutingNumber(adquisitionPropertySeller != null ? adquisitionPropertySeller.getSellerPersonalRoutingNumber() : null)
@@ -960,7 +956,6 @@ public class AdquisitionProperty {
                 .sellerPersonalBankStatements(adquisitionPropertySeller != null ? adquisitionPropertySeller.getSellerPersonalBankStatements() : null)
                 .sellerVoidCheck(adquisitionPropertySeller != null ? adquisitionPropertySeller.getSellerVoidCheck() : null)
                 .sellerPersonalVoidCheck(adquisitionPropertySeller != null ? adquisitionPropertySeller.getSellerPersonalVoidCheck() : null)
-
                 .hoaInpectionReport(adquisitionPropertyHoaBuildingInfo != null ? adquisitionPropertyHoaBuildingInfo.getHoaInpectionReport() : null)
                 .hoaElectricalReport(adquisitionPropertyHoaBuildingInfo != null ? adquisitionPropertyHoaBuildingInfo.getHoaElectricalReport() : null)
                 .hoaHvacReport(adquisitionPropertyHoaBuildingInfo != null ? adquisitionPropertyHoaBuildingInfo.getHoaHvacReport() : null)
@@ -970,24 +965,23 @@ public class AdquisitionProperty {
                 .hoaNotesReport(adquisitionPropertyHoaBuildingInfo != null ? adquisitionPropertyHoaBuildingInfo.getHoaNotesReport() : null)
                 .hoaOthersReport(adquisitionPropertyHoaBuildingInfo != null ? adquisitionPropertyHoaBuildingInfo.getHoaOthersReport() : null)
                 .hoaNotes(adquisitionPropertyHoaBuildingInfo != null ? adquisitionPropertyHoaBuildingInfo.getHoaNotes() : null)
-
                 .bankReferenceName(adquisitionPropertyBankReference != null ? adquisitionPropertyBankReference.getBankReferenceName() : null)
                 .bankReferencePhone(adquisitionPropertyBankReference != null ? adquisitionPropertyBankReference.getBankReferencePhone() : null)
                 .bankReferenceEmail(adquisitionPropertyBankReference != null ? adquisitionPropertyBankReference.getBankReferenceEmail() : null)
                 .bankReferencePosition(adquisitionPropertyBankReference != null ? adquisitionPropertyBankReference.getBankReferencePosition() : null)
-
                 .personalReferenceName(adquisitionPropertyPersonalReference != null ? adquisitionPropertyPersonalReference.getPersonalReferenceName() : null)
                 .personalReferencePhone(adquisitionPropertyPersonalReference != null ? adquisitionPropertyPersonalReference.getPersonalReferencePhone() : null)
                 .personalReferenceEmail(adquisitionPropertyPersonalReference != null ? adquisitionPropertyPersonalReference.getPersonalReferenceEmail() : null)
                 .personalReferencePosition(adquisitionPropertyPersonalReference != null ? adquisitionPropertyPersonalReference.getPersonalReferencePosition() : null)
-
                 .employerReferenceName(adquisitionPropertyEmployerReference != null ? adquisitionPropertyEmployerReference.getEmployerReferenceName() : null)
                 .employerReferencePhone(adquisitionPropertyEmployerReference != null ? adquisitionPropertyEmployerReference.getEmployerReferencePhone() : null)
                 .employerReferenceEmail(adquisitionPropertyEmployerReference != null ? adquisitionPropertyEmployerReference.getEmployerReferenceEmail() : null)
                 .employerReferencePosition(adquisitionPropertyEmployerReference != null ? adquisitionPropertyEmployerReference.getEmployerReferencePosition() : null)
-
                 .originalContractClosingDate(originalContractClosingDate)
                 .executeHud(executeHud)
+                .buyerRepairBudget(adquisitionPropertyBuyerPropertyInformation != null ? adquisitionPropertyBuyerPropertyInformation.getBuyerRepairBudget() : null)
+                .buyerApprovedPlans(adquisitionPropertyBuyerPropertyInformation != null ? adquisitionPropertyBuyerPropertyInformation.getBuyerApprovedPlans() : null)
+                .buyerPermits(adquisitionPropertyBuyerPropertyInformation != null ? adquisitionPropertyBuyerPropertyInformation.getBuyerPermits() : null)
                 .lender(AdquisitionPropertyBuyerPropertyInformationDto
                         .builder()
                         .buyerRepairBudget(adquisitionPropertyBuyerPropertyInformation != null ? adquisitionPropertyBuyerPropertyInformation.getBuyerRepairBudget() : null)
@@ -1198,7 +1192,6 @@ public class AdquisitionProperty {
                 .buyerBankName(adquisitionPropertyBuyer != null ? adquisitionPropertyBuyer.getBuyerBankName() : null)
                 .buyerPersonalVoidCheck(adquisitionPropertyBuyer != null ? adquisitionPropertyBuyer.getBuyerPersonalVoidCheck() : null)
                 .buyerMaritalStatus(adquisitionPropertyBuyer != null ? adquisitionPropertyBuyer.getBuyerMaritalStatus() : null)
-
                 //AdquisitionPropertyBuyerPersonalBankInfo
                 .buyerPersonalAccountHolderName(adquisitionPropertyBuyerPersonalBankInfo != null ? adquisitionPropertyBuyerPersonalBankInfo.getBuyerPersonalAccountHolderName() : null)
                 .buyerPersonalAccountNumber(adquisitionPropertyBuyerPersonalBankInfo != null ? adquisitionPropertyBuyerPersonalBankInfo.getBuyerPersonalAccountNumber() : null)
@@ -1210,7 +1203,6 @@ public class AdquisitionProperty {
                 .buyerPersonalUseForLenderBankReference(adquisitionPropertyBuyerPersonalBankInfo != null ? adquisitionPropertyBuyerPersonalBankInfo.getBuyerPersonalUseForLenderBankReference() : null)
                 .buyerVoidCheck(adquisitionPropertyBuyerPersonalBankInfo != null ? adquisitionPropertyBuyerPersonalBankInfo.getBuyerVoidCheck() : null)
                 .buyerLegalEntityUseForHoaBankReference(adquisitionPropertyBuyerPersonalBankInfo != null ? adquisitionPropertyBuyerPersonalBankInfo.getBuyerLegalEntityUseForHoaBankReference() : null)
-                
                 //AdquisitionPropertyBuyerUtilitiesInfo
                 .buyerElectricProviderAccount(adquisitionPropertyBuyerUtilitiesInfo != null ? adquisitionPropertyBuyerUtilitiesInfo.getBuyerElectricProviderAccount() : null)
                 .buyerGasServiceAccount(adquisitionPropertyBuyerUtilitiesInfo != null ? adquisitionPropertyBuyerUtilitiesInfo.getBuyerGasServiceAccount() : null)
@@ -1220,7 +1212,6 @@ public class AdquisitionProperty {
                 .buyerNotes(adquisitionPropertyBuyerUtilitiesInfo != null ? adquisitionPropertyBuyerUtilitiesInfo.getBuyerNotes() : null)
                 .buyerStartServiceDate(adquisitionPropertyBuyerUtilitiesInfo != null ? adquisitionPropertyBuyerUtilitiesInfo.getBuyerStartServiceDate() : null)
                 .buyerDepositAmount(adquisitionPropertyBuyerUtilitiesInfo != null ? adquisitionPropertyBuyerUtilitiesInfo.getBuyerDepositAmount() : null)
-
                 .gasBuyerStartServiceDate(adquisitionPropertyBuyerUtilitiesInfo != null ? adquisitionPropertyBuyerUtilitiesInfo.getGasBuyerStartServiceDate() : null)
                 .gasBuyerDepositAmount(adquisitionPropertyBuyerUtilitiesInfo != null ? adquisitionPropertyBuyerUtilitiesInfo.getGasBuyerDepositAmount() : null)
                 .trashBuyerStartServiceDate(adquisitionPropertyBuyerUtilitiesInfo != null ? adquisitionPropertyBuyerUtilitiesInfo.getTrashBuyerStartServiceDate() : null)
@@ -1229,7 +1220,6 @@ public class AdquisitionProperty {
                 .waterBuyerDepositAmount(adquisitionPropertyBuyerUtilitiesInfo != null ? adquisitionPropertyBuyerUtilitiesInfo.getWaterBuyerDepositAmount() : null)
                 .internetBuyerStartServiceDate(adquisitionPropertyBuyerUtilitiesInfo != null ? adquisitionPropertyBuyerUtilitiesInfo.getInternetBuyerStartServiceDate() : null)
                 .internetBuyerDepositAmount(adquisitionPropertyBuyerUtilitiesInfo != null ? adquisitionPropertyBuyerUtilitiesInfo.getInternetBuyerDepositAmount() : null)
-
                 .sellerPersonalAccountHolderName(adquisitionPropertySeller != null ? adquisitionPropertySeller.getSellerPersonalAccountHolderName() : null)
                 .sellerPersonalAccountNumber(adquisitionPropertySeller != null ? adquisitionPropertySeller.getSellerPersonalAccountNumber() : null)
                 .sellerPersonalRoutingNumber(adquisitionPropertySeller != null ? adquisitionPropertySeller.getSellerPersonalRoutingNumber() : null)
@@ -1239,7 +1229,6 @@ public class AdquisitionProperty {
                 .sellerPersonalBankStatements(adquisitionPropertySeller != null ? this.convertDbToList(adquisitionPropertySeller.getSellerPersonalBankStatements()) : null)
                 .sellerVoidCheck(adquisitionPropertySeller != null ? adquisitionPropertySeller.getSellerVoidCheck() : null)
                 .sellerPersonalVoidCheck(adquisitionPropertySeller != null ? adquisitionPropertySeller.getSellerPersonalVoidCheck() : null)
-
                 .hoaInpectionReport(adquisitionPropertyHoaBuildingInfo != null ? adquisitionPropertyHoaBuildingInfo.getHoaInpectionReport() : null)
                 .hoaElectricalReport(adquisitionPropertyHoaBuildingInfo != null ? adquisitionPropertyHoaBuildingInfo.getHoaElectricalReport() : null)
                 .hoaHvacReport(adquisitionPropertyHoaBuildingInfo != null ? adquisitionPropertyHoaBuildingInfo.getHoaHvacReport() : null)
@@ -1249,24 +1238,23 @@ public class AdquisitionProperty {
                 .hoaNotesReport(adquisitionPropertyHoaBuildingInfo != null ? adquisitionPropertyHoaBuildingInfo.getHoaNotesReport() : null)
                 .hoaOthersReport(adquisitionPropertyHoaBuildingInfo != null ? adquisitionPropertyHoaBuildingInfo.getHoaOthersReport() : null)
                 .hoaNotes(adquisitionPropertyHoaBuildingInfo != null ? adquisitionPropertyHoaBuildingInfo.getHoaNotes() : null)
-                
                 .employerReferenceName(adquisitionPropertyBankReference != null ? adquisitionPropertyBankReference.getBankReferenceName() : null)
                 .bankReferencePhone(adquisitionPropertyBankReference != null ? adquisitionPropertyBankReference.getBankReferencePhone() : null)
                 .bankReferenceEmail(adquisitionPropertyBankReference != null ? adquisitionPropertyBankReference.getBankReferenceEmail() : null)
                 .bankReferencePosition(adquisitionPropertyBankReference != null ? adquisitionPropertyBankReference.getBankReferencePosition() : null)
-
                 .personalReferenceName(adquisitionPropertyPersonalReference != null ? adquisitionPropertyPersonalReference.getPersonalReferenceName() : null)
                 .personalReferencePhone(adquisitionPropertyPersonalReference != null ? adquisitionPropertyPersonalReference.getPersonalReferencePhone() : null)
                 .personalReferenceEmail(adquisitionPropertyPersonalReference != null ? adquisitionPropertyPersonalReference.getPersonalReferenceEmail() : null)
                 .personalReferencePosition(adquisitionPropertyPersonalReference != null ? adquisitionPropertyPersonalReference.getPersonalReferencePosition() : null)
-
                 .employerReferenceName(adquisitionPropertyEmployerReference != null ? adquisitionPropertyEmployerReference.getEmployerReferenceName() : null)
                 .employerReferencePhone(adquisitionPropertyEmployerReference != null ? adquisitionPropertyEmployerReference.getEmployerReferencePhone() : null)
                 .employerReferenceEmail(adquisitionPropertyEmployerReference != null ? adquisitionPropertyEmployerReference.getEmployerReferenceEmail() : null)
                 .employerReferencePosition(adquisitionPropertyEmployerReference != null ? adquisitionPropertyEmployerReference.getEmployerReferencePosition() : null)
-
                 .originalContractClosingDate(originalContractClosingDate)
                 .executeHud(executeHud)
+                .buyerRepairBudget(adquisitionPropertyBuyerPropertyInformation != null ? adquisitionPropertyBuyerPropertyInformation.getBuyerRepairBudget() : null)
+                .buyerApprovedPlans(adquisitionPropertyBuyerPropertyInformation != null ? adquisitionPropertyBuyerPropertyInformation.getBuyerApprovedPlans() : null)
+                .buyerPermits(adquisitionPropertyBuyerPropertyInformation != null ? adquisitionPropertyBuyerPropertyInformation.getBuyerPermits() : null)
                 .lender(AdquisitionPropertyBuyerPropertyInformationDto
                         .builder()
                         .buyerRepairBudget(adquisitionPropertyBuyerPropertyInformation != null ? adquisitionPropertyBuyerPropertyInformation.getBuyerRepairBudget() : null)

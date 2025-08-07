@@ -300,5 +300,8 @@ public class AdquisitionPropertyDto {
     private String personalReferencePosition;
 
     private String executeHud;
+    private Double buyerRepairBudget;
+    private String buyerApprovedPlans;//File
+    private String buyerPermits;//File
     private AdquisitionPropertyBuyerPropertyInformationDto lender;
 }
