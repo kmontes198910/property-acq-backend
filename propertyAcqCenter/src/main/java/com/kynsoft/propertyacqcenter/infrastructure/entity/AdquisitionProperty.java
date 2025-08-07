@@ -1011,6 +1011,8 @@ public class AdquisitionProperty {
                         .buyerTitleInsurance(adquisitionPropertyBuyerPropertyInformation != null ? adquisitionPropertyBuyerPropertyInformation.getBuyerTitleInsurance() : null)
                         .lenderAmortizationType(adquisitionPropertyBuyerPropertyInformation != null ? adquisitionPropertyBuyerPropertyInformation.getLenderAmortizationType() : null)
                         .buyerExecutedClosingDocuments(adquisitionPropertyBuyerPropertyInformation != null ? adquisitionPropertyBuyerPropertyInformation.getBuyerExecutedClosingDocuments() : null)
+                        .lenderPayoffInstructions(adquisitionPropertyBuyerPropertyInformation != null ? adquisitionPropertyBuyerPropertyInformation.getLenderPayoffInstructions() : null)
+                        .lenderHomeownerInsuranceRequirements(adquisitionPropertyBuyerPropertyInformation != null ? adquisitionPropertyBuyerPropertyInformation.getLenderHomeownerInsuranceRequirements() : null)
                         .build())
                 .build();
     }
@@ -1288,6 +1290,8 @@ public class AdquisitionProperty {
                         .buyerTitleInsurance(adquisitionPropertyBuyerPropertyInformation != null ? adquisitionPropertyBuyerPropertyInformation.getBuyerTitleInsurance() : null)
                         .buyerExecutedClosingDocuments(adquisitionPropertyBuyerPropertyInformation != null ? adquisitionPropertyBuyerPropertyInformation.getBuyerExecutedClosingDocuments() : null)
                         .lenderAmortizationType(adquisitionPropertyBuyerPropertyInformation != null ? adquisitionPropertyBuyerPropertyInformation.getLenderAmortizationType() : null)
+                        .lenderPayoffInstructions(adquisitionPropertyBuyerPropertyInformation != null ? adquisitionPropertyBuyerPropertyInformation.getLenderPayoffInstructions() : null)
+                        .lenderHomeownerInsuranceRequirements(adquisitionPropertyBuyerPropertyInformation != null ? adquisitionPropertyBuyerPropertyInformation.getLenderHomeownerInsuranceRequirements() : null)
                         .build())
                 .build();
     }
