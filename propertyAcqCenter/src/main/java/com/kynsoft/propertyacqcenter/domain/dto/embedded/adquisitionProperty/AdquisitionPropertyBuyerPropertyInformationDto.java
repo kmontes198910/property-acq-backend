@@ -29,8 +29,9 @@ public class AdquisitionPropertyBuyerPropertyInformationDto {
     private Double lenderLoanTerm;
     private String lenderPrepaymentPenalty;
     private String lenderSignTermSheet;//File
-    private String lenderSignedCreditApplication;
+    private String lenderSignedCreditApplication;//File
     private String lenderFinalLoanPackage;//File
     private String buyerTitleInsurance;//File
     private String buyerExecutedClosingDocuments;//File
+    private String lenderAmortizationType;
 }
