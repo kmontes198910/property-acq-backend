@@ -83,9 +83,6 @@ public class AdquisitionPropertyBuyerPropertyInformation {
     @Column(name = "lender_signed_credit_application", nullable = true)
     private String lenderSignedCreditApplication;
 
-    @Column(name = "lender_commitment_letter", nullable = true)
-    private String lenderCommitmentLetter;
-
     @Column(name = "lender_final_loan_package", nullable = true)
     private String lenderFinalLoanPackage;//File
 
