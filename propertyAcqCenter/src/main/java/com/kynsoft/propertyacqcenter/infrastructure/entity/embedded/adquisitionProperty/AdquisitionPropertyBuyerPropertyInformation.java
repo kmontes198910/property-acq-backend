@@ -1,6 +1,5 @@
 package com.kynsoft.propertyacqcenter.infrastructure.entity.embedded.adquisitionProperty;
 
-import com.kynsoft.propertyacqcenter.domain.dto.AdquisitionPropertyDto;
 import com.kynsoft.propertyacqcenter.infrastructure.entity.AdquisitionProperty;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -91,4 +90,7 @@ public class AdquisitionPropertyBuyerPropertyInformation {
 
     @Column(name = "buyer_executed_closing_documents", nullable = true)
     private String buyerExecutedClosingDocuments;//File
+
+    @Column(name = "lender_amortization_type", nullable = true)
+    private String lenderAmortizationType;
 }

@@ -1009,6 +1009,7 @@ public class AdquisitionProperty {
                         .lenderSignedCreditApplication(adquisitionPropertyBuyerPropertyInformation != null ? adquisitionPropertyBuyerPropertyInformation.getLenderSignedCreditApplication() : null)
                         .lenderFinalLoanPackage(adquisitionPropertyBuyerPropertyInformation != null ? adquisitionPropertyBuyerPropertyInformation.getLenderFinalLoanPackage() : null)
                         .buyerTitleInsurance(adquisitionPropertyBuyerPropertyInformation != null ? adquisitionPropertyBuyerPropertyInformation.getBuyerTitleInsurance() : null)
+                        .lenderAmortizationType(adquisitionPropertyBuyerPropertyInformation != null ? adquisitionPropertyBuyerPropertyInformation.getLenderAmortizationType() : null)
                         .buyerExecutedClosingDocuments(adquisitionPropertyBuyerPropertyInformation != null ? adquisitionPropertyBuyerPropertyInformation.getBuyerExecutedClosingDocuments() : null)
                         .build())
                 .build();
@@ -1286,6 +1287,7 @@ public class AdquisitionProperty {
                         .lenderFinalLoanPackage(adquisitionPropertyBuyerPropertyInformation != null ? adquisitionPropertyBuyerPropertyInformation.getLenderFinalLoanPackage() : null)
                         .buyerTitleInsurance(adquisitionPropertyBuyerPropertyInformation != null ? adquisitionPropertyBuyerPropertyInformation.getBuyerTitleInsurance() : null)
                         .buyerExecutedClosingDocuments(adquisitionPropertyBuyerPropertyInformation != null ? adquisitionPropertyBuyerPropertyInformation.getBuyerExecutedClosingDocuments() : null)
+                        .lenderAmortizationType(adquisitionPropertyBuyerPropertyInformation != null ? adquisitionPropertyBuyerPropertyInformation.getLenderAmortizationType() : null)
                         .build())
                 .build();
     }

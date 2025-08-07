@@ -32,6 +32,7 @@ public class AdquisitionPropertyBuyerPropertyInformationResponse implements IRes
     private AdquisitionDocumentResponse lenderSignTermSheet;//File
     private String lenderSignedCreditApplication;
     private AdquisitionDocumentResponse lenderFinalLoanPackage;//File
+    private String lenderAmortizationType;
 
     public AdquisitionPropertyBuyerPropertyInformationResponse(AdquisitionPropertyBuyerPropertyInformationDto dto) {
         this.lenderOriginationFee = dto.getLenderOriginationFee();
@@ -49,6 +50,7 @@ public class AdquisitionPropertyBuyerPropertyInformationResponse implements IRes
         this.lenderSignTermSheet = DocumentMapper.mapDocumentField(dto.getLenderSignTermSheet());
         this.lenderSignedCreditApplication = dto.getLenderSignedCreditApplication();
         this.lenderFinalLoanPackage = DocumentMapper.mapDocumentField(dto.getLenderFinalLoanPackage());
+        this.lenderAmortizationType = dto.getLenderAmortizationType();
     }
 
 }

@@ -413,6 +413,7 @@ public class AdquisitionPropertyServiceImpl implements IAdquisitionPropertyServi
                         .lenderFinalLoanPackage(object.getLender().getLenderFinalLoanPackage() != null ? object.getLender().getLenderFinalLoanPackage() : update.getAdquisitionPropertyBuyerPropertyInformation().getLenderFinalLoanPackage())
                         .buyerTitleInsurance(object.getLender().getBuyerTitleInsurance() != null ? object.getLender().getBuyerTitleInsurance() : update.getAdquisitionPropertyBuyerPropertyInformation().getBuyerTitleInsurance())
                         .buyerExecutedClosingDocuments(object.getLender().getBuyerExecutedClosingDocuments() != null ? object.getLender().getBuyerExecutedClosingDocuments() : update.getAdquisitionPropertyBuyerPropertyInformation().getBuyerExecutedClosingDocuments())
+                        .lenderAmortizationType(object.getLender().getLenderAmortizationType() != null ? object.getLender().getLenderAmortizationType() : update.getAdquisitionPropertyBuyerPropertyInformation().getLenderAmortizationType())
                         .build()
                 : AdquisitionPropertyBuyerPropertyInformation
                         .builder()
@@ -439,6 +440,7 @@ public class AdquisitionPropertyServiceImpl implements IAdquisitionPropertyServi
                         .lenderFinalLoanPackage(object.getLender().getLenderFinalLoanPackage())
                         .buyerTitleInsurance(object.getLender().getBuyerTitleInsurance())
                         .buyerExecutedClosingDocuments(object.getLender().getBuyerExecutedClosingDocuments())
+                        .lenderAmortizationType(object.getLender().getLenderAmortizationType())
                         .build();
     }
 
