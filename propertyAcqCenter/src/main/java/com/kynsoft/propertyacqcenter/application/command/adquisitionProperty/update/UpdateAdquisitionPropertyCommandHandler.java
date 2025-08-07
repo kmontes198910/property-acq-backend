@@ -328,7 +328,7 @@ public class UpdateAdquisitionPropertyCommandHandler implements ICommandHandler<
                         .lenderLoanTerm(command.getLender() != null ? command.getLender().getLenderLoanTerm() : null)
                         .lenderPrepaymentPenalty(command.getLender() != null ? command.getLender().getLenderPrepaymentPenalty() : null)
                         .lenderSignTermSheet((command.getLender() != null && command.getLender().getLenderSignTermSheet() != null) ? command.getLender().getLenderSignTermSheet().getFilePath() + "|" + command.getLender().getLenderSignTermSheet().getFileName() : null)
-                        .lenderSignedCreditApplication(command.getLender() != null ? command.getLender().getLenderSignedCreditApplication() : null)
+                        .lenderSignedCreditApplication((command.getLender() != null && command.getLender().getLenderSignedCreditApplication() != null) ? command.getLender().getLenderSignedCreditApplication().getFilePath() + "|" + command.getLender().getLenderSignedCreditApplication().getFileName() : null)
                         .lenderAmortizationType(command.getLender() != null ? command.getLender().getLenderAmortizationType() : null)
                         .lenderFinalLoanPackage((command.getLender() != null && command.getLender().getLenderFinalLoanPackage() != null) ? command.getLender().getLenderFinalLoanPackage().getFilePath() + "|" + command.getLender().getLenderFinalLoanPackage().getFileName() : null)
                         //.buyerTitleInsurance((command.getLender() != null && command.getLender().getBuyerTitleInsurance() != null) ? command.getLender().getBuyerTitleInsurance().getFilePath() + "|" + command.getLender().getBuyerTitleInsurance().getFileName() : null)
