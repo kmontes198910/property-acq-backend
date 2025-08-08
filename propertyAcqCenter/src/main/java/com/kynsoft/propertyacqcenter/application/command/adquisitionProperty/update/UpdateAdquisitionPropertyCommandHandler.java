@@ -309,6 +309,7 @@ public class UpdateAdquisitionPropertyCommandHandler implements ICommandHandler<
                 .personalReferencePhone(command.getPersonalReferencePhone())
                 .personalReferenceEmail(command.getPersonalReferenceEmail())
                 .personalReferencePosition(command.getPersonalReferencePosition())
+                .lockboxCode(command.getLockboxCode())
 
                 .executeHud(command.getExecuteHud()  != null ? command.getExecuteHud().getFilePath() + "|" + command.getExecuteHud().getFileName() : null)
                 .lender(AdquisitionPropertyBuyerPropertyInformationDto

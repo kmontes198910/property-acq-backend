@@ -305,6 +305,7 @@ public class AdquisitionPropertyDocumentDto {
     private Double buyerRepairBudget;
     private String buyerApprovedPlans;//File
     private String buyerPermits;//File
+    private Double lockboxCode;
     private AdquisitionPropertyBuyerPropertyInformationDto lender;
     private AdquisitionPropertyTitleCompanyDto titleCompany;
 }

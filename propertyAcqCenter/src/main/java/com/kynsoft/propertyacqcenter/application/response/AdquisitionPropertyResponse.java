@@ -289,6 +289,7 @@ public class AdquisitionPropertyResponse implements IResponse {
     private Double buyerRepairBudget;
     private AdquisitionDocumentResponse buyerApprovedPlans;//File
     private AdquisitionDocumentResponse buyerPermits;//File
+    private Double lockboxCode;
     private AdquisitionPropertyBuyerPropertyInformationResponse lender;
     private AdquisitionPropertyTitleCompanyResponse titleCompany;
 
@@ -546,6 +547,7 @@ public class AdquisitionPropertyResponse implements IResponse {
         this.personalReferencePhone = dto.getPersonalReferencePhone();
         this.personalReferenceEmail = dto.getPersonalReferenceEmail();
         this.personalReferencePosition = dto.getPersonalReferencePosition();
+        this.lockboxCode = dto.getLockboxCode();
 
         this.executeHud = DocumentMapper.mapDocumentField(dto.getExecuteHud());
         this.buyerRepairBudget = dto.getLender() != null ? dto.getLender().getBuyerRepairBudget() : null;

@@ -525,6 +525,9 @@ public class AdquisitionProperty {
     @Column(name = "execute_hud", nullable = true)
     private String executeHud;
 
+    @Column(name = "lockbox_code", nullable = true)
+    private Double lockboxCode;
+
     @OneToOne(mappedBy = "adquisitionProperty", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private AdquisitionPropertyHoa adquisitionPropertyHoa;
 
@@ -984,6 +987,7 @@ public class AdquisitionProperty {
                 .employerReferencePosition(adquisitionPropertyEmployerReference != null ? adquisitionPropertyEmployerReference.getEmployerReferencePosition() : null)
                 .originalContractClosingDate(originalContractClosingDate)
                 .executeHud(executeHud)
+                .lockboxCode(lockboxCode)
                 .buyerRepairBudget(adquisitionPropertyBuyerPropertyInformation != null ? adquisitionPropertyBuyerPropertyInformation.getBuyerRepairBudget() : null)
                 .buyerApprovedPlans(adquisitionPropertyBuyerPropertyInformation != null ? adquisitionPropertyBuyerPropertyInformation.getBuyerApprovedPlans() : null)
                 .buyerPermits(adquisitionPropertyBuyerPropertyInformation != null ? adquisitionPropertyBuyerPropertyInformation.getBuyerPermits() : null)
@@ -1262,6 +1266,7 @@ public class AdquisitionProperty {
                 .employerReferencePosition(adquisitionPropertyEmployerReference != null ? adquisitionPropertyEmployerReference.getEmployerReferencePosition() : null)
                 .originalContractClosingDate(originalContractClosingDate)
                 .executeHud(executeHud)
+                .lockboxCode(lockboxCode)
                 .buyerRepairBudget(adquisitionPropertyBuyerPropertyInformation != null ? adquisitionPropertyBuyerPropertyInformation.getBuyerRepairBudget() : null)
                 .buyerApprovedPlans(adquisitionPropertyBuyerPropertyInformation != null ? adquisitionPropertyBuyerPropertyInformation.getBuyerApprovedPlans() : null)
                 .buyerPermits(adquisitionPropertyBuyerPropertyInformation != null ? adquisitionPropertyBuyerPropertyInformation.getBuyerPermits() : null)
