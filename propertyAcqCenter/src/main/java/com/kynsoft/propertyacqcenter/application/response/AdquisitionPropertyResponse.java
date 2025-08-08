@@ -290,6 +290,7 @@ public class AdquisitionPropertyResponse implements IResponse {
     private AdquisitionDocumentResponse buyerApprovedPlans;//File
     private AdquisitionDocumentResponse buyerPermits;//File
     private AdquisitionPropertyBuyerPropertyInformationResponse lender;
+    private AdquisitionPropertyTitleCompanyResponse titleCompany;
 
     public AdquisitionPropertyResponse(AdquisitionPropertyDto dto) {
         this.id = dto.getId();
@@ -551,6 +552,7 @@ public class AdquisitionPropertyResponse implements IResponse {
         this.buyerApprovedPlans = dto.getLender() != null ? DocumentMapper.mapDocumentField(dto.getLender().getBuyerApprovedPlans()) : null;
         this.buyerPermits = dto.getLender() != null ? DocumentMapper.mapDocumentField(dto.getLender().getBuyerPermits()) : null;
         this.lender = dto.getLender() != null ? new AdquisitionPropertyBuyerPropertyInformationResponse(dto.getLender()) : null;
+        this.titleCompany = dto.getTitleCompany() != null ? new AdquisitionPropertyTitleCompanyResponse(dto.getTitleCompany()) : null;
     }
 
     private List<AdquisitionDocumentResponse> convertDbToList(String dbData) {

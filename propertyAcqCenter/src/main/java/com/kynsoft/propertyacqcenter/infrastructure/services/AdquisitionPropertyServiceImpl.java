@@ -25,6 +25,7 @@ import com.kynsoft.propertyacqcenter.infrastructure.entity.embedded.adquisitionP
 import com.kynsoft.propertyacqcenter.infrastructure.entity.embedded.adquisitionProperty.AdquisitionPropertyHoaBuildingInfo;
 import com.kynsoft.propertyacqcenter.infrastructure.entity.embedded.adquisitionProperty.AdquisitionPropertyPersonalReference;
 import com.kynsoft.propertyacqcenter.infrastructure.entity.embedded.adquisitionProperty.AdquisitionPropertySeller;
+import com.kynsoft.propertyacqcenter.infrastructure.entity.embedded.adquisitionProperty.AdquisitionPropertyTitleCompany;
 import com.kynsoft.propertyacqcenter.infrastructure.repository.command.AdquisitionPropertyWriteDataJPARepository;
 import com.kynsoft.propertyacqcenter.infrastructure.repository.query.AdquisitionPropertyReadDataJPARepository;
 import org.springframework.data.domain.Pageable;
@@ -72,6 +73,7 @@ public class AdquisitionPropertyServiceImpl implements IAdquisitionPropertyServi
         update.setAdquisitionPropertyPersonalReference(createAdquisitionPropertyPersonalReference(object, update));
         update.setAdquisitionPropertyBankReference(createAdquisitionPropertyBankReference(object, update));
         update.setAdquisitionPropertyBuyerPropertyInformation(createAdquisitionPropertyBuyerPropertyInformation(object, update));
+        update.setTitleCompany(createAdquisitionPropertyTitleCompany(object, update));
 
         update.setBuyer(object.getBuyer() != null ? new LegalEntity(object.getBuyer()) : null);
         update.setContact(object.getContact() != null ? new CompanyContact(object.getContact()) : null);
@@ -445,6 +447,25 @@ public class AdquisitionPropertyServiceImpl implements IAdquisitionPropertyServi
                         .lenderAmortizationType(object.getLender().getLenderAmortizationType())
                         .lenderPayoffInstructions(object.getLender().getLenderPayoffInstructions())
                         .lenderHomeownerInsuranceRequirements(object.getLender().getLenderHomeownerInsuranceRequirements())
+                        .build();
+    }
+
+    private AdquisitionPropertyTitleCompany createAdquisitionPropertyTitleCompany(AdquisitionPropertyDto object, AdquisitionProperty update) {
+        return update.getTitleCompany() != null
+                ? //Si es diferente de null, es porque ya tiene datos.
+                AdquisitionPropertyTitleCompany
+                        .builder()
+                        .id(update.getTitleCompany().getId())
+                        .adquisitionProperty(update)
+                        .lenderTitleInsurance(object.getTitleCompany().getLenderTitleInsurance() != null ? object.getTitleCompany().getLenderTitleInsurance() : update.getTitleCompany().getLenderTitleInsurance())
+                        .ownerTitleInsurance(object.getTitleCompany().getOwnerTitleInsurance() != null ? object.getTitleCompany().getOwnerTitleInsurance() : update.getTitleCompany().getOwnerTitleInsurance())
+                        .build()
+                : AdquisitionPropertyTitleCompany
+                        .builder()
+                        .id(UUID.randomUUID())
+                        .adquisitionProperty(update)
+                        .lenderTitleInsurance(object.getTitleCompany().getLenderTitleInsurance())
+                        .ownerTitleInsurance(object.getTitleCompany().getOwnerTitleInsurance())
                         .build();
     }
 

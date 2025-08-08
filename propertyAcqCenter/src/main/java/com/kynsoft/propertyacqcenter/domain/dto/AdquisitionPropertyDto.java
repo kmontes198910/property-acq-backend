@@ -1,6 +1,7 @@
 package com.kynsoft.propertyacqcenter.domain.dto;
 
 import com.kynsoft.propertyacqcenter.domain.dto.embedded.adquisitionProperty.AdquisitionPropertyBuyerPropertyInformationDto;
+import com.kynsoft.propertyacqcenter.domain.dto.embedded.adquisitionProperty.AdquisitionPropertyTitleCompanyDto;
 import java.time.LocalDate;
 import lombok.*;
 
@@ -304,4 +305,5 @@ public class AdquisitionPropertyDto {
     private String buyerApprovedPlans;//File
     private String buyerPermits;//File
     private AdquisitionPropertyBuyerPropertyInformationDto lender;
+    private AdquisitionPropertyTitleCompanyDto titleCompany;
 }
