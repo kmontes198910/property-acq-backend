@@ -4,6 +4,7 @@ import com.kynsoft.propertyacqcenter.domain.dto.AdquisitionDocumentDto;
 import com.kynsoft.propertyacqcenter.domain.dto.AdquisitionPropertyDocumentDto;
 import com.kynsoft.propertyacqcenter.domain.dto.AdquisitionPropertyDto;
 import com.kynsoft.propertyacqcenter.domain.dto.embedded.adquisitionProperty.AdquisitionPropertyBuyerPropertyInformationDto;
+import com.kynsoft.propertyacqcenter.domain.dto.embedded.adquisitionProperty.AdquisitionPropertyTitleCompanyDto;
 import com.kynsoft.propertyacqcenter.infrastructure.entity.embedded.adquisitionProperty.AdquisitionPropertyBankReference;
 import com.kynsoft.propertyacqcenter.infrastructure.entity.embedded.adquisitionProperty.AdquisitionPropertyBuyer;
 import com.kynsoft.propertyacqcenter.infrastructure.entity.embedded.adquisitionProperty.AdquisitionPropertyBuyerPersonalBankInfo;
@@ -14,6 +15,7 @@ import com.kynsoft.propertyacqcenter.infrastructure.entity.embedded.adquisitionP
 import com.kynsoft.propertyacqcenter.infrastructure.entity.embedded.adquisitionProperty.AdquisitionPropertyHoaBuildingInfo;
 import com.kynsoft.propertyacqcenter.infrastructure.entity.embedded.adquisitionProperty.AdquisitionPropertyPersonalReference;
 import com.kynsoft.propertyacqcenter.infrastructure.entity.embedded.adquisitionProperty.AdquisitionPropertySeller;
+import com.kynsoft.propertyacqcenter.infrastructure.entity.embedded.adquisitionProperty.AdquisitionPropertyTitleCompany;
 import jakarta.persistence.*;
 import java.time.LocalDate;
 import lombok.*;
@@ -553,6 +555,9 @@ public class AdquisitionProperty {
     @OneToOne(mappedBy = "adquisitionProperty", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private AdquisitionPropertyBuyerPropertyInformation adquisitionPropertyBuyerPropertyInformation;
 
+    @OneToOne(mappedBy = "adquisitionProperty", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    private AdquisitionPropertyTitleCompany titleCompany;
+
     @CreationTimestamp
     @Column(name = "created_at", updatable = false)
     private LocalDateTime createdAt;
@@ -1008,6 +1013,11 @@ public class AdquisitionProperty {
                         .lenderPayoffInstructions(adquisitionPropertyBuyerPropertyInformation != null ? adquisitionPropertyBuyerPropertyInformation.getLenderPayoffInstructions() : null)
                         .lenderHomeownerInsuranceRequirements(adquisitionPropertyBuyerPropertyInformation != null ? adquisitionPropertyBuyerPropertyInformation.getLenderHomeownerInsuranceRequirements() : null)
                         .build())
+                .titleCompany(AdquisitionPropertyTitleCompanyDto
+                        .builder()
+                        .lenderTitleInsurance(titleCompany != null ? titleCompany.getLenderTitleInsurance() : null)
+                        .ownerTitleInsurance(titleCompany != null ? titleCompany.getOwnerTitleInsurance() : null)
+                        .build())
                 .build();
     }
 
@@ -1281,6 +1291,12 @@ public class AdquisitionProperty {
                         .lenderPayoffInstructions(adquisitionPropertyBuyerPropertyInformation != null ? adquisitionPropertyBuyerPropertyInformation.getLenderPayoffInstructions() : null)
                         .lenderHomeownerInsuranceRequirements(adquisitionPropertyBuyerPropertyInformation != null ? adquisitionPropertyBuyerPropertyInformation.getLenderHomeownerInsuranceRequirements() : null)
                         .build())
+                .titleCompany(AdquisitionPropertyTitleCompanyDto
+                        .builder()
+                        .lenderTitleInsurance(titleCompany != null ? titleCompany.getLenderTitleInsurance() : null)
+                        .ownerTitleInsurance(titleCompany != null ? titleCompany.getOwnerTitleInsurance() : null)
+                        .build())
+
                 .build();
     }
 

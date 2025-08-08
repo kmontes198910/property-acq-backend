@@ -296,6 +296,7 @@ public class UpdateAdquisitionPropertyCommand implements ICommand {
     private CreateDocumentRequest buyerApprovedPlans;//File
     private CreateDocumentRequest buyerPermits;//File
     private AdquisitionPropertyBuyerPropertyInformationRequest lender;
+    private AdquisitionPropertyTitleCompanyRequest titleCompany;
 
     public UpdateAdquisitionPropertyCommand(UUID id, UUID buyer, String property, UUID contact, String buyerNameAndYearVehicle,
             String buyerLicenseTagNo,
@@ -491,7 +492,8 @@ public class UpdateAdquisitionPropertyCommand implements ICommand {
             Double buyerRepairBudget,
             CreateDocumentRequest buyerApprovedPlans,
             CreateDocumentRequest buyerPermits,
-            AdquisitionPropertyBuyerPropertyInformationRequest lender
+            AdquisitionPropertyBuyerPropertyInformationRequest lender,
+            AdquisitionPropertyTitleCompanyRequest titleCompany
             ) {
         this.id = id;
         this.buyer = buyer;
@@ -744,6 +746,7 @@ public class UpdateAdquisitionPropertyCommand implements ICommand {
         this.buyerRepairBudget = buyerRepairBudget;
         this.buyerApprovedPlans = buyerApprovedPlans;
         this.buyerPermits = buyerPermits;
+        this.titleCompany = titleCompany;
     }
 
     public static UpdateAdquisitionPropertyCommand fromRequest(UpdateAdquisitionPropertyRequest request, UUID id) {
@@ -982,7 +985,8 @@ public class UpdateAdquisitionPropertyCommand implements ICommand {
                 request.getBuyerRepairBudget(),
                 request.getBuyerApprovedPlans(),
                 request.getBuyerPermits(),
-                request.getLender()
+                request.getLender(),
+                request.getTitleCompany()
         );
     }
 

@@ -7,6 +7,7 @@ import com.kynsoft.propertyacqcenter.domain.dto.CompanyContactDto;
 import com.kynsoft.propertyacqcenter.domain.dto.LegalEntityDto;
 import com.kynsoft.propertyacqcenter.domain.dto.PropertyDto;
 import com.kynsoft.propertyacqcenter.domain.dto.embedded.adquisitionProperty.AdquisitionPropertyBuyerPropertyInformationDto;
+import com.kynsoft.propertyacqcenter.domain.dto.embedded.adquisitionProperty.AdquisitionPropertyTitleCompanyDto;
 import com.kynsoft.propertyacqcenter.domain.services.IAdquisitionPropertyService;
 import com.kynsoft.propertyacqcenter.domain.services.IBankAccountService;
 import com.kynsoft.propertyacqcenter.domain.services.ICompanyContactService;
@@ -335,6 +336,11 @@ public class UpdateAdquisitionPropertyCommandHandler implements ICommandHandler<
                         .lenderHomeownerInsuranceRequirements((command.getLender() != null && command.getLender().getLenderHomeownerInsuranceRequirements() != null) ? command.getLender().getLenderHomeownerInsuranceRequirements().getFilePath() + "|" + command.getLender().getLenderHomeownerInsuranceRequirements().getFileName() : null)
                         //.buyerTitleInsurance((command.getLender() != null && command.getLender().getBuyerTitleInsurance() != null) ? command.getLender().getBuyerTitleInsurance().getFilePath() + "|" + command.getLender().getBuyerTitleInsurance().getFileName() : null)
                         //.buyerExecutedClosingDocuments((command.getLender() != null && command.getLender().getBuyerExecutedClosingDocuments() != null) ? command.getLender().getBuyerExecutedClosingDocuments().getFilePath() + "|" + command.getLender().getBuyerExecutedClosingDocuments().getFileName() : null)
+                        .build())
+                .titleCompany(AdquisitionPropertyTitleCompanyDto
+                        .builder()
+                        .lenderTitleInsurance((command.getTitleCompany() != null && command.getTitleCompany().getLenderTitleInsurance() != null ) ? command.getTitleCompany().getLenderTitleInsurance().getFilePath() + "|" + command.getTitleCompany().getLenderTitleInsurance().getFileName() : null)
+                        .ownerTitleInsurance((command.getTitleCompany() != null && command.getTitleCompany().getOwnerTitleInsurance() != null ) ? command.getTitleCompany().getOwnerTitleInsurance().getFilePath() + "|" + command.getTitleCompany().getOwnerTitleInsurance().getFileName() : null)
                         .build())
                 .build()
         );

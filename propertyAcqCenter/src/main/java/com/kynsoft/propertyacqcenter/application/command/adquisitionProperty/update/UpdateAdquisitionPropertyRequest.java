@@ -294,4 +294,5 @@ public class UpdateAdquisitionPropertyRequest {
     private CreateDocumentRequest buyerApprovedPlans;//File
     private CreateDocumentRequest buyerPermits;//File
     private AdquisitionPropertyBuyerPropertyInformationRequest lender;
+    private AdquisitionPropertyTitleCompanyRequest titleCompany;
 }
