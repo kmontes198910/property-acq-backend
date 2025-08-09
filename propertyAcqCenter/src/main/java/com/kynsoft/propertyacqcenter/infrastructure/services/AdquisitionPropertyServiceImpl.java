@@ -244,6 +244,7 @@ public class AdquisitionPropertyServiceImpl implements IAdquisitionPropertyServi
         update.setWhZelleEmailorPhone(object.getWhZelleEmailorPhone() != null ? object.getWhZelleEmailorPhone() : update.getWhZelleEmailorPhone());
         update.setOriginalContractClosingDate(object.getOriginalContractClosingDate() != null ? object.getOriginalContractClosingDate() : update.getOriginalContractClosingDate());
         update.setExecuteHud(object.getExecuteHud() != null ? object.getExecuteHud() : update.getExecuteHud());
+        update.setLockboxCode(object.getLockboxCode() != null ? object.getLockboxCode() : update.getLockboxCode());
 
         update.setUpdatedAt(LocalDateTime.now());
         repositoryCommand.save(update);

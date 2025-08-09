@@ -293,6 +293,7 @@ public class UpdateAdquisitionPropertyRequest {
     private Double buyerRepairBudget;
     private CreateDocumentRequest buyerApprovedPlans;//File
     private CreateDocumentRequest buyerPermits;//File
+    private Double lockboxCode;
     private AdquisitionPropertyBuyerPropertyInformationRequest lender;
     private AdquisitionPropertyTitleCompanyRequest titleCompany;
 }

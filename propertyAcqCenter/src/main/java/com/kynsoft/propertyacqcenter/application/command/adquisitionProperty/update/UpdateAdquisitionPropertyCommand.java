@@ -295,6 +295,7 @@ public class UpdateAdquisitionPropertyCommand implements ICommand {
     private Double buyerRepairBudget;
     private CreateDocumentRequest buyerApprovedPlans;//File
     private CreateDocumentRequest buyerPermits;//File
+    private Double lockboxCode;
     private AdquisitionPropertyBuyerPropertyInformationRequest lender;
     private AdquisitionPropertyTitleCompanyRequest titleCompany;
 
@@ -493,7 +494,8 @@ public class UpdateAdquisitionPropertyCommand implements ICommand {
             CreateDocumentRequest buyerApprovedPlans,
             CreateDocumentRequest buyerPermits,
             AdquisitionPropertyBuyerPropertyInformationRequest lender,
-            AdquisitionPropertyTitleCompanyRequest titleCompany
+            AdquisitionPropertyTitleCompanyRequest titleCompany,
+            Double lockboxCode
             ) {
         this.id = id;
         this.buyer = buyer;
@@ -747,6 +749,7 @@ public class UpdateAdquisitionPropertyCommand implements ICommand {
         this.buyerApprovedPlans = buyerApprovedPlans;
         this.buyerPermits = buyerPermits;
         this.titleCompany = titleCompany;
+        this.lockboxCode = lockboxCode;
     }
 
     public static UpdateAdquisitionPropertyCommand fromRequest(UpdateAdquisitionPropertyRequest request, UUID id) {
@@ -986,7 +989,8 @@ public class UpdateAdquisitionPropertyCommand implements ICommand {
                 request.getBuyerApprovedPlans(),
                 request.getBuyerPermits(),
                 request.getLender(),
-                request.getTitleCompany()
+                request.getTitleCompany(),
+                request.getLockboxCode()
         );
     }
 
