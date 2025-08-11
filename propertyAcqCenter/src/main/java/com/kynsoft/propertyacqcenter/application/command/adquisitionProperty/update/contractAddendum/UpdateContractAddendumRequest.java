@@ -1,5 +1,6 @@
 package com.kynsoft.propertyacqcenter.application.command.adquisitionProperty.update.contractAddendum;
 
+import java.time.LocalDate;
 import java.util.List;
 import lombok.Getter;
 import lombok.Setter;
@@ -9,4 +10,5 @@ import lombok.Setter;
 public class UpdateContractAddendumRequest {
 
     private List<UpdateDocumentContractAddendumRequest> contractAddendum;
+    private LocalDate date;
 }

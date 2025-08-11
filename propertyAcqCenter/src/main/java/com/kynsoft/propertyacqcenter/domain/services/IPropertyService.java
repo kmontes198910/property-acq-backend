@@ -5,6 +5,7 @@ import com.kynsof.share.core.domain.response.PaginatedResponse;
 import com.kynsoft.propertyacqcenter.domain.dto.LegalEntityDto;
 import com.kynsoft.propertyacqcenter.domain.dto.PropertyDto;
 import com.kynsoft.propertyacqcenter.domain.dto.projection.PropertyWithProfileDTO;
+import java.time.LocalDate;
 import org.springframework.data.domain.Pageable;
 
 import java.util.List;
@@ -17,6 +18,8 @@ public interface IPropertyService {
     void update(PropertyDto propertyDto);
 
     void updateBuyerName(String property, LegalEntityDto buyer);
+
+    void updateExpectedClosingDate(String property, LocalDate expectedClosingDate);
 
     void delete(String id);
 

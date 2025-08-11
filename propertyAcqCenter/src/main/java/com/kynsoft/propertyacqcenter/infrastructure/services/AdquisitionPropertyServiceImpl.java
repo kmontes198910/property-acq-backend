@@ -28,6 +28,7 @@ import com.kynsoft.propertyacqcenter.infrastructure.entity.embedded.adquisitionP
 import com.kynsoft.propertyacqcenter.infrastructure.entity.embedded.adquisitionProperty.AdquisitionPropertyTitleCompany;
 import com.kynsoft.propertyacqcenter.infrastructure.repository.command.AdquisitionPropertyWriteDataJPARepository;
 import com.kynsoft.propertyacqcenter.infrastructure.repository.query.AdquisitionPropertyReadDataJPARepository;
+import java.time.LocalDate;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -743,10 +744,10 @@ public class AdquisitionPropertyServiceImpl implements IAdquisitionPropertyServi
     }
 
     @Override
-    public void updatecontractAddendum(UUID id, String contractAddendum) {
+    public String updatecontractAddendum(UUID id, String contractAddendum, LocalDate date) {
         AdquisitionProperty update = this.findByIdSimple(id);
         update.setContractAddendum(contractAddendum);
-        repositoryCommand.save(update);
+        return repositoryCommand.save(update).getProperty().getId();
     }
 
 }

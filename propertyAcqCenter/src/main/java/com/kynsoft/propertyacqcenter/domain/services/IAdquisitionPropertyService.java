@@ -4,6 +4,7 @@ import com.kynsof.share.core.domain.request.FilterCriteria;
 import com.kynsof.share.core.domain.response.PaginatedResponse;
 import com.kynsoft.propertyacqcenter.domain.dto.AdquisitionPropertyDocumentDto;
 import com.kynsoft.propertyacqcenter.domain.dto.AdquisitionPropertyDto;
+import java.time.LocalDate;
 import org.springframework.data.domain.Pageable;
 
 import java.util.List;
@@ -32,5 +33,5 @@ public interface IAdquisitionPropertyService {
 
     void updateSellerBankStatementRequest(UUID id, String sellerBankStatementRequest);
 
-    void updatecontractAddendum(UUID id, String contractAddendum);
+    String updatecontractAddendum(UUID id, String contractAddendum, LocalDate date);
 }

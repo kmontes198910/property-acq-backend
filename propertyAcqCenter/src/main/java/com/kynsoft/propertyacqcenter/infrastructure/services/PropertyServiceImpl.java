@@ -16,6 +16,7 @@ import com.kynsoft.propertyacqcenter.infrastructure.entity.LegalEntity;
 import com.kynsoft.propertyacqcenter.infrastructure.entity.Property;
 import com.kynsoft.propertyacqcenter.infrastructure.repository.command.PropertyWriteDataJPARepository;
 import com.kynsoft.propertyacqcenter.infrastructure.repository.query.PropertyReadDataJPARepository;
+import java.time.LocalDate;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -198,6 +199,13 @@ public class PropertyServiceImpl implements IPropertyService {
     public void updateBuyerName(String property, LegalEntityDto buyer) {
         Property update = this.getByIdSimple(property);
         update.setBuyerName(new LegalEntity(buyer));
+        repositoryCommand.save(update);
+    }
+
+    @Override
+    public void updateExpectedClosingDate(String property, LocalDate expectedClosingDate) {
+        Property update = this.getByIdSimple(property);
+        update.setExpectedClosingDate(expectedClosingDate);
         repositoryCommand.save(update);
     }
 
