@@ -1252,7 +1252,7 @@ public class AdquisitionProperty {
                 .hoaNotesReport(adquisitionPropertyHoaBuildingInfo != null ? adquisitionPropertyHoaBuildingInfo.getHoaNotesReport() : null)
                 .hoaOthersReport(adquisitionPropertyHoaBuildingInfo != null ? adquisitionPropertyHoaBuildingInfo.getHoaOthersReport() : null)
                 .hoaNotes(adquisitionPropertyHoaBuildingInfo != null ? adquisitionPropertyHoaBuildingInfo.getHoaNotes() : null)
-                .employerReferenceName(adquisitionPropertyBankReference != null ? adquisitionPropertyBankReference.getBankReferenceName() : null)
+                .bankReferenceName(adquisitionPropertyBankReference != null ? adquisitionPropertyBankReference.getBankReferenceName() : null)
                 .bankReferencePhone(adquisitionPropertyBankReference != null ? adquisitionPropertyBankReference.getBankReferencePhone() : null)
                 .bankReferenceEmail(adquisitionPropertyBankReference != null ? adquisitionPropertyBankReference.getBankReferenceEmail() : null)
                 .bankReferencePosition(adquisitionPropertyBankReference != null ? adquisitionPropertyBankReference.getBankReferencePosition() : null)
