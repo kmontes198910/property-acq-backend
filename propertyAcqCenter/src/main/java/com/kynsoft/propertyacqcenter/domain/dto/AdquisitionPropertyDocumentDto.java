@@ -57,7 +57,7 @@ public class AdquisitionPropertyDocumentDto {
     private String legalEntityCertificationStatus;
     private String assignmentOfContract;
     private String ownerExecutedContract;
-    private String contractAddendum;
+    private List<AdquisitionDocumentWithDateDto> contractAddendum;
     private String finalSettlementStatement;
     private List<AdquisitionDocumentDto> bankStatementRequest;
     private String warrantyDeed;

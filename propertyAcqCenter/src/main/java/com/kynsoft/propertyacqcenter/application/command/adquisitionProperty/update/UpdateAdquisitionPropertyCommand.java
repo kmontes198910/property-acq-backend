@@ -51,7 +51,7 @@ public class UpdateAdquisitionPropertyCommand implements ICommand {
     private CreateDocumentRequest legalEntityCertificationStatus;
     private CreateDocumentRequest assignmentOfContract;
     private CreateDocumentRequest ownerExecutedContract;
-    private CreateDocumentRequest contractAddendum;
+    //private CreateDocumentRequest contractAddendum;
     private CreateDocumentRequest finalSettlementStatement;
     //private CreateDocumentRequest bankStatementRequest;
     private CreateDocumentRequest warrantyDeed;
@@ -314,7 +314,8 @@ public class UpdateAdquisitionPropertyCommand implements ICommand {
             CreateDocumentRequest sellerDisclosureForm, CreateDocumentRequest surveyDocument,
             CreateDocumentRequest titleCommitment, CreateDocumentRequest legalEntityCertificationStatus,
             CreateDocumentRequest assignmentOfContract, CreateDocumentRequest ownerExecutedContract,
-            CreateDocumentRequest contractAddendum, CreateDocumentRequest finalSettlementStatement,
+            //CreateDocumentRequest contractAddendum, 
+            CreateDocumentRequest finalSettlementStatement,
             //CreateDocumentRequest bankStatementRequest, 
             CreateDocumentRequest warrantyDeed, CreateDocumentRequest titleInsurance,
             CreateDocumentRequest executedClosingDocuments, String buyerFullLegalName, String buyerContactEmail,
@@ -533,7 +534,7 @@ public class UpdateAdquisitionPropertyCommand implements ICommand {
         this.legalEntityCertificationStatus = legalEntityCertificationStatus;
         this.assignmentOfContract = assignmentOfContract;
         this.ownerExecutedContract = ownerExecutedContract;
-        this.contractAddendum = contractAddendum;
+        //this.contractAddendum = contractAddendum;
         this.finalSettlementStatement = finalSettlementStatement;
         //this.bankStatementRequest = bankStatementRequest;
         this.warrantyDeed = warrantyDeed;
@@ -790,7 +791,7 @@ public class UpdateAdquisitionPropertyCommand implements ICommand {
                 request.getLegalEntityCertificationStatus(),
                 request.getAssignmentOfContract(),
                 request.getOwnerExecutedContract(),
-                request.getContractAddendum(),
+                //request.getContractAddendum(),
                 request.getFinalSettlementStatement(),
                 //request.getBankStatementRequest(),
                 request.getWarrantyDeed(),

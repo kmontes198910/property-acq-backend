@@ -45,7 +45,7 @@ public class UpdateAdquisitionPropertyRequest {
     private CreateDocumentRequest legalEntityCertificationStatus;
     private CreateDocumentRequest assignmentOfContract;
     private CreateDocumentRequest ownerExecutedContract;
-    private CreateDocumentRequest contractAddendum;
+    //private CreateDocumentRequest contractAddendum;
     private CreateDocumentRequest executedClosingDocuments;
 
     //TODO: estos campos son optional, no necesarios en el momento actual, solo agregamos por si acaso.

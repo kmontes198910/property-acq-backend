@@ -116,7 +116,7 @@ public class AdquisitionPropertyServiceImpl implements IAdquisitionPropertyServi
         update.setLegalEntityCertificationStatus(object.getLegalEntityCertificationStatus() != null ? object.getLegalEntityCertificationStatus() : update.getLegalEntityCertificationStatus());
         update.setAssignmentOfContract(object.getAssignmentOfContract() != null ? object.getAssignmentOfContract() : update.getAssignmentOfContract());
         update.setOwnerExecutedContract(object.getOwnerExecutedContract() != null ? object.getOwnerExecutedContract() : update.getOwnerExecutedContract());
-        update.setContractAddendum(object.getContractAddendum() != null ? object.getContractAddendum() : update.getContractAddendum());
+        //update.setContractAddendum(object.getContractAddendum() != null ? object.getContractAddendum() : update.getContractAddendum());
         update.setFinalSettlementStatement(object.getFinalSettlementStatement() != null ? object.getFinalSettlementStatement() : update.getFinalSettlementStatement());
         //update.setBankStatementRequest(object.getBankStatementRequest() != null ? object.getBankStatementRequest() : update.getBankStatementRequest());
         update.setWarrantyDeed(object.getWarrantyDeed() != null ? object.getWarrantyDeed() : update.getWarrantyDeed());
@@ -739,6 +739,13 @@ public class AdquisitionPropertyServiceImpl implements IAdquisitionPropertyServi
                     .build());
         }
 
+        repositoryCommand.save(update);
+    }
+
+    @Override
+    public void updatecontractAddendum(UUID id, String contractAddendum) {
+        AdquisitionProperty update = this.findByIdSimple(id);
+        update.setContractAddendum(contractAddendum);
         repositoryCommand.save(update);
     }
 
