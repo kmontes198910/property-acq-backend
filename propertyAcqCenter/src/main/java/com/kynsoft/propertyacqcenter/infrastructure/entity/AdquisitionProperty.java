@@ -1331,11 +1331,6 @@ public class AdquisitionProperty {
     }
 
     private List<AdquisitionDocumentWithDateDto> convertDbToListWithDate(String dbData) {
-        System.err.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
-        System.err.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
-        System.err.println("" + dbData);
-        System.err.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
-        System.err.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
         List<AdquisitionDocumentWithDateDto> result = new ArrayList<>();
         if (dbData == null || dbData.trim().isEmpty()) {
             return result;
@@ -1343,7 +1338,7 @@ public class AdquisitionProperty {
 
         String[] parts = dbData.split("\\|");
         if (parts.length % 3 != 0) {
-            throw new IllegalArgumentException("Los datos no tienen el formato esperado (deben ser grupos de 3 valores)");
+            return result;
         }
 
         for (int i = 0; i < parts.length; i += 3) {

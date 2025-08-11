@@ -584,7 +584,7 @@ public class AdquisitionPropertyResponse implements IResponse {
 
         String[] parts = dbData.split("\\|");
         if (parts.length % 3 != 0) {
-            throw new IllegalArgumentException("Los datos no tienen el formato esperado (deben ser grupos de 3 valores)");
+            return result;
         }
 
         for (int i = 0; i < parts.length; i += 3) {
