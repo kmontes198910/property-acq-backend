@@ -31,4 +31,6 @@ public interface IAdquisitionPropertyService {
     void updateSellerPersonalBankStatements(UUID id, String sellerPersonalBankStatements);
 
     void updateSellerBankStatementRequest(UUID id, String sellerBankStatementRequest);
+
+    void updatecontractAddendum(UUID id, String contractAddendum);
 }

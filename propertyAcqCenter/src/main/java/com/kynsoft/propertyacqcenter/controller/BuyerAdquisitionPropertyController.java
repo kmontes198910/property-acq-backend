@@ -18,6 +18,9 @@ import com.kynsoft.propertyacqcenter.application.command.adquisitionProperty.upd
 import com.kynsoft.propertyacqcenter.application.command.adquisitionProperty.update.buyerPersonalBankStatementRequest.UpdateBuyerPersonalBankStatementRequestCommand;
 import com.kynsoft.propertyacqcenter.application.command.adquisitionProperty.update.buyerPersonalBankStatementRequest.UpdateBuyerPersonalBankStatementRequestMessage;
 import com.kynsoft.propertyacqcenter.application.command.adquisitionProperty.update.buyerPersonalBankStatementRequest.UpdateBuyerPersonalBankStatementRequestRequest;
+import com.kynsoft.propertyacqcenter.application.command.adquisitionProperty.update.contractAddendum.UpdateContractAddendumCommand;
+import com.kynsoft.propertyacqcenter.application.command.adquisitionProperty.update.contractAddendum.UpdateContractAddendumMessage;
+import com.kynsoft.propertyacqcenter.application.command.adquisitionProperty.update.contractAddendum.UpdateContractAddendumRequest;
 import com.kynsoft.propertyacqcenter.application.command.adquisitionProperty.update.sellerBankStatementRequest.UpdateSellerBankStatementCommand;
 import com.kynsoft.propertyacqcenter.application.command.adquisitionProperty.update.sellerBankStatementRequest.UpdateSellerBankStatementMessage;
 import com.kynsoft.propertyacqcenter.application.command.adquisitionProperty.update.sellerBankStatementRequest.UpdateSellerBankStatementRequest;
@@ -90,6 +93,14 @@ public class BuyerAdquisitionPropertyController {
 
         UpdateSellerBankStatementCommand command = UpdateSellerBankStatementCommand.fromRequest(request, id);
         UpdateSellerBankStatementMessage response = mediator.send(command);
+        return ResponseEntity.ok(response);
+    }
+
+    @PatchMapping("/contract_addendum/{id}")
+    public ResponseEntity<?> UpdateSellerPersonalBankStatements(@PathVariable("id") UUID id, @RequestBody UpdateContractAddendumRequest request) {
+
+        UpdateContractAddendumCommand command = UpdateContractAddendumCommand.fromRequest(request, id);
+        UpdateContractAddendumMessage response = mediator.send(command);
         return ResponseEntity.ok(response);
     }
 

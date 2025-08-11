@@ -1,6 +1,7 @@
 package com.kynsoft.propertyacqcenter.infrastructure.entity;
 
 import com.kynsoft.propertyacqcenter.domain.dto.AdquisitionDocumentDto;
+import com.kynsoft.propertyacqcenter.domain.dto.AdquisitionDocumentWithDateDto;
 import com.kynsoft.propertyacqcenter.domain.dto.AdquisitionPropertyDocumentDto;
 import com.kynsoft.propertyacqcenter.domain.dto.AdquisitionPropertyDto;
 import com.kynsoft.propertyacqcenter.domain.dto.embedded.adquisitionProperty.AdquisitionPropertyBuyerPropertyInformationDto;
@@ -1065,7 +1066,7 @@ public class AdquisitionProperty {
                 .legalEntityCertificationStatus(legalEntityCertificationStatus)
                 .assignmentOfContract(assignmentOfContract)
                 .ownerExecutedContract(ownerExecutedContract)
-                .contractAddendum(contractAddendum)
+                .contractAddendum(this.convertDbToListWithDate(contractAddendum))
                 .finalSettlementStatement(finalSettlementStatement)
                 .bankStatementRequest(this.convertDbToList(bankStatementRequest))
                 .warrantyDeed(warrantyDeed)
@@ -1301,7 +1302,6 @@ public class AdquisitionProperty {
                         .lenderTitleInsurance(titleCompany != null ? titleCompany.getLenderTitleInsurance() : null)
                         .ownerTitleInsurance(titleCompany != null ? titleCompany.getOwnerTitleInsurance() : null)
                         .build())
-
                 .build();
     }
 
@@ -1326,6 +1326,32 @@ public class AdquisitionProperty {
                 request.setFilePath(parts[i + 1]);
                 result.add(request);
             }
+        }
+        return result;
+    }
+
+    private List<AdquisitionDocumentWithDateDto> convertDbToListWithDate(String dbData) {
+        System.err.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
+        System.err.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
+        System.err.println("" + dbData);
+        System.err.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
+        System.err.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
+        List<AdquisitionDocumentWithDateDto> result = new ArrayList<>();
+        if (dbData == null || dbData.trim().isEmpty()) {
+            return result;
+        }
+
+        String[] parts = dbData.split("\\|");
+        if (parts.length % 3 != 0) {
+            throw new IllegalArgumentException("Los datos no tienen el formato esperado (deben ser grupos de 3 valores)");
+        }
+
+        for (int i = 0; i < parts.length; i += 3) {
+            AdquisitionDocumentWithDateDto dto = new AdquisitionDocumentWithDateDto();
+            dto.setFileName(parts[i]);
+            dto.setFilePath(parts[i + 1]);
+            dto.setClosingDate(parts[i + 2]);
+            result.add(dto);
         }
         return result;
     }

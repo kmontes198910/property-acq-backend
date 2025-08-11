@@ -85,7 +85,7 @@ public class UpdateAdquisitionPropertyCommandHandler implements ICommandHandler<
                 .legalEntityCertificationStatus(command.getLegalEntityCertificationStatus() != null ? command.getLegalEntityCertificationStatus().getFilePath() + "|" + command.getLegalEntityCertificationStatus().getFileName() : null)
                 .assignmentOfContract(command.getAssignmentOfContract() != null ? command.getAssignmentOfContract().getFilePath() + "|" + command.getAssignmentOfContract().getFileName() : null)
                 .ownerExecutedContract(command.getOwnerExecutedContract() != null ? command.getOwnerExecutedContract().getFilePath() + "|" + command.getOwnerExecutedContract().getFileName() : null)
-                .contractAddendum(command.getContractAddendum() != null ? command.getContractAddendum().getFilePath() + "|" + command.getContractAddendum().getFileName() : null)
+                //.contractAddendum(command.getContractAddendum() != null ? command.getContractAddendum().getFilePath() + "|" + command.getContractAddendum().getFileName() : null)
                 .finalSettlementStatement(command.getFinalSettlementStatement() != null ? command.getFinalSettlementStatement().getFilePath() + "|" + command.getFinalSettlementStatement().getFileName() : null)
                 //.bankStatementRequest(command.getBankStatementRequest() != null ? command.getBankStatementRequest().getFilePath() + "|" + command.getBankStatementRequest().getFileName() : null)
                 .warrantyDeed(command.getWarrantyDeed() != null ? command.getWarrantyDeed().getFilePath() + "|" + command.getWarrantyDeed().getFileName() : null)

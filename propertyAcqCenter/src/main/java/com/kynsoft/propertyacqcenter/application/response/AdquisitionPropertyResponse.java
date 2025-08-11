@@ -52,7 +52,7 @@ public class AdquisitionPropertyResponse implements IResponse {
     private AdquisitionDocumentResponse legalEntityCertificationStatus;
     private AdquisitionDocumentResponse assignmentOfContract;
     private AdquisitionDocumentResponse ownerExecutedContract;
-    private AdquisitionDocumentResponse contractAddendum;
+    private List<AdquisitionDocumentWithDateResponse> contractAddendum;
     private AdquisitionDocumentResponse finalSettlementStatement;
     private List<AdquisitionDocumentResponse> bankStatementRequest;
     private AdquisitionDocumentResponse warrantyDeed;
@@ -334,7 +334,7 @@ public class AdquisitionPropertyResponse implements IResponse {
         this.legalEntityCertificationStatus = DocumentMapper.mapDocumentField(dto.getLegalEntityCertificationStatus());
         this.assignmentOfContract = DocumentMapper.mapDocumentField(dto.getAssignmentOfContract());
         this.ownerExecutedContract = DocumentMapper.mapDocumentField(dto.getOwnerExecutedContract());
-        this.contractAddendum = DocumentMapper.mapDocumentField(dto.getContractAddendum());
+        this.contractAddendum = this.convertDbToListWithDate(dto.getContractAddendum());
         this.finalSettlementStatement = DocumentMapper.mapDocumentField(dto.getFinalSettlementStatement());
         this.bankStatementRequest = convertDbToList(dto.getBankStatementRequest());
         this.warrantyDeed = DocumentMapper.mapDocumentField(dto.getWarrantyDeed());
@@ -572,6 +572,27 @@ public class AdquisitionPropertyResponse implements IResponse {
                 request.setFilePath(parts[i + 1]);
                 result.add(request);
             }
+        }
+        return result;
+    }
+
+    private List<AdquisitionDocumentWithDateResponse> convertDbToListWithDate(String dbData) {
+        List<AdquisitionDocumentWithDateResponse> result = new ArrayList<>();
+        if (dbData == null || dbData.trim().isEmpty()) {
+            return result;
+        }
+
+        String[] parts = dbData.split("\\|");
+        if (parts.length % 3 != 0) {
+            throw new IllegalArgumentException("Los datos no tienen el formato esperado (deben ser grupos de 3 valores)");
+        }
+
+        for (int i = 0; i < parts.length; i += 3) {
+            AdquisitionDocumentWithDateResponse dto = new AdquisitionDocumentWithDateResponse();
+            dto.setFileName(parts[i]);
+            dto.setFilePath(parts[i + 1]);
+            dto.setClosingDate(parts[i + 2]);
+            result.add(dto);
         }
         return result;
     }
