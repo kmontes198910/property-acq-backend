@@ -1,5 +1,6 @@
 package com.kynsof.identity.application.command.business.create;
 
+import com.kynsof.identity.controller.exception.ManageRole.business.BusinessRucMustBeUniqueException;
 import com.kynsof.identity.domain.dto.BusinessDto;
 import com.kynsof.identity.domain.dto.GeographicLocationDto;
 import com.kynsof.identity.domain.dto.enumType.EBusinessStatus;
@@ -34,8 +35,12 @@ public class CreateBusinessCommandHandler implements ICommandHandler<CreateBusin
     @Transactional
     public void handle(CreateBusinessCommand command) {
 
-        RulesChecker.checkRule(new BusinessRucCheckingNumberOfCharactersRule(command.getRuc()));
-        RulesChecker.checkRule(new BusinessRucMustBeUniqueRule(this.service, command.getRuc(), command.getId()));
+        //RulesChecker.checkRule(new BusinessRucCheckingNumberOfCharactersRule(command.getRuc()));
+        this.validateRuc(command.getRuc());
+        //RulesChecker.checkRule(new BusinessRucMustBeUniqueRule(this.service, command.getRuc(), command.getId()));
+        if (this.service.countByRucAndNotId(command.getRuc(), command.getId()) > 0) {
+            throw new BusinessRucMustBeUniqueException("The business ruc must be unique.");
+        }
         RulesChecker.checkRule(new BusinessNameMustBeUniqueRule(this.service, command.getName(), command.getId()));
 
         GeographicLocationDto location = this.geographicLocationService.findById(command.getGeographicLocation());
@@ -73,5 +78,12 @@ public class CreateBusinessCommandHandler implements ICommandHandler<CreateBusin
                 create.getEmail(), 
                 create.getPhone()
         ));
+    }
+
+    private void validateRuc(String ruc) {
+        if (ruc != null && !ruc.isEmpty()) {
+            if(ruc.length() != 13)
+                throw new BusinessRucMustBeUniqueException("The business's RUC must have thirteen characters.");
+        }
     }
 }

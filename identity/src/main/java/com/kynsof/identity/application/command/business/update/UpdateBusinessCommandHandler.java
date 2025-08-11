@@ -1,5 +1,6 @@
 package com.kynsof.identity.application.command.business.update;
 
+import com.kynsof.identity.controller.exception.ManageRole.business.BusinessRucMustBeUniqueException;
 import com.kynsof.identity.domain.dto.BusinessDto;
 import com.kynsof.identity.domain.dto.GeographicLocationDto;
 import com.kynsof.identity.domain.interfaces.service.IBusinessService;
@@ -33,7 +34,9 @@ public class UpdateBusinessCommandHandler implements ICommandHandler<UpdateBusin
     public void handle(UpdateBusinessCommand command) {
         RulesChecker.checkRule(new ValidateObjectNotNullRule<>(command.getGeographicLocation(), "geographicLocation", "GeographicLocation ID cannot be null."));
         RulesChecker.checkRule(new ValidateObjectNotNullRule<>(command.getId(), "id", "Business ID cannot be null."));
-        
+
+        this.validateRuc(command.getRuc());
+
         GeographicLocationDto location = this.geographicLocationService.findById(command.getGeographicLocation());
         BusinessDto updateBusiness = this.service.getById(command.getId());
         UpdateIfNotNull.updateIfNotNull(updateBusiness::setRuc, command.getRuc());
@@ -74,5 +77,12 @@ public class UpdateBusinessCommandHandler implements ICommandHandler<UpdateBusin
                 updateBusiness.getPhone()
         ));
     }
-    
+
+    private void validateRuc(String ruc) {
+        if (ruc != null && !ruc.isEmpty()) {
+            if(ruc.length() != 13)
+                throw new BusinessRucMustBeUniqueException("The business's RUC must have thirteen characters.");
+        }
+    }
+
 }
