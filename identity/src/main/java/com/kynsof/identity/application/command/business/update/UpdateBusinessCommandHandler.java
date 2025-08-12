@@ -37,6 +37,9 @@ public class UpdateBusinessCommandHandler implements ICommandHandler<UpdateBusin
 
         this.validateRuc(command.getRuc());
 
+        if (this.service.countByRucAndNotId(command.getRuc(), command.getId()) > 0) {
+            throw new BusinessRucMustBeUniqueException("The business ruc must be unique.");
+        }
         GeographicLocationDto location = this.geographicLocationService.findById(command.getGeographicLocation());
         BusinessDto updateBusiness = this.service.getById(command.getId());
         UpdateIfNotNull.updateIfNotNull(updateBusiness::setRuc, command.getRuc());
