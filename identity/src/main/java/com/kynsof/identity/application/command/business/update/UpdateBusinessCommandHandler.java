@@ -43,7 +43,7 @@ public class UpdateBusinessCommandHandler implements ICommandHandler<UpdateBusin
         GeographicLocationDto location = this.geographicLocationService.findById(command.getGeographicLocation());
         BusinessDto updateBusiness = this.service.getById(command.getId());
         UpdateIfNotNull.updateIfNotNull(updateBusiness::setRuc, command.getRuc());
-        RulesChecker.checkRule(new BusinessRucMustBeUniqueRule(this.service, command.getRuc(), command.getId()));
+        //RulesChecker.checkRule(new BusinessRucMustBeUniqueRule(this.service, command.getRuc(), command.getId()));
         UpdateIfNotNull.updateIfNotNull(updateBusiness::setDescription, command.getDescription());
         UpdateIfNotNull.updateIfNotNull(updateBusiness::setStatus, command.getStatus());
         
