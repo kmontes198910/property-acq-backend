@@ -99,4 +99,16 @@ public class AdquisitionPropertyBuyerPropertyInformation {
 
     @Column(name = "lender_homeowner_insurance_requirements", nullable = true)
     private String lenderHomeownerInsuranceRequirements;
+
+    @Column(name = "lender_payoff_letter", nullable = true)
+    private String lenderPayoffLetter;//file
+
+    @Column(name = "lender_phone", nullable = true)
+    private String lenderPhone;
+
+    @Column(name = "lender_email", nullable = true)
+    private String lenderEmail;
+
+    @Column(name = "lender_municipal_liens", nullable = true)
+    private String municipalLiens;
 }

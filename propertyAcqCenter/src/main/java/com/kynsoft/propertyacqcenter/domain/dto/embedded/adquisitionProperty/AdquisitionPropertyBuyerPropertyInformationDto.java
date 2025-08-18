@@ -36,4 +36,8 @@ public class AdquisitionPropertyBuyerPropertyInformationDto {
     private String lenderAmortizationType;
     private String lenderPayoffInstructions;
     private String lenderHomeownerInsuranceRequirements;
+    private String lenderPayoffLetter;//file
+    private String lenderPhone;
+    private String lenderEmail;
+    private String municipalLiens;
 }
