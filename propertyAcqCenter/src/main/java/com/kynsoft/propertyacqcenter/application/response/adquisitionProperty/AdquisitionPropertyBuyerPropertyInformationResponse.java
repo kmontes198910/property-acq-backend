@@ -39,8 +39,9 @@ public class AdquisitionPropertyBuyerPropertyInformationResponse implements IRes
     private String lenderPhone;
     private String lenderEmail;
     private String municipalLiens;
+    private String lenderName;
 
-    public AdquisitionPropertyBuyerPropertyInformationResponse(AdquisitionPropertyBuyerPropertyInformationDto dto) {
+    public AdquisitionPropertyBuyerPropertyInformationResponse(AdquisitionPropertyBuyerPropertyInformationDto dto, String lenderName) {
         this.lenderOriginationFee = dto.getLenderOriginationFee();
         this.lenderUnderwritingFee = dto.getLenderUnderwritingFee();
         this.lenderProcessingFee = dto.getLenderProcessingFee();
@@ -63,6 +64,7 @@ public class AdquisitionPropertyBuyerPropertyInformationResponse implements IRes
         this.lenderPhone = dto.getLenderPhone();
         this.lenderEmail = dto.getLenderEmail();
         this.municipalLiens = dto.getMunicipalLiens();
+        this.lenderName = lenderName;
     }
 
 }

@@ -36,6 +36,7 @@ public class AdquisitionPropertyBuyerPropertyInformationRequest {
     private String lenderPhone;
     private String lenderEmail;
     private String municipalLiens;
+    private String lenderName;
     //private CreateDocumentRequest buyerTitleInsurance;//File
     //private CreateDocumentRequest buyerExecutedClosingDocuments;//File
 }
