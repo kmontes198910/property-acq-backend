@@ -132,7 +132,6 @@ public class UpdateAdquisitionPropertyCommandHandler implements ICommandHandler<
                 .listItemsNotIncludedInSale(command.getListItemsNotIncludedInSale())
 
                 .isThereAMortgage(command.getIsThereAMortgage())
-                .lenderName(command.getLenderName())
                 .loanNumber(command.getLoanNumber())
                 .estimatedPayoffAmount(command.getEstimatedPayoffAmount())
                 .uploadLatestMortgageStatement(command.getUploadLatestMortgageStatement() != null ? command.getUploadLatestMortgageStatement().getFilePath() + "|" + command.getUploadLatestMortgageStatement().getFileName() : null)
@@ -312,6 +311,7 @@ public class UpdateAdquisitionPropertyCommandHandler implements ICommandHandler<
                 .lockboxCode(command.getLockboxCode())
 
                 .executeHud(command.getExecuteHud()  != null ? command.getExecuteHud().getFilePath() + "|" + command.getExecuteHud().getFileName() : null)
+                .lenderName(command.getLender() != null ? command.getLender().getLenderName() : null)
                 .lender(AdquisitionPropertyBuyerPropertyInformationDto
                         .builder()
                         .buyerRepairBudget(command.getLender() != null ? command.getBuyerRepairBudget() : null)

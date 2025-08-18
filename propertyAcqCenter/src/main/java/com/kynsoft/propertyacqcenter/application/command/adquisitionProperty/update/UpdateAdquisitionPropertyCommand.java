@@ -109,7 +109,6 @@ public class UpdateAdquisitionPropertyCommand implements ICommand {
 
     //Mortgage & Liens
     private Boolean isThereAMortgage;
-    private String lenderName;
     private String loanNumber;
     private Double estimatedPayoffAmount;
     private CreateDocumentRequest uploadLatestMortgageStatement;
@@ -338,7 +337,6 @@ public class UpdateAdquisitionPropertyCommand implements ICommand {
             String listItemsNotIncludedInSale,
             // Mortgage & Liens
             Boolean isThereAMortgage,
-            String lenderName,
             String loanNumber,
             Double estimatedPayoffAmount,
             CreateDocumentRequest uploadLatestMortgageStatement,
@@ -580,7 +578,6 @@ public class UpdateAdquisitionPropertyCommand implements ICommand {
 
         // Mortgage & Liens
         this.isThereAMortgage = isThereAMortgage;
-        this.lenderName = lenderName;
         this.loanNumber = loanNumber;
         this.estimatedPayoffAmount = estimatedPayoffAmount;
         this.uploadLatestMortgageStatement = uploadLatestMortgageStatement;
@@ -834,7 +831,6 @@ public class UpdateAdquisitionPropertyCommand implements ICommand {
                 request.getDiscloseKnownRepairsOrDefects(),
                 request.getListItemsNotIncludedInSale(),
                 request.getIsThereAMortgage(),
-                request.getLenderName(),
                 request.getLoanNumber(),
                 request.getEstimatedPayoffAmount(),
                 request.getUploadLatestMortgageStatement(),

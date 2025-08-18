@@ -101,7 +101,6 @@ public class AdquisitionPropertyResponse implements IResponse {
 
     //Mortgage & Liens
     private Boolean isThereAMortgage;
-    private String lenderName;
     private String loanNumber;
     private Double estimatedPayoffAmount;
     private AdquisitionDocumentResponse uploadLatestMortgageStatement;
@@ -378,7 +377,6 @@ public class AdquisitionPropertyResponse implements IResponse {
         this.listItemsNotIncludedInSale = dto.getListItemsNotIncludedInSale();
 
         this.isThereAMortgage = dto.getIsThereAMortgage();
-        this.lenderName = dto.getLenderName();
         this.loanNumber = dto.getLoanNumber();
         this.estimatedPayoffAmount = dto.getEstimatedPayoffAmount();
         this.uploadLatestMortgageStatement = DocumentMapper.mapDocumentField(dto.getUploadLatestMortgageStatement());
@@ -553,7 +551,7 @@ public class AdquisitionPropertyResponse implements IResponse {
         this.buyerRepairBudget = dto.getLender() != null ? dto.getLender().getBuyerRepairBudget() : null;
         this.buyerApprovedPlans = dto.getLender() != null ? DocumentMapper.mapDocumentField(dto.getLender().getBuyerApprovedPlans()) : null;
         this.buyerPermits = dto.getLender() != null ? DocumentMapper.mapDocumentField(dto.getLender().getBuyerPermits()) : null;
-        this.lender = dto.getLender() != null ? new AdquisitionPropertyBuyerPropertyInformationResponse(dto.getLender()) : null;
+        this.lender = dto.getLender() != null ? new AdquisitionPropertyBuyerPropertyInformationResponse(dto.getLender(), dto.getLenderName()) : null;
         this.titleCompany = dto.getTitleCompany() != null ? new AdquisitionPropertyTitleCompanyResponse(dto.getTitleCompany()) : null;
     }
 
