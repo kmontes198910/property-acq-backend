@@ -1017,6 +1017,10 @@ public class AdquisitionProperty {
                         .buyerExecutedClosingDocuments(adquisitionPropertyBuyerPropertyInformation != null ? adquisitionPropertyBuyerPropertyInformation.getBuyerExecutedClosingDocuments() : null)
                         .lenderPayoffInstructions(adquisitionPropertyBuyerPropertyInformation != null ? adquisitionPropertyBuyerPropertyInformation.getLenderPayoffInstructions() : null)
                         .lenderHomeownerInsuranceRequirements(adquisitionPropertyBuyerPropertyInformation != null ? adquisitionPropertyBuyerPropertyInformation.getLenderHomeownerInsuranceRequirements() : null)
+                        .lenderPayoffLetter(adquisitionPropertyBuyerPropertyInformation != null ? adquisitionPropertyBuyerPropertyInformation.getLenderPayoffLetter() : null)
+                        .lenderPhone(adquisitionPropertyBuyerPropertyInformation != null ? adquisitionPropertyBuyerPropertyInformation.getLenderPhone() : null)
+                        .lenderEmail(adquisitionPropertyBuyerPropertyInformation != null ? adquisitionPropertyBuyerPropertyInformation.getLenderEmail() : null)
+                        .municipalLiens(adquisitionPropertyBuyerPropertyInformation != null ? adquisitionPropertyBuyerPropertyInformation.getMunicipalLiens() : null)
                         .build())
                 .titleCompany(AdquisitionPropertyTitleCompanyDto
                         .builder()
@@ -1296,6 +1300,10 @@ public class AdquisitionProperty {
                         .lenderAmortizationType(adquisitionPropertyBuyerPropertyInformation != null ? adquisitionPropertyBuyerPropertyInformation.getLenderAmortizationType() : null)
                         .lenderPayoffInstructions(adquisitionPropertyBuyerPropertyInformation != null ? adquisitionPropertyBuyerPropertyInformation.getLenderPayoffInstructions() : null)
                         .lenderHomeownerInsuranceRequirements(adquisitionPropertyBuyerPropertyInformation != null ? adquisitionPropertyBuyerPropertyInformation.getLenderHomeownerInsuranceRequirements() : null)
+                        .lenderPayoffLetter(adquisitionPropertyBuyerPropertyInformation != null ? adquisitionPropertyBuyerPropertyInformation.getLenderPayoffLetter() : null)
+                        .lenderPhone(adquisitionPropertyBuyerPropertyInformation != null ? adquisitionPropertyBuyerPropertyInformation.getLenderPhone() : null)
+                        .lenderEmail(adquisitionPropertyBuyerPropertyInformation != null ? adquisitionPropertyBuyerPropertyInformation.getLenderEmail() : null)
+                        .municipalLiens(adquisitionPropertyBuyerPropertyInformation != null ? adquisitionPropertyBuyerPropertyInformation.getMunicipalLiens() : null)
                         .build())
                 .titleCompany(AdquisitionPropertyTitleCompanyDto
                         .builder()

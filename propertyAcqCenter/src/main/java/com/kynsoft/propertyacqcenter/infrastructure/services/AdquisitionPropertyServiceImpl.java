@@ -420,6 +420,10 @@ public class AdquisitionPropertyServiceImpl implements IAdquisitionPropertyServi
                         .lenderAmortizationType(object.getLender().getLenderAmortizationType() != null ? object.getLender().getLenderAmortizationType() : update.getAdquisitionPropertyBuyerPropertyInformation().getLenderAmortizationType())
                         .lenderPayoffInstructions(object.getLender().getLenderPayoffInstructions() != null ? object.getLender().getLenderPayoffInstructions() : update.getAdquisitionPropertyBuyerPropertyInformation().getLenderPayoffInstructions())
                         .lenderHomeownerInsuranceRequirements(object.getLender().getLenderHomeownerInsuranceRequirements() != null ? object.getLender().getLenderHomeownerInsuranceRequirements() : update.getAdquisitionPropertyBuyerPropertyInformation().getLenderHomeownerInsuranceRequirements())
+                        .lenderPayoffLetter(object.getLender().getLenderPayoffLetter() != null ? object.getLender().getLenderPayoffLetter() : update.getAdquisitionPropertyBuyerPropertyInformation().getLenderPayoffLetter())
+                        .lenderPhone(object.getLender().getLenderPhone() != null ? object.getLender().getLenderPhone() : update.getAdquisitionPropertyBuyerPropertyInformation().getLenderPhone())
+                        .lenderEmail(object.getLender().getLenderEmail() != null ? object.getLender().getLenderEmail() : update.getAdquisitionPropertyBuyerPropertyInformation().getLenderEmail())
+                        .municipalLiens(object.getLender().getMunicipalLiens() != null ? object.getLender().getMunicipalLiens() : update.getAdquisitionPropertyBuyerPropertyInformation().getMunicipalLiens())
                         .build()
                 : AdquisitionPropertyBuyerPropertyInformation
                         .builder()
@@ -449,6 +453,10 @@ public class AdquisitionPropertyServiceImpl implements IAdquisitionPropertyServi
                         .lenderAmortizationType(object.getLender().getLenderAmortizationType())
                         .lenderPayoffInstructions(object.getLender().getLenderPayoffInstructions())
                         .lenderHomeownerInsuranceRequirements(object.getLender().getLenderHomeownerInsuranceRequirements())
+                        .lenderPayoffLetter(object.getLender().getLenderPayoffLetter())
+                        .lenderPhone(object.getLender().getLenderPhone())
+                        .lenderEmail(object.getLender().getLenderEmail())
+                        .municipalLiens(object.getLender().getMunicipalLiens())
                         .build();
     }
 

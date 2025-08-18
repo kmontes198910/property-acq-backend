@@ -35,6 +35,10 @@ public class AdquisitionPropertyBuyerPropertyInformationResponse implements IRes
     private String lenderAmortizationType;
     private AdquisitionDocumentResponse lenderPayoffInstructions;//File
     private AdquisitionDocumentResponse lenderHomeownerInsuranceRequirements;//File
+    private AdquisitionDocumentResponse lenderPayoffLetter;//file
+    private String lenderPhone;
+    private String lenderEmail;
+    private String municipalLiens;
 
     public AdquisitionPropertyBuyerPropertyInformationResponse(AdquisitionPropertyBuyerPropertyInformationDto dto) {
         this.lenderOriginationFee = dto.getLenderOriginationFee();
@@ -55,6 +59,10 @@ public class AdquisitionPropertyBuyerPropertyInformationResponse implements IRes
         this.lenderAmortizationType = dto.getLenderAmortizationType();
         this.lenderPayoffInstructions = DocumentMapper.mapDocumentField(dto.getLenderPayoffInstructions());
         this.lenderHomeownerInsuranceRequirements = DocumentMapper.mapDocumentField(dto.getLenderHomeownerInsuranceRequirements());
+        this.lenderPayoffLetter = DocumentMapper.mapDocumentField(dto.getLenderPayoffLetter());
+        this.lenderPhone = dto.getLenderPhone();
+        this.lenderEmail = dto.getLenderEmail();
+        this.municipalLiens = dto.getMunicipalLiens();
     }
 
 }

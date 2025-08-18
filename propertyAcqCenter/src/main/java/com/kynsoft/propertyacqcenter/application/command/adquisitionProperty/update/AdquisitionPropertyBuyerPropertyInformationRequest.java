@@ -32,6 +32,10 @@ public class AdquisitionPropertyBuyerPropertyInformationRequest {
     private String lenderAmortizationType;
     private CreateDocumentRequest lenderPayoffInstructions;
     private CreateDocumentRequest lenderHomeownerInsuranceRequirements;
+    private CreateDocumentRequest lenderPayoffLetter;//file
+    private String lenderPhone;
+    private String lenderEmail;
+    private String municipalLiens;
     //private CreateDocumentRequest buyerTitleInsurance;//File
     //private CreateDocumentRequest buyerExecutedClosingDocuments;//File
 }
