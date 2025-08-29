@@ -7,6 +7,9 @@ import com.kynsof.share.core.infrastructure.bus.IMediator;
 import com.kynsoft.propertyacqcenter.application.command.mortgage.create.CreateMortgageCommand;
 import com.kynsoft.propertyacqcenter.application.command.mortgage.create.CreateMortgageMessage;
 import com.kynsoft.propertyacqcenter.application.command.mortgage.create.CreateMortgageRequest;
+import com.kynsoft.propertyacqcenter.application.command.mortgage.create.calculator.CreateMortgageCalculatorCommand;
+import com.kynsoft.propertyacqcenter.application.command.mortgage.create.calculator.CreateMortgageCalculatorMessage;
+import com.kynsoft.propertyacqcenter.application.command.mortgage.create.calculator.CreateMortgageCalculatorRequest;
 import com.kynsoft.propertyacqcenter.application.command.mortgage.delete.DeleteMortgageCommand;
 import com.kynsoft.propertyacqcenter.application.command.mortgage.delete.DeleteMortgageMessage;
 import com.kynsoft.propertyacqcenter.application.command.mortgage.update.UpdateMortgageCommand;
@@ -56,6 +59,23 @@ public class MortgageController {
                 .accelerationExtraPayments(request.getAccelerationExtraPayments())
                 .lifetimeRateCap(request.getLifetimeRateCap())
                 .extraPaymentFrequency(request.getExtraPaymentFrequency())
+                .purchasePrice(request.getPurchasePrice())
+                .downPayment(request.getDownPayment())
+                .loanTermYears(request.getLoanTermYears())
+                .interestRate(request.getInterestRate())
+                .loanStartDate(request.getLoanStartDate())
+                .firstPaymentDate(request.getFirstPaymentDate())
+                .extraPayments(request.getExtraPayments())
+                .extraPaymentAmount(request.getExtraPaymentAmount())
+                .build());
+
+        return ResponseEntity.ok(response);
+    }
+
+    @PostMapping("/calculator")
+    public ResponseEntity<?> calcularor(@RequestBody CreateMortgageCalculatorRequest request) {
+        CreateMortgageCalculatorMessage response = mediator.send(CreateMortgageCalculatorCommand
+                .builder()
                 .purchasePrice(request.getPurchasePrice())
                 .downPayment(request.getDownPayment())
                 .loanTermYears(request.getLoanTermYears())
