@@ -26,7 +26,6 @@ public class UpdateMortgageCommandHandler implements ICommandHandler<UpdateMortg
                 .id(command.getId())
                 .property(property)
                 .mortgageType(command.getMortgageType())
-                .mortgageAmount(command.getMortgageAmount())
                 .downPayment(command.getDownPayment())
                 .fixedRateTermYears(command.getFixedRateTermYears())
                 .fixedMortgageRatePercentage(command.getFixedMortgageRatePercentage())

@@ -1,0 +1,12 @@
+package com.kynsoft.propertyacqcenter.domain.enums;
+
+public enum LoanType {
+    FIXED_30_YEAR,
+    FIXED_15_YEAR,
+    FIXED_10_YEAR,
+    ARM_5_1,
+    ARM_7_1,
+    ARM_10_1,
+    FHA,
+    VA
+}

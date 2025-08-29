@@ -12,14 +12,23 @@ import lombok.Setter;
 @Setter
 public class CreateMortgageRequest {
 
+    // ✅ ESENCIALES (mantener)
+    private Double purchasePrice;        // Precio de compra ($)
+    private Double downPayment;          // Pago inicial ($)
+    private Integer loanTermYears;       // Plazo (15, 20, 30 años)
+    private Double interestRate;         // Tasa de interés anual (%)
+    private LocalDate loanStartDate;     // Fecha de inicio
+
+    // ✅ OPCIONALES pero útiles
+    private LocalDate firstPaymentDate;  // Fecha primer pago
+    private Boolean extraPayments;       // Pagos extras
+    private Double extraPaymentAmount;   // Monto pagos extras
+
     private String property;
     private MortgageType mortgageType;
-    private Double mortgageAmount;
-    private Double downPayment;
-    private Integer fixedRateTermYears;
+    private Integer fixedRateTermYears;// Para ARMs: años de tasa fija inicial
     private Double fixedMortgageRatePercentage;
-    private LocalDate firstPaymentDate;
-    private MortgageFrequencyInterestCompounded compoundFrequency;
+    private MortgageFrequencyInterestCompounded compoundFrequency;// Frecuencia de capitalización
     private Boolean balloonPayment;
     private Boolean adjustableRateDetails;
     private Integer fixedRateTermMonths;
@@ -34,11 +43,10 @@ public class CreateMortgageRequest {
 
     private Double howManyPayments;
 
-    private Boolean accelerationWeeklyPayments;
+    private Boolean accelerationWeeklyPayments; // Pagos semanales acelerados
+    private Boolean accelerationBiWeeklyPayments;   // Pagos quincenales acelerados
     private Boolean accelerationExtraPayments;
     private MortgageLifetimeRateCap lifetimeRateCap;//
 
-    private MortgageExtraPaymentFrequency extraPaymentFrequency;//
-    private Double extraPaymentAmount;//
-
+    private MortgageExtraPaymentFrequency extraPaymentFrequency; // Frecuencia de pagos extra
 }

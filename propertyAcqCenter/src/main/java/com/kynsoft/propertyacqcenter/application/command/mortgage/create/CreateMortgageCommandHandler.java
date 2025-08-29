@@ -3,7 +3,6 @@ package com.kynsoft.propertyacqcenter.application.command.mortgage.create;
 import com.kynsof.share.core.domain.bus.command.ICommandHandler;
 import com.kynsoft.propertyacqcenter.domain.dto.MortgageDto;
 import com.kynsoft.propertyacqcenter.domain.dto.PropertyDto;
-import com.kynsoft.propertyacqcenter.domain.dto.exception.mortgage.MortgageMustBeUniqueException;
 import com.kynsoft.propertyacqcenter.domain.services.IMortgageService;
 import com.kynsoft.propertyacqcenter.domain.services.IPropertyService;
 import org.springframework.stereotype.Component;
@@ -31,16 +30,12 @@ public class CreateMortgageCommandHandler implements ICommandHandler<CreateMortg
                 .id(command.getId())
                 .property(property)
                 .mortgageType(command.getMortgageType())
-                .mortgageAmount(command.getMortgageAmount())
-                .downPayment(command.getDownPayment())
                 .fixedRateTermYears(command.getFixedRateTermYears())
                 .fixedMortgageRatePercentage(command.getFixedMortgageRatePercentage())
-                .firstPaymentDate(command.getFirstPaymentDate())
                 .compoundFrequency(command.getCompoundFrequency())
                 .balloonPayment(command.getBalloonPayment())
                 .adjustableRateDetails(command.getAdjustableRateDetails())
                 .fixedRateTermMonths(command.getFixedRateTermMonths())
-                
                 .adjustableRateType(command.getAdjustableRateType())
                 .hybridArmType(command.getHybridArmType())
                 .fixedRateTerm(command.getFixedRateTerm())
@@ -53,6 +48,14 @@ public class CreateMortgageCommandHandler implements ICommandHandler<CreateMortg
                 .accelerationExtraPayments(command.getAccelerationExtraPayments())
                 .lifetimeRateCap(command.getLifetimeRateCap())
                 .extraPaymentFrequency(command.getExtraPaymentFrequency())
+
+                .purchasePrice(command.getPurchasePrice())
+                .downPayment(command.getDownPayment())
+                .loanTermYears(command.getLoanTermYears())
+                .interestRate(command.getInterestRate())
+                .loanStartDate(command.getLoanStartDate())
+                .firstPaymentDate(command.getFirstPaymentDate())
+                .extraPayments(command.getExtraPayments())
                 .extraPaymentAmount(command.getExtraPaymentAmount())
                 .build()
         );

@@ -1,6 +1,7 @@
 package com.kynsoft.propertyacqcenter.application.response;
 
 import com.kynsof.share.core.domain.bus.query.IResponse;
+import com.kynsoft.propertyacqcenter.domain.dto.AmortizationScheduleDto;
 import com.kynsoft.propertyacqcenter.domain.dto.MortgageDto;
 import com.kynsoft.propertyacqcenter.domain.enums.MortgageExtraPaymentFrequency;
 import com.kynsoft.propertyacqcenter.domain.enums.MortgageFrequencyInterestCompounded;
@@ -25,11 +26,8 @@ public class MortgageResponse implements IResponse {
 
     private MortgageType mortgageType;
     private MortgageLifetimeRateCap lifetimeRateCap;//
-    private Double mortgageAmount;
-    private Double downPayment;
     private Integer fixedRateTermYears;
     private Double fixedMortgageRatePercentage;
-    private LocalDate firstPaymentDate;
     private MortgageFrequencyInterestCompounded compoundFrequency;
     private Boolean balloonPayment;
     private Boolean adjustableRateDetails;
@@ -49,19 +47,28 @@ public class MortgageResponse implements IResponse {
     private Boolean accelerationExtraPayments;
 
     private MortgageExtraPaymentFrequency extraPaymentFrequency;//
-    private Double extraPaymentAmount;//
+
+    // ✅ ESENCIALES (mantener)
+    private Double purchasePrice;        // Precio de compra ($)
+    private Double downPayment;          // Pago inicial ($)
+    private Integer loanTermYears;       // Plazo (15, 20, 30 años)
+    private Double interestRate;         // Tasa de interés anual (%)
+    private LocalDate loanStartDate;     // Fecha de inicio
+
+    // ✅ OPCIONALES pero útiles
+    private LocalDate firstPaymentDate;  // Fecha primer pago
+    private Boolean extraPayments;       // Pagos extras
+    private Double extraPaymentAmount;   // Monto pagos extras
+
+    private AmortizationScheduleDto amortizations;
 
     public MortgageResponse(MortgageDto dto) {
         this.id = dto.getId();
         this.extraPaymentFrequency = dto.getExtraPaymentFrequency();
-        this.extraPaymentAmount = dto.getExtraPaymentAmount();
         this.property = dto.getProperty() != null ? new PropertiesBasicResponse(dto.getProperty()) : null;
         this.mortgageType = dto.getMortgageType();
-        this.mortgageAmount = dto.getMortgageAmount();
-        this.downPayment = dto.getDownPayment();
         this.fixedRateTermYears = dto.getFixedRateTermYears();
         this.fixedMortgageRatePercentage = dto.getFixedMortgageRatePercentage();
-        this.firstPaymentDate = dto.getFirstPaymentDate();
         this.compoundFrequency = dto.getCompoundFrequency();
         this.balloonPayment = dto.getBalloonPayment();
         this.adjustableRateDetails = dto.getAdjustableRateDetails();
@@ -77,6 +84,15 @@ public class MortgageResponse implements IResponse {
         this.accelerationWeeklyPayments = dto.getAccelerationWeeklyPayments();
         this.accelerationExtraPayments = dto.getAccelerationExtraPayments();
         this.lifetimeRateCap = dto.getLifetimeRateCap();
+
+        this.purchasePrice = dto.getPurchasePrice();
+        this.downPayment = dto.getDownPayment();
+        this.loanTermYears = dto.getLoanTermYears();
+        this.interestRate = dto.getInterestRate();
+        this.loanStartDate = dto.getLoanStartDate();
+        this.firstPaymentDate = dto.getFirstPaymentDate();
+        this.extraPayments = dto.getExtraPayments();
+        this.extraPaymentAmount = dto.getExtraPaymentAmount();
     }
 
 }

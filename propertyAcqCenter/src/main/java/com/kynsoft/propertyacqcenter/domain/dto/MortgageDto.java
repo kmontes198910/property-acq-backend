@@ -18,11 +18,8 @@ public class MortgageDto {
     private PropertyDto property;
 
     private MortgageType mortgageType;//TODO: por definir
-    private Double mortgageAmount;
-    private Double downPayment;
     private Integer fixedRateTermYears;
     private Double fixedMortgageRatePercentage;
-    private LocalDate firstPaymentDate;
     private MortgageFrequencyInterestCompounded compoundFrequency;
     private Boolean balloonPayment;
     private Boolean adjustableRateDetails;//TODO: por definir
@@ -44,5 +41,16 @@ public class MortgageDto {
     private MortgageLifetimeRateCap lifetimeRateCap;//
 
     private MortgageExtraPaymentFrequency extraPaymentFrequency;//
-    private Double extraPaymentAmount;//
+
+    // ✅ ESENCIALES (mantener)
+    private Double purchasePrice;        // Precio de compra ($)
+    private Double downPayment;          // Pago inicial ($)
+    private Integer loanTermYears;       // Plazo (15, 20, 30 años)
+    private Double interestRate;         // Tasa de interés anual (%)
+    private LocalDate loanStartDate;     // Fecha de inicio
+
+    // ✅ OPCIONALES pero útiles
+    private LocalDate firstPaymentDate;  // Fecha primer pago
+    private Boolean extraPayments;       // Pagos extras
+    private Double extraPaymentAmount;   // Monto pagos extras
 }

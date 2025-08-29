@@ -33,8 +33,38 @@ public class MortgageController {
 
     @PostMapping("")
     public ResponseEntity<?> create(@RequestBody CreateMortgageRequest request) {
-        CreateMortgageCommand createCommand = CreateMortgageCommand.fromRequest(request);
-        CreateMortgageMessage response = mediator.send(createCommand);
+        CreateMortgageMessage response = mediator.send(CreateMortgageCommand
+                .builder()
+                .id(UUID.randomUUID())
+                .property(request.getProperty())
+                .mortgageType(request.getMortgageType())
+                .fixedRateTermYears(request.getFixedRateTermYears())
+                .fixedMortgageRatePercentage(request.getFixedMortgageRatePercentage())
+                .compoundFrequency(request.getCompoundFrequency())
+                .balloonPayment(request.getBalloonPayment())
+                .adjustableRateDetails(request.getAdjustableRateDetails())
+                .fixedRateTermMonths(request.getFixedRateTermMonths())
+                .adjustableRateType(request.getAdjustableRateType())
+                .hybridArmType(request.getHybridArmType())
+                .fixedRateTerm(request.getFixedRateTerm())
+                .rateChangeInterval(request.getRateChangeInterval())
+                .expectedRateChange(request.getExpectedRateChange())
+                .limitRate(request.getLimitRate())
+                .limitIncrease(request.getLimitIncrease())
+                .howManyPayments(request.getHowManyPayments())
+                .accelerationWeeklyPayments(request.getAccelerationWeeklyPayments())
+                .accelerationExtraPayments(request.getAccelerationExtraPayments())
+                .lifetimeRateCap(request.getLifetimeRateCap())
+                .extraPaymentFrequency(request.getExtraPaymentFrequency())
+                .purchasePrice(request.getPurchasePrice())
+                .downPayment(request.getDownPayment())
+                .loanTermYears(request.getLoanTermYears())
+                .interestRate(request.getInterestRate())
+                .loanStartDate(request.getLoanStartDate())
+                .firstPaymentDate(request.getFirstPaymentDate())
+                .extraPayments(request.getExtraPayments())
+                .extraPaymentAmount(request.getExtraPaymentAmount())
+                .build());
 
         return ResponseEntity.ok(response);
     }
