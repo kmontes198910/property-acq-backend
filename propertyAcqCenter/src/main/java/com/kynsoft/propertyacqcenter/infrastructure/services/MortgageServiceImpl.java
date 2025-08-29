@@ -46,7 +46,6 @@ public class MortgageServiceImpl implements IMortgageService {
         Mortgage update = this.findByIdSimple(object.getId());
         update.setProperty(new Property(object.getProperty()));
         update.setMortgageType(object.getMortgageType());
-        update.setMortgageAmount(object.getMortgageAmount());
         update.setDownPayment(object.getDownPayment());
         update.setFixedRateTermYears(object.getFixedRateTermYears());
         update.setFixedMortgageRatePercentage(object.getFixedMortgageRatePercentage());

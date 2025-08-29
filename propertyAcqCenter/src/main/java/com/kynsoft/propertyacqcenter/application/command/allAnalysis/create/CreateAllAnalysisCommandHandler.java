@@ -10,7 +10,6 @@ import com.kynsoft.propertyacqcenter.domain.dto.PurchaseDto;
 import com.kynsoft.propertyacqcenter.domain.dto.SalesPropertyDto;
 import com.kynsoft.propertyacqcenter.domain.dto.exception.expenses.ExpensesMustBeUniqueException;
 import com.kynsoft.propertyacqcenter.domain.dto.exception.income.IncomeMustBeUniqueException;
-import com.kynsoft.propertyacqcenter.domain.dto.exception.mortgage.MortgageMustBeUniqueException;
 import com.kynsoft.propertyacqcenter.domain.dto.exception.purchase.PurchaseMustBeUniqueException;
 import com.kynsoft.propertyacqcenter.domain.dto.exception.sales.SalesMustBeUniqueException;
 import com.kynsoft.propertyacqcenter.domain.services.IExpensesService;
@@ -134,7 +133,6 @@ public class CreateAllAnalysisCommandHandler implements ICommandHandler<CreateAl
                 .id(command.getId())
                 .property(property)
                 .mortgageType(command.getMortgage().getMortgageType())
-                .mortgageAmount(command.getMortgage().getMortgageAmount())
                 .downPayment(command.getMortgage().getDownPayment())
                 .fixedRateTermYears(command.getMortgage().getFixedRateTermYears())
                 .fixedMortgageRatePercentage(command.getMortgage().getFixedMortgageRatePercentage())

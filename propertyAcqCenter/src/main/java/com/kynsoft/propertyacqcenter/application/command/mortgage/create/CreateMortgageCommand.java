@@ -11,19 +11,22 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.util.UUID;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.NoArgsConstructor;
 
 @Getter
 @Setter
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 public class CreateMortgageCommand implements ICommand {
 
     private UUID id;
     private String property;
     private MortgageType mortgageType;
-    private Double mortgageAmount;
-    private Double downPayment;
     private Integer fixedRateTermYears;
     private Double fixedMortgageRatePercentage;
-    private LocalDate firstPaymentDate;
     private MortgageFrequencyInterestCompounded compoundFrequency;
     private Boolean balloonPayment;
     private Boolean adjustableRateDetails;
@@ -44,73 +47,18 @@ public class CreateMortgageCommand implements ICommand {
     private MortgageLifetimeRateCap lifetimeRateCap;//
 
     private MortgageExtraPaymentFrequency extraPaymentFrequency;//
-    private Double extraPaymentAmount;//
 
-    public CreateMortgageCommand(String property, MortgageType mortgageType, Double mortgageAmount, 
-                                 Double downPayment, Integer fixedRateTermYears, Double fixedMortgageRatePercentage, 
-                                 LocalDate firstPaymentDate, MortgageFrequencyInterestCompounded compoundFrequency, 
-                                 Boolean balloonPayment, Boolean adjustableRateDetails, Integer fixedRateTermMonths,
-                                 
-                                 String adjustableRateType, String hybridArmType, Double fixedRateTerm,
-                                 Double rateChangeInterval, Double expectedRateChange, Double limitRate,
-                                 Double limitIncrease, Double howManyPayments, Boolean accelerationWeeklyPayments, 
-                                 Boolean accelerationExtraPayments, MortgageLifetimeRateCap lifetimeRateCap,
-                                 MortgageExtraPaymentFrequency extraPaymentFrequency, Double extraPaymentAmount) {
-        this.id = UUID.randomUUID();
-        this.adjustableRateType = adjustableRateType;
-        this.hybridArmType= hybridArmType;
-        this.fixedRateTerm = fixedRateTerm;
-        this.rateChangeInterval = rateChangeInterval;
-        this.expectedRateChange = expectedRateChange;
-        this.limitRate = limitRate;
-        this.limitIncrease = limitIncrease;
-        this.howManyPayments = howManyPayments;
-        this.accelerationWeeklyPayments = accelerationWeeklyPayments;
-        this.accelerationExtraPayments = accelerationExtraPayments;
-        this.property = property;
-        this.mortgageType = mortgageType;
-        this.mortgageAmount = mortgageAmount;
-        this.downPayment = downPayment;
-        this.fixedRateTermYears = fixedRateTermYears;
-        this.fixedMortgageRatePercentage = fixedMortgageRatePercentage;
-        this.firstPaymentDate = firstPaymentDate;
-        this.compoundFrequency = compoundFrequency;
-        this.balloonPayment = balloonPayment;
-        this.adjustableRateDetails = adjustableRateDetails;
-        this.fixedRateTermMonths = fixedRateTermMonths;
-        this.lifetimeRateCap = lifetimeRateCap;
-        this.extraPaymentFrequency = extraPaymentFrequency;
-        this.extraPaymentAmount = extraPaymentAmount;
-    }
+    // ✅ ESENCIALES (mantener)
+    private Double purchasePrice;        // Precio de compra ($)
+    private Double downPayment;          // Pago inicial ($)
+    private Integer loanTermYears;       // Plazo (15, 20, 30 años)
+    private Double interestRate;         // Tasa de interés anual (%)
+    private LocalDate loanStartDate;     // Fecha de inicio
 
-    public static CreateMortgageCommand fromRequest(CreateMortgageRequest request) {
-        return new CreateMortgageCommand(
-                request.getProperty(),
-                request.getMortgageType(),
-                request.getMortgageAmount(),
-                request.getDownPayment(),
-                request.getFixedRateTermYears(),
-                request.getFixedMortgageRatePercentage(),
-                request.getFirstPaymentDate(),
-                request.getCompoundFrequency(),
-                request.getBalloonPayment(),
-                request.getAdjustableRateDetails(),
-                request.getFixedRateTermMonths(),
-                request.getAdjustableRateType(),
-                request.getHybridArmType(),
-                request.getFixedRateTerm(),
-                request.getRateChangeInterval(),
-                request.getExpectedRateChange(),
-                request.getLimitRate(),
-                request.getLimitIncrease(),
-                request.getHowManyPayments(),
-                request.getAccelerationWeeklyPayments(),
-                request.getAccelerationExtraPayments(),
-                request.getLifetimeRateCap(),
-                request.getExtraPaymentFrequency(),
-                request.getExtraPaymentAmount()
-        );
-    }
+    // ✅ OPCIONALES pero útiles
+    private LocalDate firstPaymentDate;  // Fecha primer pago
+    private Boolean extraPayments;       // Pagos extras
+    private Double extraPaymentAmount;   // Monto pagos extras
 
     @Override
     public ICommandMessage getMessage() {

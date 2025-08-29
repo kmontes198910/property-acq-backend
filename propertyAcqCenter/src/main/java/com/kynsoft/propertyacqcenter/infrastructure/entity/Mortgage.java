@@ -37,14 +37,9 @@ public class Mortgage implements Serializable {
     @Enumerated(EnumType.STRING)
     private MortgageExtraPaymentFrequency extraPaymentFrequency;//
 
-    private Double extraPaymentAmount;//
-
-    private Double mortgageAmount;//
-    private Double downPayment;//
     private Integer fixedRateTermYears;
     private Integer fixedRateTermMonths;
     private Double fixedMortgageRatePercentage;
-    private LocalDate firstPaymentDate;
 
     @Enumerated(EnumType.STRING)
     private MortgageFrequencyInterestCompounded compoundFrequency;
@@ -70,10 +65,29 @@ public class Mortgage implements Serializable {
     private Boolean accelerationWeeklyPayments;
     private Boolean accelerationExtraPayments;
 
+    // ✅ ESENCIALES (mantener)
+    private Double purchasePrice;        // Precio de compra ($)
+    private Double downPayment;          // Pago inicial ($)
+    private Integer loanTermYears;       // Plazo (15, 20, 30 años)
+    private Double interestRate;         // Tasa de interés anual (%)
+    private LocalDate loanStartDate;     // Fecha de inicio
+
+    // ✅ OPCIONALES pero útiles
+    private LocalDate firstPaymentDate;  // Fecha primer pago
+    private Boolean extraPayments;       // Pagos extras
+    private Double extraPaymentAmount;   // Monto pagos extras
+
     public Mortgage(MortgageDto dto) {
         this.id = dto.getId();
-        this.extraPaymentFrequency = dto.getExtraPaymentFrequency();
+        this.purchasePrice = dto.getPurchasePrice();
+        this.loanTermYears = dto.getLoanTermYears();
+        this.interestRate = dto.getInterestRate();
+        this.loanStartDate = dto.getLoanStartDate();
+        this.firstPaymentDate = dto.getFirstPaymentDate();
+        this.extraPayments = dto.getExtraPayments();
         this.extraPaymentAmount = dto.getExtraPaymentAmount();
+
+        this.extraPaymentFrequency = dto.getExtraPaymentFrequency();
         this.adjustableRateType = dto.getAdjustableRateType();
         this.hybridArmType = dto.getHybridArmType();
         this.fixedRateTerm = dto.getFixedRateTerm();
@@ -85,11 +99,9 @@ public class Mortgage implements Serializable {
         this.accelerationWeeklyPayments = dto.getAccelerationWeeklyPayments();
         this.accelerationExtraPayments = dto.getAccelerationExtraPayments();
         this.mortgageType = dto.getMortgageType();
-        this.mortgageAmount = dto.getMortgageAmount();
         this.downPayment = dto.getDownPayment();
         this.fixedRateTermYears = dto.getFixedRateTermYears();
         this.fixedMortgageRatePercentage = dto.getFixedMortgageRatePercentage();
-        this.firstPaymentDate = dto.getFirstPaymentDate();
         this.compoundFrequency = dto.getCompoundFrequency();
         this.balloonPayment = dto.getBalloonPayment();
         this.adjustableRateDetails = dto.getAdjustableRateDetails();
@@ -104,7 +116,6 @@ public class Mortgage implements Serializable {
                 .id(this.id)
                 .adjustableRateType(adjustableRateType)
                 .extraPaymentFrequency(extraPaymentFrequency)
-                .extraPaymentAmount(extraPaymentAmount)
                 .hybridArmType(hybridArmType)
                 .fixedRateTerm(fixedRateTerm)
                 .rateChangeInterval(rateChangeInterval)
@@ -115,18 +126,24 @@ public class Mortgage implements Serializable {
                 .accelerationWeeklyPayments(accelerationWeeklyPayments)
                 .accelerationExtraPayments(accelerationExtraPayments)
                 .mortgageType(mortgageType)
-                .mortgageAmount(mortgageAmount)
                 .downPayment(downPayment)
                 .fixedRateTermYears(fixedRateTermYears)
                 .fixedRateTermMonths(fixedRateTermMonths)
                 .fixedMortgageRatePercentage(fixedMortgageRatePercentage)
-                .firstPaymentDate(firstPaymentDate)
                 .compoundFrequency(compoundFrequency)
                 .balloonPayment(balloonPayment)
                 .adjustableRateDetails(adjustableRateDetails)
                 .property(property.toAggregateBasic())
                 .paymentCuantity(paymentCuantity)
                 .lifetimeRateCap(lifetimeRateCap)
+
+                .purchasePrice(purchasePrice)
+                .loanTermYears(loanTermYears)
+                .interestRate(interestRate)
+                .loanStartDate(loanStartDate)
+                .firstPaymentDate(firstPaymentDate)
+                .extraPayments(extraPayments)
+                .extraPaymentAmount(extraPaymentAmount)
                 .build();
     }
 }
