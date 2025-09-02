@@ -45,6 +45,7 @@ public class MortgageDto {
     // ✅ ESENCIALES (mantener)
     private Double purchasePrice;        // Precio de compra ($)
     private Double downPayment;          // Pago inicial ($)
+    private Boolean isPercentage;          // Define si el downPayment esta en % o no.
     private Integer loanTermYears;       // Plazo (15, 20, 30 años)
     private Double interestRate;         // Tasa de interés anual (%)
     private LocalDate loanStartDate;     // Fecha de inicio
