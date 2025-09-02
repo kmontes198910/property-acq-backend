@@ -10,7 +10,8 @@ import org.springframework.stereotype.Service;
 public class AmortizationService {
 
     public AmortizationScheduleDto generateAmortizationSchedule(MortgageDto request) {
-        Double principal = request.getPurchasePrice() - request.getDownPayment();
+        Double downPayment = request.getIsPercentage() ? (request.getDownPayment() * request.getPurchasePrice())/100 : request.getDownPayment();
+        Double principal = request.getPurchasePrice() - downPayment;
         Double monthlyRate = request.getInterestRate() / 100 / 12;
         int totalPayments = request.getLoanTermYears() * 12;
         Double monthlyPayment = calculateMonthlyPayment(principal, monthlyRate, totalPayments);

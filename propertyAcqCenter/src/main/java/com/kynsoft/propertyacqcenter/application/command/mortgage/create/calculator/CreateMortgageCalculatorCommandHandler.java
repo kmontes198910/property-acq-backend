@@ -24,6 +24,7 @@ public class CreateMortgageCalculatorCommandHandler implements ICommandHandler<C
                 .firstPaymentDate(command.getFirstPaymentDate())
                 .extraPayments(command.getExtraPayments())
                 .extraPaymentAmount(command.getExtraPaymentAmount())
+                .isPercentage(command.getIsPercentage())
                 .build()));
     }
 

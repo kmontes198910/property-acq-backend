@@ -67,6 +67,7 @@ public class MortgageController {
                 .firstPaymentDate(request.getFirstPaymentDate())
                 .extraPayments(request.getExtraPayments())
                 .extraPaymentAmount(request.getExtraPaymentAmount())
+                .isPercentage(request.getIsPercentage())
                 .build());
 
         return ResponseEntity.ok(response);
@@ -84,6 +85,7 @@ public class MortgageController {
                 .firstPaymentDate(request.getFirstPaymentDate())
                 .extraPayments(request.getExtraPayments())
                 .extraPaymentAmount(request.getExtraPaymentAmount())
+                .isPercentage(request.getIsPercentage())
                 .build());
 
         return ResponseEntity.ok(response);

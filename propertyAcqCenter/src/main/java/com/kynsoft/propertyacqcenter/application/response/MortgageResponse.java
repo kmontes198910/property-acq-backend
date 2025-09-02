@@ -59,6 +59,7 @@ public class MortgageResponse implements IResponse {
     private LocalDate firstPaymentDate;  // Fecha primer pago
     private Boolean extraPayments;       // Pagos extras
     private Double extraPaymentAmount;   // Monto pagos extras
+    private Boolean isPercentage;
 
     private AmortizationScheduleDto amortizations;
 
@@ -93,6 +94,7 @@ public class MortgageResponse implements IResponse {
         this.firstPaymentDate = dto.getFirstPaymentDate();
         this.extraPayments = dto.getExtraPayments();
         this.extraPaymentAmount = dto.getExtraPaymentAmount();
+        this.isPercentage = dto.getIsPercentage();
     }
 
 }

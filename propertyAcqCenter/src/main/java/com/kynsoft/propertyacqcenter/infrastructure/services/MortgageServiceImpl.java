@@ -68,6 +68,7 @@ public class MortgageServiceImpl implements IMortgageService {
         update.setLifetimeRateCap(object.getLifetimeRateCap());
         update.setExtraPaymentFrequency(object.getExtraPaymentFrequency());
         update.setExtraPaymentAmount(object.getExtraPaymentAmount());
+        update.setIsPercentage(object.getIsPercentage());
         repositoryCommand.save(update);
     }
 

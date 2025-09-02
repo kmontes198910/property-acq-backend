@@ -76,6 +76,7 @@ public class Mortgage implements Serializable {
     private LocalDate firstPaymentDate;  // Fecha primer pago
     private Boolean extraPayments;       // Pagos extras
     private Double extraPaymentAmount;   // Monto pagos extras
+    private Boolean isPercentage;
 
     public Mortgage(MortgageDto dto) {
         this.id = dto.getId();
@@ -109,6 +110,7 @@ public class Mortgage implements Serializable {
         this.paymentCuantity = dto.getPaymentCuantity();
         this.fixedRateTermMonths = dto.getFixedRateTermMonths();
         this.lifetimeRateCap = dto.getLifetimeRateCap();
+        this.isPercentage = dto.getIsPercentage();
     }
 
     public MortgageDto toAggregate() {
@@ -144,6 +146,7 @@ public class Mortgage implements Serializable {
                 .firstPaymentDate(firstPaymentDate)
                 .extraPayments(extraPayments)
                 .extraPaymentAmount(extraPaymentAmount)
+                .isPercentage(isPercentage)
                 .build();
     }
 }
