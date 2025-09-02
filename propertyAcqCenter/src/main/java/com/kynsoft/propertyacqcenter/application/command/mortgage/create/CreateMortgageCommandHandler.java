@@ -22,10 +22,6 @@ public class CreateMortgageCommandHandler implements ICommandHandler<CreateMortg
     public void handle(CreateMortgageCommand command) {
         PropertyDto property = this.propertyService.getById(command.getProperty());
 
-//        if (this.mortgageService.existsByPropertyId(command.getProperty())) {
-//            throw new MortgageMustBeUniqueException(command.getProperty());
-//        }
-
         this.mortgageService.create(MortgageDto.builder()
                 .id(command.getId())
                 .property(property)
@@ -51,6 +47,7 @@ public class CreateMortgageCommandHandler implements ICommandHandler<CreateMortg
 
                 .purchasePrice(command.getPurchasePrice())
                 .downPayment(command.getDownPayment())
+                .isPercentage(command.getIsPercentage())
                 .loanTermYears(command.getLoanTermYears())
                 .interestRate(command.getInterestRate())
                 .loanStartDate(command.getLoanStartDate())
