@@ -54,4 +54,6 @@ public class MortgageDto {
     private LocalDate firstPaymentDate;  // Fecha primer pago
     private Boolean extraPayments;       // Pagos extras
     private Double extraPaymentAmount;   // Monto pagos extras
+    private Boolean hasLoan;
+    private String loanType;
 }

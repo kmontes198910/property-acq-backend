@@ -1,5 +1,6 @@
 package com.kynsoft.propertyacqcenter.application.command.mortgage.update;
 
+import com.kynsoft.propertyacqcenter.domain.enums.LoanType;
 import com.kynsoft.propertyacqcenter.domain.enums.MortgageExtraPaymentFrequency;
 import com.kynsoft.propertyacqcenter.domain.enums.MortgageFrequencyInterestCompounded;
 import com.kynsoft.propertyacqcenter.domain.enums.MortgageLifetimeRateCap;
@@ -40,5 +41,7 @@ public class UpdateMortgageRequest {
 
     private MortgageExtraPaymentFrequency extraPaymentFrequency;//
     private Double extraPaymentAmount;//
+    private Boolean hasLoan;
+    private LoanType loanType;
 
 }

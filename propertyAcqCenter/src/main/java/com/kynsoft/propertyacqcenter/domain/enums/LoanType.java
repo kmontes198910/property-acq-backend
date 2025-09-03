@@ -8,5 +8,13 @@ public enum LoanType {
     ARM_7_1,
     ARM_10_1,
     FHA,
-    VA
+    VA,
+    HARD_MONEY, 
+    PRIVATE_MONEY, 
+    FIX_AND_FLIP, 
+    HELOC, 
+    TRANSACTIONAL_FUNDING, 
+    PROOF_OF_FUNDS, 
+    CONVENTIONAL, 
+    PORTFOLIO
 }
