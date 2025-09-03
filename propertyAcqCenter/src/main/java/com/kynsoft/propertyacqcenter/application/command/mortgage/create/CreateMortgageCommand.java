@@ -2,6 +2,7 @@ package com.kynsoft.propertyacqcenter.application.command.mortgage.create;
 
 import com.kynsof.share.core.domain.bus.command.ICommand;
 import com.kynsof.share.core.domain.bus.command.ICommandMessage;
+import com.kynsoft.propertyacqcenter.domain.enums.LoanType;
 import com.kynsoft.propertyacqcenter.domain.enums.MortgageExtraPaymentFrequency;
 import com.kynsoft.propertyacqcenter.domain.enums.MortgageFrequencyInterestCompounded;
 import com.kynsoft.propertyacqcenter.domain.enums.MortgageLifetimeRateCap;
@@ -60,6 +61,8 @@ public class CreateMortgageCommand implements ICommand {
     private LocalDate firstPaymentDate;  // Fecha primer pago
     private Boolean extraPayments;       // Pagos extras
     private Double extraPaymentAmount;   // Monto pagos extras
+    private Boolean hasLoan;
+    private LoanType loanType;
 
     @Override
     public ICommandMessage getMessage() {

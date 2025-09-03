@@ -48,6 +48,8 @@ public class UpdateMortgageCommandHandler implements ICommandHandler<UpdateMortg
                 .lifetimeRateCap(command.getLifetimeRateCap())
                 .extraPaymentFrequency(command.getExtraPaymentFrequency())
                 .extraPaymentAmount(command.getExtraPaymentAmount())
+                .hasLoan(command.getHasLoan())
+                .loanType(command.getLoanType().name())
                 .build()
         );
     }

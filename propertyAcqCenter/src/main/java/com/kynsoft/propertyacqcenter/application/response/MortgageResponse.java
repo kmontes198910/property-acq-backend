@@ -60,6 +60,8 @@ public class MortgageResponse implements IResponse {
     private Boolean extraPayments;       // Pagos extras
     private Double extraPaymentAmount;   // Monto pagos extras
     private Boolean isPercentage;
+    private Boolean hasLoan;
+    private String loanType;
 
     private AmortizationScheduleDto amortizations;
 
@@ -95,6 +97,8 @@ public class MortgageResponse implements IResponse {
         this.extraPayments = dto.getExtraPayments();
         this.extraPaymentAmount = dto.getExtraPaymentAmount();
         this.isPercentage = dto.getIsPercentage();
+        this.hasLoan = dto.getHasLoan();
+        this.loanType = dto.getLoanType();
     }
 
 }

@@ -69,6 +69,8 @@ public class MortgageServiceImpl implements IMortgageService {
         update.setExtraPaymentFrequency(object.getExtraPaymentFrequency());
         update.setExtraPaymentAmount(object.getExtraPaymentAmount());
         update.setIsPercentage(object.getIsPercentage());
+        update.setHasLoan(object.getHasLoan());
+        update.setLoanType(object.getLoanType());
         repositoryCommand.save(update);
     }
 

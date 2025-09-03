@@ -68,6 +68,8 @@ public class MortgageController {
                 .extraPayments(request.getExtraPayments())
                 .extraPaymentAmount(request.getExtraPaymentAmount())
                 .isPercentage(request.getIsPercentage())
+                .hasLoan(request.getHasLoan())
+                .loanType(request.getLoanType())
                 .build());
 
         return ResponseEntity.ok(response);

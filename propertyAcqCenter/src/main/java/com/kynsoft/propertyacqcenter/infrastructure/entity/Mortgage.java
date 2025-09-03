@@ -77,6 +77,8 @@ public class Mortgage implements Serializable {
     private Boolean extraPayments;       // Pagos extras
     private Double extraPaymentAmount;   // Monto pagos extras
     private Boolean isPercentage;
+    private Boolean hasLoan;
+    private String loanType;
 
     public Mortgage(MortgageDto dto) {
         this.id = dto.getId();
@@ -111,6 +113,8 @@ public class Mortgage implements Serializable {
         this.fixedRateTermMonths = dto.getFixedRateTermMonths();
         this.lifetimeRateCap = dto.getLifetimeRateCap();
         this.isPercentage = dto.getIsPercentage();
+        this.hasLoan = dto.getHasLoan();
+        this.loanType = dto.getLoanType();
     }
 
     public MortgageDto toAggregate() {
@@ -147,6 +151,8 @@ public class Mortgage implements Serializable {
                 .extraPayments(extraPayments)
                 .extraPaymentAmount(extraPaymentAmount)
                 .isPercentage(isPercentage)
+                .hasLoan(hasLoan)
+                .loanType(loanType)
                 .build();
     }
 }

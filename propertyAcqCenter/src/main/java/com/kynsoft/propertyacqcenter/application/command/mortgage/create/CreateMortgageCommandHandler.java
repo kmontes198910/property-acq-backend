@@ -54,6 +54,8 @@ public class CreateMortgageCommandHandler implements ICommandHandler<CreateMortg
                 .firstPaymentDate(command.getFirstPaymentDate())
                 .extraPayments(command.getExtraPayments())
                 .extraPaymentAmount(command.getExtraPaymentAmount())
+                .hasLoan(command.getHasLoan())
+                .loanType(command.getLoanType().name())
                 .build()
         );
     }
