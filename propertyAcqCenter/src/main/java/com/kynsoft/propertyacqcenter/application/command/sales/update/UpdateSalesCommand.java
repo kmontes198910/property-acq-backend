@@ -28,10 +28,12 @@ public class UpdateSalesCommand implements ICommand {
     private PropertysStarting propertysStarting;
     private PropertysAnnualValueIncrease propertysAnnualValueIncrease;
     private TypeOfSalesCost typeOfSalesCost;
+    private Double afterRepairValue;
 
     public UpdateSalesCommand(UUID id, String property, Double capitalGainsTaxRate, Double stateIncomeTaxRate, 
             Double federalIncomeTaxRate, Double purchesePrice, Double marketValueIndreaseRate, Boolean deprecationNone, Boolean deprecationStraightline, Boolean deprecationDoubleDecliningBalance,
-            PropertysStarting propertysStarting, PropertysAnnualValueIncrease propertysAnnualValueIncrease, TypeOfSalesCost typeOfSalesCost) {
+            PropertysStarting propertysStarting, PropertysAnnualValueIncrease propertysAnnualValueIncrease, 
+            TypeOfSalesCost typeOfSalesCost, Double afterRepairValue) {
         this.id = id;
         this.property = property;
         this.propertysStarting = propertysStarting;
@@ -45,6 +47,7 @@ public class UpdateSalesCommand implements ICommand {
         this.deprecationNone = deprecationNone;
         this.deprecationStraightline = deprecationStraightline;
         this.deprecationDoubleDecliningBalance = deprecationDoubleDecliningBalance;
+        this.afterRepairValue = afterRepairValue;
     }
 
     public static UpdateSalesCommand fromRequest(UpdateSalesRequest request, UUID id) {
@@ -61,7 +64,8 @@ public class UpdateSalesCommand implements ICommand {
                 request.getDeprecationDoubleDecliningBalance(),
                 request.getPropertysStarting(),
                 request.getPropertysAnnualValueIncrease(),
-                request.getTypeOfSalesCost()
+                request.getTypeOfSalesCost(),
+                request.getAfterRepairValue()
         );
     }
 
