@@ -134,14 +134,11 @@ public class CreateAllAnalysisCommandHandler implements ICommandHandler<CreateAl
                 .property(property)
                 .mortgageType(command.getMortgage().getMortgageType())
                 .downPayment(command.getMortgage().getDownPayment())
-                .fixedRateTermYears(command.getMortgage().getFixedRateTermYears())
-                .fixedMortgageRatePercentage(command.getMortgage().getFixedMortgageRatePercentage())
                 .firstPaymentDate(command.getMortgage().getFirstPaymentDate())
                 .compoundFrequency(command.getMortgage().getCompoundFrequency())
                 .balloonPayment(command.getMortgage().getBalloonPayment())
                 .adjustableRateDetails(command.getMortgage().getAdjustableRateDetails())
-                .fixedRateTermMonths(command.getMortgage().getFixedRateTermMonths())
-                
+
                 .adjustableRateType(command.getMortgage().getAdjustableRateType())
                 .hybridArmType(command.getMortgage().getHybridArmType())
                 .fixedRateTerm(command.getMortgage().getFixedRateTerm())

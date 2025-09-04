@@ -13,13 +13,10 @@ public class CreateAllAnalysisMortgageRequest {
     private MortgageType mortgageType;
     private Double mortgageAmount;
     private Double downPayment;
-    private Integer fixedRateTermYears;
-    private Double fixedMortgageRatePercentage;
     private LocalDate firstPaymentDate;
     private MortgageFrequencyInterestCompounded compoundFrequency;
     private Boolean balloonPayment;
     private Boolean adjustableRateDetails;
-    private Integer fixedRateTermMonths;
 
     private String adjustableRateType;
     private String hybridArmType;

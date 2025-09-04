@@ -18,13 +18,13 @@ public class MortgageDto {
     private PropertyDto property;
 
     private MortgageType mortgageType;//TODO: por definir
-    private Integer fixedRateTermYears;
-    private Double fixedMortgageRatePercentage;
+    //private Integer fixedRateTermYears;
+    //private Double fixedMortgageRatePercentage;
     private MortgageFrequencyInterestCompounded compoundFrequency;
     private Boolean balloonPayment;
     private Boolean adjustableRateDetails;//TODO: por definir
     private Integer paymentCuantity;
-    private Integer fixedRateTermMonths;
+    //private Integer fixedRateTermMonths;
 
     private String adjustableRateType;
     private String hybridArmType;

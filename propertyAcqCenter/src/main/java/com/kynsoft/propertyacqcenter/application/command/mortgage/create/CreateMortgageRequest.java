@@ -28,12 +28,9 @@ public class CreateMortgageRequest {
 
     private String property;
     private MortgageType mortgageType;
-    private Integer fixedRateTermYears;// Para ARMs: años de tasa fija inicial
-    private Double fixedMortgageRatePercentage;
     private MortgageFrequencyInterestCompounded compoundFrequency;// Frecuencia de capitalización
     private Boolean balloonPayment;
     private Boolean adjustableRateDetails;
-    private Integer fixedRateTermMonths;
 
     private String adjustableRateType;
     private String hybridArmType;

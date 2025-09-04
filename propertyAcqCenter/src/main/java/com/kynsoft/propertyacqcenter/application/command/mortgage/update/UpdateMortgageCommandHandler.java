@@ -27,14 +27,11 @@ public class UpdateMortgageCommandHandler implements ICommandHandler<UpdateMortg
                 .property(property)
                 .mortgageType(command.getMortgageType())
                 .downPayment(command.getDownPayment())
-                .fixedRateTermYears(command.getFixedRateTermYears())
-                .fixedMortgageRatePercentage(command.getFixedMortgageRatePercentage())
                 .firstPaymentDate(command.getFirstPaymentDate())
                 .compoundFrequency(command.getCompoundFrequency())
                 .balloonPayment(command.getBalloonPayment())
                 .adjustableRateDetails(command.getAdjustableRateDetails())
-                .fixedRateTermMonths(command.getFixedRateTermMonths())
-                
+
                 .adjustableRateType(command.getAdjustableRateType())
                 .hybridArmType(command.getHybridArmType())
                 .fixedRateTerm(command.getFixedRateTerm())
@@ -50,6 +47,7 @@ public class UpdateMortgageCommandHandler implements ICommandHandler<UpdateMortg
                 .extraPaymentAmount(command.getExtraPaymentAmount())
                 .hasLoan(command.getHasLoan())
                 .loanType(command.getLoanType().name())
+                .isPercentage(command.getIsPercentage())
                 .build()
         );
     }

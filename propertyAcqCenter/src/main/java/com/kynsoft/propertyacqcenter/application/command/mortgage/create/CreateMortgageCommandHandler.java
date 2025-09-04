@@ -26,12 +26,9 @@ public class CreateMortgageCommandHandler implements ICommandHandler<CreateMortg
                 .id(command.getId())
                 .property(property)
                 .mortgageType(command.getMortgageType())
-                .fixedRateTermYears(command.getFixedRateTermYears())
-                .fixedMortgageRatePercentage(command.getFixedMortgageRatePercentage())
                 .compoundFrequency(command.getCompoundFrequency())
                 .balloonPayment(command.getBalloonPayment())
                 .adjustableRateDetails(command.getAdjustableRateDetails())
-                .fixedRateTermMonths(command.getFixedRateTermMonths())
                 .adjustableRateType(command.getAdjustableRateType())
                 .hybridArmType(command.getHybridArmType())
                 .fixedRateTerm(command.getFixedRateTerm())
@@ -55,7 +52,7 @@ public class CreateMortgageCommandHandler implements ICommandHandler<CreateMortg
                 .extraPayments(command.getExtraPayments())
                 .extraPaymentAmount(command.getExtraPaymentAmount())
                 .hasLoan(command.getHasLoan())
-                .loanType(command.getLoanType().name())
+                .loanType(command.getLoanType() != null ? command.getLoanType().name() : null)
                 .build()
         );
     }
