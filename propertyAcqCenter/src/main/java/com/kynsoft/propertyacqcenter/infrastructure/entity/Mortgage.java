@@ -37,10 +37,6 @@ public class Mortgage implements Serializable {
     @Enumerated(EnumType.STRING)
     private MortgageExtraPaymentFrequency extraPaymentFrequency;//
 
-    private Integer fixedRateTermYears;
-    private Integer fixedRateTermMonths;
-    private Double fixedMortgageRatePercentage;
-
     @Enumerated(EnumType.STRING)
     private MortgageFrequencyInterestCompounded compoundFrequency;
 
@@ -77,7 +73,11 @@ public class Mortgage implements Serializable {
     private Boolean extraPayments;       // Pagos extras
     private Double extraPaymentAmount;   // Monto pagos extras
     private Boolean isPercentage;
+
+    @Column(nullable = true)
     private Boolean hasLoan;
+
+    @Column(nullable = true)
     private String loanType;
 
     public Mortgage(MortgageDto dto) {
@@ -103,14 +103,11 @@ public class Mortgage implements Serializable {
         this.accelerationExtraPayments = dto.getAccelerationExtraPayments();
         this.mortgageType = dto.getMortgageType();
         this.downPayment = dto.getDownPayment();
-        this.fixedRateTermYears = dto.getFixedRateTermYears();
-        this.fixedMortgageRatePercentage = dto.getFixedMortgageRatePercentage();
         this.compoundFrequency = dto.getCompoundFrequency();
         this.balloonPayment = dto.getBalloonPayment();
         this.adjustableRateDetails = dto.getAdjustableRateDetails();
         this.property = dto.getProperty() != null ? new Property(dto.getProperty()) : null;
         this.paymentCuantity = dto.getPaymentCuantity();
-        this.fixedRateTermMonths = dto.getFixedRateTermMonths();
         this.lifetimeRateCap = dto.getLifetimeRateCap();
         this.isPercentage = dto.getIsPercentage();
         this.hasLoan = dto.getHasLoan();
@@ -133,9 +130,6 @@ public class Mortgage implements Serializable {
                 .accelerationExtraPayments(accelerationExtraPayments)
                 .mortgageType(mortgageType)
                 .downPayment(downPayment)
-                .fixedRateTermYears(fixedRateTermYears)
-                .fixedRateTermMonths(fixedRateTermMonths)
-                .fixedMortgageRatePercentage(fixedMortgageRatePercentage)
                 .compoundFrequency(compoundFrequency)
                 .balloonPayment(balloonPayment)
                 .adjustableRateDetails(adjustableRateDetails)

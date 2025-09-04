@@ -22,13 +22,10 @@ public class UpdateMortgageCommand implements ICommand {
     private MortgageType mortgageType;
     private Double mortgageAmount;
     private Double downPayment;
-    private Integer fixedRateTermYears;
-    private Double fixedMortgageRatePercentage;
     private LocalDate firstPaymentDate;
     private MortgageFrequencyInterestCompounded compoundFrequency;
     private Boolean balloonPayment;
     private Boolean adjustableRateDetails;
-    private Integer fixedRateTermMonths;
 
     private String adjustableRateType;
     private String hybridArmType;
@@ -48,17 +45,17 @@ public class UpdateMortgageCommand implements ICommand {
     private Double extraPaymentAmount;//
     private Boolean hasLoan;
     private LoanType loanType;
+    private Boolean isPercentage;
 
     public UpdateMortgageCommand(UUID id, String property, MortgageType mortgageType, Double mortgageAmount, 
-                                 Double downPayment, Integer fixedRateTermYears, Double fixedMortgageRatePercentage, 
-                                 LocalDate firstPaymentDate, MortgageFrequencyInterestCompounded compoundFrequency, 
-                                 Boolean balloonPayment, Boolean adjustableRateDetails, Integer fixedRateTermMonths,
+                                 Double downPayment, LocalDate firstPaymentDate, MortgageFrequencyInterestCompounded compoundFrequency, 
+                                 Boolean balloonPayment, Boolean adjustableRateDetails,
                                  String adjustableRateType, String hybridArmType, Double fixedRateTerm,
                                  Double rateChangeInterval, Double expectedRateChange, Double limitRate,
                                  Double limitIncrease, Double howManyPayments, Boolean accelerationWeeklyPayments, 
                                  Boolean accelerationExtraPayments, MortgageLifetimeRateCap lifetimeRateCap,
                                  MortgageExtraPaymentFrequency extraPaymentFrequency, Double extraPaymentAmount,
-                                 Boolean hasLoan, LoanType loanType) {
+                                 Boolean hasLoan, LoanType loanType, Boolean isPercentage) {
         this.id = id;
         this.extraPaymentFrequency = extraPaymentFrequency;
         this.extraPaymentAmount = extraPaymentAmount;
@@ -76,16 +73,14 @@ public class UpdateMortgageCommand implements ICommand {
         this.mortgageType = mortgageType;
         this.mortgageAmount = mortgageAmount;
         this.downPayment = downPayment;
-        this.fixedRateTermYears = fixedRateTermYears;
-        this.fixedMortgageRatePercentage = fixedMortgageRatePercentage;
         this.firstPaymentDate = firstPaymentDate;
         this.compoundFrequency = compoundFrequency;
         this.balloonPayment = balloonPayment;
         this.adjustableRateDetails = adjustableRateDetails;
-        this.fixedRateTermMonths = fixedRateTermMonths;
         this.lifetimeRateCap = lifetimeRateCap;
         this.hasLoan = hasLoan;
         this.loanType = loanType;
+        this.isPercentage = isPercentage;
     }
 
     public static UpdateMortgageCommand fromRequest(UpdateMortgageRequest request, UUID id) {
@@ -95,13 +90,10 @@ public class UpdateMortgageCommand implements ICommand {
                 request.getMortgageType(),
                 request.getMortgageAmount(),
                 request.getDownPayment(),
-                request.getFixedRateTermYears(),
-                request.getFixedMortgageRatePercentage(),
                 request.getFirstPaymentDate(),
                 request.getCompoundFrequency(),
                 request.getBalloonPayment(),
                 request.getAdjustableRateDetails(),
-                request.getFixedRateTermMonths(),
                 request.getAdjustableRateType(),
                 request.getHybridArmType(),
                 request.getFixedRateTerm(),
@@ -116,7 +108,8 @@ public class UpdateMortgageCommand implements ICommand {
                 request.getExtraPaymentFrequency(),
                 request.getExtraPaymentAmount(),
                 request.getHasLoan(),
-                request.getLoanType()
+                request.getLoanType(),
+                request.getIsPercentage()
         );
     }
 

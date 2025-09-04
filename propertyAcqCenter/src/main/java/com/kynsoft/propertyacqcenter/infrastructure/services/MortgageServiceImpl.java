@@ -47,13 +47,10 @@ public class MortgageServiceImpl implements IMortgageService {
         update.setProperty(new Property(object.getProperty()));
         update.setMortgageType(object.getMortgageType());
         update.setDownPayment(object.getDownPayment());
-        update.setFixedRateTermYears(object.getFixedRateTermYears());
-        update.setFixedMortgageRatePercentage(object.getFixedMortgageRatePercentage());
         update.setFirstPaymentDate(object.getFirstPaymentDate());
         update.setCompoundFrequency(object.getCompoundFrequency());
         update.setBalloonPayment(object.getBalloonPayment());
         update.setAdjustableRateDetails(object.getAdjustableRateDetails());
-        update.setFixedRateTermMonths(object.getFixedRateTermMonths());
 
         update.setAdjustableRateType(object.getAdjustableRateType());
         update.setHybridArmType(object.getHybridArmType());

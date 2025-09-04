@@ -26,12 +26,9 @@ public class CreateMortgageCommand implements ICommand {
     private UUID id;
     private String property;
     private MortgageType mortgageType;
-    private Integer fixedRateTermYears;
-    private Double fixedMortgageRatePercentage;
     private MortgageFrequencyInterestCompounded compoundFrequency;
     private Boolean balloonPayment;
     private Boolean adjustableRateDetails;
-    private Integer fixedRateTermMonths;
 
     private String adjustableRateType;
     private String hybridArmType;

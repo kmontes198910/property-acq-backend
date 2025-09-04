@@ -26,12 +26,9 @@ public class MortgageResponse implements IResponse {
 
     private MortgageType mortgageType;
     private MortgageLifetimeRateCap lifetimeRateCap;//
-    private Integer fixedRateTermYears;
-    private Double fixedMortgageRatePercentage;
     private MortgageFrequencyInterestCompounded compoundFrequency;
     private Boolean balloonPayment;
     private Boolean adjustableRateDetails;
-    private Integer fixedRateTermMonths;
 
     private String adjustableRateType;
     private String hybridArmType;
@@ -70,12 +67,9 @@ public class MortgageResponse implements IResponse {
         this.extraPaymentFrequency = dto.getExtraPaymentFrequency();
         this.property = dto.getProperty() != null ? new PropertiesBasicResponse(dto.getProperty()) : null;
         this.mortgageType = dto.getMortgageType();
-        this.fixedRateTermYears = dto.getFixedRateTermYears();
-        this.fixedMortgageRatePercentage = dto.getFixedMortgageRatePercentage();
         this.compoundFrequency = dto.getCompoundFrequency();
         this.balloonPayment = dto.getBalloonPayment();
         this.adjustableRateDetails = dto.getAdjustableRateDetails();
-        this.fixedRateTermMonths = dto.getFixedRateTermMonths();
         this.adjustableRateType = dto.getAdjustableRateType();
         this.hybridArmType = dto.getHybridArmType();
         this.fixedRateTerm = dto.getFixedRateTerm();
