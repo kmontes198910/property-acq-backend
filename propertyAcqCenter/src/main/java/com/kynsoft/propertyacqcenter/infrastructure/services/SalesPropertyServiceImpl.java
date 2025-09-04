@@ -58,6 +58,8 @@ public class SalesPropertyServiceImpl implements ISalesPropertyService {
         update.setPropertysStarting(object.getPropertysStarting());
         update.setPropertysAnnualValueIncrease(object.getPropertysAnnualValueIncrease());
         update.setTypeOfSalesCost(object.getTypeOfSalesCost());
+        update.setRealEstateSaleCommission(object.getRealEstateSaleCommission());
+        update.setAfterRepairValue(object.getAfterRepairValue());
 
         repositoryCommand.save(update);
     }

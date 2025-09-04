@@ -52,6 +52,7 @@ public class SalesProperty implements Serializable {
 
     private Double marketValueIndreaseRate;
     private Double afterRepairValue;
+    private Double realEstateSaleCommission;
 
     public SalesProperty(SalesPropertyDto dto) {
         this.id = dto.getId();
@@ -68,6 +69,7 @@ public class SalesProperty implements Serializable {
         this.deprecationStraightline = dto.getDeprecationStraightline();
         this.deprecationDoubleDecliningBalance = dto.getDeprecationDoubleDecliningBalance();
         this.afterRepairValue = dto.getAfterRepairValue();
+        this.realEstateSaleCommission = dto.getRealEstateSaleCommission();
     }
 
     public SalesPropertyDto toAggregate() {
@@ -86,6 +88,7 @@ public class SalesProperty implements Serializable {
                 .propertysAnnualValueIncrease(propertysAnnualValueIncrease)
                 .typeOfSalesCost(typeOfSalesCost)
                 .afterRepairValue(afterRepairValue)
+                .realEstateSaleCommission(realEstateSaleCommission)
                 .build();
     }
 }

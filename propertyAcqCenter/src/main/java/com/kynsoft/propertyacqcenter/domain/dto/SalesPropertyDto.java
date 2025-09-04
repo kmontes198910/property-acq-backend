@@ -31,4 +31,5 @@ public class SalesPropertyDto implements Serializable {
     private PropertysAnnualValueIncrease propertysAnnualValueIncrease;
     private TypeOfSalesCost typeOfSalesCost;
     private Double afterRepairValue;
+    private Double realEstateSaleCommission;
 }

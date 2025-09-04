@@ -24,5 +24,5 @@ public class UpdateSalesRequest {
     private PropertysAnnualValueIncrease propertysAnnualValueIncrease;
     private TypeOfSalesCost typeOfSalesCost;
     private Double afterRepairValue;
-
+    private Double realEstateSaleCommission;
 }

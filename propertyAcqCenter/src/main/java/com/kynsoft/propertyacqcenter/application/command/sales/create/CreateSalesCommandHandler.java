@@ -42,6 +42,7 @@ public class CreateSalesCommandHandler implements ICommandHandler<CreateSalesCom
                 .propertysAnnualValueIncrease(command.getPropertysAnnualValueIncrease())
                 .typeOfSalesCost(command.getTypeOfSalesCost())
                 .afterRepairValue(command.getAfterRepairValue())
+                .realEstateSaleCommission(command.getRealEstateSaleCommission())
                 .build()
         );
     }
