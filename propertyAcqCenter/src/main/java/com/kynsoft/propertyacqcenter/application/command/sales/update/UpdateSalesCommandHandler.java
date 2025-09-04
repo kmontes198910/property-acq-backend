@@ -36,6 +36,7 @@ public class UpdateSalesCommandHandler implements ICommandHandler<UpdateSalesCom
                 .propertysStarting(command.getPropertysStarting())
                 .propertysAnnualValueIncrease(command.getPropertysAnnualValueIncrease())
                 .typeOfSalesCost(command.getTypeOfSalesCost())
+                .afterRepairValue(command.getAfterRepairValue())
                 .build()
         );
     }

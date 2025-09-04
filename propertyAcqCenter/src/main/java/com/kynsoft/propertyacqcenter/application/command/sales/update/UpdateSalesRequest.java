@@ -23,5 +23,6 @@ public class UpdateSalesRequest {
     private PropertysStarting propertysStarting;
     private PropertysAnnualValueIncrease propertysAnnualValueIncrease;
     private TypeOfSalesCost typeOfSalesCost;
+    private Double afterRepairValue;
 
 }
