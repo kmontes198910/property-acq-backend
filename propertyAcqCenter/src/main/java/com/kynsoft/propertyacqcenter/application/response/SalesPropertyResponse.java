@@ -33,6 +33,7 @@ public class SalesPropertyResponse implements Serializable, IResponse {
     private PropertysAnnualValueIncrease propertysAnnualValueIncrease;
     private TypeOfSalesCost typeOfSalesCost;
     private Double afterRepairValue;
+    private Double realEstateSaleCommission;
 
     public SalesPropertyResponse(SalesPropertyDto dto) {
         this.id = dto.getId();
@@ -49,5 +50,6 @@ public class SalesPropertyResponse implements Serializable, IResponse {
         this.propertysAnnualValueIncrease = dto.getPropertysAnnualValueIncrease();
         this.typeOfSalesCost = dto.getTypeOfSalesCost();
         this.afterRepairValue = dto.getAfterRepairValue();
+        this.realEstateSaleCommission = dto.getRealEstateSaleCommission();
     }
 }

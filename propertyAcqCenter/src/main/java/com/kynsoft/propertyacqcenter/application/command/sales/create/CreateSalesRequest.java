@@ -24,4 +24,5 @@ public class CreateSalesRequest {
     private PropertysAnnualValueIncrease propertysAnnualValueIncrease;
     private TypeOfSalesCost typeOfSalesCost;
     private Double afterRepairValue;
+    private Double realEstateSaleCommission;
 }
