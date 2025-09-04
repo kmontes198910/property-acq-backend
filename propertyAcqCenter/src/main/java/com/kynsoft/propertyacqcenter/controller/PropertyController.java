@@ -17,6 +17,7 @@ import com.kynsoft.propertyacqcenter.application.query.property.getPropertiesByI
 import com.kynsoft.propertyacqcenter.application.query.property.getPropertiesByIdContact.ListPropertyWithProfileResponse;
 import com.kynsoft.propertyacqcenter.application.query.property.search.GetSearchPropertyQuery;
 import com.kynsoft.propertyacqcenter.application.query.property.searchWithProfileByContact.GetSearchPropertyWithProfileByContactQuery;
+import com.kynsoft.propertyacqcenter.application.response.PropertiesGetByIdResponse;
 import com.kynsoft.propertyacqcenter.application.response.PropertiesResponse;
 import java.util.UUID;
 import org.springframework.data.domain.Pageable;
@@ -62,7 +63,7 @@ public class PropertyController {
     public ResponseEntity<?> getById(@PathVariable String id) {
 
         GetByIdPropertyQuery query = new GetByIdPropertyQuery(id);
-        PropertiesResponse response = mediator.send(query);
+        PropertiesGetByIdResponse response = mediator.send(query);
 
         return ResponseEntity.ok(response);
     }
