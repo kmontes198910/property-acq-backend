@@ -2,6 +2,7 @@ package com.kynsoft.propertyacqcenter.application.query.property.getById;
 
 import com.kynsof.share.core.domain.bus.query.IQueryHandler;
 import com.kynsoft.propertyacqcenter.application.response.PropertiesGetByIdResponse;
+import com.kynsoft.propertyacqcenter.domain.dto.PropertyDto;
 import com.kynsoft.propertyacqcenter.domain.dto.SalesPropertyDto;
 import com.kynsoft.propertyacqcenter.domain.services.IPropertyService;
 import com.kynsoft.propertyacqcenter.domain.services.ISalesPropertyService;
@@ -20,8 +21,21 @@ public class GetByIdPropertyQueryHandler implements IQueryHandler<GetByIdPropert
 
     @Override
     public PropertiesGetByIdResponse handle(GetByIdPropertyQuery query) {
-        
-        SalesPropertyDto sales = this.salesPropertyService.findByPropertyId(query.getId());
-        return new PropertiesGetByIdResponse(this.propertyService.getById(query.getId()), sales.getAfterRepairValue());
+
+        PropertyDto property = this.propertyService.getById(query.getId());
+        Double afterRepairValue = property.getAfterRepairValue();
+
+        try {
+            SalesPropertyDto sales = this.salesPropertyService.findByPropertyId(query.getId());
+            afterRepairValue = sales.getAfterRepairValue();
+        } catch (Exception e) {
+            System.err.println("##############################################");
+            System.err.println("##############################################");
+            System.err.println("AfterRepairValue not found");
+            System.err.println("##############################################");
+            System.err.println("##############################################");
+        }
+
+        return new PropertiesGetByIdResponse(property, afterRepairValue);
     }
 }
