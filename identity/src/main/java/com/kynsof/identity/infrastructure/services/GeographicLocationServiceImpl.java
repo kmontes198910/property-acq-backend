@@ -16,7 +16,6 @@ import com.kynsof.share.core.domain.request.FilterCriteria;
 import com.kynsof.share.core.domain.response.ErrorField;
 import com.kynsof.share.core.domain.response.PaginatedResponse;
 import com.kynsof.share.core.domain.rules.ValidateObjectNotNullRule;
-import com.kynsof.share.core.infrastructure.redis.CacheConfig;
 import com.kynsof.share.core.infrastructure.specifications.GenericSpecificationsBuilder;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
@@ -56,7 +55,6 @@ public class GeographicLocationServiceImpl implements IGeographicLocationService
     }
 
     @Override
-    @Cacheable(cacheNames = CacheConfig.LOCATION_CACHE, unless = "#result == null")
     public GeographicLocationDto findById(UUID id) {
         return repositoryQuery.findById(id)
                 .map(GeographicLocation::toAggregate)
@@ -71,7 +69,6 @@ public class GeographicLocationServiceImpl implements IGeographicLocationService
     }
 
     @Override
-    @Cacheable(cacheNames = CacheConfig.LOCATION_CACHE, unless = "#result == null")
     public LocationHierarchyDto findCantonAndProvinceIdsByParroquiaId(UUID parroquiaId) {
         var parroquia = repositoryQuery.findById(parroquiaId)
                 .filter(loc -> loc.getType() == GeographicLocationType.PARROQUIA && loc.getParent() != null)
@@ -98,7 +95,6 @@ public class GeographicLocationServiceImpl implements IGeographicLocationService
     }
 
     @Override
-    @Cacheable(cacheNames = CacheConfig.LOCATION_CACHE, unless = "#result == null")
     public PaginatedResponse search(Pageable pageable, List<FilterCriteria> filterCriteria) {
         filterCriteria.forEach(filter -> {
             if ("type".equals(filter.getKey()) && filter.getValue() instanceof String) {
