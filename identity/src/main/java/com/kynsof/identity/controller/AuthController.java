@@ -178,6 +178,7 @@ public class AuthController {
         return ResponseEntity.ok(ApiResponse.success(appVersion));
     }
 
+
     /**
      * Endpoint para verificar la existencia de un usuario por email.
      * Protegido con rate limiting para prevenir ataques de enumeración de usuarios.
