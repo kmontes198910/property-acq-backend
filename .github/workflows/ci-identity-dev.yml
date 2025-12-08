@@ -1,4 +1,4 @@
-name: ci-identity-dev
+name: ci-identity-prod
 
 env:
   SERVICE_NAME: 'identity'
@@ -8,34 +8,13 @@ on:
   workflow_dispatch:
   push:
     branches:
-      - 'dev'
+      - 'prod'
     paths:
-      - ci-identity-dev.yml
+      - .github/workflows/ci-identity-prod.yml
       - 'identity/**'
       - 'share/**'
-
 jobs:
-  publish-share:
-    runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      packages: write
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-java@v4
-        with:
-          java-version: '17'
-          distribution: 'temurin'
-          server-id: github
-          settings-path: ${{ github.workspace }}
-      - name: Publish share package
-        run: mvn --batch-mode deploy -s $GITHUB_WORKSPACE/settings.xml
-        working-directory: share
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
   build-push:
-    needs: publish-share
     runs-on: ubuntu-latest
     steps:
       -
@@ -85,8 +64,8 @@ jobs:
       - name: Enable kubectl
         uses: tale/kubectl-action@v1
         with:
-          base64-kube-config: ${{ secrets.KUBE_CONFIG_DEV }}
+          base64-kube-config: ${{ secrets.KUBE_CONFIG }}
 
       - name: Redeploy
         run: |
-          kubectl -n ${{ vars.K8S_NAMESPACE_DEV }} patch deployment ${{  env.SERVICE_NAME }} -p "{\"spec\": {\"template\": {\"metadata\": { \"labels\": {  \"redeploy\": \"$(date +%s)\"}}}}}"
+          kubectl -n ${{ vars.K8S_NAMESPACE }} patch deployment ${{  env.SERVICE_NAME }} -p "{\"spec\": {\"template\": {\"metadata\": { \"labels\": {  \"redeploy\": \"$(date +%s)\"}}}}}"
