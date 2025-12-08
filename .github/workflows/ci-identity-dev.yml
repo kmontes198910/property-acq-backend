@@ -8,7 +8,7 @@ on:
   workflow_dispatch:
   push:
     branches:
-      - 'prod'
+      - 'dev'
     paths:
       - .github/workflows/ci-identity-prod.yml
       - 'identity/**'
