@@ -169,7 +169,6 @@ public class AuthController {
         ForwardPasswordMessage response = mediator.send(command);
         return ResponseEntity.ok(ApiResponse.success(response.getResult()));
     }
-
     /**
      * Endpoint para verificar la versión de la aplicación.
      * No requiere rate limiting al ser información no sensible.
