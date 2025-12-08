@@ -13,6 +13,15 @@
 	<version>1.0.0</version>
 	<name>identity</name>
 	<description>Microservicio de gestión de identity</description>
+	<repositories>
+		<repository>
+			<id>github</id>
+			<url>https://maven.pkg.github.com/kmontes198910/property-acq-backend</url>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+		</repository>
+	</repositories>
 	<properties>
 		<java.version>17</java.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
