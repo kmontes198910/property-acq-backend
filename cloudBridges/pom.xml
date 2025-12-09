@@ -101,8 +101,8 @@
         
         <dependency>
             <groupId>com.knsof</groupId>
-            <artifactId>share</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
+            <artifactId>share-properties</artifactId>
+            <version>1.0.0</version>
             <scope>compile</scope>
         </dependency>
 

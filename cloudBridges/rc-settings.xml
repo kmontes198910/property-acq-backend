@@ -12,7 +12,7 @@
                 </repository>
                 <repository>
                     <id>github</id>
-                    <url>https://maven.pkg.github.com/kmontes198910/scheduled</url>
+                    <url>https://maven.pkg.github.com/kmontes198910/property-acq-backend</url>
                     <snapshots>
                         <enabled>true</enabled>
                     </snapshots>
@@ -25,7 +25,7 @@
         <server>
             <id>github</id>
             <username>kmontes198910</username>
-            <password>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</password>
+            <password>GIT_TOKEN</password>
         </server>
     </servers>
 </settings>
