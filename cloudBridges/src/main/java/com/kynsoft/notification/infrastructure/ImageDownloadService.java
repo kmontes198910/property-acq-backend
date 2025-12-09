@@ -1,7 +1,7 @@
 package com.kynsoft.notification.infrastructure;
 
 
-import com.kynsof.share.core.infrastructure.redis.CacheConfig;
+import com.kynsoft.notification.infrastructure.config.CloudBridgesCacheConfig;
 import com.kynsoft.notification.domain.dto.AFileDto;
 import com.kynsoft.notification.domain.service.IAFileService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +24,7 @@ public class ImageDownloadService {
         this.restTemplate = restTemplate;
         this.fileService = fileService;
     }
-    @Cacheable(cacheNames = CacheConfig.IMAGE_CACHE, unless = "#result == null")
+    @Cacheable(cacheNames = CloudBridgesCacheConfig.IMAGE_CACHE, unless = "#result == null")
     public byte[] downloadImage(UUID id) {
         AFileDto fileSave = this.fileService.findById(id);
 

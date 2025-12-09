@@ -23,6 +23,7 @@ public class CloudBridgesCacheConfig {
     // Definición de constantes para los nombres de las cachés
     public static final String SECURE_FILE_CACHE = "secure-file-cache";
     public static final String FILE_INFO_CACHE = "file-info-cache";
+    public static final String IMAGE_CACHE = "image-cache";
 
     /**
      * Configuración del CacheManager con Redis
@@ -39,8 +40,12 @@ public class CloudBridgesCacheConfig {
             createCacheConfiguration(Duration.ofMinutes(30)));
         
         // Configuración para información de archivos (15 minutos)
-        cacheConfigurations.put(FILE_INFO_CACHE, 
+        cacheConfigurations.put(FILE_INFO_CACHE,
             createCacheConfiguration(Duration.ofMinutes(15)));
+
+        // Configuración para caché de imágenes (24 horas)
+        cacheConfigurations.put(IMAGE_CACHE,
+            createCacheConfiguration(Duration.ofHours(24)));
 
         return RedisCacheManager.builder(redisConnectionFactory)
             .withInitialCacheConfigurations(cacheConfigurations)
